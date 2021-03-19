@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Xfields
+Xsuite
 =======
 
 
@@ -15,16 +15,23 @@ The implemented physics models are being documented in `this guide <https://gith
 The source code is available in this `GitHub repository <https://github.com/xsuite/xfields/blob/master/docs/physics_manual/physics_man.pdf>`_.
 
 
-Contents:
----------
+General
+-------
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
+   autogeneration
+
+Xfields
+-------
 
 .. toctree::
    :maxdepth: 2
 
    gettingstarted
-   installation
    apireference
-   autogeneration
 
 
 
