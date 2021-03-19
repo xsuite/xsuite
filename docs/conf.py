@@ -18,11 +18,13 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../'))
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
+os.system(
+    'git clone --single-branch --branch main https://github.com/xsuite/xfields')
 #os.system('cd xobjects; git branch; git checkout integration_xobjects_xfields; cd ..')
 sys.path.insert(0, os.path.abspath('./xobjects'))
+sys.path.insert(0, os.path.abspath('./xfields'))
 import xobjects
 import xfields
 
@@ -59,7 +61,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Xfields'
+project = u'Xsuite'
 copyright = u'2014, Read the Docs'
 
 # The version info for the project you're documenting, acts as replacement for
