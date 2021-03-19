@@ -1,8 +1,6 @@
 Contexts
 =========
 
-.. TODO: explain default kernels.
-
 Xfields supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
 A context is initialized by instanciating objects from one of the context classes, which is then passed to the other Xfields components.
 Contexts are interchangeable as they expose the same API.
@@ -25,7 +23,7 @@ The corresponfig API is described in the following subsections.
 Cupy context
 -------------
 
-.. autoclass:: xfields.contexts.XfCupyContext
+.. autoclass:: xobjects.context.ContextCupy
     :members:
     :undoc-members:
     :member-order: bysource
@@ -35,7 +33,7 @@ Cupy context
 
 PyOpenCL context
 -----------------
-.. autoclass:: xfields.contexts.XfPyopenclContext
+.. autoclass:: xobjects.context.ContextPyopencl
     :members:
     :undoc-members:
     :member-order: bysource
@@ -47,7 +45,7 @@ PyOpenCL context
 CPU context
 ------------
 
-.. autoclass:: xfields.contexts.XfCpuContext
+.. autoclass:: xobjects.context.ContextCpu
     :members:
     :undoc-members:
     :member-order: bysource

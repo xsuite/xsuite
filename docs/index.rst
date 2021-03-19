@@ -23,15 +23,9 @@ General
 
    installation
    autogeneration
-
-Xfields
--------
-
-.. toctree::
-   :maxdepth: 2
-
    gettingstarted
    apireference
+
 
 
 
