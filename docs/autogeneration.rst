@@ -1,6 +1,8 @@
 Code autogeneration (for developers)
 ====================================
 
+**TO BE UPDATED WHEN THE AUTOGENERATION WILL BE MOVED TO XOBJECTS**
+
 This library uses code autogeneration to specialize kernel code for the different contexts.
 Three context are presently available: ``cpu``, ``cuda``,  and ``opencl``.
 

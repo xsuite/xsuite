@@ -1,8 +1,8 @@
 Contexts
 =========
 
-Xfields supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
-A context is initialized by instanciating objects from one of the context classes, which is then passed to the other Xfields components.
+Xsuite supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
+A context is initialized by instanciating objects from one of the context classes available Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
 Contexts are interchangeable as they expose the same API.
 
 Three contexts are presently available:

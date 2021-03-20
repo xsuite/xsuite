@@ -7,7 +7,7 @@ Create a Context
 ----------------
 
 Xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the herdware to be used by
-creating a :doc:`context object<contexts>`, that is then passed to all other Xfields components.
+creating a :doc:`context object <contexts>`, that is then passed to all other Xfields components.
 
 To run on conventional CPUs you need to create the corresponding context:
 

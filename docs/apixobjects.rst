@@ -1,7 +1,7 @@
 Xobjects API
 ============
 
-The API of the Xfield library is documented in the following sections:
+The API of the Xobjects package is documented in the following sections:
 
 .. toctree::
    :maxdepth: 2

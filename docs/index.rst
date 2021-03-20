@@ -16,14 +16,16 @@ The implemented physics models are being documented in `this guide <https://gith
 
 The source code is available in these `GitHub repositories <https://github.com/xsuite/>`_.
 
+Documentation
+-------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    installation
-   autogeneration
    gettingstarted
    apireference
+   autogeneration
 
 
 Indices and tables
