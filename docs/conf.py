@@ -21,7 +21,7 @@ import os
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
 os.system(
-        'git clone --single-branch --branch develop https://github.com/xsuite/xfields')
+    'git clone --single-branch --branch develop https://github.com/xsuite/xfields')
 #os.system('cd xobjects; git branch; git checkout integration_xobjects_xfields; cd ..')
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xfields'))
