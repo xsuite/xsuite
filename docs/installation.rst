@@ -4,9 +4,12 @@ Installation
 ============
 
 
-The package can be cloned from GitHub and installed with pip:
+The packages can be cloned from GitHub and installed with pip:
 
 .. code-block:: bash
+
+    $ git clone https://github.com/xsuite/xobjects
+    $ pip install -e xobjects
 
     $ git clone https://github.com/xsuite/xfields
     $ pip install -e xfields
@@ -18,7 +21,7 @@ Installation of cupy
 --------------------
 
 In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be installed.
-In Anacoda or Miniconda (if needed, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
+In Anacoda or Miniconda (if you don't have Anaconda or Miniconda, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
 this can be done as follows:
 
 .. code-block:: bash

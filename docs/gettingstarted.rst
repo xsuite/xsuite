@@ -1,40 +1,40 @@
 Getting Started Guide
 =====================
 
-This page describes the basic usage of Xfields (if you need to install Xfields, please follow the instructions in the dedicated :doc:`installation page <installation>`).
+This page describes the basic usage of Xsuite (if you need to install Xfields, please follow the instructions in the dedicated :doc:`installation page <installation>`).
 
 Create a Context
---------------------------
+----------------
 
-Xfield can run on different kinds of hardware (CPUs and GPUs). The user selects the herdware to be used by
+Xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the herdware to be used by
 creating a :doc:`context object<contexts>`, that is then passed to all other Xfields components.
 
 To run on conventional CPUs you need to create the corresponding context:
 
 .. code-block:: python
 
-    from xfields.contexts import XfCpuContext
-    context = XfCpuContext()
+    from xobjects.context import ContextCpu
+    context = ContextCpu()
 
 Similarly to run on GPUs using cupy:
 
 .. code-block:: python
 
-    from xfields.contexts import XfCupyContext
-    context = XfCupyContext()
+    from xobjects.context import ContextCupy
+    context = ContextCupy()
 
 And to run on GPUs and CPUs using PyOpenCL:
 
 .. code-block:: python
 
-    from xfields.contexts import XfPyopenclContext
-    context = XfPyopenclContext()
+    from xobjects.context import ContextPyopencl
+    context = ContextPyopencl()
 
 
 Create a Beam Element
 ---------------------
 
-The context that has been created can be passed when constructing a beam element defining the hardware on which the calculation is performed. For example we can create a spacecharge beam element as follows:
+The context that has been created can be passed when constructing a beam element defining the hardware on which the calculation is performed. For example we can create a spacecharge beam element (from Xfields) as follows:
 
 .. code-block:: python
 
