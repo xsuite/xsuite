@@ -4,6 +4,7 @@ Contexts
 Xsuite supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
 A context is initialized by instanciating objects from one of the context classes available Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
 Contexts are interchangeable as they expose the same API.
+Custom kernel functions can be added to the contexts. General source code with annotations can be provided to define the kernels, which is then automatically specialized for the chosen platform (see :doc:`dedicated section <autogeneration>`).
 
 Three contexts are presently available:
 
