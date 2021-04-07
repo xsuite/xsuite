@@ -38,7 +38,7 @@ The context that has been created can be passed when constructing a beam element
 Space charge element
 ~~~~~~~~~~~~~~~~~~~~
 
-For example we can create a :class:`spacecharge beam element <xfields.SpaceCharge3D>` (from Xfields) as follows:
+For example we can create a :class:`spacecharge<xfields.SpaceCharge3D>`  beam element (from Xfields) as follows:
 
 .. code-block:: python
 
@@ -70,7 +70,7 @@ A complete space-charge example, including also the generation of the bunch is a
 Beam-beam element
 ~~~~~~~~~~~~~~~~~
 
-A :class:`beam-beam element <xfields.BeamBeamBiGaussian2D>` can be created by:
+A :class:`beambeam`<xfields.BeamBeamBiGaussian2D>` elements can be created by:
 
 .. code-block:: python
 
