@@ -70,7 +70,7 @@ A complete space-charge example, including also the generation of the bunch is a
 Beam-beam element
 ~~~~~~~~~~~~~~~~~
 
-A :class:`beambeam`<xfields.BeamBeamBiGaussian2D>` elements can be created by:
+A :class:`beambeam<xfields.BeamBeamBiGaussian2D>` elements can be created by:
 
 .. code-block:: python
 
