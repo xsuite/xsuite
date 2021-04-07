@@ -30,8 +30,6 @@ And to run on GPUs and CPUs using PyOpenCL:
     from xobjects.context import ContextPyopencl
     context = ContextPyopencl()
 
-
-
 Create a Beam Element
 ---------------------
 
@@ -107,3 +105,5 @@ Kicks to the particles can be applied with the track method:
 .. code-block:: python
 
     bbeam_b1.track(particles_b1)
+
+A complete beam-beam example, including also the generation of the bunch is available `here <https://github.com/xsuite/xfields/blob/master/examples/002_beambeam/000_beambeam.py>`_.
