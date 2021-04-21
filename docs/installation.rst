@@ -22,13 +22,15 @@ Installation of cupy
 
 In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be installed.
 In Anacoda or Miniconda (if you don't have Anaconda or Miniconda, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
-this can be done as follows:
+this can be done as follows for CUDA version 10.1.243:
 
 .. code-block:: bash
 
     $ conda install mamba -n base -c conda-forge
     $ pip install cupy-cuda101
     $ mamba install cudatoolkit=10.1.243
+
+Remember to check your CUDA version e.g. via ``$ nvcc --version`` and use the appropriate tag.
 
 
 Installation of PyOpenCL
@@ -79,13 +81,29 @@ We locate the library and headers here:
     $ ls ~/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/
     # gives: include  info  lib
 
+(Or locate the directory via ``find $(dirname $(dirname $(type -P conda)))/pkgs -name "clfft*" -type d`` .)
 
-We install gpyfft install pip providing extra flags as follows:
+We obtain gpyfft from github:
 
 .. code-block:: bash
 
     $ git clone https://github.com/geggo/gpyfft
-    $ pip install --global-option=build_ext --global-option="-I/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
+    
+Next, edit the ``setup.py`` of gpyfft to provide the right paths to your clfft installation (and potentially the OpenCL directory of your platform):
+
+.. code-block:: python
+
+    if 'Linux' in system:
+        CLFFT_DIR = os.path.expanduser('~/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/')
+        CLFFT_LIB_DIRS = [r'/usr/local/lib64']
+        CLFFT_INCL_DIRS = [os.path.join(CLFFT_DIR, 'include'), ] # remove the 'src' part
+        CL_INCL_DIRS = ['/opt/rocm-4.0.0/opencl/include']
+
+And install gpyfft locally.
+
+.. code-block:: bash
+
+    $ pip install -e gpyfft/
 
 
 .. _miniconda:
