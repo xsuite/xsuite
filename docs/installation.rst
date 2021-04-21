@@ -88,8 +88,14 @@ We obtain gpyfft from github:
 .. code-block:: bash
 
     $ git clone https://github.com/geggo/gpyfft
-    
-Next, edit the ``setup.py`` of gpyfft to provide the right paths to your clfft installation (and potentially the OpenCL directory of your platform):
+
+and we install gpyfft with pip providing extra flags as follows:
+
+.. code-block:: bash
+
+     $ pip install --global-option=build_ext --global-option="-I/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
+
+Alternatively (if the command above does not work) we can edit the ``setup.py`` of gpyfft to provide the right paths to your clfft installation (and potentially the OpenCL directory of your platform):
 
 .. code-block:: python
 
