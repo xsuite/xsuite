@@ -34,6 +34,8 @@ And to run on GPUs and CPUs using PyOpenCL:
 Single-particle tracking with Xtrack
 ------------------------------------
 
+Xtrack uses as input the description of the bamline in the form of a ```sequence``` object, which can be obtained, for example, from the MAD-X description of the machine using the pysixtrack package.
+
 Xfields beam elements
 ---------------------
 
