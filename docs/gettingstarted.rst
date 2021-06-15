@@ -30,7 +30,11 @@ And to run on GPUs and CPUs using PyOpenCL:
     from xobjects.context import ContextPyopencl
     context = ContextPyopencl()
 
-Create a Beam Element
+
+Single-particle tracking with Xtrack
+------------------------------------
+
+Xfields beam elements
 ---------------------
 
 The context that has been created can be passed when constructing a beam element defining the hardware on which the calculation is performed.
@@ -45,7 +49,7 @@ For example we can create a :class:`spacecharge<xfields.SpaceCharge3D>`  beam el
     from xfields import SpaceCharge3D
 
     spcharge = SpaceCharge3D(
-        context=context,   # defines the hardware
+        _context=context,   # defines the hardware
         length=5.,
         update_on_track=True,
         apply_z_kick=True,
@@ -77,7 +81,7 @@ A :class:`beambeam<xfields.BeamBeamBiGaussian2D>` elements can be created by:
     from xfields import BeamBeamBiGaussian2D
 
     bbeam_b1 = BeamBeamBiGaussian2D(
-        context=context, # defines the hardware
+        _context=context, # defines the hardware
         n_particles=1e11,
         q0 = qe,
         beta0=1.,
