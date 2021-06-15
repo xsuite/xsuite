@@ -22,12 +22,18 @@ os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
 os.system(
     'git clone --single-branch --branch master https://github.com/xsuite/xfields')
+os.system(
+    'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
+os.system(
+    'git clone --single-branch --branch master https://github.com/sixtrack/pysixtrack')
 #os.system('cd xobjects; git branch; git checkout integration_xobjects_xfields; cd ..')
 sys.path.insert(0, os.path.abspath('./xobjects'))
+sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
+sys.path.insert(0, os.path.abspath('./pysixtrack'))
 import xobjects
 import xfields
-
+import xtrack
 
 
 # -- General configuration ------------------------------------------------
