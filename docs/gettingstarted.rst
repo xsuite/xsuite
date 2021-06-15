@@ -13,28 +13,35 @@ To run on conventional CPUs you need to create the corresponding context:
 
 .. code-block:: python
 
-    from xobjects.context import ContextCpu
-    context = ContextCpu()
+    import xobjects as xo
+    context = xo.ContextCpu()
 
 Similarly to run on GPUs using cupy:
 
 .. code-block:: python
 
-    from xobjects.context import ContextCupy
-    context = ContextCupy()
+    import xobjects as xo
+    context = xo.ContextCupy()
 
 And to run on GPUs and CPUs using PyOpenCL:
 
 .. code-block:: python
 
-    from xobjects.context import ContextPyopencl
-    context = ContextPyopencl()
+    import xobjects as xo
+    context = xo.ContextPyopencl()
 
 
 Single-particle tracking with Xtrack
 ------------------------------------
 
-Xtrack uses as input the description of the bamline in the form of a ```sequence``` object, which can be obtained, for example, from the MAD-X description of the machine using the pysixtrack package.
+Xtrack uses as input description of the beamline a ``sequence`` python object. Such a python object can be obtained, for example, from the MAD-X model of the machine or from a set of SixTrack input files, using the pysixtrack package.
+
+The sequence can be used to create a tracker object to track particles on the chosen computing platform (defined by the context).
+
+.. code-block:: python
+
+    import xtrack as xt
+    tracker = xt.Tracker(_contect=contect, sequence=sequence)
 
 Xfields beam elements
 ---------------------
