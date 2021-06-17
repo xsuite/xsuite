@@ -11,18 +11,25 @@ The packages can be cloned from GitHub and installed with pip:
     $ git clone https://github.com/xsuite/xobjects
     $ pip install -e xobjects
 
+    $ git clone https://github.com/xsuite/xline
+    $ pip install -e xline
+
+    $ git clone https://github.com/xsuite/xtrack
+    $ pip install -e xtrack
+
     $ git clone https://github.com/xsuite/xfields
     $ pip install -e xfields
 
 (The installation without the ``-e`` option is still untested).
 
+This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the following sections.
 
 Installation of cupy
 --------------------
 
 In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be installed.
 In Anacoda or Miniconda (if you don't have Anaconda or Miniconda, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
-this can be done as follows for CUDA version 10.1.243:
+this can be done as follows for example for CUDA version 10.1.243:
 
 .. code-block:: bash
 
