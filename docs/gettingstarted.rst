@@ -36,14 +36,14 @@ We can create a simple lattice in python as follows:
                   xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
-Importing a Mad-X lattice 
+Importing a MAD-X lattice 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Xline can import a MAD-X lattice using the `cpymad`_ interface of MAD-X.
 
 .. _cpymad: http://hibtc.github.io/cpymad/
 
-Assuming that we have a MAD-X script called ``myscript.madx`` that creates and manipulates a thin sequence called "lhcb1", we can execute the script using cpymad and import transform the sequence into and Xline object using the following instructions:
+Assuming that we have a MAD-X script called ``myscript.madx`` that creates and manipulates (e.g. matches) a thin sequence called "lhcb1", we can execute the script using cpymad and import transform the sequence into and Xline object using the following instructions:
 
 .. code-block:: python
 
@@ -54,8 +54,20 @@ Assuming that we have a MAD-X script called ``myscript.madx`` that creates and m
     mad.call("mad/lhcwbb.seq")
     
     line = xl.Line.from_madx_sequence(mad.sequence['lhcb1'])
-    
 
+Importing lattice from sixtrack input
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Xline can import a lattice from a set of sixtrack input files using the sixtracktools package.
+    
+Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder called ``sixtrackfiles`` we can import the lattice using the following instructions:
+
+.. code-block:: python
+
+    import xline as xl
+    import sixtracktools as st
+
+    sequence = xl.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
 
 
 
