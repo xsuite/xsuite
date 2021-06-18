@@ -11,7 +11,7 @@ Instructions on how to install Xsuite are provided in the dedicated :doc:`instal
 A simple example
 ================
 
-A simple tracking simulation can be configured and executed with the following python code:
+A simple tracking simulation can be configured and executed with the following python code. More details on the different steps will be discussed in the following section.
 
 .. code-block:: python
 
@@ -59,10 +59,12 @@ A simple tracking simulation can be configured and executed with the following p
     tracker.record_last_track.px 
     # etc...
 
-More details on the different steps will be discussed in the following sections.
 
-Step-by-step explanation
-========================
+
+Configuration of tracking simulations
+=====================================
+
+In this sections we will discussed in some more detail the difference steps outlined in the example above.
     
 Getting the Xline machine model
 -------------------------------
