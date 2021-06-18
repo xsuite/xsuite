@@ -7,7 +7,9 @@ Instructions on how to install Xsuite are provided in the dedicated :doc:`instal
 Getting the machine model
 -------------------------
 
-The first step to perform a tracking simulation consists in creating or importing the lattice description of a ring or a beam line. This is done with the Xline package, allows:
+The first step to perform a tracking simulation consists in creating or importing the lattice description of a ring or a beam line. 
+
+This is done with the Xline package, which allows:
 
  - creating a lattice directly in python script
  - importing the lattice from a MAD-X model 
