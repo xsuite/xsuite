@@ -50,7 +50,7 @@ To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you
 
 To run the tests and example present in the xsuite repository you will need the pysixtrack package (used for comparison), which can be installed as follows:
 
-. code-block:: bash
+.. code-block:: bash
 
     $ git clone https://github.com/sixtrack/pysixtrack
     $ pip install -e pysixtrack
