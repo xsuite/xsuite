@@ -92,13 +92,11 @@ To run on conventional CPUs you need the context is created with the following i
     import xobjects as xo
     context = xo.ContextCpu()
 
-Similarly to run on GPUs using cupy:
+Similarly to run on GPUs using cupy or pyopenl you can use one of the following:
 
 .. code-block:: python
 
     context = xo.ContextCupy()
-
-And to run on GPUs and CPUs using PyOpenCL:
 
 .. code-block:: python
 
@@ -116,7 +114,7 @@ An Xtrack tracker object needs to be created to track particles on the chosen co
     tracker = xt.Tracker(_contect=context, sequence=sequence)
 
 Generate particles to be tracked
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
