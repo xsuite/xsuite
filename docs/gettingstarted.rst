@@ -38,6 +38,7 @@ A simple tracking simulation can be configured and executed with the following p
     tracker = xt.Tracker(_contect=context, sequence=sequence)
 
     ## Build particle object on context 
+    n_part = 200
     particles = xt.Particles(_context=context,
                             p0c=6500e9,
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
@@ -49,7 +50,8 @@ A simple tracking simulation can be configured and executed with the following p
                             )
 
     ## Track (saving turn-by-turn data)
-    tracker.track(particles, num_turns=n_turns
+    n_turns = 100
+    tracker.track(particles, num_turns=n_turns,
                   turn_by_turn_monitor=True)
 
     ## Turn-by-turn data is available at:
