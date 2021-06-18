@@ -5,6 +5,12 @@ Installation
 
 We assume that you have a recent python installation (python 3.7+). It this is not the case you can make one following the dedicated section on :ref:`how to get a miniconda installation<miniconda>`.
 
+.. contents:: Table of Contents
+    :depth: 3
+
+Basic installation
+------------------
+
 The Xsuite packages can be cloned from GitHub and installed with pip:
 
 .. code-block:: bash
@@ -25,16 +31,30 @@ The Xsuite packages can be cloned from GitHub and installed with pip:
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
+
+Optional dependencies
+---------------------
+
 To import MAD-X lattices you will need the cpymad package, which can be installed as follow:
 
 .. code-block:: bash
 
     $ pip install cpymad
 
+To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you will need the sixtracktools package, which can be installed as follow:
+
+.. code-block:: bash
+
+    $ git clone https://github.com/sixtrack/sixtracktools
+    $ pip install -e sixtracktools
+
+To run the tests and example present in the xsuite repository you will need the pysixtrack package (used for comparison), which can be installed as follows
+
+
 .. _gpuinst:
 
-Installation of packages for GPU support
-----------------------------------------
+GPU support
+-----------
 
 In the following section we describe the steps to install the two supported GPU platforms, i.e. cupy and pyopencl.
 
