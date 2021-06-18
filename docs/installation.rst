@@ -3,8 +3,9 @@
 Installation
 ============
 
+We assume that you have a recent python installation (python 3.7+). It this is not the case you can make one following the dedicated section on :ref:`how to get a miniconda installation<miniconda>`.
 
-The packages can be cloned from GitHub and installed with pip:
+The Xsuite packages can be cloned from GitHub and installed with pip:
 
 .. code-block:: bash
 
@@ -22,10 +23,23 @@ The packages can be cloned from GitHub and installed with pip:
 
 (The installation without the ``-e`` option is still untested).
 
-This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the following sections.
+This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
+
+To import MAD-X lattices you will need the cpymad package, which can be installed as follow:
+
+.. code-block:: bash
+
+    $ pip install cpymad
+
+.. _gpuinst:
+
+Installation of packages for GPU support
+----------------------------------------
+
+In the following section we describe the steps to install the two supported GPU platforms, i.e. cupy and pyopencl.
 
 Installation of cupy
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be installed.
 In Anacoda or Miniconda (if you don't have Anaconda or Miniconda, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
@@ -41,7 +55,7 @@ Remember to check your CUDA version e.g. via ``$ nvcc --version`` and use the ap
 
 
 Installation of PyOpenCL
-------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 In order to use the :doc:`pyopencl context<contexts>`, the PyOpenCL package needs to be installed.
 In Anacoda or Miniconda this can be done as follows:
