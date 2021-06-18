@@ -1,6 +1,6 @@
-=================================
-Xfields: collective beam elements
-=================================
+========================
+Collective beam elements
+========================
 
 *[Section to be update]*
 
