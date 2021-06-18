@@ -7,6 +7,56 @@ Instructions on how to install Xsuite are provided in the dedicated :doc:`instal
 .. contents:: Table of Contents
     :depth: 3
 
+A simple example
+----------------
+
+A simple tracking simulation can be configured and executed with the following python code:
+
+.. code-block:: python
+
+    import numpy as np
+
+    import xobjects as xo
+    import xline as xl
+    import xtrack as xt
+
+    # Generate a simple sequence
+    sequence = xl.Line(
+        elements=[xl.Drift(length=2.),
+                  xl.Multipole(knl=[0, 1.], ksl=[0,0]),
+                  xl.Drift(length=1.),
+                  xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
+        element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
+
+    # Chose a context
+    xo.ContextCpu()         # For CPU
+    # xo.ContectCupy()      # For CUDA GPUs
+    # xo.ContectPyopencl()  # For OpenCL GPUs    
+
+    # Transfer lattice on context and compile tracking code
+    tracker = xt.Tracker(_contect=context, sequence=sequence)
+
+    # Tranfer particle coordinates to context
+    particles = xt.Particles(_context=context,
+                            p0c=6500e9,
+                            x=np.random.uniform(-1e-3, 1e-3, n_part),
+                            px=np.random.uniform(-1e-5, 1e-5, n_part),
+                            y=np.random.uniform(-2e-3, 2e-3, n_part),
+                            py=np.random.uniform(-3e-5, 3e-5, n_part),
+                            zeta=np.random.uniform(-1e-2, 1e-2, n_part),
+                            delta=np.random.uniform(-1e-4, 1e-4, n_part),
+                            )
+
+    # Track (saving turn-by-turn data)
+    tracker.track(particles, num_turns=n_turns
+                  turn_by_turn_monitor=True)
+
+    # Turn-by-turn data is available at:
+    tracker.record_last_track.x
+    tracker.record_last_track.px 
+    # etc...
+
+    
 Getting the Xline machine model
 -------------------------------
 
@@ -150,7 +200,10 @@ The tracker object can now be used to track the generated particles over the spe
     num_turns = 100
     tracker.track(particles, num_turns=num_turns)
 
+This returns the particles state after 100 revolutions over the lattice.
 
+Recording turn-by-turn data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
