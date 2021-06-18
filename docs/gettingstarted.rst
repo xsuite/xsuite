@@ -1,7 +1,18 @@
 Getting Started Guide
 =====================
 
-This page describes the basic usage of Xsuite (if you need to install Xfields, please follow the instructions in the dedicated :doc:`installation page <installation>`).
+This page describes the basic usage of Xsuite to perform tracking simulations.
+Instructions on how to install Xsuite are provided in the dedicated :doc:`installation page <installation>`.
+
+Getting the machine model
+-------------------------
+
+The first step to perform a tracking simulation consists in creating or importing the lattice description of a ring or a beam line. This is done with the Xline package, allows:
+ - creating a lattice directly in python script
+ - importing the lattice from a MAD-X model 
+ - importing the lattice from a set of Sixtrack input files (fort.2, fort.3, etc.)
+
+ These three options will be briefly described in the following sections.
 
 Create a Context
 ----------------
