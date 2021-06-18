@@ -134,6 +134,25 @@ The particles to be tracked can be allocated on the chosen platform using the fo
                             delta=np.random.uniform(-1e-4, 1e-4, n_part),
                             )
 
+The coordinates of the particle object are accessible with the conventional python syntax. For example to access the *x* coordinate of the particle 20, one can use the following instruction:
+
+.. code-block:: python
+
+    particles.x[20]
+
+Track particles
+~~~~~~~~~~~~~~~
+
+The tracker object can now be used to track the generated particles over the specified lattice for an arbitrary number of turns:
+
+.. code-block:: python
+
+    num_turns = 100
+    tracker.track(particles, num_turns=num_turns)
+
+
+
+
 
 
 
