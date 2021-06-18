@@ -61,8 +61,8 @@ A simple tracking simulation can be configured and executed with the following p
 
 
 
-Configuration of tracking simulations
-=====================================
+Step-by-step description
+========================
 
 In this sections we will discussed in some more detail the difference steps outlined in the example above.
     
@@ -210,6 +210,23 @@ This returns the particles state after 100 revolutions over the lattice.
 
 Record turn-by-turn data
 ------------------------
+
+Optionally the particles coordinates can be saved at each turn. This feature can be activated when calling the tracking method:
+
+.. code-block:: python
+
+    n_turns = 100
+    tracker.track(particles, num_turns=n_turns,
+                  turn_by_turn_monitor=True)
+
+The data can be retrieved as follows:
+
+.. code-block:: python
+    tracker.record_last_track.x # Shape is (n_part, n_turns)
+    tracker.record_last_track.px 
+    # etc...
+
+
 
 
 
