@@ -43,6 +43,22 @@ Xline can import a MAD-X lattice using the `cpymad`_ interface of MAD-X.
 
 .. _cpymad: http://hibtc.github.io/cpymad/
 
+Assuming that we have a MAD-X script called ``myscript.madx`` that creates and manipulates a thin sequence called "lhcb1", we can execute the script using cpymad and import transform the sequence into and Xline object using the following instructions:
+
+.. code-block:: python
+
+    import xline as xl
+    from cpymad.madx import Madx
+    
+    mad = Madx()    
+    mad.call("mad/lhcwbb.seq")
+    
+    line = xl.Line.from_madx_sequence(mad.sequence['lhcb1'])
+    
+
+
+
+
 Create a Context
 ----------------
 
