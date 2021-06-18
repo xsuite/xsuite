@@ -1,3 +1,4 @@
+=====================
 Getting Started Guide
 =====================
 
@@ -5,10 +6,10 @@ This page describes the basic usage of Xsuite to perform tracking simulations.
 Instructions on how to install Xsuite are provided in the dedicated :doc:`installation page <installation>`.
 
 .. contents:: Table of Contents
-    :depth: 3
+    :depth: 4
 
 A simple example
-----------------
+================
 
 A simple tracking simulation can be configured and executed with the following python code:
 
@@ -56,6 +57,10 @@ A simple tracking simulation can be configured and executed with the following p
     tracker.record_last_track.px 
     # etc...
 
+More details on the different steps will be discussed in the following sections.
+
+Step-by-step explanation
+========================
     
 Getting the Xline machine model
 -------------------------------
@@ -124,13 +129,10 @@ Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder 
     sequence = xl.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
 
 
-Tracking particles
-------------------
-
 Once a Xline lattice is available, it can be used to track particles CPU or GPU.
 
 Create a Context (CPU or GPU)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 The first step consists in choosing the hardware on which the simulation will run as xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the hardware to be used by
 creating a :doc:`context object <contexts>`, that is then passed to all other Xsuite components.
@@ -154,7 +156,7 @@ Similarly to run on GPUs using cupy or pyopenl you can use one of the following:
 
 
 Create an Xtrack tracker object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------
 
 An Xtrack tracker object needs to be created to track particles on the chosen computing platform (defined by the context) using the Xline sequence created or imported as described above:
 
@@ -166,7 +168,7 @@ An Xtrack tracker object needs to be created to track particles on the chosen co
 This step transfers the machine model to the required platform and compiles the required tracking code.
 
 Generate particles to be tracked
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 The particles to be tracked can be allocated on the chosen platform using the following instruction (in this example particle coordinates are randomly generated):
 
@@ -191,7 +193,7 @@ The coordinates of the particle object are accessible with the conventional pyth
     particles.x[20]
 
 Track particles
-~~~~~~~~~~~~~~~
+---------------
 
 The tracker object can now be used to track the generated particles over the specified lattice for an arbitrary number of turns:
 
@@ -202,17 +204,19 @@ The tracker object can now be used to track the generated particles over the spe
 
 This returns the particles state after 100 revolutions over the lattice.
 
-Recording turn-by-turn data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Record turn-by-turn data
+------------------------
 
 
 
 
 
-Xfields beam elements
----------------------
+Xfields: collective beam elements
+=================================
 
-The context that has been created can be passed when constructing a beam element defining the hardware on which the calculation is performed.
+*[Section to be update]*
+
+The context that has been created can be passed when constructing a collective beam element defining the hardware on which the calculation is performed.
 
 Space charge element
 ~~~~~~~~~~~~~~~~~~~~
