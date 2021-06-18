@@ -74,16 +74,18 @@ Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder 
     sequence = xl.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
 
 
-Tracking particles with Xtrack
-------------------------------
+Tracking particles
+------------------
+
+Once a Xline lattice is available, it can be used to track particles CPU or GPU.
 
 Create a Context (CPU or GPU)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the herdware to be used by
-creating a :doc:`context object <contexts>`, that is then passed to all other Xfields components.
+The first step consists in choosing the hardware on which the simulation will run as xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the hardware to be used by
+creating a :doc:`context object <contexts>`, that is then passed to all other Xsuite components.
 
-To run on conventional CPUs you need to create the corresponding context:
+To run on conventional CPUs you need the context is created with the following instructions:
 
 .. code-block:: python
 
@@ -94,28 +96,27 @@ Similarly to run on GPUs using cupy:
 
 .. code-block:: python
 
-    import xobjects as xo
     context = xo.ContextCupy()
 
 And to run on GPUs and CPUs using PyOpenCL:
 
 .. code-block:: python
 
-    import xobjects as xo
     context = xo.ContextPyopencl()
 
 
-Creating and Xtrack tracker object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create an Xtrack tracker object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Xtrack uses as input description of the beamline a ``sequence`` python object. Such a python object can be obtained, for example, from the MAD-X model of the machine or from a set of SixTrack input files, using the pysixtrack package.
-
-The sequence can be used to create a tracker object to track particles on the chosen computing platform (defined by the context). This is done as follows:
+An Xtrack tracker object needs to be created to track particles on the chosen computing platform (defined by the context) using the Xline sequence created or imported as described above:
 
 .. code-block:: python
 
     import xtrack as xt
-    tracker = xt.Tracker(_contect=contect, sequence=sequence)
+    tracker = xt.Tracker(_contect=context, sequence=sequence)
+
+Generate particles to be tracked
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
