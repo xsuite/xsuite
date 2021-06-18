@@ -165,7 +165,7 @@ An Xtrack tracker object needs to be created to track particles on the chosen co
 .. code-block:: python
 
     import xtrack as xt
-    tracker = xt.Tracker(_contect=context, sequence=sequence)
+    tracker = xt.Tracker(_context=context, sequence=sequence)
 
 This step transfers the machine model to the required platform and compiles the required tracking code.
 
