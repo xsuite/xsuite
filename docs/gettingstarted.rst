@@ -12,7 +12,21 @@ The first step to perform a tracking simulation consists in creating or importin
  - importing the lattice from a MAD-X model 
  - importing the lattice from a set of Sixtrack input files (fort.2, fort.3, etc.)
 
- These three options will be briefly described in the following sections.
+These three options will be briefly described in the following sections.
+
+Creating a lattice in python
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can create a simple lattice in python as follows:
+
+.. code-block:: python
+
+    import xline as xl
+
+    sequence = xl.Line(
+        elements=[xl.Drift(length=2.), xl.Multipole(knl=[0, 1]., ksl=[0,0]),
+                  xl.Drift(length=1.), xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
+        element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
 Create a Context
 ----------------
