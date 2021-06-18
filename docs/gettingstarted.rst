@@ -4,8 +4,11 @@ Getting Started Guide
 This page describes the basic usage of Xsuite to perform tracking simulations.
 Instructions on how to install Xsuite are provided in the dedicated :doc:`installation page <installation>`.
 
-Getting the machine model
--------------------------
+.. contents:: Table of Contents
+    :depth: 3
+
+Getting the Xline machine model
+-------------------------------
 
 The first step to perform a tracking simulation consists in creating or importing the lattice description of a ring or a beam line. 
 
@@ -32,6 +35,13 @@ We can create a simple lattice in python as follows:
                   xl.Drift(length=1.),
                   xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
+
+Importing a Mad-X lattice 
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Xline can import a MAD-X lattice using the `cpymad`_ interface of MAD-X.
+
+.. _cpymad: http://hibtc.github.io/cpymad/
 
 Create a Context
 ----------------
