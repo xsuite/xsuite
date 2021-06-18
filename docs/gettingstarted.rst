@@ -74,9 +74,11 @@ Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder 
     sequence = xl.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
 
 
+Tracking particles with Xtrack
+------------------------------
 
-Create a Context
-----------------
+Create a Context (CPU or GPU)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the herdware to be used by
 creating a :doc:`context object <contexts>`, that is then passed to all other Xfields components.
@@ -103,8 +105,8 @@ And to run on GPUs and CPUs using PyOpenCL:
     context = xo.ContextPyopencl()
 
 
-Single-particle tracking with Xtrack
-------------------------------------
+Creating and Xtrack tracker object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Xtrack uses as input description of the beamline a ``sequence`` python object. Such a python object can be obtained, for example, from the MAD-X model of the machine or from a set of SixTrack input files, using the pysixtrack package.
 
