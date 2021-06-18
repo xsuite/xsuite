@@ -18,10 +18,7 @@ This is done with the Xline package, which allows:
  - importing the lattice from a MAD-X model 
  - importing the lattice from a set of Sixtrack input files (fort.2, fort.3, etc.)
 
-These three options will be briefly described in the following sections.
-
-Creating a lattice in python
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+These three options will be briefly described in the following.
 
 We can create a simple lattice in python as follows:
 
@@ -35,6 +32,13 @@ We can create a simple lattice in python as follows:
                   xl.Drift(length=1.),
                   xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
+
+The lattice can be manipulated in python after its creation. For example we can change the strength of the first quadrupole as follows:
+
+.. code-block:: python
+
+    q1 = sequence.elements[1]
+    q1.knl = 2.
 
 Importing a MAD-X lattice 
 ~~~~~~~~~~~~~~~~~~~~~~~~~
