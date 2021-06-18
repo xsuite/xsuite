@@ -113,8 +113,27 @@ An Xtrack tracker object needs to be created to track particles on the chosen co
     import xtrack as xt
     tracker = xt.Tracker(_contect=context, sequence=sequence)
 
+This step transfers the machine model to the required platform and compiles the required tracking code.
+
 Generate particles to be tracked
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The particles to be tracked can be allocated on the chosen platform using the following instruction (in this example particle coordinates are randomly generated):
+
+.. code-block:: python
+
+    import numpy as np
+    n_part = 100
+    particles = xt.Particles(_context=context,
+                            p0c=6500e9,
+                            x=np.random.uniform(-1e-3, 1e-3, n_part),
+                            px=np.random.uniform(-1e-5, 1e-5, n_part),
+                            y=np.random.uniform(-2e-3, 2e-3, n_part),
+                            py=np.random.uniform(-3e-5, 3e-5, n_part),
+                            zeta=np.random.uniform(-1e-2, 1e-2, n_part),
+                            delta=np.random.uniform(-1e-4, 1e-4, n_part),
+                            )
+
 
 
 
