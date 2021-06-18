@@ -27,8 +27,10 @@ We can create a simple lattice in python as follows:
     import xline as xl
 
     sequence = xl.Line(
-        elements=[xl.Drift(length=2.), xl.Multipole(knl=[0, 1]., ksl=[0,0]),
-                  xl.Drift(length=1.), xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
+        elements=[xl.Drift(length=2.),
+                  xl.Multipole(knl=[0, 1.], ksl=[0,0]),
+                  xl.Drift(length=1.),
+                  xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
 Create a Context
