@@ -30,12 +30,12 @@ A simple tracking simulation can be configured and executed with the following p
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
     ## Chose a context
-    xo.ContextCpu()         # For CPU
-    # xo.ContectCupy()      # For CUDA GPUs
-    # xo.ContectPyopencl()  # For OpenCL GPUs    
+    context = xo.ContextCpu()         # For CPU
+    # context = xo.ContectCupy()      # For CUDA GPUs
+    # context = xo.ContectPyopencl()  # For OpenCL GPUs    
 
     ## Transfer lattice on context and compile tracking code
-    tracker = xt.Tracker(_contect=context, sequence=sequence)
+    tracker = xt.Tracker(_context=context, sequence=sequence)
 
     ## Build particle object on context 
     n_part = 200
