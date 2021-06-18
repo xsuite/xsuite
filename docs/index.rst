@@ -26,7 +26,7 @@ Documentation
 
    usersguide
    apireference
-   autogeneration
+   developer
 
 
 Indices and tables

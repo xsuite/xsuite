@@ -1,13 +1,11 @@
-Code autogeneration (for developers)
-====================================
+Code autogeneration
+===================
 
 The xsuite library uses code autogeneration to specialize kernel code for the different contexts.
 Three contexts are presently available: ``cpu``, ``cuda``,  and ``opencl``.
 
 An example annotated source file can be found `here <https://github.com/xsuite/xfields/blob/master/xfields/src/linear_interpolators.h>`_.
 
-Writing the source code
------------------------
 
 The developer writes a single C source code, providing additional information through the comment strings (annotations) described in the following.
 
