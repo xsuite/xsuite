@@ -24,8 +24,7 @@ Documentation
 .. toctree::
    :maxdepth: 3
 
-   installation
-   gettingstarted
+   usersguide
    apireference
    autogeneration
 
