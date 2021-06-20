@@ -34,4 +34,17 @@ Define a new beam element
             self.cos_z = np.cos(anglerad)
             self.sin_z = np.sin(anglerad)
 
-    
+
+.. code-block:: c
+
+    #ifndef XOBJ_TYPEDEF_SRotationData
+    typedef /*gpuglmem*/ struct SRotationData_s * SRotationData;
+    #define XOBJ_TYPEDEF_SRotationData
+    #endif
+
+    /*gpufun*/ double SRotationData_get_cos_z(const SRotationData/*restrict*/ obj);
+    /*gpufun*/ void SRotationData_set_cos_z(SRotationData/*restrict*/ obj, double value);
+    /*gpufun*/ /*gpuglmem*/double* SRotationData_getp_cos_z(SRotationData/*restrict*/ obj);
+    /*gpufun*/ double SRotationData_get_sin_z(const SRotationData/*restrict*/ obj);
+    /*gpufun*/ void SRotationData_set_sin_z(SRotationData/*restrict*/ obj, double value);
+    /*gpufun*/ /*gpuglmem*/double* SRotationData_getp_sin_z(SRotationData/*restrict*/ obj);
