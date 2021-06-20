@@ -67,6 +67,12 @@ For example with the following code the line marked line is included only in the
 
     #include <atomicadd.h> //only_for_context cpu
 
+``gpufun`` directive
+    ~~~~~~~~~~~~~~~~~~~~~
+    
+    The ``\*gpufun*\`` directive is used to qualify device functions. The code generator replaces it with ``__device__`` in the CUDA code.
+    
+
 ``gpukern`` directive
 ~~~~~~~~~~~~~~~~~~~~~
 
