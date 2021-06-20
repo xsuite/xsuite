@@ -88,3 +88,8 @@ Define a new beam element
     }
 
     #endif
+
+.. code-block:: python
+
+    SRotationData.extra_sources = [
+            _pkg_root.joinpath('beam_elements/elements_src/srotation.h')]
