@@ -6,3 +6,4 @@ Developer's guide
     :maxdepth: 3
  
     autogeneration
+    newbeamelement
