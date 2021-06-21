@@ -1,6 +1,24 @@
-=========================
-Define a new beam element
-=========================
+=============================
+Definition a new beam element
+=============================
+
+In this page we illustrate how to introduce a new beam element in Xtrack. 
+We will use for illustration the "SRotation" element which performs the following transformation of the particle coordinates:
+
+ - x  =  cos(theta) * x + sin(theta) * y
+ - y  = -sin(theta) * x + cos(theta) * y
+ - px  =  cos(theta) * px + sin(theta) * py
+ - py  = -sin(theta) * px + cos(theta) * py
+
+The element is fully described by the rotation angle theta.
+
+
+Definition of the data structure
+================================
+
+The first step consists in defining the data structure associated to the new beam element. Such data structure will be accessible to the C code implementing the beam elements.
+Although our beam element is defined by the single parameter (theta), it is convenient to store the quantities sint(theta) and cos(theta) to avoid recalculating them multiple times.
+The data structure is defined as an ``xobjects`` structure as follows:
 
 .. code-block:: python
 
