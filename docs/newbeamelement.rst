@@ -29,6 +29,9 @@ The data structure is defined as an ``xobjects`` structure as follows:
         sin_z = xo.Float64
 
 
+Definition of the high-level python class
+=========================================
+
 .. code-block:: python
 
     import numpy as np
