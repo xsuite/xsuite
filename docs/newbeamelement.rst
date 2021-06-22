@@ -16,6 +16,74 @@ The element is fully described by the rotation angle theta.
 Definition of the data structure
 ================================
 
+New beam elements are defined as python classes inheriting from the class ``BeamElement`` of xtrack.
+In each element class we define a dictionary called ``_xofields``, which specifies names and types of the data to be made accessible to the C tracking code.
+
+Although our beam element is defined by the single parameter (theta), it is convenient to store the quantities sin(theta) and cos(theta) to avoid recalculating them multiple times.
+
+.. code-block:: python
+
+    import xobjects as xo
+    import xtrack as xt
+
+    class SRotation(BeamElement):
+
+        _xofields={
+            'cos_z': xo.Float64,
+            'sin_z': xo.Float64,
+            }
+
+Objects of the defined class can be allocated as follows:
+
+.. code-block:: python
+
+    srot = SRotation(sin_z=1., cos_z=0)
+
+By default the objects are allocated in the CPU memory. They can be allocated in the memory of a GPU by providing an xobject context or buffer:
+
+.. code-block:: python
+
+    ctx = xo.ContextCupy()
+
+    # Object allocated on the GPU
+    srot = SRotation(sin_z=1., cos_z=0, _context=ctx)
+
+The fields specified in ``_xofields`` are automatically exposed as attributes of the objects that can be accessed with the standard python syntax, also if the object is allocated on the GPU:
+
+.. code-block:: python
+
+    print(srot.sin_z)
+    # returns 1.0
+
+    srot.sin_z = 0.9
+
+    print(srot.sin_z)
+    # returns 0.9
+
+
+
+
+        def __init__(self, angle=0, **nargs):
+            anglerad = angle / 180 * np.pi
+            nargs['cos_z']=np.cos(anglerad)
+            nargs['sin_z']=np.sin(anglerad)
+            super().__init__(**nargs)
+
+        @property
+        def angle(self):
+            return np.arctan2(self.sin_z, self.cos_z) * (180.0 / np.pi)
+
+        @angle.setter
+        def angle(self, value):
+            anglerad = value / 180 * np.pi
+            self.cos_z = np.cos(anglerad)
+            self.sin_z = np.sin(anglerad)
+
+
+
+Old stuff
+=========
+
 The first step consists in defining the data structure associated to the new beam element. Such data structure will be accessible to the C code implementing the beam elements.
 Although our beam element is defined by the single parameter (theta), it is convenient to store the quantities sint(theta) and cos(theta) to avoid recalculating them multiple times.
 The data structure is defined as an ``xobjects`` structure as follows:
@@ -31,6 +99,10 @@ The data structure is defined as an ``xobjects`` structure as follows:
 
 Definition of the high-level python class
 =========================================
+
+A high-level python class can be defined on top of the data structure exposed to the C code. This is done with the ``dress_element`` functionality.
+
+If the field names to build the high-level python object are the same 
 
 .. code-block:: python
 
