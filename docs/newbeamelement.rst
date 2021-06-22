@@ -62,68 +62,18 @@ The fields specified in ``_xofields`` are automatically exposed as attributes of
 
 
 
-Additional attributes and methods can be added to the class. If the ``__init__`` method is defined, the __init__ of the parent class needs to be called to initialize the ``_xofields`` in memory.
+Additional attributes and methods can be added to the class. If the ``__init__`` method is defined, the ``__init__`` of the parent class needs to be called to initialize the ``_xofields`` in memory.
 
-In our example we prefer to initialize the object providing the rotation angle and not its sine and cosine. This can be done as follows:
+In our example we want to initialize the object providing the rotation angle and not its sine and cosine and we introduce a property called ``angle`` that allows setting or getting the angle from the stored sine and cosine. This can be done as follows:
 
 .. code-block:: python
+
+    import numpy as np
 
     import xobjects as xo
     import xtrack as xt
 
     class SRotation(BeamElement):
-
-        def __init__(self, angle=0, **nargs):
-            anglerad = angle / 180 * np.pi
-            nargs['cos_z']=np.cos(anglerad)
-            nargs['sin_z']=np.sin(anglerad)
-            super().__init__(**nargs)
-
-
-
-Prrrr
-
-        @property
-        def angle(self):
-            return np.arctan2(self.sin_z, self.cos_z) * (180.0 / np.pi)
-
-        @angle.setter
-        def angle(self, value):
-            anglerad = value / 180 * np.pi
-            self.cos_z = np.cos(anglerad)
-            self.sin_z = np.sin(anglerad)
-
-
-
-Old stuff
-=========
-
-The first step consists in defining the data structure associated to the new beam element. Such data structure will be accessible to the C code implementing the beam elements.
-Although our beam element is defined by the single parameter (theta), it is convenient to store the quantities sint(theta) and cos(theta) to avoid recalculating them multiple times.
-The data structure is defined as an ``xobjects`` structure as follows:
-
-.. code-block:: python
-
-    import xobjects as xo
-
-    class SRotationData(xo.Struct):
-        cos_z = xo.Float64
-        sin_z = xo.Float64
-
-
-Definition of the high-level python class
-=========================================
-
-A high-level python class can be defined on top of the data structure exposed to the C code. This is done with the ``dress_element`` functionality.
-
-If the field names to build the high-level python object are the same 
-
-.. code-block:: python
-
-    import numpy as np
-    from xtrack import dress_element
-
-    class SRotation(dress_element(SRotationData)):
 
         def __init__(self, angle=0, **kwargs):
             anglerad = angle / 180 * np.pi
@@ -140,6 +90,12 @@ If the field names to build the high-level python object are the same
             anglerad = value / 180 * np.pi
             self.cos_z = np.cos(anglerad)
             self.sin_z = np.sin(anglerad)
+
+
+
+Old stuff
+=========
+
 
 
 .. code-block:: c
