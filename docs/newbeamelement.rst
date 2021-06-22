@@ -61,8 +61,7 @@ The fields specified in ``_xofields`` are automatically exposed as attributes of
     # returns 0.9
 
 
-
-Additional attributes and methods can be added to the class. If the ``__init__`` method is defined, the ``__init__`` of the parent class needs to be called to initialize the ``_xofields`` in memory.
+Additional attributes and methods can be added to the class. If the ``__init__`` method is defined, the ``__init__`` of the parent class needs to be called to initialize the ``xobject``, i.e. the data structure accessible from the C code.
 
 In our example we want to initialize the object providing the rotation angle and not its sine and cosine and we introduce a property called ``angle`` that allows setting or getting the angle from the stored sine and cosine. This can be done as follows:
 
