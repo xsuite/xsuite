@@ -162,7 +162,14 @@ For our example beam elements the tracking code is:
 
     #endif
 
+You can note in the code above the ``/*gpufun*/`` annotation specifying that the function is to be executed on the device for the GPU contexts. 
+
+The loop over the particles needs to be present only in the CPU implementations. This is achieved through the ``//only_for_context`` annotation.
+
+Once ready the code needs to be associated to the class. This is done with the following instruction:
+
 .. code-block:: python
 
-    SRotationData.extra_sources = [
-            _pkg_root.joinpath('beam_elements/elements_src/srotation.h')]
+    from pathlib import Path
+
+    SRotationData.extra_sources = [Path('./srotation.h')]
