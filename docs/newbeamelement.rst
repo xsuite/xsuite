@@ -19,7 +19,7 @@ Definition of the data structure
 New beam elements are defined as python classes inheriting from the class ``BeamElement`` of xtrack.
 In each element class we define a dictionary called ``_xofields``, which specifies names and types of the data to be made accessible to the C tracking code.
 
-Although our beam element is defined by the single parameter (theta), it is convenient to store the quantities sin(theta) and cos(theta) to avoid recalculating them multiple times.
+Although our beam element is defined by the single parameter (theta), it is convenient to store the quantities sin(theta) and cos(theta) to avoid recalculating them multiple times:
 
 .. code-block:: python
 
@@ -39,7 +39,7 @@ Objects of the defined class can be allocated as follows:
 
     srot = SRotation(sin_z=1., cos_z=0)
 
-By default the objects are allocated in the CPU memory. They can be allocated in the memory of a GPU by providing an xobject context or buffer:
+By default the objects are allocated in the CPU memory. They can be allocated in the memory of a GPU by providing an xobject context or buffer. For example:
 
 .. code-block:: python
 
@@ -48,7 +48,7 @@ By default the objects are allocated in the CPU memory. They can be allocated in
     # Object allocated on the GPU
     srot = SRotation(sin_z=1., cos_z=0, _context=ctx)
 
-The fields specified in ``_xofields`` are automatically exposed as attributes of the objects that can be accessed with the standard python syntax, also if the object is allocated on the GPU:
+The fields specified in ``_xofields`` are automatically exposed as attributes of the objects that can be read and set with the standard python syntax, also if the object is allocated on the GPU:
 
 .. code-block:: python
 
@@ -62,12 +62,26 @@ The fields specified in ``_xofields`` are automatically exposed as attributes of
 
 
 
+Additional attributes and methods can be added to the class. If the ``__init__`` method is defined, the __init__ of the parent class needs to be called to initialize the ``_xofields`` in memory.
+
+In our example we prefer to initialize the object providing the rotation angle and not its sine and cosine. This can be done as follows:
+
+.. code-block:: python
+
+    import xobjects as xo
+    import xtrack as xt
+
+    class SRotation(BeamElement):
 
         def __init__(self, angle=0, **nargs):
             anglerad = angle / 180 * np.pi
             nargs['cos_z']=np.cos(anglerad)
             nargs['sin_z']=np.sin(anglerad)
             super().__init__(**nargs)
+
+
+
+Prrrr
 
         @property
         def angle(self):
