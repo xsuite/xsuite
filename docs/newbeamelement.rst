@@ -121,6 +121,7 @@ These methods can be used to write a C header file containing the tracking code 
 The method takes two arguments, the element data in a data type called ``<ElementName>Data``, i.e. ``SRotationData`` in our example and a ``LocalParticle`` which is associated to methods to set and and get the particle coordinates.
 The ``LocalParticle`` represents one particle of the particle set provided to the simulation. On CPU it is possible to change the particle pointed by the local particle by changing the index ``ipart``.
 
+For our example beam elements the tracking code is:
 
 .. code-block:: c
 
@@ -130,12 +131,13 @@ The ``LocalParticle`` represents one particle of the particle set provided to th
     /*gpufun*/
     void SRotation_track_local_particle(SRotationData el, LocalParticle* part){
 
+
+        double const sin_z = SRotationData_get_sin_z(el);
+        double const cos_z = SRotationData_get_cos_z(el);
+
         int64_t const n_part = LocalParticle_get_num_particles(part); 
         for (int ii=0; ii<n_part; ii++){ //only_for_context cpu_serial cpu_openmp
         part->ipart = ii;            //only_for_context cpu_serial cpu_openmp
-
-            double const sin_z = SRotationData_get_sin_z(el);
-            double const cos_z = SRotationData_get_cos_z(el);
 
             double const x  = LocalParticle_get_x(part);
             double const y  = LocalParticle_get_y(part);
