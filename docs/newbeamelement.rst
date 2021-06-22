@@ -90,19 +90,22 @@ In our example we want to initialize the object providing the rotation angle and
             self.cos_z = np.cos(anglerad)
             self.sin_z = np.sin(anglerad)
 
+.. code-block:: python
 
+Definition of the tracking function
+===================================
 
-Old stuff
-=========
+The class definition from previous section automatically generates a set of functions (API) to access and manipulate in C the data spcified in ``_xofields``.
+The C API for the defined class can be inspected as follows:
 
+.. code-block:: python
 
+    source, kernels, cdefs = SRotation.XoStruct._gen_c_api()
+    print(source)
+
+By printing source we can see that C methods are available to set, get and get a pointer to the fields specified in ``_xofields``:
 
 .. code-block:: c
-
-    #ifndef XOBJ_TYPEDEF_SRotationData
-    typedef /*gpuglmem*/ struct SRotationData_s * SRotationData;
-    #define XOBJ_TYPEDEF_SRotationData
-    #endif
 
     /*gpufun*/ double SRotationData_get_cos_z(const SRotationData/*restrict*/ obj);
     /*gpufun*/ void SRotationData_set_cos_z(SRotationData/*restrict*/ obj, double value);
