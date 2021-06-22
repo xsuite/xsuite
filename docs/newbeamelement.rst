@@ -115,6 +115,10 @@ By printing source we can see that C methods are available to set, get and get a
     /*gpufun*/ void SRotationData_set_sin_z(SRotationData/*restrict*/ obj, double value);
     /*gpufun*/ /*gpuglmem*/double* SRotationData_getp_sin_z(SRotationData/*restrict*/ obj);
 
+These methods can be used to write a C header file containing the tracking code for the beam element.
+The method takes two arguments, the element data in a data type called ``<ElementName>Data``, i.e. ``SRotationData`` in our example and a ``LocalParticle`` which is associated to methods to set and and get the particle coordinates.
+The ``LocalParticle``
+
 
 .. code-block:: c
 
