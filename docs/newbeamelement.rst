@@ -90,7 +90,7 @@ In our example we want to initialize the object providing the rotation angle and
             self.cos_z = np.cos(anglerad)
             self.sin_z = np.sin(anglerad)
 
-.. code-block:: python
+
 
 Definition of the tracking function
 ===================================
