@@ -25,9 +25,8 @@ Documentation
    :maxdepth: 3
 
    usersguide
-   apireference
    developer
-
+   apireference
 
 Indices and tables
 ------------------
