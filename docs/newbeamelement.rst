@@ -172,4 +172,4 @@ Once ready the code needs to be associated to the class. This is done with the f
 
     from pathlib import Path
 
-    SRotationData.extra_sources = [Path('./srotation.h')]
+    SRotation.XoStruct.extra_sources = [Path('./srotation.h')]
