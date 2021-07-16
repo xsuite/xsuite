@@ -24,7 +24,7 @@ The corresponfig API is described in the following subsections.
 Cupy context
 -------------
 
-.. autoclass:: xobjects.context.ContextCupy
+.. autoclass:: xobjects.ContextCupy
     :members:
     :undoc-members:
     :member-order: bysource
@@ -34,7 +34,7 @@ Cupy context
 
 PyOpenCL context
 -----------------
-.. autoclass:: xobjects.context.ContextPyopencl
+.. autoclass:: xobjects.ContextPyopencl
     :members:
     :undoc-members:
     :member-order: bysource
@@ -46,7 +46,7 @@ PyOpenCL context
 CPU context
 ------------
 
-.. autoclass:: xobjects.context.ContextCpu
+.. autoclass:: xobjects.ContextCpu
     :members:
     :undoc-members:
     :member-order: bysource
