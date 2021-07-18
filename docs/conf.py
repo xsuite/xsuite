@@ -26,15 +26,18 @@ os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xline')
-#os.system('cd xobjects; git branch; git checkout integration_xobjects_xfields; cd ..')
+os.system(
+    'git clone --single-branch --branch main https://github.com/xsuite/xpart')
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
 sys.path.insert(0, os.path.abspath('./xline'))
+sys.path.insert(0, os.path.abspath('./xpart'))
 import xobjects
 import xfields
 import xtrack
-
+import xline
+import xpart
 
 # -- General configuration ------------------------------------------------
 
