@@ -2,7 +2,8 @@
 Xpart API
 =========
 
-The particle class:
+The particle class
+==================
 
 .. autoclass:: xpart.Particles
     :members:
