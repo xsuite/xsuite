@@ -21,6 +21,9 @@ The Xsuite packages can be cloned from GitHub and installed with pip:
     $ git clone https://github.com/xsuite/xline
     $ pip install -e xline
 
+    $ git clone https://github.com/xsuite/xpart
+    $ pip install -e xpart
+
     $ git clone https://github.com/xsuite/xtrack
     $ pip install -e xtrack
 
