@@ -1,11 +1,11 @@
-========================
-Collective beam elements
-========================
+=================================
+Trackers with collective elements
+=================================
 
 A collective beam element is an element that needs access to the entire particle set (in read and/or write mode). The following example shows how to handle such elements in Xsuite.
 
-Trackers with collective elements
-=================================
+Example
+=======
 
 A typical example of collective element is a space-charge interaction. We can create a space-charge beam element as follows:
 
