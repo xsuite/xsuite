@@ -28,10 +28,10 @@ This creates a space-charge element where the transverse beam sizes are updated 
     import xline as xl
     import xtrack as xt
 
+    ## Generate a simple sequence including the spacecharge element
     myqf = xl.Multipole(knl=[0, 1.])
     myqd = xl.Multipole(knl=[0, -1.])
     mydrift = xl.Drift(length=1.)
-
     sequence = xl.Line(
         elements = [myqf, mydrift, myqd, mydrift,
                     spcharge,
@@ -40,5 +40,22 @@ This creates a space-charge element where the transverse beam sizes are updated 
                             'spcharge'
                             'qf2', 'drift3', 'qd2', 'drift4'])
 
+    ## Transfer lattice on context and compile tracking code
     tracker = xt.Tracker(_context=context, sequence=sequence)
 
+    ## Build particle object on context
+    n_part = 200
+    particles = xt.Particles(_context=context,
+                            p0c=6500e9,
+                            x=np.random.uniform(-1e-3, 1e-3, n_part),
+                            px=np.random.uniform(-1e-5, 1e-5, n_part),
+                            y=np.random.uniform(-2e-3, 2e-3, n_part),
+                            py=np.random.uniform(-3e-5, 3e-5, n_part),
+                            zeta=np.random.uniform(-1e-2, 1e-2, n_part),
+                            delta=np.random.uniform(-1e-4, 1e-4, n_part),
+                            )
+
+    ## Track (saving turn-by-turn data)
+    n_turns = 100
+    tracker.track(particles, num_turns=n_turns,
+                turn_by_turn_monitor=True)
