@@ -1,5 +1,5 @@
 =================================
-Trackers with collective elements
+Tracking with collective elements
 =================================
 
 A collective beam element is an element that needs access to the entire particle set (in read and/or write mode). The following example shows how to handle such elements in Xsuite.
@@ -59,3 +59,16 @@ This creates a space-charge element where the transverse beam sizes are updated 
     n_turns = 100
     tracker.track(particles, num_turns=n_turns,
                 turn_by_turn_monitor=True)
+
+How does it work?
+=================
+
+To decide whether or not an element is collective, the tracker inspects its ``iscollective`` attribute. In our example:
+
+.. code-block:: python
+
+    print(qf.iscollective)
+    # Gives "False"
+
+    print(qf.iscollective)
+    # Gives "True"

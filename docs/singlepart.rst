@@ -222,6 +222,7 @@ Optionally the particles coordinates can be saved at each turn. This feature can
 The data can be retrieved as follows:
 
 .. code-block:: python
+
     tracker.record_last_track.x # Shape is (n_part, n_turns)
     tracker.record_last_track.px 
     # etc...
