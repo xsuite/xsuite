@@ -63,12 +63,26 @@ This creates a space-charge element where the transverse beam sizes are updated 
 How does it work?
 =================
 
-To decide whether or not an element is collective, the tracker inspects its ``iscollective`` attribute. In our example:
+To decide whether or not an element needs to be treated as collective, the tracker inspects its ``iscollective`` attribute. In our example:
 
 .. code-block:: python
 
     print(qf.iscollective)
     # Gives "False"
 
-    print(qf.iscollective)
+    print(spcharge.iscollective)
     # Gives "True"
+
+Based in this information the sequence is devided in parts that are either collective elements or xtrack trackers simulating groups of consecutive non-collective elements.
+
+We can visualize this in our example:
+
+.. code-block:: python
+
+    print(tracker._parts)
+    # Gives:
+    # [<xtrack.tracker.Tracker object at 0x7f5ba8ce7760>,
+    #  <xfields.beam_elements.spacecharge.SpaceChargeBiGaussian object at 0x7f5ba8e1bd30>,
+    #  <xtrack.tracker.Tracker object at 0x7f5ba8ce7610>]
+
+where the first part tracks the particles through to the first potion of the machine up to the space-charge element, the second part simulates the space-charge interaction, the third part trackes the particles from the space-charge element to the end of the sequence.

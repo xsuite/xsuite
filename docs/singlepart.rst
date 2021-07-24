@@ -224,7 +224,7 @@ The data can be retrieved as follows:
 .. code-block:: python
 
     tracker.record_last_track.x # Shape is (n_part, n_turns)
-    tracker.record_last_track.px 
+    tracker.record_last_track.px
     # etc...
 
 
