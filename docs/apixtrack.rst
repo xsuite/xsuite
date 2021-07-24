@@ -6,3 +6,8 @@ Xtrack API
     :members:
     :undoc-members:
     :member-order: bysource
+
+.. autoclass:: xtrack.Cavity
+    :members:
+    :undoc-members:
+    :member-order: bysource
