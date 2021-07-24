@@ -86,3 +86,18 @@ We can visualize this in our example:
     #  <xtrack.tracker.Tracker object at 0x7f5ba8ce7610>]
 
 where the first part tracks the particles through to the first potion of the machine up to the space-charge element, the second part simulates the space-charge interaction, the third part trackes the particles from the space-charge element to the end of the sequence.
+
+As all xsuite and xsuite-compatible beam elements need to expose a ``.track`` method the instruction:
+
+.. code-block:: python
+
+    tracker.track(particles)
+
+is equivalent to the loop:
+
+.. code-block:: python
+
+    for pp in tracker._parts:
+        pp.track(particles)
+
+Any python object exposing a '.track' method can be used as beam_element. If the attribute ``iscollective`` is not present the element is handled as collective.
