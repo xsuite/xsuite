@@ -16,6 +16,12 @@ Beam elements
 Drift
 -----
 
+.. autoclass:: xtrack.Monitor
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
+
 .. autoclass:: xtrack.Drift
     :members:
     :undoc-members:
