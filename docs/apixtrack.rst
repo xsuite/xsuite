@@ -1,7 +1,7 @@
-.. These are comments - some usful options:
+.. These are comments - some useful options:
 .. :inherited-members:
 .. :exclude-members: track_kernel_source
-
+.. :show-inheritance:
 
 ==========
 Xtrack API
@@ -20,6 +20,7 @@ Drift
     :members:
     :undoc-members:
     :member-order: bysource
+    :show-inheritance:
 
 Cavity
 ------
@@ -27,5 +28,16 @@ Cavity
 .. autoclass:: xtrack.Cavity
     :members:
     :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
+
+BeamElement base class
+======================
+
+.. autoclass:: xtrack.base_element.BeamElement
+    :members:
+    :undoc-members:
+    :inherited-members:
+    :exclude-members: track_kernel_source, track_kernel_description, compile_custom_kernels, XoStruct
     :member-order: bysource
 
