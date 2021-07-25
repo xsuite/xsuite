@@ -135,3 +135,12 @@ SCQGaussProfile
     :undoc-members:
     :member-order: bysource
     :show-inheritance:
+
+BeamMonitor
+-----------
+
+.. autoclass:: xline.BeamMonitor
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
