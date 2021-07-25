@@ -12,9 +12,12 @@ Beam elements
 Space Charge element
 --------------------
 
-The spacecharge computation in this class uses an :doc:`Xfields fieldmap <fieldmaps>` instance.
-
 .. autoclass:: xfields.SpaceCharge3D
+    :members:
+    :undoc-members:
+    :member-order: bysource
+
+.. autoclass:: xfields.SpaceChargeBiGaussian
     :members:
     :undoc-members:
     :member-order: bysource
@@ -27,14 +30,21 @@ Beam-beam element
     :undoc-members:
     :member-order: bysource
 
+.. autoclass:: xfields.BeamBeamBiGaussian3D
+    :members:
+    :undoc-members:
+    :member-order: bysource
 
 Field maps
 ==========
 
-Interpolated field maps
------------------------
-
 .. autoclass:: xfields.fieldmaps.TriLinearInterpolatedFieldMap
+    :members:
+    :undoc-members:
+    :member-order: bysource
+
+
+.. autoclass:: xfields.fieldmaps.BiGaussianFieldMap
     :members:
     :undoc-members:
     :member-order: bysource
@@ -42,8 +52,6 @@ Interpolated field maps
 Solvers
 =======
 
-FFT solvers
------------
 
 .. autoclass:: xfields.solvers.FFTSolver3D
     :members:
@@ -57,10 +65,3 @@ FFT solvers
     :inherited-members:
 
 
-BiGaussian field maps
----------------------
-
-.. autoclass:: xfields.fieldmaps.BiGaussianFieldMap
-    :members:
-    :undoc-members:
-    :member-order: bysource
