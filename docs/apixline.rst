@@ -2,6 +2,18 @@
 Xline API
 ==========
 
+.. contents:: Table of Contents
+    :depth: 4
+
+Line
+====
+
+.. autoclass:: xline.Line
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
+
 Beam elements
 =============
 
