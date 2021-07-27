@@ -5,7 +5,6 @@ Xfields API
 .. contents:: Table of Contents
     :depth: 4
 
-
 Beam elements
 =============
 
