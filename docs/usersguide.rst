@@ -8,4 +8,5 @@
    installation
    singlepart
    collective
+   spacechargeauto
    pyhtinterface
