@@ -46,6 +46,8 @@ For this example we load from the `SPS Xtrack test_data folder <https://github.c
 Choice of the context
 ~~~~~~~~~~~~~~~~~~~~~
 
+We choose the hardware on which we want to run by buildind an Xobjects context:
+
 .. code-block:: python
 
     context = xo.ContextCupy()
@@ -56,9 +58,11 @@ Choice of the context
 Configuration quasi-frozen or PIC space-charge elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+We use the Xfields functions ``replace_spaceharge_with_quasi_frozen`` or ``replace_spaceharge_with_PIC`` to replace the frozen space-charge lenses with PIC or quasi-frozen collective elements:
+
 .. code-block:: python
 
-    mode = 'PIC'
+    mode = 'PIC' # Can be 'PIC', 'quasi-frozen' or 'forzen'
 
     if mode == 'frozen':
         pass # Already configured in line
@@ -80,14 +84,20 @@ Configuration quasi-frozen or PIC space-charge elements
 
 
 
+Build Xtrack tracker
+~~~~~~~~~~~~~~~~~~~~
 
+We build an Xtrack tracker:
+
+.. code-block:: python
 
     tracker = xt.Tracker(_context=context,
                         sequence=sequence)
 
-    ######################
-    # Generate particles # 
-    ######################
+As discussed in the :ref:`dedicated section <collective>`, 
+
+
+
 
     part = xp.generate_matched_gaussian_bunch(
             num_particles=n_part, total_intensity_particles=bunch_intensity,
