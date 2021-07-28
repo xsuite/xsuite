@@ -94,7 +94,7 @@ We build an Xtrack tracker:
     tracker = xt.Tracker(_context=context,
                         sequence=sequence)
 
-As discussed in the :doc:`dedicated section <collective>`, the tracker is built in such a way that particles are tracked asynchronously by separate threads in the non-collective sections of the sequence and are regrouped at each collescive element (in our case the PIC or quasi-forzen space-charge lenses).
+As discussed :doc:`here <collective>`, the tracker is built in such a way that particles are tracked asynchronously by separate threads in the non-collective sections of the sequence and are regrouped at each collescive element (in our case the PIC or quasi-forzen space-charge lenses).
 
 
 Generation of matched particle set
@@ -123,5 +123,6 @@ The simulation can be started by calling the ``track`` method of the tracker:
 
     tracker.track(xtparticles, num_turns=3)
 
+A :class:`ParticlesMonitor <xtrack.ParticlesMonitor>` object can be passed to the track method to record all or a fraction of the particles coordinated.
 
 
