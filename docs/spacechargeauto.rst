@@ -71,17 +71,17 @@ We use the Xfields functions ``replace_spaceharge_with_quasi_frozen`` or ``repla
         pass # Already configured in line
     elif mode == 'quasi-frozen':
         xf.replace_spaceharge_with_quasi_frozen(
-                                        sequence, _buffer=context.new_buffer(),
-                                        update_mean_x_on_track=True,
-                                        update_mean_y_on_track=True)
+                    sequence, _buffer=context.new_buffer(),
+                    update_mean_x_on_track=True,
+                    update_mean_y_on_track=True)
     elif mode == 'pic':
         pic_collection, all_pics = xf.replace_spaceharge_with_PIC(
-            _context=context, sequence=sequence,
-            n_sigmas_range_pic_x=8,
-            n_sigmas_range_pic_y=8,
-            nx_grid=256, ny_grid=256, nz_grid=100,
-            n_lims_x=7, n_lims_y=3,
-            z_range=(-0.7, 0.7))
+                    _context=context, sequence=sequence,
+                    n_sigmas_range_pic_x=8,
+                    n_sigmas_range_pic_y=8,
+                    nx_grid=256, ny_grid=256, nz_grid=100,
+                    n_lims_x=7, n_lims_y=3,
+                    z_range=(-0.7, 0.7))
     else:
         raise ValueError(f'Invalid mode: {mode}')
 
