@@ -65,7 +65,7 @@ We use the Xfields functions ``replace_spaceharge_with_quasi_frozen`` or ``repla
 
 .. code-block:: python
 
-    mode = 'PIC' # Can be 'PIC', 'quasi-frozen' or 'forzen'
+    mode = 'pic' # Can be 'pic', 'quasi-frozen' or 'forzen'
 
     if mode == 'frozen':
         pass # Already configured in line
@@ -81,7 +81,7 @@ We use the Xfields functions ``replace_spaceharge_with_quasi_frozen`` or ``repla
             n_sigmas_range_pic_y=8,
             nx_grid=256, ny_grid=256, nz_grid=100,
             n_lims_x=7, n_lims_y=3,
-            z_range=(-3*sigma_z, 3*sigma_z))
+            z_range=(-0.7, 0.7))
     else:
         raise ValueError(f'Invalid mode: {mode}')
 
