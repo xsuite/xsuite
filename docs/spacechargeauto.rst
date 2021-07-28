@@ -4,6 +4,9 @@ Quasi-frozen and PIC space-charge simulations
 
 Xfields provides tools to configure qausi-frozen and Particle-In-Cell space-charge simulations by automatically replacing in an Xline sequence the frozen space-charge lenses with the corresponding collective beam elements. This is illustrated in the following example.
 
+Example
+=======
+
 Import modules
 ~~~~~~~~~~~~~~
 
