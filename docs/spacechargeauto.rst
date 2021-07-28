@@ -94,39 +94,34 @@ We build an Xtrack tracker:
     tracker = xt.Tracker(_context=context,
                         sequence=sequence)
 
-As discussed in the :ref:`dedicated section <collective>`, 
+As discussed in the :doc:`dedicated section <collective>`, the tracker is built in such a way that particles are tracked asynchronously by separate threads in the non-collective sections of the sequence and are regrouped at each collescive element (in our case the PIC or quasi-forzen space-charge lenses).
 
 
+Generation of matched particle set
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+We use Xpart to generate a matched particle distribution and we transfer it to the context:
+
+.. code-block:: python
 
     part = xp.generate_matched_gaussian_bunch(
-            num_particles=n_part, total_intensity_particles=bunch_intensity,
-            nemitt_x=neps_x, nemitt_y=neps_y, sigma_z=sigma_z,
+            num_particles=int(1e6), total_intensity_particles=1e11,
+            nemitt_x=2.5e-6, nemitt_y=2.5e-6, sigma_z=22.5e-2,
             particle_on_co=part_on_co, R_matrix=RR,
             circumference=6911., alpha_momentum_compaction=0.0030777,
-            rf_harmonic=4620, rf_voltage=rf_voltage, rf_phase=0)
+            rf_harmonic=4620, rf_voltage=3e6, rf_phase=0)
 
     # Transfer particles to context
     xtparticles = xt.Particles(_context=context, **part.to_dict())
 
-    #########
-    # Track #
-    #########
+Simulate
+~~~~~~~~
+
+The simulation can be started by calling the ``track`` method of the tracker:
+
+.. code-block:: python
+
     tracker.track(xtparticles, num_turns=3)
 
 
 
-
-Additional settings
-~~~~~~~~~~~~~~~~~~~
-
-We set some additional beam and machine parameters
-
-.. code-block:: python
-
-    bunch_intensity = 1e11
-    sigma_z = 22.5e-2
-    neps_x=2.5e-6
-    neps_y=2.5e-6
-    n_part=int(1e6)
-    rf_voltage=3e6
