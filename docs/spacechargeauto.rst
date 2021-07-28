@@ -2,7 +2,7 @@
 Automatic configuration of space-charge simulations
 ===================================================
 
-. code-block:: python
+.. code-block:: python
 
     import json
     import numpy as np
