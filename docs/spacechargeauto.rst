@@ -1,6 +1,13 @@
-===================================================
-Automatic configuration of space-charge simulations
-===================================================
+==============================================
+Quasi-frozen and PIC space-charge simulations
+==============================================
+
+Xfields provides tools to configure qausi-frozen and Particle-In-Cell space-charge simulations by automatically replacing in an Xline sequence the frozen space-charge lenses with the corresponding collective beam elements. This is illustrated in the following example.
+
+Import modules
+~~~~~~~~~~~~~~
+
+We import all the required modules
 
 .. code-block:: python
 
@@ -13,54 +20,45 @@ Automatic configuration of space-charge simulations
     import xtrack as xt
     import xfields as xf
 
-    ############
-    # Settings #
-    ############
+Machine model
+~~~~~~~~~~~~~
 
-    bunch_intensity = 1e11/3
-    sigma_z = 22.5e-2/3
-    neps_x=2.5e-6
-    neps_y=2.5e-6
-    n_part=int(1e6)
-    rf_voltage=3e6
-    num_turns=32
+For this example we load from the `SPS Xtrack test_data folder <https://github.com/xsuite/xtrack/tree/main/test_data/sps_w_spacecharge>`_ a sequence with frozen space-charge lenses together with the corresponding particle on the closed orbit and linearized one-turn matrix. The same folder contains also example code to generate these files from the MAD-X model of the accelerator.
 
-    fname_sequence = ('../../test_data/sps_w_spacecharge/'
+.. code-block:: python
+
+    fname_sequence = ('xtrack/test_data/sps_w_spacecharge/'
                     'line_with_spacecharge_and_particle.json')
 
-    fname_optics = ('../../test_data/sps_w_spacecharge/'
+    fname_optics = ('xtrack/test_data/sps_w_spacecharge/'
                     'optics_and_co_at_start_ring.json')
-
-    # Available modes: frozen/quasi-frozen/pic
-    mode = 'pic'
 
     with open(fname_sequence, 'r') as fid:
         seq_dict = json.load(fid)
     with open(fname_optics, 'r') as fid:
         co_opt_dict = json.load(fid)
 
+    sequence = xl.Line.from_dict(seq_dict['line'])
     part_on_co = xp.Particles.from_dict(co_opt_dict['particle_on_madx_co'])
     RR = np.array(co_opt_dict['RR_madx']) # Linear one-turn matrix
 
-    ##################################################
-    #                   Load xline                   #
-    # (assume frozen SC lenses are alredy installed) #
-    ##################################################
 
-    sequence = xl.Line.from_dict(seq_dict['line'])
+Choice of the context
+~~~~~~~~~~~~~~~~~~~~~
 
-    ####################
-    # Choose a context #
-    ####################
+.. code-block:: python
 
-    #context = xo.ContextCpu()
     context = xo.ContextCupy()
     #context = xo.ContextPyopencl('0.0')
-    print(context)
+    #context = xo.ContextCpu()
 
-    ##########################
-    # Configure space-charge #
-    ##########################
+
+Configuration quasi-frozen or PIC space-charge elements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+    mode = 'PIC'
 
     if mode == 'frozen':
         pass # Already configured in line
@@ -80,9 +78,9 @@ Automatic configuration of space-charge simulations
     else:
         raise ValueError(f'Invalid mode: {mode}')
 
-    #################
-    # Build Tracker #
-    #################
+
+
+
 
     tracker = xt.Tracker(_context=context,
                         sequence=sequence)
@@ -106,3 +104,19 @@ Automatic configuration of space-charge simulations
     #########
     tracker.track(xtparticles, num_turns=3)
 
+
+
+
+Additional settings
+~~~~~~~~~~~~~~~~~~~
+
+We set some additional beam and machine parameters
+
+.. code-block:: python
+
+    bunch_intensity = 1e11
+    sigma_z = 22.5e-2
+    neps_x=2.5e-6
+    neps_y=2.5e-6
+    n_part=int(1e6)
+    rf_voltage=3e6
