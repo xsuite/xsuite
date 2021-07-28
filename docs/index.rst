@@ -19,8 +19,8 @@ The implemented physics models are being documented in `this guide <https://gith
 
 The source code is available in these `GitHub repositories <https://github.com/xsuite/>`_.
 
-Documentation
--------------
+Table of context
+----------------
 
 .. toctree::
    :maxdepth: 2
