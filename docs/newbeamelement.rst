@@ -129,15 +129,13 @@ For our example beam elements the tracking code is:
     #define XTRACK_SROTATION_H
 
     /*gpufun*/
-    void SRotation_track_local_particle(SRotationData el, LocalParticle* part){
+    void SRotation_track_local_particle(SRotationData el, LocalParticle* part0){
 
 
         double const sin_z = SRotationData_get_sin_z(el);
         double const cos_z = SRotationData_get_cos_z(el);
 
-        int64_t const n_part = LocalParticle_get_num_particles(part); 
-        for (int ii=0; ii<n_part; ii++){ //only_for_context cpu_serial cpu_openmp
-        part->ipart = ii;            //only_for_context cpu_serial cpu_openmp
+        //start_per_particle_block (part0->part)
 
             double const x  = LocalParticle_get_x(part);
             double const y  = LocalParticle_get_y(part);
@@ -156,15 +154,16 @@ For our example beam elements the tracking code is:
 
             LocalParticle_set_px(part, px_hat);
             LocalParticle_set_py(part, py_hat);
-        } //only_for_context cpu_serial cpu_openmp
+
+        //end_per_particle_block
 
     }
 
     #endif
 
-You can note in the code above the ``/*gpufun*/`` annotation specifying that the function is to be executed on the device for the GPU contexts. 
+You can note in the code above the ``/*gpufun*/`` annotation specifying that the function is to be executed on the device for the GPU contexts.
 
-The loop over the particles needs to be present only in the CPU implementations. This is achieved through the ``//only_for_context`` annotation.
+The annotations ```//start_per_particle_block``` and ```//end_per_particle_block``` map part0 to part and introduce a loop over the particle when needed (i.e. for the CPU contexts). Parallelization over CPU cores is also applied if this is set in  the context.
 
 Once ready the code needs to be associated to the class. This is done with the following instruction:
 
