@@ -52,6 +52,13 @@ To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you
     $ git clone https://github.com/sixtrack/sixtracktools
     $ pip install -e sixtracktools
 
+Some of the tests rely on pyheadtail to test the corresponding interface:
+
+.. code-block:: bash
+
+    $ git clone https://github.com/pycomplte/pyheadtail
+    $ pip install -e pyheadtail
+
 .. _gpuinst:
 
 GPU support
