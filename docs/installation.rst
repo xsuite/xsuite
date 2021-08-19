@@ -56,7 +56,8 @@ Some of the tests rely on pyheadtail to test the corresponding interface:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/pycomplte/pyheadtail
+    $ git clone https://github.com/pycomplete/pyheadtail
+    $ pip install cython
     $ pip install -e pyheadtail
 
 .. _gpuinst:
