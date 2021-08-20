@@ -167,7 +167,10 @@ And install gpyfft locally.
 Install Miniconda
 =================
 
-If you don't have a miniconda installation, you can quickly get one with the following steps:
+If you don't have a miniconda installation, you can quickly get one ready for xsuite installation with the following steps.
+
+On Linux
+--------
 
 .. code-block:: bash
 
@@ -175,4 +178,16 @@ If you don't have a miniconda installation, you can quickly get one with the fol
     $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
     $ bash Miniconda3-latest-Linux-x86_64.sh
     $ source miniconda3/bin/activate
-    $ pip install numpy scipy matplotlib pandas ipython
+    $ pip install numpy scipy matplotlib pandas ipython pytest
+
+On MacOS
+--------
+
+.. code-block:: bash
+
+    $ cd ~
+    $ curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > miniconda_inst.sh
+    $ bash miniconda_inst.sh
+    $ source miniconda3/bin/activate
+    $ conda install clang_osx-64
+    $ pip install numpy scipy matplotlib pandas ipython pytest
