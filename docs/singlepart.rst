@@ -29,7 +29,7 @@ A simple tracking simulation can be configured and executed with the following p
                   xl.Multipole(knl=[0, -1.], ksl=[0,0])],
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
-    ## Chose a context
+    ## Choose a context
     context = xo.ContextCpu()         # For CPU
     # context = xo.ContectCupy()      # For CUDA GPUs
     # context = xo.ContectPyopencl()  # For OpenCL GPUs
