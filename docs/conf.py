@@ -21,7 +21,7 @@ import os
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
 os.system(
-    'git clone --single-branch --branch master https://github.com/xsuite/xfields')
+    'git clone --single-branch --branch main https://github.com/xsuite/xfields')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
 os.system(
