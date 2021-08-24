@@ -139,7 +139,7 @@ If the chosen context is ContextCupy the generated specialized source is:
 
         int ii; //autovectorized
         ii=blockDim.x * blockIdx.x + threadIdx.x;//autovectorized
-        if (ii<nelem){
+        if (ii<nelem){ //autovectorized
             double a_ii = DataStructure_get_a(ob, ii);
             double b_ii = DataStructure_get_b(ob, ii);
 
@@ -149,9 +149,24 @@ If the chosen context is ContextCupy the generated specialized source is:
     }
 
 
+If the chosen context is PyOpencl the generated specialized source is:
 
+.. code-block:: c
 
+    __kernel
+    void myprod(DataStructure ob, int nelem){
 
+        int ii; //autovectorized
+        ii=get_global_id(0); //autovectorized
+
+                double a_ii = DataStructure_get_a(ob, ii);
+                double b_ii = DataStructure_get_b(ob, ii);
+
+                double c_ii = a_ii * b_ii;
+                DataStructure_set_c(ob, ii, c_ii);
+        //end autovectorized
+
+    }
 
 
 
