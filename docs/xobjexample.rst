@@ -25,17 +25,42 @@ Allocation of a data object on the GPU
     # ctx = xo.ContextCupy() # for NVIDIA GPUs
 
     obj = DataStructure(_context=ctx,
-                        a=[1,2,3], b=[4,5,6], c=[0,0,0],
-                        d=0)
+                        a=[1,2,3], b=[4,5,6],
+                        c=[0,0,0], d=0)
 
 The object is accessible in read/write directly from python:
 
 .. code-block:: python
 
     print(obj.a[2]) # gives: 3
-    a[2] = 10
+    obj.a[2] = 10
     print(obj.a[2]) # gives: 10
 
-Array
+Xobjects arrays can be viewed as numpy arrays (or numpy-like on GPUs).
+
+.. code-block:: python
+
+    arr = obj.a.to_nplike()
+    type(arr) # gives: numpy.ndarray
+
+This object is a view and not a copy, which means that we can operate on the numpy arrays getting the result directly in the the xobject:
+
+.. code-block:: python
+
+    print(obj.a[0], obj.b[0]) # gives: 1.0 4.0
+    a_nplike = obj.a.to_nplike()
+    b_nplike = obj.b.to_nplike()
+
+    # We use np array algebra
+    a_nplike[:] = b_nplike - 1
+
+    print(obj.a[0], obj.b[0]) # gives: 3.0 4.0
+
+We can also use numpy methods, for example we can write:
+
+.. code-block:: python
+
+    obj.s = a_nplike.sum()
+
 
 
