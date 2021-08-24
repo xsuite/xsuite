@@ -5,11 +5,17 @@
 .. contents:: Table of Contents
     :depth: 4
 
+Xobjects provides low-level functionalities to the other Xsuite packages, allowing to use the same code on different platforms (CPU and GPU).
+
 Data management
 ===============
 
+The following example shows how to use Xobjects to allocate and manipulate date in the memory of the computing platform (CPU or GPU)
+
 Definition of a simple data structure class
 -------------------------------------------
+
+A Xobjects data structure can be defined as follows:
 
 .. code-block:: python
 
@@ -21,9 +27,13 @@ Definition of a simple data structure class
         c = xo.Float64[:]
         s = xo.Float64
 
+The structure hase four fields, three of them (``a``, ``b`` and ``c``) are arrays of floats of variable length and one of them (``s``) is a scalar.
+
 
 Allocation of a data object on CPU or GPU
--------------------------------------------
+-----------------------------------------
+
+The memory on which data is stored is chosen by defining a context object, which is passed to the class constructor when the objects are instantiated.
 
 .. code-block:: python
 
@@ -34,10 +44,12 @@ Allocation of a data object on CPU or GPU
                         a=[1,2,3], b=[4,5,6],
                         c=[0,0,0], d=0)
 
+Here if ``ctx = xo.ContextCpu()`` the object is allocated on CPU, if ``ctx = xo.ContextCupy()`` the object is allocated in GPU.
+
 Access to the data
 ------------------
 
-The object is accessible in read/write directly from python:
+Independently on the context, the object is accessible in read/write directly from python:
 
 .. code-block:: python
 
