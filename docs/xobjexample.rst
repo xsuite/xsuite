@@ -62,7 +62,7 @@ We can also use numpy methods, for example we can write:
 
     obj.s = a_nplike.sum()
 
-We want to write a C function (running on CPU and GPU) that performs the product between ```obj.a``` and ```obj.b``` and places it in ```obj.c```.
+We want to write a C function (running on CPU and GPU) that performs the product between ``obj.a`` and ``obj.b`` and places it in ``obj.c``.
 
 .. code-block:: python
 
@@ -82,5 +82,5 @@ We want to write a C function (running on CPU and GPU) that performs the product
     }
     '''
 
-    
+
 
