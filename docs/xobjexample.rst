@@ -62,5 +62,25 @@ We can also use numpy methods, for example we can write:
 
     obj.s = a_nplike.sum()
 
+We want to write a C function (running on CPU and GPU) that performs the product between ```obj.a``` and ```obj.b``` and places it in ```obj.c```.
 
+.. code-block:: python
+
+    src = '''
+
+    /*gpukern*/
+    void (DataStructure ob, int nelem){
+
+    for (int ii=0; ii<nelem; ii++){ //vectorize_over
+        double a_ii = DataStructure_get_a(ob, ii);
+        double b_ii = DataStructure_get_b(ob, ii);
+
+        double c_ii = a_ii * b_ii;
+        DataStructure_set_c(ob, ii, c_ii);
+    } //end_vectorize
+
+    }
+    '''
+
+    
 
