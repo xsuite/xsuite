@@ -5,8 +5,11 @@
 .. contents:: Table of Contents
     :depth: 4
 
+Data management
+===============
+
 Definition of a simple data structure class
-===========================================
+-------------------------------------------
 
 .. code-block:: python
 
@@ -20,7 +23,7 @@ Definition of a simple data structure class
 
 
 Allocation of a data object on CPU or GPU
-=========================================
+-------------------------------------------
 
 .. code-block:: python
 
@@ -32,7 +35,7 @@ Allocation of a data object on CPU or GPU
                         c=[0,0,0], d=0)
 
 Access to the data
-==================
+------------------
 
 The object is accessible in read/write directly from python:
 
@@ -43,7 +46,7 @@ The object is accessible in read/write directly from python:
     print(obj.a[2]) # gives: 10
 
 Numpy-like access
-=================
+-----------------
 
 Xobjects arrays can be viewed as numpy arrays (or numpy-like on GPUs).
 
@@ -71,8 +74,8 @@ We can also use numpy methods, for example we can write:
 
     obj.s = a_nplike.sum()
 
-C kernels
-=========
+Kernel functions in C
+=====================
 
 Writing the source code
 -----------------------
