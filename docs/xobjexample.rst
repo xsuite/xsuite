@@ -69,9 +69,9 @@ We want to write a C function (running on CPU and GPU) that performs the product
     src = '''
 
     /*gpukern*/
-    void (DataStructure ob, int nelem){
+    void myprod(DataStructure ob, int nelem){
 
-    for (int ii=0; ii<nelem; ii++){ //vectorize_over
+    for (int ii=0; ii<nelem; ii++){ //vectorize_over ii nelem
         double a_ii = DataStructure_get_a(ob, ii);
         double b_ii = DataStructure_get_b(ob, ii);
 
@@ -81,6 +81,33 @@ We want to write a C function (running on CPU and GPU) that performs the product
 
     }
     '''
+
+Explain vectorize...
+
+We write the function description:
+
+.. code-block:: python
+
+    description = xo.Kernel(
+        args = [xo.Arg(DataStructure, name='ob'),
+                xo.Arg(xo.Int32, name='nelem')],
+        n_threads='nelem')
+
+We ask the context to compile the kernel:
+
+.. code-block:: python
+
+    ctx.add_kernels(sources=[src],
+        kernels={'myprod': description})
+
+The kernel can be called from python as follows
+
+.. code-block:: python
+
+    ctx.kernels.myprod(ob=obj, nelem=len(obj.a))
+
+
+
 
 
 
