@@ -31,8 +31,8 @@ A simple tracking simulation can be configured and executed with the following p
 
     ## Choose a context
     context = xo.ContextCpu()         # For CPU
-    # context = xo.ContectCupy()      # For CUDA GPUs
-    # context = xo.ContectPyopencl()  # For OpenCL GPUs
+    # context = xo.ContextCupy()      # For CUDA GPUs
+    # context = xo.ContextPyopencl()  # For OpenCL GPUs
 
     ## Transfer lattice on context and compile tracking code
     tracker = xt.Tracker(_context=context, sequence=sequence)
