@@ -165,7 +165,7 @@ The Xobject contex that we have alredy created to allocate the object in memory 
                 }
         )
 
-The argument ``n_threads`` can specify the name of an arhement of the C function from which the number of computing threads to be used in the GPU can be inferred.
+The argument ``n_threads`` can be used to specify the name of an argument of the C function from which the number of  threads to be used in the GPU can be inferred.
 
 Calling the kernel
 ------------------
