@@ -2,7 +2,7 @@
 Definition a new beam element for Xtrack
 ========================================
 
-In this page we illustrate how to introduce a new beam element in Xtrack. 
+In this page we illustrate how to introduce a new beam element in Xtrack.
 We will use for illustration the "SRotation" element which performs the following transformation of the particle coordinates:
 
  - x  =  cos(theta) * x + sin(theta) * y
