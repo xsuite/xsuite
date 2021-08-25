@@ -27,13 +27,13 @@ A Xobjects data structure can be defined as follows:
         c = xo.Float64[:]
         s = xo.Float64
 
-The structure hase four fields, three of them (``a``, ``b`` and ``c``) are arrays of floats of variable length and one of them (``s``) is a scalar.
+The structure has four fields, three of them (``a``, ``b`` and ``c``) are arrays and one of them (``s``) is a scalar.
 
 
 Allocation of a data object on CPU or GPU
 -----------------------------------------
 
-The memory on which data is stored is chosen by defining a context object, which is passed to the class constructor when the objects are instantiated.
+The memory on which data is stored is chosen by defining a context object, which is passed to the class constructor when the objects are instantiated. For example we can allocate an object of our data structure as follows:
 
 .. code-block:: python
 
@@ -42,14 +42,14 @@ The memory on which data is stored is chosen by defining a context object, which
 
     obj = DataStructure(_context=ctx,
                         a=[1,2,3], b=[4,5,6],
-                        c=[0,0,0], d=0)
+                        c=[0,0,0], s=0)
 
-Here if ``ctx = xo.ContextCpu()`` the object is allocated on CPU, if ``ctx = xo.ContextCupy()`` the object is allocated in GPU.
+If ``ctx = xo.ContextCpu()`` the object is allocated on CPU, if ``ctx = xo.ContextCupy()`` the object is allocated in GPU.
 
 Access to the data
 ------------------
 
-Independently on the context, the object is accessible in read/write directly from python:
+Independently on the context, the object is accessible in read/write directly from python. For example:
 
 .. code-block:: python
 
@@ -60,14 +60,14 @@ Independently on the context, the object is accessible in read/write directly fr
 Numpy-like access
 -----------------
 
-Xobjects arrays can be viewed as numpy arrays (or numpy-like on GPUs).
+Xobjects arrays can be viewed as numpy arrays (or numpy-like on GPUs). For example for our object:
 
 .. code-block:: python
 
     arr = obj.a.to_nplike()
     type(arr) # gives: numpy.ndarray
 
-This object is a view and not a copy, which means that we can operate on the numpy arrays getting the result directly in the the xobject:
+This object is a view and not a copy, which means that when we operate on the numpy arrays the underlying xobject is also modified. For example:
 
 .. code-block:: python
 
@@ -80,11 +80,9 @@ This object is a view and not a copy, which means that we can operate on the num
 
     print(obj.a[0], obj.b[0]) # gives: 3.0 4.0
 
-We can also use numpy methods, for example we can write:
-
-.. code-block:: python
-
+    # Usage of the .sum method of the numpy array
     obj.s = a_nplike.sum()
+
 
 Kernel functions in C
 =====================
