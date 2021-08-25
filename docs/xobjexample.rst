@@ -124,8 +124,8 @@ which provides the following set of C functions:
     /*gpufun*/ /*gpuglmem*/double* DataStructure_getp_s(DataStructure/*restrict*/ obj);
 
 
-Writing the source code
------------------------
+Writing a C kernel
+------------------
 
 A C function that can be parallelized when running on GPU is called Kernel.
 As an example, using our example data structure, we write a C kernel function (running on CPU and GPU) that performs the element-by-element product between the arrays ``obj.a`` and ``obj.b`` and writes it in ``obj.c``.
