@@ -14,7 +14,7 @@ A typical example of collective element is a space-charge interaction. We can cr
     import xobjects as xo
     import xfields as xf
 
-    context = xo.ContextCpu
+    context = xo.ContextCpu()
 
     spcharge = xf.SpaceChargeBiGaussian(_context=context,
         update_on_track = ['sigma_x', 'sigma_y'], length=2,
