@@ -36,6 +36,9 @@ Although our beam element is defined by the single parameter (theta), it is conv
             'sin_z': xo.Float64,
             }
 
+Allocation of beam elements on CPU or GPU
+-----------------------------------------
+
 Objects of the defined class can be allocated as follows:
 
 .. code-block:: python
@@ -51,6 +54,9 @@ By default the objects are allocated in the CPU memory. They can be allocated in
     # Object allocated on the GPU
     srot = SRotation(sin_z=1., cos_z=0, _context=ctx)
 
+Python access to beam-element data
+----------------------------------
+
 The fields specified in ``_xofields`` are automatically exposed as attributes of the objects that can be read and set with the standard python syntax, also if the object is allocated on the GPU:
 
 .. code-block:: python
@@ -65,6 +71,9 @@ The fields specified in ``_xofields`` are automatically exposed as attributes of
 
 
 Additional attributes and methods can be added to the class. If the ``__init__`` method is defined, the ``__init__`` of the parent class needs to be called to initialize the ``xobject``, i.e. the data structure accessible from the C code.
+
+Custom ``__init__`` method
+--------------------------
 
 In our example we want to initialize the object providing the rotation angle and not its sine and cosine and we introduce a property called ``angle`` that allows setting or getting the angle from the stored sine and cosine. This can be done as follows:
 
@@ -98,6 +107,9 @@ In our example we want to initialize the object providing the rotation angle and
 Definition of the tracking function
 ===================================
 
+Accessing beam-element data from C
+----------------------------------
+
 The class definition from previous section automatically generates a set of functions (API) to access and manipulate in C the data spcified in ``_xofields``.
 The C API for the defined class can be inspected as follows:
 
@@ -124,7 +136,10 @@ These methods can be used to write a C header file containing the tracking code 
 The method takes two arguments, the element data in a data type called ``<ElementName>Data``, i.e. ``SRotationData`` in our example and a ``LocalParticle`` which is associated to methods to set and and get the particle coordinates.
 The ``LocalParticle`` represents one particle of the particle set provided to the simulation. On CPU it is possible to change the particle pointed by the local particle by changing the index ``ipart``.
 
-For our example beam elements the tracking code is:
+Writing the tracking code
+-------------------------
+
+For our example beam elements the tracking code can be writte as follows:
 
 .. code-block:: c
 

@@ -37,7 +37,7 @@ A simple tracking simulation can be configured and executed with the following p
     ## Transfer lattice on context and compile tracking code
     tracker = xt.Tracker(_context=context, sequence=sequence)
 
-    ## Build particle object on context 
+    ## Build particle object on context
     n_part = 200
     particles = xt.Particles(_context=context,
                             p0c=6500e9,
