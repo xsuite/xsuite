@@ -28,6 +28,7 @@ Table of contents
 
    usersguide
    developer
+   physicsguide
    apireference
 
 Indices and tables
