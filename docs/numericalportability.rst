@@ -35,8 +35,8 @@ A numerical reproducible environment can be installed using the following instru
     pip install cython
 
     # Install BLAS and LAPACK from netlib (avoid optimized versions like MKL or openblas)
-    conda install -c conda-forge "libblas=*=*netlib" # should be netlib, no fancy implementations
-    conda install -c conda-forge "liblapack=*=*netlib" # should be netlib, no fancy implementations
+    conda install -c conda-forge "libblas=*=*netlib" # pinning netlib, no fancy implementations
+    conda install -c conda-forge "liblapack=*=*netlib" # pinning netlib, no fancy implementations
 
     # Install numpy using the libraries installed above and disabling vectorization on CPU
     git clone https://github.com/numpy/numpy.git --single-branch main
@@ -85,3 +85,10 @@ A numerical reproducible environment can be installed using the following instru
 
     git clone https://github.com/xsuite/xfields
     pip install -e xfields
+
+Some extra information:
+
+https://conda-forge.org/docs/maintainer/knowledge_base.html?highlight=mesa
+https://numpy.org/devdocs/reference/simd/simd-optimizations.html
+https://numpy.org/doc/stable/user/building.html
+
