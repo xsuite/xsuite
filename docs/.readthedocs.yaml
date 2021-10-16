@@ -4,4 +4,4 @@ version: 2
 # Set the version of Python and other tools you might need
 build:
   tools:
-    python: "3.9"
+    python: "3.8"
