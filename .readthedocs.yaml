@@ -1,7 +1,5 @@
 # Required
 version: 2
 
-# Set the version of Python and other tools you might need
-build:
-  tools:
-    python: "3.8"
+python:
+    version: "3.8"
