@@ -24,7 +24,7 @@ This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cup
 Developer installation
 ======================
 
-The Xsuite packages can be cloned from GitHub and installed with pip in editable mode:
+If you need to develop Xsuite, you can clone the packages from GitHub and install them with pip in editable mode:
 
 .. code-block:: bash
 
