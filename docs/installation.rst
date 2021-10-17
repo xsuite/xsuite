@@ -12,26 +12,37 @@ We assume that you have a recent python installation (python 3.7+). It this is n
 Basic installation
 ==================
 
-The Xsuite packages can be cloned from GitHub and installed with pip:
+The Xsuite packages can be installed using pip:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/xsuite/xobjects
-    $ pip install -e xobjects
+    pip install xsuite
 
-    $ git clone https://github.com/xsuite/xline
-    $ pip install -e xline
+This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
-    $ git clone https://github.com/xsuite/xpart
-    $ pip install -e xpart
 
-    $ git clone https://github.com/xsuite/xtrack
-    $ pip install -e xtrack
+Developer installation
+======================
 
-    $ git clone https://github.com/xsuite/xfields
-    $ pip install -e xfields
+The Xsuite packages can be cloned from GitHub and installed with pip in editable mode:
 
-(The installation without the ``-e`` option is still untested).
+.. code-block:: bash
+
+    git clone https://github.com/xsuite/xobjects
+    pip install -e xobjects
+
+    git clone https://github.com/xsuite/xline
+    pip install -e xline
+
+    git clone https://github.com/xsuite/xpart
+    pip install -e xpart
+
+    git clone https://github.com/xsuite/xtrack
+    pip install -e xtrack
+
+    git clone https://github.com/xsuite/xfields
+    pip install -e xfields
+
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
