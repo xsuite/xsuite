@@ -29,12 +29,10 @@ os.system(
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
-sys.path.insert(0, os.path.abspath('./xline'))
 sys.path.insert(0, os.path.abspath('./xpart'))
 import xobjects
 import xfields
 import xtrack
-import xline
 import xpart
 
 # -- General configuration ------------------------------------------------
