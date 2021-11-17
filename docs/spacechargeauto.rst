@@ -18,7 +18,6 @@ We import all the required modules
     import numpy as np
 
     import xobjects as xo
-    import xline as xl
     import xpart as xp
     import xtrack as xt
     import xfields as xf
