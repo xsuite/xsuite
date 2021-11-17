@@ -31,9 +31,6 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
     git clone https://github.com/xsuite/xobjects
     pip install -e xobjects
 
-    git clone https://github.com/xsuite/xline
-    pip install -e xline
-
     git clone https://github.com/xsuite/xpart
     pip install -e xpart
 
@@ -82,7 +79,7 @@ Installation of cupy
 --------------------
 
 In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be installed.
-In Anacoda or Miniconda (if you don't have Anaconda or Miniconda, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
+In Anaconda or Miniconda (if you don't have Anaconda or Miniconda, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
 this can be done as follows for example for CUDA version 10.1.243:
 
 .. code-block:: bash

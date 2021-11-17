@@ -74,9 +74,6 @@ A numerical reproducible environment can be installed using the following instru
     git clone https://github.com/xsuite/xobjects
     pip install -e xobjects
 
-    git clone https://github.com/xsuite/xline
-    pip install -e xline
-
     git clone https://github.com/xsuite/xpart
     pip install -e xpart
 
