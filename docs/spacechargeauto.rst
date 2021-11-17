@@ -40,7 +40,7 @@ For this example we load from the `SPS Xtrack test_data folder <https://github.c
     with open(fname_optics, 'r') as fid:
         co_opt_dict = json.load(fid)
 
-    sequence = xl.Line.from_dict(seq_dict['line'])
+    line = xt.Line.from_dict(seq_dict['line'])
     part_on_co = xp.Particles.from_dict(co_opt_dict['particle_on_madx_co'])
     RR = np.array(co_opt_dict['RR_madx']) # Linear one-turn matrix
 
@@ -70,12 +70,12 @@ We use the Xfields functions ``replace_spaceharge_with_quasi_frozen`` or ``repla
         pass # Already configured in line
     elif mode == 'quasi-frozen':
         xf.replace_spaceharge_with_quasi_frozen(
-                    sequence, _buffer=context.new_buffer(),
+                    line, _buffer=context.new_buffer(),
                     update_mean_x_on_track=True,
                     update_mean_y_on_track=True)
     elif mode == 'pic':
         pic_collection, all_pics = xf.replace_spaceharge_with_PIC(
-                    _context=context, sequence=sequence,
+                    _context=context, line=line,
                     n_sigmas_range_pic_x=8,
                     n_sigmas_range_pic_y=8,
                     nx_grid=256, ny_grid=256, nz_grid=100,
