@@ -18,15 +18,15 @@ A simple tracking simulation can be configured and executed with the following p
     import numpy as np
 
     import xobjects as xo
-    import xline as xl
     import xtrack as xt
+    import xpart as xp
 
     ## Generate a simple sequence
-    sequence = xl.Line(
-        elements=[xl.Drift(length=2.),
-                  xl.Multipole(knl=[0, 1.], ksl=[0,0]),
-                  xl.Drift(length=1.),
-                  xl.Multipole(knl=[0, -1.], ksl=[0,0])],
+    line = xt.Line(
+        elements=[xt.Drift(length=2.),
+                  xt.Multipole(knl=[0, 1.], ksl=[0,0]),
+                  xt.Drift(length=1.),
+                  xt.Multipole(knl=[0, -1.], ksl=[0,0])],
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
     ## Choose a context
@@ -35,11 +35,11 @@ A simple tracking simulation can be configured and executed with the following p
     # context = xo.ContextPyopencl()  # For OpenCL GPUs
 
     ## Transfer lattice on context and compile tracking code
-    tracker = xt.Tracker(_context=context, sequence=sequence)
+    tracker = xt.Tracker(_context=context, line=line)
 
     ## Build particle object on context
     n_part = 200
-    particles = xt.Particles(_context=context,
+    particles = xp.Particles(_context=context,
                             p0c=6500e9,
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),
@@ -56,7 +56,7 @@ A simple tracking simulation can be configured and executed with the following p
 
     ## Turn-by-turn data is available at:
     tracker.record_last_track.x
-    tracker.record_last_track.px 
+    tracker.record_last_track.px
     # etc...
 
 
