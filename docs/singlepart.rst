@@ -65,16 +65,16 @@ Step-by-step description
 ========================
 
 In this sections we will discussed in some more detail the difference steps outlined in the example above.
-    
+
 Getting the Xline machine model
 -------------------------------
 
 The first step to perform a tracking simulation consists in creating or importing the lattice description of a ring or a beam line. 
 
-This is done with the Xline package, which allows:
+This is done with the Line class, which allows:
 
  - creating a lattice directly in python script
- - importing the lattice from a MAD-X model 
+ - importing the lattice from a MAD-X model
  - importing the lattice from a set of Sixtrack input files (fort.2, fort.3, etc.)
 
 These three options will be briefly described in the following.
@@ -83,62 +83,62 @@ We can create a simple lattice in python as follows:
 
 .. code-block:: python
 
-    import xline as xl
+    import xtrack as xt
 
-    sequence = xl.Line(
-        elements=[xl.Drift(length=2.),
-                  xl.Multipole(knl=[0, 1.], ksl=[0,0]),
-                  xl.Drift(length=1.),
-                  xl.Multipole(knl=[0, -1.], ksl=[0,0])], 
+    line = xt.Line(
+        elements=[xt.Drift(length=2.),
+                  xt.Multipole(knl=[0, 1.], ksl=[0,0]),
+                  xt.Drift(length=1.),
+                  xt.Multipole(knl=[0, -1.], ksl=[0,0])], 
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
 The lattice can be manipulated in python after its creation. For example we can change the strength of the first quadrupole as follows:
 
 .. code-block:: python
 
-    q1 = sequence.elements[1]
+    q1 = line.elements[1]
     q1.knl = 2.
 
-Importing a MAD-X lattice 
+Importing a MAD-X lattice
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Xline can import a MAD-X lattice using the `cpymad`_ interface of MAD-X.
+Xtrack can import a MAD-X lattice using the `cpymad`_ interface of MAD-X.
 
 .. _cpymad: http://hibtc.github.io/cpymad/
 
-Assuming that we have a MAD-X script called ``myscript.madx`` that creates and manipulates (e.g. matches) a thin sequence called "lhcb1", we can execute the script using cpymad and import transform the sequence into and Xline object using the following instructions:
+Assuming that we have a MAD-X script called ``myscript.madx`` that creates and manipulates (e.g. matches) a thin sequence called "lhcb1", we can execute the script using cpymad and import transform the sequence into and Xtrack Line object using the following instructions:
 
 .. code-block:: python
 
-    import xline as xl
+    import xtrack as xt
     from cpymad.madx import Madx
-    
-    mad = Madx()    
+
+    mad = Madx()
     mad.call("mad/lhcwbb.seq")
-    
-    line = xl.Line.from_madx_sequence(mad.sequence['lhcb1'])
+
+    line = xt.Line.from_madx_sequence(mad.sequence['lhcb1'])
 
 Importing lattice from sixtrack input
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Xline can import a lattice from a set of sixtrack input files using the sixtracktools package.
-    
+Xtrack can import a lattice from a set of sixtrack input files using the sixtracktools package.
+
 Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder called ``sixtrackfiles`` we can import the lattice using the following instructions:
 
 .. code-block:: python
 
-    import xline as xl
+    import xtrack as xt
     import sixtracktools as st
 
-    sequence = xl.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
+    sequence = xt.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
 
 
-Once a Xline lattice is available, it can be used to track particles CPU or GPU.
+Once a Xtrack lattice is available, it can be used to track particles CPU or GPU.
 
 Create a Context (CPU or GPU)
 -----------------------------
 
-The first step consists in choosing the hardware on which the simulation will run as xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the hardware to be used by
+To run tracking simulations with the created lattice, we need to choose the hardware on which the simulation will run as xsuite can run on different kinds of hardware (CPUs and GPUs). The user selects the hardware to be used by
 creating a :doc:`context object <contexts>`, that is then passed to all other Xsuite components.
 
 To run on conventional CPUs you need the context is created with the following instructions:
@@ -162,12 +162,12 @@ Similarly to run on GPUs using cupy or pyopenl you can use one of the following:
 Create an Xtrack tracker object
 -------------------------------
 
-An Xtrack tracker object needs to be created to track particles on the chosen computing platform (defined by the context) using the Xline sequence created or imported as described above:
+An Xtrack tracker object needs to be created to track particles on the chosen computing platform (defined by the context) using the Xtrack line created or imported as described above:
 
 .. code-block:: python
 
     import xtrack as xt
-    tracker = xt.Tracker(_context=context, sequence=sequence)
+    tracker = xt.Tracker(_context=context, line=line)
 
 This step transfers the machine model to the required platform and compiles the required tracking code.
 
@@ -178,9 +178,11 @@ The particles to be tracked can be allocated on the chosen platform using the fo
 
 .. code-block:: python
 
+    import xpart as xp
+
     import numpy as np
     n_part = 100
-    particles = xt.Particles(_context=context,
+    particles = xp.Particles(_context=context,
                             p0c=6500e9,
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),
