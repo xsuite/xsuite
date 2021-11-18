@@ -60,7 +60,7 @@ We choose the hardware on which we want to run by buildind an Xobjects context:
 Configuration quasi-frozen or PIC space-charge elements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We use the Xfields functions ``replace_spaceharge_with_quasi_frozen`` or ``replace_spaceharge_with_PIC`` to replace the frozen space-charge lenses with PIC or quasi-frozen collective elements:
+We use the Xfields functions ``replace_spacecharge_with_quasi_frozen`` or ``replace_spacecharge_with_PIC`` to replace the frozen space-charge lenses with PIC or quasi-frozen collective elements:
 
 .. code-block:: python
 
@@ -69,12 +69,12 @@ We use the Xfields functions ``replace_spaceharge_with_quasi_frozen`` or ``repla
     if mode == 'frozen':
         pass # Already configured in line
     elif mode == 'quasi-frozen':
-        xf.replace_spaceharge_with_quasi_frozen(
+        xf.replace_spacecharge_with_quasi_frozen(
                     line, _buffer=context.new_buffer(),
                     update_mean_x_on_track=True,
                     update_mean_y_on_track=True)
     elif mode == 'pic':
-        pic_collection, all_pics = xf.replace_spaceharge_with_PIC(
+        pic_collection, all_pics = xf.replace_spacecharge_with_PIC(
                     _context=context, line=line,
                     n_sigmas_range_pic_x=8,
                     n_sigmas_range_pic_y=8,
