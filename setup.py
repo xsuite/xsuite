@@ -22,7 +22,6 @@ setup(
     install_requires=[
         'numpy>=1.0',
         'xobjects',
-        'xline',
         'xtrack',
         'xfields',
         'xpart'

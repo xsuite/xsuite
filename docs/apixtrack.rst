@@ -10,6 +10,14 @@ Xtrack API
 .. contents:: Table of Contents
     :depth: 4
 
+Line
+====
+
+.. autoclass:: xtrack.Line
+    :members:
+    :undoc-members:
+    :member-order: bysource
+
 
 Tracker
 =======
