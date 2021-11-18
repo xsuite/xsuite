@@ -9,3 +9,5 @@ The particle class
     :members:
     :undoc-members:
     :member-order: bysource
+
+.. autofunction:: xpart.build_particles
