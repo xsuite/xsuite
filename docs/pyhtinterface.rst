@@ -15,7 +15,7 @@ PyHEADTAIL elements cannot be natively used by an Xsuite tracker due to differen
     import xpart as xp
     xp.enable_pyheadtail_interface()
 
-    fname_sequence = '../../test_data/lhc_no_bb/line_and_particle.json'
+    fname_line = '../../test_data/lhc_no_bb/line_and_particle.json'
     num_turns = int(100)
     n_part = 200
 
@@ -25,11 +25,11 @@ PyHEADTAIL elements cannot be natively used by an Xsuite tracker due to differen
 
     context = xo.ContextCpu()
 
-    ##################
-    # Get a sequence #
-    ##################
+    ##############
+    # Get a line #
+    ##############
 
-    with open(fname_sequence, 'r') as fid:
+    with open(fname_line, 'r') as fid:
         input_data = json.load(fid)
     line = xt.Line.from_dict(input_data['line'])
 
@@ -39,7 +39,7 @@ PyHEADTAIL elements cannot be natively used by an Xsuite tracker due to differen
 
     from PyHEADTAIL.feedback.transverse_damper import TransverseDamper
     damper = TransverseDamper(dampingrate_x=10., dampingrate_y=15.)
-    sequence.append_element(damper, 'Damper')
+    line.append_element(damper, 'Damper')
 
     ##################
     # Build TrackJob #

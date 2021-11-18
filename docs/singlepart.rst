@@ -21,7 +21,7 @@ A simple tracking simulation can be configured and executed with the following p
     import xtrack as xt
     import xpart as xp
 
-    ## Generate a simple sequence
+    ## Generate a simple line
     line = xt.Line(
         elements=[xt.Drift(length=2.),
                   xt.Multipole(knl=[0, 1.], ksl=[0,0]),
@@ -130,7 +130,7 @@ Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder 
     import xtrack as xt
     import sixtracktools as st
 
-    sequence = xt.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
+    line = xt.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
 
 
 Once a Xtrack lattice is available, it can be used to track particles CPU or GPU.

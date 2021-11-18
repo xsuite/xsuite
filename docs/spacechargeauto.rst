@@ -29,18 +29,18 @@ For this example we load from the `SPS Xtrack test_data folder <https://github.c
 
 .. code-block:: python
 
-    fname_sequence = ('xtrack/test_data/sps_w_spacecharge/'
+    fname_line = ('xtrack/test_data/sps_w_spacecharge/'
                     'line_with_spacecharge_and_particle.json')
 
     fname_optics = ('xtrack/test_data/sps_w_spacecharge/'
                     'optics_and_co_at_start_ring.json')
 
-    with open(fname_sequence, 'r') as fid:
-        seq_dict = json.load(fid)
+    with open(fname_line, 'r') as fid:
+        line_dict = json.load(fid)
     with open(fname_optics, 'r') as fid:
         co_opt_dict = json.load(fid)
 
-    line = xt.Line.from_dict(seq_dict['line'])
+    line = xt.Line.from_dict(line_dict['line'])
     part_on_co = xp.Particles.from_dict(co_opt_dict['particle_on_madx_co'])
     RR = np.array(co_opt_dict['RR_madx']) # Linear one-turn matrix
 
@@ -94,9 +94,9 @@ We build an Xtrack tracker:
 .. code-block:: python
 
     tracker = xt.Tracker(_context=context,
-                        sequence=sequence)
+                        line=line)
 
-As discussed :doc:`here <collective>`, the tracker is built in such a way that particles are tracked asynchronously by separate threads in the non-collective sections of the sequence and are regrouped at each collescive element (in our case the PIC or quasi-forzen space-charge lenses).
+As discussed :doc:`here <collective>`, the tracker is built in such a way that particles are tracked asynchronously by separate threads in the non-collective sections of the sequence and are regrouped at each collective element (in our case the PIC or quasi-forzen space-charge lenses).
 
 
 Generation of matched particle set

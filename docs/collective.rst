@@ -73,7 +73,7 @@ To decide whether or not an element needs to be treated as collective, the track
     print(spcharge.iscollective)
     # Gives "True"
 
-Based in this information the sequence is devided in parts that are either collective elements or xtrack trackers simulating groups of consecutive non-collective elements.
+Based in this information the line is divided in parts that are either collective elements or xtrack trackers simulating groups of consecutive non-collective elements.
 
 We can visualize this in our example:
 
@@ -85,7 +85,7 @@ We can visualize this in our example:
     #  <xfields.beam_elements.spacecharge.SpaceChargeBiGaussian object at 0x7f5ba8e1bd30>,
     #  <xtrack.tracker.Tracker object at 0x7f5ba8ce7610>]
 
-where the first part tracks the particles through to the first potion of the machine up to the space-charge element, the second part simulates the space-charge interaction, the third part trackes the particles from the space-charge element to the end of the sequence.
+where the first part tracks the particles through to the first potion of the machine up to the space-charge element, the second part simulates the space-charge interaction, the third part tracks the particles from the space-charge element to the end of the line.
 
 As all xsuite and xsuite-compatible beam elements need to expose a ``.track`` method the instruction:
 
