@@ -16,7 +16,7 @@ Most relevant changes to the interface are the following:
  - The xline package is removed
      - The class ``xline.Line`` is replaced by ``xtrack.Line`` for the creation and import of machine lattices (see :doc:`singlepart`).
      - Beam elements are created using directly the xtrack classes (``xtrack.Drift``, ``xtrack.Multipole``, ``xtrack.Cavity``, etc.) instead of of the xline ones (``xline.Drift``, ``xline.Multipole``, ``xtrack.Cavity``).
- - There is only one Particles class within Xsuite, which can be imported from xpart package. Therefore ``xline.Partices`` and ``xtrack.Particles`` should be replaced by ``xpart.Particles``.
+ - There is only one Particles class within Xsuite, which can be imported from xpart package. Therefore ``xline.Particles`` and ``xtrack.Particles`` should be replaced by ``xpart.Particles``.
  - The ``sequence`` argument of the tracker class was renamed ``line`` to be consistent with the naming used elsewhere.
  - The PyHEADTAIL interface is moved from xtrack to xpart (see :doc:`pyhtinterface`)
  - The random number generators are moved from xtrack to xpart.
