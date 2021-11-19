@@ -21,8 +21,8 @@ Most relevant changes to the interface are the following:
  - The PyHEADTAIL interface is moved from xtrack to xpart (see :doc:`pyhtinterface`)
  - The random number generators are moved from xtrack to xpart.
 
-Changes to the interface
-========================
+New features
+============
 
  - The ``xtrack.Tracker`` class has new methods for closed-orbit search and one-turn-matrix calculation with finite differences.
  - Added ``xpart.build_particles`` function allowing to build a particles object from a reference particles plus arrays with geometric or normalized coordinates.
