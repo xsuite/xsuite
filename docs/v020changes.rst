@@ -20,6 +20,13 @@ Most relevant changes to the interface are the following:
  - The ``sequence`` argument of the tracker class was renamed ``line`` to be consistent with the naming used elsewhere.
  - The PyHEADTAIL interface is moved from xtrack to xpart (see :doc:`pyhtinterface`)
  - The random number generators are moved from xtrack to xpart.
+ - The method ``xtrack.Line.from_json`` has been removed. A line can be loaded from a json file by:
+
+.. code-block:: python
+
+    import json
+    with open(''line.json", "r") as fid:
+        line = xtrack.Line.from_dict(json.load(fid))
 
 New features
 ============
