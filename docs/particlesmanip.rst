@@ -25,8 +25,10 @@ Example 3: Pencil beam
 ----------------------
 
 .. figure:: figures/pencil.png
-    :width: 100%
+    :width: 75%
     :align: center
+
+    Particle distribution in normalized coordinates (left) and physical coordinates(right). 
 
 
 Building particles with the Particles class
