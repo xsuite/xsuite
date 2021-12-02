@@ -23,12 +23,14 @@ Example 2: Halo beam
 
 Example 3: Pencil beam
 ----------------------
+.. literalinclude:: xpart/examples/003_pencil.py
+   :language: python
 
 .. figure:: figures/pencil.png
     :width: 75%
     :align: center
 
-    Particle distribution in normalized coordinates (left) and physical coordinates(right). 
+    Particle distribution in normalized coordinates (left) and physical coordinates(right).
 
 
 Building particles with the Particles class

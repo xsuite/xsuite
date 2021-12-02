@@ -35,6 +35,20 @@ import xfields
 import xtrack
 import xpart
 
+### GENERATE code snippets
+snippet_files = {'xpart/examples/003_pencil.py': 'generated_code_snippets/pencil.py'}
+
+for ss, tt in snippet_files.items():
+    with open(ss, 'r') as fid:
+        cc = fid.read()
+
+    cc.split('#!end-doc-part')[0]
+    cc.strip()
+
+    with open(tt, 'w') as fid:
+        fid.write(cc)
+
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
