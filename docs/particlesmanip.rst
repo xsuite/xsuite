@@ -24,9 +24,9 @@ Example 2: Halo beam
 Example 3: Pencil beam
 ----------------------
 
-.. image:: figures/pencil.png
-  :width: 400
-  :alt: Alternative text
+.. figure:: figures/pencil.png
+    :scale: 100%
+    :align: center
 
 
 Building particles with the Particles class
