@@ -39,7 +39,10 @@ import xpart
 snippet_files = {
     'xpart/examples/particles_generation/003_pencil.py': 'generated_code_snippets/pencil.py',
     'xpart/examples/particles_generation/002_halo.py': 'generated_code_snippets/halo.py',
-    'xpart/examples/particles_generation/006_save_load.py': 'generated_code_snippets/save_load.py',
+    'xpart/examples/save_and_load/000_to_from_dict.py': 'generated_code_snippets/to_from_dict.py',
+    'xpart/examples/save_and_load/001_save_load_json.py': 'generated_code_snippets/save_load_json.py',
+    'xpart/examples/save_and_load/002_save_load_pickle.py': 'generated_code_snippets/save_load_pickle.py',
+    'xpart/examples/save_and_load/003_save_load_with_pandas.py': 'generated_code_snippets/save_load_with_pandas.py',
     }
 
 for ss, tt in snippet_files.items():
