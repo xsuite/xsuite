@@ -23,6 +23,12 @@ Example 2: Halo beam
 .. literalinclude:: generated_code_snippets/halo.py
    :language: python
 
+.. figure:: figures/halo.png
+    :width: 75%
+    :align: center
+
+    Particle distribution in normalized coordinates (left) and physical coordinates (right).
+
 Example 3: Pencil beam
 ----------------------
 
