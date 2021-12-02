@@ -43,7 +43,7 @@ for ss, tt in snippet_files.items():
         cc = fid.read()
 
     cc = cc.split('#!end-doc-part')[0]
-    cc.strip()
+    cc = cc.strip()
 
     with open(tt, 'w') as fid:
         fid.write(cc)
