@@ -7,6 +7,7 @@
 
    installation
    singlepart
+   perticlemanip
    collective
    spacechargeauto
    pyhtinterface
