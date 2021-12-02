@@ -25,7 +25,7 @@ Example 3: Pencil beam
 ----------------------
 
 .. figure:: figures/pencil.png
-    :scale: 100%
+    :width: 100%
     :align: center
 
 
