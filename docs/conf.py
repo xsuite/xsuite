@@ -36,7 +36,10 @@ import xtrack
 import xpart
 
 ### GENERATE code snippets
-snippet_files = {'xpart/examples/003_pencil.py': 'generated_code_snippets/pencil.py'}
+snippet_files = {
+    'xpart/examples/003_pencil.py': 'generated_code_snippets/pencil.py',
+    'xpart/examples/002_halo.py': 'generated_code_snippets/halo.py',
+    }
 
 for ss, tt in snippet_files.items():
     with open(ss, 'r') as fid:

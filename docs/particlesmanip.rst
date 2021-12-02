@@ -20,9 +20,12 @@ Example 1: Gaussian bunch
 
 Example 2: Halo beam
 --------------------
+.. literalinclude:: generated_code_snippets/halo.py
+   :language: python
 
 Example 3: Pencil beam
 ----------------------
+
 .. literalinclude:: generated_code_snippets/pencil.py
    :language: python
 
