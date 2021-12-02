@@ -10,9 +10,15 @@ Generation and manipulation of Particles objects
 Introduction
 ============
 
+Building particles with the Particles class
+===========================================
+
 
 Generating particles distributions
 ==================================
+
+The ``build_particles`` function
+--------------------------------
 
 
 Example 1: Gaussian bunch
@@ -42,8 +48,7 @@ Example 3: Pencil beam
     Particle distribution in normalized coordinates (left) and physical coordinates (right).
 
 
-Building particles with the Particles class
-===========================================
+
 
 Saving and loading Particles objects from dictionary or file
 =============================================================
@@ -51,9 +56,14 @@ Saving and loading Particles objects from dictionary or file
 .. literalinclude:: generated_code_snippets/save_load.py
    :language: python
 
+Other actions
+=============
+
 Merging particles objects
-=========================
+-------------------------
 
-Filtering particles objects
-===========================
+Filtering a particles object
+----------------------------
 
+Copying a particles object to a different context
+-------------------------------------------------
