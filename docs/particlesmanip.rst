@@ -23,7 +23,7 @@ Example 2: Halo beam
 
 Example 3: Pencil beam
 ----------------------
-.. literalinclude:: xpart/examples/003_pencil.py
+.. literalinclude:: generated_code_snippets/pencil.py
    :language: python
 
 .. figure:: figures/pencil.png
