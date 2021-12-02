@@ -53,14 +53,26 @@ Example 3: Pencil beam
 Saving and loading Particles objects from dictionary or file
 =============================================================
 
+Save and load from dictionary
+-----------------------------
+
 .. literalinclude:: generated_code_snippets/to_from_dict.py
    :language: python
+
+Save and load from json file
+-----------------------------
 
 .. literalinclude:: generated_code_snippets/save_load_json.py
    :language: python
 
+Save and load from pickle file
+------------------------------
+
 .. literalinclude:: generated_code_snippets/save_load_pickle.py
    :language: python
+
+Save and load using pandas
+--------------------------
 
 .. literalinclude:: generated_code_snippets/save_load_with_pandas.py
    :language: python
