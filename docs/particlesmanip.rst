@@ -19,10 +19,10 @@ Example 1: Gaussian bunch
 -------------------------
 
 Example 2: Halo beam
--------------------------
+--------------------
 
 Example 3: Pencil beam
--------------------------
+----------------------
 
 
 Building particles with the Particles class
