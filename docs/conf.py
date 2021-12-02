@@ -39,6 +39,7 @@ import xpart
 snippet_files = {
     'xpart/examples/003_pencil.py': 'generated_code_snippets/pencil.py',
     'xpart/examples/002_halo.py': 'generated_code_snippets/halo.py',
+    'xpart/examples/006_save_load.py': 'generated_code_snippets/save_load.py',
     }
 
 for ss, tt in snippet_files.items():

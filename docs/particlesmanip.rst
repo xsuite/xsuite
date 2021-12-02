@@ -48,6 +48,9 @@ Building particles with the Particles class
 Saving and loading Particles objects from dictionary or file
 =============================================================
 
+.. literalinclude:: generated_code_snippets/save_load.py
+   :language: python
+
 Merging particles objects
 =========================
 
