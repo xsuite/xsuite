@@ -37,6 +37,7 @@ import xpart
 
 ### GENERATE code snippets
 snippet_files = {
+    'xpart/examples/particles_generation/000_basics.py': 'generated_code_snippets/basics_part.py',
     'xpart/examples/particles_generation/003_pencil.py': 'generated_code_snippets/pencil.py',
     'xpart/examples/particles_generation/002_halo.py': 'generated_code_snippets/halo.py',
     'xpart/examples/save_and_load/000_to_from_dict.py': 'generated_code_snippets/to_from_dict.py',
