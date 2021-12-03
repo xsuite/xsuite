@@ -37,13 +37,26 @@ import xpart
 
 ### GENERATE code snippets
 snippet_files = {
-    'xpart/examples/particles_generation/000_basics.py': 'generated_code_snippets/basics_part.py',
-    'xpart/examples/particles_generation/003_pencil.py': 'generated_code_snippets/pencil.py',
-    'xpart/examples/particles_generation/002_halo.py': 'generated_code_snippets/halo.py',
-    'xpart/examples/save_and_load/000_to_from_dict.py': 'generated_code_snippets/to_from_dict.py',
-    'xpart/examples/save_and_load/001_save_load_json.py': 'generated_code_snippets/save_load_json.py',
-    'xpart/examples/save_and_load/002_save_load_pickle.py': 'generated_code_snippets/save_load_pickle.py',
-    'xpart/examples/save_and_load/003_save_load_with_pandas.py': 'generated_code_snippets/save_load_with_pandas.py',
+    'xpart/examples/particles_generation/000_basics.py':
+        'generated_code_snippets/basics_part.py',
+    'xpart/examples/particles_generation/001a_build_particles_set.py':
+        'generated_code_snippets/build_particles_set.py',
+    'xpart/examples/particles_generation/001b_build_particles_shift.py':
+        'generated_code_snippets/build_particles_shift.py',
+    'xpart/examples/particles_generation/001c_build_particles_normalized.py':
+        'generated_code_snippets/build_particles_normalized.pyy',
+    'xpart/examples/particles_generation/003_pencil.py':
+        'generated_code_snippets/pencil.py',
+    'xpart/examples/particles_generation/002_halo.py':
+        'generated_code_snippets/halo.py',
+    'xpart/examples/save_and_load/000_to_from_dict.py':
+        'generated_code_snippets/to_from_dict.py',
+    'xpart/examples/save_and_load/001_save_load_json.py':
+        'generated_code_snippets/save_load_json.py',
+    'xpart/examples/save_and_load/002_save_load_pickle.py':
+        'generated_code_snippets/save_load_pickle.py',
+    'xpart/examples/save_and_load/003_save_load_with_pandas.py':
+        'generated_code_snippets/save_load_with_pandas.py',
     }
 
 for ss, tt in snippet_files.items():

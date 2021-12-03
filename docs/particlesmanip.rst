@@ -24,6 +24,14 @@ Generating particles distributions
 The ``build_particles`` function
 --------------------------------
 
+.. literalinclude:: generated_code_snippets/build_particles_set.py
+   :language: python
+
+.. literalinclude:: generated_code_snippets/build_particles_shift.py
+   :language: python
+
+.. literalinclude:: generated_code_snippets/build_particles_normalized.py
+   :language: python
 
 Example 1: Gaussian bunch
 -------------------------
