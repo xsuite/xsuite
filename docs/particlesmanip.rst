@@ -95,6 +95,9 @@ Other actions
 Merging particles objects
 -------------------------
 
+.. literalinclude:: generated_code_snippets/merge.py
+   :language: python
+
 Filtering a particles object
 ----------------------------
 

@@ -57,6 +57,8 @@ snippet_files = {
         'generated_code_snippets/save_load_pickle.py',
     'xpart/examples/save_and_load/003_save_load_with_pandas.py':
         'generated_code_snippets/save_load_with_pandas.py',
+    'xpart/examples/merge_and_filter/000_merge.py':
+        'generated_code_snippets/merge.py',
     }
 
 for ss, tt in snippet_files.items():
