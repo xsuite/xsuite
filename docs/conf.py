@@ -44,7 +44,7 @@ snippet_files = {
     'xpart/examples/particles_generation/001b_build_particles_shift.py':
         'generated_code_snippets/build_particles_shift.py',
     'xpart/examples/particles_generation/001c_build_particles_normalized.py':
-        'generated_code_snippets/build_particles_normalized.pyy',
+        'generated_code_snippets/build_particles_normalized.py',
     'xpart/examples/particles_generation/003_pencil.py':
         'generated_code_snippets/pencil.py',
     'xpart/examples/particles_generation/002_halo.py':
