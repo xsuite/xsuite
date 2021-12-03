@@ -55,7 +55,6 @@ for ss, tt in snippet_files.items():
     with open(tt, 'w') as fid:
         fid.write(cc)
 
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
