@@ -10,7 +10,7 @@ Generation and manipulation of Particles objects
 Introduction
 ============
 
-... The :class:xpart.Particles ...
+... The :class:`xpart.Particles` ...
 
 Building particles with the Particles class
 ===========================================
