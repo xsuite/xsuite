@@ -201,10 +201,16 @@ Merging and filtering Particles objects
 Merging Particles objects
 -------------------------
 
+The ``merge`` method can be used to merge Particles objects as shown by the
+following example:
+
 .. literalinclude:: generated_code_snippets/merge.py
    :language: python
 
 Filtering a Particles object
 ----------------------------
+The ``filter`` method can be used to select a subset of particles satisfying a
+logical condition defined by the user.
+
 .. literalinclude:: generated_code_snippets/filter.py
    :language: python
