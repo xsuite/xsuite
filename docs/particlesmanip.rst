@@ -41,15 +41,23 @@ The ``build_particles`` function
 It is often convenient to generate new Particles objects starting from a given
 reference particle which defines for example the particle type (charge and mass)
 and the reference energy and momentum with respect to which the coordinates.
-This can be accomplished using the :meth:`xpart.build_particles` function.
+This can be accomplished using the :meth:`xpart.build_particles` function, which
+features different modes as illustrated in the following.
 
-By default only reference quantities including mass0, q0, p0c, gamma0, etc. are
+The ``set`` mode
+----------------
+
+By default, or if ``mode="set"`` is passed to the function only reference
+quantities including mass0, q0, p0c, gamma0, etc. are
 taken from the provided reference particle. Particles coordinates, instead, are
 set according to the provided input x, px, y, py, zeta, delta (with zero assumed
 as default for these variables). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
+
+The ``shift`` mode
+------------------
 
 If ``mode="shift"`` is passed to the function, reference quantities including
 mass0, q0, p0c, gamma0, etc. are taken from the provided reference particle,
@@ -59,6 +67,20 @@ as default for these variables). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_shift.py
    :language: python
+
+The ``normalized_transverse`` mode
+----------------------------------
+
+If ``mode=normalized_transverse"`` is passed to the function or if any of the
+input `x_norm`, `px_norm`, `y_norm`, `py_norm` is provided, the transverse
+coordinates are computed from normalized values `x_norm`, `px_norm`, `y_norm`,
+`py_norm` (with zero assumed as default for these variables) using the
+closed-orbit information and the linear transfer map obtained from the `tracker`
+argument or provided by the user. Reference quantities including mass0,
+q0, p0c, gamma0, etc. are taken from the provided reference
+particle. The longitudinal coordinates are set according to the
+provided input `zeta`, `delta` (zero is assumed as default value
+for these variables). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_normalized.py
    :language: python
