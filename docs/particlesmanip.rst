@@ -34,15 +34,14 @@ created directly with the :class:`xpart.Particles` calls. For example:
 .. literalinclude:: generated_code_snippets/basics_part.py
    :language: python
 
-Generating particles distributions
-==================================
 
 The ``build_particles`` function
---------------------------------
+================================
 
-It is often convenient to generate a Particles example starting from a given
+It is often convenient to generate new Particles objects starting from a given
 reference particle which defines for example the particle type (charge and mass)
-and the reference energy and momentum with respect to which the coordinates
+and the reference energy and momentum with respect to which the coordinates.
+This can be accomplished using the :meth:`xpart.build_particles` function.
 
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
@@ -52,6 +51,9 @@ and the reference energy and momentum with respect to which the coordinates
 
 .. literalinclude:: generated_code_snippets/build_particles_normalized.py
    :language: python
+
+Generating particles distributions
+==================================
 
 Example: Pencil beam
 ----------------------
