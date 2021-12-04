@@ -168,6 +168,9 @@ transforming a Particles object to or from a dictionary or a pandas dataframe.
 By default the particles coordinates are transferred to CPU whe using
 ``to_dict`` or ``to_pandas``.
 
+Such methods can be used to save or load particles coordinated to/from file as 
+shown by the following examples:
+
 Save and load from dictionary
 -----------------------------
 
