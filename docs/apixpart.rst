@@ -23,15 +23,27 @@ The ``build_particles`` function
 Longitudinal coordinates generation
 ===================================
 
-.. autofunction::xpart.generate_longitudinal_coordinates
+.. autofunction:: xpart.generate_longitudinal_coordinates
 
 Normalized transverse coordinates generation
 ============================================
 
-.. autofunction::xpart.generate_2D_polar_grid
+Gaussian
+--------
 
-.. autofunction::xpart.generate_2D_uniform_circular_sector
+.. autofunction:: xpart.generate_2D_gaussian
 
-.. autofunction::xpart.generate_2D_pencil
+Polar grid
+----------
 
-.. autofunction::xpart.generate_2D_gaussian
+.. autofunction:: xpart.generate_2D_polar_grid
+
+Uniform circular sector
+-----------------------
+
+.. autofunction:: xpart.generate_2D_uniform_circular_sector
+
+Pencil
+------
+
+.. autofunction:: xpart.generate_2D_pencil
