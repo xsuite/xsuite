@@ -10,7 +10,19 @@ Generation and manipulation of Particles objects
 Introduction
 ============
 
-... The :class:`xpart.Particles` ...
+Collections of particles for tracking simulations are generated in Xsuite using
+the xpart modules. Such collections are stored as instances of the
+:class:`xpart.Particles` class.
+
+The following sections illustrate:
+
+ - How to create Particles objects on CPU or GPU, providing the coordinates in
+ the form of arrays or using the xpart generators to generated specific
+ distributions (e.g. Gaussian, halo, pencil).
+ - How to copy Particles objects (optionally across contexts, e.g GPU to CPU)
+ - How to merge Particles objects
+ - How to filter Particles objects to select a subset of particles satisfying a
+ logical condition defined by the user.
 
 Building particles with the Particles class
 ===========================================
