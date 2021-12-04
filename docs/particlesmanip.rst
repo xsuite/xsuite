@@ -152,6 +152,10 @@ by the following example:
 Copying a Particles object (optionally across contexts)
 =======================================================
 
+The ``copy`` method can be used to make copies of a Particles object within the
+same context or in another context. It can be used for example to transfer
+Particles objects to/from GPU, as shown by the following example:
+
 .. literalinclude:: generated_code_snippets/copy.py
    :language: python
 

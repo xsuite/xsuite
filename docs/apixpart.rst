@@ -47,3 +47,8 @@ Pencil
 ------
 
 .. autofunction:: xpart.generate_2D_pencil
+
+Gaussian bunch generation (6D)
+==============================
+
+.. autofunction:: xpart.generate_matched_gaussian_bunch
