@@ -33,27 +33,7 @@ The ``build_particles`` function
 .. literalinclude:: generated_code_snippets/build_particles_normalized.py
    :language: python
 
-Example 1: Gaussian bunch
--------------------------
-.. literalinclude:: generated_code_snippets/gaussian.py
-   :language: python
-
-.. figure:: figures/gaussian.png
-    :width: 75%
-    :align: center
-
-Example 2: Halo beam
---------------------
-.. literalinclude:: generated_code_snippets/halo.py
-   :language: python
-
-.. figure:: figures/halo.png
-    :width: 75%
-    :align: center
-
-    Particle distribution in normalized coordinates (left) and physical coordinates (right).
-
-Example 3: Pencil beam
+Example: Pencil beam
 ----------------------
 
 .. literalinclude:: generated_code_snippets/pencil.py
@@ -64,6 +44,27 @@ Example 3: Pencil beam
     :align: center
 
     Particle distribution in normalized coordinates (left) and physical coordinates (right).
+
+Example: Halo beam
+--------------------
+.. literalinclude:: generated_code_snippets/halo.py
+   :language: python
+
+.. figure:: figures/halo.png
+    :width: 75%
+    :align: center
+
+    Particle distribution in normalized coordinates (left) and physical coordinates (right).
+
+Example: Gaussian bunch
+-------------------------
+.. literalinclude:: generated_code_snippets/gaussian.py
+   :language: python
+
+.. figure:: figures/gaussian.png
+    :width: 75%
+    :align: center
+
 
 
 
