@@ -35,6 +35,8 @@ The ``build_particles`` function
 
 Example 1: Gaussian bunch
 -------------------------
+.. literalinclude:: generated_code_snippets/gaussian.py
+   :language: python
 
 Example 2: Halo beam
 --------------------

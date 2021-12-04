@@ -47,6 +47,8 @@ snippet_files = {
         'generated_code_snippets/build_particles_normalized.py',
     'xpart/examples/particles_generation/003_pencil.py':
         'generated_code_snippets/pencil.py',
+    'xpart/examples/particles_generation/004_generate_gaussian.py':
+        'generated_code_snippets/gaussian.py',
     'xpart/examples/particles_generation/002_halo.py':
         'generated_code_snippets/halo.py',
     'xpart/examples/save_and_load/000_to_from_dict.py':
