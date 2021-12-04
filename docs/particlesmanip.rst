@@ -51,6 +51,12 @@ as default for these variables). For example:
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
 
+If ``mode="shift"`` is passed to the function, reference quantities including
+mass0, q0, p0c, gamma0, etc. are taken from the provided reference particle, and
+the other coordinates are set from the reference particles and shifted
+accorrding to the provided input x, px, y, py, zeta, delta (with zero assumed
+as default for these variables). For example:
+
 .. literalinclude:: generated_code_snippets/build_particles_shift.py
    :language: python
 
