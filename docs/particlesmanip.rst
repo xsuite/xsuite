@@ -47,7 +47,7 @@ features different modes as illustrated in the following.
 The ``set`` mode
 ----------------
 
-By default, or if ``mode="set"`` is passed to the function only reference
+By default, or if ``mode="set"`` is passed to the function, only reference
 quantities including mass0, q0, p0c, gamma0, etc. are
 taken from the provided reference particle. Particles coordinates, instead, are
 set according to the provided input x, px, y, py, zeta, delta (with zero assumed
