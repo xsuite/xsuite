@@ -59,6 +59,8 @@ snippet_files = {
         'generated_code_snippets/save_load_with_pandas.py',
     'xpart/examples/merge_and_filter/000_merge.py':
         'generated_code_snippets/merge.py',
+    'xpart/examples/merge_and_filter/000_copy.py':
+        'generated_code_snippets/copy.py',
     }
 
 for ss, tt in snippet_files.items():

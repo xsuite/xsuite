@@ -103,3 +103,6 @@ Filtering a particles object
 
 Copying a particles object to a different context
 -------------------------------------------------
+
+.. literalinclude:: generated_code_snippets/copy.py
+   :language: python
