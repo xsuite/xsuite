@@ -43,6 +43,11 @@ reference particle which defines for example the particle type (charge and mass)
 and the reference energy and momentum with respect to which the coordinates.
 This can be accomplished using the :meth:`xpart.build_particles` function.
 
+By default only reference quantities including mass0, q0, p0c, gamma0, etc. are
+taken from the provided reference particle. Particles coordinates, instead, are
+set according to the provided input x, px, y, py, zeta, delta (with zero assumed
+as default for these variables). For example:
+
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
 
@@ -65,7 +70,8 @@ Example: Pencil beam
     :width: 75%
     :align: center
 
-    Particle distribution in normalized coordinates (left) and physical coordinates (right).
+    Particle distribution in normalized coordinates (left) and physical
+    coordinates (right).
 
 Example: Halo beam
 --------------------
@@ -76,7 +82,8 @@ Example: Halo beam
     :width: 75%
     :align: center
 
-    Particle distribution in normalized coordinates (left) and physical coordinates (right).
+    Particle distribution in normalized coordinates (left) and physical
+    coordinates (right).
 
 Example: Gaussian bunch
 -------------------------
