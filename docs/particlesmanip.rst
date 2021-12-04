@@ -152,7 +152,7 @@ by the following example:
 Copying a Particles object (optionally across contexts)
 =======================================================
 
-The ``copy`` method can be used to make copies of a Particles object within the
+The ``copy`` method allows making copies of a Particles object within the
 same context or in another context. It can be used for example to transfer
 Particles objects to/from GPU, as shown by the following example:
 
@@ -162,6 +162,11 @@ Particles objects to/from GPU, as shown by the following example:
 
 Saving and loading Particles objects to/from dictionary or file
 ===============================================================
+
+The methods ``to_dict``/``from_dict`` and ``to_pandas``/``from_pandas`` allow
+transforming a Particles object to or from a dictionary or a pandas dataframe.
+By default the particles coordinates are transferred to CPU whe using
+``to_dict`` or ``to_pandas``.
 
 Save and load from dictionary
 -----------------------------
