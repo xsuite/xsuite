@@ -57,10 +57,12 @@ snippet_files = {
         'generated_code_snippets/save_load_pickle.py',
     'xpart/examples/save_and_load/003_save_load_with_pandas.py':
         'generated_code_snippets/save_load_with_pandas.py',
-    'xpart/examples/merge_and_filter/000_merge.py':
+    'xpart/examples/merge_copy_filter/000_merge.py':
         'generated_code_snippets/merge.py',
-    'xpart/examples/merge_and_filter/001_copy.py':
+    'xpart/examples/merge_copy_filter/001_copy.py':
         'generated_code_snippets/copy.py',
+    'xpart/examples/merge_copy_filter/002_filter.py':
+        'generated_code_snippets/filter.py',
     }
 
 for ss, tt in snippet_files.items():

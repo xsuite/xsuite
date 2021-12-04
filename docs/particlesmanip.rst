@@ -89,8 +89,14 @@ Save and load using pandas
 .. literalinclude:: generated_code_snippets/save_load_with_pandas.py
    :language: python
 
-Other actions
-=============
+Copy, merge  and filter
+=======================
+
+Copying a particles object to a different context
+-------------------------------------------------
+
+.. literalinclude:: generated_code_snippets/copy.py
+   :language: python
 
 Merging particles objects
 -------------------------
@@ -100,9 +106,5 @@ Merging particles objects
 
 Filtering a particles object
 ----------------------------
-
-Copying a particles object to a different context
--------------------------------------------------
-
-.. literalinclude:: generated_code_snippets/copy.py
+.. literalinclude:: generated_code_snippets/filter.py
    :language: python
