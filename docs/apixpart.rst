@@ -2,6 +2,8 @@
 Xpart API
 =========
 
+.. _particlesapi:
+
 The particle class
 ==================
 

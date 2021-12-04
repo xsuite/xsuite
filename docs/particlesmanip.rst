@@ -12,7 +12,8 @@ Introduction
 
 Collections of particles for tracking simulations are generated in Xsuite using
 the xpart modules. Such collections are stored as instances of the
-:class:`xpart.Particles` class.
+:class:`xpart.Particles` class. Definitions of all quantities stored by the 
+Particles objexts are available in the :ref:`class documentation<particlesapi>`.
 
 The following sections illustrate:
 
@@ -27,6 +28,9 @@ The following sections illustrate:
 Building particles with the Particles class
 ===========================================
 
+If all the coordinates of the particles are known, a Particles object can be
+created directly with the :class:`xpart.Particles` calls. For example:
+
 .. literalinclude:: generated_code_snippets/basics_part.py
    :language: python
 
@@ -35,6 +39,10 @@ Generating particles distributions
 
 The ``build_particles`` function
 --------------------------------
+
+It is often convenient to generate a Particles example starting from a given
+reference particle which defines for example the particle type (charge and mass)
+and the reference energy and momentum with respect to which the coordinates
 
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
