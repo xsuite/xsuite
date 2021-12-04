@@ -12,7 +12,7 @@ Introduction
 
 Collections of particles for tracking simulations are generated in Xsuite using
 the xpart modules. Such collections are stored as instances of the
-:class:`xpart.Particles` class. Definitions of all quantities stored by the 
+:class:`xpart.Particles` class. Definitions of all quantities stored by the
 Particles objexts are available in the :ref:`class documentation<particlesapi>`.
 
 The following sections illustrate:
@@ -98,6 +98,13 @@ examples.
 Example: Pencil beam
 --------------------
 
+The following example shows how to generate a distribution often used for
+collimantion studies, which combines:
+
+ - A Gaussian distribution in (x, px);
+ - A `pencil` distribution in (y, py);
+ - A Gaussian distribution matched to the non-linear bucket in (zeta, delta).
+
 .. literalinclude:: generated_code_snippets/pencil.py
    :language: python
 
@@ -110,6 +117,13 @@ Example: Pencil beam
 
 Example: Halo beam
 --------------------
+
+The following example shows how to generate a distributions, which combines:
+
+ - A `halo` distribution with an azimuthal cut in (x, px);
+ - All particles on the closed orbit in (y, py);
+ - All particles in the same point in (zeta, delta);
+
 .. literalinclude:: generated_code_snippets/halo.py
    :language: python
 
@@ -122,6 +136,11 @@ Example: Halo beam
 
 Example: Gaussian bunch
 -------------------------
+
+The function :meth:`xpart.generate_matched_gaussian_bunch` can be used to
+generate a bunch having Gaussian distribution in all coordinates, as illustrated
+by the following example:
+
 .. literalinclude:: generated_code_snippets/gaussian.py
    :language: python
 
