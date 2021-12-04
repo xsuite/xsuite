@@ -88,8 +88,15 @@ for these variables). For example:
 Generating particles distributions
 ==================================
 
+For several applications it is convenient to generated the transverse
+coordinates in the normalized phase space and then transform them to physical
+coordinates. Xpart provides function to generate independently particles
+distributions in the three dimensions, which are then combined using the
+:meth:`xpart.build_particles` function. This is illustrated by the following
+examples.
+
 Example: Pencil beam
-----------------------
+--------------------
 
 .. literalinclude:: generated_code_snippets/pencil.py
    :language: python
