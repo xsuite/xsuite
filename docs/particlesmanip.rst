@@ -38,6 +38,10 @@ Example 1: Gaussian bunch
 .. literalinclude:: generated_code_snippets/gaussian.py
    :language: python
 
+.. figure:: figures/gaussian.png
+    :width: 75%
+    :align: center
+
 Example 2: Halo beam
 --------------------
 .. literalinclude:: generated_code_snippets/halo.py
