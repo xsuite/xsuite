@@ -17,12 +17,12 @@ the xpart modules. Such collections are stored as instances of the
 The following sections illustrate:
 
  - How to create Particles objects on CPU or GPU, providing the coordinates in
- the form of arrays or using the xpart generators to generated specific
- distributions (e.g. Gaussian, halo, pencil).
+   the form of arrays or using the xpart generators to generated specific
+   distributions (e.g. Gaussian, halo, pencil).
  - How to copy Particles objects (optionally across contexts, e.g GPU to CPU)
  - How to merge Particles objects
  - How to filter Particles objects to select a subset of particles satisfying a
- logical condition defined by the user.
+   logical condition defined by the user.
 
 Building particles with the Particles class
 ===========================================
@@ -78,11 +78,15 @@ Example: Gaussian bunch
     :align: center
 
 
+Copying a Particles object (optionally across contexts)
+=======================================================
+
+.. literalinclude:: generated_code_snippets/copy.py
+   :language: python
 
 
-
-Saving and loading Particles objects from dictionary or file
-=============================================================
+Saving and loading Particles objects to/from dictionary or file
+===============================================================
 
 Save and load from dictionary
 -----------------------------
@@ -108,22 +112,16 @@ Save and load using pandas
 .. literalinclude:: generated_code_snippets/save_load_with_pandas.py
    :language: python
 
-Copy, merge  and filter
-=======================
+Merging and filtering Particles objects
+=======================================
 
-Copying a particles object to a different context
--------------------------------------------------
-
-.. literalinclude:: generated_code_snippets/copy.py
-   :language: python
-
-Merging particles objects
+Merging Particles objects
 -------------------------
 
 .. literalinclude:: generated_code_snippets/merge.py
    :language: python
 
-Filtering a particles object
+Filtering a Particles object
 ----------------------------
 .. literalinclude:: generated_code_snippets/filter.py
    :language: python
