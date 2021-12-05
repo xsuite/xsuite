@@ -216,3 +216,33 @@ logical condition defined by the user.
 
 .. literalinclude:: generated_code_snippets/filter.py
    :language: python
+
+Accessing particles coordinates on GPU contexts
+===============================================
+
+When working on a GPU context, the coordinate attributes of particle objects are
+not numpy arrays as on the CPU contexts, but specific array types associated
+with the specific context (e.g. cupy arrays for contexts of type ContextCupy).
+Although such arrays can be directly inspected to a large extent, several
+actions, notably plotting with matplotlib and saving to pickle or json files are
+not possible, without explicitly transferring the data to the CPU memory.
+
+For this purpose we recommend to use the specific functions provided by the
+context in order to keep the code usable on different contexts. For example:
+
+.. code-block:: python
+
+    import xobjects as xo
+    import xpart as xp
+
+    context = xo.ContextCupy()
+
+    particles = xp.Particles(_context=context, x=[1, 2, 3])
+
+    # Avoid the following (which does not work if a CPU context is chosen):
+    # x_cpu = particles.x.get()
+
+    # Instead use the following (which is guaranteed to work on all contexts):
+    x_cpu = context.nparray_from_context_array(particles.x)
+  
+
