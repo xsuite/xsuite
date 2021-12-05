@@ -19,7 +19,7 @@ Particles objects are described in the
 The following sections illustrate:
 
  - How to create Particles objects on CPU or GPU, providing the coordinates in
-   the form of arrays or using the xpart generators to generated specific
+   the form of arrays or using the xpart generators to obtain specific
    distributions (e.g. Gaussian, halo, pencil).
  - How to copy Particles objects (optionally across contexts, e.g GPU to CPU)
  - How to merge Particles objects
