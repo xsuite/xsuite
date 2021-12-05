@@ -20,9 +20,11 @@ The following sections illustrate:
 
  - How to create Particles objects on CPU or GPU, providing the coordinates in
    the form of arrays or using the xpart generators to obtain specific
-   distributions (e.g. Gaussian, halo, pencil).
- - How to copy Particles objects (optionally across contexts, e.g GPU to CPU)
- - How to merge Particles objects
+   distributions (e.g. Gaussian, halo, pencil);
+ - How to copy Particles objects (optionally across contexts, e.g GPU to CPU);
+ - How to transform Particle objects into dictionaries of pandas dataframes and
+   back;
+ - How to merge Particles objects;
  - How to filter Particles objects to select a subset of particles satisfying a
    logical condition defined by the user.
 
@@ -30,7 +32,7 @@ Building particles with the Particles class
 ===========================================
 
 If all the coordinates of the particles are known, a Particles object can be
-created directly with the :class:`xpart.Particles` calls. For example:
+created directly with the :class:`xpart.Particles` class. For example:
 
 .. literalinclude:: generated_code_snippets/basics_part.py
    :language: python
