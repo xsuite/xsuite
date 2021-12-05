@@ -22,7 +22,7 @@ The following sections illustrate:
    the form of arrays or using the xpart generators to obtain specific
    distributions (e.g. Gaussian, halo, pencil);
  - How to copy Particles objects (optionally across contexts, e.g GPU to CPU);
- - How to transform Particle objects into dictionaries of pandas dataframes and
+ - How to transform Particle objects into dictionaries or pandas dataframes and
    back;
  - How to merge Particles objects;
  - How to filter Particles objects to select a subset of particles satisfying a
@@ -42,7 +42,7 @@ The ``build_particles`` function
 ================================
 
 It is often convenient to generate new Particles objects starting from a given
-reference particle which defines for example the particle type (charge and mass)
+reference particle, which defines the particle type (charge and mass)
 and the reference energy and momentum.
 This can be accomplished using the :meth:`xpart.build_particles` function, which
 features three different modes illustrated in the following.
