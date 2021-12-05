@@ -140,8 +140,8 @@ Example: Gaussian bunch
 -------------------------
 
 The function :meth:`xpart.generate_matched_gaussian_bunch` can be used to
-generate a bunch having Gaussian distribution in all coordinates, as illustrated
-by the following example:
+generate a bunch having Gaussian distribution in all coordinates and matched to
+the non-linead RF bucket, as illustrated by the following example:
 
 .. literalinclude:: generated_code_snippets/gaussian.py
    :language: python
