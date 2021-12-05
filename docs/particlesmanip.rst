@@ -224,8 +224,8 @@ When working on a GPU context, the coordinate attributes of particle objects are
 not numpy arrays as on the CPU contexts, but specific array types associated
 with the specific context (e.g. cupy arrays for contexts of type ContextCupy).
 Although such arrays can be directly inspected to a large extent, several
-actions, notably plotting with matplotlib and saving to pickle or json files are
-not possible, without explicitly transferring the data to the CPU memory.
+actions, notably plotting with matplotlib and saving to pickle or json files, are
+not possible without explicitly transferring the data to the CPU memory.
 
 For this purpose we recommend to use the specific functions provided by the
 context in order to keep the code usable on different contexts. For example:
