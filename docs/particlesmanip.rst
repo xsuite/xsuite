@@ -51,10 +51,10 @@ The ``set`` mode
 ----------------
 
 By default, or if ``mode="set"`` is passed to the function, only reference
-quantities including mass0, q0, p0c, gamma0, etc. are
+quantities including `mass0`, `q0`, `p0`c, gamma0, etc. are
 taken from the provided reference particle. Particles coordinates, instead, are
-set according to the provided input x, px, y, py, zeta, delta (with zero assumed
-as default for these variables). For example:
+set according to the provided input `x`, `px`, `y`, `py`, `zeta`, `delta` (with 
+zero assumed as default). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
@@ -65,8 +65,8 @@ The ``shift`` mode
 If ``mode="shift"`` is passed to the function, reference quantities including
 mass0, q0, p0c, gamma0, etc. are taken from the provided reference particle,
 while the other coordinates are set from the reference particles and shifted
-according to the provided input x, px, y, py, zeta, delta (with zero assumed
-as default for these variables). For example:
+according to the provided input `x`, `px`, `y`, `py`, `zeta`, `delta` (with zero
+assumed as default). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_shift.py
    :language: python
@@ -77,13 +77,12 @@ The ``normalized_transverse`` mode
 If ``mode=normalized_transverse"`` is passed to the function or if any of the
 input `x_norm`, `px_norm`, `y_norm`, `py_norm` is provided, the transverse
 coordinates are computed from normalized values `x_norm`, `px_norm`, `y_norm`,
-`py_norm` (with zero assumed as default for these variables) using the
+`py_norm` (with zero assumed as default) using the
 closed-orbit information and the linear transfer map obtained from the `tracker`
 argument or provided by the user. Reference quantities including mass0,
 q0, p0c, gamma0, etc. are taken from the provided reference
 particle. The longitudinal coordinates are set according to the
-provided input `zeta`, `delta` (zero is assumed as default value
-for these variables). For example:
+provided input `zeta`, `delta` (zero is assumed as default). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_normalized.py
    :language: python
@@ -93,7 +92,7 @@ Generating particles distributions
 
 For several applications it is convenient to generated the transverse
 coordinates in the normalized phase space and then transform them to physical
-coordinates. Xpart provides function to generate independently particles
+coordinates. Xpart provides functions to generate independently particles
 distributions in the three dimensions, which are then combined using the
 :meth:`xpart.build_particles` function. This is illustrated by the following
 examples.
