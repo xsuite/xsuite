@@ -12,8 +12,9 @@ Introduction
 
 In Xsuite, collections of particles for tracking simulations are generated using
 the xpart module. Such collections are stored as instances of the
-:class:`xpart.Particles` class. Definitions of all quantities stored by the
-Particles objexts are available in the :ref:`class documentation<particlesapi>`.
+:class:`xpart.Particles` class. All quantities stored by the
+Particles objects are described in the
+:ref:`Particles class documentation<particlesapi>`.
 
 The following sections illustrate:
 
