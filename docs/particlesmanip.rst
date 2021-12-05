@@ -120,7 +120,7 @@ collimantion studies, which combines:
 Example: Halo beam
 --------------------
 
-The following example shows how to generate a distributions, which combines:
+The following example shows how to generate a distribution, which combines:
 
  - A `halo` distribution with an azimuthal cut in (x, px);
  - All particles on the closed orbit in (y, py);
