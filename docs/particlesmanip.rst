@@ -10,8 +10,8 @@ Generation and manipulation of Particles objects
 Introduction
 ============
 
-Collections of particles for tracking simulations are generated in Xsuite using
-the xpart modules. Such collections are stored as instances of the
+In Xsuite, collections of particles for tracking simulations are generated using
+the xpart module. Such collections are stored as instances of the
 :class:`xpart.Particles` class. Definitions of all quantities stored by the
 Particles objexts are available in the :ref:`class documentation<particlesapi>`.
 
