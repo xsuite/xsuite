@@ -1,6 +1,6 @@
-================================================
-Generation and manipulation of Particles objects
-================================================
+==============================
+Working with Particles objects
+==============================
 
 
 .. contents:: Table of Contents
