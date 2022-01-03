@@ -8,7 +8,8 @@ modes can  be used to simulate the space-charge forces:
  - **Quasi-frozen:** Forces are computed assuming a Gaussian distribution. The properties of the distribution (transverse r.m.s. sizes,transverse positions) are updated at each interaction based on the particle distribution.
  - **PIC:** The Particle In Cell method is used to compute the forces acting among particles. No assumption is made on the bunch shape.
 
-
+The last two options constitute collective interactions. As discussed 
+in the :doc:`dedicated section <collective>`, the Xtrack Tracker works such that particles are tracked asynchronously by separate threads in the non-collective sections of the sequence and are regrouped at each collective element (in PIC or quasi-forzen space-charge lenses).
 
 
 Xfields provides tools to configure qausi-frozen and Particle-In-Cell space-charge simulations by automatically replacing in an Xline sequence the frozen space-charge lenses with the corresponding collective beam elements. This is illustrated in the following example.
