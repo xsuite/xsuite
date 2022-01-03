@@ -1,6 +1,15 @@
-==============================================
-Quasi-frozen and PIC space-charge simulations
-==============================================
+========================
+Space-charge simulations
+========================
+
+Xsuite can be used to perform simulations including space-charge effects. Three
+modes can  be used to simulate the space-charge forces:
+ - **Forzen:**  A fixed Gaussian bunch distribution is used to compute the space-charge forces.
+ - **Quasi-frozen:** Forces are computed assuming a Gaussian distribution. The properties of the distribution (transverse r.m.s. sizes,transverse positions) are updated at each interaction based on the particle distribution.
+ - **PIC:** The Particle In Cell method is used to compute the forces acting among particles. No assumption is made on the bunch shape.
+
+
+
 
 Xfields provides tools to configure qausi-frozen and Particle-In-Cell space-charge simulations by automatically replacing in an Xline sequence the frozen space-charge lenses with the corresponding collective beam elements. This is illustrated in the following example.
 

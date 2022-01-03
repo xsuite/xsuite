@@ -19,13 +19,13 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
+    'git clone --single-branch --branch release/v0.1.5 https://github.com/xsuite/xobjects')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xfields')
+    'git clone --single-branch --branch release/v0.4.0 https://github.com/xsuite/xfields')
 os.system(
-    'git clone --single-branch --branch fix/adapt_xpart_interface https://github.com/xsuite/xtrack')
+    'git clone --single-branch --branch release/v0.6.0 https://github.com/xsuite/xtrack')
 os.system(
-    'git clone --single-branch --branch feature/polar_grid https://github.com/xsuite/xpart')
+    'git clone --single-branch --branch release/v0.5.0 https://github.com/xsuite/xpart')
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
