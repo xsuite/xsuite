@@ -65,6 +65,8 @@ snippet_files = {
         'generated_code_snippets/copy.py',
     'xpart/examples/merge_copy_filter/002_filter.py':
         'generated_code_snippets/filter.py',
+    'xtrack/examples/spacecharge/000_spacecharge_example.py':
+        'generated_code_snippets/spacecharge.py',
     }
 
 for ss, tt in snippet_files.items():

@@ -17,6 +17,7 @@ The variable ``mode`` is used to switch between frozen, quasi-frozen and PIC.
 Example
 =======
 
-
+.. literalinclude:: generated_code_snippets/spacecharge.py
+   :language: python
 
 
