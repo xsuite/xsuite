@@ -9,7 +9,7 @@ Loss location refinement
    :language: python
 
 .. figure:: figures/loss_location_refinement.png
-    :width: 75%
+    :width: 85%
     :align: center
 
     Generated transition between the defined apertures. Red dots represent the
