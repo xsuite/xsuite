@@ -11,4 +11,5 @@
    collective
    spacechargeauto
    pyhtinterface
+   collimation
    acceleration

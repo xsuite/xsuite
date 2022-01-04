@@ -13,5 +13,5 @@ The acceleration can be simulated by adding to the line the element
     :align: center
 
     Particles motion in the longitudinal phase space as obtained from
-    the simulation above
+    the simulation above.
 

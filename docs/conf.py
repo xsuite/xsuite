@@ -69,6 +69,8 @@ snippet_files = {
         'generated_code_snippets/spacecharge.py',
     'xtrack/examples/acceleration/000_acceleration.py':
         'generated_code_snippets/acceleration.py',
+    'xtrack/examples/collimation/001_loss_location_refinement.py':
+        'generated_code_snippets/loss_location_refinement.py',
     }
 
 for ss, tt in snippet_files.items():
