@@ -71,7 +71,7 @@ snippet_files = {
         'generated_code_snippets/acceleration.py',
     'xtrack/examples/collimation/001_loss_location_refinement.py':
         'generated_code_snippets/loss_location_refinement.py',
-    'xtrack/examples/collimation/003_all_together.py:
+    'xtrack/examples/collimation/003_all_together.py':
         'generated_code_snippets/beam_interaction.py',
     }
 
