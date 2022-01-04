@@ -11,3 +11,4 @@
    collective
    spacechargeauto
    pyhtinterface
+   acceleration
