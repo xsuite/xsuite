@@ -14,3 +14,9 @@ Loss location refinement
 
     Generated transition between the defined apertures. Red dots represent the
     location of the particle-loss events.
+
+Beam interaction (generation of secondary particles)
+====================================================
+
+.. literalinclude:: generated_code_snippets/beam_interaction.py
+   :language: python
