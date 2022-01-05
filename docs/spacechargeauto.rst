@@ -1,6 +1,6 @@
-========================
-Space-charge simulations
-========================
+============
+Space charge
+============
 
 Xsuite can be used to perform simulations including space-charge effects. Three
 modes can  be used to simulate the space-charge forces:

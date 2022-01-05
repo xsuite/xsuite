@@ -8,9 +8,9 @@
    installation
    singlepart
    particlesmanip
+   twiss
+   acceleration
    collective
    spacechargeauto
    pyhtinterface
    collimation
-   acceleration
-   twiss
