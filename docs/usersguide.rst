@@ -13,3 +13,4 @@
    pyhtinterface
    collimation
    acceleration
+   twiss

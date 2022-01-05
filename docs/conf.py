@@ -73,6 +73,8 @@ snippet_files = {
         'generated_code_snippets/loss_location_refinement.py',
     'xtrack/examples/collimation/003_all_together.py':
         'generated_code_snippets/beam_interaction.py',
+    'xtrack/examples/twiss/000_twiss.py':
+        'generated_code_snippets/twiss.py',
     }
 
 for ss, tt in snippet_files.items():
@@ -81,6 +83,10 @@ for ss, tt in snippet_files.items():
 
     cc = cc.split('#!end-doc-part')[0]
     cc = cc.strip()
+
+    lines = cc.split('\n')
+    lines = [ll for ll in lines if '#!skip-doc' not in ll]
+    cc = '\n'.join(lines)
 
     with open(tt, 'w') as fid:
         fid.write(cc)
