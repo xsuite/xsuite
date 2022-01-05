@@ -141,6 +141,15 @@ Monitors
     :member-order: bysource
     :show-inheritance:
 
+Beam interaction
+================
+
+.. autoclass:: xtrack.BeamInteraction
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
+
 BeamElement base class
 ======================
 
