@@ -114,6 +114,23 @@ LimitRect
     :member-order: bysource
     :show-inheritance:
 
+LimitRectEllipse
+----------------
+
+.. autoclass:: xtrack.LimitRectEllipse
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
+
+LimitRectPolygon
+----------------
+
+.. autoclass:: xtrack.LimitPolygon
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
 
 Monitors
 ========
@@ -134,3 +151,11 @@ BeamElement base class
     :exclude-members: track_kernel_source, track_kernel_description, compile_custom_kernels, XoStruct
     :member-order: bysource
 
+Loss location refinement
+========================
+
+.. autoclass:: xtrack.LossLocationRefinement
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
