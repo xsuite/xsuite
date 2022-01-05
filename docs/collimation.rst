@@ -26,5 +26,9 @@ to use this feature.
 Beam interaction (generation of secondary particles)
 ====================================================
 
+Xtrack includes an interface to ease the modeling of beam-matter interaction,
+including the loss of the impacting particles and the production of secondary
+particles, which need to be tracked together with the surviving beam.
+
 .. literalinclude:: generated_code_snippets/beam_interaction.py
    :language: python
