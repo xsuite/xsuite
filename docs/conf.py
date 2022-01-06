@@ -19,9 +19,9 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
+    'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xfields')
+    'git clone --single-branch --branch main https://github.com/xsuite/xpart')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
 os.system(
@@ -65,6 +65,16 @@ snippet_files = {
         'generated_code_snippets/copy.py',
     'xpart/examples/merge_copy_filter/002_filter.py':
         'generated_code_snippets/filter.py',
+    'xtrack/examples/spacecharge/000_spacecharge_example.py':
+        'generated_code_snippets/spacecharge.py',
+    'xtrack/examples/acceleration/000_acceleration.py':
+        'generated_code_snippets/acceleration.py',
+    'xtrack/examples/collimation/001_loss_location_refinement.py':
+        'generated_code_snippets/loss_location_refinement.py',
+    'xtrack/examples/collimation/003_all_together.py':
+        'generated_code_snippets/beam_interaction.py',
+    'xtrack/examples/twiss/000_twiss.py':
+        'generated_code_snippets/twiss.py',
     }
 
 for ss, tt in snippet_files.items():
@@ -73,6 +83,10 @@ for ss, tt in snippet_files.items():
 
     cc = cc.split('#!end-doc-part')[0]
     cc = cc.strip()
+
+    lines = cc.split('\n')
+    lines = [ll for ll in lines if '#!skip-doc' not in ll]
+    cc = '\n'.join(lines)
 
     with open(tt, 'w') as fid:
         fid.write(cc)
