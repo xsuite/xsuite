@@ -19,9 +19,9 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
+    'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xpart')
+    'git clone --single-branch --branch main https://github.com/xsuite/xfields')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
 os.system(
