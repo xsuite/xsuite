@@ -7,6 +7,7 @@
 
    installation
    singlepart
+   line2json
    particlesmanip
    twiss
    acceleration
