@@ -4,7 +4,7 @@
 Installation
 ============
 
-We assume that you have a recent python installation (python 3.7+). It this is not the case you can make one following the dedicated section on :ref:`how to get a miniconda installation<miniconda>`.
+We assume that you have a recent python installation (python 3.8+). It this is not the case you can make one following the dedicated section on :ref:`how to get a miniconda installation<miniconda>`.
 
 .. contents:: Table of Contents
     :depth: 3
