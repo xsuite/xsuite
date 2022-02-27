@@ -26,14 +26,18 @@ os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xpart')
+os.system(
+    'git clone --single-branch --branch main https://github.com/xsuite/xdeps')
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
 sys.path.insert(0, os.path.abspath('./xpart'))
+sys.path.insert(0, os.path.abspath('./xdeps'))
 import xobjects
 import xfields
 import xtrack
 import xpart
+import xdeps
 
 ### GENERATE code snippets
 snippet_files = {
@@ -76,7 +80,9 @@ snippet_files = {
     'xtrack/examples/twiss/000_twiss.py':
         'generated_code_snippets/twiss.py',
     'xtrack/examples/to_json/000_lattice_to_json.py':
-        'generated_code_snippets/tojson.py'
+        'generated_code_snippets/tojson.py',
+    'xtrack/examples/knobs/001_lhc.py':
+        'generated_code_snippets/expressions.py'
     }
 
 for ss, tt in snippet_files.items():

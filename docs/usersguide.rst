@@ -10,6 +10,7 @@
    line2json
    particlesmanip
    twiss
+   deferred_expressions
    acceleration
    collective
    spacechargeauto
