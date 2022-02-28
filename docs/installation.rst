@@ -31,6 +31,9 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
     git clone https://github.com/xsuite/xobjects
     pip install -e xobjects
 
+    git clone https://github.com/xsuite/xdeps
+    pipinstall -e xdeps
+
     git clone https://github.com/xsuite/xpart
     pip install -e xpart
 
