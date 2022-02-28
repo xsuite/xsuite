@@ -32,7 +32,7 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
     pip install -e xobjects
 
     git clone https://github.com/xsuite/xdeps
-    pipinstall -e xdeps
+    pip install -e xdeps
 
     git clone https://github.com/xsuite/xpart
     pip install -e xpart
