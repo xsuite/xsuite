@@ -1587,6 +1587,51 @@ From which we can write:
 \Delta p_z = \frac{m_0}{m}\frac{\Delta P_z} {P_0}=0}
 \end{align}
 
+\section{Electron lens}
+
+$I_\text{elens}$ is the current, $L$ is the length, $\beta_e$ the relativistic beta of the electrons.
+
+
+
+
+\begin{equation}
+\rho_{e}(x, y) = \lambda_e \rho_{\bot}(x, y)
+\end{equation}
+
+\begin{equation}
+I_\text{elens} = \int J_e(x,y) dA 
+= \beta_e c\int \rho_e(x,y) dA 
+= \beta_e \lambda_e c\int \rho_\bot(x,y) dA 
+\end{equation}
+
+\begin{equation}
+I_\text{elens} = \beta_e \lambda_e c
+\end{equation}
+
+\begin{equation}
+\lambda_e = \frac{I_\text{elens}}{\beta_e c}
+\end{equation}
+
+\begin{equation}
+\rho_{e}(x, y) = \frac{I_\text{elens}}{\beta_e c} \rho_{\bot}(x, y)
+\end{equation}
+
+Hence:
+\begin{equation}
+\phi_{e}(x, y) = \frac{I_\text{elens}}{\beta_e c} \phi_{\bot}(x, y)
+\end{equation}
+
+\begin{align}
+F_x(x, y) &=  -q_0(1-\beta_0  \beta_e) \frac{\partial \phi_e}{\partial x}(x, y\\
+F_y(x, y) &=  -q_0(1-\beta_0  \beta_e) \frac{\partial \phi_e}{\partial y}(x, y)\\
+\end{align}
+
+
+\begin{align}
+F_x(x, y) &=  -q_0\frac{I_\text{elens}}{\beta_e c}(1-\beta_0  \beta_e) \frac{\partial \phi_\bot}{\partial x}(x, y)\\
+F_y(x, y) &=  -q_0\frac{I_\text{elens}}{\beta_e c}(1-\beta_0  \beta_e) \frac{\partial \phi_\bot}{\partial y}(x, y)\\
+\end{align}
+
 \section{Longitudinal profiles}
 \subsection{Gaussian profile}
 
