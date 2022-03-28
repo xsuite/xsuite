@@ -82,7 +82,9 @@ snippet_files = {
     'xtrack/examples/to_json/000_lattice_to_json.py':
         'generated_code_snippets/tojson.py',
     'xtrack/examples/knobs/001_lhc.py':
-        'generated_code_snippets/expressions.py'
+        'generated_code_snippets/expressions.py',
+    'xtrack/examples/pyheadtail_interface/004_imped_spacech_cpu_gpu.py':
+        'generated_code_snippets/combined_cpu_gpu.py'
     }
 
 for ss, tt in snippet_files.items():
