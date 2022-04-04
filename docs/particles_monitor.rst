@@ -35,17 +35,28 @@ to provide a tuple defining the range to be recorded. In that case the
 Multi-frame particles monitor
 =============================
 
+The particles monitor can record periodically spaced intervals of turns (frames)
+This feature can be activated by providing the arguments ```n_repetitions``` and
+```repetition_period``` when creating the monitor.
+
 .. literalinclude:: generated_code_snippets/multiframe_monitor.py
    :language: python
 
 Particles monitor as beam elements
 ==================================
 
+Particles monitors can be used as regular beam element to record the particle
+coordinates at specific locations in the beam line. For this purpose they can be
+inserted in the line as illustrated in the following example.
+
 .. literalinclude:: generated_code_snippets/monitors_as_beam_elements.py
    :language: python
 
 Particles monitor in stand-alone mode
 =====================================
+
+As all Xtrack elements, the Particles Monitor has a track method and can be used
+in stand-alone mode as illustrated in the following example.
 
 .. literalinclude:: generated_code_snippets/monitor_standalone.py
    :language: python
