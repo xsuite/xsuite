@@ -95,6 +95,8 @@ snippet_files = {
         'generated_code_snippets/monitors_as_beam_elements.py',
     'xtrack/examples/monitor/004_monitor_standalone.py':
         'generated_code_snippets/monitor_standalone.py',
+    'xtrack/examples/radiation/005_radiation_example.py':
+        'generated_code_snippets/radiation.py'
     }
 
 for ss, tt in snippet_files.items():
