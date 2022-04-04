@@ -13,6 +13,7 @@
    twiss
    deferred_expressions
    acceleration
+   synchrotron_radiation
    collective
    spacechargeauto
    collimation
