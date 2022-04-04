@@ -8,6 +8,10 @@ Particles monitors
 The easy way
 ============
 
+When starting a tracking simulation with the Xtrack Tracker object, the easiest
+way of logging the coordinates of all particles for all turns is to enable the
+default turn-by-turn monitor, as illustrated by the following example.
+
 .. literalinclude:: generated_code_snippets/quick_monitor.py
    :language: python
 
