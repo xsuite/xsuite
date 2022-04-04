@@ -2,6 +2,9 @@
 Particles monitors
 ==================
 
+.. contents:: Table of Contents
+    :depth: 3
+
 The easy way
 ============
 
