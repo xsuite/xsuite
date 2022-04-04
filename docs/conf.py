@@ -84,7 +84,17 @@ snippet_files = {
     'xtrack/examples/knobs/001_lhc.py':
         'generated_code_snippets/expressions.py',
     'xtrack/examples/pyheadtail_interface/004_imped_spacech_cpu_gpu.py':
-        'generated_code_snippets/combined_cpu_gpu.py'
+        'generated_code_snippets/combined_cpu_gpu.py',
+    'xtrack/examples/monitor/000_example_quick_monitor.py':
+        'generated_code_snippets/quick_monitor.py',
+    'xtrack/examples/monitor/001_example_custom_monitor.py':
+        'generated_code_snippets/custom_monitor.py',
+    'xtrack/examples/monitor/002_example_custom_monitor_multiframe.py':
+        'generated_code_snippets/multiframe_monitor.py',
+    'xtrack/examples/monitor/003_monitors_as_beam_elements.py':
+        'generated_code_snippets/monitors_as_beam_elements.py',
+    'xtrack/examples/monitor/004_monitor_standalone.py':
+        'generated_code_snippets/monitor_standalone.py',
     }
 
 for ss, tt in snippet_files.items():
