@@ -9,6 +9,7 @@
    singlepart
    line2json
    particlesmanip
+   particles_monitor
    twiss
    deferred_expressions
    acceleration
