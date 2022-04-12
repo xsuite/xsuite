@@ -29,7 +29,7 @@ Although our beam element is defined by the single parameter (theta), it is conv
     import xobjects as xo
     import xtrack as xt
 
-    class SRotation(BeamElement):
+    class SRotation(xt.BeamElement):
 
         _xofields={
             'cos_z': xo.Float64,

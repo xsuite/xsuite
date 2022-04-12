@@ -1,7 +1,7 @@
 ====================
 Lost particles state
 ====================
-Particles lost by the simulation are have Particles.state <= 0. Different states
+Particles lost by the simulation have Particles.state <= 0. Different states
 are used to identify different particle loss events.
 
 =====  ==================================================================

@@ -5,7 +5,7 @@ Numerical reproducibility
 In general Xsuite does not not guarantee the numerical reproducibilty of the computation, in the sense that results obtained on different CPUs/GPUs or with different compilers will be different at the level of the machine precision.
 This is mostly due to the fact that the underlying python libraries, and in particular numpy and scipy are not numerically portable. Xsuite compiled code is observed to be numerically portable, if compiled with the same set of compilers. CPU and GPU contexts are expected to give results that differ at the level of the machine precision.
 
-We have identified a recipe that allows obtaining numerically reproducible results from Xsuite on CPU , which is reported in the following. Notably this requires compiling numpy and scipy in a special way, disabling vectorization optimizations and using unoptimized BLAS and LAPACK libraries (expect significant impact on numpy and scipy performance is significant).
+We have identified a recipe that allows obtaining numerically reproducible results from Xsuite on CPU , which is reported in the following. Notably this requires compiling numpy and scipy in a special way, disabling vectorization optimizations and using unoptimized BLAS and LAPACK libraries (expect significant impact on numpy and scipy performance).
 We underline that such a recipe is observed to yield numerically portable results in the analyzed cases of interest and on the CPUs that we had available but **is not guaranteed to do so in all possible cases**.
 We cannot commit on keeping such a recipe in the future, as this depends on characteristics of underlying libraries that we do not control.
 

@@ -35,7 +35,7 @@ Such interface can be used to create a link with other programs for the modeling
 of these effects,  e.g. GEANT, FLUKA, K2, GuineaPig.
 
 The interaction is defined as an object that provides a ``.interact(particles)``
-method, which sets to zero the ``state`` flag for the particles that are lost and
+method, which sets to zero or negative the ``state`` flag for the particles that are lost and
 returns a dictionary with the coordinates of the secondary particles that are
 emitted. The interaction process is embedded in one or multiple
 :class:`xtrack.BeamInteraction` beam elements that can be included in Xtrack line.
