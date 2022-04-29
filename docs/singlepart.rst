@@ -64,7 +64,7 @@ A simple tracking simulation can be configured and executed with the following p
 Step-by-step description
 ========================
 
-In this sections we will discussed in some more detail the difference steps outlined in the example above.
+In this sections we will discuss in some more detail the different steps outlined in the example above.
 
 Getting the Xline machine model
 -------------------------------

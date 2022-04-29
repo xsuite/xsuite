@@ -90,7 +90,7 @@ provided input `zeta`, `delta` (zero is assumed as default). For example:
 Generating particles distributions
 ==================================
 
-For several applications it is convenient to generated the transverse
+For several applications it is convenient to generate the transverse
 coordinates in the normalized phase space and then transform them to physical
 coordinates. Xpart provides functions to generate independently particles
 distributions in the three dimensions, which are then combined using the
@@ -101,7 +101,7 @@ Example: Pencil beam
 --------------------
 
 The following example shows how to generate a distribution often used for
-collimantion studies, which combines:
+collimation studies, which combines:
 
  - A Gaussian distribution in (x, px);
  - A `pencil` distribution in (y, py);
