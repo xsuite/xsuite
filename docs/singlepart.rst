@@ -115,6 +115,7 @@ Assuming that we have a MAD-X script called ``myscript.madx`` that creates and m
 
     mad = Madx()
     mad.call("mad/lhcwbb.seq")
+    mad.use("lhcb1")
 
     line = xt.Line.from_madx_sequence(mad.sequence['lhcb1'])
 
@@ -130,10 +131,16 @@ Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder 
     import xtrack as xt
     import sixtracktools as st
 
-    line = xt.Line.from_sixinput(st.sixinput('./sixtrackfiles'))
+
+    sixinput = st.sixinput('./sixtrackfiles')
+
+    line = sixinput.generate_xtrack_line()
 
 
 Once a Xtrack lattice is available, it can be used to track particles CPU or GPU.
+
+*** Note that the generation of xtrack lines from sixtrack input is used
+mainly for testing and is non guaranteed to work correcly for any sixtrack input.***
 
 Create a Context (CPU or GPU)
 -----------------------------
