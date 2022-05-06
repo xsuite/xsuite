@@ -23,7 +23,7 @@ os.system(
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xfields')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
+    'git clone --single-branch --branch feature/iobuffer  https://github.com/xsuite/xtrack')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xpart')
 os.system(
@@ -96,7 +96,9 @@ snippet_files = {
     'xtrack/examples/monitor/004_monitor_standalone.py':
         'generated_code_snippets/monitor_standalone.py',
     'xtrack/examples/radiation/005_radiation_example.py':
-        'generated_code_snippets/radiation.py'
+        'generated_code_snippets/radiation.py',
+    'xtrack/examples/element_internal_record/000_internal_record.py':
+        'generated_code_snippets/internal_record.py'
     }
 
 for ss, tt in snippet_files.items():
