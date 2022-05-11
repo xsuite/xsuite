@@ -98,7 +98,11 @@ snippet_files = {
     'xtrack/examples/radiation/005_radiation_example.py':
         'generated_code_snippets/radiation.py',
     'xtrack/examples/element_internal_record/000_internal_record.py':
-        'generated_code_snippets/internal_record.py'
+        'generated_code_snippets/internal_record.py',
+    'xtrack/examples/element_internal_record/001_multirecord.py':
+        'generated_code_snippets/internal_multirecord.py',
+    'xtrack/examples/element_internal_record/002_record_in_individual_element.py':
+        'generated_code_snippets/internal_record_standalone.py'
     }
 
 for ss, tt in snippet_files.items():
