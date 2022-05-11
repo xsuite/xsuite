@@ -2,9 +2,14 @@
 Data recording in beam elements
 ===============================
 
-Xsuite beam elements can store data in dedicated data structures stored in a
+.. contents:: Table of Contents
+    :depth: 3
+
+Xsuite beam elements can store data in dedicated data structures allocated in a
 specific io_buffer handled by the tracker. This feature is illustrated in the
-following three examples.
+following three examples, which cover the storage of data into one or multiple
+data tables for a given element type and the usage of data recording for elements
+used within a tracker and in standalone mode.
 
 Recording of an individual table
 ================================
