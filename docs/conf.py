@@ -23,7 +23,7 @@ os.system(
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xfields')
 os.system(
-    'git clone --single-branch --branch feature/iobuffer  https://github.com/xsuite/xtrack')
+    'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xpart')
 os.system(
