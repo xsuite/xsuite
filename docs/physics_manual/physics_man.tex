@@ -238,8 +238,7 @@ $\tilde{H}$ that still satisfies the same equations of motion:
     \right)
 \end{align}
 
-For the longitudinal coordinates, there are three conventions, all with time-like position
-coordinates:
+Different sets of longitudinal variables can be used:
 \begin{align}
 \xi &= s \frac{\beta}{\beta_0} - \beta c t &
 \tau &= \frac{s}{\beta_0} - ct &
@@ -251,17 +250,19 @@ p_\tau &=
 p_\zeta &=
   \frac{1}{\beta_0^2}\frac{E \frac{m_0}{m} -E_0}{E_0}
 \end{align}
-As the position of the reference particle is given by
-$s=\beta_0ct_0$ we see that $\tau$ is the time advance of the tracked particle w.r.t.\ 
-the reference particle:
-\begin{equation}
-  \tau = c\left(t_0-t\right) = c\Delta t
-\end{equation}
-This is the coordinate used by MAD-X. In Xsuite the pair $(\zeta, \delta)$ is used; note that
-these are not canonical as the canonical conjugates are the pairs $(\xi, \delta)$, $(\tau, p_\tau)$,
-and  $(\zeta, p_\zeta)$.
+where variables in the same columns are canonically conjugate.
 
-The different variants can be easily related to each other:
+%As the position of the reference particle is given by
+%$s=\beta_0ct_0$ we see that $\tau$ is the time advance of the tracked %particle w.r.t.\ 
+%the reference particle:
+%\begin{equation}
+%  \tau = c\left(t_0-t\right) = c\Delta t
+%\end{equation}
+%This is the coordinate used by MAD-X. In Xsuite the pair $(\zeta, \delta)$ is used; note that
+%these are not canonical as the canonical conjugates are the pairs $(\xi, \delta)$, $(\tau, p_\tau)$,
+%and  $(\zeta, p_\zeta)$.
+
+The different variables can be easily related to each other:
 \begin{align}
   \xi    &=
       \beta\tau =
@@ -324,8 +325,7 @@ The Hamiltonians are then:
 % \chi &= \frac{q}{q_0}\frac{m_0}{m}.
 % \end{align}
 Note that things get complicated when using the pair $(\xi, \delta)$, as then the
-Hamiltonian contains terms with $\beta$, which is not independent as $\beta$ depends
-on the energy as well! In particular:
+Hamiltonian contains terms in $\beta$, which in turn depends on the energy.  In particular:
 \begin{equation}
 \frac{\partial \beta}{\partial \delta} =
     \beta\, \frac{1-\beta^2}{1+\delta}
@@ -346,13 +346,13 @@ H_\tau  =
 The following identities are useful to derive the equations of motion:
 
 \begin{align}
-\delta &=
+&\delta =
     \sqrt{p_\tau^2 + 2 p_\tau/\beta_0 +1} - 1 \\
-\frac{\partial \delta}{\partial p_\tau} &=
+&\frac{\partial \delta}{\partial p_\tau} =
     \frac{p_\tau+1/\beta_0}{1+\delta} = \frac{1}{\beta} \\
-\frac{\partial}{\partial\delta}\left( 
+&\frac{\partial}{\partial\delta}\left( 
     \frac{1+\delta}{\beta\beta_0}
-  \right) &=
+  \right)=
     \frac{\beta}{\beta_0}
 % \delta&=\sqrt{\beta_0^2 p_\zeta^2 + 2 p_\zeta +1} -1 &
 % \frac{d \delta}{d p_\zeta}= \frac{\beta_0^2 p_\zeta+1}{1+\delta} = \frac{\beta_0}{\beta}
