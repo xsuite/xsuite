@@ -13,10 +13,10 @@ extensions = []
 
 setup(
     name='xsuite',
-    version='0.3.0',
-    description='Integrated suite for particle accelerator simulation',
-    url='https://github.com/xsuite/xsuite',
-    author='Giovanni Iadarola, Riccardo De Maria',
+    version='0.4.0',
+    description='Integrated suite for particle accelerator simulations',
+    long_description='Integrated suite for particle accelerator simulations',
+    author='R. De Maria, G. Iadarola et al.',
     packages=find_packages(),
     ext_modules = extensions,
     install_requires=[
@@ -24,6 +24,15 @@ setup(
         'xobjects',
         'xtrack',
         'xfields',
-        'xpart'
-        ]
+        'xpart',
+        'xdeps'
+        ],
+    url='https://xsuite.readthedocs.io/',
+    license='Apache 2.0',
+    download_url="https://pypi.python.org/pypi/xsuite",
+    project_urls={
+            "Bug Tracker": "https://github.com/xsuite/xsuite/issues",
+            "Documentation": 'https://xsuite.readthedocs.io/',
+            "Source Code": "https://github.com/xsuite/xsuite",
+        },
     )
