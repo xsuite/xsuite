@@ -1,0 +1,17 @@
+Xsuite is developed primarily at CERN.
+The following people contributed to the development of this package:
+
+CERN contributors:
+ - A. Abramov
+ - H. Bartosik
+ - X. Buffat
+ - R. De Maria
+ - P. Hermes
+ - G. Iadarola
+ - A. Latina
+ - K. Paraschou
+ - M. Schwinzerl
+ - F. Van Der Veken
+
+External contributors:
+ - P. Balanger (TRIUMF, Canada) - Development of wire beam element
