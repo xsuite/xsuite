@@ -1,114 +1,3 @@
-
-
-\documentclass[a4paper,12pt]{book}
-
-\usepackage{graphicx}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-
-\usepackage{placeins}
-
-
-\usepackage[english]{babel}
-\usepackage{booktabs}
-\usepackage{stfloats}
-\usepackage[T1]{fontenc}
-
-\usepackage[titletoc,title]{appendix}
-
-\usepackage{float}
-\restylefloat{table}
-
-\usepackage{longtable}
-
-\usepackage{xcolor,colortbl}
-
-\usepackage{mathpazo} % Palatino
-\usepackage{avant}    % Avant Garde
-
-\usepackage[margin=2.6cm, bottom=3.cm, top=3.cm, portrait]{geometry}\usepackage{caption}\usepackage[a4paper]{hyperref}\usepackage{adjustbox}\usepackage{enumitem}
-
- \usepackage[stable]{footmisc}
-
-\renewcommand{\vec}[1]{\mathbf{#1}}
-
-\setlength\parindent{0pt}
-
-\newcommand{\HRule}[1]{\hfill \rule{0.2\linewidth}{#1}}
-
-\makeatletter
-\newcommand\primitiveinput[1]
-{\@@input #1 }
-\makeatother
-
-\definecolor{Gray}{gray}{0.90}
-
-\setcounter{tocdepth}{3}
-\setcounter{secnumdepth}{3}
-
-%\renewcommand\thesection{\arabic{section}}
-
-%\renewcommand\appendixname{Appendix}
-%\renewcommand\appendixpagename{Appendix}
-
-\begin{document}
-
-
-\thispagestyle{empty} % Remove page numbering on this page
-
-%----------------------------------------------------------------------------------------
-%	TITLE SECTION
-%----------------------------------------------------------------------------------------
-
-\colorbox{Gray}{
-	\parbox[t]{1.0\linewidth}{
-		\centering \fontsize{28pt}{40pt}\selectfont % The first argument for fontsize is the font size of the text and the second is the line spacing - you may need to play with these for your particular title
-		\vspace*{0.7cm} % Space between the start of the title and the top of the grey box
-		
-		\hfill Xsuite \\
-		\hfill physics manual
-
-%		\hfill Beam Screens\\
-		
-		\vspace*{0.7cm} % Space between the end of the title and the bottom of the grey box
-	}
-}
-
-%----------------------------------------------------------------------------------------
-
-%\vfill
-%                \hfill {\huge Bunch length 1.0 ns}
-                \vfill
-
-%----------------------------------------------------------------------------------------
-%	AUTHOR NAME AND INFORMATION SECTION
-%----------------------------------------------------------------------------------------
-
-{\centering \large 
-%\hfill \\
-\hfill CERN - Geneva, Switzerland
-
-\HRule{1pt}} % Horizontal line, thickness changed here
-
-%----------------------------------------------------------------------------------------
-
-\clearpage % Whitespace to the end of the page
-
-\newpage
-
-\tableofcontents
-
-\newpage
-
-
-\renewcommand*{\arraystretch}{1.4}
-
-
-\input{xtrack.tex}
-\input{xfields.tex}
-
-
 \chapter{Xfields}
 
 
@@ -1054,19 +943,10 @@ G(x,y)
 \end{equation}
 where $(x_0, y_0)$ is an arbitrary starting point.
 
-An expression for $F(x,y,z)$ is the following (where we have chosen $r_0=1$:
+An expression for $F(x,y)$ is the following (where we have chosen $r_0=1$):
 \begin{align}
-F(x,y,z) &=-\frac{1}{4\pi\varepsilon_0}\iint \ln \left(x^{2}+y^{2}\right) dx/,dy\\
+F(x,y) &=-\frac{1}{4\pi\varepsilon_0}\iint \ln \left(x^{2}+y^{2}\right) dx/,dy\\
 &=\frac{1}{4\pi\varepsilon_0}\left[3 x y-x^{2} \arctan (y / x)-y^{2} \arctan (x / y)-x y \ln \left(x^{2}+y^{2}\right)\right]
 \end{align}
 
 Note that we need to choose the first cell center to be in (0,0) for evaluation of the integrated Green function. Therefore the cell edges have non zero coordinates and the denominators in the formula will always be non-vanishing.
-
-\addcontentsline{toc}{section}{References}
-\bibliographystyle{unsrt}
-\bibliography{bibliography}
-
-
-
-\end{document}
-
