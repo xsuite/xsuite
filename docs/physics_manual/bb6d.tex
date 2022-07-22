@@ -2,8 +2,8 @@
 
 \section{Introduction} 
 
-This cha[ describes in detail the numerical method used in different codes, and in particular in SixTrack \cite{sixtracksite} and Xsuite, for the simulation of beam-beam interactions in the weak-strong framework using the ``Synchro Beam Mapping'' 
-approach \cite{hirata1}.  This allows correctly modeling the coupling introduced by beam-beam between the longitudinal and transverse planes. The goal of this document is  in particular to provide in a compact, complete and self-consistent manner, the set of equations that are needed for the implementation in a numerical code. 
+This chapter describes in detail the numerical method used in different codes, and in particular in SixTrack \cite{sixtracksite} and Xsuite, for the simulation of beam-beam interactions in the weak-strong framework using the ``Synchro Beam Mapping'' 
+approach \cite{hirata}.  This allows correctly modeling the coupling introduced by beam-beam between the longitudinal and transverse planes. The goal of this document is  in particular to provide in a compact, complete and self-consistent manner, the set of equations that are needed for the implementation in a numerical code. 
 Complementary information can be found in \cite{bb6dslides}, including graphical representations of the procedure presented in this note and several validation tests.
 
 The effect of a ``crossing angle'' in an arbitrary ``crossing plane'' with respect to the assigned reference frame is taken into account with a suitable coordinate transformation following the approach described in \cite{hirata, beam_beam}. The employed description of the strong beam allows the correct inclusion of the hour-glass effect as well as the linear coupling at the interaction point, following the treatment presented in \cite{beam_beam}. 
@@ -17,7 +17,7 @@ If not differently stated in an explicit way in the following, all coordinates a
 \section{Direct Lorentz boost (for the weak beam)}
 \label{sec:directboost}
 
-We want to transform the coordinates by moving to a Lorentz boosted frame in which the collision is head-on (i.e. $p_x=p_y=0$ for the strong beam and for the reference particle of the weak beam). We call $\phi$ the half crossing angle and $\alpha$ the angle that the crossing plane makes with respect to the $x-z$ plane. For this purpose, we perform a transformation which actually includes four operations (more details can be found in Appendix~\ref{app:boost} and in~\cite{slides, refpaper}):
+We want to transform the coordinates by moving to a Lorentz boosted frame in which the collision is head-on (i.e. $p_x=p_y=0$ for the strong beam and for the reference particle of the weak beam). We call $\phi$ the half crossing angle and $\alpha$ the angle that the crossing plane makes with respect to the $x-z$ plane. For this purpose, we perform a transformation which actually includes four operations (more details can be found in Appendix~\ref{app:boost} and in~\cite{bb6dslides, beam_beam}):
 \begin{itemize}
 \item Transform the accelerator positions and momenta into Cartesian coordinates (which can then be Lorentz boosted);
 \item Rotate particle coordinates to the ``barycentric'' reference frame;
@@ -25,7 +25,7 @@ We want to transform the coordinates by moving to a Lorentz boosted frame in whi
 \item Drift all the particles back to $s=0$ (as not all particles with $s=0$ are fixed points of the transformation, and we are tracking with respect to $s$ and not with respect to time).
 \end{itemize}
 
-We name the original accelerator coordinates (as defined in the SixTrack Physics Manual \cite{sixtrack}):
+We name the original accelerator coordinates (as defined in the SixTrack Physics Manual \cite{sixtracksite}):
 \begin{equation}
 \left(x, p_x, y, p_y, \sigma, \delta\right)
 \end{equation}
@@ -93,7 +93,7 @@ y\\
 
 \section{Syncrho-beam mapping}
 
-Following the approach introduced in~\cite{hirata1}, the strong beam is sliced along z. A common approach is to use constant-charge slices (see Appendix~\ref{app:slicing}). For each particle in the weak beam and for each slice in the strong beam we perform the following.
+Following the approach introduced in~\cite{hirata}, the strong beam is sliced along z. A common approach is to use constant-charge slices (see Appendix~\ref{app:slicing}). For each particle in the weak beam and for each slice in the strong beam we perform the following.
 ~\\
 
 We identify the position of the Collision Point (CP):
@@ -227,7 +227,7 @@ In the following we will need also the derivative of this quantity:
 \left(\frac{\partial R}{\partial S} \frac{1}{\sqrt{T}}-\frac{R}{2\left( \sqrt{T}\right)^3}\frac{\partial T}{\partial S}\right)
 \end{equation}
 
-It can be proved that \cite{refpaper}:
+It can be proved that \cite{beam_beam}:
 \begin{align}
 \cos \theta &= \sqrt{\frac{1}{2}\left(1 + \cos 2\theta \right)}\\
 \sin \theta &= \textrm{sgn}(R)\textrm{sgn}(\Sigma^*_{13}) \sqrt{\frac{1}{2}\left(1 - \cos 2\theta \right)}
@@ -347,11 +347,13 @@ Replacing Eq.~\ref{eq:Tapprox} in Eq.~\ref{eq:cos2theta} allows  removing the ap
 \end{equation}
 
 This can be derived obtaining:
-\begin{equation}
-\frac{\partial }{\partial S} \left[ \cos 2\theta \right] = \mathrm{sgn}(2a+b \Delta S)\left[
-\frac{b}{\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}}-\frac{(2a+b\Delta S)(2ab+b^2 \Delta s +4 c d+ 4 d^2 \Delta S)}{\left(\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}\right)^3}
+\begin{align}
+\frac{\partial }{\partial S} \left[ \cos 2\theta \right] &= \mathrm{sgn}(2a+b \Delta S)\left[
+\frac{b}{\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}}
+\right. \nonumber \\  &\left. \qquad \qquad \qquad \qquad \qquad
+-\frac{(2a+b\Delta S)(2ab+b^2 \Delta s +4 c d+ 4 d^2 \Delta S)}{\left(\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}\right)^3}
 \right]
-\end{equation}
+\end{align}
 
 Similarly, replacing Eq.~\ref{eq:Tapprox} in Eq.~\ref{eq:Sigmashat} we obtain:
 \begin{align}
@@ -363,11 +365,15 @@ This can be derived obtaining:
 \begin{align}
 \frac{\partial }{\partial S} \left[\hat{\Sigma}^*_{11} \right] =& \frac{1}{2}\frac{\partial W }{\partial S}
 +\frac{1}{2}\mathrm{sgn}\left(2a\Delta S +b \Delta S^2 \right)\mathrm{sgn}(\Delta S)\left[
-\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}+\frac{\Delta S \left(2ab+b^2 \Delta s +4 c d+ 4 d^2 \Delta S \right)}{\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}}
+\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}
+\right. \nonumber \\ & \qquad  \qquad \qquad \qquad \qquad  \qquad \qquad\left. 
++\frac{\Delta S \left(2ab+b^2 \Delta s +4 c d+ 4 d^2 \Delta S \right)}{\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}}
 \right] \\
 \frac{\partial }{\partial S} \left[\hat{\Sigma}^*_{33} \right] =& \frac{1}{2}\frac{\partial W }{\partial S}
 -\frac{1}{2}\mathrm{sgn}\left(2a\Delta S +b \Delta S^2 \right)\mathrm{sgn}(\Delta S)\left[
-\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}+\frac{\Delta S \left(2ab+b^2 \Delta s +4 c d+ 4 d^2 \Delta S \right)}{\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}}
+\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}
+\right. \nonumber \\ & \qquad  \qquad \qquad \qquad \qquad  \qquad \qquad\left. 
++\frac{\Delta S \left(2ab+b^2 \Delta s +4 c d+ 4 d^2 \Delta S \right)}{\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}}
 \right] 
 \end{align}
 
@@ -521,7 +527,7 @@ where $N_{sl}$ is the number of particles in the strong-beam slice, $q_{sl}$ and
 The minus sign in the Eqs.~\ref{eq:firstf}-\ref{eq:lastf} comes from the definition of electric potential, i.e. $E=-\nabla U$.
 
 
-For a bi-Gaussian beam (elliptic) \cite{hirata1}:
+For a bi-Gaussian beam (elliptic) \cite{hirata}:
 \begin{align}
 \hat{f}^*_x = -\frac{\partial \hat{U}^*}{\partial \hat{\overline{x}}^*} &= \frac{1}{2 \epsilon_0 \sqrt{2 \pi \left(\hat{\Sigma}^*_{11}-\hat{\Sigma}^*_{33}\right)}} \textrm{Im} \left[w\left(\frac{\hat{\overline{x}}^*+i \hat{\overline{y}}^*}{\sqrt{2 \left(\hat{\Sigma}^*_{11}-\hat{\Sigma}^*_{33}\right)}}\right) \right.
 \nonumber \\
@@ -589,7 +595,7 @@ F^*_z  =  &\frac{1}{2}\left(
 \end{align}
 where all the terms have been evaluated before.
 
-The quantities evaluated so far can be used to compute the effect of the beam-beam interaction on the particles coordinates and momenta~\cite{hirata1}:
+The quantities evaluated so far can be used to compute the effect of the beam-beam interaction on the particles coordinates and momenta~\cite{hirata}:
 \begin{align}
 x^*_{new} &= x^* - S {F}^*_x\\
 p^*_{x, new} &= p^*_{x} + {F}^*_x\\
@@ -603,7 +609,7 @@ z^*_{new} &= z^*\\
 \right]
 \end{align}
 
-The physical meaning of the different terms in these equations is illustrated in~\cite{slides}.
+The physical meaning of the different terms in these equations is illustrated in~\cite{bb6dslides}.
 
 \section{Inverse Lorentz boost (for the weak beam)}
 
@@ -625,7 +631,7 @@ We invert the matrix (\ref{eq:Lmat}) using Cramer's rule:
 \begin{equation}
 \mathrm{Det}\left( L \right) =  \frac{1}{\cos \phi} + \left( h_x^* \cos \alpha + h_y^* \sin \alpha - h_\sigma^* \sin \phi \right)\tan \phi
 \end{equation}
-
+\tiny
 \begin{multline}
 L^{\mathrm{inv}} = \frac{1}{\mathrm{Det}\left( L\right)} \times\\
 \left( \begin{matrix}
@@ -641,6 +647,7 @@ L^{\mathrm{inv}} = \frac{1}{\mathrm{Det}\left( L\right)} \times\\
  \left( 1 + h_x^* \cos \alpha \sin \phi +h^*_y \sin \alpha \sin  \phi \right)\\
 \end{matrix} \right)
 \end{multline}
+\normalsize
 
 This can be used to transform the positions:
 
@@ -689,7 +696,7 @@ The longitudinal momentum can be calculated using directly Eq.~\ref{eq:delta}:
 
 \subsection{Detailed explanation of "the boost" transformation}
 \label{app:boost}
-The reference frame transformation used in Sec.~\ref{sec:directboost} can be written as \cite{hirata2, refpaper}:
+The reference frame transformation used in Sec.~\ref{sec:directboost} can be written as \cite{hirata, beam_beam}:
 \begin{equation}
 \left( \begin{matrix}
 \sigma^*\\
@@ -767,7 +774,7 @@ L_{\mathrm{boost}}=
 \end{matrix} \right) 
 \end{equation}
 
-The momenta are transformed similarly \cite{refpaper}:
+The momenta are transformed similarly \cite{beam_beam}:
 
 \begin{equation}
 \left( \begin{matrix}
@@ -948,10 +955,12 @@ Once the $\Sigma$-matrix is assigned, the one-sigma ellipse can be drawn by the 
 \end{itemize}
 
 This can be verified as follows:
-\begin{equation}
-{\textbf{x}_{1\sigma}}^\mathrm{T}\Sigma^{-1}\textbf{x}_{1\sigma} = \textbf{z}^\mathrm{T}\textbf{A}^\mathrm{T}\Sigma^{-1}\textbf{A}\textbf{z} = \textbf{z}^\mathrm{T}(\textbf{V} \sqrt{\textbf{W}} \textbf{V})(\textbf{V}^{T} \textbf{W}^{-1} \textbf{V}^{T})(\textbf{V}\sqrt{\textbf{W}} \textbf{V}^{T}) \textbf{z}=
-\textbf{z}^\mathrm{T}\textbf{V} \sqrt{\textbf{W}}  \textbf{W}^{-1} \sqrt{\textbf{W}} \textbf{V}^{T}\textbf{z} = \textbf{z}^\mathrm{T}\textbf{V}  \textbf{V}^{T}\textbf{z} = 
-\textbf{z}^\mathrm{T}\textbf{z} = 1
-\end{equation}
+\begin{align}
+{\textbf{x}_{1\sigma}}^\mathrm{T}\Sigma^{-1}\textbf{x}_{1\sigma} 
+&= \textbf{z}^\mathrm{T}\textbf{A}^\mathrm{T}\Sigma^{-1}\textbf{A}\textbf{z} = \textbf{z}^\mathrm{T}(\textbf{V} \sqrt{\textbf{W}} \textbf{V})(\textbf{V}^{T} \textbf{W}^{-1} \textbf{V}^{T})(\textbf{V}\sqrt{\textbf{W}} \textbf{V}^{T}) \textbf{z} \nonumber
+\\&=\textbf{z}^\mathrm{T}\textbf{V} \sqrt{\textbf{W}}  \textbf{W}^{-1} \sqrt{\textbf{W}} \textbf{V}^{T}\textbf{z}
+= \textbf{z}^\mathrm{T}\textbf{V}  \textbf{V}^{T}\textbf{z} 
+= \textbf{z}^\mathrm{T}\textbf{z} = 1
+\end{align}
 
 \end{appendices}
