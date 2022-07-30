@@ -20,7 +20,7 @@ Recording of an individual table
 .. literalinclude:: generated_code_snippets/internal_record.py
    :language: python
 
-Recording of multipole tables
+Recording of multiple tables
 =============================
 
 .. literalinclude:: generated_code_snippets/internal_multirecord.py
