@@ -1,11 +1,11 @@
-========================================
-Definition a new beam element for Xtrack
-========================================
+=============================
+Definition a new beam element
+=============================
 
 .. contents:: Table of Contents
     :depth: 4
 
-In this page we illustrate how to introduce a new beam element in Xtrack.
+In this page we illustrate how to introduce a new beam element compatible with Xtrack.
 We will use for illustration the "SRotation" element which performs the following transformation of the particle coordinates:
 
  - x  =  cos(theta) * x + sin(theta) * y
@@ -134,12 +134,12 @@ Note the annotations ``/*gpufun*/`` that indicates that these are device functio
 
 These methods can be used to write a C header file containing the tracking code for the beam element.
 The method takes two arguments, the element data in a data type called ``<ElementName>Data``, i.e. ``SRotationData`` in our example and a ``LocalParticle`` which is associated to methods to set and and get the particle coordinates.
-The ``LocalParticle`` represents one particle of the particle set provided to the simulation. On CPU it is possible to change the particle pointed by the local particle by changing the index ``ipart``.
+The ``LocalParticle`` represents one particle of the particle set provided to the simulation.
 
 Writing the tracking code
 -------------------------
 
-For our example beam elements the tracking code can be writte as follows:
+For our example beam elements the tracking code can be written as follows:
 
 .. code-block:: c
 
@@ -189,16 +189,20 @@ Once ready the code needs to be associated to the class. This is done with the f
 
     from pathlib import Path
 
-    SRotation.XoStruct.extra_sources = [Path('./srotation.h')]
+    import xobjects as xo
+    import xtrack as xt
+
+    class SRotation(xt.BeamElement):
+
+        _xofields={
+            'cos_z': xo.Float64,
+            'sin_z': xo.Float64,
+            }
+
+        extra_sources = [Path('./srotation.h')]
 
 Data recording in beam elements
 ===============================
-
-.. contents:: Table of Contents
-    :depth: 3
-
-Introduction
-------------
 
 Xsuite beam elements can store data in dedicated data structures allocated in a
 specific io_buffer handled by the tracker. This feature is illustrated in the
