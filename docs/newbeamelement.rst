@@ -1,9 +1,5 @@
-=============================
-Definition a new beam element
-=============================
-
-.. contents:: Table of Contents
-    :depth: 4
+Introduction
+============
 
 In this page we illustrate how to introduce a new beam element compatible with Xtrack.
 We will use for illustration the "SRotation" element which performs the following transformation of the particle coordinates:

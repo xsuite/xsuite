@@ -5,7 +5,7 @@ Developer's guide
 .. toctree::
     :maxdepth: 3
 
-    newbeamelement
+    dev_guide_xtrack_beam_elements
     xobjexample
     autogeneration
     numericalreproducibility
