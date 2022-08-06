@@ -9,4 +9,3 @@ Developer's guide
     xobjexample
     autogeneration
     numericalreproducibility
-    codes_lost_particles
