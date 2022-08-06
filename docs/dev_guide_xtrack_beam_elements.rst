@@ -6,4 +6,5 @@ Definition of new Xtrack-compatible beam elements
     :maxdepth: 3
 
     dev_guide_xtbe_data_structure
+    dev_guide_xtbe_tracking_code
     newbeamelement
