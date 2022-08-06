@@ -7,4 +7,4 @@ Definition of new Xtrack-compatible beam elements
 
     dev_guide_xtbe_data_structure
     dev_guide_xtbe_tracking_code
-    newbeamelement
+    dev_guide_xtbe_internal_record
