@@ -76,7 +76,7 @@ and is made accessible to the C tracking code.
 The xobject can be accessed with the ``_xobject`` attribute of the beam element.
 For example, in the case of our SRotation element:
 
-.. code-block::python
+.. code-block:: python
 
     srot._xobject
 
@@ -88,7 +88,7 @@ Arrays are exposed as native Xobjects arrays in the ``_xobject`` attribute, and
 as numpy or numpy-like arrays as attributes of the beam element. For example, in
 the case of a ``xtrack.Multipole`` element we find:
 
-.. code-block::python
+.. code-block:: python
 
     mp = xtrack.Multipole(knl=[1,2,3])
 
@@ -98,9 +98,11 @@ the case of a ``xtrack.Multipole`` element we find:
     mp.knl
     # is a numpy array
 
+It should be noted that the the two are different views of the same memory area,
+hence any modification can be made indifferently on any of them.
 
-
-
+The numpy view (or np-like on GPU contexts) gives the possibility of using 
+numpy features on the array (e.g. ``np.sum``, ``np.mean``, slicing, masking, etc.).
 
 
 
