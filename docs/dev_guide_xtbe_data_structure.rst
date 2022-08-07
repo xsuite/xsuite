@@ -12,8 +12,8 @@ We will use for illustration the "SRotation" element which performs the followin
 The element is fully described by the rotation angle theta.
 
 
-Definition of the data structure
-================================
+Definition and management of the data structure
+===============================================
 
 New beam elements are defined as python classes inheriting from the class ``BeamElement`` of xtrack.
 In each element class we define a dictionary called ``_xofields``, which specifies names and types of the data to be made accessible to the C tracking code.
@@ -66,12 +66,56 @@ The fields specified in ``_xofields`` are automatically exposed as attributes of
     # returns 0.9
 
 
-Additional attributes and methods can be added to the class. If the ``__init__`` method is defined, the ``__init__`` of the parent class needs to be called to initialize the ``xobject``, i.e. the data structure accessible from the C code.
+Underlying xobject
+------------------
+
+The data specified by the ``_xofields`` dictionary is stored in a contiguous memory
+block (an ``xobjects.Struct`` instance) which is managed by the Xobjects library
+and is made accessible to the C tracking code.
+
+The xobject can be accessed with the ``_xobject`` attribute of the beam element.
+For example, in the case of our SRotation element:
+
+.. code-block::python
+
+    srot._xobject
+
+All attributes of the xobject are automatically exposed as attributes of the beam element.
+For example, in the case of our SRotation element ``srot._xobject.sin_z`` is the
+same as ``srot.sin_z``.
+
+Arrays are exposed as native Xobjects arrays in the ``_xobject`` attribute, and
+as numpy or numpy-like arrays as attributes of the beam element. For example, in
+the case of a ``xtrack.Multipole`` element we find:
+
+.. code-block::python
+
+    mp = xtrack.Multipole(knl=[1,2,3])
+
+    mp._xobject.knl
+    # is an xobjects array
+
+    mp.knl
+    # is a numpy array
+
+
+
+
+
+
+
 
 Custom ``__init__`` method
 --------------------------
 
-In our example we want to initialize the object providing the rotation angle and not its sine and cosine and we introduce a property called ``angle`` that allows setting or getting the angle from the stored sine and cosine. This can be done as follows:
+Additional attributes and methods can be added to the class. If the ``__init__``
+method is defined, the ``__init__`` of the parent class needs to be called to
+initialize the ``xobject``, i.e. the data structure accessible from the C code.
+
+In our example we want to initialize the object providing the rotation angle and
+not its sine and cosine and we introduce a property called ``angle`` that allows
+setting or getting the angle from the stored sine and cosine. This can be done
+as follows:
 
 .. code-block:: python
 
@@ -97,4 +141,5 @@ In our example we want to initialize the object providing the rotation angle and
             anglerad = value / 180 * np.pi
             self.cos_z = np.cos(anglerad)
             self.sin_z = np.sin(anglerad)
+
 
