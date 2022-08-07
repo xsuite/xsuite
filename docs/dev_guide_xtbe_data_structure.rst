@@ -101,7 +101,7 @@ the case of a ``xtrack.Multipole`` element we find:
 It should be noted that the the two are different views of the same memory area,
 hence any modification can be made indifferently on any of them.
 
-The numpy view (or np-like on GPU contexts) gives the possibility of using 
+The numpy view (or np-like on GPU contexts) gives the possibility of using
 numpy features on the array (e.g. ``np.sum``, ``np.mean``, slicing, masking, etc.).
 
 
