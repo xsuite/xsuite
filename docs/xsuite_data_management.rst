@@ -5,9 +5,11 @@ Data management in Xsuite
 
 Done through the Xobjects package
 
-Beam elements and Particles objects are xobjects Hybrid classes.
+HybridClasses, xofields, xobjects
+=================================
 
-They contain along with standard python attributes and methods also an "xobject"
+Beam elements and Particles objects are xobjects Hybrid classes. They contain,
+along with standard python attributes and methods, also an "xobject"
 that can be optionally stored on GPU and made accessible to the C code used
 in the implementation.
 
@@ -59,7 +61,37 @@ It should be noted that the two are different views of the same memory area,
 hence any modification can be made indifferently on any of them.
 
 The numpy view (or np-like on GPU contexts) gives the possibility of using
-numpy comptible functions and features on the array (e.g. ``np.sum``, ``np.mean``, 
+numpy-compatible functions and features on the array (e.g. ``np.sum``, ``np.mean``,
 slicing, masking, etc.).
+
+Contexts and buffers
+====================
+
+The xobjects are allocated in memory buffers managed by the xobjects package.
+Buffers can be allocated on the GPU or on the CPU memory depending on the context.
+
+For example the following code creates two buffer in a GPU memory:
+
+.. code-block:: python
+
+    # We create a GPU context
+    context = xobjects.ContextCupy()
+
+    buffer1 = ctx.new_buffer()              # using default initial capacity
+    buffer2 = ctx.new_buffer(capacity=1000) # specifying initial capacity
+
+A buffer can contain multiple hybrid objects. For example to allocate two Multipole
+objects in buffer1:
+
+.. code-block:: python
+
+    mult1 = xt.Multipole(knl=[1, 2, 3], _buffer=buffer1)
+    mult2 = xt.Multipole(knl=[1, 2, 3], _buffer=buffer1)
+
+The capacity of the buffer is automatically increased to fit the allocated objects.
+
+
+
+
 
 
