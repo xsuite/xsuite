@@ -90,6 +90,32 @@ objects in buffer1:
 
 The capacity of the buffer is automatically increased to fit the allocated objects.
 
+Buffers can also be created implicitly when creating the objects. This is done
+by passing the context instead of the buffer. For example:
+
+.. code-block:: python
+
+    context = xobjects.ContextCupy()
+
+    mult1 = xt.Multipole(knl=[1, 2, 3], _context=context)
+    mult2 = xt.Multipole(knl=[1, 2, 3], _context=context)
+
+In this case a new buffer is created automatically for each of the objects.
+
+If neither a context nor a buffer is specified, the default context (ContextCpu)
+is used.
+
+The buffer and context of an object can be inpected using the ``_buffer`` and
+``_context`` attributes:
+
+.. code-block:: python
+
+    mult1._buffer # gives the buffer of the object
+    mult2._context # gives the context of the object
+
+
+
+
 
 
 
