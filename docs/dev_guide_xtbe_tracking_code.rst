@@ -92,4 +92,4 @@ Once ready the code needs to be associated to the class. This is done with the f
             'sin_z': xo.Float64,
             }
 
-        extra_sources = [Path('./srotation.h')]
+        _extra_c_sources = [Path('./srotation.h')]
