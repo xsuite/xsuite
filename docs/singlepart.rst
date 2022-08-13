@@ -1,6 +1,6 @@
-========================
-Single-particle tracking
-========================
+=========================================
+Getting started: single-particle tracking
+=========================================
 
 This page describes the basic usage of Xsuite to perform tracking simulations.
 Instructions on how to install Xsuite are provided in the dedicated :doc:`installation page <installation>`.
