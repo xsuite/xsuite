@@ -3,7 +3,8 @@
 Data management in Xsuite
 =========================
 
-Done through the Xobjects package
+.. contents:: Table of Contents
+    :depth: 3
 
 HybridClasses, xofields, xobjects
 =================================
@@ -160,6 +161,36 @@ For example:
     # We move the second object to a specific GPU buffer
     buffer_gpu = context_gpu.new_buffer()
     mult2.move(_buffer=buffer_gpu)
+
+Memory management in xtrack trackers
+====================================
+
+When an xtrack.Tracker object is created, all beam elements are moved to a same
+buffer in the context specified when the tracker is created. For example:
+
+.. code-block:: python
+
+    # We create a few beam elements
+    mult1 = xt.Multipole(knl=[1, 2, 3])
+    drift1 = xt.Drift(length=1)
+    mult2 = xt.Multipole(knl=[3, 4, 5])
+    drift2 = xt.Drift(length=1)
+    # Each element is allocated in a different buffer in the default context.
+    # For example mult1._buffer is not equal to mult2._buffer, etc.
+
+    # we create a line with the above beam elements
+    line = xt.Line(elements=[mult1, drift1, mult2, drift2])
+    # each element remains in its original buffer
+
+    # we create a tracker with the above line
+    context = xobjects.ContextCupy()
+    tracker = xt.Tracker(line=line, _context=context)
+
+    # this creates a new buffer in the memory buffer (accessible as tracker._buffer)
+    # and moves all the elements to this buffer.
+    # Now mult1._buffer is equal to mult2._buffer, etc. and they are all equal 
+    # to tracker._buffer.
+
 
 
 
