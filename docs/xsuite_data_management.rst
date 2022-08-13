@@ -6,15 +6,15 @@ Data management in Xsuite
 .. contents:: Table of Contents
     :depth: 3
 
-HybridClasses, xofields, xobjects
-=================================
+Hybrid objects, xofields, xobjects
+==================================
 
 Beam elements and Particles objects are hybrid objects built with the Xobjects
 package. They contain, along with standard python attributes and methods,
 also an "xobject" that can be optionally stored on GPU and made accessible to
 the C code used in the implementation.
 
-The set of attibutes accessible in C and the corresponding types can be found in
+The set of attributes accessible in C and the corresponding types can be found in
 ```_xofields``` dictionary attached to the class for example:
 
 .. code-block:: python
