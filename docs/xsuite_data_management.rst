@@ -141,7 +141,7 @@ For example:
     another_copy = mult2_gpu.copy()
 
 
-The ``copy`` method can be used move objects across buffers and contexts.
+The ``move`` method can be used move objects across buffers and contexts.
 For example:
 
 .. code-block:: python
