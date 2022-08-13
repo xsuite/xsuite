@@ -8,10 +8,10 @@ Done through the Xobjects package
 HybridClasses, xofields, xobjects
 =================================
 
-Beam elements and Particles objects are xobjects Hybrid classes. They contain,
-along with standard python attributes and methods, also an "xobject"
-that can be optionally stored on GPU and made accessible to the C code used
-in the implementation.
+Beam elements and Particles objects are hybrid objects built with the Xobjects
+package. They contain, along with standard python attributes and methods,
+also an "xobject" that can be optionally stored on GPU and made accessible to
+the C code used in the implementation.
 
 The set of attibutes accessible in C and the corresponding types can be found in
 ```_xofields``` dictionary attached to the class for example:
@@ -105,13 +105,61 @@ In this case a new buffer is created automatically for each of the objects.
 If neither a context nor a buffer is specified, the default context (ContextCpu)
 is used.
 
-The buffer and context of an object can be inpected using the ``_buffer`` and
+The buffer and context of an object can be inspected using the ``_buffer`` and
 ``_context`` attributes:
 
 .. code-block:: python
 
     mult1._buffer # gives the buffer of the object
     mult2._context # gives the context of the object
+
+Move and copy operations
+========================
+
+The ``copy`` method can be used copy the objects across buffers and contexts.
+For example:
+
+.. code-block:: python
+
+    # we create two multipoles in the default context
+    mult1 = xt.Multipole(knl=[1, 2, 3])
+    mult2 = xt.Multipole(knl=[3, 4, 5])
+
+    # We create a GPU context
+    context_gpu = xobjects.ContextCupy()
+
+    # We make copy of the first object in a GPU context (a new buffer in the
+    # GPU memory is created automatically)
+    mult1_gpu = mult1.copy(_context=context_gpu)
+
+    # We make a copy of the second multipole to a specific GPU buffer
+    buffer_gpu = context_gpu.new_buffer()
+    mult2_gpu = mult2.copy(_buffer=buffer_gpu)
+
+    # It no argument is passed to the copy method, the copy is made in the same
+    # context as the original object (a new buffer is created).
+    another_copy = mult2_gpu.copy()
+
+
+The ``copy`` method can be used move objects across buffers and contexts.
+For example:
+
+.. code-block:: python
+
+    # we create two multipoles in the default context
+    mult1 = xt.Multipole(knl=[1, 2, 3])
+    mult2 = xt.Multipole(knl=[3, 4, 5])
+
+    # We create a GPU context
+    context_gpu = xobjects.ContextCupy()
+
+    # We move the first object in a GPU context (a new buffer in the
+    # GPU memory is created automatically)
+    mult1.move(_context=context_gpu)
+
+    # We move the second object to a specific GPU buffer
+    buffer_gpu = context_gpu.new_buffer()
+    mult2.move(_buffer=buffer_gpu)
 
 
 
