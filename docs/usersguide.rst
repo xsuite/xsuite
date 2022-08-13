@@ -7,6 +7,7 @@
 
    installation
    singlepart
+   xsuite_data_management
    line2json
    particlesmanip
    particles_monitor
