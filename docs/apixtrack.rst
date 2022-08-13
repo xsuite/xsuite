@@ -157,7 +157,7 @@ BeamElement base class
     :members:
     :undoc-members:
     :inherited-members:
-    :exclude-members: track_kernel_source, track_kernel_description, compile_custom_kernels, XoStruct
+    :exclude-members: track_kernel_source, track_kernel_description, compile_custom_kernels, _XoStruct
     :member-order: bysource
 
 Loss location refinement
