@@ -102,7 +102,6 @@ by passing the context instead of the buffer. For example:
     mult2 = xt.Multipole(knl=[1, 2, 3], _context=context)
 
 In this case a new buffer is created automatically for each of the objects.
-
 If neither a context nor a buffer is specified, the default context (on CPU)
 is used.
 
@@ -165,7 +164,7 @@ For example:
 Memory management in xtrack trackers
 ====================================
 
-When an xtrack.Tracker object is created, all beam elements are moved to a same
+When an xtrack.Tracker object is created, all beam elements are moved to one
 buffer in the context specified when the tracker is created. For example:
 
 .. code-block:: python
