@@ -15,7 +15,7 @@ also an "xobject" that can be optionally stored on GPU and made accessible to
 the C code used in the implementation.
 
 The set of attributes accessible in C and the corresponding types can be found in
-```_xofields``` dictionary attached to the class for example:
+the ```_xofields``` dictionary attached to the class. For example:
 
 .. code-block:: python
 
@@ -32,7 +32,7 @@ The set of attributes accessible in C and the corresponding types can be found i
     #  'ksl': <array ArrNFloat64>,
     #  '_internal_record_id': <struct RecordIdentifier>}
 
-Each instance of the class contains an xobject storint the corresponding data.
+Each instance of the class contains an xobject storing the corresponding data.
 
 For example:
 
@@ -45,7 +45,7 @@ For example:
 All attributes of the xobject are automatically exposed as attributes of the beam element.
 For example, ``m._xobject.length`` is the same as ``m.length``.
 
-Arrays are exposed as native Xobjects arrays in the ``_xobject`` attribute, and
+Arrays are exposed as native Xobjects arrays in the ``_xobject``, and
 as numpy or numpy-like arrays as attributes of the beam element. For example:
 
 .. code-block:: python
@@ -61,7 +61,7 @@ as numpy or numpy-like arrays as attributes of the beam element. For example:
 It should be noted that the two are different views of the same memory area,
 hence any modification can be made indifferently on any of them.
 
-The numpy view (or np-like on GPU contexts) gives the possibility of using
+The numpy view (or numpy-like on GPU contexts) gives the possibility of using
 numpy-compatible functions and features on the array (e.g. ``np.sum``, ``np.mean``,
 slicing, masking, etc.).
 
@@ -81,8 +81,8 @@ For example the following code creates two buffer in a GPU memory:
     buffer1 = ctx.new_buffer()              # using default initial capacity
     buffer2 = ctx.new_buffer(capacity=1000) # specifying initial capacity
 
-A buffer can contain multiple hybrid objects. For example to allocate two Multipole
-objects in buffer1:
+A buffer can contain multiple hybrid objects. For example we can allocate two
+objects (``mult1`` and ``mult2``) in ``buffer1`` created above:
 
 .. code-block:: python
 
