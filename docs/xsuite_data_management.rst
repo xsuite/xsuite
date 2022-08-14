@@ -15,7 +15,7 @@ also an "xobject" that can be optionally stored on GPU and made accessible to
 the C code used in the implementation.
 
 The set of attributes accessible in C and the corresponding types can be found in
-the ```_xofields``` dictionary attached to the class. For example:
+the ``_xofields`` dictionary attached to the class. For example:
 
 .. code-block:: python
 
@@ -103,7 +103,7 @@ by passing the context instead of the buffer. For example:
 
 In this case a new buffer is created automatically for each of the objects.
 
-If neither a context nor a buffer is specified, the default context (ContextCpu)
+If neither a context nor a buffer is specified, the default context (on CPU)
 is used.
 
 The buffer and context of an object can be inspected using the ``_buffer`` and
@@ -117,8 +117,8 @@ The buffer and context of an object can be inspected using the ``_buffer`` and
 Move and copy operations
 ========================
 
-The ``copy`` method can be used copy the objects across buffers and contexts.
-For example:
+Xsuite objects have a ``copy`` method tha can be used copy the objects across
+buffers and contexts. For example:
 
 .. code-block:: python
 
@@ -142,7 +142,7 @@ For example:
     another_copy = mult2_gpu.copy()
 
 
-The ``move`` method can be used move objects across buffers and contexts.
+Similarly, the ``move`` method can be used move objects across buffers and contexts.
 For example:
 
 .. code-block:: python
@@ -188,7 +188,7 @@ buffer in the context specified when the tracker is created. For example:
 
     # this creates a new buffer in the memory buffer (accessible as tracker._buffer)
     # and moves all the elements to this buffer.
-    # Now mult1._buffer is equal to mult2._buffer, etc. and they are all equal 
+    # Now mult1._buffer is equal to mult2._buffer, etc. and they are all equal
     # to tracker._buffer.
 
 
