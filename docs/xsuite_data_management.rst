@@ -190,12 +190,236 @@ buffer in the context specified when the tracker is created. For example:
     # Now mult1._buffer is equal to mult2._buffer, etc. and they are all equal
     # to tracker._buffer.
 
+Advanced memory behaviours with HybridClass
+===========================================
 
+When instantiating, moving, copying, or assigning values to fields of a
+``HybridClass``, especially if such a class contains references, in some
+advanced cases the expected behaviour of such operations is not obvious.
+Below we present comprehensive set of scenarios that demonstrate when values
+are copied, and which operations are disallowed.
 
+We shall use the following example classes throughout this section:
 
+.. code-block:: python
 
+    import xobjects as xo
 
+    class Inner(xo.HybridClass):
+        _xofields = {
+            'num': xo.Int64,
+        }
 
+    class Outer(xo.HybridClass):
+        _xofields = {
+            'inner': Inner,
+            'ref': xo.Ref(Inner),
+        }
 
+As well as the following function, which prints a summary of where a
+``HybridClass`` is located in memory.
 
+.. code-block:: python
 
+    def whereis(obj: xo.HybridClass, _buffers=[]):
+        context = obj._context.__class__.__name__
+        if obj._buffer in _buffers:
+            buffer_id = _buffers.index(obj._buffer)
+        else:
+            buffer_id = len(_buffers)
+            _buffers.append(obj._buffer)
+        offset = obj._offset
+        print(f"context={context}, buffer={buffer_id}, offset={offset}")
+
+Initialising nested objects
+---------------------------
+
+Below ``Outer`` is instantiated in the same buffer as ``Inner``, and so
+the reference field ``outer.ref`` is bound to the same xobject as ``inner``.
+Therefore, any changes to one are applied to another.
+
+.. code-block:: python
+
+    buf = xo.context_default.new_buffer()
+    inner = Inner(num=42, _buffer=buf)
+    outer = Outer(inner=inner, ref=inner, _buffer=buf)
+
+    whereis(outer)          # => context=ContextCpu, buffer=0, offset=8
+    whereis(outer.inner)    # ditto, since outer.inner is the first field of outer
+    whereis(outer.ref)      # => context=ContextCpu, buffer=0, offset=0
+    whereis(inner)          # ditto, since the reference points to the original object
+
+    inner.num = 14          # changing inner...
+    print(outer.ref.num)    # (=> 14) changes outer.ref...
+    print(outer.inner.num)  # (=> 42) but not the copied outer.inner
+
+Since a reference to an object in a different buffer to the one owning the
+reference is disallowed, below, when  ``Outer`` is instantiated with an
+``inner`` object coming from a different buffer, its the xobject is copied to
+the same buffer, breaking the reference.
+
+.. code-block:: python
+
+    inner = Inner(num=7)
+    outer = Outer(inner=inner, ref=inner) # if unspecified, every object gets its own buffer
+
+    # outer and inner are, therefore, in different buffers:
+    whereis(inner)		# => context=ContextCpu, buffer=1, offset=0
+    whereis(outer)		# => context=ContextCpu, buffer=2, offset=0
+    whereis(outer.inner)	# ditto, since outer.inner is the first field of outer
+    # references to other buffers do not make sense, so inner is implicitly copied:
+    whereis(outer.ref)	# => context=ContextCpu, buffer=1, offset=24
+
+    inner.num = 2		# changing inner...
+    print(outer.inner.num)	# (=> 7) has no impact on either outer.inner
+    print(outer.ref.num)	# (=> 7) nor outer.ref
+
+Same behaviour can be observed when instantiating ``Outer`` with an ``inner``
+coming from a different context (and therefore a different buffer):
+
+.. code-block:: python
+
+    context_cpu = xo.ContextCpu()
+    context_ocl = xo.ContextPyopencl()
+
+    inner = Inner(num=99, _context=context_cpu)
+    outer = Outer(inner=inner, ref=inner, _context=context_ocl)
+
+    # The behaviour is the same as in the earlier example, except objects
+    # end up in the context associated with their buffers:
+    whereis(inner)		# => context=ContextCpu, buffer=3, offset=0
+    whereis(outer)		# => context=ContextPyopencl, buffer=4, offset=0
+    whereis(outer.inner)	# ditto, since outer.inner is the first field of outer
+    # again, we make an implicit copy of the object pointed to by a reference
+    whereis(outer.ref)	# => context=ContextPyopencl, buffer=4, offset=24
+
+    # therefore, the behaviour when changing inner is analogous to the earlier case:
+    inner.num = 88
+    print(outer.inner.num)	# => 99
+    print(outer.ref.num)	# => 99
+
+When fields are assigned to an already instatiated hybrid object, as opposed to
+doing that in the initialiser, the behaviour is analogous to the above.
+
+Moving (nested objects)
+-----------------------
+
+In general, we cannot move the objects of type ``Outer`` from the examples
+before, as ``Outer`` contains references:
+
+.. code-block:: python
+
+    buffer = xo.context_default.new_buffer(capacity=256)
+    inner = Inner(num=0x1020_3040_5060_7080, _buffer=buffer)
+    outer = Outer(inner=inner, ref=inner, _buffer=buffer)
+
+    try:
+        outer.move(_context=xo.ContextPyopencl())
+    except MemoryError as error:
+        print(error)  # => This object cannot be moved, as it contains
+                      #    references to other objects.
+
+We also prohibit moving any of the fields of ``outer``, as they are part of
+an underlying fixed structure defined by the ``xo.Struct`` associated with
+the hybrid class ``Outer``:
+
+.. code-block:: python
+
+    try:
+        outer.inner.move(_context=xo.ContextPyopencl())
+    except MemoryError as error:
+        print(error) 	# => This object cannot be moved, likely because it
+                        #    lives within another. Please, make a copy.
+
+Still, since ``inner`` defined in the previous example has been instantiated
+as a standalone object we can attempt to move it. In the below example, we
+move ``inner`` within its own buffer, which leads to the corruption of the
+buffer.
+
+.. code-block:: python
+
+    whereis(inner)          # => context=ContextCpu, buffer=5, offset=0
+    whereis(outer.ref)      # ditto, as it is a reference to the above
+    whereis(outer.inner)    # => context=ContextCpu, buffer=5, offset=8
+    # We can see inner/outer.ref and outer.inner in the buffer:
+    print(buffer.buffer[:16])  # => [-128, 112, 96, 80, 64, 48, 32, 16,
+                               #     -128, 112, 96, 80, 64, 48, 32, 16]
+    # If we move inner by two bytes to the right...
+    inner.move(_offset=inner._offset + 2, _buffer=buffer)
+    # We can see that reflected in the buffer:
+    print(buffer.buffer[:16])  # => [-128, 112, -128, 112, 96, 80, 64,
+                               #       48,  32,  16,   96, 80, 64, 48]
+    # And while inner and outer.ref have correct values:
+    print(hex(inner.num), hex(outer.ref.num))
+                    # => 0x1020304050607080, 0x1020304050607080
+    # we have corrupted up outer.inner:
+    print(hex(outer.inner.num))	# => 0x1020304050601020
+
+Whenever we move an object specifying ``_offset`` manually, we risk the
+corruption of the data in the buffer. When ``_offset`` is not given, ``xsuite``
+will automatically move the object safely to the free space in the buffer,
+expanding it, if needed.
+
+.. code-block:: python
+
+    inner1 = Inner(num=135)
+    inner2 = Inner(num=531)
+
+    whereis(inner1)		# => context=ContextCpu, buffer=6, offset=0
+    whereis(inner2)		# => context=ContextCpu, buffer=7, offset=0
+
+    buffer = xo.context_default.new_buffer(capacity=16)
+
+    inner2.move(_buffer=buffer)
+    inner1.move(_buffer=buffer)
+
+    # inner1 and inner2 are moved to buffer, safely next to each other:
+    whereis(inner1)		# => context=ContextCpu, buffer=8, offset=8
+    whereis(inner2)		# => context=ContextCpu, buffer=8, offset=0
+
+The same holds true for moving objects between contexts:
+
+.. code-block:: python
+
+    # We make sure our two objects are on the CPU context:
+    inner1 = Inner(num=10, _context=xo.ContextCpu())
+    inner2 = Inner(num=-10, _context=xo.ContextCpu())
+
+    inner1.move(_context=xo.ContextPyopencl())
+    inner2.move(_context=xo.ContextPyopencl())
+
+    # After we move them to the OpenCL context, they are by default in separate buffers
+    whereis(inner1)		# => context=ContextPyopencl, buffer=9, offset=0
+    whereis(inner2)		# => context=ContextPyopencl, buffer=10, offset=0
+
+    # We can place them in the same buffer, as before. Let us try the CUDA context:
+    context_cuda = xo.ContextCupy()
+    buffer = context_cuda.new_buffer(capacity=1) # (note that the buffer will grow)
+
+    inner1.move(_buffer=buffer, _context=context_cuda)
+    inner2.move(_buffer=buffer, _context=context_cuda)
+
+    # We can see that the objects are next to each other:
+    whereis(inner1)		# => context=ContextCupy, buffer=11, offset=0
+    whereis(inner2)		# => context=ContextCupy, buffer=11, offset=8
+
+It is important to know, that some of the types will be different between
+contexts. This applies in particular to arrays:
+
+.. code-block:: python
+
+    class TestArrays(xo.HybridClass):
+        _xofields = {
+            'array': xo.Int8[8],
+        }
+
+    test_cpu = TestArrays(array=range(8), _context=xo.ContextCpu())
+    test_cl = TestArrays(array=range(8), _context=xo.ContextPyopencl())
+    test_cupy = TestArrays(array=range(8), _context=xo.ContextCupy())
+
+    print(test_cpu.array)	# => list(range(8))
+    print(test_cl.array)	# ditto
+    print(test_cupy.array) 	# ditto
+
+    print([type(x.array) for x in (test_cpu, test_cl, test_cupy)])
+                # => [numpy.ndarray, pyopencl.array.Array, cupy.ndarray]
