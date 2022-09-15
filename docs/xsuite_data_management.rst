@@ -255,24 +255,18 @@ Therefore, any changes to one are applied to another.
 
 Since a reference to an object in a different buffer to the one owning the
 reference is disallowed, below, when  ``Outer`` is instantiated with an
-``inner`` object coming from a different buffer, its the xobject is copied to
-the same buffer, breaking the reference.
+``inner`` object coming from a different buffer, an error is produced.
 
 .. code-block:: python
 
+    # If unspecified, every object gets its own buffer:
     inner = Inner(num=7)
-    outer = Outer(inner=inner, ref=inner) # if unspecified, every object gets its own buffer
+    try:
+        outer = Outer(inner=inner, ref=inner)
+    except MemoryError as error:
+        print(error)   # => Cannot make a reference to an object in a different
+                       #    buffer
 
-    # outer and inner are, therefore, in different buffers:
-    whereis(inner)		# => context=ContextCpu, buffer=1, offset=0
-    whereis(outer)		# => context=ContextCpu, buffer=2, offset=0
-    whereis(outer.inner)	# ditto, since outer.inner is the first field of outer
-    # references to other buffers do not make sense, so inner is implicitly copied:
-    whereis(outer.ref)	# => context=ContextCpu, buffer=1, offset=24
-
-    inner.num = 2		# changing inner...
-    print(outer.inner.num)	# (=> 7) has no impact on either outer.inner
-    print(outer.ref.num)	# (=> 7) nor outer.ref
 
 Same behaviour can be observed when instantiating ``Outer`` with an ``inner``
 coming from a different context (and therefore a different buffer):
@@ -283,22 +277,14 @@ coming from a different context (and therefore a different buffer):
     context_ocl = xo.ContextPyopencl()
 
     inner = Inner(num=99, _context=context_cpu)
-    outer = Outer(inner=inner, ref=inner, _context=context_ocl)
+    try:
+        # this will lead to an error:
+        outer = Outer(inner=inner, ref=inner, _context=context_ocl)
+    except MemoryError as error:
+        print(error)  # => Cannot make a reference to an object in a different
+                      #    buffer
 
-    # The behaviour is the same as in the earlier example, except objects
-    # end up in the context associated with their buffers:
-    whereis(inner)		# => context=ContextCpu, buffer=3, offset=0
-    whereis(outer)		# => context=ContextPyopencl, buffer=4, offset=0
-    whereis(outer.inner)	# ditto, since outer.inner is the first field of outer
-    # again, we make an implicit copy of the object pointed to by a reference
-    whereis(outer.ref)	# => context=ContextPyopencl, buffer=4, offset=24
-
-    # therefore, the behaviour when changing inner is analogous to the earlier case:
-    inner.num = 88
-    print(outer.inner.num)	# => 99
-    print(outer.ref.num)	# => 99
-
-When fields are assigned to an already instatiated hybrid object, as opposed to
+When fields are assigned to an already instantiated hybrid object, as opposed to
 doing that in the initialiser, the behaviour is analogous to the above.
 
 Moving (nested objects)
@@ -331,34 +317,27 @@ the hybrid class ``Outer``:
         print(error) 	# => This object cannot be moved, likely because it
                         #    lives within another. Please, make a copy.
 
-Still, since ``inner`` defined in the previous example has been instantiated
-as a standalone object we can attempt to move it. In the below example, we
-move ``inner`` within its own buffer, which leads to the corruption of the
-buffer.
+In all cases when we move an object specifying ``_offset`` manually, we risk the
+corruption of the data in the buffer. See the below example of a potentially
+destructive behaviour.
 
 .. code-block:: python
 
-    whereis(inner)          # => context=ContextCpu, buffer=5, offset=0
-    whereis(outer.ref)      # ditto, as it is a reference to the above
-    whereis(outer.inner)    # => context=ContextCpu, buffer=5, offset=8
-    # We can see inner/outer.ref and outer.inner in the buffer:
-    print(buffer.buffer[:16])  # => [-128, 112, 96, 80, 64, 48, 32, 16,
-                               #     -128, 112, 96, 80, 64, 48, 32, 16]
-    # If we move inner by two bytes to the right...
-    inner.move(_offset=inner._offset + 2, _buffer=buffer)
-    # We can see that reflected in the buffer:
-    print(buffer.buffer[:16])  # => [-128, 112, -128, 112, 96, 80, 64,
-                               #       48,  32,  16,   96, 80, 64, 48]
-    # And while inner and outer.ref have correct values:
-    print(hex(inner.num), hex(outer.ref.num))
-                    # => 0x1020304050607080, 0x1020304050607080
-    # we have corrupted up outer.inner:
-    print(hex(outer.inner.num))	# => 0x1020304050601020
+    buffer = xo.context_default.new_buffer(capacity=256)
+    inner = Inner(num=0x1122_3344_5566_7788, _buffer=buffer)
+    inner2 = Inner(num=0x1020_3040_5060_7080, _buffer=buffer)
 
-Whenever we move an object specifying ``_offset`` manually, we risk the
-corruption of the data in the buffer. When ``_offset`` is not given, ``xsuite``
-will automatically move the object safely to the free space in the buffer,
-expanding it, if needed.
+    # let us see the value of inner2.num:
+    print(inner2.num)  # => 0x1020_3040_5060_7080
+
+    inner.move(_offset=4, _buffer=buffer)
+
+    # as a result of the above move, inner2 is corrupted, as we moved
+    # inner such that it overlaps with inner2 in the buffer
+    print(inner2.num)  # => 0x1020_3040_1122_3344
+
+When ``_offset`` is not given, ``xsuite`` will automatically move the object
+safely to the free space in the buffer, expanding it, if needed.
 
 .. code-block:: python
 
