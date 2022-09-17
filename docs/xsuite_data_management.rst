@@ -190,6 +190,50 @@ buffer in the context specified when the tracker is created. For example:
     # Now mult1._buffer is equal to mult2._buffer, etc. and they are all equal
     # to tracker._buffer.
 
+References
+==========
+
+References can be used to have fields of different objects to point to the same
+data. To do so all both the referencing objects and the referenced objects must
+be in the same buffer. For example:
+
+.. code-block:: python
+
+    import xobjects as xo
+
+    class Inner(xo.HybridClass):
+        _xofields = {
+            'num': xo.Int64,
+        }
+
+    class Outer(xo.HybridClass):
+        _xofields = {
+            'inner': Inner,
+            'ref_to_inner': xo.Ref(Inner), # is reference
+        }
+
+    # We create a buffer
+    buffer = xo.ContextCupy().new_buffer()
+
+    # We create an object of type Inner
+    inner = Inner(num=1, _buffer=buffer)
+
+    # We create two objects of type Outer
+    outer1 = Outer(_buffer=buffer)
+    outer2 = Outer(_buffer=buffer)
+
+    # We set the reference of outer1 and outer2 to inner
+    outer1.ref_to_inner = inner
+    outer2.ref_to_inner = inner
+
+    # We change the value of inner.num
+    inner.num = 2
+
+    # We check that the value of outer1.inner.num and outer2.inner.num have
+    # changed as well
+    print(outer1.inner.num) # prints 2
+    print(outer2.inner.num) # prints 2
+
 Advanced memory behaviours with HybridClass
 ===========================================
 
