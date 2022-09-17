@@ -140,7 +140,7 @@ Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a folder 
 Once a Xtrack lattice is available, it can be used to track particles CPU or GPU.
 
 **Note:** the generation of xtrack lines from sixtrack input is used
-mainly for testing and is non guaranteed to work correcly for any sixtrack input.
+mainly for testing and is not guaranteed to work correcly for any sixtrack input.
 
 Create a Context (CPU or GPU)
 -----------------------------
