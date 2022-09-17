@@ -305,11 +305,9 @@ reference is disallowed, below, when  ``Outer`` is instantiated with an
 
     # If unspecified, every object gets its own buffer:
     inner = Inner(num=7)
-    try:
-        outer = Outer(inner=inner, ref=inner)
-    except MemoryError as error:
-        print(error)   # => Cannot make a reference to an object in a different
-                       #    buffer
+    outer = Outer(inner=inner, ref=inner)
+    # Gives MemoryError - Cannot make a reference to an object in a different
+    #                     buffer.
 
 
 Same behaviour can be observed when instantiating ``Outer`` with an ``inner``
@@ -321,12 +319,9 @@ coming from a different context (and therefore a different buffer):
     context_ocl = xo.ContextPyopencl()
 
     inner = Inner(num=99, _context=context_cpu)
-    try:
-        # this will lead to an error:
-        outer = Outer(inner=inner, ref=inner, _context=context_ocl)
-    except MemoryError as error:
-        print(error)  # => Cannot make a reference to an object in a different
-                      #    buffer
+    outer = Outer(inner=inner, ref=inner, _context=context_ocl)
+    # Gives MemoryError - Cannot make a reference to an object in a different
+    #                     buffer.
 
 When fields are assigned to an already instantiated hybrid object, as opposed to
 doing that in the initialiser, the behaviour is analogous to the above.
@@ -343,11 +338,9 @@ before, as ``Outer`` contains references:
     inner = Inner(num=0x1020_3040_5060_7080, _buffer=buffer)
     outer = Outer(inner=inner, ref=inner, _buffer=buffer)
 
-    try:
-        outer.move(_context=xo.ContextPyopencl())
-    except MemoryError as error:
-        print(error)  # => This object cannot be moved, as it contains
-                      #    references to other objects.
+    outer.move(_context=xo.ContextPyopencl())
+    # Gives an error as the object cannot be moved, as it contains references
+    # to other objects.
 
 We also prohibit moving any of the fields of ``outer``, as they are part of
 an underlying fixed structure defined by the ``xo.Struct`` associated with
@@ -355,11 +348,9 @@ the hybrid class ``Outer``:
 
 .. code-block:: python
 
-    try:
-        outer.inner.move(_context=xo.ContextPyopencl())
-    except MemoryError as error:
-        print(error) 	# => This object cannot be moved, likely because it
-                        #    lives within another. Please, make a copy.
+    outer.inner.move(_context=xo.ContextPyopencl())
+    # Gives an error as the object cannot be moved, as it contains references
+    # to other objects.
 
 In all cases when we move an object specifying ``_offset`` manually, we risk the
 corruption of the data in the buffer. See the below example of a potentially
