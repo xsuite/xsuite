@@ -9,9 +9,11 @@ CERN contributors:
  - P. Hermes
  - G. Iadarola
  - A. Latina
+ - S. Lopaciuk
  - K. Paraschou
  - M. Schwinzerl
  - F. Van Der Veken
 
 External contributors:
  - P. Balanger (TRIUMF, Canada) - Development of wire beam element
+ - M. Boucard (EPFL, Switzerland) - Development of the electron lens beam element
