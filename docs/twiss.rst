@@ -14,5 +14,7 @@ slip factor, etc. This is illustrated in the following example.
     :align: center
 
     Twiss functions and accelerator parameters as obtained by Xtrack twiss.
+    `See the full code generating the image. <https://github.com/xsuite/xtrack/
+    blob/main/examples/twiss/000_twiss.py>`_
 
 
