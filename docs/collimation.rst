@@ -22,7 +22,9 @@ how to use this feature.
     :align: center
 
     Generated transition between the defined apertures. Red dots represent the
-    location of the particle-loss events.
+    location of the particle-loss events. `See the code generating the image.
+    <https://github.com/xsuite/xtrack/blob/main/examples/collimation/
+    001_loss_location_refinement.py>`_
 
 Beam interaction (generation of secondary particles)
 ====================================================

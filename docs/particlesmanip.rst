@@ -115,7 +115,9 @@ collimation studies, which combines:
     :align: center
 
     Particle distribution in normalized coordinates (left) and physical
-    coordinates (right).
+    coordinates (right). `See the full code generating the image.
+    <https://github.com/xsuite/xpart/blob/main/examples/
+    particles_generation/003_pencil.py>`_
 
 Example: Halo beam
 --------------------
@@ -134,7 +136,9 @@ The following example shows how to generate a distribution, which combines:
     :align: center
 
     Particle distribution in normalized coordinates (left) and physical
-    coordinates (right).
+    coordinates (right). `See the full code generating the image.
+    <https://github.com/xsuite/xpart/blob/main/examples/
+    particles_generation/003_pencil.py>`_
 
 Example: Gaussian bunch
 -------------------------
@@ -149,6 +153,10 @@ the non-linead RF bucket, as illustrated by the following example:
 .. figure:: figures/gaussian.png
     :width: 75%
     :align: center
+
+    `See the full code generating the image.
+    <https://github.com/xsuite/xpart/blob/main/examples/
+    particles_generation/004_generate_gaussian.py>`_
 
 
 Copying a Particles object (optionally across contexts)
