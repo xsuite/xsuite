@@ -16,7 +16,7 @@ to perform the changes in a more efficient way. The ``CustomSetter`` stores the
 memory addresses of the quantities to be changed and performs the changes with a single
 compiled kernel, using multithreading when allowed by the context.
 
-The following examples show how to use the ``CustomSetter`` to apply a sinusoidal
+The following example shows how to use the ``CustomSetter`` to apply a sinusoidal
 ripple to the strength of several quadropoles of a synchrotron.
 
 .. literalinclude:: generated_code_snippets/ripple.py
