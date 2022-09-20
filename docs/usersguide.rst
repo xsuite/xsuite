@@ -12,6 +12,7 @@
    particlesmanip
    particles_monitor
    twiss
+   fast_lattice_changes
    deferred_expressions
    acceleration
    synchrotron_radiation
