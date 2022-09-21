@@ -103,7 +103,7 @@ snippet_files = {
         'generated_code_snippets/internal_multirecord.py',
     'xtrack/examples/element_internal_record/002_record_in_individual_element.py':
         'generated_code_snippets/internal_record_standalone.py',
-    'xtrack/examples/fast_lattice_changes/000_sps_50hz_ripple.py':
+    'xtrack/examples/multisetter/000_sps_50hz_ripple.py':
         'generated_code_snippets/ripple.py',
     }
 
