@@ -1,0 +1,19 @@
+# This is a workflow that should run daily
+name: Daily test workflow
+
+# Controls when the action will run.
+on:
+  schedule:
+    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+
+# This workflow calls the test_gh.yaml workflow passing the default
+# branches as inputs
+jobs:
+  run-tests-cron-gh:
+    uses: ./.github/workflows/test_gh.yaml
+    with:
+      xobjects_location: 'xsuite:main'
+      xdeps_location: 'xsuite:main'
+      xpart_location: 'xsuite:main'
+      xtrack_location: 'xsuite:main'
+      xfields_location: 'xsuite:main'

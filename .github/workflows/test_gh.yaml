@@ -1,0 +1,79 @@
+# This is a test workflow the other (GitHub runner based) workflows rely on
+name: Test workflow
+
+# Controls when the action will run. This is a reusable workflow.
+on:
+  workflow_call:
+    # Inputs the workflow accepts.
+    inputs:
+      xobjects_location:
+        required: true
+        type: string
+      xdeps_location:
+        required: true
+        type: string
+      xpart_location:
+        required: true
+        type: string
+      xtrack_location:
+        required: true
+        type: string
+      xfields_location:
+        required: true
+        type: string
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# The jobs are all run in independent environments. Here we will run a separate job
+# for each of the test suites specified in the matrix below.
+jobs:
+  run-tests:
+    # The type of runner that the job will run on: this one is provided by GitHub
+    runs-on: ubuntu-latest
+    
+    # Run tests for all the xsuite packages in separate jobs in parallel
+    strategy:
+      fail-fast: false
+      matrix:
+        test-suite:
+        - xobjects
+        - xdeps
+        - xpart
+        - xtrack
+        - xfields
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get install -y pocl-opencl-icd
+        pip install pytest pyopencl cython
+    - name: Check out xsuite repos & pip install
+      env:
+        xobjects_branch: ${{ inputs.xobjects_location }}
+        xdeps_branch: ${{ inputs.xdeps_location }}
+        xpart_branch: ${{ inputs.xpart_location }}
+        xtrack_branch: ${{ inputs.xtrack_location }}
+        xfields_branch: ${{ inputs.xfields_location }}
+      run: |
+        for project in xobjects xdeps xpart xtrack xfields; do
+          branch_varname="${project}_branch"
+          project_branch=${!branch_varname}  # get value of the variable [project]_branch
+          
+          IFS=':' read -r -a parts <<< $project_branch
+          user="${parts[0]}"
+          branch="${parts[1]}"
+          
+          echo git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git"
+          
+          cd $GITHUB_WORKSPACE
+          git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git"
+          pip install -e "${GITHUB_WORKSPACE}/${project}[tests]"
+        done
+    - name: Print versions
+      run: pip freeze
+    - name: Run tests (${{ matrix.test-suite }})
+      env:
+        XOBJECTS_TEST_CONTEXTS: ContextCpu
+      run: |
+        cd $GITHUB_WORKSPACE/${{ matrix.test-suite }}
+        pytest --color=yes -v tests
