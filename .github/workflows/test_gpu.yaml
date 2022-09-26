@@ -43,27 +43,27 @@ jobs:
   image-sanity-checks:
     runs-on: ['self-hosted']
     needs: build-test-image
-    container:
-      image: xsuite-test-runner
-      options: --rm --gpus all
+#    container:
+#      image: xsuite-test-runner
+#      options: --rm --gpus all
     steps:
       - name: CUDA info
-        run: nvidia-smi
+        run: docker run --rm --gpus all xsuite-test-runner nvidia-smi
       - name: OpenCL info
-        run: clinfo
+        run: docker run --rm --gpus all xsuite-test-runner clinfo
       - name: Package paths
-        run: python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+        run: docker run --rm --gpus all xsuite-test-runner python3 /opt/xsuite/xtrack/examples/print_package_paths.py
       - name: List dependencies
-        run: pip freeze
+        run: docker run --rm --gpus all xsuite-test-runner pip freeze
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
     runs-on: ['self-hosted']
     needs: image-sanity-checks
 
-    container:
-      image: xsuite-test-runner
-      options: --rm --gpus all
+#    container:
+#      image: xsuite-test-runner
+#      options: --rm --gpus all
 
     strategy:
       fail-fast: false
@@ -77,15 +77,16 @@ jobs:
 
     steps:
     - name: Run pytest
-      run: pytest --color=yes -v /opt/xsuite/${{ matrix.test-suite }}/tests
+      run: docker run --rm --gpus all xsuite-test-runner pytest --color=yes -v /opt/xsuite/${{ matrix.test-suite }}/tests
 
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers
   teardown:
     runs-on: ['self-hosted']
     needs: run-tests
+    if: always()
     steps:
       - name: Remove the test image
         run: docker image rm xsuite-test-runner
       - name: Prune containers and images
-        run: docker system prune
+        run: docker system prune -f
