@@ -1,0 +1,43 @@
+# This is a test workflow that is manually triggered
+name: Manual test workflow (self-hosted, GPU)
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    # Specify branches using the refspec-like syntax: <user>:<branch>
+    inputs:
+      xobjects_location:
+        description: 'xobjects branch'
+        default: 'xsuite:main'
+        required: true
+      xdeps_location:
+        description: 'xdeps branch'
+        default: 'xsuite:main'
+        required: true
+      xpart_location:
+        description: 'xpart branch'
+        default: 'xsuite:main'
+        required: true
+      xtrack_location:
+        description: 'xtrack branch'
+        default: 'xsuite:main'
+        required: true
+      xfields_location:
+        description: 'xfields branch'
+        default: 'xsuite:main'
+        required: true
+
+# This workflow calls the test_gpu.yaml workflow passing the specified
+# branches as inputs
+jobs:
+  run-tests-manual-gpu:
+    uses: ./.github/workflows/test_gpu.yaml
+    secrets: inherit
+    with:
+      xobjects_location: ${{ inputs.xobjects_location }}
+      xdeps_location: ${{ inputs.xdeps_location }}
+      xpart_location: ${{ inputs.xpart_location }}
+      xtrack_location: ${{ inputs.xtrack_location }}
+      xfields_location: ${{ inputs.xfields_location }}

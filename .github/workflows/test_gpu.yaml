@@ -1,0 +1,91 @@
+# This is a test workflow the other (self-hosted runner based) workflows rely on
+name: Test workflow (self-hosted, GPU)
+
+# Controls when the action will run. This is a reusable workflow.
+on:
+  workflow_call:
+    # Inputs the workflow accepts.
+    inputs:
+      xobjects_location:
+        required: true
+        type: string
+      xdeps_location:
+        required: true
+        type: string
+      xpart_location:
+        required: true
+        type: string
+      xtrack_location:
+        required: true
+        type: string
+      xfields_location:
+        required: true
+        type: string
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# The jobs are all run in independent environments. Here we will run a separate job
+# for each of the test suites specified in the matrix below.
+jobs:
+  # First, we build our test image based on the instructions on Gitlab
+  build-test-image:
+    runs-on: ['self-hosted']
+    steps:
+      - name: Build the test image
+        env:
+          config_repo: ${{ secrets.XSUITE_TEST_CONFIGS_GIT }}
+        run: |
+          rm -rf xsuite-test-configs
+          git clone $config_repo
+          cd xsuite-test-configs
+          docker build --no-cache=true -t xsuite-test-runner .
+
+  # Print out some stuff about the test environment
+  image-sanity-checks:
+    runs-on: ['self-hosted']
+    needs: build-test-image
+    container:
+      image: xsuite-test-runner
+      options: --rm --gpus all
+    steps:
+      - name: CUDA info
+        run: nvidia-smi
+      - name: OpenCL info
+        run: clinfo
+      - name: Package paths
+        run: python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+      - name: List dependencies
+        run: pip freeze
+
+  # Run the tests for each repo in parallel in a test container
+  run-tests:
+    runs-on: ['self-hosted']
+    needs: image-sanity-checks
+
+    container:
+      image: xsuite-test-runner
+      options: --rm --gpus all
+
+    strategy:
+      fail-fast: false
+      matrix:
+        test-suite:
+        - xobjects
+        - xdeps
+        - xpart
+        - xtrack
+        - xfields
+
+    steps:
+    - name: Run pytest
+      run: pytest --color=yes -v /opt/xsuite/${{ matrix.test-suite }}/tests
+
+  # Cleanup after the tests by removing the image and making sure there are
+  # no unused images and stopped containers
+  teardown:
+    runs-on: ['self-hosted']
+    needs: run-tests
+    steps:
+      - name: Remove the test image
+        run: docker image rm xsuite-test-runner
+      - name: Prune containers and images
+        run: docker system prune
