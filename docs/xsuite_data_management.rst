@@ -440,10 +440,10 @@ contexts. This applies in particular to arrays:
                 
                 
                 
-xobject conventions on memory initialization
+Xobject conventions on memory initialization
 -----------------------
 
-XObject always accept a combination of `_context`, `_buffer`, `_offset` to indentify and/or allocate the memory to which data is written:
+Xobject always accepts a combination of `_context`, `_buffer`, `_offset` to indentify and/or allocate the memory to which data is written:
 
 
 ======== ======== ======== ==================================================================================
