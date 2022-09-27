@@ -437,3 +437,24 @@ contexts. This applies in particular to arrays:
 
     print([type(x.array) for x in (test_cpu, test_cl, test_cupy)])
                 # => [numpy.ndarray, pyopencl.array.Array, cupy.ndarray]
+                
+                
+                
+xobject conventions on memory initialization
+-----------------------
+
+XObject always accept a combination of `_context`, `_buffer`, `_offset` to indentify and/or allocate the memory to which data is written:
+
+
+======== ======== ======== ==================================================================================
+             Inputs           Output 
+-------------------------- ----------------------------------------------------------------------------------
+_context  _buffer  _offset  xobject  
+======== ======== ======== ==================================================================================
+  None     None     None    `ContextCPU` is used to allocate an new buffer, allocate new memory at 0 offset 
+not None   None     None    `_context` is used to allocate a new buffer and allocate new memory at 0 offset
+  None   not None   None    `_buffer` is used to allocate new memory at the first free offset
+  None   not None not None  memory at `_offset` in `_buffer` is used without allocation         
+======== ======== ======== ==================================================================================
+
+Other combinations are not meaningful and should raise an exception (to be implemented).
