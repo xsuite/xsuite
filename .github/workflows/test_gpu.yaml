@@ -33,19 +33,28 @@ jobs:
       - name: Build the test image
         env:
           config_repo: ${{ secrets.XSUITE_TEST_CONFIGS_GIT }}
+          xobjects_branch: ${{ inputs.xobjects_location }}
+          xdeps_branch: ${{ inputs.xdeps_location }}
+          xpart_branch: ${{ inputs.xpart_location }}
+          xtrack_branch: ${{ inputs.xtrack_location }}
+          xfields_branch: ${{ inputs.xfields_location }}
         run: |
           rm -rf xsuite-test-configs
           git clone $config_repo
           cd xsuite-test-configs
-          docker build --no-cache=true -t xsuite-test-runner .
+          docker build \
+            --no-cache=true \
+            --build-arg xobjects_branch=${xobjects_branch} \
+            --build-arg xdeps_branch=${xdeps_branch} \
+            --build-arg xpart_branch=${xpart_branch} \
+            --build-arg xtrack_branch=${xtrack_branch} \
+            --build-arg xfields_branch=${xfields_branch} \
+            -t xsuite-test-runner .
 
   # Print out some stuff about the test environment
   image-sanity-checks:
     runs-on: ['self-hosted']
     needs: build-test-image
-#    container:
-#      image: xsuite-test-runner
-#      options: --rm --gpus all
     steps:
       - name: CUDA info
         run: docker run --rm --gpus all xsuite-test-runner nvidia-smi
@@ -60,11 +69,6 @@ jobs:
   run-tests:
     runs-on: ['self-hosted']
     needs: image-sanity-checks
-
-#    container:
-#      image: xsuite-test-runner
-#      options: --rm --gpus all
-
     strategy:
       fail-fast: false
       matrix:
