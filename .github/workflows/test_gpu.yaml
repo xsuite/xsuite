@@ -90,6 +90,8 @@ jobs:
     needs: run-tests
     if: always()
     steps:
+      - name: Stop any containers that lagging behind
+        run: docker kill $(docker ps -q --filter ancestor=xsuite-test-runner)
       - name: Remove the test image
         run: docker image rm xsuite-test-runner
       - name: Prune containers and images

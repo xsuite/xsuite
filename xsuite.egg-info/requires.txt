@@ -1,0 +1,6 @@
+numpy>=1.0
+xobjects
+xtrack
+xfields
+xpart
+xdeps
