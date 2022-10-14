@@ -1,5 +1,5 @@
 # This is a workflow that should run daily
-name: Daily test (CPU)
+name: Daily test (GPU)
 
 # Controls when the action will run.
 on:
@@ -10,7 +10,7 @@ on:
 # branches as inputs
 jobs:
   run-tests-cron-gh:
-    uses: ./.github/workflows/test_gh.yaml
+    uses: ./.github/workflows/test_gpu.yaml
     with:
       xobjects_location: 'xsuite:main'
       xdeps_location: 'xsuite:main'

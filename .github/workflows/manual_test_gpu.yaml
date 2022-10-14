@@ -1,5 +1,5 @@
 # This is a test workflow that is manually triggered
-name: Manual test workflow (self-hosted, GPU)
+name: Manual test (GPU)
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.

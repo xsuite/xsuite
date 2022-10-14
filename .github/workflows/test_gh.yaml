@@ -1,5 +1,5 @@
 # This is a test workflow the other (GitHub runner based) workflows rely on
-name: Test workflow
+name: Test workflow (CPU, GitHub)
 
 # Controls when the action will run. This is a reusable workflow.
 on:
