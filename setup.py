@@ -13,7 +13,7 @@ extensions = []
 
 setup(
     name='xsuite',
-    version='0.4.0',
+    version='0.4.1',
     description='Integrated suite for particle accelerator simulations',
     long_description='Integrated suite for particle accelerator simulations',
     author='R. De Maria, G. Iadarola et al.',
