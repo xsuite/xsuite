@@ -9,3 +9,4 @@ Developer's guide
     xobjexample
     autogeneration
     numericalreproducibility
+    testing

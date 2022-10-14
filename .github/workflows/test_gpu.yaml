@@ -39,9 +39,6 @@ jobs:
           xtrack_branch: ${{ inputs.xtrack_location }}
           xfields_branch: ${{ inputs.xfields_location }}
         run: |
-          rm -rf xsuite-test-configs
-          git clone $config_repo
-          cd xsuite-test-configs
           docker build \
             --no-cache=true \
             --build-arg xobjects_branch=${xobjects_branch} \
@@ -90,7 +87,7 @@ jobs:
     needs: run-tests
     if: always()
     steps:
-      - name: Stop any containers that lagging behind
+      - name: Stop any containers lagging behind
         run: docker kill $(docker ps -q --filter ancestor=xsuite-test-runner)
       - name: Remove the test image
         run: docker image rm xsuite-test-runner
