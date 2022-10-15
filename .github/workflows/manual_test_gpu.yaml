@@ -1,5 +1,5 @@
 # This is a test workflow that is manually triggered
-name: Manual test (CPU)
+name: Manual test (GPU)
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -29,11 +29,12 @@ on:
         default: 'xsuite:main'
         required: true
 
-# This workflow calls the test_gh.yaml workflow passing the specified
+# This workflow calls the test_gpu.yaml workflow passing the specified
 # branches as inputs
 jobs:
-  run-tests-manual-gh:
-    uses: ./.github/workflows/test_gh.yaml
+  run-tests-manual-gpu:
+    uses: ./.github/workflows/test_gpu.yaml
+    secrets: inherit
     with:
       xobjects_location: ${{ inputs.xobjects_location }}
       xdeps_location: ${{ inputs.xdeps_location }}
