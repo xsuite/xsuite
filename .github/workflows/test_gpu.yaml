@@ -1,5 +1,5 @@
 # This is a test workflow the other (self-hosted runner based) workflows rely on
-name: Test workflow (self-hosted, GPU)
+name: Test workflow (self-hosted, GPU + CPU)
 
 # Controls when the action will run. This is a reusable workflow.
 on:
@@ -80,7 +80,10 @@ jobs:
 
     steps:
     - name: Run pytest
-      run: docker run --rm --gpus all xsuite-test-runner pytest --color=yes -v /opt/xsuite/${{ matrix.test-suite }}/tests
+      run: |
+        docker run --rm --gpus all \
+          --env XOBJECTS_TEST_CONTEXTS='ContextCpu;ContextCupy;ContextPyopencl' xsuite-test-runner \
+          pytest --color=yes -v /opt/xsuite/${{ matrix.test-suite }}/tests
 
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers

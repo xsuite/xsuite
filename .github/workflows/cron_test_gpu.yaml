@@ -1,5 +1,5 @@
 # This is a workflow that should run daily
-name: Daily test (GPU)
+name: Daily test (self-hosted, GPU + CPU)
 
 # Controls when the action will run.
 on:
