@@ -26,21 +26,26 @@ on:
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
 jobs:
-  # First, we build our test image based on the instructions on Gitlab
+  # First, we build our test image
   build-test-image:
     runs-on: ['self-hosted']
+    outputs:
+      image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
-      - name: Checkout the repo
+      - id: checkout-repo
+        name: Checkout the repo
         uses: actions/checkout@v3
-      - name: Build the test image
+      - id: build-image
+        name: Build the test image
         env:
-          config_repo: ${{ secrets.XSUITE_TEST_CONFIGS_GIT }}
           xobjects_branch: ${{ inputs.xobjects_location }}
           xdeps_branch: ${{ inputs.xdeps_location }}
           xpart_branch: ${{ inputs.xpart_location }}
           xtrack_branch: ${{ inputs.xtrack_location }}
           xfields_branch: ${{ inputs.xfields_location }}
         run: |
+          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --no-cache=true \
             --build-arg xobjects_branch=${xobjects_branch} \
@@ -48,26 +53,28 @@ jobs:
             --build-arg xpart_branch=${xpart_branch} \
             --build-arg xtrack_branch=${xtrack_branch} \
             --build-arg xfields_branch=${xfields_branch} \
-            -t xsuite-test-runner .
+            -t $IMAGE .
 
   # Print out some stuff about the test environment
   image-sanity-checks:
     runs-on: ['self-hosted']
     needs: build-test-image
+    env:
+      image_id: ${{ needs.build-test-image.outputs.image_id }}
     steps:
       - name: CUDA info
-        run: docker run --rm --gpus all xsuite-test-runner nvidia-smi
+        run: docker run --rm --gpus all ${image_id} nvidia-smi
       - name: OpenCL info
-        run: docker run --rm --gpus all xsuite-test-runner clinfo
+        run: docker run --rm --gpus all ${image_id} clinfo
       - name: Package paths
-        run: docker run --rm --gpus all xsuite-test-runner python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+        run: docker run --rm --gpus all ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
       - name: List dependencies
-        run: docker run --rm --gpus all xsuite-test-runner pip freeze
+        run: docker run --rm --gpus all ${image_id} pip freeze
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
     runs-on: ['self-hosted']
-    needs: image-sanity-checks
+    needs: [build-test-image, image-sanity-checks]
     strategy:
       fail-fast: false
       matrix:
@@ -80,21 +87,28 @@ jobs:
 
     steps:
     - name: Run pytest
+      env:
+        image_id: ${{ needs.build-test-image.outputs.image_id }}
+        test_contexts: 'ContextCpu;ContextCupy;ContextPyopencl'
       run: |
         docker run --rm --gpus all \
-          --env XOBJECTS_TEST_CONTEXTS='ContextCpu;ContextCupy;ContextPyopencl' xsuite-test-runner \
+          --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+          ${image_id} \
           pytest --color=yes -v /opt/xsuite/${{ matrix.test-suite }}/tests
 
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers
   teardown:
     runs-on: ['self-hosted']
-    needs: run-tests
+    needs: [build-test-image, run-tests]
+    env:
+      image_id: ${{ needs.build-test-image.outputs.image_id }}
     if: always()
     steps:
-      - name: Stop any containers lagging behind
-        run: docker kill $(docker ps -q --filter ancestor=xsuite-test-runner) || true
-      - name: Remove the test image
-        run: docker image rm xsuite-test-runner
-      - name: Prune containers and images
-        run: docker system prune -f
+      - name: Stop the containers and remove the image
+        run: |
+          docker container stop \
+            $(docker ps -q --filter ancestor=${image_id}) || true
+          docker container rm --volumes \
+            $(docker ps -qa --filter ancestor=${image_id}) || true
+          docker image rm ${image_id}
