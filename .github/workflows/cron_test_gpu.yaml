@@ -6,10 +6,11 @@ on:
   schedule:
     - cron: '00 19 * * *'  # run at 19:00 UTC daily
 
-# This workflow calls the test_gh.yaml workflow passing the default
-# branches as inputs
+# This workflow calls the test_gpu.yaml workflow passing the default
+# branches as inputs. The cron workflow will not run on forks.
 jobs:
-  run-tests-cron-gh:
+  run-tests-cron-gpu:
+    if: github.repository == 'xsuite/xsuite'
     uses: ./.github/workflows/test_gpu.yaml
     with:
       xobjects_location: 'xsuite:main'
