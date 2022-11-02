@@ -28,7 +28,7 @@ on:
 jobs:
   run-tests:
     # The type of runner that the job will run on: this one is provided by GitHub
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     # Run tests for all the xsuite packages in separate jobs in parallel
     strategy:
