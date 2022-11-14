@@ -52,18 +52,37 @@ as numpy or numpy-like arrays as attributes of the beam element. For example:
 
     m = xtrack.Multipole(knl=[1,2,3])
 
-    mp._xobject.knl
+    m._xobject.knl
     # is an xobjects.Array
 
-    mp.knl
-    # is a numpy array
+    m.knl
+    # is a numpy array (or numpy-like on GPU contexts)
+    
+    m.knl[0] = 5 # can be modified using numpy-like syntax
 
 It should be noted that the two are different views of the same memory area,
 hence any modification can be made indifferently on any of them.
 
 The numpy view (or numpy-like on GPU contexts) gives the possibility of using
-numpy-compatible functions and features on the array (e.g. ``np.sum``, ``np.mean``,
-slicing, masking, etc.).
+numpy-compatible functions and features on the array (e.g. slicing, masking, etc.).
+This is especially useful to modify data in-place.
+
+Please note that not all numpy features will work for the numpy-like arrays on GPU contexts.
+To make use of such features (e.g. ``np.sum``, ``np.mean``, etc.) you can get a copy
+of the array as real numpy array (but modifications will not be possible).
+
+.. code-block:: python
+
+    # only for CPU context:
+    np.sum(m.knl) # will throw an exception on PyOpenCl context
+    
+    # only for GPU context:
+    np.sum(m.knl.get()) # get a numpy array as copy
+    
+    # for any context:
+    np.sum(m._context.nparray_from_context_array(m.knl)) # get a numpy array as copy
+
+ 
 
 Contexts and buffers
 ====================
