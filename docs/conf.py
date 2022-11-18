@@ -105,6 +105,8 @@ snippet_files = {
         'generated_code_snippets/internal_record_standalone.py',
     'xtrack/examples/multisetter/000_sps_50hz_ripple.py':
         'generated_code_snippets/ripple.py',
+    'xtrack/examples/tapering/000_taper.py':
+        'generated_code_snippets/taper.py',
     }
 
 for ss, tt in snippet_files.items():

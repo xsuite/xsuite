@@ -57,7 +57,7 @@ as numpy or numpy-like arrays as attributes of the beam element. For example:
 
     m.knl
     # is a numpy array (or numpy-like on GPU contexts)
-    
+
     m.knl[0] = 5 # can be modified using numpy-like syntax
 
 It should be noted that the two are different views of the same memory area,
@@ -75,14 +75,13 @@ of the array as real numpy array (but modifications will not be possible).
 
     # only for CPU context:
     np.sum(m.knl) # will throw an exception on PyOpenCl context
-    
+
     # only for GPU context:
     np.sum(m.knl.get()) # get a numpy array as copy
-    
+
     # for any context:
     np.sum(m._context.nparray_from_context_array(m.knl)) # get a numpy array as copy
 
- 
 
 Contexts and buffers
 ====================
@@ -456,24 +455,23 @@ contexts. This applies in particular to arrays:
 
     print([type(x.array) for x in (test_cpu, test_cl, test_cupy)])
                 # => [numpy.ndarray, pyopencl.array.Array, cupy.ndarray]
-                
-                
-                
+
+
 Xobject conventions on memory initialization
------------------------
+--------------------------------------------
 
 Xobject always accepts a combination of `_context`, `_buffer`, `_offset` to indentify and/or allocate the memory to which data is written:
 
 
 ======== ======== ======== ==================================================================================
-             Inputs           Output 
+             Inputs           Output
 -------------------------- ----------------------------------------------------------------------------------
-_context  _buffer  _offset  xobject  
+_context  _buffer  _offset  xobject
 ======== ======== ======== ==================================================================================
-  None     None     None    `ContextCPU` is used to allocate an new buffer, allocate new memory at 0 offset 
+  None     None     None    `ContextCPU` is used to allocate an new buffer, allocate new memory at 0 offset
 not None   None     None    `_context` is used to allocate a new buffer and allocate new memory at 0 offset
   None   not None   None    `_buffer` is used to allocate new memory at the first free offset
-  None   not None not None  memory at `_offset` in `_buffer` is used without allocation         
+  None   not None not None  memory at `_offset` in `_buffer` is used without allocation
 ======== ======== ======== ==================================================================================
 
 Other combinations are not meaningful and should raise an exception (to be implemented).

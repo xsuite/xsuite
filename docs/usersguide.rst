@@ -16,6 +16,7 @@
    deferred_expressions
    acceleration
    synchrotron_radiation
+   tapering
    collective
    spacechargeauto
    collimation
