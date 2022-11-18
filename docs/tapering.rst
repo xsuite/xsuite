@@ -7,5 +7,5 @@ radiation, by configuring the phase od the RF cavities to compensate for the ene
 loss and adapting the strength of the magnets to the local momentum of the
 particle on the closed orbit.
 
-.. literalinclude:: generated_code_snippets/tapering.py
+.. literalinclude:: generated_code_snippets/taper.py
    :language: python
