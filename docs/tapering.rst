@@ -1,6 +1,6 @@
-================================
-Compensate radiation energy loss
-================================
+===========================================
+Compensate radiation energy loss (tapering)
+===========================================
 
 Xtrack Tracker provides a method to compensate the energy loss due to the synchrotron
 radiation. This is done by configuring the phase of the RF cavities to compensate
