@@ -14,6 +14,7 @@
    twiss
    fast_lattice_changes
    deferred_expressions
+   freeze_longitudinal
    acceleration
    synchrotron_radiation
    tapering
