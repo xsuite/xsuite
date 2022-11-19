@@ -12,7 +12,7 @@ Freezing longitudinal when calling methods
 ------------------------------------------
 
 The ``Tracker.twiss`` and ``Tracker.track`` can work with frozen longitudinal
-coordinates. This is done by setting the ``freeze_longitudinal`` argument to 
+coordinates. This is done by setting the ``freeze_longitudinal`` argument to
 ``True``, as shown in the following example:
 
 .. literalinclude:: generated_code_snippets/freeze_individual_methods.py
@@ -23,7 +23,7 @@ Freezing longitudinal coordinates a ``with`` block
 
 A context manager is also available to freeze the longitudinal coordinates within
 a ``with`` block. The normal tracking mode, updating the longitudinal
-coordinates is automatically restored when exiting the ``with`` block, as it is
+coordinates, is automatically restored when exiting the ``with`` block, as it is
 illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/freeze_freeze_context_manager.py
@@ -34,7 +34,7 @@ Freezing longitudinal coordinates with tracker method
 
 The ``xtrack.Tracker`` class provides a method called ``freeze_longitudinal()``
 to explicitly freeze the longitudinal coordinates. The normal tracking mode,
-updating the longitudinal coordinates can be restored by calling
+updating the longitudinal coordinates, can be restored by calling
 ``freeze_longitudinal(False)``. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/freeze_unfreeze_explicit.py
