@@ -105,6 +105,8 @@ snippet_files = {
         'generated_code_snippets/internal_record_standalone.py',
     'xtrack/examples/multisetter/000_sps_50hz_ripple.py':
         'generated_code_snippets/ripple.py',
+    'xtrack/examples/tapering/000_taper.py':
+        'generated_code_snippets/taper.py',
     'xtrack/examples/freeze_longitudinal/000_freeze_unfreeze_explicit.py':
         'generated_code_snippets/freeze_unfreeze_explicit.py',
     'xtrack/examples/freeze_longitudinal/001_freeze_context_manager.py':
