@@ -12,9 +12,9 @@
    particlesmanip
    particles_monitor
    twiss
+   deferred_expressions
    match_twiss_params
    fast_lattice_changes
-   deferred_expressions
    freeze_longitudinal
    acceleration
    synchrotron_radiation
