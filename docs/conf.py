@@ -115,6 +115,8 @@ snippet_files = {
         'generated_code_snippets/freeze_freeze_context_manager.py',
     'xtrack/examples/freeze_longitudinal/002_freeze_individual_methods.py':
         'generated_code_snippets/freeze_individual_methods.py',
+    'xtrack/examples/optimized_tracker/000_optimized_tracker.py':
+        'generated_code_snippets/optimized_tracker.py',
     }
 
 for ss, tt in snippet_files.items():

@@ -17,6 +17,7 @@
    fast_lattice_changes
    freeze_longitudinal
    acceleration
+   optimize_for_tracking
    synchrotron_radiation
    tapering
    collective
