@@ -12,6 +12,7 @@
    particlesmanip
    particles_monitor
    twiss
+   match_twiss_params
    fast_lattice_changes
    deferred_expressions
    freeze_longitudinal
