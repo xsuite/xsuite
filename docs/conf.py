@@ -81,6 +81,8 @@ snippet_files = {
         'generated_code_snippets/twiss.py',
     'xtrack/examples/twiss/003_match_tune_chroma.py':
         'generated_code_snippets/match_tune_chroma.py',
+    'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
+        'generated_code_snippets/method_4d.py',
     'xtrack/examples/to_json/000_lattice_to_json.py':
         'generated_code_snippets/tojson.py',
     'xtrack/examples/knobs/001_lhc.py':

@@ -16,6 +16,7 @@
    match_twiss_params
    fast_lattice_changes
    freeze_longitudinal
+   method_4d
    acceleration
    optimize_for_tracking
    synchrotron_radiation
