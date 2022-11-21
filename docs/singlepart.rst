@@ -190,19 +190,18 @@ The particles to be tracked can be allocated on the chosen platform using the fo
 
 .. code-block:: python
 
-    import xpart as xp
-
-    import numpy as np
-    n_part = 100
-    particles = xp.Particles(_context=context,
-                            p0c=6500e9,
+    ## Build particle object on context
+    n_part = 200
+    particles = tracker.build_particles(
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),
                             y=np.random.uniform(-2e-3, 2e-3, n_part),
                             py=np.random.uniform(-3e-5, 3e-5, n_part),
                             zeta=np.random.uniform(-1e-2, 1e-2, n_part),
-                            delta=np.random.uniform(-1e-4, 1e-4, n_part),
-                            )
+                            delta=np.random.uniform(-1e-4, 1e-4, n_part))         
+    # Reference mass, charge, energy are taken from the reference particle. 
+    # Particles are allocated on the context chosen for the tracker.
+
 
 The coordinates of the particle object are accessible with the conventional python syntax. For example to access the *x* coordinate of the particle 20, one can use the following instruction:
 
