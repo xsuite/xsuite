@@ -28,6 +28,12 @@ A simple tracking simulation can be configured and executed with the following p
                   xt.Drift(length=1.),
                   xt.Multipole(knl=[0, -1.], ksl=[0,0])],
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
+        
+    ## Attach a reference particle to the line (optional)
+    ## (defines the reference mass, charge and energy)
+    line.particle_ref = xp.Particles(p0c=6500e9, #eV
+                                     q0=1, 
+                                     mass0=xp.PROTON_MASS_EV)
 
     ## Choose a context
     context = xo.ContextCpu()         # For CPU
@@ -35,19 +41,19 @@ A simple tracking simulation can be configured and executed with the following p
     # context = xo.ContextPyopencl()  # For OpenCL GPUs
 
     ## Transfer lattice on context and compile tracking code
-    tracker = xt.Tracker(_context=context, line=line)
+    tracker = line.build_tracker(_context=context)
 
     ## Build particle object on context
     n_part = 200
-    particles = xp.Particles(_context=context,
-                            p0c=6500e9,
+    particles = tracker.build_particles(
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),
                             y=np.random.uniform(-2e-3, 2e-3, n_part),
                             py=np.random.uniform(-3e-5, 3e-5, n_part),
                             zeta=np.random.uniform(-1e-2, 1e-2, n_part),
-                            delta=np.random.uniform(-1e-4, 1e-4, n_part),
-                            )
+                            delta=np.random.uniform(-1e-4, 1e-4, n_part))         
+    # Reference mass, charge, energy are taken from the reference particle. 
+    # Particles are allocated on the context chosen for the tracker.
 
     ## Track (saving turn-by-turn data)
     n_turns = 100
@@ -96,8 +102,7 @@ The lattice can be manipulated in python after its creation. For example we can 
 
 .. code-block:: python
 
-    q1 = line.elements[1]
-    q1.knl = 2.
+    line['quad_0'].knl[1] = 2.
 
 Importing a MAD-X lattice
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,7 +179,7 @@ An Xtrack tracker object needs to be created to track particles on the chosen co
 .. code-block:: python
 
     import xtrack as xt
-    tracker = xt.Tracker(_context=context, line=line)
+    tracker = line.build_tracker(_context=context)
 
 This step transfers the machine model to the required platform and compiles the required tracking code.
 
