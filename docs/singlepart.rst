@@ -73,8 +73,8 @@ Step-by-step description
 In this sections we will discuss in some more detail the different steps
 outlined in the example above.
 
-Getting the Xline machine model
--------------------------------
+Getting the machine model
+-------------------------
 
 The first step to perform a tracking simulation consists in creating or importing
 the lattice description of a ring or a beam line.
@@ -155,6 +155,21 @@ Once a Xtrack lattice is available, it can be used to track particles CPU or GPU
 
 **Note:** the generation of xtrack lines from sixtrack input is used
 mainly for testing and is not guaranteed to work correcly for any sixtrack input.
+
+
+Define reference particle
+-------------------------
+
+A reference particle can be associated to the line and is used to define the
+reference mass, charge and energy when generating other particle sets or when
+performing other calculation (e.g. computing twiss parameters, compensating the
+energy loss, etc.). The reference particle can be defined as follows:
+
+.. code-block:: python
+
+    line.particle_ref = xp.Particles(p0c=6500e9, #eV
+                                     q0=1, mass0=xp.PROTON_MASS_EV)
+
 
 Create a Context (CPU or GPU)
 -----------------------------
