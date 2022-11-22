@@ -130,6 +130,22 @@ for ss, tt in snippet_files.items():
 
     lines = cc.split('\n')
     lines = [ll for ll in lines if '#!skip-doc' not in ll]
+
+    # Remove copyright statement if present
+    comment_char = '#'
+    if (len(lines) > 0 and
+        lines[0].startswith(comment_char + ' ' + 'copyright ##')):
+        for ill, ll in enumerate(lines):
+            assert ll.startswith(comment_char)
+            if ll.startswith(comment_char + ' ' + '########'):
+                end_cpright = ill
+                break
+        lines = lines[end_cpright+1:]
+
+    # Remove empty lines at the beginning
+    while len(lines) > 0 and lines[0].strip() == '':
+        lines = lines[1:]
+
     cc = '\n'.join(lines)
 
     with open(tt, 'w') as fid:
