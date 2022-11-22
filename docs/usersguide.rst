@@ -7,10 +7,10 @@
 
    installation
    singlepart
-   xsuite_data_management
-   line2json
    particlesmanip
    particles_monitor
+   line2json
+   xsuite_data_management
    twiss
    deferred_expressions
    match_twiss_params
