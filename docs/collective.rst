@@ -41,7 +41,7 @@ This creates a space-charge element where the transverse beam sizes are updated 
                             'qf2', 'drift3', 'qd2', 'drift4'])
 
     ## Transfer lattice on context and compile tracking code
-    tracker = xt.Tracker(_context=context, line=line)
+    tracker = line.build_tracker(_context=context)
 
     ## Build particle object on context
     n_part = 200
