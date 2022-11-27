@@ -44,8 +44,9 @@ The ``build_particles`` function
 It is often convenient to generate new Particles objects starting from a given
 reference particle, which defines the particle type (charge and mass)
 and the reference energy and momentum.
-This can be accomplished using the :meth:`xpart.build_particles` function, which
-features three different modes illustrated in the following.
+This can be accomplished using the :meth:`xpart.build_particles` function or
+its alias ``tracker.build_particles``, which
+feature three different modes illustrated in the following.
 
 The ``set`` mode
 ----------------
