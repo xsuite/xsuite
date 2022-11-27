@@ -45,8 +45,12 @@ snippet_files = {
         'generated_code_snippets/basics_part.py',
     'xpart/examples/particles_generation/001a_build_particles_set.py':
         'generated_code_snippets/build_particles_set.py',
+    'xpart/examples/particles_generation/001at_build_particles_set_with_tracker.py':
+        'generated_code_snippets/build_particles_set_with_tracker.py',
     'xpart/examples/particles_generation/001b_build_particles_shift.py':
         'generated_code_snippets/build_particles_shift.py',
+    'xpart/examples/particles_generation/001bt_build_particles_shift_with_tracker.py':
+        'generated_code_snippets/build_particles_shift_with_tracker.py',
     'xpart/examples/particles_generation/001c_build_particles_normalized.py':
         'generated_code_snippets/build_particles_normalized.py',
     'xpart/examples/particles_generation/003_pencil.py':

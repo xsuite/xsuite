@@ -60,6 +60,12 @@ zero assumed as default). For example:
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
 
+Equivalently one can use the ``tracker.build_particles`` function (automatically
+infers context and reference particle from the tracker):
+
+.. literalinclude:: generated_code_snippets/build_particles_set_with_tracker.py
+   :language: python
+
 The ``shift`` mode
 ------------------
 
@@ -70,6 +76,12 @@ reference particle and shifted according to the provided input `x`, `px`, `y`,
 `py`, `zeta`, `delta` (with zero assumed as default). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_shift.py
+   :language: python
+
+Equivalently one can use the ``tracker.build_particles`` function (automatically
+infers context and reference particle from the tracker):
+
+.. literalinclude:: generated_code_snippets/build_particles_shift_with_tracker.py
    :language: python
 
 The ``normalized_transverse`` mode
