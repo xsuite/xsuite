@@ -87,18 +87,48 @@ This is done with the Line class, which allows:
 
 These three options will be briefly described in the following.
 
-We can create a simple lattice in python as follows:
+Lattice definition in python
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The lattice can be created from a list of elements:
 
 .. code-block:: python
 
     import xtrack as xt
 
+    # From a list of elements:
     line = xt.Line(
         elements=[xt.Drift(length=2.),
                   xt.Multipole(knl=[0, 1.], ksl=[0,0]),
                   xt.Drift(length=1.),
                   xt.Multipole(knl=[0, -1.], ksl=[0,0])],
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
+
+Or it can be created from a sequence definition (a list of nodes). This allows to place elements with respect to each other
+and to re-use element and sub-sequence definitions by name. Drifts will be inserted as needed when the line is created:
+
+.. code-block:: python
+
+    import numpy as np
+    from xtrack import Line, Node, Multipole
+
+    # Or from a sequence definition:
+    elements = {
+        'quad': Multipole(length=0.3, knl=[0, +0.50]),
+        'bend': Multipole(length=0.5, knl=[np.pi / 12], hxl=[np.pi / 12]),
+    }
+    sequences = {
+        'arc': [Node(1.0, 'quad'), Node(4.0, 'bend', from_='quad')],
+    }
+    line = Line.from_sequence([
+            Node( 0.0, 'arc'),
+            Node(10.0, 'arc', name='section2'),
+            Node( 3.0, Multipole(knl=[0, 0, 0.1]), from_='section2', name='sext'),
+            Node( 3.0, 'quad', name='quad_5', from_='sext'),
+        ], length=20,
+        elements=elements, sequences=sequences,
+        auto_reorder=True, copy_elements=False,
+    )
 
 The lattice can be manipulated in python after its creation. For example we can
 change the strength of the first quadrupole as follows:
