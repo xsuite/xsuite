@@ -47,13 +47,14 @@ python code. More details on the different steps will be discussed in the follow
     ## Build particle object on context
     n_part = 200
     particles = xp.Particles(p0c=6500e9, #eV
-                            q0=1, ,mass0=xp.PROTON_MASS_EV,
+                            q0=1, mass0=xp.PROTON_MASS_EV,
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),
                             y=np.random.uniform(-2e-3, 2e-3, n_part),
                             py=np.random.uniform(-3e-5, 3e-5, n_part),
                             zeta=np.random.uniform(-1e-2, 1e-2, n_part),
-                            delta=np.random.uniform(-1e-4, 1e-4, n_part))
+                            delta=np.random.uniform(-1e-4, 1e-4, n_part),
+                            _context=context)
 
     ## Track (saving turn-by-turn data)
     n_turns = 100
