@@ -126,7 +126,12 @@ as follows:
     import xobjects as xo
     import xtrack as xt
 
-    class SRotation(BeamElement):
+    class SRotation(xt.BeamElement):
+
+        _xofields = {
+            'cos_z': xo.Float64,
+            'sin_z': xo.Float64,
+        }
 
         def __init__(self, angle=0, **kwargs):
             anglerad = angle / 180 * np.pi
