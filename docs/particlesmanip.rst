@@ -154,7 +154,7 @@ The following example shows how to generate a distribution, which combines:
     particles_generation/003_pencil.py>`_
 
 Example: Gaussian bunch
--------------------------
+-----------------------
 
 The function :meth:`xpart.generate_matched_gaussian_bunch` can be used to
 generate a bunch having Gaussian distribution in all coordinates and matched to
@@ -170,6 +170,16 @@ the non-linead RF bucket, as illustrated by the following example:
     `See the full code generating the image.
     <https://github.com/xsuite/xpart/blob/main/examples/
     particles_generation/004_generate_gaussian.py>`_
+
+Matching distribution at custom location in the ring
+----------------------------------------------------
+
+The functions :meth:`xtrack.Tracker.generate_matched_gaussian_bunch` can be used to
+match a particle distribution at a custom location in the ring, as illustrated
+by the following example:
+
+.. literalinclude:: generated_code_snippets/match_at_element.py
+   :language: python
 
 
 Copying a Particles object (optionally across contexts)
