@@ -20,6 +20,14 @@ The Xsuite packages can be installed using pip:
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
+After the installation, you can choose to precompile some often-used kernels, in
+order to reduce the waiting time spent on running the simulations later on. This
+can be accomplished simply by running the following command:
+
+.. code-block:: bash
+
+    xsuite-precompile
+
 
 Developer installation
 ======================
