@@ -4,7 +4,7 @@
 Installation
 ============
 
-We assume that you have a recent python installation (python 3.8+). It this is not the case you can make one following the dedicated section on :ref:`how to get a miniconda installation<miniconda>`.
+We assume that you have a recent python installation (python 3.8+). It this is not the case you can make one following the dedicated section on :ref:`how to get a miniforge installation<miniforge>`.
 
 .. contents:: Table of Contents
     :depth: 3
@@ -90,7 +90,7 @@ Installation of cupy
 --------------------
 
 In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be installed.
-In Anaconda or Miniconda (if you don't have Anaconda or Miniconda, see dedicated section on :ref:`how to get a miniconda installation<miniconda>`)
+In Anaconda or /Miniforge (if you don't have Anaconda or Miniconda/Miniforge, see dedicated section on :ref:`how to get a miniforge installation<miniforge>`)
 this can be done as follows for example for CUDA version 10.1.243:
 
 .. code-block:: bash
@@ -106,7 +106,7 @@ Installation of PyOpenCL
 ------------------------
 
 In order to use the :doc:`pyopencl context<contexts>`, the PyOpenCL package needs to be installed.
-In Anacoda or Miniconda this can be done as follows:
+In Anacoda or Miniconda/Miniforge this can be done as follows:
 
 .. code-block:: bash
 
@@ -147,7 +147,7 @@ We locate the library and headers here:
 
 .. code-block:: bash
 
-    $ ls ~/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/
+    $ ls ~/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/
     # gives: include  info  lib
 
 (Or locate the directory via ``find $(dirname $(dirname $(type -P conda)))/pkgs -name "clfft*" -type d`` .)
@@ -162,14 +162,14 @@ and we install gpyfft with pip providing extra flags as follows:
 
 .. code-block:: bash
 
-     $ pip install --global-option=build_ext --global-option="-I/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
+     $ pip install --global-option=build_ext --global-option="-I/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
 
 Alternatively (if the command above does not work) we can edit the ``setup.py`` of gpyfft to provide the right paths to your clfft installation (and potentially the OpenCL directory of your platform):
 
 .. code-block:: python
 
     if 'Linux' in system:
-        CLFFT_DIR = os.path.expanduser('~/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/')
+        CLFFT_DIR = os.path.expanduser('~/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/')
         CLFFT_LIB_DIRS = [r'/usr/local/lib64']
         CLFFT_INCL_DIRS = [os.path.join(CLFFT_DIR, 'include'), ] # remove the 'src' part
         CL_INCL_DIRS = ['/opt/rocm-4.0.0/opencl/include']
@@ -181,12 +181,55 @@ And install gpyfft locally.
     $ pip install -e gpyfft/
 
 
-.. _miniconda:
+.. _miniforge:
+
+Install Miniforge
+=================
+
+If you don't have a miniconda or miniforge installation, you can quickly get one ready for xsuite installation with the following steps.
+A miniforge installation is strongly recommended against a miniconda installation as miniforge uses by default the "conda-forge" channel
+while miniconda uses the "default" channel (https://repo.anaconda.com/pkgs/). While the "default" channel can require a paid license 
+depending on its usage, the "conda-forge" channel is free for all to use (see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/channels.html).
+
+On Linux
+--------
+
+.. code-block:: bash
+
+    $ cd ~
+    $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+    $ bash Miniforge3-latest-Linux-x86_64.sh
+    $ source miniforge3/bin/activate
+    $ pip install numpy scipy matplotlib pandas ipython pytest
+
+On MacOS (x86_64)
+--------
+
+.. code-block:: bash
+
+    $ cd ~
+    $ curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh > miniforge_inst.sh
+    $ bash miniforge_inst.sh
+    $ source miniforge3/bin/activate
+    $ conda install clang_osx-64
+    $ pip install numpy scipy matplotlib pandas ipython pytest
+
+On MacOS (arm64)
+--------
+
+.. code-block:: bash
+
+    $ cd ~
+    $ curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh > miniforge_inst.sh
+    $ bash miniforge_inst.sh
+    $ source miniforge3/bin/activate
+    $ conda install compilers
+    $ pip install numpy scipy matplotlib pandas ipython pytest
 
 Install Miniconda
 =================
 
-If you don't have a miniconda installation, you can quickly get one ready for xsuite installation with the following steps.
+If you still want a miniconda installation, you can quickly get one ready for xsuite installation with the following steps.
 
 On Linux
 --------
