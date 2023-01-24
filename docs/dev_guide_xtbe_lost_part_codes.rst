@@ -11,5 +11,8 @@ State  Information
 -2     Lost due to a longitudinal cut.
 -10    Lost all energy in synchrotron radiation.
 -11    Found outside interpolation grid.
--333   Lost in collimator.
+-333   Lost in Everest collimator.
+-334   Lost in FLUKA collimator.
+-335   Lost in Geant4 collimator.
+-399   Collimator error.
 =====  ==================================================================
