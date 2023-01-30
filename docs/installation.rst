@@ -62,22 +62,22 @@ To import MAD-X lattices you will need the cpymad package, which can be installe
 
 .. code-block:: bash
 
-    $ pip install cpymad
+    pip install cpymad
 
 To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you will need the sixtracktools package, which can be installed as follow:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/sixtrack/sixtracktools
-    $ pip install -e sixtracktools
+    git clone https://github.com/sixtrack/sixtracktools
+    pip install -e sixtracktools
 
 Some of the tests rely on pyheadtail to test the corresponding interface:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/pycomplete/pyheadtail
-    $ pip install cython
-    $ pip install -e pyheadtail
+    git clone https://github.com/pycomplete/pyheadtail
+    pip install cython
+    pip install -e pyheadtail
 
 .. _gpuinst:
 
@@ -96,9 +96,9 @@ this can be done as follows for example for CUDA version 10.1.243:
 
 .. code-block:: bash
 
-    $ conda install mamba -n base -c conda-forge
-    $ pip install cupy-cuda101
-    $ mamba install cudatoolkit=10.1.243
+    conda install mamba -n base -c conda-forge
+    pip install cupy-cuda101
+    mamba install cudatoolkit=10.1.243
 
 Remember to check your CUDA version e.g. via ``$ nvcc --version`` and use the appropriate tag.
 
@@ -111,22 +111,22 @@ In Anacoda or Miniconda this can be done as follows:
 
 .. code-block:: bash
 
-    $ conda config --add channels conda-forge  # not needed for Miniforge
-    $ conda install pyopencl
+    conda config --add channels conda-forge  # not needed for Miniforge
+    conda install pyopencl
 
 
 Check that there is an OpenCL installation in the system:
 
 .. code-block:: bash
 
-    $ ls /etc/OpenCL/vendors
+    ls /etc/OpenCL/vendors
 
 
 Make the OpenCL installation visible to pyopencl:
 
 .. code-block:: bash
 
-    $ conda install ocl-icd-system
+    conda install ocl-icd-system
 
 
 For the PyOpenCL context we will need the `gpyfft <https://github.com/geggo/gpyfft>`_ and the `clfft <https://github.com/clMathLibraries/clFFT>`_ libraries.
@@ -134,21 +134,21 @@ For this purpose we need to install cython.
 
 .. code-block:: bash
 
-    $ pip install cython
+    pip install cython
 
 
 Then we can install clfft.
 
 .. code-block:: bash
 
-    $ conda install -c conda-forge clfft
+    conda install -c conda-forge clfft
 
 
 We locate the library and headers here:
 
 .. code-block:: bash
 
-    $ ls ~/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/
+    ls ~/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/
     # gives: include  info  lib
 
 (Or locate the directory via ``find $(dirname $(dirname $(type -P conda)))/pkgs -name "clfft*" -type d`` .)
@@ -157,13 +157,13 @@ We obtain gpyfft from github:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/geggo/gpyfft
+    git clone https://github.com/geggo/gpyfft
 
 and we install gpyfft with pip providing extra flags as follows:
 
 .. code-block:: bash
 
-     $ pip install --global-option=build_ext --global-option="-I/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
+     pip install --global-option=build_ext --global-option="-I/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniconda3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
 
 Alternatively (if the command above does not work) we can edit the ``setup.py`` of gpyfft to provide the right paths to your clfft installation (and potentially the OpenCL directory of your platform):
 
@@ -179,7 +179,7 @@ And install gpyfft locally.
 
 .. code-block:: bash
 
-    $ pip install -e gpyfft/
+    pip install -e gpyfft/
 
 
 .. _miniconda:
@@ -197,11 +197,11 @@ On Linux
 
 .. code-block:: bash
 
-    $ cd ~
-    $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-    $ bash Miniforge3-Linux-x86_64.sh
-    $ source miniforge3/bin/activate
-    $ pip install numpy scipy matplotlib pandas ipython pytest
+    cd ~
+    wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+    bash Miniforge3-Linux-x86_64.sh
+    source miniforge3/bin/activate
+    pip install numpy scipy matplotlib pandas ipython pytest
 
 On MacOS
 --------
@@ -212,13 +212,28 @@ with `arm64` in the link below.
 
 .. code-block:: bash
 
-    $ cd ~
-    $ curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
-    $ bash Miniforge3-MacOSX-x86_64.sh
-    $ source miniforge3/bin/activate
-    $ conda install clang_osx-64
-    $ pip install numpy scipy matplotlib pandas ipython pytest
+    cd ~
+    curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+    bash Miniforge3-MacOSX-x86_64.sh
+    source miniforge3/bin/activate
+    conda install clang_osx-64
+    pip install numpy scipy matplotlib pandas ipython pytest
+    
+Note: If you have `xcode` installed, the compiler install as above might not work. In that case it is useful to crete conda environment and install directly the compilers there. This can be done as follows
 
+
+.. code-block:: bash
+
+    cd ~
+    curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+    bash Miniforge3-MacOSX-x86_64.sh
+    source miniforge3/bin/activate
+    conda create -n my_env
+    conda activate my_env
+    conda install compilers
+    conda install pip
+    pip install numpy scipy matplotlib pandas ipython pytest
+    
 .. _apple_silicon:
 
 Install on Apple silicon
