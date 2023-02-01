@@ -2,3 +2,5 @@ numpy
 scipy
 pandas
 lark
+sphinx_rtd_theme>=0.5.2
+sphinx==5.3.0
