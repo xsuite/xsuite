@@ -53,6 +53,8 @@ snippet_files = {
         'generated_code_snippets/build_particles_shift_with_tracker.py',
     'xpart/examples/particles_generation/001c_build_particles_normalized.py':
         'generated_code_snippets/build_particles_normalized.py',
+    'xpart/examples/particles_generation/006_match_at_element.py':
+        'generated_code_snippets/match_at_element.py',
     'xpart/examples/particles_generation/003_pencil.py':
         'generated_code_snippets/pencil.py',
     'xpart/examples/particles_generation/004_generate_gaussian.py':

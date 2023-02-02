@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages, Extension
+from setuptools import setup, find_packages
 from pathlib import Path
 
 #######################################
@@ -33,13 +33,16 @@ setup(
         'xfields',
         'xpart',
         'xdeps'
-        ],
+    ],
     url='https://xsuite.readthedocs.io/',
     license='Apache 2.0',
     download_url="https://pypi.python.org/pypi/xsuite",
     project_urls={
-            "Bug Tracker": "https://github.com/xsuite/xsuite/issues",
-            "Documentation": 'https://xsuite.readthedocs.io/',
-            "Source Code": "https://github.com/xsuite/xsuite",
-        },
-    )
+        "Bug Tracker": "https://github.com/xsuite/xsuite/issues",
+        "Documentation": 'https://xsuite.readthedocs.io/',
+        "Source Code": "https://github.com/xsuite/xsuite",
+    },
+    entry_points={
+        'console_scripts': ['xsuite-prebuild=xsuite.cli:main'],
+    },
+)
