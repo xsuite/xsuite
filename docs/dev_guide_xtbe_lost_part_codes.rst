@@ -9,7 +9,7 @@ State C flag                      Information
 0     XT_LOST_ON_APERTURE         Lost on explicit aperture element (e.g. LimitRect, LimitEllip etc.).
 -1    XP_LOST_ON_GLOBAL_AP        Lost on global aperture limit set in the tracker.
 -2    XT_LOST_ON_LONG_CUT         Lost due to a longitudinal cut.
--10   XT_LOST_ALL_E_IN_SYNC       Lost all energy in synchrotron radiation.
+-10   XT_LOST_ALL_E_IN_SYNRAD     Lost all energy in synchrotron radiation.
 -11   XF_OUTSIDE_INTERPOL         Found outside interpolation grid.
 -12   XF_TOO_MANY_PHOTONS         Too many photons in beamstrahlung.
 -20   RNG_ERR_SEEDS_NOT_SET       Random generator seeds not set.
