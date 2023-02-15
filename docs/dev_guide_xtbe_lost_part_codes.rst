@@ -19,7 +19,7 @@ State C flag                      Information
 -334  XC_LOST_ON_EVEREST_CRYSTAL  Lost in Everest crystal.
 -335  XC_LOST_ON_FLUKA            Lost in FLUKA collimator.
 -336  XC_LOST_ON_GEANT4           Lost in Geant4 collimator.
--339  XC_LOST_ON_ABSORBER         Lost in black absorber.
+-340  XC_LOST_ON_ABSORBER         Lost in black absorber.
 -390  XC_ERR_INVALID_TRACK        Invalid tracking in collimator (e.g. backtracking, during twiss).
 -399  XC_ERR                      General collimator error.
 ===== ==========================  ====================================================================
