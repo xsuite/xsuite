@@ -656,7 +656,7 @@ is periodic of period $2L$. From it the potential of interest can be simply calc
 \label{eq:sel}
 \end{equation}
 
-To compute the convolution in Eq.\,\ref{eq:confin} we expand $\phi_{R}(x)$ in a Fourier series:
+To compute the convolution in Eq.\,\ref{eq:confin} we expand $\phi_{R}(x)$ in a Fourier series starting from $x=c$:
 \begin{equation}
 \phi_{R}(x) = \sum_{k=-\infty}^{+\infty} \tilde{\phi}_k\, e^{j2\pi k \frac{x}{2L}}
 \label{eq:phifour}
@@ -710,6 +710,50 @@ We call:
  \rho_{Rn} &= \rho_{R}\left(a + nh_x\right)\\
  G_{Rn} &= G_{R}\left(c - b + nh_x\right)
 \end{align}
+
+We can approximate the integral as follows
+
+\begin{align}
+\tilde{\rho}_k &= \frac{1}{2L}\int_0^{2L} \rho_{R}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx = \frac{1}{2L}\int_a^{a+2L} \rho_{R}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx\\
+&\simeq 
+\frac{h_x}{2L}\sum_{n=0}^{M-1} \rho_{R}(a+nh_x)\, e^{-j2\pi k \frac{a+nh_x}{2L}} 
+=
+e^{-j2\pi k \frac{a}{2L}} \frac{1}{M}
+\sum_{n=0}^{M-1}
+ \rho_{Rn} e^{-j2\pi \frac{kn}{M}} 
+\end{align}
+
+We recognize the Discrete Fourier Tranform:
+
+\begin{equation}
+\tilde{\rho}_k 
+=
+e^{-j2\pi k \frac{a}{2L}} \frac{1}{M}
+\text{DFT}_M\left\{ \rho_{Rn}\right\}
+\end{equation}
+
+Similarly we can write:
+
+\begin{equation}
+\tilde{\phi}_k 
+=
+e^{-j2\pi k \frac{c}{2L}} \frac{1}{M}
+\text{DFT}_M\left\{ \phi_{Rn}\right\}
+\end{equation}
+
+\begin{equation}
+\tilde{G}_k 
+=
+e^{-j2\pi k \frac{c-b}{2L}} \frac{1}{M}
+\text{DFT}_M\left\{ G_{Rn}\right\}
+\end{equation}
+
+Replacing in Eq. \ref{eq:freqconv}
+
+\clearpage
+
+--------------------
+
 
 
 We can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
