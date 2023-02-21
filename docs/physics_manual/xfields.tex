@@ -465,9 +465,9 @@ The potential can be written as the convolution of a Green function with the cha
 \label{eq:conv}
 \end{equation}
 
-We assume that the source is limited to the region  $[0, L]$:
+We assume that the source is limited to the region  $[a, b]$:
 \begin{equation}
-\rho(x) = \rho(x)\,\Pi_{[0,L]}\left(x\right)
+\rho(x) = \rho(x)\,\Pi_{[a,b]}\left(x\right)
 \label{eq:rholim}
 \end{equation}
 where $\Pi_{[a,b]}(x)$ is a rectangular window function defined as:
@@ -479,52 +479,52 @@ where $\Pi_{[a,b]}(x)$ is a rectangular window function defined as:
 \end{cases}
 \end{equation}
 
-We are interested in the electric potential only the region occupied by the sources, so we can compute:
+We are interested in the electric potential in a given region $[c, d]$, so we can compute:
 \begin{equation}
-\phi_L(x) = \phi(x) \Pi_{[0, L]}\left(x\right)
+\phi_{cd}(x) = \phi(x) \Pi_{[c, d]}\left(x\right)
 \label{eq:philim}
 \end{equation}
 
 We replace Eq.\,\eqref{eq:rholim} and Eq.\,\eqref{eq:philim} into Eq.\eqref{eq:conv}, obtaining:
 \begin{equation}
-\phi_L(x) = \Pi_{[0,L]}\left( x\right)
+\phi_{cd}(x) = \Pi_{[c,d]}\left( x\right)
 \int_{-\infty}^{+\infty} 
-\Pi_{[0,L]}\left(x'\right)
+\Pi_{[a,b]}\left(x'\right)
 \rho(x')\,G(x-x') dx'
 \end{equation}
 We apply the change of variable $x'' = x - x'$:
 \begin{equation}
-\phi_L(x) = 
+\phi_{cd}(x) = 
 \int_{-\infty}^{+\infty} 
-\Pi_{[0,L]}\left({x}\right)
-\Pi_{[0,L]}\left({x-x''}\right)
+\Pi_{[c,d]}\left({x}\right)
+\Pi_{[a,b]}\left({x-x''}\right)
 \rho(x-x'')\,G(x'') \,dx''
 \label{eq:conv1}
 \end{equation}
-The integrand vanishes outside the set of the $(x, x'')$ defined by:
+The integrand vanishes outside the set of the $(x, x'')$ defined by the two window functions:
 \begin{equation}
 \begin{cases}
-0 < x <{L}\\
-0 < (x-x'') <{L}
+c < x <d\\
+a < (x-x'') <b
 \end{cases}
 \end{equation}
 
 We flip the signs in the second equation, obtaining:
 \begin{equation}
 \begin{cases}
-0 < x <{L}\\
--L < (x''-x) <0
+c < x < d\\
+-b < (x''-x) <-a
 \end{cases}
 \end{equation}
 
 Combining the two equations we obtain:
 \begin{equation}
--L<-L + x < x'' <x<L
+c-b<-b + x < x'' <-a+x<d-a
 \end{equation}
-i.e. the integrand is zero for $-L<x''<L$.
+i.e. the integrand is zero for $c-b< x'' <d-a$.
 Therefore in Eq.\,\eqref{eq:conv1} we can replace $G(x'')$ with its truncated version:
 \begin{equation}
-G_{2L}(x'') = G(x'')\,\Pi_{[-L,L]}
+G_\text{tr}(x'') = G(x'')\,\Pi_{[c-b,~d-a]}
 \left(
 {x''}
 \right)
@@ -532,17 +532,34 @@ G_{2L}(x'') = G(x'')\,\Pi_{[-L,L]}
 
 obtaining:
 \begin{equation}
-\phi_L(x) = 
+\phi_{cd}(x) = 
 \int_{-\infty}^{+\infty} 
-\Pi_{[0,L]}\left({x}\right)
-\Pi_{[0,L]}\left({x-x''}\right)
-\rho(x-x'')\,G_{2L}(x'') dx''
+\Pi_{[c,d]}\left({x}\right)
+\Pi_{[a,b]}\left({x-x''}\right)
+\rho(x-x'')\,G_\text{tr}(x'') dx''
 \label{eq:conv2}
 \end{equation}
 
-Since the two window functions force the integrand to zero outside the region $|x''|<L$ we can replace $G_{2L}(x'')$ with its replicated version:
+We call:
+\begin{align}
+L_1 = b - a\\
+L_2 = d - c 
+\end{align}
+
+The measure of the set on which $G_\text{tr}(x'')$ is non zero is 
+
 \begin{equation}
-G_{2LR}(x'') = \sum_{n=-\infty}^{+\infty}G_{2L}(x''-2nL) = \sum_{n=-\infty}^{+\infty}G(x'' -2nL)\,\Pi_{[-L,L]}
+(d-a) - (c - b) = L_1+ L_2
+\end{equation}
+
+We define $L$ such that:
+\begin{equation}
+L_1+ L_2 = 2L
+\end{equation}
+
+Since the two window functions force the integrand to zero outside the region $c-b< x'' <d-a$ of measure $2L$, we can replace $G_\text{tr}(x'')$ with its replicated version:
+\begin{equation}
+G_{R}(x'') = \sum_{n=-\infty}^{+\infty}G_\text{tr}(x''-2nL) = \sum_{n=-\infty}^{+\infty}G(x'' -2nL)\,\Pi_{[c-b,~d-a]}
 \left(
 {x''-2nL}
 \right)
@@ -550,107 +567,110 @@ G_{2LR}(x'') = \sum_{n=-\infty}^{+\infty}G_{2L}(x''-2nL) = \sum_{n=-\infty}^{+\i
 \end{equation}
 obtaining:
 \begin{equation}
-\phi_L(x) = 
+\phi_{cd}(x) = 
 \int_{-\infty}^{+\infty} 
-\Pi_{[0,L]}\left({x}\right)
-\Pi_{[0,L]}\left({x-x''}\right)
-\rho(x-x'')\,G_{2LR}(x'') dx''
+\Pi_{[c,d]}\left({x}\right)
+\Pi_{[a,b]}\left({x-x''}\right)
+\rho(x-x'')\,G_{R}(x'') dx''
 \end{equation}
 
 We can go back to the initial coordinate by substituting $x'' = x-x'$:
 \begin{equation}
-\phi_L(x) = 
-\Pi_{[0,L]}\left(x\right)
+\phi_{cd}(x) = 
+\Pi_{[c,d]}\left({x}\right)
 \int_{-\infty}^{+\infty} 
-\rho(x')\,G_{2LR}(x-x') dx'
+\rho(x')\,G_{R}(x-x') dx'
 \end{equation}
 
 This is a cyclic convolution, so we can proceed as follows. We split the integral:
 \begin{equation}
-\phi_L(x) = 
-\Pi_{[0,L]}\left({x}\right)
+\phi_{cd}(x) = 
+\Pi_{[c,d]}\left({x}\right)
 \sum_{n=-\infty}^{+\infty}
 \int_{2nL}^{2(n+1)L} 
-\rho(x')\,G_{2LR}(x-x') \,dx'
+\rho(x')\,G_{R}(x-x') \,dx'
 \label{eq:conv3}
 \end{equation}
 In each term we replace $x''' = x'+2nL$:
 \begin{equation}
-\phi_L(x) = 
-\Pi_{[0,L]}\left({x}\right)
+\phi_{cd}(x) = 
+\Pi_{[c,d]}\left({x}\right)
 \sum_{n=-\infty}^{+\infty}
 \int_{0 }^{2L} 
-\rho(x'''-2nL)\,G_{2LR}(x-x'''-2nL) \,dx'''
+\rho(x'''-2nL)\,G_{R}(x-x'''-2nL) \,dx'''
 \label{eq:conv4}
 \end{equation}
-We use the fact that $G_{2LR}(x)$ is periodic:
+We use the fact that $G_{R}(x)$ is periodic:
 \begin{equation}
 \begin{split}
-\phi_L(x) &= 
-\Pi_{[0,L]}\left({x}\right)
+\phi_{cd}(x) &= 
+\Pi_{[c,d]}\left({x}\right)
 \sum_{n=-\infty}^{+\infty}
 \int_{0 }^{2L} 
-\rho(x'''-2nL)\,G_{2LR}(x-x''') dx'''\\
+\rho(x'''-2nL)\,G_{R}(x-x''') dx'''\\
 \\&=
-\Pi_{[0,L]}\left({x}\right)
+\Pi_{[c,d]}\left({x}\right)
 \int_{0 }^{2L}  
+G_{R}(x-x''')
 \sum_{n=-\infty}^{+\infty}
-\rho(x'''-2nL)\,G_{2LR}(x-x''') dx'''
+\rho(x'''-2nL) 
+\, dx'''
 \end{split}
 \label{eq:conv5}
 \end{equation}
 
 We can define a replicated version of $\rho(x)$:
 \begin{equation}
-\rho_{2LR}(x)= \sum_{n=-\infty}^{+\infty}
+\rho_{R}(x)= \sum_{n=-\infty}^{+\infty}
 \rho(x-2nL)
 \end{equation}
-noting that this implies:
-\begin{equation}
-\rho_{2LR}(x)= 0 \quad \text{for } x \in [L, 2L]
-\label{eq:zeros}
-\end{equation}
+
+%noting that this implies:
+%\begin{equation}
+%\rho_{2LR}(x)= 0 \quad \text{for } x \in [L, 2L]
+%\label{eq:zeros}
+%\end{equation}
 
 We obtain:
 \begin{equation}
-\phi_L(x) = 
-\Pi_{[0,L]}\left({x}\right)
+\phi_{cd}(x) = 
+\Pi_{[c,d]}\left({x}\right)
 \int_{0 }^{2L} 
-\rho_{2LR}(x')\,G_{2LR}(x-x') dx'
+\rho_{R}(x')\,G_{R}(x-x') dx'
 \label{eq:conv6}
 \end{equation}
 
 The function:
 
 \begin{equation}
-\phi_{2LR}(x) = 
+\phi_{R}(x) = 
 \int_{0 }^{2L} 
-\rho_{2LR}(x')\,G_{2LR}(x-x') dx'
+\rho_{R}(x')\,G_{R}(x-x') dx'
 \label{eq:confin}
 \end{equation}
-is periodic of period $2L$. From it the potential of interest can be simply calculated by selecting the first half period $[0, L]$:
+is periodic of period $2L$. From it the potential of interest can be simply calculated by selecting the right interval $[c, d]$:
 \begin{equation}
-\phi_L(x) = 
-\Pi_{[0,L]}\left({x}\right)
-\phi_{2LR}(x)
+\phi_{cd}(x) = 
+\Pi_{[c,d]}\left({x}\right)
+\phi_{R}(x)
 \label{eq:sel}
 \end{equation}
 
-To compute the convolution in Eq.\,\ref{eq:confin} we expand $\phi_{2LR}(x)$ in Fourier series:
+To compute the convolution in Eq.\,\ref{eq:confin} we expand $\phi_{R}(x)$ in a Fourier series:
 \begin{equation}
-\phi_{2LR}(x) = \sum_{k=-\infty}^{+\infty} \tilde{\phi}_k\, e^{j2\pi k \frac{x}{2L}}
+\phi_{R}(x) = \sum_{k=-\infty}^{+\infty} \tilde{\phi}_k\, e^{j2\pi k \frac{x}{2L}}
 \label{eq:phifour}
 \end{equation}
 where the Fourier coefficients are given by:
 \begin{equation}
-\tilde{\phi}_k = \frac{1}{2L}\int_0^{2L} \phi_{2LR}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx
+\tilde{\phi}_k = \frac{1}{2L}\int_0^{2L} \phi_{R}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx
 \label{eq:phik}
 \end{equation}
 
 We replace Eq.\,\eqref{eq:confin} into Eq.\,\eqref{eq:phik} obtaining:
 \begin{equation}
-\hat{\phi}_k = \frac{1}{2L}\int_0^{2L} \int_{0 }^{2L} 
-\rho_{2LR}(x')\,G_{2LR}(x-x') \, e^{-j2\pi k \frac{x}{2L}} \,  dx'\, dx
+\tilde{\phi}_k = \frac{1}{2L}\int_0^{2L} \int_{0 }^{2L} 
+\rho_{R}(x')\,G_{R}(x-x') \, e^{-j2\pi k \frac{x}{2L}} \,  dx'\, dx
 \end{equation}
 
 With the change of variable $x'' = x-x'$ we obtain:
@@ -658,40 +678,56 @@ With the change of variable $x'' = x-x'$ we obtain:
 \tilde{\phi}_k = 
 \frac{1}{2L}
 \int_0^{2L} 
-\rho_{2LR}(x') e^{-j2\pi k \frac{x'}{2L}}dx'\,
+\rho_{R}(x') e^{-j2\pi k \frac{x'}{2L}}dx'\,
 \int_{0 }^{2L} 
-\,G_{2LR}(x'') e^{-j2\pi k \frac{x''}{2L}}\,  \,  dx''
+\,G_{R}(x'') e^{-j2\pi k \frac{x''}{2L}}\,  \,  dx''
 \end{equation}
 
-where we recognize the Fourier coefficients of $\rho_{2LR}(x)$ and $\,G_{2LR}(x)$:
+where we recognize the Fourier coefficients of $\rho_{R}(x)$ and $\,G_{R}(x)$:
 \begin{align}
-\tilde{\rho}_k = \frac{1}{2L}\int_0^{2L} \rho_{2LR}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx \label{eq:rhok}\\
-\tilde{G}_k = \frac{1}{2L}\int_0^{2L} G_{2LR}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx \label{eq:Gk}
+\tilde{\rho}_k = \frac{1}{2L}\int_0^{2L} \rho_{R}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx \label{eq:rhok}\\
+\tilde{G}_k = \frac{1}{2L}\int_0^{2L} G_{R}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx \label{eq:Gk}
 \end{align}
 obtaining simply:
 \begin{equation}
-\hat{\phi}_k = 2L \, \hat{G}_k \, \hat{\rho}_k
+\tilde{\phi}_k = 2L \, \tilde{G}_k \, \tilde{\rho}_k
 \label{eq:freqconv}
 \end{equation}
 
-I assume to have the functions $\rho_{2LR}(x)$ and  $G_{2LR}(x)$ sampled (or averaged) with step:
+We assume to have the functions $\rho_{R}(x)$ and  $G_{R}(x)$ sampled (or averaged) with step:
 \begin{equation}
-h_x = \frac{2L}{M} = \frac{L}{N}
+h_x = \frac{2L}{M}
 \end{equation}
 
-I can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
+We assume that all intervals have size multiple of $h_x$. So we can define:
 \begin{align}
-\tilde{\rho}_k = \frac{1}{M}\sum_{n=0}^{M-1} \rho_{2LR}(x_n)\, e^{-j2\pi  \frac{kn}{M}}  
+N_1 &= L_1 / h_x\\
+N_2 &= L_2 / h_x
+\end{align}
+
+We call:
+\begin{align}
+ \rho_{Rn} &= \rho_{R}\left(a + nh_x\right)\\
+ G_{Rn} &= G_{R}\left(c - b + nh_x\right)
+\end{align}
+
+
+We can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
+\begin{align}
+\tilde{\rho}_k = \frac{1}{M}\sum_{n=0}^{M-1} \rho_{Rn}\, e^{-j2\pi  \frac{kn}{M}}  
 = \frac{1}{M} \hat{\rho}_k
 \label{eq:rhokfft}\\
-\tilde{G}_k = \frac{1}{M}\sum_{n=0}^{M-1} G_{2LR}(x_n)\, e^{-j2\pi  \frac{kn}{M}} 
+\tilde{G}_k = \frac{1}{M}\sum_{n=0}^{M-1} G_{Rn}\, e^{-j2\pi  \frac{kn}{M}} 
 = \frac{1}{M} \hat{G}_k\label{eq:Gkfft}
 \end{align}
 
-where we recognize the Discrete Fourier Transforms:
+
+
+
+We recognize the Discrete Fourier Transforms:
 \begin{align}
-\hat{\rho}_k = \text{DFT}_M\left\{ \rho_{2LR}(x_n)\right\}\\
-\hat{G}_k = \text{DFT}_M\left\{ G_{2LR}(x_n)\right\}
+\hat{\rho}_k = \text{DFT}_M\left\{ \rho_{Rn}\right\}\\
+\hat{G}_k = \text{DFT}_M\left\{ G_{Rn}\right\}
 \end{align}
 
 
@@ -724,7 +760,7 @@ This can be rewritten as:
 \frac{1}{M}
 \sum_{n=0}^{M-1}  
 (h_x\hat{G}_k) \, \hat{\rho}_k\, e^{j2\pi \frac{kn}{M}} 
-=\text{DFT}_M^{-1}\left\{\phi_k
+=\text{DFT}_M^{-1}\left\{\hat\phi_k
 \right\}
 \label{eq:invfft}
 \end{equation}
@@ -735,7 +771,7 @@ where
 \end{equation}
 We call ``Integrated Green Function'' the quantity:
 \begin{equation}
-G_{2LR}(x_n) = h_x G_{2LR}(x_n)
+G^\text{int}_{2LR}(x_n) = h_x G_{2LR}(x_n)
 \end{equation}
 we introduce the corresponding Fourier transform:
 \begin{equation}
