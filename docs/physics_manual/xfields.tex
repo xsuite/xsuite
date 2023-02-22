@@ -521,7 +521,7 @@ Combining the two equations we obtain:
 \begin{equation}
 c-b<-b + x < x'' <-a+x<d-a
 \end{equation}
-i.e. the integrand is zero for $c-b< x'' <d-a$.
+i.e. the integrand is not zero for $c-b< x'' <d-a$.
 Therefore in Eq.\,\eqref{eq:conv1} we can replace $G(x'')$ with its truncated version:
 \begin{equation}
 G_\text{tr}(x'') = G(x'')\,\Pi_{[c-b,~d-a]}
@@ -540,6 +540,16 @@ obtaining:
 \label{eq:conv2}
 \end{equation}
 
+
+We can go back to the initial coordinate by substituting $x'' = x-x'$:
+\begin{equation}
+\phi_{cd}(x) = 
+\Pi_{[c,d]}\left({x}\right)
+\int_{-\infty}^{+\infty} 
+\rho(x')\,G_\text{tr}(x-x') dx'
+\end{equation}
+
+
 We call:
 \begin{align}
 L_1 = b - a\\
@@ -557,7 +567,7 @@ We define $L$ such that:
 L_1+ L_2 = 2L
 \end{equation}
 
-Since the two window functions force the integrand to zero outside the region $c-b< x'' <d-a$ of measure $2L$, we can replace $G_\text{tr}(x'')$ with its replicated version:
+Since the two window functions in Eq.\,\ref{eq:conv2} force the integrand to zero outside the region $c-b< x'' <d-a$ of measure $2L$, we can replace $G_\text{tr}(x'')$ with its replicated version:
 \begin{equation}
 G_{R}(x'') = \sum_{n=-\infty}^{+\infty}G_\text{tr}(x''-2nL) = \sum_{n=-\infty}^{+\infty}G(x'' -2nL)\,\Pi_{[c-b,~d-a]}
 \left(
@@ -779,7 +789,71 @@ h_x e^{-j2\pi k \frac{a-b}{2L}}
 \end{equation}
 
 
+\subsection{FFT convolution compressed}
+
+We assume that the source has the form
+\begin{equation}
+\rho(x) =  \sum_j \rho^\text{loc}_j(x)(x - iP)
+\label{eq:rholim_period}
+\end{equation}
+where $\rho^\text{loc}_j(x)$ is limited to the interval $[a, b]$.
+
+We are interested in the potential in a set of intervals given by:
+\begin{equation}
+[c+iP,~d+iP]
+\end{equation}
+%so we define:
+%\begin{equation}
+%\phi_i(x) =  \phi(x+iP)\Pi_{[c,d]}(x)
+%\label{eq:rholim_period}
+%\end{equation}
+
+The contribution of the j-th term of $\rho$ to  $\phi$ int the i-th interval:
+
+\begin{equation}
+\phi_{ij}(x) = 
+\Pi_{[c+iP,d+iP]}\left({x}\right)
+\int_{-\infty}^{+\infty} 
+\rho_j(x' - jP)\,G^\text{tr}_{i-j}(x-x') dx'
+\end{equation}
+
+where:
+\begin{equation}
+G^\text{tr}_l(x'') = G(x'')\,
+\Pi_{[c-b+lP,~d-a+lP]}
+\left(
+{x''}
+\right)
+\end{equation}
+
+Therefore $\phi$ int the i-th interval can be written as:
+\begin{equation}
+\phi_{i}(x) = 
+\Pi_{[c+iP,d+iP]}\left({x}\right)
+\sum_j
+\int_{-\infty}^{+\infty} 
+\rho_j(x' - jP)\,G_\text{tr,ij}(x-x') dx'
+\end{equation}
+
+We refine x with respect to the local period center:
+\begin{equation}
+\phi_{\text{loc},~i}(x) = \phi_{i}(x + iP)=c
+\Pi_{[c,d]}\left({x}\right)
+\sum_j
+\int_{-\infty}^{+\infty} 
+\rho_j(x' - jP)\,G_\text{tr,ij}(x-x'+iP) dx'
+\end{equation}
+
+We build an auxiliary potential function as 
+
+\begin{equation}
+\phi_\text{aux}(x) = \sum 
+\end{equation}
+
+
+
 \subsection{FFT convolution with gaps - 1D case}
+
 The potential can be written as the convolution of a Green function with the charge distribution:
 \begin{equation}
 \phi(x) = \int_{-\infty}^{+\infty} \rho(x')\,G(x-x') dx'
@@ -837,7 +911,7 @@ Combining the two equations we obtain:
 c-b +(i-j)P<-b -jP + x < x'' <-a -jP+x<d-a + (i-j)P
 \end{equation}
 
-i.e. the integrand is zero for:
+i.e. the integrand is not zero for:
 \begin{equation}
 c-b +lP < x'' <d-a + lP
 \end{equation}
@@ -851,6 +925,11 @@ G_\text{gated}(x'') = G(x'')\,
 \end{equation}
 
 \clearpage
+
+
+
+
+
 
 --------------------
 \section{Old stuff}
