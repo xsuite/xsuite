@@ -708,8 +708,23 @@ N_2 &= L_2 / h_x
 We call:
 \begin{align}
  \rho_{Rn} &= \rho_{R}\left(a + nh_x\right)\\
+ \phi_{Rn} &= \phi_{R}\left(c + nh_x\right)\\
  G_{Rn} &= G_{R}\left(c - b + nh_x\right)
 \end{align}
+
+By construction:
+\begin{equation}
+ \rho_{Rn} \equiv \rho_n = 
+ \begin{cases}
+\rho\left(a + nh_x\right)&\text{for}~0 \leq n <N_1 \\
+ 0 & \text{for}~N_1 \leq n < M
+ \end{cases}
+\end{equation}
+
+\begin{equation}
+G_{Rn} \equiv  G_n = G\left(c - b + nh_x\right)
+\text{ for}~0 \leq n <M
+\end{equation}
 
 We can approximate the integral as follows
 
@@ -723,22 +738,26 @@ e^{-j2\pi k \frac{a}{2L}} \frac{1}{M}
  \rho_{Rn} e^{-j2\pi \frac{kn}{M}} 
 \end{align}
 
-We recognize the Discrete Fourier Tranform:
+We recognize the Discrete Fourier Transform:
 
 \begin{equation}
 \tilde{\rho}_k 
 =
 e^{-j2\pi k \frac{a}{2L}} \frac{1}{M}
 \text{DFT}_M\left\{ \rho_{Rn}\right\}
+=
+e^{-j2\pi k \frac{a}{2L}} \frac{1}{M}
+\hat{\rho}_k 
 \end{equation}
-
-Similarly we can write:
-
+and similarly we can obtain
 \begin{equation}
 \tilde{\phi}_k 
 =
 e^{-j2\pi k \frac{c}{2L}} \frac{1}{M}
 \text{DFT}_M\left\{ \phi_{Rn}\right\}
+=
+e^{-j2\pi k \frac{c}{2L}} \frac{1}{M}
+\hat{\phi}_k 
 \end{equation}
 
 \begin{equation}
@@ -746,9 +765,18 @@ e^{-j2\pi k \frac{c}{2L}} \frac{1}{M}
 =
 e^{-j2\pi k \frac{c-b}{2L}} \frac{1}{M}
 \text{DFT}_M\left\{ G_{Rn}\right\}
+=
+e^{-j2\pi k \frac{c-b}{2L}} \frac{1}{M}
+\hat{G}_k 
 \end{equation}
 
-Replacing in Eq. \ref{eq:freqconv}
+Replacing in Eq. \ref{eq:freqconv} we obtain
+
+\begin{equation}
+\hat{\phi}_k  = 
+h_x e^{-j2\pi k \frac{a-b}{2L}} 
+\hat{\rho}_k \hat{G}_k
+\end{equation}
 
 \clearpage
 
