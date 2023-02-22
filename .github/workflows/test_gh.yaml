@@ -28,7 +28,7 @@ on:
 jobs:
   run-tests:
     # The type of runner that the job will run on: this one is provided by GitHub
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     
     # Run tests for all the xsuite packages in separate jobs in parallel
     strategy:
@@ -40,13 +40,22 @@ jobs:
         - xpart
         - xtrack
         - xfields
+    
+    # Make the default shell a login shell, so that conda is initialised properly
+    defaults:
+      run:
+        shell: bash -el {0}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Setup Miniforge
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        miniforge-version: latest
+        python-version: "3.10"
     - name: Install dependencies
       run: |
-        sudo apt-get install -y pocl-opencl-icd
-        pip install pytest pyopencl cython
+        pip install cython
     - name: Check out xsuite repos & pip install
       env:
         xobjects_branch: ${{ inputs.xobjects_location }}
@@ -70,10 +79,10 @@ jobs:
           pip install -e "${GITHUB_WORKSPACE}/${project}[tests]"
         done
     - name: Print versions
-      run: pip freeze
+      run: conda list
     - name: Run tests (${{ matrix.test-suite }})
       env:
         XOBJECTS_TEST_CONTEXTS: ContextCpu
       run: |
         cd $GITHUB_WORKSPACE/${{ matrix.test-suite }}
-        pytest --color=yes -v tests
+        python -m pytest --color=yes -v tests
