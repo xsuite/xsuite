@@ -778,10 +778,82 @@ h_x e^{-j2\pi k \frac{a-b}{2L}}
 \hat{\rho}_k \hat{G}_k
 \end{equation}
 
+
+\subsection{FFT convolution with gaps - 1D case}
+The potential can be written as the convolution of a Green function with the charge distribution:
+\begin{equation}
+\phi(x) = \int_{-\infty}^{+\infty} \rho(x')\,G(x-x') dx'
+\label{eq:conv_period}
+\end{equation}
+
+We assume that the source has the form
+\begin{equation}
+\rho(x) = \rho(x) \sum_i \Pi_{[a+iP,~b+iP]}\left(x\right)
+\label{eq:rholim_period}
+\end{equation}
+
+We are interested in the electric potential in regions with a similar periodicity:
+\begin{equation}
+\phi_{cd}(x) = \phi(x)  \sum_i \Pi_{[c+iP,~d+iP]}\left(x\right)
+\label{eq:philim_period}
+\end{equation}
+
+We replace Eq.\,\eqref{eq:rholim_period} and Eq.\,\eqref{eq:philim_period} into Eq.\eqref{eq:conv_period}, obtaining:
+\begin{equation}
+\phi_{cd}(x) =  \sum_{ij} \Pi_{[c+iP,~d+iP]}\left( x\right)
+\int_{-\infty}^{+\infty} 
+\Pi_{[a+jP,~b+jP]}\left(x'\right)
+\rho(x')\,G(x-x') dx'
+\end{equation}
+We apply the change of variable $x'' = x - x'$:
+\begin{equation}
+\phi_{cd}(x) = 
+\sum_{ij}
+\int_{-\infty}^{+\infty} 
+\Pi_{[c+iP,~d+iP]}\left({x}\right)
+\Pi_{[a+jP,~b+jP]}\left({x-x''}\right)
+\rho(x-x'')\,G(x'') \,dx''
+\label{eq:conv1}
+\end{equation}
+
+The integrand vanishes outside the set of the $(x, x'')$ defined by the two window functions:
+\begin{equation}
+\begin{cases}
+c+iP < x <d+iP\\
+a+jP < (x-x'') < b+jP
+\end{cases}
+\end{equation}
+
+We flip the signs in the second equation, obtaining:
+\begin{equation}
+\begin{cases}
+c +iP < x < d+iP\\
+-b -jP < (x''-x) <-a-jP
+\end{cases}
+\end{equation}
+
+Combining the two equations we obtain:
+\begin{equation}
+c-b +(i-j)P<-b -jP + x < x'' <-a -jP+x<d-a + (i-j)P
+\end{equation}
+
+i.e. the integrand is zero for:
+\begin{equation}
+c-b +lP < x'' <d-a + lP
+\end{equation}
+Therefore in Eq.\,\eqref{eq:conv1} we can replace $G(x'')$ with its gated version:
+\begin{equation}
+G_\text{gated}(x'') = G(x'')\,
+\sum_l \Pi_{[c-b+lP,~d-a+lP]}
+\left(
+{x''}
+\right)
+\end{equation}
+
 \clearpage
 
 --------------------
-
+\section{Old stuff}
 
 
 We can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
