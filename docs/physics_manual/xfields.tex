@@ -793,7 +793,7 @@ h_x e^{-j2\pi k \frac{a-b}{2L}}
 
 We assume that the source has the form
 \begin{equation}
-\rho(x) =  \sum_j \rho^\text{loc}_j(x)(x - iP)
+\rho(x) =  \sum_j \rho^\text{loc}_j(x - iP)
 \label{eq:rholim_period}
 \end{equation}
 where $\rho^\text{loc}_j(x)$ is limited to the interval $[a, b]$.
@@ -812,9 +812,8 @@ The contribution of the j-th term of $\rho$ to  $\phi$ int the i-th interval:
 
 \begin{equation}
 \phi_{ij}(x) = 
-\Pi_{[c+iP,d+iP]}\left({x}\right)
 \int_{-\infty}^{+\infty} 
-\rho_j(x' - jP)\,G^\text{tr}_{i-j}(x-x') dx'
+\rho^\text{loc}_j(x' - jP)\,G^\text{tr}_{i-j}(x-x') dx'
 \end{equation}
 
 where:
@@ -825,6 +824,87 @@ G^\text{tr}_l(x'') = G(x'')\,
 {x''}
 \right)
 \end{equation}
+
+I explicit all the pies:
+
+\begin{equation}
+\phi_{ij}(x) = 
+\int_{-\infty}^{+\infty} 
+\Pi_{[a, b]} (x' - jP)\,
+\rho^\text{loc}_j(x' - jP)\,
+\Pi_{[c-b+(i-j)P,~d-a+(i-j)P]}(x-x')
+G^\text{tr}_{i-j}(x-x') dx'
+\label{eq:contrib}
+\end{equation}
+
+%We want to find the region in $x$ where this is non-zero:
+%
+%\begin{align}
+%&a<x' - jP<b\\
+%&c-b+(i-j)P< x-x'<d-a+(i-j)P
+%\end{align}
+%
+%From which:
+%
+%\begin{align}
+%c-b+x'-jP< x-iP<d-a+x'-jP\\
+%c+iP-L_1< x<d+iP+L_1
+%\end{align}
+
+We define a local version of $\phi_{ij}$:
+
+\begin{equation}
+\phi_{ij}^\text{loc}(x) = \phi_{ij}(x+iP)
+\end{equation}
+
+Replacing in Eq.\,\ref{eq:contrib}:
+\begin{equation}
+\phi_{ij}^\text{loc}(x) = 
+\int_{-\infty}^{+\infty} 
+\Pi_{[a, b]} (x' - jP)\,
+\rho^\text{loc}_j(x' - jP)\,
+\Pi_{[c-b+(i-j)P,~d-a+(i-j)P]}(x+iP-x')
+G^\text{tr}_{i-j}(x+iP-x') dx'
+\end{equation}
+
+We change variable $x'' = x' - iP$ ie. $x' = x'' + iP$
+
+\begin{equation}
+\phi_{ij}^\text{loc}(x) = 
+\int_{-\infty}^{+\infty} 
+\Pi_{[a, b]} (x'' + (i - j)P)\,
+\rho^\text{loc}_j(x'' + (i - j)P)\,
+\Pi_{[c-b+(i-j)P,~d-a+(i-j)P]}(x-x'')
+G^\text{tr}_{i-j}(x-x'') dx''
+\end{equation}
+
+
+Again, we want to find the region in $x$ where this is non-zero:
+
+\begin{align}
+&a<x'' + (i-j)P<b\\
+&c-b+(i-j)P< x-x''<d-a+(i-j)P
+\end{align}
+
+from which:
+\begin{align}
+&c-b+(i-j)P +x''< x<d-a+(i-j)P+x''\\
+&c-b+a< x<d-a+b
+\end{align}
+
+So we find that $\phi_{ij}^\text{loc}(x)$ is non-zero in the region:
+\begin{align}
+&c-L_1< x<d+L_1
+\end{align}
+which is larger by $2L_1$ compared to the set interest $[c, d]$
+
+
+
+
+
+
+
+---------------
 
 Therefore $\phi$ int the i-th interval can be written as:
 \begin{equation}
