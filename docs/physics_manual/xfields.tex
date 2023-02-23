@@ -780,6 +780,7 @@ e^{-j2\pi k \frac{c-b}{2L}} \frac{1}{M}
 \hat{G}_k 
 \end{equation}
 
+
 Replacing in Eq. \ref{eq:freqconv} we obtain
 
 \begin{equation}
@@ -787,6 +788,12 @@ Replacing in Eq. \ref{eq:freqconv} we obtain
 h_x e^{-j2\pi k \frac{a-b}{2L}} 
 \hat{\rho}_k \hat{G}_k
 \end{equation}
+
+
+
+
+
+\clearpage
 
 
 \subsection{FFT convolution compressed}
@@ -825,6 +832,45 @@ G^\text{tr}_l(x'') = G(x'')\,
 \right)
 \end{equation}
 
+We define a local version of $G^\text{tr}$ as
+
+\begin{equation}
+G^\text{tr, loc}_l(x) = G^\text{tr}_l(x + lP) 
+=
+G(x +lP)\,
+\Pi_{[c-b,~d-a]}
+\left(x\right)
+\end{equation}
+
+obtaining:
+\begin{equation}
+\phi_{ij}(x) = 
+\int_{-\infty}^{+\infty} 
+\rho^\text{loc}_j(x' - jP)\,G^\text{tr, loc}_{i-j}(x-x'-(i-j)P) dx'
+\end{equation}
+
+We replace $x' = x' - jP$:
+\begin{equation}
+\phi_{ij}(x) = 
+\int_{-\infty}^{+\infty} 
+\rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x' - iP) dx'
+\end{equation}
+
+We define a local version of $\phi$:
+\begin{equation}
+\phi_{ij}^\text{loc}(x) = \phi_{ij}(x+iP)
+\end{equation}
+
+obtaining:
+\begin{equation}
+\phi_{ij}^\text{loc}(x) = \int_{-\infty}^{+\infty} 
+\rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x') dx'
+\end{equation}
+
+
+\clearpage
+---------
+
 I explicit all the pies:
 
 \begin{equation}
@@ -834,6 +880,16 @@ I explicit all the pies:
 \rho^\text{loc}_j(x' - jP)\,
 \Pi_{[c-b+(i-j)P,~d-a+(i-j)P]}(x-x')
 G^\text{tr}_{i-j}(x-x') dx'
+\end{equation}
+
+and use the local version of G:
+\begin{equation}
+\phi_{ij}(x) = 
+\int_{-\infty}^{+\infty} 
+\Pi_{[a, b]} (x' - jP)\,
+\rho^\text{loc}_j(x' - jP)\,
+\Pi_{[c-b,~d-a]}(x-x')
+G^\text{tr, loc}_{i-j}(x - x' +(i-j) P) dx'
 \label{eq:contrib}
 \end{equation}
 
@@ -897,8 +953,6 @@ So we find that $\phi_{ij}^\text{loc}(x)$ is non-zero in the region:
 &c-L_1< x<d+L_1
 \end{align}
 which is larger by $2L_1$ compared to the set interest $[c, d]$
-
-
 
 
 
