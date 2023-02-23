@@ -867,6 +867,40 @@ obtaining:
 \rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x') dx'
 \end{equation}
 
+I explicit all the pies:
+\begin{equation}
+\phi_{ij}^\text{loc}(x) = \int_{-\infty}^{+\infty}
+\Pi_{[a,b]}(x')
+\Pi_{[c-b,~d-a]}(x-x')
+\rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x') dx'
+\end{equation}
+
+Again, we want to find the region in $x$ where this is non-zero:
+
+\begin{align}
+&a<x'<b\\
+&c-b< x-x'<d-a
+\end{align}
+
+from which:
+\begin{align}
+&c-b+x'< x<d-a+x'\\
+&c-b+a< x<d-a+b
+\end{align}
+
+So we find that $\phi_{ij}^\text{loc}(x)$ is non-zero in the region:
+\begin{align}
+&c-L_1< x<d+L_1
+\end{align}
+which is larger by $2L_1$ compared to the set interest $[c, d]$
+
+The total potential it the i-th interval of interest:
+\begin{equation}
+\phi_{i}^\text{loc}(x)
+=\sum_j \phi_{ij}^\text{loc}(x) = \sum_j\int_{-\infty}^{+\infty}
+\rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x') dx'
+\end{equation}
+
 
 \clearpage
 ---------
