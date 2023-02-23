@@ -900,6 +900,7 @@ The total potential in the i-th interval of interest:
 \phi_{i}^\text{loc}(x)
 =\sum_j \phi_{ij}^\text{loc}(x) = \sum_j\int_{-\infty}^{+\infty}
 \rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x') dx'
+\label{eq:phi_i_loc}
 \end{equation}
 
 Since all terms in the sum are zero outside the region defined by Eq.\,\ref{eq:support} also $\phi_{i}^\text{loc}(x)$ is zero outside the same interval, which is larger by $2L_1$ compared to the set of interest $[c, d]$.
@@ -969,13 +970,57 @@ We change variable $x''= x' - (i-l)L_\text{aux}$
 \begin{align}
 \phi^\text{aux, loc}_i(x)
 &=
+\sum_{l=C-B}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}
 \Pi_{[c, d]}(x)
-\sum_{l=C-B}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}\rho_{j}^\text{loc}(x'' + (i-l)L_\text{aux} - jL_\text{aux})\,
+\rho_{j}^\text{loc}(x'' + (i-l -j)L_\text{aux})\,
 G^\text{tr, loc}_{l}(x-x'')
 dx''
 \end{align}
 
+The integrand is nonzero for:
+\begin{align}
+& c < x <d\\
+& a < x'' +(i-l-j)L_\text{aux}) < b\\
+& c-b < x-x''< d-a
+\end{align}
 
+I subtract the first and the last:
+\begin{align}
+& a < x'' +(i-l-j)L_\text{aux}) < b\\
+& -b < -x''< -a
+\end{align}
+
+I flip the last
+\begin{align}
+& a < x'' +(i-l-j)L_\text{aux}) < b\\
+& a < x''< b
+\end{align}
+
+The two are compatible only if
+\begin{align}
+l=i-j
+\label{eq:nonzeroterms}
+\end{align}
+
+This means that in the double sum only the terms satisfying Eq.\,\ref{eq:nonzeroterms} are nonzero, hence:
+\begin{align}
+\phi^\text{aux, loc}_i(x)
+&=
+\Pi_{[c, d]}(x)
+\sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}
+\rho_{j}^\text{loc}(x'' + )\,
+G^\text{tr, loc}_{i-j}(x-x'')
+dx''
+\end{align}
+
+Comparing against Eq.\,\ref{eq:phi_i_loc}
+we find:
+\begin{align}
+\phi^\text{aux, loc}_i(x)
+&=
+\Pi_{[c, d]}(x)
+\phi^\text{loc}_i(x)
+\end{align}
 
 \clearpage
 ------
