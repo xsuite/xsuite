@@ -919,6 +919,7 @@ and
 \begin{equation}
 \rho^\text{aux}(x)= 
 \sum_{j=A}^{B-1} \rho_{j}^\text{loc}(x - jL_\text{aux})
+\label{eq:def_rhoaux}
 \end{equation}
 
 and we define 
@@ -926,7 +927,55 @@ and we define
 \phi^\text{aux}(x)= 
 \int_{-\infty}^{+\infty}
 \rho^\text{aux}(x')\,G^\text{aux}(x-x') dx'
+\label{eq:def_gaux}
 \end{equation}
+
+We extract a segment of it:
+
+
+\begin{equation}
+\phi^\text{aux, loc}_i(x)= 
+\phi^\text{aux}(x + iL) 
+\Pi_{[c, d]}(x)
+\label{eq:def_phiaux}
+\end{equation}
+
+We replace Eq.~\ref{eq:def_gaux}:
+
+\begin{equation}
+\phi^\text{aux, loc}_i(x)= 
+\Pi_{[c, d]}(x)
+\int_{-\infty}^{+\infty}
+\rho^\text{aux}(x')\,G^\text{aux}(x-x'+iL_\text{aux}) dx'
+\end{equation}
+
+We replace Eq.~\ref{eq:def_rhoaux} and Eq.~\ref{eq:def_gaux}:
+\begin{align}
+\phi^\text{aux, loc}_i(x)&= 
+\Pi_{[c, d]}(x)
+\int_{-\infty}^{+\infty}
+\sum_{j=A}^{B-1} \rho_{j}^\text{loc}(x' - jL_\text{aux})\,
+\sum_{l=C-B}^{D-A-1}
+G^\text{tr, loc}_{l}(x-x'+(i-l)L_\text{aux})
+dx'\\
+&=
+\Pi_{[c, d]}(x)
+\sum_{l=C-B}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}\rho_{j}^\text{loc}(x' - jL_\text{aux})\,
+G^\text{tr, loc}_{l}(x-x'+(i-l)L_\text{aux})
+dx'
+\end{align}
+
+We change variable $x''= x' - (i-l)L_\text{aux}$
+\begin{align}
+\phi^\text{aux, loc}_i(x)
+&=
+\Pi_{[c, d]}(x)
+\sum_{l=C-B}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}\rho_{j}^\text{loc}(x'' + (i-l)L_\text{aux} - jL_\text{aux})\,
+G^\text{tr, loc}_{l}(x-x'')
+dx''
+\end{align}
+
+
 
 \clearpage
 ------
