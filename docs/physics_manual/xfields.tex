@@ -800,14 +800,14 @@ h_x e^{-j2\pi k \frac{a-b}{2L}}
 
 We assume that the source has the form
 \begin{equation}
-\rho(x) =  \sum_j \rho^\text{loc}_j(x - jP)
+\rho(x) =  \sum_{j=A}^{B-1} \rho^\text{loc}_j(x - jP)
 \label{eq:rholim_period}
 \end{equation}
 where $\rho^\text{loc}_j(x)$ is limited to the interval $[a, b]$.
 
 We are interested in the potential in a set of intervals given by:
 \begin{equation}
-[c+iP,~d+iP]
+[c+iP,~d+iP]~~\text{ for } i=C, ... , D-1
 \end{equation}
 %so we define:
 %\begin{equation}
@@ -905,10 +905,36 @@ The total potential in the i-th interval of interest:
 Since all terms in the sum are zero outside the region defined by Eq.\,\ref{eq:support} also $\phi_{i}^\text{loc}(x)$ is zero outside the same interval, which is larger by $2L_1$ compared to the set of interest $[c, d]$.
 
 We build:
+
+\begin{equation}
+G^\text{aux} (x)= \sum_{l=C-B}^{D-A-1}
+G^\text{tr, loc}_{l}(x-l L_\text{aux})
+\end{equation}
+where:
+\begin{equation}
+L_\text{aux} = L_1 + L_2
+\end{equation}
+
+and 
+\begin{equation}
+\rho^\text{aux}(x)= 
+\sum_{j=A}^{B-1} \rho_{j}^\text{loc}(x - jL_\text{aux})
+\end{equation}
+
+and we define 
+\begin{equation}
+\phi^\text{aux}(x)= 
+\int_{-\infty}^{+\infty}
+\rho^\text{aux}(x')\,G^\text{aux}(x-x') dx'
+\end{equation}
+
+\clearpage
+------
 \begin{equation}
 \phi^\text{aux}(x)= 
 \sum_i \phi_{i}^\text{loc}(x - iL_\text{aux})
 \end{equation}
+
 where:
 \begin{equation}
 L_\text{aux} = L_1 + L_2
@@ -918,7 +944,6 @@ We replace
 \begin{equation}
 \phi^\text{aux}(x)= 
 \sum_{i} 
- \phi_{i}^\text{loc}(x) = 
   \sum_i\sum_j
  \int_{-\infty}^{+\infty}
 \rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x'-iL_\text{aux}) dx'
