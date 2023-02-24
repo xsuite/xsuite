@@ -910,6 +910,7 @@ We build:
 \begin{equation}
 G^\text{aux} (x)= \sum_{l=C-B}^{D-A-1}
 G^\text{tr, loc}_{l}(x-l L_\text{aux})
+\label{eq:def_gaux}
 \end{equation}
 where:
 \begin{equation}
@@ -928,7 +929,7 @@ and we define
 \phi^\text{aux}(x)= 
 \int_{-\infty}^{+\infty}
 \rho^\text{aux}(x')\,G^\text{aux}(x-x') dx'
-\label{eq:def_gaux}
+\label{eq:def_phiaux}
 \end{equation}
 
 We extract a segment of it:
@@ -936,9 +937,9 @@ We extract a segment of it:
 
 \begin{equation}
 \phi^\text{aux, loc}_i(x)= 
-\phi^\text{aux}(x + iL) 
+\phi^\text{aux}(x + iL_\text{aux}) 
 \Pi_{[c, d]}(x)
-\label{eq:def_phiaux}
+\label{eq:def_phiauxloc}
 \end{equation}
 
 We replace Eq.~\ref{eq:def_gaux}:
@@ -1016,11 +1017,121 @@ dx''
 Comparing against Eq.\,\ref{eq:phi_i_loc}
 we find:
 \begin{align}
-\phi^\text{aux, loc}_i(x)
+\Pi_{[c, d]}(x)\phi^\text{aux, loc}_i(x)
 &=
 \Pi_{[c, d]}(x)
 \phi^\text{loc}_i(x)
 \end{align}
+
+Using Eq.\,\ref{eq:def_phiauxloc} we obtain:
+\begin{align}
+\Pi_{[c, d]}(x)
+\phi^\text{loc}_i(x)
+=
+\Pi_{[c, d]}(x)\phi^\text{aux}(x + iL_\text{aux}) 
+\end{align}
+
+To compute the convolution in Eq.\,\ref{eq:def_phiaux} we can use the results from the previous section.
+
+We call:
+\begin{align}
+&N_S = B-A\\
+&N_T = D-C\\
+\end{align}
+
+The support of $\rho^\text{aux}(x)$ is:
+\begin{equation}
+[a +AL_\text{aux}, a + B L_\text{aux}]
+\text{  having size  } N_S  L_\text{aux}}
+\end{equation}
+The support of $G^\text{aux}(x)$ is:
+\begin{equation}
+[c-b +(C-B)L_\text{aux}, c-b + (D-A) L_\text{aux}]
+\text{  having size  } \left(N_S + N_T\right) L_\text{aux}
+\end{equation}
+
+Using a sampling step $h_x$, we can define:
+\begin{align}
+N_1 &= L_1 / h_x\\
+N_2 &= L_2 / h_x\\
+N_\text{aux} &= L_\text{aux} / h_x = N_1+N_2
+\end{align}
+The number of samples in the support of $G^\text{aux}(x)$ is
+\begin{align}
+M_\text{aux} &= (N_S+N_T)N_\text{aux} 
+\end{align}
+
+OLD EQS
+\begin{equation}
+G^\text{aux} (x)= \sum_{l=C-B}^{D-A-1}
+G^\text{tr, loc}_{l}(x-l L_\text{aux}) 
+\end{equation}
+
+\begin{equation}
+G^\text{tr, loc}_l(x) = G^\text{tr}_l(x + lP) 
+=
+G(x +lP)\,
+\Pi_{[c-b,~d-a]}
+\left(x\right)
+\end{equation}
+
+END OLD EQS
+
+
+We define
+\begin{equation}
+G^\text{aux}_n = G^\text{aux}\left(c-b +(C-B)L_\text{aux} + nh_x\right) 
+\text{ for}~0 \leq n <M_\text{aux}
+\end{equation}
+
+Replacing Eq.\,\ref{eq:def_gaux}: 
+\begin{eqnarray}
+G^\text{aux}_n 
+&=&
+\sum_{l=C-B}^{D-A-1}
+G^\text{tr, loc}_{l}(c-b +(C-B)L_\text{aux} + nh_x -l L_\text{aux})\\
+&=&
+\sum_{l=C-B}^{D-A-1}
+G(c-b  +(C-B)L_\text{aux} +lP + h_x (n  -l N_\text{aux}) ) \times\\
+&&
+\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + h_x(n -l N_\text{aux}))
+\end{eqnarray}
+
+We define:
+\begin{multline}
+G^\text{aux}_{lm} =  G(c-b  +(C-B)L_\text{aux} +lP + m h_x ) 
+\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + m h_x)\\
+\text{ for}~0 \leq m <N_\text{aux}
+\end{multline}
+
+So we can write:
+\begin{equation}
+G^\text{aux}_n = \sum_{l=C-B}^{D-A-1}
+G^\text{aux}_{l,n-lN_\text{aux}}
+\end{equation}
+
+%We define
+%\begin{equation}
+%G^\text{tr, loc}_{lm} = 
+%G^\text{tr, loc}_{l}(c-b +m h_x) 
+%\text{ ~~for}~0 \leq m <N_\text{aux}
+%%G(c-b + mh_x +lP) 
+%%\text{ ~~for}~0 \leq m <N_\text{aux}
+%\end{equation}
+%
+%so we can write 
+%\begin{equation}
+%G^\text{aux}_n = \sum_{l=C-B}^{D-A-1}
+%G^\text{tr, loc}_{l, (C-B-l)N_\text{aux}+n}
+%\end{equation}
+
+
+%\begin{equation}
+%G^\text{aux}_n = G^\text{aux}\left(c-b +(C-B)L_\text{aux} + nh_x\right)
+%\text{ for}~0 \leq n <M_\text{aux}
+%\end{equation}
+
+
 
 \clearpage
 ------
