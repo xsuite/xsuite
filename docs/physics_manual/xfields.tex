@@ -787,6 +787,9 @@ Replacing in Eq. \ref{eq:freqconv} we obtain
 \hat{\phi}_k  = 
 h_x e^{-j2\pi k \frac{a-b}{2L}} 
 \hat{\rho}_k \hat{G}_k
+=
+h_x e^{-j2\pi k \frac{N_1}{M}} 
+\hat{\rho}_k \hat{G}_k
 \end{equation}
 
 
@@ -1084,15 +1087,32 @@ G(c-b  +(C-B)L_\text{aux} +lP + h_x (m  -l N_\text{aux}) ) \times\\
 
 We define:
 \begin{multline}
-G^\text{aux}_{ln} =  G(c-b  +(C-B)L_\text{aux} +lP + n h_x ) 
+G^\text{segm}_{l,n} =  G(c-b  +(C-B)L_\text{aux} +lP + n h_x ) 
 \Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + n h_x)\\
 \text{ for}~0 \leq n <N_\text{aux}
+~\text{ and}~(C-B) \leq l <(D-A)
 \end{multline}
 
 So we can write:
 \begin{equation}
 G^\text{aux}_m = \sum_{l=C-B}^{D-A-1}
-G^\text{aux}_{l,m-lN_\text{aux}}
+G^\text{segm}_{l,m-lN_\text{aux}}
+\end{equation}
+We define:
+\begin{equation}
+\rho^\text{aux}_m = 
+ \begin{cases}
+\rho^\text{aux}\left(a +AL_\text{aux} + mh_x\right) 
+&\text{ for}~0 \leq m <N_S N_\text{aux}\\
+ 0 & \text{for}~N_S N_\text{aux} \leq m < M_\text{aux}
+\end{cases}
+\end{equation}
+
+We can use the result from before linking the DFTs of these sequences:
+\begin{equation}
+\hat{\phi}^\text{aux}_k  = 
+h_x e^{-j2\pi k \frac{N_S N_\text{aux}}{M_\text{aux}}} 
+\hat{\rho}^\text{aux}_k \hat{G}^\text{aux}_k
 \end{equation}
 
 %We define
