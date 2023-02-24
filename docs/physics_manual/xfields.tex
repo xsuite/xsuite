@@ -1061,53 +1061,38 @@ The number of samples in the support of $G^\text{aux}(x)$ is
 M_\text{aux} &= (N_S+N_T)N_\text{aux} 
 \end{align}
 
-OLD EQS
-\begin{equation}
-G^\text{aux} (x)= \sum_{l=C-B}^{D-A-1}
-G^\text{tr, loc}_{l}(x-l L_\text{aux}) 
-\end{equation}
-
-\begin{equation}
-G^\text{tr, loc}_l(x) = G^\text{tr}_l(x + lP) 
-=
-G(x +lP)\,
-\Pi_{[c-b,~d-a]}
-\left(x\right)
-\end{equation}
-
-END OLD EQS
 
 
 We define
 \begin{equation}
-G^\text{aux}_n = G^\text{aux}\left(c-b +(C-B)L_\text{aux} + nh_x\right) 
-\text{ for}~0 \leq n <M_\text{aux}
+G^\text{aux}_m = G^\text{aux}\left(c-b +(C-B)L_\text{aux} + mh_x\right) 
+\text{ for}~0 \leq m <M_\text{aux}
 \end{equation}
 
 Replacing Eq.\,\ref{eq:def_gaux}: 
 \begin{eqnarray}
-G^\text{aux}_n 
+G^\text{aux}_m 
 &=&
 \sum_{l=C-B}^{D-A-1}
-G^\text{tr, loc}_{l}(c-b +(C-B)L_\text{aux} + nh_x -l L_\text{aux})\\
+G^\text{tr, loc}_{l}(c-b +(C-B)L_\text{aux} + mh_x -l L_\text{aux})\\
 &=&
 \sum_{l=C-B}^{D-A-1}
-G(c-b  +(C-B)L_\text{aux} +lP + h_x (n  -l N_\text{aux}) ) \times\\
+G(c-b  +(C-B)L_\text{aux} +lP + h_x (m  -l N_\text{aux}) ) \times\\
 &&
-\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + h_x(n -l N_\text{aux}))
+\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + h_x(m -l N_\text{aux}))
 \end{eqnarray}
 
 We define:
 \begin{multline}
-G^\text{aux}_{lm} =  G(c-b  +(C-B)L_\text{aux} +lP + m h_x ) 
-\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + m h_x)\\
-\text{ for}~0 \leq m <N_\text{aux}
+G^\text{aux}_{ln} =  G(c-b  +(C-B)L_\text{aux} +lP + n h_x ) 
+\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + n h_x)\\
+\text{ for}~0 \leq n <N_\text{aux}
 \end{multline}
 
 So we can write:
 \begin{equation}
-G^\text{aux}_n = \sum_{l=C-B}^{D-A-1}
-G^\text{aux}_{l,n-lN_\text{aux}}
+G^\text{aux}_m = \sum_{l=C-B}^{D-A-1}
+G^\text{aux}_{l,m-lN_\text{aux}}
 \end{equation}
 
 %We define
