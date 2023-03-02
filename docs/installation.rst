@@ -212,74 +212,46 @@ On MacOS (x86_64)
 
 .. code-block:: bash
 
-    $ cd ~
-    $ curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh > miniforge_inst.sh
-    $ bash miniforge_inst.sh
-    $ source miniforge3/bin/activate
-    $ conda install clang_osx-64
-    $ pip install numpy scipy matplotlib pandas ipython pytest
+    cd ~
+    curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh > miniforge_inst.sh
+    bash miniforge_inst.sh
+    source miniforge3/bin/activate
+    conda install clang_osx-64
+    pip install numpy scipy matplotlib pandas ipython pytest
+
+
+.. note::
+
+    If you have `xcode` installed, the compiler install as above might not
+    work. In that case it is useful to create conda environment and install directly
+    the compilers there. This can be done as follows:
+
+    .. code-block:: bash
+
+        cd ~
+        curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+        bash Miniforge3-MacOSX-x86_64.sh
+        source miniforge3/bin/activate
+        conda create -n my_env
+        conda activate my_env
+        conda install compilers
+        conda install pip
+        pip install numpy scipy matplotlib pandas ipython pytest
 
 On MacOS (arm64)
 --------
 
 .. code-block:: bash
 
-    $ cd ~
-    $ curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh > miniforge_inst.sh
-    $ bash miniforge_inst.sh
-    $ source miniforge3/bin/activate
-    $ conda install compilers
-    $ pip install numpy scipy matplotlib pandas ipython pytest
-
-Install Miniforge
-=================
-
-If you don't have a miniforge (or miniconda) installation, you can quickly get
-one ready for xsuite installation with the following steps.
-`Miniforge <https://github.com/conda-forge/miniforge>`__ is conda package
-manager preconfigured to use ``conda-forge``.
-
-On Linux
---------
-
-.. code-block:: bash
-
     cd ~
-    wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-    bash Miniforge3-Linux-x86_64.sh
+    curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+    bash Miniforge3-MacOSX-arm64.sh
     source miniforge3/bin/activate
-    pip install numpy scipy matplotlib pandas ipython pytest
-
-On MacOS
---------
-
-To install miniforge on Apple silicon, follow the instructions in the
-:ref:`dedicated chapter below<apple_silicon>`, or simply replace `x86_64`
-with `arm64` in the link below.
-
-.. code-block:: bash
-
-    cd ~
-    curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
-    bash Miniforge3-MacOSX-x86_64.sh
-    source miniforge3/bin/activate
-    conda install clang_osx-64
-    pip install numpy scipy matplotlib pandas ipython pytest
-    
-Note: If you have `xcode` installed, the compiler install as above might not work. In that case it is useful to crete conda environment and install directly the compilers there. This can be done as follows
-
-
-.. code-block:: bash
-
-    cd ~
-    curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
-    bash Miniforge3-MacOSX-x86_64.sh
-    source miniforge3/bin/activate
-    conda create -n my_env
-    conda activate my_env
     conda install compilers
     conda install pip
     pip install numpy scipy matplotlib pandas ipython pytest
+
+See the note for `x86` above in case you have `xcode` installed.
     
 .. _apple_silicon:
 
@@ -292,27 +264,22 @@ Native installation
 Conda (Miniforge)
 ~~~~~~~~~~~~~~~~~
 
-First, we install miniforge. Do say yes to shell initialisation, or, otherwise,
-run the command suggested by the installer to initialise ``conda`` in the
-current terminal session.
+First, install miniforge using the tips provided above. Do say yes to shell
+initialisation when asked, or, otherwise, run the command suggested by the
+installer to initialise ``conda`` in the current terminal session.
 
-.. code:: bash
-
-   curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-   bash Miniforge3-MacOSX-arm64.sh
-
-Let us now create a conda environment for xsuite. This will be beneficial if you
-want to have multiple separate projects (or indeed the native and the emulated
-x86 versions of xsuite side-by-side).
+Once miniforge is installed, we can create a conda environment for xsuite.
+This will be beneficial if you want to have multiple separate projects (or
+indeed the native and the emulated x86 versions of xsuite side-by-side).
 
 .. code:: bash
 
    conda create -n xsuite-arm python=3.10
    conda activate xsuite-arm
 
-Some prerequisites need to be installed, notably compilers. While xsuite
-itself requires a working C compiler, we will also need to build other
-dependencies from scratch, for these we will also need ``gfortran``. We
+If not installed already, some prerequisites are needed: notably compilers.
+While xsuite itself requires a working C compiler, we will also need to build
+other dependencies from scratch, for these we will need ``gfortran``. We
 can install compilers supplied by ``conda-forge``:
 
 .. code:: bash
