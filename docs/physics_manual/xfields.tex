@@ -785,10 +785,10 @@ Replacing in Eq. \ref{eq:freqconv} we obtain
 
 \begin{equation}
 \hat{\phi}_k  = 
-h_x e^{-j2\pi k \frac{a-b}{2L}} 
+h_x e^{j2\pi k \frac{b-a}{2L}} 
 \hat{\rho}_k \hat{G}_k
 =
-h_x e^{-j2\pi k \frac{N_1}{M}} 
+h_x e^{j2\pi k \frac{N_1}{M}} 
 \hat{\rho}_k \hat{G}_k
 \end{equation}
 
@@ -901,7 +901,7 @@ So we find that $\phi_{ij}^\text{loc}(x)$ is non-zero in the region:
 The total potential in the i-th interval of interest:
 \begin{equation}
 \phi_{i}^\text{loc}(x)
-=\sum_j \phi_{ij}^\text{loc}(x) = \sum_j\int_{-\infty}^{+\infty}
+=\sum_{j=A}^{B-1} \phi_{ij}^\text{loc}(x) = \sum_{j=A}^{B-1}\int_{-\infty}^{+\infty}
 \rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x') dx'
 \label{eq:phi_i_loc}
 \end{equation}
@@ -911,7 +911,7 @@ Since all terms in the sum are zero outside the region defined by Eq.\,\ref{eq:s
 We build:
 
 \begin{equation}
-G^\text{aux} (x)= \sum_{l=C-B}^{D-A-1}
+G^\text{aux} (x)= \sum_{l=C-B+1}^{D-A-1}
 G^\text{tr, loc}_{l}(x-l L_\text{aux})
 \label{eq:def_gaux}
 \end{equation}
@@ -960,12 +960,12 @@ We replace Eq.~\ref{eq:def_rhoaux} and Eq.~\ref{eq:def_gaux}:
 \Pi_{[c, d]}(x)
 \int_{-\infty}^{+\infty}
 \sum_{j=A}^{B-1} \rho_{j}^\text{loc}(x' - jL_\text{aux})\,
-\sum_{l=C-B}^{D-A-1}
+\sum_{l=C-B+1}^{D-A-1}
 G^\text{tr, loc}_{l}(x-x'+(i-l)L_\text{aux})
 dx'\\
 &=
 \Pi_{[c, d]}(x)
-\sum_{l=C-B}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}\rho_{j}^\text{loc}(x' - jL_\text{aux})\,
+\sum_{l=C-B+1}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}\rho_{j}^\text{loc}(x' - jL_\text{aux})\,
 G^\text{tr, loc}_{l}(x-x'+(i-l)L_\text{aux})
 dx'
 \end{align}
@@ -974,7 +974,7 @@ We change variable $x''= x' - (i-l)L_\text{aux}$
 \begin{align}
 \phi^\text{aux, loc}_i(x)
 &=
-\sum_{l=C-B}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}
+\sum_{l=C-B+1}^{D-A-1} \sum_{j=A}^{B-1} \int_{-\infty}^{+\infty}
 \Pi_{[c, d]}(x)
 \rho_{j}^\text{loc}(x'' + (i-l -j)L_\text{aux})\,
 G^\text{tr, loc}_{l}(x-x'')
@@ -1045,12 +1045,12 @@ We call:
 The support of $\rho^\text{aux}(x)$ is:
 \begin{equation}
 [a +AL_\text{aux}, a + B L_\text{aux}]
-\text{  having size  } N_S  L_\text{aux}}
+\text{  having size  } N_S  L_\text{aux}
 \end{equation}
 The support of $G^\text{aux}(x)$ is:
 \begin{equation}
-[c-b +(C-B)L_\text{aux}, c-b + (D-A) L_\text{aux}]
-\text{  having size  } \left(N_S + N_T\right) L_\text{aux}
+[c-b +(C-B+1)L_\text{aux}, c-b + (D-A) L_\text{aux}]
+\text{  having size  } \left(N_S + N_T -1\right) L_\text{aux}
 \end{equation}
 
 Using a sampling step $h_x$, we can define:
@@ -1061,14 +1061,14 @@ N_\text{aux} &= L_\text{aux} / h_x = N_1+N_2
 \end{align}
 The number of samples in the support of $G^\text{aux}(x)$ is
 \begin{align}
-M_\text{aux} &= (N_S+N_T)N_\text{aux} 
+M_\text{aux} &= (N_S+N_T-1)N_\text{aux} 
 \end{align}
 
 
 
 We define
 \begin{equation}
-G^\text{aux}_m = G^\text{aux}\left(c-b +(C-B)L_\text{aux} + mh_x\right) 
+G^\text{aux}_m = G^\text{aux}\left(c-b +(C-B+1)L_\text{aux} + mh_x\right) 
 \text{ for}~0 \leq m <M_\text{aux}
 \end{equation}
 
@@ -1076,26 +1076,26 @@ Replacing Eq.\,\ref{eq:def_gaux}:
 \begin{eqnarray}
 G^\text{aux}_m 
 &=&
-\sum_{l=C-B}^{D-A-1}
-G^\text{tr, loc}_{l}(c-b +(C-B)L_\text{aux} + mh_x -l L_\text{aux})\\
+\sum_{l=C-B+1}^{D-A-1}
+G^\text{tr, loc}_{l}(c-b +(C-B+1)L_\text{aux} + mh_x -l L_\text{aux})\\
 &=&
-\sum_{l=C-B}^{D-A-1}
-G(c-b  +(C-B)L_\text{aux} +lP + h_x (m  -l N_\text{aux}) ) \times\\
+\sum_{l=C-B+1}^{D-A-1}
+G(c-b  +(C-B+1)L_\text{aux} +lP + h_x (m  -l N_\text{aux}) ) \times\\
 &&
-\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + h_x(m -l N_\text{aux}))
+\Pi_{[c-b,~d-a]}(c-b +(C-B+1)L_\text{aux} + h_x(m -l N_\text{aux}))
 \end{eqnarray}
 
 We define:
 \begin{multline}
-G^\text{segm}_{l,n} =  G(c-b  +(C-B)L_\text{aux} +lP + n h_x ) 
-\Pi_{[c-b,~d-a]}(c-b +(C-B)L_\text{aux} + n h_x)\\
+G^\text{segm}_{l,n} =  G(c-b  +(C-B+1)L_\text{aux} +lP + n h_x ) 
+\Pi_{[c-b,~d-a]}(c-b +(C-B+1)L_\text{aux} + n h_x)\\
 \text{ for}~0 \leq n <N_\text{aux}
-~\text{ and}~(C-B) \leq l <(D-A)
+~\text{ and}~(C-B+1) \leq l < (D-A)
 \end{multline}
 
 So we can write:
 \begin{equation}
-G^\text{aux}_m = \sum_{l=C-B}^{D-A-1}
+G^\text{aux}_m = \sum_{l=C-B+1}^{D-A-1}
 G^\text{segm}_{l,m-lN_\text{aux}}
 \end{equation}
 We define:
@@ -1111,7 +1111,11 @@ We define:
 We can use the result from before linking the DFTs of these sequences:
 \begin{equation}
 \hat{\phi}^\text{aux}_k  = 
-h_x e^{-j2\pi k \frac{N_S N_\text{aux}}{M_\text{aux}}} 
+h_x 
+e^{j2\pi k \frac{(B-A-1)L_\text{aux} + (b-a)}{(N_S + N_T-1)L_\text{aux}}}
+=
+h_x 
+e^{j2\pi k \frac{(N_S-1)N_\text{aux} + N_1}{(N_S + N_T -1)N_\text{aux}}}
 \hat{\rho}^\text{aux}_k \hat{G}^\text{aux}_k
 \end{equation}
 
@@ -1122,267 +1126,10 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \text{~~ for}~0 \leq m <N_T N_\text{aux}\\
 \end{equation}
 
-%We define
-%\begin{equation}
-%G^\text{tr, loc}_{lm} = 
-%G^\text{tr, loc}_{l}(c-b +m h_x) 
-%\text{ ~~for}~0 \leq m <N_\text{aux}
-%%G(c-b + mh_x +lP) 
-%%\text{ ~~for}~0 \leq m <N_\text{aux}
-%\end{equation}
-%
-%so we can write 
-%\begin{equation}
-%G^\text{aux}_n = \sum_{l=C-B}^{D-A-1}
-%G^\text{tr, loc}_{l, (C-B-l)N_\text{aux}+n}
-%\end{equation}
-
-
-%\begin{equation}
-%G^\text{aux}_n = G^\text{aux}\left(c-b +(C-B)L_\text{aux} + nh_x\right)
-%\text{ for}~0 \leq n <M_\text{aux}
-%\end{equation}
-
-
-
-\clearpage
-------
-\begin{equation}
-\phi^\text{aux}(x)= 
-\sum_i \phi_{i}^\text{loc}(x - iL_\text{aux})
-\end{equation}
-
-where:
-\begin{equation}
-L_\text{aux} = L_1 + L_2
-\end{equation}
-
-We replace
-\begin{equation}
-\phi^\text{aux}(x)= 
-\sum_{i} 
-  \sum_i\sum_j
- \int_{-\infty}^{+\infty}
-\rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x'-iL_\text{aux}) dx'
-\end{equation}
-
-We substitute $x' = x'' - jL_\text{aux}$ 
-\begin{equation}
-\phi^\text{aux}(x)= 
-\sum_{i} 
- \phi_{i}^\text{loc}(x) = 
-  \sum_i\sum_j
- \int_{-\infty}^{+\infty}
-\rho^\text{loc}_j(x''-jL_\text{aux} )\,G^\text{tr, loc}_{i-j}(x-x''-(i-j)L_\text{aux}) dx''
-\end{equation}
-
-With $i = l + j$, we obtain 
- \begin{equation}
-\phi^\text{aux}(x)= 
-\int_{-\infty}^{+\infty}
-\sum_j \rho^\text{loc}_j(x''-jL_\text{aux} )\,
-\sum_l G^\text{tr, loc}_l(x-x''-lL_\text{aux}) dx''
-\end{equation}
-
-\clearpage
----------
-
-I explicit all the pies:
-
-\begin{equation}
-\phi_{ij}(x) = 
-\int_{-\infty}^{+\infty} 
-\Pi_{[a, b]} (x' - jP)\,
-\rho^\text{loc}_j(x' - jP)\,
-\Pi_{[c-b+(i-j)P,~d-a+(i-j)P]}(x-x')
-G^\text{tr}_{i-j}(x-x') dx'
-\end{equation}
-
-and use the local version of G:
-\begin{equation}
-\phi_{ij}(x) = 
-\int_{-\infty}^{+\infty} 
-\Pi_{[a, b]} (x' - jP)\,
-\rho^\text{loc}_j(x' - jP)\,
-\Pi_{[c-b,~d-a]}(x-x')
-G^\text{tr, loc}_{i-j}(x - x' +(i-j) P) dx'
-\label{eq:contrib}
-\end{equation}
-
-%We want to find the region in $x$ where this is non-zero:
-%
-%\begin{align}
-%&a<x' - jP<b\\
-%&c-b+(i-j)P< x-x'<d-a+(i-j)P
-%\end{align}
-%
-%From which:
-%
-%\begin{align}
-%c-b+x'-jP< x-iP<d-a+x'-jP\\
-%c+iP-L_1< x<d+iP+L_1
-%\end{align}
-
-We define a local version of $\phi_{ij}$:
-
-\begin{equation}
-\phi_{ij}^\text{loc}(x) = \phi_{ij}(x+iP)
-\end{equation}
-
-Replacing in Eq.\,\ref{eq:contrib}:
-\begin{equation}
-\phi_{ij}^\text{loc}(x) = 
-\int_{-\infty}^{+\infty} 
-\Pi_{[a, b]} (x' - jP)\,
-\rho^\text{loc}_j(x' - jP)\,
-\Pi_{[c-b+(i-j)P,~d-a+(i-j)P]}(x+iP-x')
-G^\text{tr}_{i-j}(x+iP-x') dx'
-\end{equation}
-
-We change variable $x'' = x' - iP$ ie. $x' = x'' + iP$
-
-\begin{equation}
-\phi_{ij}^\text{loc}(x) = 
-\int_{-\infty}^{+\infty} 
-\Pi_{[a, b]} (x'' + (i - j)P)\,
-\rho^\text{loc}_j(x'' + (i - j)P)\,
-\Pi_{[c-b+(i-j)P,~d-a+(i-j)P]}(x-x'')
-G^\text{tr}_{i-j}(x-x'') dx''
-\end{equation}
-
-
-Again, we want to find the region in $x$ where this is non-zero:
-
-\begin{align}
-&a<x'' + (i-j)P<b\\
-&c-b+(i-j)P< x-x''<d-a+(i-j)P
-\end{align}
-
-from which:
-\begin{align}
-&c-b+(i-j)P +x''< x<d-a+(i-j)P+x''\\
-&c-b+a< x<d-a+b
-\end{align}
-
-So we find that $\phi_{ij}^\text{loc}(x)$ is non-zero in the region:
-\begin{align}
-&c-L_1< x<d+L_1
-\end{align}
-which is larger by $2L_1$ compared to the set interest $[c, d]$
 
 
 
 
-
-
----------------
-
-Therefore $\phi$ int the i-th interval can be written as:
-\begin{equation}
-\phi_{i}(x) = 
-\Pi_{[c+iP,d+iP]}\left({x}\right)
-\sum_j
-\int_{-\infty}^{+\infty} 
-\rho_j(x' - jP)\,G_\text{tr,ij}(x-x') dx'
-\end{equation}
-
-We refine x with respect to the local period center:
-\begin{equation}
-\phi_{\text{loc},~i}(x) = \phi_{i}(x + iP)=c
-\Pi_{[c,d]}\left({x}\right)
-\sum_j
-\int_{-\infty}^{+\infty} 
-\rho_j(x' - jP)\,G_\text{tr,ij}(x-x'+iP) dx'
-\end{equation}
-
-We build an auxiliary potential function as 
-
-\begin{equation}
-\phi_\text{aux}(x) = \sum 
-\end{equation}
-
-
-
-\subsection{FFT convolution with gaps - 1D case}
-
-The potential can be written as the convolution of a Green function with the charge distribution:
-\begin{equation}
-\phi(x) = \int_{-\infty}^{+\infty} \rho(x')\,G(x-x') dx'
-\label{eq:conv_period}
-\end{equation}
-
-We assume that the source has the form
-\begin{equation}
-\rho(x) = \rho(x) \sum_i \Pi_{[a+iP,~b+iP]}\left(x\right)
-\label{eq:rholim_period}
-\end{equation}
-
-We are interested in the electric potential in regions with a similar periodicity:
-\begin{equation}
-\phi_{cd}(x) = \phi(x)  \sum_i \Pi_{[c+iP,~d+iP]}\left(x\right)
-\label{eq:philim_period}
-\end{equation}
-
-We replace Eq.\,\eqref{eq:rholim_period} and Eq.\,\eqref{eq:philim_period} into Eq.\eqref{eq:conv_period}, obtaining:
-\begin{equation}
-\phi_{cd}(x) =  \sum_{ij} \Pi_{[c+iP,~d+iP]}\left( x\right)
-\int_{-\infty}^{+\infty} 
-\Pi_{[a+jP,~b+jP]}\left(x'\right)
-\rho(x')\,G(x-x') dx'
-\end{equation}
-We apply the change of variable $x'' = x - x'$:
-\begin{equation}
-\phi_{cd}(x) = 
-\sum_{ij}
-\int_{-\infty}^{+\infty} 
-\Pi_{[c+iP,~d+iP]}\left({x}\right)
-\Pi_{[a+jP,~b+jP]}\left({x-x''}\right)
-\rho(x-x'')\,G(x'') \,dx''
-\label{eq:conv1}
-\end{equation}
-
-The integrand vanishes outside the set of the $(x, x'')$ defined by the two window functions:
-\begin{equation}
-\begin{cases}
-c+iP < x <d+iP\\
-a+jP < (x-x'') < b+jP
-\end{cases}
-\end{equation}
-
-We flip the signs in the second equation, obtaining:
-\begin{equation}
-\begin{cases}
-c +iP < x < d+iP\\
--b -jP < (x''-x) <-a-jP
-\end{cases}
-\end{equation}
-
-Combining the two equations we obtain:
-\begin{equation}
-c-b +(i-j)P<-b -jP + x < x'' <-a -jP+x<d-a + (i-j)P
-\end{equation}
-
-i.e. the integrand is not zero for:
-\begin{equation}
-c-b +lP < x'' <d-a + lP
-\end{equation}
-Therefore in Eq.\,\eqref{eq:conv1} we can replace $G(x'')$ with its gated version:
-\begin{equation}
-G_\text{gated}(x'') = G(x'')\,
-\sum_l \Pi_{[c-b+lP,~d-a+lP]}
-\left(
-{x''}
-\right)
-\end{equation}
-
-\clearpage
-
-
-
-
-
-
---------------------
 \section{Old stuff}
 
 
