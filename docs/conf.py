@@ -129,6 +129,8 @@ snippet_files = {
         'generated_code_snippets/optimized_tracker.py',
     'pymaskmx/examples/hllhc14_collision/000_build_collider_from_mad_model.py':
         'generated_code_snippets/build_collider_from_mad_model.py',
+    'pymaskmx/examples/hllhc14_collision/001_install_beambeam.py':
+        'generated_code_snippets/install_beambeam.py',
     }
 
 for ss, tt in snippet_files.items():
