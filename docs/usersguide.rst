@@ -26,3 +26,4 @@
    collimation
    pyhtinterface
    combined_cpu_gpu
+   pymaskmx

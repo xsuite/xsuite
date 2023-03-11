@@ -28,6 +28,8 @@ os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xpart')
 os.system(
     'git clone --single-branch --branch main https://github.com/xsuite/xdeps')
+os.system(
+    'git clone --single-branch --branch main https://github.com/xsuite/pymaskmx')
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
@@ -125,6 +127,8 @@ snippet_files = {
         'generated_code_snippets/freeze_individual_methods.py',
     'xtrack/examples/optimized_tracker/000_optimized_tracker.py':
         'generated_code_snippets/optimized_tracker.py',
+    'pymaskmx/examples/hllhc14_collision/000_build_collider_from_mad_model.py':
+        'generated_code_snippets/build_collider_from_mad_model.py',
     }
 
 for ss, tt in snippet_files.items():
