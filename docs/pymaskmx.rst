@@ -14,5 +14,5 @@ Build collider from MAD-X model
 Install beam-beam interactions
 ==============================
 
-.. literalinclude:: generated_code_snippets/install_beam_beam.py
+.. literalinclude:: generated_code_snippets/install_beambeam.py
    :language: python
