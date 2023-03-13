@@ -1,6 +1,6 @@
-========
-Pymaksmx
-========
+=====
+Xmask
+=====
 
 .. contents:: Table of Contents
     :depth: 4
