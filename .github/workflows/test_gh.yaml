@@ -21,6 +21,9 @@ on:
       xfields_location:
         required: true
         type: string
+      xmask_location:
+        required: true
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -40,6 +43,7 @@ jobs:
         - xpart
         - xtrack
         - xfields
+        - xmask
     
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
@@ -63,8 +67,9 @@ jobs:
         xpart_branch: ${{ inputs.xpart_location }}
         xtrack_branch: ${{ inputs.xtrack_location }}
         xfields_branch: ${{ inputs.xfields_location }}
+        xmask_branch: ${{ inputs.xmask_location }}
       run: |
-        for project in xobjects xdeps xpart xtrack xfields; do
+        for project in xobjects xdeps xpart xtrack xfields xmask; do
           branch_varname="${project}_branch"
           project_branch=${!branch_varname}  # get value of the variable [project]_branch
           
@@ -72,10 +77,16 @@ jobs:
           user="${parts[0]}"
           branch="${parts[1]}"
           
-          echo git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git"
+          echo git clone \
+            --recursive \
+            --single-branch -b "$branch" \
+            "https://github.com/${user}/${project}.git"
           
           cd $GITHUB_WORKSPACE
-          git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git"
+          git clone \
+            --recursive \
+            --single-branch -b "$branch" \
+            "https://github.com/${user}/${project}.git"
           pip install -e "${GITHUB_WORKSPACE}/${project}[tests]"
         done
     - name: Print versions

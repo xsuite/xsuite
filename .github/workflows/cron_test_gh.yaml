@@ -17,3 +17,4 @@ jobs:
       xpart_location: 'xsuite:main'
       xtrack_location: 'xsuite:main'
       xfields_location: 'xsuite:main'
+      xmask_location: 'xsuite:main'
