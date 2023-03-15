@@ -9,6 +9,7 @@ ARG xdeps_branch=xsuite:main
 ARG xpart_branch=xsuite:main
 ARG xtrack_branch=xsuite:main
 ARG xfields_branch=xsuite:main
+ARG xmask_branch=xsuite:main
 
 SHELL ["/usr/bin/bash", "-c"]
 
@@ -25,14 +26,20 @@ RUN python3 -m venv --system-site-packages /opt/xsuite
 ENV PATH="/opt/xsuite/bin:$PATH"
 WORKDIR /opt/xsuite
 RUN pip install --upgrade cython pytest pyopencl gitpython \
-    && for project in xobjects xdeps xpart xtrack xfields; do \
+    && for project in xobjects xdeps xpart xtrack xfields xmask; do \
       branch_varname="${project}_branch" \
       && project_branch=${!branch_varname} \
       && IFS=':' read -r -a parts <<< $project_branch \
       && user="${parts[0]}" \
       && branch="${parts[1]}" \
-      && echo git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git" \
-      && git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git" \
+      && echo git clone \
+        --recursive \
+        --single-branch -b "$branch" \
+        "https://github.com/${user}/${project}.git" \
+      && git clone \
+        --recursive \
+        --single-branch -b "$branch" \
+        "https://github.com/${user}/${project}.git" \
       && pip install -e ${project}[tests] \
       || break ; \
     done

@@ -21,6 +21,9 @@ on:
       xfields_location:
         required: true
         type: string
+      xmask_location:
+        required: true
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -43,6 +46,7 @@ jobs:
           xpart_branch: ${{ inputs.xpart_location }}
           xtrack_branch: ${{ inputs.xtrack_location }}
           xfields_branch: ${{ inputs.xfields_location }}
+          xmask_branch: ${{ inputs.xmask_location }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
@@ -54,6 +58,7 @@ jobs:
             --build-arg xpart_branch=${xpart_branch} \
             --build-arg xtrack_branch=${xtrack_branch} \
             --build-arg xfields_branch=${xfields_branch} \
+            --build-arg xmask_branch=${xmask_branch} \
             -t $IMAGE .
 
   # Print out some stuff about the test environment
@@ -85,6 +90,7 @@ jobs:
         - xpart
         - xtrack
         - xfields
+        - xmask
 
     steps:
     - name: Run pytest
