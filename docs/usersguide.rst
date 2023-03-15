@@ -27,3 +27,4 @@
    pyhtinterface
    combined_cpu_gpu
    xmask
+   exciter
