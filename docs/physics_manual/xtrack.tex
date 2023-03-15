@@ -471,21 +471,24 @@ The map for a thin dipole kick (horizontal or vertical) from the expanded Hamilt
 (eq. 4.12 in \cite{heinemann95}):
 \begin{align}
   p_x &\leftarrow p_x + (h_x l - \chi k_0 l)  + h_x l \delta - \chi k_0 l h_x x \\
-  p_y &\leftarrow p_y - (h_y l - \chi \hat k_0 l) - h_y l \delta + \chi k_0 l h_y y\\
+  p_y &\leftarrow p_y - (h_y l - \chi \hat k_0 l) - h_y l \delta + \chi \hat k_0 l h_y y\\
   \tau &\leftarrow \tau - \frac{h_xx - h_yy}{\beta}  l.
 \end{align}
 
-\subsubsection{mad thin dipole}
 
-to be checked
+%\subsubsection{mad thin dipole}
+% see ttt = sqrt( one + two*track(6,jtrk)*beti + track(6,jtrk)*track(6,jtrk) ) 
+
+%
+%to be checked
 %??? dipr 
-\begin{align}
-  p_x &\leftarrow p_x + (h_x l - \chi k_0 l)  + h_x l (p_z -1) - \chi k_0 l h_x x \\
-  p_y &\leftarrow p_y - (h_y l - \chi \hat k_0 l) - h_y l (p_z-1) + \chi k_0 l h_y y\\
-  \tau &\leftarrow \tau - \frac{h_xx - h_yy}{\beta_z}  l.
-\end{align}
+%\begin{align}
+%  p_x &\leftarrow p_x + (h_x l - \chi k_0 l)  + h_x l \delta - \chi k_0 l h_x x \\
+%  p_y &\leftarrow p_y - (h_y l - \chi \hat k_0 l) - h_y l \delta  + \chi k_0 l h_y y\\
+%  \tau &\leftarrow \tau - \frac{h_xx - h_yy}{\beta}  l.
+%\end{align}
 
-
+ %   ttt = sqrt( one + two*track(6,jtrk)*beti + track(6,jtrk)*track(6,jtrk) ) 
  %   track(2,jtrk) = track(2,jtrk) - (dbr + dxt(jtrk) - dipr * (ttt - one))
  %    track(4,jtrk) = track(4,jtrk) + (dbi + dyt(jtrk) - dipi * (ttt - one))
  %    track(5,jtrk) = track(5,jtrk) - &
@@ -593,7 +596,7 @@ The corresponding map is:
   p_y &\leftarrow p_y + \chi L\cdot\Im\left[\sum_{n=0} \frac{1}{n!} (k_n + i\hat k_n) (x+iy)^n \right],
 \end{align}
 
-In case a curvature $h$ is the vector potential become:
+In case a curvature $h$, the vector potential become:
 
 \begin{align}
 f(x,y)&=\int B_x(x,y) dy  \\

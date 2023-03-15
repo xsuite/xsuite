@@ -481,7 +481,7 @@ where $\Pi_{[a,b]}(x)$ is a rectangular window function defined as:
 
 We are interested in the electric potential only the region occupied by the sources, so we can compute:
 \begin{equation}
-\phi_L(x) = \phi(x) \Pi_{[0, L]}\left(\frac{x}{L}\right)
+\phi_L(x) = \phi(x) \Pi_{[0, L]}\left(x\right)
 \label{eq:philim}
 \end{equation}
 
@@ -534,8 +534,8 @@ obtaining:
 \begin{equation}
 \phi_L(x) = 
 \int_{-\infty}^{+\infty} 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
-\Pi_{[0,L]}\left(\frac{x-x''}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
+\Pi_{[0,L]}\left({x-x''}\right)
 \rho(x-x'')\,G_{2L}(x'') dx''
 \label{eq:conv2}
 \end{equation}
@@ -544,7 +544,7 @@ Since the two window functions force the integrand to zero outside the region $|
 \begin{equation}
 G_{2LR}(x'') = \sum_{n=-\infty}^{+\infty}G_{2L}(x''-2nL) = \sum_{n=-\infty}^{+\infty}G(x'' -2nL)\,\Pi_{[-L,L]}
 \left(
-\frac{x''-2nL}{2L}
+{x''-2nL}
 \right)
 \label{eq:GLR}
 \end{equation}
@@ -552,15 +552,15 @@ obtaining:
 \begin{equation}
 \phi_L(x) = 
 \int_{-\infty}^{+\infty} 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
-\Pi_{[0,L]}\left(\frac{x-x''}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
+\Pi_{[0,L]}\left({x-x''}\right)
 \rho(x-x'')\,G_{2LR}(x'') dx''
 \end{equation}
 
 We can go back to the initial coordinate by substituting $x'' = x-x'$:
 \begin{equation}
 \phi_L(x) = 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
+\Pi_{[0,L]}\left(x\right)
 \int_{-\infty}^{+\infty} 
 \rho(x')\,G_{2LR}(x-x') dx'
 \end{equation}
@@ -568,7 +568,7 @@ We can go back to the initial coordinate by substituting $x'' = x-x'$:
 This is a cyclic convolution, so we can proceed as follows. We split the integral:
 \begin{equation}
 \phi_L(x) = 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
 \sum_{n=-\infty}^{+\infty}
 \int_{2nL}^{2(n+1)L} 
 \rho(x')\,G_{2LR}(x-x') \,dx'
@@ -577,7 +577,7 @@ This is a cyclic convolution, so we can proceed as follows. We split the integra
 In each term we replace $x''' = x'+2nL$:
 \begin{equation}
 \phi_L(x) = 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
 \sum_{n=-\infty}^{+\infty}
 \int_{0 }^{2L} 
 \rho(x'''-2nL)\,G_{2LR}(x-x'''-2nL) \,dx'''
@@ -587,12 +587,12 @@ We use the fact that $G_{2LR}(x)$ is periodic:
 \begin{equation}
 \begin{split}
 \phi_L(x) &= 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
 \sum_{n=-\infty}^{+\infty}
 \int_{0 }^{2L} 
 \rho(x'''-2nL)\,G_{2LR}(x-x''') dx'''\\
 \\&=
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
 \int_{0 }^{2L}  
 \sum_{n=-\infty}^{+\infty}
 \rho(x'''-2nL)\,G_{2LR}(x-x''') dx'''
@@ -614,7 +614,7 @@ noting that this implies:
 We obtain:
 \begin{equation}
 \phi_L(x) = 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
 \int_{0 }^{2L} 
 \rho_{2LR}(x')\,G_{2LR}(x-x') dx'
 \label{eq:conv6}
@@ -631,7 +631,7 @@ The function:
 is periodic of period $2L$. From it the potential of interest can be simply calculated by selecting the first half period $[0, L]$:
 \begin{equation}
 \phi_L(x) = 
-\Pi_{[0,L]}\left(\frac{x}{L}\right)
+\Pi_{[0,L]}\left({x}\right)
 \phi_{2LR}(x)
 \label{eq:sel}
 \end{equation}

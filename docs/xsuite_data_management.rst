@@ -182,7 +182,7 @@ For example:
 Memory management in xtrack trackers
 ====================================
 
-When an xtrack.Tracker object is created, all beam elements are moved to one
+When the tracker is build, all beam elements are moved to one
 buffer in the context specified when the tracker is created. For example:
 
 .. code-block:: python
@@ -201,12 +201,14 @@ buffer in the context specified when the tracker is created. For example:
 
     # we create a tracker with the above line
     context = xobjects.ContextCupy()
-    tracker = xt.Tracker(line=line, _context=context)
+    line.build_tracker(_context=context)
+    # the tracker can be instpected in line.tracker
 
-    # this creates a new buffer in the memory buffer (accessible as tracker._buffer)
-    # and moves all the elements to this buffer.
+    # this creates a new buffer in the memory associated to the context
+    # (accessible as line.tracker._buffer) and moves all the elements to this
+    # buffer.
     # Now mult1._buffer is equal to mult2._buffer, etc. and they are all equal
-    # to tracker._buffer.
+    # to line.tracker._buffer.
 
 References
 ==========
