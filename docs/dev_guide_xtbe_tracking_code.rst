@@ -9,8 +9,8 @@ The C API for the defined class can be inspected as follows:
 
 .. code-block:: python
 
-    c_api = SRotation._XoStruct._gen_c_api()
-    print(c_api.source)
+    source, kernels, cdefs = SRotation._XoStruct._gen_c_api()
+    print(source)
 
 By printing source we can see that C methods are available to set, get and get a pointer to the fields specified in ``_xofields``:
 
