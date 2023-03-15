@@ -28,6 +28,10 @@ on:
         description: 'xfields branch'
         default: 'xsuite:main'
         required: true
+      xmask_location:
+        description: 'xmask branch'
+        default: 'xsuite:main'
+        required: true
 
 # This workflow calls the test_gpu.yaml workflow passing the specified
 # branches as inputs
@@ -41,3 +45,4 @@ jobs:
       xpart_location: ${{ inputs.xpart_location }}
       xtrack_location: ${{ inputs.xtrack_location }}
       xfields_location: ${{ inputs.xfields_location }}
+      xmask_location: ${{ inputs.xmask_location }}
