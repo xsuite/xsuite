@@ -135,7 +135,19 @@ LimitRectPolygon
 Monitors
 ========
 
+ParticlesMonitor
+----------------
+
 .. autoclass:: xtrack.ParticlesMonitor
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
+
+LastTurnsMonitor
+----------------
+
+.. autoclass:: xtrack.LastTurnsMonitor
     :members:
     :undoc-members:
     :member-order: bysource
