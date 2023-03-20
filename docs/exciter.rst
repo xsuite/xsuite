@@ -24,7 +24,7 @@ To provide for an arbitrary frequency spectrum, the variations are *not* assumed
 
 where :math:`\zeta=(s-\beta_0\cdot c_0\cdot t)` is the longitudinal coordinate of the particle, :math:`\beta_0` is the relativistic beta factor of the particle, :math:`c_0` is the speed of light, :math:`n` is the current turn number, :math:`f_{rev}` is the revolution frequency, and :math:`f_{samp}` is the sample frequency.
 
-The excitation starts with the first sample when the reference particle arrives at the element in :math:`T_0`
+The excitation starts with the first sample when the reference particle arrives at the element in :math:`n_0`
 
 The samples can therefore be considered as a waveform sampled at the sampling frequency. To compute a sample for a sinusoidal excitation at frequency `f_ex` using NumPy:
 
