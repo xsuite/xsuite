@@ -17,12 +17,12 @@ The given multipole components `knl` and `ksl` (normal and skew respectively) ar
     \verb|knl|(t) = \verb|knl| \times \verb|samples|(t)
 
 
-To provide for an arbitrary frequency spectrum, the variations are *not* assumed to be slow compared to the revolution frequency :math:`t_{rev}`, and the particle arrival time is taken into account when determining the sample index
+To provide for an arbitrary frequency spectrum, the variations are *not* assumed to be slow compared to the revolution frequency :math:`f_{rev}`, and the particle arrival time is taken into account when determining the sample index
 
 .. math:: 
     \verb|i| = f_{samp} \times \left(\frac{n-n_0}{f_{rev}} - \frac{\zeta}{\beta_0  c_0}\right)
 
-where :math:`\zeta=(s-\beta_0\cdot c_0\cdot t)` is the longitudinal coordinate of the particle, :math:`\beta_0` is the relativistic beta factor of the particle, :math:`c_0` is the speed of light, :math:`T` is the current turn number, :math:`f_{rev}` is the revolution frequency, and :math:`f_{samp}` is the sample frequency.
+where :math:`\zeta=(s-\beta_0\cdot c_0\cdot t)` is the longitudinal coordinate of the particle, :math:`\beta_0` is the relativistic beta factor of the particle, :math:`c_0` is the speed of light, :math:`n` is the current turn number, :math:`f_{rev}` is the revolution frequency, and :math:`f_{samp}` is the sample frequency.
 
 The excitation starts with the first sample when the reference particle arrives at the element in :math:`T_0`
 
