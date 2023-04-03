@@ -15,18 +15,7 @@ Line
 
 .. autoclass:: xtrack.Line
     :members:
-    :undoc-members:
     :member-order: bysource
-
-
-Tracker
-=======
-
-.. autoclass:: xtrack.Tracker
-    :members:
-    :undoc-members:
-    :member-order: bysource
-
 
 Beam elements
 =============
