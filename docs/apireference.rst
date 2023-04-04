@@ -38,6 +38,86 @@ objects, see the :doc:`Working with Particles objects <particlesmanip>`).
 Beam elements
 =============
 
+
+Drift
+-----
+
+.. autoclass:: xtrack.Drift
+    :members:
+    :member-order: bysource
+
+Multipole
+---------
+
+.. autoclass:: xtrack.Multipole
+    :members:
+    :member-order: bysource
+
+Cavity
+------
+
+.. autoclass:: xtrack.Cavity
+    :members:
+    :member-order: bysource
+
+RFMultipole
+-----------
+
+.. autoclass:: xtrack.RFMultipole
+    :members:
+    :member-order: bysource
+
+DipoleEdge
+----------
+
+.. autoclass:: xtrack.DipoleEdge
+    :members:
+    :member-order: bysource
+
+
+XYShift
+-------
+
+.. autoclass:: xtrack.XYShift
+    :members:
+    :member-order: bysource
+
+SRotation
+----------
+
+.. autoclass:: xtrack.SRotation
+    :members:
+    :member-order: bysource
+
+
+LimitEllipse
+------------
+
+.. autoclass:: xtrack.LimitEllipse
+    :members:
+    :member-order: bysource
+
+LimitRect
+---------
+
+.. autoclass:: xtrack.LimitRect
+    :members:
+    :member-order: bysource
+
+LimitRectEllipse
+----------------
+
+.. autoclass:: xtrack.LimitRectEllipse
+    :members:
+    :member-order: bysource
+
+LimitRectPolygon
+----------------
+
+.. autoclass:: xtrack.LimitPolygon
+    :members:
+    :member-order: bysource
+
 CPU and GPU contexts
 ====================
 
