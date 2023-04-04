@@ -38,6 +38,12 @@ objects, see the :doc:`Working with Particles objects <particlesmanip>`).
 Beam elements (xtrack)
 ======================
 
+Marker
+------
+
+.. autoclass:: xtrack.Marker
+    :members:
+    :member-order: bysource
 
 Drift
 -----
@@ -74,6 +80,55 @@ DipoleEdge
     :members:
     :member-order: bysource
 
+ReferenceEnergyIncrease
+-----------------------
+
+.. autoclass:: xtrack.ReferenceEnergyIncrease
+    :members:
+    :member-order: bysource
+
+Elens
+-----
+
+.. autoclass:: xtrack.Elens
+    :members:
+    :member-order: bysource
+
+Exciter
+-------
+
+.. autoclass:: xtrack.Exciter
+    :members:
+    :member-order: bysource
+
+Wire
+----
+
+.. autoclass:: xtrack.Wire
+    :members:
+    :member-order: bysource
+
+FirstOrderTaylorMap
+-------------------
+
+.. autoclass:: xtrack.FirstOrderTaylorMap
+    :members:
+    :member-order: bysource
+
+
+LinearTransferMatrix
+--------------------
+
+.. autoclass:: xtrack.LinearTransferMatrix
+    :members:
+    :member-order: bysource
+
+LongitudinalLimitRect
+---------------------
+
+.. autoclass:: xtrack.LongitudinalLimitRect
+    :members:
+    :member-order: bysource
 
 XYShift
 -------
@@ -86,6 +141,27 @@ SRotation
 ----------
 
 .. autoclass:: xtrack.SRotation
+    :members:
+    :member-order: bysource
+
+XRotation
+---------
+
+.. autoclass:: xtrack.XRotation
+    :members:
+    :member-order: bysource
+
+YRotation
+---------
+
+.. autoclass:: xtrack.YRotation
+    :members:
+    :member-order: bysource
+
+ZetaShift
+---------
+
+.. autoclass:: xtrack.ZetaShift
     :members:
     :member-order: bysource
 
@@ -111,13 +187,34 @@ LimitRectEllipse
     :members:
     :member-order: bysource
 
+LimitRacetrack
+--------------
+
+.. autoclass:: xtrack.LimitRacetrack
+    :members:
+    :member-order: bysource
+
 LimitPolygon
-----------------
+------------
 
 .. autoclass:: xtrack.LimitPolygon
     :members:
     :member-order: bysource
 
+
+ParticlesMonitor
+----------------
+
+.. autoclass:: xtrack.ParticlesMonitor
+    :members:
+    :member-order: bysource
+
+LastTurnsMonitor
+----------------
+
+.. autoclass:: xtrack.LastTurnsMonitor
+    :members:
+    :member-order: bysource
 
 Beam elements (xfields)
 ======================
