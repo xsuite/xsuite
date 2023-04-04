@@ -3,7 +3,7 @@ API reference
 =============
 
 .. contents:: Table of Contents
-    :depth: 4
+    :depth: 6
 
 Core classes
 ============
