@@ -26,14 +26,6 @@ xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
 
-xobjects_branch = "release/v0.2.3"
-xpart_branch = "release/v0.14.2"
-xdeps_branch = "release/v0.0.12"
-xtrack_branch = "release/v0.32.0"
-xfields_branch = "release/v0.11.1"
-xmask_branch = "release/v0.2.2"
-
-
 os.system(
     f'git clone --single-branch --branch {xobjects_branch} '
     'https://github.com/xsuite/xobjects')

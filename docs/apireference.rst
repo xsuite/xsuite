@@ -1,12 +1,22 @@
+=============
 API reference
 =============
 
-The API of the Xsuite library is documented in the following sections:
+.. contents:: Table of Contents
+    :depth: 4
 
-.. toctree::
-   :maxdepth: 3
+Core classes
+============
 
-   apixtrack
-   apixpart
-   apixobjects
-   apixfields
+``xtrack.Line`` class
+---------------------
+
+.. autoclass:: xtrack.Line
+    :members:
+    :member-order: bysource
+
+
+
+
+
+
