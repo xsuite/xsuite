@@ -11,6 +11,7 @@ Core classes
 xtrack.Line class
 ---------------------
 
+
 .. autoclass:: xtrack.Line
     :members:
     :member-order: bysource
