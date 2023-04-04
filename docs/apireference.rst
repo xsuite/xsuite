@@ -35,8 +35,8 @@ objects, see the :doc:`Working with Particles objects <particlesmanip>`).
     :inherited-members:
     :member-order: bysource
 
-Beam elements
-=============
+Beam elements (xtrack)
+======================
 
 
 Drift
@@ -117,6 +117,40 @@ LimitRectPolygon
 .. autoclass:: xtrack.LimitPolygon
     :members:
     :member-order: bysource
+
+
+Beam elements (xfields)
+======================
+
+
+Beam-beam Bi-Gaussian 2D
+------------------------
+
+.. autoclass:: xfields.BeamBeamBiGaussian2D
+    :members:
+    :member-order: bysource
+
+Beam-beam Bi-Gaussian 3D
+------------------------
+
+.. autoclass:: xfields.BeamBeamBiGaussian3D
+    :members:
+    :member-order: bysource
+
+Space Charge Bi-Gaussian
+------------------------
+
+.. autoclass:: xfields.SpaceChargeBiGaussian
+    :members:
+    :member-order: bysource
+
+Space Charge 3D
+---------------
+
+.. autoclass:: xfields.SpaceCharge3D
+    :members:
+    :member-order: bysource
+
 
 CPU and GPU contexts
 ====================
