@@ -8,7 +8,7 @@ API reference
 Core classes
 ============
 
-``xtrack.Line`` class
+xtrack.Line class
 ---------------------
 
 .. autoclass:: xtrack.Line
