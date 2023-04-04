@@ -1,12 +1,33 @@
+=============
 API reference
 =============
 
-The API of the Xsuite library is documented in the following sections:
+.. contents:: Table of Contents
+    :depth: 6
 
-.. toctree::
-   :maxdepth: 3
+Core classes
+============
 
-   apixobjects
-   apixpart
-   apixtrack
-   apixfields
+xtrack.Line class
+-----------------
+
+.. autoclass:: xtrack.Line
+    :members:
+    :member-order: bysource
+
+xpart.Particles class
+---------------------
+
+Xsuite Particles classes, including the default xpart.Particles class, expose
+the following API:
+
+.. autoclass:: xpart.ParticlesBase
+    :members:
+    :inherited-members:
+    :member-order: bysource
+
+
+
+
+
+

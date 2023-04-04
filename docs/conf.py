@@ -18,18 +18,35 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+
+xobjects_branch = 'main'
+xfields_branch = 'main'
+xtrack_branch = 'main'
+xpart_branch = 'main'
+xdeps_branch = 'main'
+xmask_branch = 'main'
+
+xpart_branch = 'doc_particles_class'
+
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
+    f'git clone --single-branch --branch {xobjects_branch} '
+    'https://github.com/xsuite/xobjects')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xfields')
+    f'git clone --single-branch --branch {xfields_branch} '
+    'https://github.com/xsuite/xfields')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
+    f'git clone --single-branch --branch {xtrack_branch} '
+    'https://github.com/xsuite/xtrack')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xpart')
+    f'git clone --single-branch --branch {xpart_branch} '
+    'https://github.com/xsuite/xpart')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xdeps')
+    f'git clone --single-branch --branch {xdeps_branch} '
+    'https://github.com/xsuite/xdeps')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xmask')
+    f'git clone --single-branch --branch {xmask_branch} '
+    'https://github.com/xsuite/xmask')
+
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
@@ -411,3 +428,5 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+autoclass_content = 'both'

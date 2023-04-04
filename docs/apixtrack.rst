@@ -15,18 +15,7 @@ Line
 
 .. autoclass:: xtrack.Line
     :members:
-    :undoc-members:
     :member-order: bysource
-
-
-Tracker
-=======
-
-.. autoclass:: xtrack.Tracker
-    :members:
-    :undoc-members:
-    :member-order: bysource
-
 
 Beam elements
 =============
@@ -135,7 +124,19 @@ LimitRectPolygon
 Monitors
 ========
 
+ParticlesMonitor
+----------------
+
 .. autoclass:: xtrack.ParticlesMonitor
+    :members:
+    :undoc-members:
+    :member-order: bysource
+    :show-inheritance:
+
+LastTurnsMonitor
+----------------
+
+.. autoclass:: xtrack.LastTurnsMonitor
     :members:
     :undoc-members:
     :member-order: bysource
