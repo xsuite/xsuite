@@ -111,7 +111,7 @@ LimitRectEllipse
     :members:
     :member-order: bysource
 
-LimitRectPolygon
+LimitPolygon
 ----------------
 
 .. autoclass:: xtrack.LimitPolygon
