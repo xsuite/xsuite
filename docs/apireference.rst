@@ -18,7 +18,10 @@ xtrack.Line class
 xpart.Particles class
 ---------------------
 
-.. autoclass:: xpart.Particles
+Xsuite Particles classes, including the default xpart.Particles class, expose
+the following API:
+
+.. autoclass:: xpart.ParticlesBase
     :members:
     :inherited-members:
     :member-order: bysource
