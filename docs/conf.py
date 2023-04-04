@@ -26,6 +26,8 @@ xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
 
+xpart_branch = 'doc_particles_class'
+
 os.system(
     f'git clone --single-branch --branch {xobjects_branch} '
     'https://github.com/xsuite/xobjects')
@@ -426,3 +428,5 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+autoclass_content = 'both'
