@@ -23,6 +23,11 @@ different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
     :members:
     :member-order: bysource
 
+    .. rubric:: Methods
+
+    .. autoautosummary:: xtrack.Line
+        :methods:
+
 xpart.Particles class
 ---------------------
 
@@ -251,11 +256,3 @@ Space Charge 3D
 
 CPU and GPU contexts
 ====================
-
-
-
-
-
-
-
-

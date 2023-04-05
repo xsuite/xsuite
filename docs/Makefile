@@ -47,6 +47,13 @@ help:
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 
 clean:
+	rm -rf $(BUILDDIR)/../generated
+	rm -rf $(BUILDDIR)/../xdeps
+	rm -rf $(BUILDDIR)/../xfields
+	rm -rf $(BUILDDIR)/../xmask
+	rm -rf $(BUILDDIR)/../xobjects
+	rm -rf $(BUILDDIR)/../xpart
+	rm -rf $(BUILDDIR)/../xtrack
 	rm -rf $(BUILDDIR)/*
 
 html:
