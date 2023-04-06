@@ -40,6 +40,11 @@ objects, see the :doc:`Working with Particles objects <particlesmanip>`).
     :inherited-members:
     :member-order: bysource
 
+    .. rubric:: Methods
+
+    .. autoautosummary:: xpart.ParticlesBase
+        :methods:
+
 Beam elements (xtrack)
 ======================
 
