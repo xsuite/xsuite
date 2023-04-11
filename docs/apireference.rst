@@ -23,6 +23,11 @@ different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
     :members:
     :member-order: bysource
 
+    .. rubric:: Methods
+
+    .. autoautosummary:: xtrack.Line
+        :methods:
+
 xpart.Particles class
 ---------------------
 
@@ -34,6 +39,11 @@ objects, see the :doc:`Working with Particles objects <particlesmanip>`).
     :members:
     :inherited-members:
     :member-order: bysource
+
+    .. rubric:: Methods
+
+    .. autoautosummary:: xpart.ParticlesBase
+        :methods:
 
 Beam elements (xtrack)
 ======================
@@ -251,11 +261,3 @@ Space Charge 3D
 
 CPU and GPU contexts
 ====================
-
-
-
-
-
-
-
-
