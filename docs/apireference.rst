@@ -6,7 +6,6 @@ API reference
     :depth: 6
 
 
-
 xtrack.Line class
 =================
 
