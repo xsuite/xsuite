@@ -303,6 +303,47 @@ Space Charge 3D
     :member-order: bysource
 
 
+Generation of particles distributions
+=====================================
+
+Gaussian bunch generation (6D)
+------------------------------
+
+.. autofunction:: xpart.generate_matched_gaussian_bunch
+
+Longitudinal coordinates generation
+-----------------------------------
+
+.. autofunction:: xpart.generate_longitudinal_coordinates
+
+Normalized transverse coordinates generation
+--------------------------------------------
+
+Gaussian
+~~~~~~~~
+
+.. autofunction:: xpart.generate_2D_gaussian
+
+Polar grid
+~~~~~~~~~~
+
+.. autofunction:: xpart.generate_2D_polar_grid
+
+Uniform circular sector
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: xpart.generate_2D_uniform_circular_sector
+
+Pencil
+~~~~~~
+
+.. autofunction:: xpart.generate_2D_pencil
+
+.. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
+
+
+
+
 CPU and GPU contexts
 ====================
 

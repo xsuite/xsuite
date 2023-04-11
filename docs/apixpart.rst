@@ -48,6 +48,8 @@ Pencil
 
 .. autofunction:: xpart.generate_2D_pencil
 
+.. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
+
 Gaussian bunch generation (6D)
 ==============================
 
