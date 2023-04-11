@@ -23,7 +23,8 @@ Fundamentals
 
 This section describes the fundamental methods of the xtrack.Line class, namely
 the :ref:`track method <track_method_label>`, the :ref:`twiss method<twiss_method_label>`,
-the `match method <match_method_label>` and the `build_particles method <build_particles_method_label>`.
+the :ref:`match method <match_method_label>` and the
+:ref:`build_particles method <build_particles_method_label>`.
 
 
 .. _track_method_label:
