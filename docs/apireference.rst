@@ -21,10 +21,20 @@ different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
 Fundamentals
 ------------
 
+This section describes the fundamental methods of the xtrack.Line class, namely
+the :ref:`track method <track_method_label>`, the :ref:`twiss method<twiss_method_label>`,
+the `match method <match_method_label>` and the `build_particles method <build_particles_method_label>`.
+
+
+.. _track_method_label:
+
 Track
 ~~~~~
 
 .. automethod:: xtrack.Line.track
+
+
+.. _twiss_method_label:
 
 Twiss
 ~~~~~
@@ -34,7 +44,11 @@ Twiss
 Match
 ~~~~~
 
+.. _match_method_label:
+
 .. automethod:: xtrack.Line.match
+
+.. _build_particles_method_label:
 
 Build particles
 ~~~~~~~~~~~~~~~
