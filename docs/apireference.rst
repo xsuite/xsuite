@@ -19,14 +19,20 @@ The Xsuite Line class is the main class to build beam lines. Its interface is
 described in the following (more info on how to build and use beam lines for
 different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
 
+List of methods
+...............
+
+.. autoautosummary:: xtrack.Line
+    :methods:
+
+Detailed description of methods
+...............................
+
 .. autoclass:: xtrack.Line
     :members:
     :member-order: bysource
 
-    .. rubric:: Methods
 
-    .. autoautosummary:: xtrack.Line
-        :methods:
 
 xpart.Particles class
 ---------------------

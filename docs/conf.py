@@ -32,6 +32,7 @@ xdeps_branch = 'main'
 xmask_branch = 'main'
 
 xpart_branch = 'doc_particles_class'
+xsuite_branch = 'tests/spacecharge_with_losses'
 
 os.system(
     f'git clone --single-branch --branch {xobjects_branch} '
