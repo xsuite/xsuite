@@ -5,6 +5,7 @@ API reference
 .. contents:: Table of Contents
     :depth: 6
 
+
 xtrack.Line class
 =================
 
