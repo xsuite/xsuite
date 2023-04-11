@@ -7,10 +7,6 @@ API reference
 
 
 
-This secion documents two core classes of Xsuite: :class:`xtrack.Line` and
-:class:`xpart.ParticlesBase`, which are the two main building blocks of Xsuite
-simulations.
-
 xtrack.Line class
 =================
 
@@ -79,15 +75,20 @@ Xsuite Particles classes, including the default xpart.Particles class, expose
 the API described in the following (for more info on how to manipulate Particles
 objects, see the :doc:`Working with Particles objects <particlesmanip>`).
 
+List of all methods
+-------------------
+
+.. autoautosummary:: xpart.Particles
+    :methods:
+
+Description of all methods
+--------------------------
+
 .. autoclass:: xpart.ParticlesBase
     :members:
     :inherited-members:
     :member-order: bysource
 
-    .. rubric:: Methods
-
-    .. autoautosummary:: xpart.ParticlesBase
-        :methods:
 
 Beam elements (xtrack)
 ======================
