@@ -195,7 +195,7 @@ xtrack.Multisetter class
     :members:
     :member-order: bysource
 
-Space charge Configuration
+Space charge configuration
 --------------------------
 
 .. autofunction:: xfields.install_spacecharge_frozen
@@ -203,6 +203,13 @@ Space charge Configuration
 .. autofunction:: xfields.replace_spacecharge_with_quasi_frozen
 
 .. autofunction:: xfields.replace_spacecharge_with_PIC
+
+Loss location refinement
+------------------------
+
+.. autoclass:: xtrack.LossLocationRefinement
+    :members:
+    :member-order: bysource
 
 Beam elements (xtrack)
 ======================
