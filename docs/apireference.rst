@@ -188,6 +188,13 @@ xtrack.Multiline class
     :members:
     :member-order: bysource
 
+xtrack.Multisetter class
+------------------------
+
+.. autoclass:: xtrack.Multisetter
+    :members:
+    :member-order: bysource
+
 Space charge Configuration
 --------------------------
 
