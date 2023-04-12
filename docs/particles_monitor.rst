@@ -5,6 +5,8 @@ Particles monitors
 .. contents:: Table of Contents
     :depth: 3
 
+See also: :class:`xtrack.ParticlesMonitor`, :class:`xtrack.LastTurnsMonitor`.
+
 The easy way
 ============
 
