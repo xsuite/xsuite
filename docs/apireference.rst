@@ -202,12 +202,16 @@ xtrack.Multiline class
 xtrack.Multisetter class
 ------------------------
 
+See also: :doc:`Fast lattice changes<fast_lattice_changes>`
+
 .. autoclass:: xtrack.Multisetter
     :members:
     :member-order: bysource
 
 Space charge configuration
 --------------------------
+
+See also: :doc:`Space charge <spacecharge>`
 
 .. autofunction:: xfields.install_spacecharge_frozen
 
@@ -217,6 +221,8 @@ Space charge configuration
 
 Loss location refinement
 ------------------------
+
+See also: :doc:`Loss location refinement <collimation>`
 
 .. autoclass:: xtrack.LossLocationRefinement
     :members:
