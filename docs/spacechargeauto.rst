@@ -14,6 +14,10 @@ in the :doc:`dedicated section <collective>`, the Xtrack Tracker works such that
 The following example illustrates how to configure and run a space-charge simulation.
 The variable ``mode`` is used to switch between frozen, quasi-frozen and PIC.
 
+See also: :func:`xfields.install_spacecharge_frozen`,
+:func:`xfields.replace_spacecharge_with_quasi_frozen`,
+:func:`xfields.replace_spacecharge_with_PIC`.
+
 Example
 =======
 

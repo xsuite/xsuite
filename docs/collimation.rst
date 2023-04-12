@@ -14,6 +14,8 @@ an interpolated aperture model between the aperture elements and backtracks the
 particles in order to identify the impact point. The following example illustrates
 how to use this feature.
 
+See also: :class:`xtrack.LossLocationRefinement`
+
 .. literalinclude:: generated_code_snippets/loss_location_refinement.py
    :language: python
 

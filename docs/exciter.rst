@@ -2,7 +2,7 @@
 Exciter beam element
 =========================================
 
-The beam element `xtrack.Exciter` provides a model for a transverse exciter as a time-dependent thin multipole. 
+The beam element :class:`xtrack.Exciter` provides a model for a transverse exciter as a time-dependent thin multipole. 
 
 By providing an array of samples, and the sampling frequency, the element can provide an arbitrary excitation waveform.
 
