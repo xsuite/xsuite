@@ -33,6 +33,7 @@ xmask_branch = 'main'
 
 xpart_branch = 'doc_particles_class'
 xtrack_branch = 'tests/spacecharge_with_losses'
+xfields_branch = 'release/v0.11.2'
 
 os.system(
     f'git clone --single-branch --branch {xobjects_branch} '

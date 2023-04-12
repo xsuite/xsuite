@@ -211,7 +211,7 @@ See also: :doc:`Fast lattice changes<fast_lattice_changes>`
 Space charge configuration
 --------------------------
 
-See also: :doc:`Space charge <spacecharge>`
+See also: :doc:`Space charge <spacechargeauto>`
 
 .. autofunction:: xfields.install_spacecharge_frozen
 
