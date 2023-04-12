@@ -204,7 +204,7 @@ xtrack.Multisetter class
 
 See also: :doc:`Fast lattice changes<fast_lattice_changes>`
 
-.. autoclass:: xtrack.Multisetter
+.. autoclass:: xtrack.MultiSetter
     :members:
     :member-order: bysource
 
