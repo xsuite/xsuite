@@ -99,6 +99,8 @@ Description of all methods
 Generation of particles distributions
 =====================================
 
+See also :doc:`Working with Particles objects <particlesmanip>`
+
 Gaussian bunch generation (6D)
 ------------------------------
 
@@ -137,6 +139,7 @@ Pencil
 CPU and GPU contexts
 ====================
 
+See also :doc:`Getting Started Guide <singlepart>`
 
 Xsuite supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
 A context is initialized by instanciating objects from one of the context classes available Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
