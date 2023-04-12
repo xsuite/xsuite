@@ -36,10 +36,14 @@ See also: :doc:`Single particle tracking <singlepart>`,
 Twiss
 ~~~~~
 
+See also: :doc:`Twiss section <twiss>`.
+
 .. automethod:: xtrack.Line.twiss
 
 Match
 ~~~~~
+
+See also: :doc:`Match twiss parameters <match_twiss_params>`.
 
 .. _match_method_label:
 
@@ -49,6 +53,8 @@ Match
 
 Build particles
 ~~~~~~~~~~~~~~~
+
+See also: :doc:`Working with Particles objects <particlesmanip>`.
 
 .. automethod:: xtrack.Line.build_particles
 
