@@ -7,24 +7,24 @@
 
    installation
    singlepart
-   particlesmanip
-   particles_monitor
    line2json
-   xsuite_data_management
-   twiss
+   particlesmanip
    deferred_expressions
-   match_twiss_params
-   fast_lattice_changes
-   freeze_longitudinal
+   twiss
    method_4d
+   match_twiss_params
+   particles_monitor
    acceleration
-   optimize_for_tracking
    synchrotron_radiation
    tapering
+   freeze_longitudinal
+   exciter
+   fast_lattice_changes
+   optimize_for_tracking
    collective
-   spacechargeauto
    collimation
+   spacechargeauto
    pyhtinterface
    combined_cpu_gpu
-   exciter
+   xsuite_data_management
 
