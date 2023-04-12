@@ -126,9 +126,6 @@ Pencil
 
 .. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
 
-
-
-
 CPU and GPU contexts
 ====================
 
@@ -190,6 +187,15 @@ xtrack.Multiline class
 .. autoclass:: xtrack.Multiline
     :members:
     :member-order: bysource
+
+Space charge Configuration
+--------------------------
+
+.. autofunction:: xfields.install_spacecharge_frozen
+
+.. autofunction:: xfields.replace_spacecharge_with_quasi_frozen
+
+.. autofunction:: xfields.replace_spacecharge_with_PIC
 
 Beam elements (xtrack)
 ======================
