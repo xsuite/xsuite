@@ -36,7 +36,7 @@ See also: :doc:`Single particle tracking <singlepart>`,
 Twiss
 ~~~~~
 
-See also: :doc:`Twiss section <twiss>`.
+See also: :doc:`Twiss <twiss>`.
 
 .. automethod:: xtrack.Line.twiss
 
