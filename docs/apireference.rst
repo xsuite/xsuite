@@ -26,7 +26,7 @@ the :ref:`match method <match_method_label>` and the
 Track
 ~~~~~
 See also: :doc:`Single particle tracking <singlepart>`,
-`Tracking with collective elements <collective>`.
+:doc:`Tracking with collective elements <collective>`.
 
 .. automethod:: xtrack.Line.track
 
