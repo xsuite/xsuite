@@ -1204,17 +1204,17 @@ which simplifies in the 2D case to:
 \end{align}
 \end{enumerate}
 
-\section{Linearized synchrotron motion}
+\section{Synchrotron motion}
 
 Definition of momentum compation factor:
 \begin{equation}
 \alpha_c = 
-\frac{\Delta C/C}{\Delta P/P_0}
+\frac{\Delta C/C}\delta
 \end{equation}
 
 Slip factor:
 \begin{equation}
-\eta = -\frac{\Delta f/f_0}{\Delta P/P_0} = \alpha_c - \frac{1}{\gamma_0^2}
+\eta = -\frac{\Delta f/f_0}{\delta} = \alpha_c - \frac{1}{\gamma_0^2}
 = \frac{1}{\gamma_t^2}- \frac{1}{\gamma_0^2}
 \end{equation}
 
@@ -1228,8 +1228,8 @@ Slippage over a single turn:
 = -\beta_0 c \left(\frac{1}{f} - \frac{1}{f_0}\right) \\
 &= -\frac{\beta_0 c}{f_0} \left(\frac{1}{1 + {\Delta f}/{f_0}} - 1\right)
 \simeq \frac{\beta_0 c}{f_0}\frac{\Delta f}{f_0}
-= -\eta \frac{\beta_0 c}{f_0}\frac{\Delta P}{P_0}
-= -\eta C \frac{\Delta P}{P_0}
+= -\eta \frac{\beta_0 c}{f_0}\delta
+= -\eta C \delta
 \end{align}
 
 RF kick
@@ -1239,11 +1239,71 @@ RF kick
 & = q V_{RF} \sin\left(-2 \pi h_{RF} \frac{\zeta}{C} + \phi_{RF} \right)\\
 & = q V_{RF} \sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF} \right)
 \end{align}
-Assuming $\phi_{RF}$ and for small sign argument:
+from which:
 \begin{align}
-\Delta E
-& = -2 \pi q h_{RF} V_{RF} \frac{\zeta}{C} 
-  = -2 \pi q f_{RF} V_{RF} \frac{\zeta}{\beta_0 c}
+\Delta p_\zeta = \frac{\Delta E}{\beta_0^2E_0} 
+= \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF}\right)
 \end{align}
+
+\subsection{Linearized motion}
+
+We expand around the fixed point $\zeta_0$:
+\begin{align}
+\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right) -\frac{2\pi q V_{RF}}{\beta_0^3 E_0 c}(\zeta-\zeta_0)\cos\left(-2\pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right)
+\end{align}
+
+We call synchronous phase:
+\begin{align}
+\phi_s = -2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}
+\end{align}
+And we call 
+\begin{align}
+\hat{\zeta}= \zeta - \zeta_0
+\end{align}
+obtaining:
+\begin{align}
+\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin{\phi_s} -\frac{2\pi q V_{RF}}{\beta_0^3 E_0 c}\hat{\zeta}\cos{\phi_s}
+\end{align}
+
+We also fro the energy variable we subtract the fixed point:
+\begin{align}
+\Delta \hat{p}_\zeta = \Delta {p}_\zeta - \Delta {p}_{\zeta 0}
+\end{align}
+
+obtaining:
+\begin{align}
+\Delta \hat{p}_\zeta \approx -\frac{2\pi q V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
+\end{align}
+
+%This can be rewritten as:
+%
+%\begin{align}
+%\Delta p_\zeta = \frac{\Delta E}{\beta_0^2E_0} 
+%= \frac{q V_{RF}}{\beta_0^2E_0}
+%\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c}\right) \cos\phi_{RF}
+%+ \cos\left(2 \pi f_{RF} \frac{\zeta}{\beta_0 c}\right) \sin\phi_{RF}
+%\end{align}
+
+%Assuming $\phi_{RF}$ and for small sin argument:
+%\begin{align}
+%\Delta p_\zeta = \frac{\Delta E}{\beta_0^2E_0} 
+%= -\frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} \right)
+%\end{align}
+
+%Synchrotron tune:
+%\begin{equation}
+%Q_s = \sqrt{\frac{q_0 V_{RF} \eta h_{RF}}{2 \pi E_0 \beta_0^2}}
+%\end{equation}
+
+\subsection{Smooth approximation}
+
+Assuming that the slippage and the energy kicks are uniformly distributed along the ring we have
+
+\begin{align}
+\frac{d\zeta}{d s} &= 
+\end{align}
+
+
+
 
 
