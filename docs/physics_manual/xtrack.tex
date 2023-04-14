@@ -1249,7 +1249,7 @@ from which:
 
 We expand around the fixed point $\zeta_0$:
 \begin{align}
-\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right) -\frac{2\pi q V_{RF}}{\beta_0^3 E_0 c}(\zeta-\zeta_0)\cos\left(-2\pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right)
+\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right) -\frac{2\pi q f_{RF}V_{RF}}{\beta_0^3 E_0 c}(\zeta-\zeta_0)\cos\left(-2\pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right)
 \end{align}
 
 We call synchronous phase:
@@ -1262,48 +1262,66 @@ And we call
 \end{align}
 obtaining:
 \begin{align}
-\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin{\phi_s} -\frac{2\pi q V_{RF}}{\beta_0^3 E_0 c}\hat{\zeta}\cos{\phi_s}
+\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin{\phi_s} -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\hat{\zeta}\cos{\phi_s}
 \end{align}
 
-We also fro the energy variable we subtract the fixed point:
+We assume that that the energy deviation of the stable fixed point is zero:
 \begin{align}
-\Delta \hat{p}_\zeta = \Delta {p}_\zeta - \Delta {p}_{\zeta 0}
+\Delta {p}_\zeta \approx -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
 
-obtaining:
-\begin{align}
-\Delta \hat{p}_\zeta \approx -\frac{2\pi q V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
-\end{align}
-
-%This can be rewritten as:
-%
-%\begin{align}
-%\Delta p_\zeta = \frac{\Delta E}{\beta_0^2E_0} 
-%= \frac{q V_{RF}}{\beta_0^2E_0}
-%\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c}\right) \cos\phi_{RF}
-%+ \cos\left(2 \pi f_{RF} \frac{\zeta}{\beta_0 c}\right) \sin\phi_{RF}
-%\end{align}
-
-%Assuming $\phi_{RF}$ and for small sin argument:
-%\begin{align}
-%\Delta p_\zeta = \frac{\Delta E}{\beta_0^2E_0} 
-%= -\frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} \right)
-%\end{align}
-
-%Synchrotron tune:
-%\begin{equation}
-%Q_s = \sqrt{\frac{q_0 V_{RF} \eta h_{RF}}{2 \pi E_0 \beta_0^2}}
-%\end{equation}
 
 \subsection{Smooth approximation}
 
-Assuming that the slippage and the energy kicks are uniformly distributed along the ring we have
-
+Assuming that the slippage and the energy kicks are uniformly distributed along the ring we have:
 \begin{align}
-\frac{d\zeta}{d s} &= 
+\frac{dp_\zeta}{d s} &= \frac{\Delta {p}_\zeta}{C}
+=-\frac{2\pi q V_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}\hat{\zeta}
+\\
+\frac{d\hat{\zeta}}{d s} &= \frac{\Delta \zeta}{C} = -\eta p_\zeta
 \end{align}
 
+where we have used the approximation:
+\begin{align}
+\beta \simeq \beta_0  \Rightarrow \delta \simeq p_\zeta
+\end{align}
+
+We derive the second equation and replace the first:
+
+\begin{align}
+\frac{d^2\hat{\zeta}}{d s^2}  -  \frac{2\pi q \eta f_{RF} V_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}\hat{\zeta} = 0
+\end{align}
+
+The motion is stable if
+\begin{align}
+\eta \cos{\phi_s} < 0
+\end{align}
+
+In that case the solution is in the form:
+\begin{align}
+\hat{\zeta}(s) = A \sin\left( \sqrt{-  \frac{2\pi q \eta f_{RF} V_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}} s + B\right) = A \sin\left( 2 \pi Q_s s/C + B\right)
+\end{align}
+
+where the synchrotron tune is given by:
 
 
+\begin{align}
+Q_s = \sqrt{-  \frac{2\pi q \eta f_{RF} V_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}} \frac{C}{2\pi}
+= \sqrt{-  \frac{ q \eta f_{RF} C V_{RF}}{2\pi\beta_0^3 E_0 c}\cos{\phi_s}}
+\end{align}
+We replace
+\begin{align}
+f_{RF} = 
+\frac{h_{RF} {\beta_0 c}}{C}
+\end{align}
+obtaining:
 
+\begin{align}
+Q_s 
+= \sqrt{-  \frac{ q \eta h_{RF} V_{RF}}{2\pi\beta_0^2 E_0}\cos{\phi_s}}
+\end{align}
 
+The solution can be written as:
+\begin{align}
+\hat{\zeta}(s) = \zeta_A \cos\left( 2 \pi Q_s s/C\right) + B \sin\left( 2 \pi Q_s s/C \right)
+\end{align}
