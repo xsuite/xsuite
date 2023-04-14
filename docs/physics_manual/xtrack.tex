@@ -1204,3 +1204,46 @@ which simplifies in the 2D case to:
 \end{align}
 \end{enumerate}
 
+\section{Linearized synchrotron motion}
+
+Definition of momentum compation factor:
+\begin{equation}
+\alpha_c = 
+\frac{\Delta C/C}{\Delta P/P_0}
+\end{equation}
+
+Slip factor:
+\begin{equation}
+\eta = -\frac{\Delta f/f_0}{\Delta P/P_0} = \alpha_c - \frac{1}{\gamma_0^2}
+= \frac{1}{\gamma_t^2}- \frac{1}{\gamma_0^2}
+\end{equation}
+
+(positive above transition)
+
+Slippage over a single turn:
+\begin{align}
+\Delta \zeta 
+& = -\beta_0 c \Delta T 
+= -\beta_0 c (T - T_0) 
+= -\beta_0 c \left(\frac{1}{f} - \frac{1}{f_0}\right) \\
+&= -\frac{\beta_0 c}{f_0} \left(\frac{1}{1 + {\Delta f}/{f_0}} - 1\right)
+\simeq \frac{\beta_0 c}{f_0}\frac{\Delta f}{f_0}
+= -\eta \frac{\beta_0 c}{f_0}\frac{\Delta P}{P_0}
+= -\eta C \frac{\Delta P}{P_0}
+\end{align}
+
+RF kick
+\begin{align}
+\Delta E
+& = q V_{RF} \sin\left( 2 \pi h_{RF} f_0 t + \phi_{RF} \right)\\
+& = q V_{RF} \sin\left(-2 \pi h_{RF} \frac{\zeta}{C} + \phi_{RF} \right)\\
+& = q V_{RF} \sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF} \right)
+\end{align}
+Assuming $\phi_{RF}$ and for small sign argument:
+\begin{align}
+\Delta E
+& = -2 \pi q h_{RF} V_{RF} \frac{\zeta}{C} 
+  = -2 \pi q f_{RF} V_{RF} \frac{\zeta}{\beta_0 c}
+\end{align}
+
+
