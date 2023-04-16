@@ -36,5 +36,20 @@ the actual value of the knob. This can be done by the `linear_rescale_on_knobs`
 option as illustrated in the following example for a case where the detuning
 with amplitude is introduced by beam-beam interactions.
 
+See also: :meth:`xtrack.Line.get_footprint`
+
 .. literalinclude:: generated_code_snippets/footprint_with_bb.py
    :language: python
+
+.. figure:: figures/footprint_bb_no_rescale.png
+    :width: 80%
+    :align: center
+
+    Footprints produced without rescaling beam-beam knob.
+
+.. figure:: figures/footprint_with_bb_rescale.png
+    :width: 80%
+    :align: center
+
+    Footprints produced with rescaling beam-beam knob.
+
