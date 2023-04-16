@@ -2,7 +2,7 @@
 Twiss
 =====
 
-Xtrack provides a twiss method associated to the tracker that can be used to
+Xtrack provides a twiss method associated to the line that can be used to
 obtain the twiss parameters and other quantities like tunes, chromaticities,
 slip factor, etc. This is illustrated in the following example. For a complete
 description of all available options and output quantities, please refer to the
