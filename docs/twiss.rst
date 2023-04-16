@@ -47,3 +47,12 @@ examples:
 .. literalinclude:: generated_code_snippets/method_4d.py
    :language: python
 
+Non linear momentum detuning
+============================
+
+The 4d mode of the twiss can be used providing in input the initial momentum.
+Such a feature can be used to measure the non linear momentum detuning of the
+accelerator as shown in the following example:
+
+.. literalinclude:: generated_code_snippets/tune_vs_delta.py
+   :language: python

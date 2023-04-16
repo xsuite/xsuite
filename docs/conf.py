@@ -113,6 +113,8 @@ snippet_files = {
         'generated_code_snippets/match_4c_bump.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
+    'xtrack/examples/twiss/011_tune_vs_delta.py':
+        'generated_code_snippets/tune_vs_delta.py',
     'xtrack/examples/twiss/017_table_slicing.py':
         'generated_code_snippets/table_slicing.py',
     'xtrack/examples/footprint/000_footprint.py':
