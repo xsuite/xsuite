@@ -10,7 +10,7 @@ See also: :class:`xtrack.ParticlesMonitor`, :class:`xtrack.LastTurnsMonitor`.
 The easy way
 ============
 
-When starting a tracking simulation with the Xtrack Tracker object, the easiest
+When starting a tracking simulation with the Xtrack Line object, the easiest
 way of logging the coordinates of all particles for all turns is to enable the
 default turn-by-turn monitor, as illustrated by the following example.
 Note: this mode requires that ``particles.at_turn`` is ``0`` for all particles
@@ -23,7 +23,7 @@ Custom particles monitor
 ========================
 
 In order to record the particles coordinates only in a selected range of turns,
-a custom monitor object can be built and passed to the ``Tracker.track``
+a custom monitor object can be built and passed to the ``Line.track``
 function, as illustrated by the following example.
 
 .. literalinclude:: generated_code_snippets/custom_monitor.py

@@ -41,7 +41,7 @@ This creates a space-charge element where the transverse beam sizes are updated 
                             'qf2', 'drift3', 'qd2', 'drift4'])
 
     ## Transfer lattice on context and compile tracking code
-    tracker = line.build_tracker(_context=context)
+    line.build_tracker(_context=context)
 
     ## Build particle object on context
     n_part = 200
@@ -57,13 +57,14 @@ This creates a space-charge element where the transverse beam sizes are updated 
 
     ## Track (saving turn-by-turn data)
     n_turns = 100
-    tracker.track(particles, num_turns=n_turns,
+    line.track(particles, num_turns=n_turns,
                 turn_by_turn_monitor=True)
 
 How does it work?
 =================
 
-To decide whether or not an element needs to be treated as collective, the tracker inspects its ``iscollective`` attribute. In our example:
+To decide whether or not an element needs to be treated as collective, the
+tracker inspects its ``iscollective`` attribute. In our example:
 
 .. code-block:: python
 
@@ -73,31 +74,36 @@ To decide whether or not an element needs to be treated as collective, the track
     print(spcharge.iscollective)
     # Gives "True"
 
-Based in this information the line is divided in parts that are either collective elements or xtrack trackers simulating groups of consecutive non-collective elements.
+Based in this information the line is divided in parts that are either collective
+elements or xtrack trackers simulating groups of consecutive non-collective elements.
 
 We can visualize this in our example:
 
 .. code-block:: python
 
-    print(tracker._parts)
+    print(line.tracker._parts)
     # Gives:
     # [<xtrack.tracker.Tracker object at 0x7f5ba8ce7760>,
     #  <xfields.beam_elements.spacecharge.SpaceChargeBiGaussian object at 0x7f5ba8e1bd30>,
     #  <xtrack.tracker.Tracker object at 0x7f5ba8ce7610>]
 
-where the first part tracks the particles through to the first potion of the machine up to the space-charge element, the second part simulates the space-charge interaction, the third part tracks the particles from the space-charge element to the end of the line.
+where the first part tracks the particles through to the first potion of the
+machine up to the space-charge element, the second part simulates the space-charge
+interaction, the third part tracks the particles from the space-charge element to the end of the line.
 
-As all xsuite and xsuite-compatible beam elements need to expose a ``.track`` method the instruction:
+As all xsuite and xsuite-compatible beam elements need to expose a ``.track``
+method the instruction:
 
 .. code-block:: python
 
-    tracker.track(particles)
+    line.track(particles)
 
 is equivalent to the loop:
 
 .. code-block:: python
 
-    for pp in tracker._parts:
+    for pp in line.tracker._parts:
         pp.track(particles)
 
-Any python object exposing a '.track' method can be used as beam_element. If the attribute ``iscollective`` is not present the element is handled as collective.
+Any python object exposing a '.track' method can be used as beam_element. If the
+attribute ``iscollective`` is not present the element is handled as collective.
