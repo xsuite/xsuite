@@ -22,7 +22,7 @@ The match mathod can also be used with targets at specific locations in the line
    :language: python
 
 .. figure:: figures/orbit_bump.png
-    :width: 75%
+    :width: 99%
     :align: center
 
     The matched orbit bump. The green vertical lines mark the range used For
