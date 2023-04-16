@@ -47,7 +47,7 @@ See also: :meth:`xtrack.Line.get_footprint`
 
     Footprints produced without rescaling beam-beam knob.
 
-.. figure:: figures/footprint_with_bb_rescale.png
+.. figure:: figures/footprint_bb_with_rescale.png
     :width: 80%
     :align: center
 
