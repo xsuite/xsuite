@@ -29,7 +29,7 @@ Access option of twiss table
 ============================
 
 The twiss table has several access options as illustrated in the following
-example. 
+example.
 
 .. literalinclude:: generated_code_snippets/table_slicing.py
    :language: python
@@ -56,3 +56,7 @@ accelerator as shown in the following example:
 
 .. literalinclude:: generated_code_snippets/tune_vs_delta.py
    :language: python
+
+.. figure:: figures/twiss_vs_delta.png
+    :width: 80%
+    :align: center
