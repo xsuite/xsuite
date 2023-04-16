@@ -159,6 +159,8 @@ snippet_files = {
         'generated_code_snippets/knobs_and_tuning.py',
     'xmask/examples/hllhc14_collision/003_configure_beambeam.py':
         'generated_code_snippets/configure_beambeam.py',
+    'xmask/examples/hllhc15_collision/004_footprint.py':
+        'generated_code_snippets/footprint_with_bb.py',
 }
 
 for ss, tt in snippet_files.items():

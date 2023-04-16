@@ -29,4 +29,4 @@ The match mathod can also be used with targets at specific locations in the line
     the matching. The red line is the point where the position and angle are
     imposed. The grey lines mark the location of the used orbit correctors.
     `See the full code generating the image. <https://github.com/xsuite/xtrack/
-    blob/main/examples/twiss/003b_match_4c_bump.py>
+    blob/main/examples/twiss/003b_match_4c_bump.py>`_
