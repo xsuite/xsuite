@@ -5,6 +5,9 @@ Tune footprint
 The Line class provides a method to compute and optionally plot the tune footprint
 as illustrated in the following example.
 
+.. contents:: Table of Contents
+    :depth: 3
+
 Basic usage
 ===========
 

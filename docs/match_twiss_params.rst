@@ -7,6 +7,9 @@ to adjust knobs attached to the line in order to obtain desired values
 in the twiss results (see also :meth:`xtrack.Line.match`).
 This feature is illustrated in the following examples.
 
+.. contents:: Table of Contents
+    :depth: 3
+
 Match tunes and chromaticities
 ------------------------------
 
