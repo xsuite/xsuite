@@ -2,6 +2,11 @@
 Tune footprint
 ==============
 
+The Line class provides a method to compute and optionally plot the tune footprint
+as illustrated in the following example.
+
+See also: :meth:`xtrack.Line.get_footprint`
+
 .. literalinclude:: generated_code_snippets/footprint.py
    :language: python
 
