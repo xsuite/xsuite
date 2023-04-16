@@ -13,6 +13,7 @@
    twiss
    method_4d
    match_twiss_params
+   footprint
    particles_monitor
    acceleration
    synchrotron_radiation
