@@ -4,8 +4,7 @@ Match twiss parameters
 
 The Xtrack Line class provides a match method that allows to match the twiss parameters of a
 to adjust knobs attached to the line in order to obtain desired values
-in the twiss results (see also :meth:`xtrack.Line.match`).
-This feature is illustrated in the following examples.
+in the twiss results. This feature is illustrated in the following examples.
 
 .. contents:: Table of Contents
     :depth: 3
@@ -13,13 +12,17 @@ This feature is illustrated in the following examples.
 Match tunes and chromaticities
 ------------------------------
 
+See also :meth:`xtrack.Line.match`
+
 .. literalinclude:: generated_code_snippets/match_tune_chroma.py
    :language: python
 
 Match an orbit bump
 -------------------
 
-The match mathod can also be used with targets at specific locations in the line.
+See also :meth:`xtrack.Line.match`
+
+The match method can also be used with targets at specific locations in the line.
 
 .. literalinclude:: generated_code_snippets/match_4c_bump.py
    :language: python
