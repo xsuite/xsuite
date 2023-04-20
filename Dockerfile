@@ -16,7 +16,7 @@ SHELL ["/usr/bin/bash", "-c"]
 # Cupy is already provided, install all that is needed for OpenCL
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-      git clinfo python3.10-venv libclfft2 python3-gpyfft \
+      git clinfo python3.10-venv libclfft2 python3-gpyfft libomp-dev \
     && mkdir -p /etc/OpenCL/vendors \
     && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
