@@ -96,7 +96,7 @@ jobs:
     - name: Run pytest
       env:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
-        test_contexts: 'ContextCpu;ContextCupy;ContextPyopencl'
+        test_contexts: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
       run: |
         docker run --rm --gpus all \
           --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
