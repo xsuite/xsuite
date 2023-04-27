@@ -18,8 +18,8 @@ coordinates. This is done by setting the ``freeze_longitudinal`` argument to
 .. literalinclude:: generated_code_snippets/freeze_individual_methods.py
    :language: python
 
-Freezing longitudinal coordinates a ``with`` block
---------------------------------------------------
+Freezing longitudinal coordinates within a ``with`` block
+---------------------------------------------------------
 
 A context manager is also available to freeze the longitudinal coordinates within
 a ``with`` block. The normal tracking mode, updating the longitudinal
