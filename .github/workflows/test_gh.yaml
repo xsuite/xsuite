@@ -24,6 +24,14 @@ on:
       xmask_location:
         required: true
         type: string
+      precompile_kernels:
+        required: false
+        default: false
+        type: boolean
+      xobjects_test_contexts:
+        required: false
+        default: "ContextCpu;ContextCpu:auto"
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -90,11 +98,21 @@ jobs:
             "https://github.com/${user}/${project}.git"
           pip install -e "${GITHUB_WORKSPACE}/${project}[tests]"
         done
+    - name: Checkout xsuite (needed to precompile kernels)
+      if: ${{ inputs.precompile_kernels == true }}
+      uses: actions/checkout@v3
+      with:
+        path: 'xsuite'
+    - name: Precompile kernels
+      if: ${{ inputs.precompile_kernels == true }}
+      run: |
+        pip install -e "${GITHUB_WORKSPACE}/xsuite"
+        xsuite-prebuild
     - name: Print versions
       run: conda list
     - name: Run tests (${{ matrix.test-suite }})
       env:
-        XOBJECTS_TEST_CONTEXTS: "ContextCpu;ContextCpu:auto"
+        XOBJECTS_TEST_CONTEXTS: ${{ inputs.xobjects_test_contexts }}
       run: |
         cd $GITHUB_WORKSPACE/${{ matrix.test-suite }}
         python -m pytest --color=yes -v tests
