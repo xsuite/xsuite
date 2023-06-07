@@ -1,5 +1,5 @@
 # This is a test workflow the other (self-hosted runner based) workflows rely on
-name: Test workflow (self-hosted, GPU + CPU)
+name: Test workflow (self-hosted, GPU)
 
 # Controls when the action will run. This is a reusable workflow.
 on:
@@ -24,6 +24,10 @@ on:
       xmask_location:
         required: true
         type: string
+      test_contexts:
+        required: false
+        type: string
+        default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -96,7 +100,7 @@ jobs:
     - name: Run pytest
       env:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
-        test_contexts: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
+        test_contexts: ${{ inputs.test_contexts }}
       run: |
         docker run --rm --gpus all \
           --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
