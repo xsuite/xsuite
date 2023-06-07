@@ -1204,6 +1204,46 @@ which simplifies in the 2D case to:
 \end{align}
 \end{enumerate}
 
+\subsection{Crab dispersion}
+
+I call $\hat{x}$ ........  the normalized coordinates.
+I assume no betatron amplitude:
+
+\begin{align}
+x &= W_{15}\hat{\zeta} + W_{16}\hat{p}_\zeta\\
+\zeta &= W_{55}\hat{\zeta} + W_{56}\hat{p}_\zeta\\
+p_\zeta &= W_{65}\hat{\zeta} + W_{66}\hat{p}_\zeta\\
+\end{align}
+
+I want the value of $x$ when $\delta$ is zero. Imposing $p_\zeta = 0$ in the last:
+
+\begin{equation}
+\hat{p}_\zeta = - \frac{W_{65}}{W_{66}}\hat{\zeta}
+\end{equation}
+
+I replace in the second:
+
+\begin{equation}
+\hat{\zeta} = \left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}\zeta
+\end{equation}
+
+I replace in the previous one:
+\begin{equation}
+\hat{p}_\zeta = - \frac{W_{65}}{W_{66}}\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1} \zeta
+\end{equation}
+
+
+I replace the last two in the first
+
+\begin{equation}
+x = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1} \zeta
+\end{equation}
+
+which gives the crab dispersion:
+\begin{equation}
+D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
+\end{equation}
+
 \section{Synchrotron motion}
 
 Definition of momentum compation factor:
