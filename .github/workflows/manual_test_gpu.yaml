@@ -1,5 +1,5 @@
 # This is a test workflow that is manually triggered
-name: Manual test (self-hosted, GPU + CPU)
+name: Manual test (self-hosted, GPU)
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -32,6 +32,10 @@ on:
         description: 'xmask branch'
         default: 'xsuite:main'
         required: true
+      test_contexts:
+        description: test contexts
+        default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
+        required: false
 
 # This workflow calls the test_gpu.yaml workflow passing the specified
 # branches as inputs
@@ -46,3 +50,4 @@ jobs:
       xtrack_location: ${{ inputs.xtrack_location }}
       xfields_location: ${{ inputs.xfields_location }}
       xmask_location: ${{ inputs.xmask_location }}
+      test_contexts: ${{ inputs.test_contexts }}

@@ -308,9 +308,17 @@ FirstOrderTaylorMap
     :members:
     :member-order: bysource
 
+LineSegmentMap
+--------------
+
+.. autoclass:: xtrack.LineSegmentMap
+    :members:
+    :member-order: bysource
 
 LinearTransferMatrix
 --------------------
+
+N.B. This element is deprecated. Use LineSegmentMap instead.
 
 .. autoclass:: xtrack.LinearTransferMatrix
     :members:

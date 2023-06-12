@@ -1249,6 +1249,77 @@ which simplifies in the 2D case to:
 \end{align}
 \end{enumerate}
 
+\subsection{Transformation to normalized coordinates}
+
+The $W$ matrix can be used to transform normalized coordinate into physical coordinates and viceversa:
+
+\begin{equation}
+\left(\begin{array}{l}
+x \\
+p_x \\
+y \\
+p_y \\
+\zeta \\
+p_\zeta
+\end{array}\right)=W\left(\begin{array}{l}
+\sqrt{\varepsilon_x} \hat{x} \\
+\sqrt{\varepsilon_x} \hat{p}_x \\
+\sqrt{\varepsilon_y} \hat{y} \\
+\sqrt{\varepsilon_y} \hat{p}_y \\
+\sqrt{\varepsilon_\zeta} \hat{\zeta} \\
+\sqrt{\varepsilon_\zeta} \hat{p}_\zeta
+\end{array}\right)
+\end{equation}
+where 
+\begin{equation}
+\left(\begin{array}{llllll}\hat{x} & \hat{p}_x & \hat{y} & \hat{p}_y & \hat{\zeta} & \hat{p}_\zeta\end{array}\right)
+\end{equation}
+are normalized coordinates in sigmas and $\varepsilon_x$, $\varepsilon_y$ and $\varepsilon_\zeta$ are the geometric emittances.
+
+\subsection{Crab dispersion}
+
+For a particle having no betatron amplitude ($\hat{x} = \hat{p}_x =\hat{y} =\hat{p}_y=0$) we can write:
+
+\begin{align}
+x &= W_{15}\hat{\zeta} + W_{16}\hat{p}_\zeta \label{eq:crab_x}\\
+\zeta &= W_{55}\hat{\zeta} + W_{56}\hat{p}_\zeta \label{eq:crab_zeta}\\
+p_\zeta &= W_{65}\hat{\zeta} + W_{66}\hat{p}_\zeta \label{eq:crab_pzeta}
+\end{align}
+
+The crab dispersion is:
+\begin{equation}
+D_x^\zeta = \frac{dx}{dz} \quad \text{for } p_\zeta=0
+\end{equation}
+
+By imposing $p_\zeta = 0$ in Eq.\,\ref{eq:crab_pzeta} we obtain:
+
+\begin{equation}
+\hat{p}_\zeta = - \frac{W_{65}}{W_{66}}\hat{\zeta}
+\label{eq:crab_pzeta_zeta}
+\end{equation}
+
+We replace in Eq.\,\ref{eq:crab_zeta}:
+
+\begin{equation}
+\hat{\zeta} = \left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}\zeta
+\end{equation}
+
+From Eq.\,\ref{eq:crab_pzeta_zeta} we obtain:
+\begin{equation}
+\hat{p}_\zeta = - \frac{W_{65}}{W_{66}}\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1} \zeta
+\end{equation}
+
+Replacing the last two into Eq.\,\ref{eq:crab_x} we obtain:
+
+\begin{equation}
+x = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1} \zeta
+\end{equation}
+
+which gives the crab dispersion:
+\begin{equation}
+D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
+\end{equation}
+
 \section{Synchrotron motion}
 
 Definition of momentum compation factor:
