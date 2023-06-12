@@ -155,16 +155,6 @@ snippet_files = {
         'generated_code_snippets/freeze_individual_methods.py',
     'xtrack/examples/optimized_tracker/000_optimized_tracker.py':
         'generated_code_snippets/optimized_tracker.py',
-    'xmask/examples/hllhc14_collision/000_build_collider_from_mad_model.py':
-        'generated_code_snippets/build_collider_from_mad_model.py',
-    'xmask/examples/hllhc14_collision/001_install_beambeam.py':
-        'generated_code_snippets/install_beambeam.py',
-    'xmask/examples/hllhc14_collision/002_knobs_and_tuning.py':
-        'generated_code_snippets/knobs_and_tuning.py',
-    'xmask/examples/hllhc14_collision/003_configure_beambeam.py':
-        'generated_code_snippets/configure_beambeam.py',
-    'xmask/examples/hllhc15_collision/004_footprint.py':
-        'generated_code_snippets/footprint_with_bb.py',
 }
 
 for ss, tt in snippet_files.items():
