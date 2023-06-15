@@ -19,4 +19,5 @@ jobs:
       xtrack_location: 'xsuite:main'
       xfields_location: 'xsuite:main'
       xmask_location: 'xsuite:main'
+      xcoll_location: 'xsuite:main'
       test_contexts: 'ContextCupy;ContextPyopencl'

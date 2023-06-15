@@ -32,6 +32,10 @@ on:
         description: 'xmask branch'
         default: 'xsuite:main'
         required: true
+      xcoll_location:
+        description: 'xcoll branch'
+        default: 'xsuite:main'
+        required: true
       test_contexts:
         description: test contexts
         default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
@@ -50,4 +54,5 @@ jobs:
       xtrack_location: ${{ inputs.xtrack_location }}
       xfields_location: ${{ inputs.xfields_location }}
       xmask_location: ${{ inputs.xmask_location }}
+      xcoll_location: ${{ inputs.xcoll_location }}
       test_contexts: ${{ inputs.test_contexts }}
