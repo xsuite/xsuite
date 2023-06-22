@@ -10,6 +10,7 @@ ARG xpart_branch=xsuite:main
 ARG xtrack_branch=xsuite:main
 ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
+ARG xcoll_branch=xsuite:main
 
 SHELL ["/usr/bin/bash", "-c"]
 
@@ -26,7 +27,7 @@ RUN python3 -m venv --system-site-packages /opt/xsuite
 ENV PATH="/opt/xsuite/bin:$PATH"
 WORKDIR /opt/xsuite
 RUN pip install --upgrade cython pytest pyopencl gitpython \
-    && for project in xobjects xdeps xpart xtrack xfields xmask; do \
+    && for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do \
       branch_varname="${project}_branch" \
       && project_branch=${!branch_varname} \
       && IFS=':' read -r -a parts <<< $project_branch \
