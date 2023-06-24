@@ -545,8 +545,9 @@ The map of the fringe field of a bending magnet can be written as:
 y^f & =\frac{2 y}{1+\sqrt{1-2 \frac{\partial \Phi}{\partial p_y} y}} \\ 
 x^f & =x+\frac{1}{2} \frac{\partial \Phi}{\partial p_x} y^{f^2} \\
 p_y^f & =p_y-\Phi y^f \\ 
-\zeta^f & =\zeta-\frac{\beta_0}{\beta}\frac{1}{2} \frac{\partial \Phi}{\partial \delta} y^{f^2}
+\zeta^f & =\zeta+\frac{\beta_0}{\beta}\frac{1}{2} \frac{\partial \Phi}{\partial \delta} y^{f^2}
 \end{align}
+
 
 where:
 \begin{equation}
@@ -663,6 +664,83 @@ p_z &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
 \frac{\partial \phi_0}{\partial y'} &= - \frac{2x'y'}{(1+y^{\prime 2})^2}
 \end{align}
 
+\subsubsection{MAD8 fringe}
+
+Again nased on: \url{https://cds.cern.ch/record/2857004} (eq. 37)
+
+The map of the fringe field of a bending magnet can be written as:
+\begin{align} 
+y^f & =\frac{2 y}{1+\sqrt{1-2 \frac{\partial \Psi}{\partial p_y} y}} \\ 
+x^f & =x+\frac{1}{2} \frac{\partial \Psi}{\partial p_x} y^{f^2} \\
+p_y^f & =p_y-\Psi y^f \\ 
+\zeta^f & =\zeta+\frac{\beta_0}{\beta}\frac{1}{2} \frac{\partial \Psi}{\partial \delta} y^{f^2}
+\end{align}
+where:
+\begin{equation}
+\Psi\left(p_x, p_y, \delta\right)=k_0\tan ^{-1}\left(\frac{x^{\prime}}{1+y^{\prime 2}}\right)-g k_0^2 f_\text{int} p_z \left(1+x^{\prime 2}\left(2+y^{\prime 2}\right)\right) 
+\end{equation}
+
+We define:
+\begin{align}
+\phi_0(x', y') &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
+\phi_1(x', y') &= 1+2x^{\prime 2}+x^{\prime 2}y^{\prime 2} 
+\end{align}
+
+so we can write
+\begin{equation}
+\Psi=k_0\tan^{-1}\left(\phi_0 \right)
+-g k_0^2 f_\text{int} 
+p_z \phi_1
+\end{equation}
+
+from which:
+\begin{align}
+\frac{\partial\Psi}{\partial p_x} &= 
+k_0 \frac{1}{1 + \phi_0^2}\frac{\partial\phi_0}{\partial p_x}
+-gk_0^2 f_\text{int}
+\left(\phi_1 \frac{\partial p_z}{\partial p_x}
+ + p_z \frac{\phi_1}{\partial p_x}
+\right)\\
+\frac{\partial\Psi}{\partial p_y} &= 
+k_0 \frac{1}{1 + \phi_0^2}\frac{\partial\phi_0}{\partial p_y}
+-gk_0^2 f_\text{int}
+\left(\phi_1 \frac{\partial p_z}{\partial p_y}
+ + p_z \frac{\phi_1}{\partial p_y}
+\right)\\
+\frac{\partial\Psi}{\partial \delta} &= 
+k_0 \frac{1}{1 + \phi_0^2}\frac{\partial\phi_0}{\partial \delta }
+-gk_0^2 f_\text{int}
+\left(\phi_1 \frac{\partial p_z}{\partial p_y}
+ + p_z \frac{\phi_1}{\partial \delta}
+\right)\\
+\end{align}
+
+\begin{align}
+\frac{\partial \phi_{0,1}}{\partial p_x} &= 
+\frac{\partial \phi_{0,1}}{\partial x'} \frac{\partial x'}{\partial p_x}
++\frac{\partial \phi_{0,1}}{\partial y'} \frac{\partial y'}{\partial p_x}
+\\
+\frac{\partial \phi_{0,1}}{\partial p_y} &= 
+\frac{\partial \phi_{0,1}}{\partial x'} \frac{\partial x'}{\partial p_y}
++\frac{\partial\phi_{0,1}}{\partial y'} \frac{\partial y'}{\partial p_y}
+\\
+\frac{\partial \phi_{0,1}}{\partial \delta} &= 
+\frac{\partial \phi_{0,1}}{\partial x'} \frac{\partial x'}{\partial \delta}
++\frac{\partial\phi_{0,1}}{\partial y'} \frac{\partial y'}{\partial \delta}
+\end{align}
+
+
+\begin{align}
+\phi_0 &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
+\frac{\partial \phi_0}{\partial x'} &= \frac{1}{1+y^{\prime 2}}\\
+\frac{\partial \phi_0}{\partial y'} &= - \frac{2x'y'}{(1+y^{\prime 2})^2}
+\end{align}
+
+\begin{align}
+\phi_1 &= 1+2x^{\prime 2}+x^{\prime 2}y^{\prime 2} \\
+\frac{\partial \phi_1}{\partial x'} &= 4x' + 2x'y'^2\\
+\frac{\partial \phi_1}{\partial y'} &= 2x'^2y'
+\end{align}
 
 
 \subsection{Combined dipole quadrupole}
