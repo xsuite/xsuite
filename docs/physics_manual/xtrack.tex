@@ -634,7 +634,16 @@ Expression of all other quantities needed for the calculation:
 
 \begin{align}
 x' &= \frac{p_x}{p_z}\\
-\frac{\partial x'}{\partial p_x} &= \frac{1}{p_z} - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial p_x}
+\frac{\partial x'}{\partial p_x} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial p_x} + \frac{1}{p_z} \\
+\frac{\partial x'}{\partial p_y} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial p_x}\\
+\frac{\partial x'}{\partial \delta} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial \delta}\\
+\end{align}
+
+\begin{align}
+y' &= \frac{p_y}{p_z}\\
+\frac{\partial y'}{\partial p_y} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial p_y}  \\
+\frac{\partial y'}{\partial p_y} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial p_y} + \frac{1}{p_z}\\
+\frac{\partial y'}{\partial \delta} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial \delta}\\
 \end{align}
 
 
