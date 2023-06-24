@@ -560,8 +560,8 @@ where:
 We define:
 \begin{align}
 \phi_0(x', y') &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
-\phi_y(p_x, p_y, \delta) &= \frac{(1+\delta)^2-p_y^2}{p_z^3}\\
 \phi_x(p_x, p_y, \delta) &= \frac{(1+\delta)^2-p_x^2}{p_z^3}\\
+\phi_y(p_x, p_y, \delta) &= \frac{(1+\delta)^2-p_y^2}{p_z^3}
 \end{align}
 
 So we can rewrite:
@@ -627,7 +627,7 @@ x' &= \frac{p_x}{p_z}\\
 y' &= \frac{p_y}{p_z}\\
 \frac{\partial y'}{\partial p_y} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial p_y}  \\
 \frac{\partial y'}{\partial p_y} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial p_y} + \frac{1}{p_z}\\
-\frac{\partial y'}{\partial \delta} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial \delta}\\
+\frac{\partial y'}{\partial \delta} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial \delta}
 \end{align}
 
 
@@ -638,6 +638,24 @@ p_z &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
 \frac{\partial p_z}{\partial \delta} &= \frac{1+\delta}{p_z}
 \end{align}
 
+
+\begin{align}
+\phi_x &= \frac{(1+\delta)^2-p_x^2}{p_z^3}\\
+\frac{\partial \phi_x}{\partial p_x} &=  -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_x} \left((1+\delta)^2-p_x^2 \right)
+- 2 \frac{p_x}{p_z^3}\\
+\frac{\partial \phi_x}{\partial p_y} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_y} \left((1+\delta)^2-p_x^2 \right)\\
+\frac{\partial \phi_x}{\partial \delta} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial \delta} \left((1+\delta)^2-p_x^2 \right)
++ 2 \frac{(1+\delta)}{p_z^3}
+\end{align}
+
+\begin{align}
+\phi_y &= \frac{(1+\delta)^2-p_y^2}{p_z^3}\\
+\frac{\partial \phi_y}{\partial p_x} &=  -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_x} \left((1+\delta)^2-p_y^2 \right)\\
+\frac{\partial \phi_y}{\partial p_y} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_y} \left((1+\delta)^2-p_y^2 \right)
+- 2 \frac{p_y}{p_z^3}\\
+\frac{\partial \phi_x}{\partial \delta} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial \delta} \left((1+\delta)^2-p_x^2 \right)
++ 2 \frac{(1+\delta)}{p_z^3}
+\end{align}
 
 
 
