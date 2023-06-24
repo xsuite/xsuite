@@ -620,7 +620,7 @@ Expression of all other quantities needed for the calculation:
 x' &= \frac{p_x}{p_z}\\
 \frac{\partial x'}{\partial p_x} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial p_x} + \frac{1}{p_z} \\
 \frac{\partial x'}{\partial p_y} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial p_x}\\
-\frac{\partial x'}{\partial \delta} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial \delta}\\
+\frac{\partial x'}{\partial \delta} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial \delta}
 \end{align}
 
 \begin{align}
@@ -655,6 +655,12 @@ p_z &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
 - 2 \frac{p_y}{p_z^3}\\
 \frac{\partial \phi_x}{\partial \delta} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial \delta} \left((1+\delta)^2-p_x^2 \right)
 + 2 \frac{(1+\delta)}{p_z^3}
+\end{align}
+
+\begin{align}
+\phi_0 &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
+\frac{\partial \phi_0}{\partial x'} &= \frac{1}{1+y^{\prime 2}}\\
+\frac{\partial \phi_0}{\partial y'} &= - \frac{2x'y'}{(1+y^{\prime 2})^2}
 \end{align}
 
 
