@@ -16,6 +16,7 @@ State C flag                      Information
 -21   RNG_ERR_INVALID_TRACK       Invalid tracking inside random generator element.
 -22   RNG_ERR_RUTH_NOT_SET        Random Rutherford parameters not set.
 -30   XT_FULL_BEND_BACKTR         Backtracking in full bend non implemented yet.
+-31   XT_MULTIP_IN_BEND_BACKTR    Backtracking in multipolar kick for bend non implemented yet.
 -333  XC_LOST_ON_EVEREST          Lost in Everest collimator.
 -334  XC_LOST_ON_EVEREST_CRYSTAL  Lost in Everest crystal.
 -335  XC_LOST_ON_FLUKA            Lost in FLUKA collimator.
