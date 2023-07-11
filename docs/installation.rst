@@ -203,7 +203,7 @@ On Linux
 
     $ cd ~
     $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-    $ bash Miniforge3-latest-Linux-x86_64.sh
+    $ bash Miniforge3-Linux-x86_64.sh
     $ source miniforge3/bin/activate
     $ pip install numpy scipy matplotlib pandas ipython pytest
 
