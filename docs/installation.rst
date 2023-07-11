@@ -98,8 +98,8 @@ this can be done as follows for example for CUDA version 10.1.243:
 .. code-block:: bash
 
     conda install mamba -n base -c conda-forge
-    pip install cupy-cuda101
-    mamba install cudatoolkit=10.1.243
+    pip install cupy-cuda11x
+    mamba install cudatoolkit=11.8.0
 
 Remember to check your CUDA version e.g. via ``$ nvcc --version`` and use the appropriate tag.
 
