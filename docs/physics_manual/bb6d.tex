@@ -111,10 +111,10 @@ Here $\sigma^*$ is defined in the reference system of the weak beam ( $\sigma^*>
 
 We now evaluate the transverse position of the particle at the CP, with respect to the centroid of the slice, taking into account the particle angles :
 \begin{align}
-\overline{x}^* &= x^* + p^*_x S - x^*_\textrm{sl}\\
-\overline{y}^* &= y^* + p^*_y S - y^*_\textrm{sl}
+\overline{x}^* &= x^* + p^*_x S - (x^*_\textrm{sl} - p^*_{x, \textrm{sl}} S)\\
+\overline{y}^* &= y^* + p^*_y S - (y^*_\textrm{sl} - p^*_{y, \textrm{sl}} S)
 \end{align}
-Here $x^*_\textrm{sl}$ and $y^*_\textrm{sl}$ are defined \underline{in the coordinate system of the weak beam}.
+Here $x^*_\textrm{sl}$, $y^*_\textrm{sl}$, $p^*_{x, \textrm{sl}}$ and $p^*_{y, \textrm{sl}}$  are defined \underline{in the coordinate system of the weak beam}. The momenta of the strong slice appear with a negative sign since in the weak frame the strong slice is travelling "backwards".
 ~\\
 
 \subsection{Propagation of the strong beam to the collision point}
@@ -497,10 +497,14 @@ The positions of the weak beam particle in the un-coupled boosted frame are give
 In the following we will also need to evaluate:
 \begin{align}
 \frac{\partial }{\partial S} \left[\hat{\overline{x}}^*\left(\theta (S)\right) \right] &= 
-\overline{x}^*  \frac{\partial }{\partial S} \left[ \cos \theta \right] 
+ \frac{\partial \overline{x}^* }{\partial S}  \cos \theta
++ \overline{x}^*  \frac{\partial }{\partial S} \left[ \cos \theta \right] 
++ \frac{\partial \overline{y}^* }{\partial S}  \sin \theta
 + \overline{y}^*\frac{\partial }{\partial S} \left[ \sin \theta \right]  \\
 \frac{\partial }{\partial S} \left[\hat{\overline{y}}^*\left(\theta (S)\right) \right] &= 
+- \frac{\partial \overline{x}^* }{\partial S}  \sin \theta
 -\overline{x}^*  \frac{\partial }{\partial S} \left[ \sin \theta \right] 
++  \frac{\partial \overline{y}^* }{\partial S}  \cos \theta
 + \overline{y}^*\frac{\partial }{\partial S} \left[ \cos \theta \right]  
 \end{align}
 
@@ -604,8 +608,8 @@ p^*_{y, new} &= p^*_{y} + {F}^*_y\\
 z^*_{new} &= z^*\\
 \delta^*_{new} &= \delta^* + {F}^*_z
 +\frac{1}{2}\left[ 
-{F}^*_x\left(p^*_{x} + \frac{1}{2}{F}^*_x\right)+
-{F}^*_y\left(p^*_{y} + \frac{1}{2}{F}^*_y\right)
+{F}^*_x\left(p^*_{x} + \frac{1}{2}{F}^*_x + p^*_{x,\textrm{sl}}\right)+
+{F}^*_y\left(p^*_{y} + \frac{1}{2}{F}^*_y + p^*_{y,\textrm{sl}}\right)
 \right]
 \end{align}
 
