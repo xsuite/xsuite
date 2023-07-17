@@ -26,7 +26,8 @@ RUN apt-get update \
 RUN python3 -m venv --system-site-packages /opt/xsuite
 ENV PATH="/opt/xsuite/bin:$PATH"
 WORKDIR /opt/xsuite
-RUN pip install --upgrade cython pytest pyopencl gitpython \
+RUN pip install cython==0.29.36
+RUN pip install --upgrade pytest pyopencl gitpython \
     && for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do \
       branch_varname="${project}_branch" \
       && project_branch=${!branch_varname} \
