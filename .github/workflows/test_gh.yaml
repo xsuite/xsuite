@@ -72,7 +72,7 @@ jobs:
     - name: Install dependencies
       run: |
         conda install openmp
-        pip install cython
+        pip install cython==0.29.36
     - name: Check out xsuite repos & pip install
       env:
         xobjects_branch: ${{ inputs.xobjects_location }}
