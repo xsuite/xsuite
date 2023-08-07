@@ -31,6 +31,9 @@ on:
         required: false
         type: string
         default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
+      platform:
+        required: true
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -38,7 +41,7 @@ on:
 jobs:
   # First, we build our test image
   build-test-image:
-    runs-on: ['self-hosted']
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
@@ -72,7 +75,7 @@ jobs:
 
   # Print out some stuff about the test environment
   image-sanity-checks:
-    runs-on: ['self-hosted']
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
     needs: build-test-image
     env:
       image_id: ${{ needs.build-test-image.outputs.image_id }}
@@ -88,7 +91,7 @@ jobs:
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
-    runs-on: ['self-hosted']
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
     needs: [build-test-image, image-sanity-checks]
     strategy:
       fail-fast: false
@@ -116,7 +119,7 @@ jobs:
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers
   teardown:
-    runs-on: ['self-hosted']
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
     needs: [build-test-image, run-tests]
     env:
       image_id: ${{ needs.build-test-image.outputs.image_id }}

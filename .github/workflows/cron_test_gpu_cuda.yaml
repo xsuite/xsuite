@@ -21,3 +21,4 @@ jobs:
       xmask_location: 'xsuite:main'
       xcoll_location: 'xsuite:main'
       test_contexts: 'ContextCupy'
+      platform: 'ubuntu'
