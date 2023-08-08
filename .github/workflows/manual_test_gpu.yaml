@@ -40,6 +40,10 @@ on:
         description: test contexts
         default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
         required: false
+      platform:
+        description: platform
+        default: 'ubuntu'
+        required: true
 
 # This workflow calls the test_gpu.yaml workflow passing the specified
 # branches as inputs
@@ -56,3 +60,4 @@ jobs:
       xmask_location: ${{ inputs.xmask_location }}
       xcoll_location: ${{ inputs.xcoll_location }}
       test_contexts: ${{ inputs.test_contexts }}
+      platform: ${{ inputs.platform }}

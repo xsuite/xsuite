@@ -4,7 +4,7 @@ name: Daily test (self-hosted, OpenCL)
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '00 01 * * *'  # run at 01:00 UTC daily
+    - cron: '00 19 * * *'  # run at 19:00 UTC daily
 
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
@@ -21,3 +21,4 @@ jobs:
       xmask_location: 'xsuite:main'
       xcoll_location: 'xsuite:main'
       test_contexts: 'ContextPyopencl'
+      platform: 'alma'
