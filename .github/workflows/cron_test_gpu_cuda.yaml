@@ -1,5 +1,5 @@
 # This is a workflow that should run daily
-name: Daily test (self-hosted, GPU)
+name: Daily test (self-hosted, CUDA)
 
 # Controls when the action will run.
 on:
@@ -20,4 +20,5 @@ jobs:
       xfields_location: 'xsuite:main'
       xmask_location: 'xsuite:main'
       xcoll_location: 'xsuite:main'
-      test_contexts: 'ContextCupy;ContextPyopencl'
+      test_contexts: 'ContextCupy'
+      platform: 'ubuntu'
