@@ -874,6 +874,170 @@ where
 
 
 \subsection{Solenoid}
+
+\subsubsection{Thick Solenoid}
+
+The derivation largely follows one by Forest~\cite{forest99}, while the final map can be verified to be the same as the one by Wolski~\cite{wolski2014beam}.
+
+We can write the Hamiltonian for the solenoid as follows:
+\[
+  H = -\sqrt{(1 + \delta)^2 - (p_x + \frac{b_z}{2}y)^2 - (p_y - \frac{b_z}{2}x)^2}.
+\]
+Knowing the general Hamiltonian
+\[
+  H = -\sqrt{(1 + \delta)^2 - (p_x - a_x)^2 - (p_y - a_y)^2} - a_z,
+\]
+we can extract the magnetic field potential and convince ourselves that $H$ describes a magnetic field with only the longitudinal component equal to $b_z$, as expected of a solenoid:
+\[
+  \mathbf{A} =
+  \begin{bmatrix}
+    a_x \\ a_y \\ a_z
+  \end{bmatrix}
+  = \begin{bmatrix}
+    -\frac{b_z}{2}y\\
+    \frac{b_z}{2}x\\
+    0
+  \end{bmatrix}
+  %
+  \implies
+  %
+  \mathbf{B} = \nabla \times \mathbf{A}
+  = \begin{bmatrix}
+    \frac{\partial a_z}{\partial y} - \frac{\partial a_y}{\partial z}\\
+    \frac{\partial a_z}{\partial x} - \frac{\partial a_x}{\partial z}\\
+    \frac{\partial a_y}{\partial x} - \frac{\partial a_x}{\partial y}\\
+  \end{bmatrix}
+  = \begin{bmatrix}
+    0\\
+    0\\
+    b_z
+  \end{bmatrix}.
+\]
+
+The Hamiltonian $H$ can be simplified, by applying the following transformation, which should be understood as the change of reference from the general coordinate system $\mathbf{X}$ to a new $\mathbf{X}_\text{new}$:
+\[
+  T := \begin{bmatrix}
+  -\frac{1}{2} & 0 & 0 & \frac{1}{b_{z}} \\
+  0 & 1 & \frac{1}{2} \, b_{z} & 0 \\
+  -\frac{1}{2} & 0 & 0 & -\frac{1}{b_{z}} \\
+  0 & 1 & -\frac{1}{2} \, b_{z} & 0
+  \end{bmatrix}.
+\]
+In particular, note that if
+\[
+  \mathbf{X} =
+  \begin{bmatrix}
+    x \\ p_x \\ y \\ p_y
+  \end{bmatrix}
+  = T^{-1} \mathbf{X}_\text{new}
+  = \begin{bmatrix}
+    -x_\text{new} - y_\text{new} \\
+    \frac{1}{2}(p_{x,\text{new}} + p_{y,\text{new}}) \\
+    \frac{1}{b_z}(p_{x,\text{new}} - p_{y,\text{new}}) \\
+    \frac{b_z}{2} (x_\text{new} - y_\text{new})
+  \end{bmatrix},
+\]
+then we can rewrite $H$ in terms of $\mathbf{X}_\text{new}$ (dropping the `new' suffix, while keeping it in mind) as
+\[
+  K := -\sqrt{(1 + \delta)^2 - p_x^2 - b_z^2 x^2}.
+\]
+We can simplify $H$ even further, rewriting it in terms of the following action-angle variables:
+\begin{equation}\label{eq:solenoid-x-px}
+  x := \sqrt{\frac{2 J}{|b_z|}} \cos(\phi)
+  \;\;\text{ and }\;\;
+  p_x := \sqrt{2 |b_z| J} \sin(\phi).
+\end{equation}
+The new Hamiltonian with respect to $J$ is the following:
+\begin{multline*}
+  K = -\sqrt{(1 + \delta)^2 - p_x^2 - b_z^2 x^2} = \\
+  %
+  -\sqrt{(1 + \delta)^2 - \left(\sqrt{2 |b_z| J} \sin(\phi)\right)^2 - b_z^2 \sqrt{\frac{2 J}{|b_z|}} \cos(\phi)^2} = \\
+  %
+  -\sqrt{(1 + \delta)^2 - \left(\sqrt{2 |b_z| J} \sin(\phi)\right)^2 - \left(\sqrt{2 |b_z| J} \cos(\phi)\right)^2} = \\
+  %
+  -\sqrt{(1 + \delta)^2 - 2 |b_z| J}.
+\end{multline*}
+Then, using Hamilton's equations, we can solve for $\phi$:
+\[
+  \frac{d \phi}{d z} = \frac{\partial K}{\partial J} \implies \phi(z) = \phi(0) + z \frac{\partial K}{\partial J} = \phi(0) - z\frac{|b_z|}{K}.
+\]
+Let $\omega := -b_z / K$. Keeping in mind that we are still in the realm of $\mathbf{X}_\text{new}$, we can compute $x_\text{new}$ and $y_\text{new}$ substituting the above into (\ref{eq:solenoid-x-px}).
+Note that we can drop the modulus on $b_z$ in both $\omega$ and the equations below, as $\cos$ is an even function, and while $\sin$ is an odd function and the signs of $\sin(\omega z)$ and $b_z$ will cancel out anyway.
+\begin{multline*}
+  x = \sqrt{\frac{2J}{|b_z|}} \cos\left(\phi(0) + \left(- z\frac{|b_z|}{K}\right)\right) = \\
+    \sqrt{\frac{2J}{|b_z|}} \cos\phi(0) \cos(\omega z) - \frac{\sqrt{2J|b_z|}}{|b_z|} \sin\phi(0) \sin\left(- z\frac{|b_z|}{K}\right) = \\
+    x_0 \cos(\omega z) - \frac{p_{x,0}}{b_z} \sin(\omega z)
+\end{multline*}
+\begin{multline*}
+  p_x = \sqrt{2 |b_z| J} \sin\left(\phi(0) + \left(- z\frac{|b_z|}{K}\right)\right) = \\
+    \sqrt{2 |b_z| J} \sin\phi(0) \cos(\omega z) + |b_z| \sqrt{\frac{2J}{|b_z|}} \cos\phi(0) \sin\left(- z\frac{|b_z|}{K}\right) = \\
+    p_{x,0} \cos(\omega z) + b_z x_0 \sin(\omega z)
+\end{multline*}
+These equations give us the map for the solenoid in $\mathbf{X}_\text{new}$.
+We can write this transformation in the form of a matrix
+\[
+R := \begin{bmatrix}
+  \cos(\omega z) & -\frac{\sin(\omega z)}{b_z} & 0 & 0 \\
+  b_z \sin(\omega z) & \cos(\omega z) & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1
+\end{bmatrix},
+\]
+and therefore the whole solenoid map in $\mathbf{X}$ as follows (let $S := \sin(\omega z)$ and $C := \cos(\omega z)$):
+\[
+  M := T^{-1} R T = \begin{bmatrix}
+    % 1st row
+    \frac{C + 1}{2} &
+    \frac{S}{b_z} &
+    \frac{S}{2} &
+    \frac{1 - C}{b_z} \\[6pt]
+    % 2nd row
+    -\frac{b_z S}{4} &
+    \frac{C + 1}{2} &
+    \frac{b_z (C - 1)}{4} &
+    \frac{S}{2} \\[6pt]
+    % 3rd row
+    -\frac{S}{2} &
+    \frac{C - 1}{b_z} &
+    \frac{C + 1}{2} &
+    \frac{S}{b_z} \\[6pt]
+    % 4th row
+    \frac{b_z (1 - C)}{4} &
+    -\frac{S}{2} &
+    -\frac{b_z S}{4} &
+    \frac{C + 1}{2}
+  \end{bmatrix}
+\]
+
+In the tracking procedure of Xtrack (and MAD-X) the map is implemented with respect to a different quantity \verb|sk|, which we will denote with $k$, and which represents half of magnetic field strength $b_z$: $k = \frac{b_z}{2}$.
+Let $s := \sin(\frac{z k}{H}) = \sin(\frac{\omega z}{2})$ and $c := \cos(\frac{\omega z}{2})$; then we can rewrite $M$ using the trigonometric identities:
+\begin{align*}
+  \cos(2 \theta) = 2 \cos^2\theta - 1 = 1 - 2 \sin^2\theta &\implies c^2 = \frac{C + 1}{2} \text{ and } s^2 = \frac{1 - C}{2}, \\
+  \sin(2 \theta) = 2 \cos\theta \sin\theta &\implies sc = \frac{S}{2},
+\end{align*}
+as the following transfer matrix
+\[
+  M = \begin{bmatrix}
+    c^2 & \frac{cs}{k} & cs & \frac{s^2}{k} \\
+    -kcs & c^2 & -ks^2 & cs \\
+    -cs & -\frac{s^2}{k} & c^2 & \frac{cs}{k} \\
+    ks^2 & -cs & -kcs & c^2
+  \end{bmatrix},
+\]
+which, with relatively little effort, can be verified to correspond to the implementation of the tracking procedure.
+We have the following map (note the change in $\zeta$ is analogous to the drift):
+
+\begin{align*}
+  x &\leftarrow {\left(x \cos\left(\theta\right) + y \sin\left(\theta\right)\right)} \cos\left(\theta\right) + \frac{2}{b_{z}} {\left(p_{x} \cos\left(\theta\right) + p_{y} \sin\left(\theta\right)\right)} \sin\left(\theta\right) \\
+  p_x &\leftarrow -\frac{1}{2} \, {\left(x \cos\left(\theta\right) + y \sin\left(\theta\right)\right)} b_{z} \sin\left(\theta\right) + {\left(p_{x} \cos\left(\theta\right) + p_{y} \sin\left(\theta\right)\right)} \cos\left(\theta\right) \\
+  y &\leftarrow {\left(y \cos\left(\theta\right) - x \sin\left(\theta\right)\right)} \cos\left(\theta\right) + \frac{2}{b_{z}} {\left(p_{y} \cos\left(\theta\right) - p_{x} \sin\left(\theta\right)\right)} \sin\left(\theta\right) \\
+  p_y &\leftarrow -\frac{1}{2} \, {\left(y \cos\left(\theta\right) - x \sin\left(\theta\right)\right)} b_{z} \sin\left(\theta\right) + {\left(p_{y} \cos\left(\theta\right) - p_{x} \sin\left(\theta\right)\right)} \cos\left(\theta\right) \\
+  \zeta &\leftarrow \zeta + z (1 - \frac{\beta_0}{\beta} \frac{1 + \delta}{p_z}),
+\end{align*}
+where $p_z := -H = \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y}\right)}^{2} - {\left(\frac{b_{z}}{2} y + p_{x}\right)}^{2}}$, $\theta := \frac{b_{z} z}{2 p_z} $, and $z$ is the length of the thick solenoid.
+
+\subsubsection{Thin Solenoid}
+
 The expanded Hamiltonian for a particle in a solenoid is
 \begin{align*}
   H &= p_\zeta+\frac{1}{2}\frac{(p_x+R\cdot y)^2+(p_y-R\cdot x)}{1+\delta},
@@ -894,21 +1058,6 @@ Hamiltonian (eq. 4.35 in \cite{heinemann95})
 \end{align*}
 where $R\equiv R(s_0)$, $\theta=\frac{R}{1+\delta}$, 
 $C=\cos(\theta)$ and $S=\sin(\theta)$.\\[0.5em]
-The map for a thick solenoid is (eq. 3.47, 3.48 in \cite{ripken85}) 
-\begin{align*}
-    x &\to C^2 \cdot x+\frac{1}{R}\cdot S\cdot C\cdot p_x+S\cdot C\cdot y
-    + \frac{1}{R}\cdot S^2 \cdot p_y \\
-    p_x &\to -R\cdot S\cdot C\cdot x + C^2\cdot p_x
-    -R\cdot S^2\cdot y + S\cdot C\cdot p_y \\
-    y &\to -S\cdot C\cdot x -\frac{1}{R}\cdot S^2 \cdot p_x
-    +C^2\cdot y + \frac{1}{R}\cdot S\cdot C\cdot p_y \\
-    p_y &\to R\cdot S^2\cdot x -S\cdot C\cdot p_x
-    -R\cdot S\cdot C\cdot y + C^2\cdot p_y \\
-    \zeta &\to \zeta - \frac{L}{2} \left[R^2(x^2+y^2)+2R\left(
-    \frac{p_x}{1+\delta}y - \frac{p_y}{1+\delta}x\right) 
-    + \frac{p_x^2+p_y^2}{(1+\delta)^2} \right]
-\end{align*}
-where $\theta=R\cdot L$, $C=\cos\theta$ and $S=\sin\theta$.
 
 
 %\section{Beam-Beam}
