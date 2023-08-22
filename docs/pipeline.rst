@@ -13,7 +13,7 @@ The following example illustrates how to configure and run a multibunch simulati
 Example
 =======
 
-.. literalinclude:: generated_code_snippets/spacecharge.py
+.. literalinclude:: generated_code_snippets/pipeline.py
    :language: python
 
 
