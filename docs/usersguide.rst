@@ -28,5 +28,3 @@
    combined_cpu_gpu
    xsuite_data_management
    pipeline
-   beambeam
-
