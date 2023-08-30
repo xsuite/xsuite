@@ -12,6 +12,7 @@
    deferred_expressions
    twiss
    match_twiss_params
+   footprint
    particles_monitor
    acceleration
    synchrotron_radiation
