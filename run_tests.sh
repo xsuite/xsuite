@@ -15,8 +15,8 @@ REPORTS_DIR="/opt/reports"
 # Keep track of failures
 STATUS=0
 
-# If on Pyopencl context, run tests one by one, otherwise run normally
-if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]]; then
+# If xtrack on Pyopencl context, run tests one by one, otherwise run normally
+if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]] && [[ $* =~ "xsuite/xtrack" ]]; then
   # Run tests one by one
   pip install pytest-html-merger
 
