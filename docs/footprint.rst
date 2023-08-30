@@ -60,8 +60,8 @@ Stability diagram
 =================
 
 Using the amplitude detuning given by the tune footprint, it is possible to 
-evaluate numerically the dispersion integral in https://cds.cern.ch/record/318826 and
-obtain the stability diagram (as in https://doi.org/10.1103/PhysRevSTAB.17.111002).
+evaluate numerically the [dispersion integral](https://cds.cern.ch/record/318826) and
+obtain the stability diagram as in this [example](https://doi.org/10.1103/PhysRevSTAB.17.111002).
 
 If the context is ContextCupy, both the tracking and the numerical integration
 are performed on the GPU.
