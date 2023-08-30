@@ -215,20 +215,20 @@ Like the :ref:`MonitorBPM` also the beam profile monitor is based on particle ar
         start_at_turn=5, stop_at_turn=10,  # turn refers to the synchronous particle (at zeta=0)
         frev=1e6,                          # revolution frequency (only for circular lines)
         sampling_frequency=2e6,            # sampling frequency
-        raster_size=100,                   # number of bins in the profile (can also specify raster_size_x and raster_size_y separately)
-        raster_range_x=(-4,2),             # save horizontal profile extending from -4 to 2
-        raster_range_y=5,                  # shorthand for (-2.5, 2.5)
+        n=100,                             # number of bins in the profile (can also specify nx and ny separately)
+        x_range=(-4,2),                    # save horizontal profile extending from -4 to 2
+        y_range=5,                         # shorthand for (-2.5, 2.5)
     )
 
     ... # track
 
-    print(monitor.raster_edges_x)      # the bin edges
-    print(monitor.raster_midpoints_x)  # the bin midpoints
-    print(monitor.intensity_x)         # the actual profile (particle count per bin)
+    print(monitor.x_edges)      # the bin edges
+    print(monitor.x_grid)       # the bin midpoints
+    print(monitor.x_intensity)  # the actual profile (particle count per bin)
 
-The recorded profiles are 2D arrays of shape ``(sample_size, raster_size)``
+The recorded profiles are 2D arrays of shape ``(sample_size, n)``
 where ``sample_size = round(( stop_at_turn - start_at_turn ) * sampling_frequency / frev)``.
-I.e. ``monitor.intensity_x[0,:]`` is the first recorded profile and ``monitor.intensity_x[-1,:]`` the last.
+I.e. ``monitor.x_intensity[0,:]`` is the first recorded profile and ``monitor.x_intensity[-1,:]`` the last.
 
 
 
