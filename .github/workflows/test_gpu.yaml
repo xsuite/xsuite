@@ -114,7 +114,7 @@ jobs:
         mkdir -p reports/${{ matrix.test-suite }}
         docker run --rm --gpus all \
           --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-          -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports \
+          -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
           ${image_id} \
           /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
     - name: Upload report
