@@ -56,3 +56,9 @@ See also: :meth:`xtrack.Line.get_footprint`
 
     Footprints produced with rescaling beam-beam knob.
 
+Stability diagram
+=================
+
+Using the amplitude detuning given by the tune footprint, it is possible to 
+solve the dispersion integral in https://cds.cern.ch/record/318826 and
+obtain the stability diagram.
