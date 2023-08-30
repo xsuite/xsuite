@@ -157,8 +157,8 @@ snippet_files = {
         'generated_code_snippets/optimized_tracker.py',
     'xfields/examples/002_beambeam/006_beambeam6d_strongstrong_pipeline_MPI2Procs.py':
         'generated_code_snippets/pipeline.py',
-    'xtrack/examples/footprint/003_stability_diagram.py':
-        'generated_code_snippets/stabilitydiagram.py',
+    #'xtrack/examples/footprint/003_stability_diagram.py':
+    #    'generated_code_snippets/stabilitydiagram.py',
 }
 
 for ss, tt in snippet_files.items():
