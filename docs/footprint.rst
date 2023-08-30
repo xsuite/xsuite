@@ -60,8 +60,8 @@ Stability diagram
 =================
 
 Using the amplitude detuning given by the tune footprint, it is possible to 
-solve the dispersion integral in https://cds.cern.ch/record/318826 and
-obtain the stability diagram.
+evaluate numerically the dispersion integral in https://cds.cern.ch/record/318826 and
+obtain the stability diagram (as in https://doi.org/10.1103/PhysRevSTAB.17.111002).
 
 .. literalinclude:: generated_code_snippets/stabilitydiagram.py
    :language: python
