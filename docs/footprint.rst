@@ -66,8 +66,8 @@ obtain the stability diagram as in https://doi.org/10.1103/PhysRevSTAB.17.111002
 If the context is :class:`xobjects.ContextCupy`, both the tracking and the numerical integration
 are performed on the GPU.
 
- -- .. literalinclude:: generated_code_snippets/stabilitydiagram.py
- --   :language: python
+ .. literalinclude:: generated_code_snippets/stabilitydiagram.py
+    :language: python
 
 .. figure:: figures/stabilitydiagram.png
     :width: 80%
