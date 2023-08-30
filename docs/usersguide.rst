@@ -12,7 +12,6 @@
    deferred_expressions
    twiss
    match_twiss_params
-   footprint
    particles_monitor
    acceleration
    synchrotron_radiation
@@ -27,4 +26,3 @@
    pyhtinterface
    combined_cpu_gpu
    xsuite_data_management
-   pipeline
