@@ -7,9 +7,9 @@ Beam-beam interactions
 Weak-strong 4D
 ==============
 
-.. code-block:: python
+.. literalinclude:: generated_code_snippets/beambeamws.py
+   :language: python
 
-    beam-beam
 
 Weak-strong 6D
 ==============
