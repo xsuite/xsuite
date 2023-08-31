@@ -159,6 +159,8 @@ snippet_files = {
         'generated_code_snippets/pipeline.py',
     'xtrack/examples/footprint/003_stability_diagram.py':
         'generated_code_snippets/stabilitydiagram.py',
+    'xfields/examples/002_beambeam/010_beambeam2d_weakstrong.py':
+        'generated_code_snippets/beambeamws.py',
 }
 
 for ss, tt in snippet_files.items():
