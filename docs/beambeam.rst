@@ -14,7 +14,7 @@ The example below shows how to introduce a 2D beam-beam element in a line and pe
 Weak-strong 3D
 ==============
 
-The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method).
+The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method) handled by the class::xfields.beam_elements.TempSlicer
 
 .. code-block:: python
 
