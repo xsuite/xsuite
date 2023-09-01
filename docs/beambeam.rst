@@ -46,19 +46,14 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
                slices_other_beam_Sigma_34 = np.zeros(n_slices,dtype=float),
                slices_other_beam_Sigma_44 = np.zeros(n_slices,dtype=float)+physemit_y/beta_y)
 
-Strong-strong 2D (soft-Gaussian)
+Strong-strong
 ================================
 
-.. code-block:: python
+Strong-strong simulations can be performed using the :doc:`pipeline` algorithm to track multiple bunches.
 
-    beam-beam
+.. literalinclude:: generated_code_snippets/pipeline.py
+   :language: python
 
-Strong-strong 3D (soft-Gaussian)
-================================
-
-.. code-block:: python
-
-    beam-beam
 
 Poisson Solver
 ==============
