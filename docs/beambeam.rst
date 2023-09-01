@@ -67,6 +67,10 @@ Strong-strong simulations can be performed using the :doc:`pipeline`, as in the 
 .. literalinclude:: generated_code_snippets/pipeline.py
    :language: python
 
+.. figure:: figures/beambeam_sigmapi.png
+    :width: 80%
+    :align: center
+
 In collisions featuring a low disruption (i.e. the beam moments do not vary significantly during the interaction), the quasi-strong-strong (aka frozen-strong-strong) model may be enabled by setting the argument 'quasistrongstrong
 = True' in :class:`xfields.beam_elements.ConfigForUpdate*`. In this configuration, the beam moments are computed once at the start of the collison and kept constant throught the collison, thus reducing the computing load. The argument 'update_every' allows to further reduce the computing load by keeping the moments for the given amount of turns. This model is suitable for effects that build up over may turns. (more details in https://accelconf.web.cern.ch/eefact2022/papers/wezat0102.pdf)
 
