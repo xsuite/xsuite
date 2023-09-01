@@ -58,7 +58,29 @@ For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.b
 
 .. code-block:: python
 
-   
+   config_for_update_b1_IP1=xf.ConfigForUpdateBeamBeamBiGaussian2D(
+      pipeline_manager=pipeline_manager,
+      element_name='IP1',
+      partner_particles_name = 'B2b1',
+      update_every=1
+      )
+   config_for_update_b2_IP1=xf.ConfigForUpdateBeamBeamBiGaussian2D(
+      pipeline_manager=pipeline_manager,
+      element_name='IP1',
+      partner_particles_name = 'B1b1',
+      update_every=1
+      )
+   print('build bb elements...')
+   bbeamIP1_b1 = xf.BeamBeamBiGaussian2D(
+               _context=context,
+               other_beam_q0 = particles_b2.q0,
+               other_beam_beta0 = particles_b2.beta0[0],
+               config_for_update = config_for_update_b1_IP1)
+   bbeamIP1_b2 = xf.BeamBeamBiGaussian2D(
+               _context=context,
+               other_beam_q0 = particles_b1.q0,
+               other_beam_beta0 = particles_b1.beta0[0],
+               config_for_update = config_for_update_b2_IP1)
 
 Poisson Solver
 ==============
