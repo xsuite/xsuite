@@ -20,6 +20,7 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
 
    n_slices = 21
    slicer = xf.TempSlicer(n_slices=n_slices, sigma_z=sigma_z, mode="shatilov")
+   bbeam = xf.BeamBeamBiGaussian3D()
 
 Strong-strong 2D (soft-Gaussian)
 ================================
