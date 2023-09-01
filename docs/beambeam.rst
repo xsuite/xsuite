@@ -70,7 +70,6 @@ For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.b
       partner_particles_name = 'B1b1',
       update_every=1
       )
-   print('build bb elements...')
    bbeamIP1_b1 = xf.BeamBeamBiGaussian2D(
                _context=context,
                other_beam_q0 = particles_b2.q0,
