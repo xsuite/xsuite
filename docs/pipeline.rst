@@ -22,6 +22,10 @@ Example
 .. literalinclude:: generated_code_snippets/pipeline.py
    :language: python
 
+.. figure:: figures/beambeam_sigmapi.png
+    :width: 80%
+    :align: center
+
 If the communicator is not specified when instanciating the PipelineManager, it will not use MPI:
 
 .. code-block:: python
