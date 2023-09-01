@@ -15,12 +15,12 @@ The example below shows how to introduce a 2D beam-beam element in a line and pe
     :width: 80%
     :align: center
 
-.. figure:: figures/footprint_unif_action.png
+.. figure:: figures/beambeamkick.png
     :width: 80%
     :align: center
 
 
-.. figure:: figures/footprint_unif_action.png
+.. figure:: figures/phasespacedistortion.png
     :width: 80%
     :align: center
 
