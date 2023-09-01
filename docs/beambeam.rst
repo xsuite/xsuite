@@ -17,6 +17,7 @@ Weak-strong 3D
 The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method).
 
 .. code-block:: python
+
    n_slices = 21
    slicer = xf.TempSlicer(n_slices=n_slices, sigma_z=sigma_z, mode="shatilov")
    bbeam = xf.BeamBeamBiGaussian3D(
