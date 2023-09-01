@@ -102,4 +102,4 @@ Particle-in-cell simulations using a Poisson solver for the beam-beam interactio
 Beam-beam in a real lattice
 ===========================
 
-Identically to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup beam-beam interactions in a collider lattice: :doc:`xmask`
+Identically to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup of beam-beam interactions in a collider lattice: :doc:`xmask`
