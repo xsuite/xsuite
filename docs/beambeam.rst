@@ -5,7 +5,7 @@ Beam-beam interactions
 Weak-strong 2D
 ==============
 
-The example below shows how to introduce a 2D beam-beam element and perform few studies based on tracking. The 2D beam-beam element gives a kick based on the Basseti-Erskine formula neglecting any longitudinal varitations of the beam-beam force.
+The example below shows how to introduce a 2D beam-beam element in a line and perform few studies based on tracking. The 2D beam-beam element provides a kick based on the Basseti-Erskine formula neglecting any longitudinal varitations of the beam-beam force.
 
 .. literalinclude:: generated_code_snippets/beambeamws.py
    :language: python
