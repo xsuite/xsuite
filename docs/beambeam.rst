@@ -14,19 +14,27 @@ The example below shows how to introduce a 2D beam-beam element in a line and pe
 Weak-strong 3D
 ==============
 
-The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method) handled by the class::xfields.beam_elements.TempSlicer
+The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method) handled by the :class:`xfields.beam_elements.TempSlicer`.
 
 .. code-block:: python
 
+   # Number of longitudinal slices
    n_slices = 21
+   # Slicer used to determine the position and charge of the slices
+   # based on an optimised algorithm by D. Shatilov. (other options are also possible)
    slicer = xf.TempSlicer(n_slices=n_slices, sigma_z=sigma_z, mode="shatilov")
    bbeam = xf.BeamBeamBiGaussian3D(
                _context=context,
                other_beam_q0 = particles.q0,
+               # Full crossing angle at the IP in rad
                phi = 500.0E-2,
+               # Roll angle of the crossing angle in rad (0 -> horizontal, pi/2 -> vertical)
                alpha = 0.0,
+               # charge in each slice
                slices_other_beam_num_particles = slicer.bin_weights * bunch_intensity,
+               # longitudinal position of the slice
                slices_other_beam_zeta_center = slicer.bin_centers,
+               # transverse sizes of the slices at the IP
                slices_other_beam_Sigma_11 = np.zeros(n_slices,dtype=float)+physemit_x*beta_x,
                slices_other_beam_Sigma_12 = np.zeros(n_slices,dtype=float),
                slices_other_beam_Sigma_13 = np.zeros(n_slices,dtype=float),
