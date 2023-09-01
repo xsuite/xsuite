@@ -25,7 +25,9 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
                other_beam_q0 = particles.q0,
                phi = 500.0E-2,
                alpha = 0.0,
-               slices_other_beam_num_particles = slicer.bin_weights * bunch_intensity)
+               slices_other_beam_num_particles = slicer.bin_weights * bunch_intensity,
+               slices_other_beam_zeta_center = slicer.bin_centers,
+               slices_other_beam_Sigma_11 = np.zeros(n_slices,dtype=float)+physemit_x*beta_x)
 
 Strong-strong 2D (soft-Gaussian)
 ================================
