@@ -49,11 +49,16 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
 Strong-strong
 ================================
 
-Strong-strong simulations can be performed using the :doc:`pipeline` algorithm to track multiple bunches.
+Strong-strong simulations can be performed using the :doc:`pipeline`, as in the example below.
 
 .. literalinclude:: generated_code_snippets/pipeline.py
    :language: python
 
+For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.beam_elements.ConfigForUpdate*` have to be redifined as in the example below.
+
+.. code-block:: python
+
+   
 
 Poisson Solver
 ==============
