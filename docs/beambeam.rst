@@ -49,7 +49,7 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
 Strong-strong
 ================================
 
-Strong-strong simulations can be performed using the :doc:`pipeline`, as in the example below.
+Strong-strong simulations can be performed using the :doc:`pipeline`, as in the example below. The option 'update_every' allows to let the fields frozen for the given amount of turns, thus reducing the computing load linked to the computation of the moments (so-called Quasi-strong-strong model, see https://accelconf.web.cern.ch/eefact2022/papers/wezat0102.pdf).
 
 .. literalinclude:: generated_code_snippets/pipeline.py
    :language: python
@@ -83,3 +83,5 @@ For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.b
 
 Poisson Solver
 ==============
+
+Particle-in-cell simulations using a Poisson solver for the beam-beam interaction is currently not implemented in xfields
