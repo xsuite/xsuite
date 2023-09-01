@@ -34,7 +34,7 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
                slices_other_beam_num_particles = slicer.bin_weights * bunch_intensity,
                # longitudinal position of the slice
                slices_other_beam_zeta_center = slicer.bin_centers,
-               # transverse sizes of the slices at the IP
+               # transverse sizes of the slices at the IP (squarred)
                slices_other_beam_Sigma_11 = np.zeros(n_slices,dtype=float)+physemit_x*beta_x,
                slices_other_beam_Sigma_12 = np.zeros(n_slices,dtype=float),
                slices_other_beam_Sigma_13 = np.zeros(n_slices,dtype=float),
