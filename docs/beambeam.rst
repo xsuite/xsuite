@@ -11,6 +11,19 @@ The example below shows how to introduce a 2D beam-beam element in a line and pe
    :language: python
 
 
+.. figure:: figures/footprint_HO2D.png
+    :width: 80%
+    :align: center
+
+.. figure:: figures/footprint_unif_action.png
+    :width: 80%
+    :align: center
+
+
+.. figure:: figures/footprint_unif_action.png
+    :width: 80%
+    :align: center
+
 Weak-strong 3D
 ==============
 
