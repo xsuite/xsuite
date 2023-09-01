@@ -20,7 +20,8 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
 
    n_slices = 21
    slicer = xf.TempSlicer(n_slices=n_slices, sigma_z=sigma_z, mode="shatilov")
-   bbeam = xf.BeamBeamBiGaussian3D(               _context=context,
+   bbeam = xf.BeamBeamBiGaussian3D(
+               _context=context,
                other_beam_q0 = particles.q0,
                phi = 500.0E-2,
                alpha = 0.0)
