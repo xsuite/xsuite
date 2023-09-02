@@ -111,10 +111,10 @@ Here $\sigma^*$ is defined in the reference system of the weak beam ( $\sigma^*>
 
 We now evaluate the transverse position of the particle at the CP, with respect to the centroid of the slice, taking into account the particle angles :
 \begin{align}
-\overline{x}^* &= x^* + p^*_x S - x^*_\textrm{sl}\\
-\overline{y}^* &= y^* + p^*_y S - y^*_\textrm{sl}
+\overline{x}^* &= x^* + p^*_x S - (x^*_\textrm{sl} - p^*_{x, \textrm{sl}} S)\\
+\overline{y}^* &= y^* + p^*_y S - (y^*_\textrm{sl} - p^*_{y, \textrm{sl}} S)
 \end{align}
-Here $x^*_\textrm{sl}$ and $y^*_\textrm{sl}$ are defined \underline{in the coordinate system of the weak beam}.
+Here $x^*_\textrm{sl}$, $y^*_\textrm{sl}$, $p^*_{x, \textrm{sl}}$ and $p^*_{y, \textrm{sl}}$  are defined \underline{in the coordinate system of the weak beam}. The momenta of the strong slice appear with a negative sign since in the weak frame the strong slice is travelling "backwards".
 ~\\
 
 \subsection{Propagation of the strong beam to the collision point}
@@ -497,10 +497,14 @@ The positions of the weak beam particle in the un-coupled boosted frame are give
 In the following we will also need to evaluate:
 \begin{align}
 \frac{\partial }{\partial S} \left[\hat{\overline{x}}^*\left(\theta (S)\right) \right] &= 
-\overline{x}^*  \frac{\partial }{\partial S} \left[ \cos \theta \right] 
+ \frac{\partial \overline{x}^* }{\partial S}  \cos \theta
++ \overline{x}^*  \frac{\partial }{\partial S} \left[ \cos \theta \right] 
++ \frac{\partial \overline{y}^* }{\partial S}  \sin \theta
 + \overline{y}^*\frac{\partial }{\partial S} \left[ \sin \theta \right]  \\
 \frac{\partial }{\partial S} \left[\hat{\overline{y}}^*\left(\theta (S)\right) \right] &= 
+- \frac{\partial \overline{x}^* }{\partial S}  \sin \theta
 -\overline{x}^*  \frac{\partial }{\partial S} \left[ \sin \theta \right] 
++  \frac{\partial \overline{y}^* }{\partial S}  \cos \theta
 + \overline{y}^*\frac{\partial }{\partial S} \left[ \cos \theta \right]  
 \end{align}
 
@@ -604,8 +608,8 @@ p^*_{y, new} &= p^*_{y} + {F}^*_y\\
 z^*_{new} &= z^*\\
 \delta^*_{new} &= \delta^* + {F}^*_z
 +\frac{1}{2}\left[ 
-{F}^*_x\left(p^*_{x} + \frac{1}{2}{F}^*_x\right)+
-{F}^*_y\left(p^*_{y} + \frac{1}{2}{F}^*_y\right)
+{F}^*_x\left(p^*_{x} + \frac{1}{2}{F}^*_x + p^*_{x,\textrm{sl}}\right)+
+{F}^*_y\left(p^*_{y} + \frac{1}{2}{F}^*_y + p^*_{y,\textrm{sl}}\right)
 \right]
 \end{align}
 
@@ -683,6 +687,203 @@ The longitudinal momentum can be calculated using directly Eq.~\ref{eq:delta}:
 \begin{equation}
 \delta = \delta^* + p_x \cos \alpha \tan \phi + p_y \sin \alpha \tan \phi - h \tan^2 \phi
 \end{equation}
+
+\section{Bhabha scattering}
+In quantum electrodynamics (QED), the Coulomb attraction of two opposite charges (e.g. an electron and a positron) is called Bhabha scattering~\cite{Griffiths:111880}. The mathematical treatment of Bhabha scattering can be done using the method of equivalent photons (Weizsäcker-Williams approach)~\cite{Weizsacker1934, Williams:1935dka}. The essence of this method lies in the fact that the electromagnetic field of a relativistic charged particle, say the positron, is almost transversal and can therefore accurately be substituted by an appropriately chosen equivalent radiation field of photons. Thus, the cross section for the scattering of an electron with this positron (Bhabha scattering) can be approximated by that of the electron and an "equivalent" photon (Compton scattering). In this case, the equivalent photon corresponds to the exchanged virtual photon between the scattering primaries. The whole process, including the subsequent emission of bremsstrahlung photons can be treated in a numerical simulation as an inverse Compton scattering process~\cite{Schulte:331845}. In this, the virtual photons emitted by the positron will collide with the electron. Due to the relativistic dynamics of the participating leptons, the virtual photons have an energy which is often negligible compared to that of the leptons, thus we can treat them as real. The process is called inverse since here the electron will lose energy while the photons will gain energy, contrary to standard Compton scattering. The scattered photons are real and typically end up with an energy $E'_{\gamma}$ comparable to the initial lepton energy $E_e$~\cite{ARUTYUNIAN1963176}.
+
+The generation of photons from radiative Bhabha scattering in Xsuite can be divided into 3 steps. First, the charge density of the opposite bunch slice at the location of the macroparticle in the soft-Gaussian approximation is computed~\cite{Bassetti:122227}. From this one computes the integrated luminosity of the collision of the macroparticle with the virtual photons represented by the slice, integrated over the time of passing through the slice. Second, a set of virtual photons is generated corresponding to the total energy of the opposite slice. Third, the code iterates over these virtual photons and simulates the bremsstrahlung process as a series of inverse Compton scattering events between the macroparticle and each virtual photon. 
+
+\subsection{Luminosity Computation} 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.6\textwidth]{figures/bhabha_1.png}
+	\caption{\small Schematic illustration of a single macroparticle from bunch 1 (blue) colliding with a single longitudinal slice of the opposing bunch 2 (red).  \label{fig:bhabha_1}}
+\end{figure}
+
+Figure~\ref{fig:bhabha_1} illustratres how \texttt{Xfields} computes the integrated luminosity in a collision of a single macroparticle from one beam with a single slice of the opposing beam\footnote{Note that this luminosity can be recorded in a table with the \textbf{flag\_luminosity} flag of the \texttt{BeamBeamGaussian3D} element and \textbf{lumitable} keyword in the \texttt{Xline} internal log. The recorded entries must be summed up to get the total integrated luminosity of the collision. This method has an uncertainty of $\pm10\%$ compared to the analytical formula.}. On the figure $x,y$ denote the transverse coordinates of a macroparticle in the boosted and uncoupled frame, at the collision point with a slice of the opposing bunch, corresponding to the notation $\hat{\overline{x}}^*, \hat{\overline{y}}^* $ in the previous sections. The centroid (mean) coordinate of the opposing slice, with a bunch intensity of $N_{b,s}$, is denoted by $x_c,y_c$, in the boosted, uncoupled, transported reference frame of its own bunch. \texttt{Xfields} models the charge density of a longitudinal slice as a 2D Gaussian distribution $\rho(x,y)$. Considering an infinitesimal area $\delta x \delta y$ around the transverse position $x,y$ of a given macroparticle at the collision point with the slice, one can write the number of charges with which this macroparticle will interact:
+
+\begin{equation}
+	\begin{split}
+		N_e(x,y) & = N_{b,s} \rho(x,y) \delta x \delta y,
+	\end{split}
+	\label{eq:bhabha_1}
+\end{equation}
+
+and the integrated luminosity of the macroparticle-slice collision:
+
+\begin{equation}
+	L = \frac{N_{b,m}\cdot N_e(x,y)}{\delta x \delta y} = N_{b,m} N_{b,s} \rho(x,y),
+	\label{eq:bhabha_2}
+\end{equation}
+
+
+where $N_{b,m}$ denotes the number of elementary charges per macroparticle.
+
+\subsection{Virtual Photon Generation}
+
+Equation~\eqref{eq:bhabha_2} describes the integrated luminosity of primary-primary collisions. In order to simulate the collision of the primaries with virtual photons instead, \texttt{Xfields} uses the assumption that the virtual photon distribution $N_{\gamma}(x,y)$ is proportional to that of the primary charges:
+
+\begin{equation}
+	N_{\gamma}(x,y) = nN_e(x,y),
+	\label{eq:bhabha_3}
+\end{equation}
+
+where $n$ is a proportionality factor denoting the number of virtual photons corresponding to one elementary charge. The number density spectrum of virtual photons is given by:
+
+\begin{equation}
+	\frac{dn}{dxdQ^2} = \frac{\alpha}{2\pi}\frac{1 + (1 - x)^2}{x}\frac{1}{Q^2},
+	\label{eq:bhabha_4}
+\end{equation}
+
+where $\displaystyle x=\frac{\hbar\omega}{E_e}=\frac{E_\gamma}{E_e}$ is the total energy of the virtual photon normalized to the primary energy and $Q^2$ is the squared virtuality of the virtual photon~\cite{Halzen:1984mc}. 
+
+The virtual photon energies and virtualities can be drawn using the method of inverse CDF (Cumulative Distribution Function) sampling. The sampling algorithm in \texttt{Xsuite} has been adapted from \texttt{GUINEA-PIG}~\cite{guineapig}, a Particle In Cell (PIC) based single beam-beam collision simulation software. For each macroparticle in the beam, we first compute the total amount of equivalent photons using the energy of the opposite bunch slice. Subsequently, the energy and virtuality of each photon will be sampled. In the current implementation all virtual photons inherit the dynamical variables of the strong bunch slice centroid. Note that the virtual photons sampled this way will also be "macroparticles" in the sense that they represent the dynamics of all virtual photons generated by all charges in a primary macroparticle.
+
+\subsection{Inverse Compton Scattering of Virtual Photons}
+
+We account for the proportionality of the primary charge and virtual photon distributions described by Eq.~\eqref{eq:bhabha_3} by resampling the virtual photons for each macroparticle. With each photon, we simulate the bremsstrahlung process in the form of a set of inverse Compton scattering events. The number of Compton events can be described as:
+
+\begin{equation}
+	R = \sigma_{C,tot}(s)L = \sigma_{C,tot}(s) N_{b,m} N_{b,s} \rho(x,y),
+	\label{eq:bhabha_5}
+\end{equation}
+where $\displaystyle s\approx\frac{4E_\gamma E_e}{m_e^2c^4}$ is the center of mass energy squared of the photon-primary Compton interaction, normalized to the rest mass of the primary~\cite{GINZBURG198347}, and $\sigma_{C,tot}(s)$ denotes the total Compton scattering cross section, given by:
+\begin{equation}
+	\begin{split}
+		\sigma_{C,tot}(s) & = \frac{2\pi r_e^2}{s}\left[\mathrm{ln}(s+1)\left(1 - \frac{4}{s} - \frac{8}{s^2}\right).+ \frac{1}{2} + \frac{8}{s} - \frac{1}{2(s+1)^2}\right],
+	\end{split}
+	\label{eq:bhabha_6}
+\end{equation}
+with $\displaystyle r_e$ being the classical electron radius. For each event, we sample the scattered photon energy from the differential cross section:
+\begin{equation}
+	\begin{split}
+		\frac{d\sigma_C}{dy} = \frac{2\pi r_e^2}{s}\left[ \frac{1}{1-y} + 1 - y - \frac{4y}{s(1-y)} + \frac{4y^2}{s^2(1-y)^2} \right],
+	\end{split}
+	\label{eq:bhabha_7}
+\end{equation}
+which describes the scattering of a beam of unpolarized photons on the primary charge~\cite{Schulte:331845}. Here $\displaystyle y=\frac{\hbar\omega'}{E_e}=\frac{E_\gamma'}{E_e}$ is the energy of the scattered photon in units of the total energy of the colliding primary. Given the energy $E_\gamma'$, we can compute the scattering angle of the primary and the photon as well as their momenta, using the constraints given by energy and momentum conservation. While the emitted photon spectrum corresponds to the sum of all charges represented by a macroparticle, a given macroparticle should represent the dynamics of a single primary charge. Thus, the dynamical variables of the macroparticles are updated according to energy and momentum conservation accounting for the emission of only a fraction of the photons. The latter are picked randomly based on a probability corresponding to the inverse of the number of charges per macroparticle. 
+
+\section{Beamstrahlung}
+The implementation of beamstrahlung in \texttt{Xfields} is based on \texttt{GUINEA-PIG}~\cite{guineapig}. In this section a high level summary of the modeling is presented. Further details can be found in~\cite{Yokoya:1985ab}. 
+
+\texttt{Xfields} samples the quantum theoretical synchrotron radiation spectrum $G(v,\xi)$:
+
+\begin{equation}
+G(v,\xi) = \frac{v^2}{(1 - (1 - \xi)v^3)^2}\left( G_1(y) + \frac{\xi^2 y^2}{1 + \xi y}G_2(y) \right),
+ 	\label{eq:bs_1}
+\end{equation}
+
+which is normalized such that $G(v=0,\xi)=1$ and $G(v,\xi)\leq1$ for all $v$ and $\xi$. The variable $\xi$ is defined as:
+
+\begin{equation}
+	\xi=\frac{E_{crit}}{E} 
+	\label{eq:bs_2}
+\end{equation}
+
+and denotes the magnitude of the quantum correction, i.e. the critical energy normalized to the energy $E$ of the primary particle in GeV undergoing the beamstrahlung process. The critical beamstrahlung energy is defined in the classical way as:
+
+\begin{equation}
+ E_{crit}=\frac{3\hbar c\gamma^3}{2\rho}
+	\label{eq:bs_3}
+\end{equation}
+
+The unitless variable $y$ is related to the energy of the emitted beamstrahlung photon $E_{\gamma}$:
+
+\begin{equation}
+	y = \frac{E_{\gamma}}{E_{crit}} \frac{1}{1 - \frac{E_{\gamma}}{E}}.
+	\label{eq:bs_4}
+\end{equation}
+
+Equation~\ref{eq:bs_4} can be expressed with the help of a uniform random variable $v$ as follows:
+
+\begin{equation}
+	y = \frac{v^3}{1 - v^3};~v\in U[0,1].
+	\label{eq:bs_5}
+\end{equation}
+
+With these the number of beamstrahlung photons emitted in the interval [$v$, $v+\Delta v$] during a time interval $\delta_t$ can be given as:
+
+\begin{equation}
+    \Delta N_{\gamma} = p_0G(v, \xi)\Delta v,
+	\label{eq:bs_6}
+\end{equation}
+
+where
+
+\begin{equation}
+p_0 = \frac{2^{\frac{2}{3}}}{\Gamma(\frac{4}{3})} \frac{\alpha\gamma\delta_t}{\rho}\approx 25.4\cdot \frac{E \delta_t}{\rho}
+	\label{eq:bs_7}
+\end{equation}
+
+is a scaling factor dependent on the relativistic $\gamma$ of the primary, the instantaneous bending radius $\rho$ and the fine structure constant $\alpha$. The bending radius of each macroparticle in the electromagnetic field of a given longitudinal slice of the opposite bunch is obtained from the radial kick:
+
+\begin{equation}
+	F_r^*=r_{pp}\sqrt{F_x^{*2} + F_y^{*2}},
+	\label{eq:bs_8}
+\end{equation}
+\begin{equation}
+	\rho=\frac{1}{F_r^*},
+	\label{eq:bs_9}
+\end{equation}
+
+with $r_{pp}=\frac{1}{1 + \delta}=\frac{p}{p_0}$. In the \texttt{Xfields} \texttt{BeamBeamGaussian3D} element the time interval $\delta_t$ is expressed as a longitudinal distance $\Delta z$, which is the distance the macroparticle travels between two consecutive longitudinal slices and it corresponds to the bin width of the longitudinal slicing.
+
+Figure~\ref{fig:bs_1} shows the beamstrahlung photon number density $p_0G(v,\xi)$ for a fixed value of $p_0$ and $\xi$. The area in the region C is the mean number of beamstrahlung photons emitted during an interval $\delta_t$, i.e. a passage through one longitudinal slice of width $\Delta z$.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.5\textwidth]{figures/bs_1.png}
+	\caption{\small Schematic illustration of the number density function of beamstrahlung photons $p_0G(v,\xi)$ (red curve) for a given $p_0$ (blue dashed line) and $\xi$, as a function of $v$.  \label{fig:bs_1}}
+\end{figure}
+
+The functions $G_1(y)$ and $G_2(y)$ are defined as follows:
+
+\begin{equation}
+	\begin{split}
+		G_1(y) & = \frac{\sqrt{3}\Gamma(\frac{1}{3})}{2^{\frac{5}{3}}\pi} \int\limits_{y}^{\infty} K_{\frac{5}{3}}(x) dx, \\
+		G_2(y) & = \frac{\sqrt{3}\Gamma(\frac{1}{3})}{2^{\frac{5}{3}}\pi}  K_{\frac{2}{3}}(y).
+	\end{split}
+ 	\label{eq:bs_10}
+\end{equation}
+
+Equations~\ref{eq:bs_10} are evaluated numerically with the below approximate formulas:
+
+\begin{equation}
+	\begin{split}
+	0 \leq y \leq 1.54 & \\
+	G_1(y) & = y^{-\frac{2}{3}} (1 - 0.8432885317\cdot y^{\frac{2}{3}} + 0.1835132767\cdot y^2 \\
+	& - 0.0527949659\cdot y^{\frac{10}{3}} + 0.0156489316\cdot y^4) \\
+	G_2(y) & = y^{-\frac{2}{3}} (0.4999456517 - 0.5853467515\cdot y^{\frac{4}{3}} \\
+	& + 0.3657833336\cdot y^2 - 0.0695055284\cdot y^{\frac{10}{3}} + 0.0191803860\cdot y^4) 	\end{split}
+\label{eq:bs_11}
+\end{equation}
+\begin{equation}
+	\begin{split}
+	1.54 < y \leq 4.48 & \\	
+	G_1(y) & = \frac{2.066603927 - 0.5718025331\cdot y + 0.04243170587\cdot y^2}{-0.9691386396 + 5.651947051\cdot y - 0.6903991322\cdot y^2 + y^3} \\
+	G_2(y) & = \frac{1.8852203645 - 0.5176616313\cdot y + 0.03812218492\cdot y^2}{-0.4915880600 + 6.1800441958\cdot y - 0.6524469236\cdot y^2 + y^3}
+	\end{split}
+\label{eq:bs_12}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+	4.48 < y \leq 165.0 & \\	
+	G_1(y) & = 	\frac{e^{-y}}{\sqrt{y}}\cdot \frac{1.0174394594 + 0.5831679349\cdot y}{0.9949036186 + y} \\
+	G_2(y) & = \frac{e^{-y}}{\sqrt{y}}\cdot \frac{0.2847316689 + 0.5830684600\cdot y}{0.3915531539 + y}.
+	\end{split}
+ 	\label{eq:bs_13}
+\end{equation}
+
+For $y>165$ the model assumes no radiation. With these one can simulate beamstrahlung emission by first drawing a random uniform number $p$. The condition $p>p_0$ corresponds to region A on Fig.~\ref{fig:bs_1}, therefore no photons are emitted. In the other case a second random uniform number $v$ is drawn, and Eq.~\ref{eq:bs_1} is computed. If $p<p_0G(v,\xi)$ is satisfied (region C) a photon is emitted with an energy
+
+\begin{equation}
+\frac{E_\gamma}{E} = \frac{\xi v^3}{1 - (1 - \xi)v^3},
+	\label{eq:bs_14}
+\end{equation}
+
+otherwise no photon is emitted (region B). The generated beamstrahlung photons are themselves macroparticles in the sense that they represent the dynamics of all photons generated by all charges in a primary macroparticle.
 \newpage
 
 \section*{Appendices}

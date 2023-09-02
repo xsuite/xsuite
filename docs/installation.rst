@@ -98,8 +98,8 @@ this can be done as follows for example for CUDA version 10.1.243:
 .. code-block:: bash
 
     conda install mamba -n base -c conda-forge
-    pip install cupy-cuda101
-    mamba install cudatoolkit=10.1.243
+    pip install cupy-cuda11x
+    mamba install cudatoolkit=11.8.0
 
 Remember to check your CUDA version e.g. via ``$ nvcc --version`` and use the appropriate tag.
 
@@ -203,7 +203,7 @@ On Linux
 
     $ cd ~
     $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-    $ bash Miniforge3-latest-Linux-x86_64.sh
+    $ bash Miniforge3-Linux-x86_64.sh
     $ source miniforge3/bin/activate
     $ pip install numpy scipy matplotlib pandas ipython pytest
 
