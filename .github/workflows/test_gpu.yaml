@@ -111,10 +111,18 @@ jobs:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
         test_contexts: ${{ inputs.test_contexts }}
       run: |
+        mkdir -p reports/${{ matrix.test-suite }}
         docker run --rm --gpus all \
           --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+          -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
           ${image_id} \
-          pytest --color=yes -v /opt/xsuite/${{ matrix.test-suite }}/tests
+          /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
+    - name: Upload report
+      uses: actions/upload-artifact@v3
+      with:
+        name: report-${{ matrix.test-suite }}
+        path: reports/${{ matrix.test-suite }}/report.html
+        if-no-files-found: ignore
 
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers

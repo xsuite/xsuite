@@ -46,5 +46,7 @@ RUN pip install --upgrade cython pytest pyopencl gitpython \
     done
 
 # Don't run tests from /opt/venv not to confuse imports
+COPY run_tests.sh /opt/
+RUN chmod +x /opt/run_tests.sh
 WORKDIR /opt
 CMD python3 /opt/xsuite/xtrack/examples/print_package_paths.py
