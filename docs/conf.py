@@ -25,8 +25,8 @@ import re
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 xobjects_branch = 'main'
-xfields_branch = 'main'
-xtrack_branch = 'main'
+xfields_branch = 'pipeline-doc'
+xtrack_branch = 'feature/PySSD'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
@@ -155,6 +155,12 @@ snippet_files = {
         'generated_code_snippets/freeze_individual_methods.py',
     'xtrack/examples/optimized_tracker/000_optimized_tracker.py':
         'generated_code_snippets/optimized_tracker.py',
+    'xfields/examples/002_beambeam/006_beambeam6d_strongstrong_pipeline_MPI2Procs.py':
+        'generated_code_snippets/pipeline.py',
+    'xtrack/examples/footprint/003_stability_diagram.py':
+        'generated_code_snippets/stabilitydiagram.py',
+    'xfields/examples/002_beambeam/010_beambeam2d_weakstrong.py':
+        'generated_code_snippets/beambeamws.py',
 }
 
 for ss, tt in snippet_files.items():
