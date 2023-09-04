@@ -1,7 +1,6 @@
-# This is a test runner Dockerfile. Specific branches used to
-# build our image can be specified using the --build-arg's below.
-FROM cupy/cupy:latest
-ENV DEBIAN_FRONTEND=noninteractive
+FROM cern/alma8-base:latest
+LABEL author="Szymon Lopaciuk <szymon@lopaciuk.eu>"
+ENV PIP_ROOT_USER_ACTION=ignore
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 ARG xobjects_branch=xsuite:main
@@ -12,31 +11,41 @@ ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
 
+# Use bash as the default shell
 SHELL ["/usr/bin/bash", "-c"]
 
-# Cupy is already provided, install all that is needed for OpenCL
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
-      git clinfo python3.10-venv libclfft2 python3-gpyfft libomp-dev \
-    && mkdir -p /etc/OpenCL/vendors \
-    && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+# Set up the OpenCL profile
+RUN mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
-# We install the Python deps and projects in a venv, otherwise
-# pip complains about installing as root
-RUN python3 -m venv --system-site-packages /opt/xsuite
-ENV PATH="/opt/xsuite/bin:$PATH"
+WORKDIR /opt
+
+# Install mamba and set up an environment
+RUN curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
+RUN bash Mambaforge-Linux-x86_64.sh -b -p /opt/mambaforge
+RUN rm Mambaforge-Linux-x86_64.sh
+
+ENV PATH /opt/mambaforge/bin:$PATH
+RUN mamba init bash
+RUN mamba create --name xsuite python=3.11
+RUN echo "mamba activate xsuite" >> ~/.bashrc
+
+# Install dependencies (compilers, OpenCL and CUDA packages, test requirements)
+RUN mamba install git pip compilers cupy cudatoolkit ocl-icd-system clinfo
+
+# Install all the Xsuite packages in the required versions
+# - mako is an optional requirement of pyopencl that we need
+# - gitpython is useful for print_package_paths.py
+# - cython is needed for cffi
+# - pytest-html for generating html reports
 WORKDIR /opt/xsuite
-RUN pip install --upgrade cython pytest pyopencl gitpython \
+RUN pip install --upgrade cython pyopencl mako gitpython pytest-html \
     && for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do \
       branch_varname="${project}_branch" \
       && project_branch=${!branch_varname} \
       && IFS=':' read -r -a parts <<< $project_branch \
       && user="${parts[0]}" \
       && branch="${parts[1]}" \
-      && echo git clone \
-        --recursive \
-        --single-branch -b "$branch" \
-        "https://github.com/${user}/${project}.git" \
       && git clone \
         --recursive \
         --single-branch -b "$branch" \
@@ -45,8 +54,9 @@ RUN pip install --upgrade cython pytest pyopencl gitpython \
       || break ; \
     done
 
-# Don't run tests from /opt/venv not to confuse imports
-COPY run_tests.sh /opt/
-RUN chmod +x /opt/run_tests.sh
+# Copy the test runner script into the image
 WORKDIR /opt
-CMD python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+COPY run_tests.sh /opt/
+RUN chmod +x run_tests.sh
+
+CMD python /opt/xsuite/xtrack/examples/print_package_paths.py

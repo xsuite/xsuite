@@ -6,9 +6,6 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-# Install pytest-html for generating reports
-pip install pytest-html
-
 # Set the path to the reports folder
 REPORTS_DIR="/opt/reports"
 
