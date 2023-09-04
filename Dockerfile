@@ -1,3 +1,5 @@
+# This is a test runner Dockerfile. Specific branches used to
+# build our image can be specified using the --build-arg's below.
 FROM cern/alma8-base:latest
 LABEL author="Szymon Lopaciuk <szymon@lopaciuk.eu>"
 ENV PIP_ROOT_USER_ACTION=ignore
@@ -16,8 +18,8 @@ ARG xcoll_branch=xsuite:main
 SHELL ["/usr/bin/bash", "-c"]
 
 # Set up the OpenCL profile
-RUN mkdir -p /etc/OpenCL/vendors && \
-    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+RUN mkdir -p /etc/OpenCL/vendors \
+    && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 WORKDIR /opt
 
@@ -34,28 +36,33 @@ RUN echo "mamba activate xsuite" >> ~/.bashrc
 # Install dependencies (compilers, OpenCL and CUDA packages, test requirements)
 # - mako is an optional requirement of pyopencl that we need
 # - gitpython is useful for print_package_paths.py
-# - cython is needed for cffi and gpyfft
+# - cython is needed for cffi
 # - pytest-html for generating html reports
 # - gpyfft is a clfft wrapper that can only be installed from source or .deb
-RUN mamba install git pip compilers cupy cudatoolkit ocl-icd-system clinfo clfft
-RUN pip install cython pyopencl mako gitpython pytest-html
-RUN git clone https://github.com/geggo/gpyfft.git && pip install ./gpyfft
+RUN mamba install git pip compilers cupy cudatoolkit ocl-icd-system clinfo clfft \
+    && mamba clean -afy
+RUN pip install --no-cache-dir cython pyopencl mako gitpython pytest-html \
+    && dnf clean all \
+    && rm -rf /var/cache/yum
+RUN git clone --depth 1 https://github.com/geggo/gpyfft.git && pip install ./gpyfft
 
 # Install all the Xsuite packages in the required versions
 WORKDIR /opt/xsuite
 RUN for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do \
-      branch_varname="${project}_branch" \
-      && project_branch=${!branch_varname} \
-      && IFS=':' read -r -a parts <<< $project_branch \
-      && user="${parts[0]}" \
-      && branch="${parts[1]}" \
-      && git clone \
+        branch_varname="${project}_branch" \
+        && project_branch=${!branch_varname} \
+        && IFS=':' read -r -a parts <<< $project_branch \
+        && user="${parts[0]}" \
+        && branch="${parts[1]}" \
+        && git clone \
         --recursive \
+        --depth 1 \
         --single-branch -b "$branch" \
         "https://github.com/${user}/${project}.git" \
-      && pip install -e ${project}[tests] \
-      || break ; \
-    done
+        && pip install -e ${project}[tests] \
+        || break ; \
+    done; \
+    pip cache purge
 
 # Copy the test runner script into the image
 WORKDIR /opt
