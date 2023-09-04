@@ -1,6 +1,7 @@
 FROM cern/alma8-base:latest
 LABEL author="Szymon Lopaciuk <szymon@lopaciuk.eu>"
 ENV PIP_ROOT_USER_ACTION=ignore
+ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 ARG xobjects_branch=xsuite:main
