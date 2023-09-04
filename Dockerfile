@@ -32,16 +32,18 @@ RUN mamba create --name xsuite python=3.11
 RUN echo "mamba activate xsuite" >> ~/.bashrc
 
 # Install dependencies (compilers, OpenCL and CUDA packages, test requirements)
-RUN mamba install git pip compilers cupy cudatoolkit ocl-icd-system clinfo
-
-# Install all the Xsuite packages in the required versions
 # - mako is an optional requirement of pyopencl that we need
 # - gitpython is useful for print_package_paths.py
-# - cython is needed for cffi
+# - cython is needed for cffi and gpyfft
 # - pytest-html for generating html reports
+# - gpyfft is a clfft wrapper that can only be installed from source or .deb
+RUN mamba install git pip compilers cupy cudatoolkit ocl-icd-system clinfo clfft
+RUN pip install cython pyopencl mako gitpython pytest-html
+RUN git clone https://github.com/geggo/gpyfft.git && pip install ./gpyfft
+
+# Install all the Xsuite packages in the required versions
 WORKDIR /opt/xsuite
-RUN pip install --upgrade cython pyopencl mako gitpython pytest-html \
-    && for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do \
+RUN for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do \
       branch_varname="${project}_branch" \
       && project_branch=${!branch_varname} \
       && IFS=':' read -r -a parts <<< $project_branch \
