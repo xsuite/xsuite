@@ -25,8 +25,8 @@ import re
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 xobjects_branch = 'main'
-xfields_branch = 'pipeline-doc'
-xtrack_branch = 'feature/PySSD'
+xfields_branch = 'main'
+xtrack_branch = 'main'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
