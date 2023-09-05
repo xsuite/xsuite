@@ -133,13 +133,14 @@ Different sets of longitudinal variables can be used:
 \begin{align}
 \xi &= s \frac{\beta}{\beta_0} - \beta c t &
 \tau &= \frac{s}{\beta_0} - ct &
-\zeta &= s - \beta_0 ct \\
+\zeta &= s - \beta_0 ct \label{eq:coord1}\\
 \delta &=
   \frac{P \frac{m_0}{m} -P_0}{P_0} &
 p_\tau &=
   \frac{1}{\beta_0} \frac{E \frac{m_0}{m} -E_0}{E_0} &
 p_\zeta &=
   \frac{1}{\beta_0^2}\frac{E \frac{m_0}{m} -E_0}{E_0}
+  \label{eq:coord2}
 \end{align}
 where variables in the same columns are canonically conjugate.
 
@@ -1649,6 +1650,40 @@ which gives the crab dispersion:
 \begin{equation}
 D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
+
+\section{Damping and equilibrium emittance from synchrotron radiation}
+
+The damping constants from synchrotron radiation can be easily obtained from magnitude of the eigenvalues of the one-turn matrix:
+\begin{align}
+\alpha_x &= -\log( \lvert \lambda_x \rvert)\\
+\alpha_y &= -\log( \lvert \lambda_y \rvert)\\
+\alpha_\zeta &= -\log( \lvert \lambda_\zeta \rvert)
+\end{align}
+
+To account from the kicks experienced by the particles due to quantum excitation we note that the transverse momentum change due to an energy kick in the direction of the particle motion can be written as:
+\begin{align}
+P_{x,y}^\text{new} = P_{x,y}^\text{old}  \frac{P^\text{new}}{P^\text{old}}
+\end{align}
+
+From this:
+\begin{align}
+P_{x,y}^\text{new} - P_{x,y}^\text{old} = P_{x,y}^\text{old}  \left(\frac{P^\text{new} - P^\text{old}}{P^\text{old}} \right) 
+\end{align}
+
+Dividing by $P_0$:
+\begin{align}
+\frac{P_{x,y}^\text{new} - P_{x,y}^\text{old}}{P_0} = 
+\frac{P_{x,y}^\text{old}}{P_0}
+\left(\frac{P^\text{new} - P^\text{old}}{P_0} \right) 
+\frac{P_0}{P^\text{old}}
+\end{align}
+
+Using the accelerator coordinate definitions (Eqs.\,\ref{eq:coord1} and \ref{eq:coord2}), we obtain:
+\begin{align}
+\Delta p_{x,y} = \frac{p_{x,y}}{1 + \delta} \Delta \delta
+\end{align}
+
+TO BE CONTINUED
 
 \section{Synchrotron motion}
 
