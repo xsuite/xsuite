@@ -1457,6 +1457,7 @@ b_{32} & - b_{31} &   b_{34} & - b_{33} &   b_{36} & - b_{35}\\
 - a_{32} &   a_{31} & - a_{34} &   a_{33} & - a_{36} &   a_{35}\\
 \end{array}
 \right)
+\label{eq:winv}
 \end{align}
 \item The one-turn map and $W$-matrix can be propagated from $s_1$ to $s_2$ by
 \begin{align}
@@ -1600,6 +1601,7 @@ p_\zeta
 \sqrt{\varepsilon_\zeta} \hat{\zeta} \\
 \sqrt{\varepsilon_\zeta} \hat{p}_\zeta
 \end{array}\right)
+\label{eq:norm_coord}
 \end{equation}
 where 
 \begin{equation}
@@ -1683,11 +1685,52 @@ Using the accelerator coordinate definitions (Eqs.\,\ref{eq:coord1} and \ref{eq:
 \Delta p_{x,y} = \frac{p_{x,y}}{1 + \delta} \Delta \delta
 \end{align}
 
+The corresponding change in normalized coordinates can be computed from Eq.\,\ref{eq:norm_coord}:
+
+\begin{equation}
+\left(\begin{array}{l}
+\Delta \tilde{x} \\
+\Delta \tilde{p}_x\\
+\Delta \tilde{y} \\
+\Delta \tilde{p}_y \\
+\Delta \tilde{\zeta} \\
+\Delta \tilde{p}_\zeta
+\end{array}\right)
+=
+W^{-1}
+\left(\begin{array}{c}
+0 \\
+\cfrac{p_{x}}{1 + \delta} \Delta \delta \\
+0 \\
+\cfrac{p_{y}}{1 + \delta} \Delta \delta \\
+0 \\
+\Delta \delta
+\end{array}\right)
+\label{eq:norm_coord}
+\end{equation}
+
+Using the Eq.\,\ref{eq:winv} we obtain:
+\begin{align}
+\Delta \tilde{x} = \Delta \delta
+\left( \cfrac{a_{11}p_{x} + a_{13}p_{y} }{1 + \delta} + a_{15}\right)\\
+\Delta \tilde{p}_x = \Delta \delta
+\left( \cfrac{b_{11}p_{x} + b_{13}p_{y} }{1 + \delta} + b_{15}\right)\\
+\Delta \tilde{y} = \Delta \delta
+\left( \cfrac{a_{21}p_{x} + a_{23}p_{y} }{1 + \delta} + a_{25}\right)\\
+\Delta \tilde{p}_y = \Delta \delta
+\left( \cfrac{b_{21}p_{x} + b_{23}p_{y} }{1 + \delta} + b_{25}\right)\\
+\Delta \tilde{\zeta} = \Delta \delta
+\left( \cfrac{a_{31}p_{x} + a_{33}p_{y} }{1 + \delta} + a_{35}\right)\\
+\Delta \tilde{p}_\zeta = \Delta \delta
+\left( \cfrac{b_{31}p_{x} + b_{33}p_{y} }{1 + \delta} + b_{35}\right)\\
+\end{align}
+
+
 TO BE CONTINUED
 
 \section{Synchrotron motion}
 
-Definition of momentum compation factor:
+Definition of momentum compaction factor:
 \begin{equation}
 \alpha_c = 
 \frac{\Delta C/C}\delta
