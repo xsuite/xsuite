@@ -1593,21 +1593,62 @@ y \\
 p_y \\
 \zeta \\
 p_\zeta
-\end{array}\right)=W\left(\begin{array}{l}
-\sqrt{\varepsilon_x} \hat{x} \\
-\sqrt{\varepsilon_x} \hat{p}_x \\
-\sqrt{\varepsilon_y} \hat{y} \\
-\sqrt{\varepsilon_y} \hat{p}_y \\
-\sqrt{\varepsilon_\zeta} \hat{\zeta} \\
-\sqrt{\varepsilon_\zeta} \hat{p}_\zeta
+\end{array}\right)
+=
+W
+\left(\begin{array}{l}
+\hat{x} \\
+\hat{p}_x \\
+\hat{y} \\
+\hat{p}_y \\
+\hat{\zeta} \\
+\hat{p}_\zeta
+\end{array}\right)
+=
+W
+\left(\begin{array}{l}
+\sqrt{\varepsilon_x} \tilde{x} \\
+\sqrt{\varepsilon_x} \tilde{p}_x \\
+\sqrt{\varepsilon_y} \tilde{y} \\
+\sqrt{\varepsilon_y} \tilde{p}_y \\
+\sqrt{\varepsilon_\zeta} \tilde{\zeta} \\
+\sqrt{\varepsilon_\zeta} \tilde{p}_\zeta
 \end{array}\right)
 \label{eq:norm_coord}
 \end{equation}
 where 
 \begin{equation}
-\left(\begin{array}{llllll}\hat{x} & \hat{p}_x & \hat{y} & \hat{p}_y & \hat{\zeta} & \hat{p}_\zeta\end{array}\right)
+\left(\begin{array}{llllll}\tilde{x} & \tilde{p}_x & \tilde{y} & \tilde{p}_y & \tilde{\zeta} & \tilde{p}_\zeta\end{array}\right)
 \end{equation}
 are normalized coordinates in sigmas and $\varepsilon_x$, $\varepsilon_y$ and $\varepsilon_\zeta$ are the geometric emittances.
+
+\subsection{Action, amplitude and emittance}
+
+We define the action associated to the three modes:
+\begin{align}
+J_x = \frac{\hat{x}^2 + \hat{p}^2_x}{2},
+\quad
+J_y = \frac{\hat{y}^2 + \hat{p}^2_y}{2},
+\quad
+J_\zeta = \frac{\hat{\zeta}^2 + \hat{p}^2_\zeta}{2}
+\end{align}
+
+The corresponding amplitudes are defined such that:
+\begin{align}
+A_x &= \sqrt{\hat{x}^2 + \hat{p}^2_x} = \sqrt{2J_x},\\
+A_y &= \sqrt{\hat{y}^2 + \hat{p}^2_y} = \sqrt{2J_y}\\
+A_\zeta &= \sqrt{\hat{\zeta}^2 + \hat{p}^2_\zeta} = \sqrt{2J_\zeta}
+\end{align}
+
+A Gaussian distribution is defined such that the distribution with respect to the each action can be written as:
+\begin{equation}
+f(J_x) = K e^{J_x/\varepsilon_x}
+\end{equation}
+where the emittance $\varepsilon_x$ can be written as:
+\begin{equation}
+\varepsilon_x = <J_x> = \int J_x f(J_x) \,dJ_x
+\end{equation}
+
 
 \subsection{Crab dispersion}
 
@@ -1711,22 +1752,32 @@ W^{-1}
 
 Using the Eq.\,\ref{eq:winv} we obtain:
 \begin{align}
-\Delta \tilde{x} = \Delta \delta
-\left( \cfrac{a_{11}p_{x} + a_{13}p_{y} }{1 + \delta} + a_{15}\right)\\
-\Delta \tilde{p}_x = \Delta \delta
-\left( \cfrac{b_{11}p_{x} + b_{13}p_{y} }{1 + \delta} + b_{15}\right)\\
-\Delta \tilde{y} = \Delta \delta
-\left( \cfrac{a_{21}p_{x} + a_{23}p_{y} }{1 + \delta} + a_{25}\right)\\
-\Delta \tilde{p}_y = \Delta \delta
-\left( \cfrac{b_{21}p_{x} + b_{23}p_{y} }{1 + \delta} + b_{25}\right)\\
-\Delta \tilde{\zeta} = \Delta \delta
-\left( \cfrac{a_{31}p_{x} + a_{33}p_{y} }{1 + \delta} + a_{35}\right)\\
-\Delta \tilde{p}_\zeta = \Delta \delta
-\left( \cfrac{b_{31}p_{x} + b_{33}p_{y} }{1 + \delta} + b_{35}\right)\\
+\Delta \tilde{x} &= \mathcal{K}_x \Delta \delta \\
+\Delta \tilde{p}_x &= \mathcal{K}_{p_x} \Delta \delta \\
+\Delta \tilde{y} &= \mathcal{K}_{y} \Delta \delta \\
+\Delta \tilde{p}_y &= \mathcal{K}_{p_y} \Delta \delta\\
+\Delta \tilde{\zeta} &= \mathcal{K}_{\zeta} \Delta \delta \\
+\Delta \tilde{p}_\zeta &= \mathcal{K}_{p_{\zeta}}\Delta \delta
 \end{align}
 
 
-TO BE CONTINUED
+where:
+\begin{align}
+\mathcal{K}_x &= 
+\left( \cfrac{a_{11}p_{x} + a_{13}p_{y} }{1 + \delta} + a_{15}\right)\\
+\mathcal{K}_{p_x} &= 
+\left( \cfrac{b_{11}p_{x} + b_{13}p_{y} }{1 + \delta} + b_{15}\right)\\
+\mathcal{K}_y &= 
+\left( \cfrac{a_{21}p_{x} + a_{23}p_{y} }{1 + \delta} + a_{25}\right)\\
+\mathcal{K}_{{p}_y} &= 
+\left( \cfrac{b_{21}p_{x} + b_{23}p_{y} }{1 + \delta} + b_{25}\right)\\
+\mathcal{K}_{\zeta} &= 
+\left( \cfrac{a_{31}p_{x} + a_{33}p_{y} }{1 + \delta} + a_{35}\right)\\
+\mathcal{K}_{p_\zeta} &= 
+\left( \cfrac{b_{31}p_{x} + b_{33}p_{y} }{1 + \delta} + b_{35}\right)
+\end{align}
+
+
 
 \section{Synchrotron motion}
 
