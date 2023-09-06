@@ -1694,7 +1694,7 @@ which gives the crab dispersion:
 D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
 
-\section{Damping and equilibrium emittance from synchrotron radiation}
+\section{Damping from synchrotron radiation}
 
 The damping constants from synchrotron radiation can be easily obtained from magnitude of the eigenvalues of the one-turn matrix:
 \begin{align}
@@ -1702,6 +1702,21 @@ The damping constants from synchrotron radiation can be easily obtained from mag
 \alpha_y &= -\log( \lvert \lambda_y \rvert)\\
 \alpha_\zeta &= -\log( \lvert \lambda_\zeta \rvert)
 \end{align}
+
+The damping acts such that:
+\begin{equation}
+\frac{1}{A_x} \frac{dA_x}{dn} = - \alpha_x
+\end{equation}
+from which:
+\begin{equation}
+\frac{dJ_x}{dn} = - 2 \alpha_x J_x
+\end{equation}
+By averaging over the beam distribution we obtain:
+\begin{equation}
+\frac{d\varepsilon_x}{dn} = - 2 \alpha_x \varepsilon_x
+\end{equation}
+
+\section{Equilibrium emittance from synchrotron radiation}
 
 To account from the kicks experienced by the particles due to quantum excitation we note that the transverse momentum change due to an energy kick in the direction of the particle motion can be written as:
 \begin{align}
