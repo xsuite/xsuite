@@ -1721,6 +1721,8 @@ By averaging over the beam distribution we obtain:
 
 \section{Equilibrium emittance from synchrotron radiation}
 
+This section is based on the approach described in \cite{chao_eq_emit}.
+
 To account from the kicks experienced by the particles due to quantum excitation we note that the transverse momentum change due to an energy kick in the direction of the particle motion can be written as:
 \begin{align}
 P_{x,y}^\text{new} = P_{x,y}^\text{old}  \frac{P^\text{new}}{P^\text{old}}
@@ -1842,6 +1844,15 @@ By imposing the derivative to be zero we obtain the value of the equilibrium emi
 \begin{align}
 \varepsilon_x= 
 \frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\end{align}
+
+For synchrotron radiation there is a closed for for the photon distribution moment\,\cite{chao_eq_emit}:
+\begin{align}
+<\dot{N} \Delta \delta^2> = 
+\frac{1}{2\pi\varepsilon_0}
+\frac{55\sqrt{3}}{48}
+\frac{q_0^2q_e^2 \hbar c}{\left(m_0 c^2\right)^2}
+\frac{\gamma_0^3}{\lvert\rho \rvert^3} \gamma^2
 \end{align}
 
 \section{Synchrotron motion}
@@ -1996,9 +2007,7 @@ p_\zeta(s) &= \frac{\hat{\zeta}_A}{\beta_\zeta} \sin\left( 2 \pi Q_s \frac{s}{C}
 \end{align}
 
 For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
-
 \begin{align}
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
-
 
