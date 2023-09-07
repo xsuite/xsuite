@@ -1631,11 +1631,12 @@ J_x = \frac{\hat{x}^2 + \hat{p}^2_x}{2},
 J_y = \frac{\hat{y}^2 + \hat{p}^2_y}{2},
 \quad
 J_\zeta = \frac{\hat{\zeta}^2 + \hat{p}^2_\zeta}{2}
+\label{eq:action}
 \end{align}
 
 The corresponding amplitudes are defined such that:
 \begin{align}
-A_x &= \sqrt{\hat{x}^2 + \hat{p}^2_x} = \sqrt{2J_x},\\
+A_x &= \sqrt{\hat{x}^2 + \hat{p}^2_x} = \sqrt{2J_x}, \label{eq:ampl_x}\\
 A_y &= \sqrt{\hat{y}^2 + \hat{p}^2_y} = \sqrt{2J_y}\\
 A_\zeta &= \sqrt{\hat{\zeta}^2 + \hat{p}^2_\zeta} = \sqrt{2J_\zeta}
 \end{align}
@@ -1705,15 +1706,17 @@ The damping constants from synchrotron radiation can be easily obtained from mag
 
 The damping acts such that:
 \begin{equation}
-\frac{1}{A_x} \frac{dA_x}{dn} = - \alpha_x
+\frac{1}{A_x} \frac{dA_x}{dt} = - \frac{\alpha_x}{T_0} 
 \end{equation}
-from which:
+where $T_0$ is the revolution period.
+From Eq.\,\ref{eq:ampl_x} we obtain:
 \begin{equation}
-\frac{dJ_x}{dn} = - 2 \alpha_x J_x
+\frac{dJ_x}{dn} = - \frac{2\alpha_x}{T_0}  J_x
 \end{equation}
 By averaging over the beam distribution we obtain:
 \begin{equation}
-\frac{d\varepsilon_x}{dn} = - 2 \alpha_x \varepsilon_x
+\frac{d\varepsilon_x}{dt} = - \frac{2\alpha_x}{T_0}  \varepsilon_x
+\label{eq:grate_rad_damp}
 \end{equation}
 
 \section{Equilibrium emittance from synchrotron radiation}
@@ -1767,15 +1770,13 @@ W^{-1}
 
 Using the Eq.\,\ref{eq:winv} we obtain:
 \begin{align}
-\Delta \tilde{x} &= \mathcal{K}_x \Delta \delta \\
-\Delta \tilde{p}_x &= \mathcal{K}_{p_x} \Delta \delta \\
-\Delta \tilde{y} &= \mathcal{K}_{y} \Delta \delta \\
-\Delta \tilde{p}_y &= \mathcal{K}_{p_y} \Delta \delta\\
-\Delta \tilde{\zeta} &= \mathcal{K}_{\zeta} \Delta \delta \\
-\Delta \tilde{p}_\zeta &= \mathcal{K}_{p_{\zeta}}\Delta \delta
+\Delta \hat{x} &= \mathcal{K}_x \Delta \delta \label{eq:sr_dxhat}\\
+\Delta \hat{p}_x &= \mathcal{K}_{p_x} \Delta \delta \label{eq:sr_dxphat}\\
+\Delta \hat{y} &= \mathcal{K}_{y} \Delta \delta \\
+\Delta \hat{p}_y &= \mathcal{K}_{p_y} \Delta \delta\\
+\Delta \hat{\zeta} &= \mathcal{K}_{\zeta} \Delta \delta \\
+\Delta \hat{p}_\zeta &= \mathcal{K}_{p_{\zeta}}\Delta \delta
 \end{align}
-
-
 where:
 \begin{align}
 \mathcal{K}_x &= 
@@ -1792,7 +1793,56 @@ where:
 \left( \cfrac{b_{31}p_{x} + b_{33}p_{y} }{1 + \delta} + b_{35}\right)
 \end{align}
 
+The change in action (see Eq.\,\ref{eq:action}) due to the emission of a photon can be written as:
+\begin{align}
+\Delta J_x &= \frac{1}{2}\left[
+\left(\hat{x} +\Delta \hat{x}\right)^2 
+\left(\hat{p}_x +\Delta \hat{p}_x \right)^2 
+-\hat{x}^2 - \hat{p}_x^2
+\right]\\
+&= \frac{1}{2}\left[
+\Delta \hat{x}^2 + \Delta \hat{p}_{x}^2
++ 2 \hat{x} \Delta \hat{x} + 2 \hat{p}_{x} \Delta \hat{p}_{x} 
+\right]
+\end{align}
 
+Averaging over all particles in the beam we obtain:
+\begin{align}
+\Delta \varepsilon_x = <\Delta J_x> = 
+\frac{1}{2}\left( <\Delta \hat{x}^2> + <\Delta \hat{p}_{x}^2> \right)
+\end{align}
+
+Using Eqs.\,\ref{eq:sr_dxhat} and \ref{eq:sr_dxphat} we obtain:
+\begin{align}
+\Delta \varepsilon_x = <\Delta J_x> = 
+\frac{1}{2}\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\Delta \delta^2>
+\end{align}
+
+Assuming that the kicks are uncorrelated we can obtain the emittance growth rate from quantum excitation integrating over a full turn:
+\begin{align}
+\left(\frac {d\varepsilon_x}{dt} \right)_\text{quant}= 
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\label{eq:grate_quantum}
+\end{align}
+where $\dot{N}$ is the photon emission rate (number of photons per unit time), $T_0$ is the revolution period, C is the circumference.
+
+By summing Eqs.\,\ref{eq:grate_rad_damp} and \ref{eq:grate_quantum} we obtain the total instantaneous growth rate:
+\begin{align}
+\frac {d\varepsilon_x}{dt} = 
+\left(\frac {d\varepsilon_x}{dt}\right)_\text{damp}
++
+\left(\frac {d\varepsilon_x}{dt}\right)_\text{quant}
+=
+- \frac{2\alpha_x}{T_0}  \varepsilon_x
++
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\end{align}
+
+By imposing the derivative to be zero we obtain the value of the equilibrium emittance:
+\begin{align}
+\varepsilon_x= 
+\frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\end{align}
 
 \section{Synchrotron motion}
 
@@ -1950,3 +2000,5 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \begin{align}
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
+
+
