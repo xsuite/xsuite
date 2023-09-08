@@ -26,7 +26,7 @@ import re
 
 xobjects_branch = 'main'
 xfields_branch = 'main'
-xtrack_branch = 'feature/PySSD'
+xtrack_branch = 'main'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
