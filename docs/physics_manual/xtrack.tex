@@ -1641,7 +1641,7 @@ A_y &= \sqrt{\hat{y}^2 + \hat{p}^2_y} = \sqrt{2J_y}\\
 A_\zeta &= \sqrt{\hat{\zeta}^2 + \hat{p}^2_\zeta} = \sqrt{2J_\zeta}
 \end{align}
 
-A Gaussian distribution is defined such that the distribution with respect to the each action can be written as:
+A Gaussian distribution is defined such that the density with respect to each action can be written as:
 \begin{equation}
 f(J_x) = K e^{J_x/\varepsilon_x}
 \end{equation}
@@ -1695,7 +1695,37 @@ which gives the crab dispersion:
 D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
 
-\section{Damping from synchrotron radiation}
+\section{Synchrotron radiation}
+
+We assume $\beta = 1$.
+
+Emitted power:
+\begin{equation}
+P_{\mathrm{s}}=\frac{2 r_0 c m_0 c^2 \gamma^4}{3 \rho^2}=\frac{2 r_0 c^3 e^2 \gamma^2 B^2}{3 m_0 c^2}=\frac{2 r_0 c^3 e^2 E_{\mathrm{e}}^2 B^2}{3\left(m_0 c^2\right)^3}
+\end{equation}
+
+Classical particle radius:
+
+\begin{equation}
+r_0=e^2 /\left(4 \pi \epsilon_0 m_0 c^2\right)
+\end{equation}
+
+Curvature, rigidity, field:
+\begin{equation}
+\frac{1}{\rho}=\frac{e B}{p}=\frac{e B}{m_0 c \gamma}
+\end{equation}
+
+Critical frequency:
+\begin{equation}
+\omega_{\mathrm{c}}=\frac{3 c \gamma^3}{2 \rho}
+=\frac{3 e\gamma^2 B }{2 m_0}
+\end{equation}
+
+
+
+
+
+\subsection{Damping from synchrotron radiation}
 
 The damping constants from synchrotron radiation can be easily obtained from magnitude of the eigenvalues of the one-turn matrix:
 \begin{align}
@@ -1719,7 +1749,7 @@ By averaging over the beam distribution we obtain:
 \label{eq:grate_rad_damp}
 \end{equation}
 
-\section{Equilibrium emittance from synchrotron radiation}
+\section{Equilibrium emittance}
 
 This section is based on the approach described in \cite{chao_eq_emit}.
 
