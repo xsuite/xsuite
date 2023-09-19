@@ -1697,42 +1697,56 @@ D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \f
 
 \section{Synchrotron radiation}
 
-We assume $\beta = 1$.
-
-Emitted power:
-\begin{equation}
-P_{\mathrm{s}}=\frac{2 r_0 c m_0 c^2 \gamma^4}{3 \rho^2}=\frac{2 r_0 c^3 e^2 \gamma^2 B^2}{3 m_0 c^2}=\frac{2 r_0 c^3 e^2 E_{\mathrm{e}}^2 B^2}{3\left(m_0 c^2\right)^3}
-\end{equation}
+We assume $B = |B_\perp|$.
 
 Classical particle radius:
-
 \begin{equation}
-r_0=e^2 /\left(4 \pi \epsilon_0 m_0 c^2\right)
+r_0=Q^2 /\left(4 \pi \epsilon_0 m_0 c^2\right)
 \end{equation}
 
 Curvature, rigidity, field:
 \begin{equation}
-\frac{1}{\rho}=\frac{e B}{p}=\frac{e B}{m_0 c \gamma}
+\frac{1}{\rho}=\frac{Q B}{p}=\frac{Q B}{m_0 c \beta \gamma}
 \end{equation}
+
+Emitted power:
+\begin{equation}
+P_{\mathrm{s}}=\frac{2 r_0 c^3 Q^2 \beta^2 \gamma^2 B^2}{3 m_0 c^2}
+\end{equation}
+
+
 
 Critical frequency:
 \begin{equation}
-\omega_{\mathrm{c}}=\frac{3 c \gamma^3}{2 \rho}
-=\frac{3 e\gamma^2 B }{2 m_0}
+\omega_{\mathrm{c}}=\frac{3 Q \beta^2 \gamma^2 B }{2 m_0}
 \end{equation}
 
 Critical energy:
 \begin{equation}
 E_{\gamma \mathrm{c}}=\hbar \omega_{\mathrm{c}}
-=\frac{3 e\hbar\gamma^2 B }{2 m_0}
+=\frac{3 Q \hbar\beta^2 \gamma^2 B }{2 m_0}
 \end{equation}
 
 Number of photons per unit time:
 \begin{equation}
 \dot{n}_{\mathrm{s}}=\frac{15 \sqrt{3}}{8}\frac{P_{\mathrm{s}}}{E_{\gamma \mathrm{c}}} 
 =\frac{60 \sqrt{3}}{72}
-\frac{ r_0 c e B}{\hbar}
+\frac{ r_0 c Q B}{\hbar}
 \end{equation}
+
+Average photon energy:
+\begin{equation}
+\left\langle E_\gamma\right\rangle=\frac{8 \sqrt{3}}{45} E_{\gamma \mathrm{c}}
+\end{equation}
+
+Photon energy variance:
+\begin{equation}
+\left\langle E_\gamma^2\right\rangle=\frac{11}{27} E_{\gamma \mathrm{c}}^2
+= 
+\frac{11}{12}\frac{ Q^2\hbar^2\beta^4\gamma^4 B^2 }{ m_0^2}
+\end{equation}
+
+
 
 
 \subsection{Damping from synchrotron radiation}
