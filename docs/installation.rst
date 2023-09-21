@@ -251,6 +251,8 @@ On MacOS (arm64)
     conda install pip
     pip install numpy scipy matplotlib pandas ipython pytest
 
+    conda install llvm-openmp  # to use multithreading with OpenMP
+
 See the note for `x86` above in case you have `xcode` installed.
     
 .. _apple_silicon:
