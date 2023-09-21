@@ -1513,7 +1513,7 @@ and $z_{2j}$ for $(p_x,_y,\delta$).
 
 The Twiss parameters can be introduced by writing the components of the eigenvector basis
 $(a_k(s),b_k(s))$ as the product of two envelope functions $\sqrt{\beta_{k,j}(s)}$,
-$\sqrt{\gamma_{k,j}(s)}$ and phase functions $\phi_{k,j}(s)$, $\bar\phi_{k,j}(s)$,
+$\sqrt{\gamma_{k,j}(s)}$ and phase functions $\phi_{k,j}(s)$, $\bar\phi_{k,j}(s) = \phi_{k,j}(s) - \arctan(1/\alpha_{k,j})$,
 also called Twiss parameters or lattice functions, with
 \begin{align}
 a_{k,2j-1}(s)&=\sqrt{\beta_{k,j}(s)}\cos{\phi_{k,j}(s)},\nonumber\\ b_{k,2j-1}(s)&=\sqrt{\beta_{k,j}(s)}\sin{\phi_{k,j}(s)}, \ k,j=1,\ldots,3, \label{opt:eqn:4:1}\\
@@ -1773,7 +1773,7 @@ By averaging over the beam distribution we obtain:
 \label{eq:grate_rad_damp}
 \end{equation}
 
-\section{Equilibrium emittance}
+\subsection{Equilibrium emittance}
 
 This section is based on the approach described in \cite{chao_eq_emit}.
 
@@ -1871,13 +1871,13 @@ Averaging over all particles in the beam we obtain:
 Using Eqs.\,\ref{eq:sr_dxhat} and \ref{eq:sr_dxphat} we obtain:
 \begin{align}
 \Delta \varepsilon_x = <\Delta J_x> = 
-\frac{1}{2}\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\Delta \delta^2>
+\frac{1}{2}\left(\mathcal{K}^2_x + \mathcal{K^2}_{p_x}\right)<\Delta \delta^2>
 \end{align}
 
 Assuming that the kicks are uncorrelated we can obtain the emittance growth rate from quantum excitation integrating over a full turn:
 \begin{align}
 \left(\frac {d\varepsilon_x}{dt} \right)_\text{quant}= 
-\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
 \label{eq:grate_quantum}
 \end{align}
 where $\dot{N}$ is the photon emission rate (number of photons per unit time), $T_0$ is the revolution period, C is the circumference.
@@ -1891,13 +1891,13 @@ By summing Eqs.\,\ref{eq:grate_rad_damp} and \ref{eq:grate_quantum} we obtain th
 =
 - \frac{2\alpha_x}{T_0}  \varepsilon_x
 +
-\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
 \end{align}
 
 By imposing the derivative to be zero we obtain the value of the equilibrium emittance:
 \begin{align}
 \varepsilon_x= 
-\frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
 \label{eq:equilemi1}
 \end{align}
 
@@ -1907,7 +1907,7 @@ For synchrotron radiation there is a closed for for the photon distribution mome
 \frac{1}{2\pi\varepsilon_0}
 \frac{55\sqrt{3}}{48}
 \frac{q_0^2q_e^2 \hbar c}{\left(m_0 c^2\right)^2}
-\frac{\gamma_0^3}{\lvert\rho \rvert^3} \gamma^2
+\frac{\gamma_0}{\lvert\rho \rvert^3} \gamma^4
 \end{align}
 
 Replacing in Eq.\,\ref{eq:equilemi1} we obtain:
@@ -1917,9 +1917,9 @@ Replacing in Eq.\,\ref{eq:equilemi1} we obtain:
 \frac{1}{4\pi\varepsilon_0}
 \frac{55\sqrt{3}}{96}
 \frac{q_0^2q_e^2 \hbar }{\left(m_0 c^2\right)^2}
-\frac{\gamma_0^3}{\alpha_x}
-\int_0^C\left(\mathcal{K}_x + \mathcal{K}_{p_x}\right) 
-\frac{1}{\lvert\rho \rvert^3} \gamma^2 \,ds
+\frac{\gamma_0}{\alpha_x}
+\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right) 
+\frac{1}{\lvert\rho \rvert^3} \gamma^4 \,ds
 \label{eq:equilemi2}
 \end{align}
 
