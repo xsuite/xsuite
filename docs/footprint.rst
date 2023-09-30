@@ -1,6 +1,6 @@
-==============
-Tune footprint
-==============
+====================================
+Tune footprint and stability diagram
+====================================
 
 The Line class provides a method to compute and optionally plot the tune footprint
 as illustrated in the following example.
