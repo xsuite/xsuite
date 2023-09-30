@@ -56,3 +56,21 @@ See also: :meth:`xtrack.Line.get_footprint`
 
     Footprints produced with rescaling beam-beam knob.
 
+Stability diagram
+=================
+
+Using the amplitude detuning given by the tune footprint, it is possible to 
+evaluate numerically the dispersion integral from https://cds.cern.ch/record/318826 and
+obtain the stability diagram as in https://doi.org/10.1103/PhysRevSTAB.17.111002.
+
+If the context is :class:`xobjects.ContextCupy`, both the tracking and the numerical integration
+are performed on the GPU.
+
+ .. literalinclude:: generated_code_snippets/stabilitydiagram.py
+    :language: python
+
+.. figure:: figures/stabilitydiagram.png
+    :width: 80%
+    :align: center
+
+

@@ -133,13 +133,14 @@ Different sets of longitudinal variables can be used:
 \begin{align}
 \xi &= s \frac{\beta}{\beta_0} - \beta c t &
 \tau &= \frac{s}{\beta_0} - ct &
-\zeta &= s - \beta_0 ct \\
+\zeta &= s - \beta_0 ct \label{eq:coord1}\\
 \delta &=
   \frac{P \frac{m_0}{m} -P_0}{P_0} &
 p_\tau &=
   \frac{1}{\beta_0} \frac{E \frac{m_0}{m} -E_0}{E_0} &
 p_\zeta &=
   \frac{1}{\beta_0^2}\frac{E \frac{m_0}{m} -E_0}{E_0}
+  \label{eq:coord2}
 \end{align}
 where variables in the same columns are canonically conjugate.
 
@@ -874,41 +875,167 @@ where
 
 
 \subsection{Solenoid}
-The expanded Hamiltonian for a particle in a solenoid is
+
+\subsubsection{Thick Solenoid}
+
+The derivation largely follows one by Forest~\cite{forest99}, while the final map can be verified to be the same as the one by Wolski~\cite{wolski2014beam}.
+
+We can write the Hamiltonian for the solenoid as follows:
+\[
+  H = -\sqrt{(1 + \delta)^2 - (p_x + \frac{b_z}{2}y)^2 - (p_y - \frac{b_z}{2}x)^2}.
+\]
+Knowing the general Hamiltonian
+\[
+  H = -\sqrt{(1 + \delta)^2 - (p_x - a_x)^2 - (p_y - a_y)^2} - a_z,
+\]
+we can extract the magnetic field potential and convince ourselves that $H$ describes a magnetic field with only the longitudinal component equal to $b_z$, as expected of a solenoid:
+\[
+  \mathbf{A} =
+  \begin{bmatrix}
+    a_x \\ a_y \\ a_z
+  \end{bmatrix}
+  = \begin{bmatrix}
+    -\frac{b_z}{2}y\\
+    \frac{b_z}{2}x\\
+    0
+  \end{bmatrix}
+  %
+  \implies
+  %
+  \mathbf{B} = \nabla \times \mathbf{A}
+  = \begin{bmatrix}
+    \frac{\partial a_z}{\partial y} - \frac{\partial a_y}{\partial z}\\
+    \frac{\partial a_z}{\partial x} - \frac{\partial a_x}{\partial z}\\
+    \frac{\partial a_y}{\partial x} - \frac{\partial a_x}{\partial y}\\
+  \end{bmatrix}
+  = \begin{bmatrix}
+    0\\
+    0\\
+    b_z
+  \end{bmatrix}.
+\]
+
+The Hamiltonian $H$ can be simplified, by applying the following transformation, which should be understood as the change of reference from the general coordinate system $\mathbf{X}$ to a new $\mathbf{X}_\text{new}$:
+\[
+  T := \begin{bmatrix}
+  -\frac{1}{2} & 0 & 0 & \frac{1}{b_{z}} \\
+  0 & 1 & \frac{1}{2} \, b_{z} & 0 \\
+  -\frac{1}{2} & 0 & 0 & -\frac{1}{b_{z}} \\
+  0 & 1 & -\frac{1}{2} \, b_{z} & 0
+  \end{bmatrix}.
+\]
+In particular, note that if
+\[
+  \mathbf{X} =
+  \begin{bmatrix}
+    x \\ p_x \\ y \\ p_y
+  \end{bmatrix}
+  = T^{-1} \mathbf{X}_\text{new}
+  = \begin{bmatrix}
+    -x_\text{new} - y_\text{new} \\
+    \frac{1}{2}(p_{x,\text{new}} + p_{y,\text{new}}) \\
+    \frac{1}{b_z}(p_{x,\text{new}} - p_{y,\text{new}}) \\
+    \frac{b_z}{2} (x_\text{new} - y_\text{new})
+  \end{bmatrix},
+\]
+then we can rewrite $H$ in terms of $\mathbf{X}_\text{new}$ (dropping the `new' suffix, while keeping it in mind) as
+\[
+  K := -\sqrt{(1 + \delta)^2 - p_x^2 - b_z^2 x^2}.
+\]
+We can simplify $H$ even further, rewriting it in terms of the following action-angle variables:
+\begin{equation}\label{eq:solenoid-x-px}
+  x := \sqrt{\frac{2 J}{|b_z|}} \cos(\phi)
+  \;\;\text{ and }\;\;
+  p_x := \sqrt{2 |b_z| J} \sin(\phi).
+\end{equation}
+The new Hamiltonian with respect to $J$ is the following:
+\begin{multline*}
+  K = -\sqrt{(1 + \delta)^2 - p_x^2 - b_z^2 x^2} = \\
+  %
+  -\sqrt{(1 + \delta)^2 - \left(\sqrt{2 |b_z| J} \sin(\phi)\right)^2 - b_z^2 \sqrt{\frac{2 J}{|b_z|}} \cos(\phi)^2} = \\
+  %
+  -\sqrt{(1 + \delta)^2 - \left(\sqrt{2 |b_z| J} \sin(\phi)\right)^2 - \left(\sqrt{2 |b_z| J} \cos(\phi)\right)^2} = \\
+  %
+  -\sqrt{(1 + \delta)^2 - 2 |b_z| J}.
+\end{multline*}
+Then, using Hamilton's equations, we can solve for $\phi$:
+\[
+  \frac{d \phi}{d z} = \frac{\partial K}{\partial J} \implies \phi(z) = \phi(0) + z \frac{\partial K}{\partial J} = \phi(0) - z\frac{|b_z|}{K}.
+\]
+Let $\omega := -b_z / K$. Keeping in mind that we are still in the realm of $\mathbf{X}_\text{new}$, we can compute $x_\text{new}$ and $y_\text{new}$ substituting the above into (\ref{eq:solenoid-x-px}).
+Note that we can drop the modulus on $b_z$ in both $\omega$ and the equations below, as $\cos$ is an even function, and while $\sin$ is an odd function and the signs of $\sin(\omega z)$ and $b_z$ will cancel out anyway.
+\begin{multline*}
+  x = \sqrt{\frac{2J}{|b_z|}} \cos\left(\phi(0) + \left(- z\frac{|b_z|}{K}\right)\right) = \\
+    \sqrt{\frac{2J}{|b_z|}} \cos\phi(0) \cos(\omega z) - \frac{\sqrt{2J|b_z|}}{|b_z|} \sin\phi(0) \sin\left(- z\frac{|b_z|}{K}\right) = \\
+    x_0 \cos(\omega z) - \frac{p_{x,0}}{b_z} \sin(\omega z)
+\end{multline*}
+\begin{multline*}
+  p_x = \sqrt{2 |b_z| J} \sin\left(\phi(0) + \left(- z\frac{|b_z|}{K}\right)\right) = \\
+    \sqrt{2 |b_z| J} \sin\phi(0) \cos(\omega z) + |b_z| \sqrt{\frac{2J}{|b_z|}} \cos\phi(0) \sin\left(- z\frac{|b_z|}{K}\right) = \\
+    p_{x,0} \cos(\omega z) + b_z x_0 \sin(\omega z)
+\end{multline*}
+These equations give us the map for the solenoid in $\mathbf{X}_\text{new}$.
+We can write this transformation in the form of a matrix
+\[
+R := \begin{bmatrix}
+  \cos(\omega z) & -\frac{\sin(\omega z)}{b_z} & 0 & 0 \\
+  b_z \sin(\omega z) & \cos(\omega z) & 0 & 0 \\
+  0 & 0 & 1 & 0 \\
+  0 & 0 & 0 & 1
+\end{bmatrix},
+\]
+and therefore the whole solenoid map in $\mathbf{X}$ as follows (let $S := \sin(\omega z)$ and $C := \cos(\omega z)$):
+\[
+  M := T^{-1} R T = \begin{bmatrix}
+    % 1st row
+    \frac{C + 1}{2} &
+    \frac{S}{b_z} &
+    \frac{S}{2} &
+    \frac{1 - C}{b_z} \\[6pt]
+    % 2nd row
+    -\frac{b_z S}{4} &
+    \frac{C + 1}{2} &
+    \frac{b_z (C - 1)}{4} &
+    \frac{S}{2} \\[6pt]
+    % 3rd row
+    -\frac{S}{2} &
+    \frac{C - 1}{b_z} &
+    \frac{C + 1}{2} &
+    \frac{S}{b_z} \\[6pt]
+    % 4th row
+    \frac{b_z (1 - C)}{4} &
+    -\frac{S}{2} &
+    -\frac{b_z S}{4} &
+    \frac{C + 1}{2}
+  \end{bmatrix}
+\]
+
+In the tracking procedure of Xtrack (and MAD-X) the map is implemented with respect to a different quantity \verb|sk|, which we will denote with $k$, and which represents half of magnetic field strength $b_z$: $k = \frac{b_z}{2}$.
+Let $s := \sin(\frac{z k}{H}) = \sin(\frac{\omega z}{2})$ and $c := \cos(\frac{\omega z}{2})$; then we can rewrite $M$ using the trigonometric identities:
 \begin{align*}
-  H &= p_\zeta+\frac{1}{2}\frac{(p_x+R\cdot y)^2+(p_y-R\cdot x)}{1+\delta},
+  \cos(2 \theta) = 2 \cos^2\theta - 1 = 1 - 2 \sin^2\theta &\implies c^2 = \frac{C + 1}{2} \text{ and } s^2 = \frac{1 - C}{2}, \\
+  \sin(2 \theta) = 2 \cos\theta \sin\theta &\implies sc = \frac{S}{2},
 \end{align*}
-where $R=\frac{1}{2}\frac{q}{P_0c}\mathbf{B}(0,0,s)$. The map for a solenoid 
-of length $L$ in the thin lens approximation with the expanded 
-Hamiltonian (eq. 4.35 in \cite{heinemann95})
+as the following transfer matrix
+\[
+  M = \begin{bmatrix}
+    c^2 & \frac{cs}{k} & cs & \frac{s^2}{k} \\
+    -kcs & c^2 & -ks^2 & cs \\
+    -cs & -\frac{s^2}{k} & c^2 & \frac{cs}{k} \\
+    ks^2 & -cs & -kcs & c^2
+  \end{bmatrix},
+\]
+which, with relatively little effort, can be verified to correspond to the implementation of the tracking procedure.
+We have the following map (note the change in $\zeta$ is analogous to the drift):
+
 \begin{align*}
-  x   &\to \,\,\,\,\, C\cdot x + S\cdot y \\
-  p_x &\to -\theta R\cdot C \cdot x+C\cdot p_x
-        -\theta R\cdot S\cdot y+S\cdot p_y \\
-  y   &\to -S\cdot x + C\cdot y \\
-  p_y &\to \,\,\,\,\, \theta R\cdot S\cdot x - S\cdot p_x 
-  - \theta R\cdot C \cdot y + C\cdot p_y \\
-  \zeta &\to \zeta - \frac{\beta_0}{\beta}
-  \frac{\theta}{1+\delta} \left(\frac{1}{2}
-  R (x^2 + y^2) + (p_xy - p_yx)\right)
+  x &\leftarrow {\left(x \cos\left(\theta\right) + y \sin\left(\theta\right)\right)} \cos\left(\theta\right) + \frac{2}{b_{z}} {\left(p_{x} \cos\left(\theta\right) + p_{y} \sin\left(\theta\right)\right)} \sin\left(\theta\right) \\
+  p_x &\leftarrow -\frac{1}{2} \, {\left(x \cos\left(\theta\right) + y \sin\left(\theta\right)\right)} b_{z} \sin\left(\theta\right) + {\left(p_{x} \cos\left(\theta\right) + p_{y} \sin\left(\theta\right)\right)} \cos\left(\theta\right) \\
+  y &\leftarrow {\left(y \cos\left(\theta\right) - x \sin\left(\theta\right)\right)} \cos\left(\theta\right) + \frac{2}{b_{z}} {\left(p_{y} \cos\left(\theta\right) - p_{x} \sin\left(\theta\right)\right)} \sin\left(\theta\right) \\
+  p_y &\leftarrow -\frac{1}{2} \, {\left(y \cos\left(\theta\right) - x \sin\left(\theta\right)\right)} b_{z} \sin\left(\theta\right) + {\left(p_{y} \cos\left(\theta\right) - p_{x} \sin\left(\theta\right)\right)} \cos\left(\theta\right) \\
+  \zeta &\leftarrow \zeta + z (1 - \frac{\beta_0}{\beta} \frac{1 + \delta}{p_z}),
 \end{align*}
-where $R\equiv R(s_0)$, $\theta=\frac{R}{1+\delta}$, 
-$C=\cos(\theta)$ and $S=\sin(\theta)$.\\[0.5em]
-The map for a thick solenoid is (eq. 3.47, 3.48 in \cite{ripken85}) 
-\begin{align*}
-    x &\to C^2 \cdot x+\frac{1}{R}\cdot S\cdot C\cdot p_x+S\cdot C\cdot y
-    + \frac{1}{R}\cdot S^2 \cdot p_y \\
-    p_x &\to -R\cdot S\cdot C\cdot x + C^2\cdot p_x
-    -R\cdot S^2\cdot y + S\cdot C\cdot p_y \\
-    y &\to -S\cdot C\cdot x -\frac{1}{R}\cdot S^2 \cdot p_x
-    +C^2\cdot y + \frac{1}{R}\cdot S\cdot C\cdot p_y \\
-    p_y &\to R\cdot S^2\cdot x -S\cdot C\cdot p_x
-    -R\cdot S\cdot C\cdot y + C^2\cdot p_y \\
-    \zeta &\to \zeta - \frac{L}{2} \left[R^2(x^2+y^2)+2R\left(
-    \frac{p_x}{1+\delta}y - \frac{p_y}{1+\delta}x\right) 
-    + \frac{p_x^2+p_y^2}{(1+\delta)^2} \right]
-\end{align*}
-where $\theta=R\cdot L$, $C=\cos\theta$ and $S=\sin\theta$.
+where $p_z := -H = \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y}\right)}^{2} - {\left(\frac{b_{z}}{2} y + p_{x}\right)}^{2}}$, $\theta := \frac{b_{z} z}{2 p_z} $, and $z$ is the length of the thick solenoid.
 
 
 %\section{Beam-Beam}
@@ -1134,6 +1261,51 @@ x'&=x'-\theta_{\rm max}\cdot\frac{r_2}{\tilde r^2}\cdot f(\tilde r)\cdot \tilde 
 y'&=y'-\theta_{\rm max}\cdot\frac{r_2}{\tilde r^2}\cdot f(\tilde r)\cdot \tilde y
 \end{align}
 
+\subsection{Electron Cooler}
+
+Electron cooling is a process used to reduce the momentum spread of charged particles such as ions or protons. This process involves passing the particles through a cloud of electrons that are cooler than the particles themselves. The particles lose energy as they collide with the electrons, causing them to slow down and reduce their temperature. The Parkhomchuk model is a mathematical model that describes the force acting on a particle as it passes through the electron cooler. This force is given by the equation \cite{parkhomchuk2000electron}:
+\begin{equation}
+\vec{F}= -\frac{4 e^4 n_{\mathrm{e}}}{m_e} \frac{\vec{V}}{\left(\sqrt{\vec{V}^2+V_{\mathrm{eff}}^2}\right)^3} \ln \left(\frac{\rho_{\min }+\rho_{\max }+\rho_{\mathrm{L}}}{\rho_{\min }+\rho_{\mathrm{L}}}\right)
+\label{Eq:Parkhomchuk}
+\end{equation}
+
+Where $\vec{F}$ is the force acting on the ion when the ion is within the radius of the electron beam, $e$ is the elementary charge, $n_\mathrm{e}$ is the density of the electrons, $m_e$ is the electron mass, and $\vec{V}$ is the velocity difference between the ion and the electron. $V_\mathrm{eff}$ is the effective root-mean-square velocity of motion of Larmor circles, which is influenced by both the longitudinal root-mean-square electron velocity, $\mathrm{V}_\mathrm{l}$, and transverse drift motions, which arise due to imperfections in the magnetic field. In particular, the transverse motion is described by $\mathrm{V}_\mathrm{magnet}$, which shows how the root-mean-square electron velocity is affected by the quality of the magnetic field. The magnetic field quality is given by the ratio of the perpendicular and longitudinal components of the magnetic field, where 0 indicates an ideal magnetic field quality. The expression for $\mathrm{V}_\mathrm{magnet}$ depends on the magnetic field quality in the following way: $\mathrm{V}_\mathrm{magnet} = \beta_0 \gamma_0  c B_{ratio}$, where $B_{ratio}$ is the magnetic field quality. Where $c$ is the speed of light, $\beta_0$ is the velocity of the electrons, $\gamma_0$ is the relativistic factor, and $B_\mathrm{ratio}$ is the magnetic field quality. These two parameters combine in the following way to produce the effective electron velocity:
+
+$$\mathrm{V}_{\mathrm{eff}} = \sqrt{\mathrm{Ve}_\mathrm{l}^2 + \mathrm{Ve}_\mathrm{magnet}^2}$$
+The variables $\rho_{\min}$ and $\rho_{\max}$ are the minimum and maximum impact parameters and are defined as:
+$$\rho_{min} = \frac{Z r_e}{(V/c)^2}$$
+where $Z$ is the charge of the particle, $r_e$ is the classical electron radius.
+$$\rho_{max} = \frac{V}{\omega_{plasma}+\frac{1}{\tau}}$$
+Where $\omega_{\mathrm{plasma}}$ is the plasma frequency, which is given by $c \sqrt{4  \pi  n_e  r_e}$ and $\tau$ is the time that the ion spends in the cooler. Finally, $\rho_{\mathrm{L}}$ is the Larmor radius of the electrons, which is given by:
+$$\rho_{\mathrm{L}}=\frac{m_e \cdot Ve_{\perp}}{e \cdot B}$$
+Where $m_e$ is the mass of the electron, $B$ is the magnetic field strength, and $Ve_{\perp}$ is the perpendicular component of the electron velocity.
+
+\subsubsection{Electron beam space charge}
+
+An additional effect of electron cooling that needs to be taken into consideration is the space charge of the electron beam. Moreover, the electron beam will assume a parabolic profile with respect to the radius, which is given by \cite{poth1990electron}:
+\begin{equation}
+\frac{\Delta E(r)}{E_0}
+=\frac{I r_{\mathrm{e}}}{e c} \frac{\gamma+1}{\beta_0^3 \gamma^2}\left(\frac{r}{r_0}\right)^2
+\approx 1.2 \times 10^{-4} \frac{I}{\beta_0^3}\left(\frac{r}{r_{e-beam}}\right)^2
+\label{Eq:space_charge_electron_beam}
+\end{equation}
+Equation \ref{Eq:space_charge_electron_beam} says that the electrons at the edge electron beam have a larger momentum than the electrons at the center. This means that the ions at the edge of the beam pipe will reach a larger equilibrium momentum than the ions at the core because the ions will assume the momentum of the electrons. 
+
+The Xsuite electron cooler allows for the inclusion of an optional effect called "space charge neutralization," which is determined by the parameter "Neutralization space charge." A value of 0 for this parameter indicates that there is no space charge in the electron beam, while a value of 1 indicates that the electron beam will follow a parabolic profile as described in Equation \ref{Eq:space_charge_electron_beam}.
+
+\subsubsection{Electron beam rotation}
+
+An additional effect is the rotation of the electron beam around the beam axis due to the magnetic field of the electron cooler. The angular velocity of the rotation is given by \cite{poth1990electron}:
+\begin{equation}
+\omega
+=\frac{\vec{F} \times \vec{B}}{e r|B|^2}
+=\frac{I}{2 \pi \epsilon_0 c r_{\mathrm{e}-\text { beam }}^2 \beta \gamma^2 B_{\|}}
+\approx 60 \frac{I}{r_{\mathrm{e} \text {-beam }}^2 \beta \gamma^2 B_{\|}}
+\label{Eq:rotation_electron_beam}
+\end{equation}
+The inclusion of this effect in the Xsuite electron cooler is optional and determined by the parameter "Neutralization rotation." A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
+
+
 \section{Linear optics calculations}
 \label{opt}
 Optics calculation are needed to study the motion around the closed orbit. By defining $z$ as the vector of $2 k$ coordinates,  
@@ -1285,6 +1457,7 @@ b_{32} & - b_{31} &   b_{34} & - b_{33} &   b_{36} & - b_{35}\\
 - a_{32} &   a_{31} & - a_{34} &   a_{33} & - a_{36} &   a_{35}\\
 \end{array}
 \right)
+\label{eq:winv}
 \end{align}
 \item The one-turn map and $W$-matrix can be propagated from $s_1$ to $s_2$ by
 \begin{align}
@@ -1340,7 +1513,7 @@ and $z_{2j}$ for $(p_x,_y,\delta$).
 
 The Twiss parameters can be introduced by writing the components of the eigenvector basis
 $(a_k(s),b_k(s))$ as the product of two envelope functions $\sqrt{\beta_{k,j}(s)}$,
-$\sqrt{\gamma_{k,j}(s)}$ and phase functions $\phi_{k,j}(s)$, $\bar\phi_{k,j}(s)$,
+$\sqrt{\gamma_{k,j}(s)}$ and phase functions $\phi_{k,j}(s)$, $\bar\phi_{k,j}(s) = \phi_{k,j}(s) - \arctan(1/\alpha_{k,j})$,
 also called Twiss parameters or lattice functions, with
 \begin{align}
 a_{k,2j-1}(s)&=\sqrt{\beta_{k,j}(s)}\cos{\phi_{k,j}(s)},\nonumber\\ b_{k,2j-1}(s)&=\sqrt{\beta_{k,j}(s)}\sin{\phi_{k,j}(s)}, \ k,j=1,\ldots,3, \label{opt:eqn:4:1}\\
@@ -1420,20 +1593,63 @@ y \\
 p_y \\
 \zeta \\
 p_\zeta
-\end{array}\right)=W\left(\begin{array}{l}
-\sqrt{\varepsilon_x} \hat{x} \\
-\sqrt{\varepsilon_x} \hat{p}_x \\
-\sqrt{\varepsilon_y} \hat{y} \\
-\sqrt{\varepsilon_y} \hat{p}_y \\
-\sqrt{\varepsilon_\zeta} \hat{\zeta} \\
-\sqrt{\varepsilon_\zeta} \hat{p}_\zeta
 \end{array}\right)
+=
+W
+\left(\begin{array}{l}
+\hat{x} \\
+\hat{p}_x \\
+\hat{y} \\
+\hat{p}_y \\
+\hat{\zeta} \\
+\hat{p}_\zeta
+\end{array}\right)
+=
+W
+\left(\begin{array}{l}
+\sqrt{\varepsilon_x} \tilde{x} \\
+\sqrt{\varepsilon_x} \tilde{p}_x \\
+\sqrt{\varepsilon_y} \tilde{y} \\
+\sqrt{\varepsilon_y} \tilde{p}_y \\
+\sqrt{\varepsilon_\zeta} \tilde{\zeta} \\
+\sqrt{\varepsilon_\zeta} \tilde{p}_\zeta
+\end{array}\right)
+\label{eq:norm_coord}
 \end{equation}
 where 
 \begin{equation}
-\left(\begin{array}{llllll}\hat{x} & \hat{p}_x & \hat{y} & \hat{p}_y & \hat{\zeta} & \hat{p}_\zeta\end{array}\right)
+\left(\begin{array}{llllll}\tilde{x} & \tilde{p}_x & \tilde{y} & \tilde{p}_y & \tilde{\zeta} & \tilde{p}_\zeta\end{array}\right)
 \end{equation}
 are normalized coordinates in sigmas and $\varepsilon_x$, $\varepsilon_y$ and $\varepsilon_\zeta$ are the geometric emittances.
+
+\subsection{Action, amplitude and emittance}
+
+We define the action associated to the three modes:
+\begin{align}
+J_x = \frac{\hat{x}^2 + \hat{p}^2_x}{2},
+\quad
+J_y = \frac{\hat{y}^2 + \hat{p}^2_y}{2},
+\quad
+J_\zeta = \frac{\hat{\zeta}^2 + \hat{p}^2_\zeta}{2}
+\label{eq:action}
+\end{align}
+
+The corresponding amplitudes are defined such that:
+\begin{align}
+A_x &= \sqrt{\hat{x}^2 + \hat{p}^2_x} = \sqrt{2J_x}, \label{eq:ampl_x}\\
+A_y &= \sqrt{\hat{y}^2 + \hat{p}^2_y} = \sqrt{2J_y}\\
+A_\zeta &= \sqrt{\hat{\zeta}^2 + \hat{p}^2_\zeta} = \sqrt{2J_\zeta}
+\end{align}
+
+A Gaussian distribution is defined such that the density with respect to each action can be written as:
+\begin{equation}
+f(J_x) = K e^{J_x/\varepsilon_x}
+\end{equation}
+where the emittance $\varepsilon_x$ can be written as:
+\begin{equation}
+\varepsilon_x = <J_x> = \int J_x f(J_x) \,dJ_x
+\end{equation}
+
 
 \subsection{Crab dispersion}
 
@@ -1479,9 +1695,241 @@ which gives the crab dispersion:
 D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
 
+\section{Synchrotron radiation}
+
+We collect here some relevant properties of synchrotron radiation~\cite{hofmann_2004}:
+
+We assume $B = |B_\perp|$.
+
+Classical particle radius:
+\begin{equation}
+r_0=Q^2 /\left(4 \pi \epsilon_0 m_0 c^2\right)
+\end{equation}
+
+Curvature, rigidity, field:
+\begin{equation}
+\frac{1}{\rho}=\frac{Q B}{p}=\frac{Q B}{m_0 c \beta \gamma}
+\end{equation}
+
+Emitted power:
+\begin{equation}
+P_{\mathrm{s}}=\frac{2 r_0 c^3 Q^2 \beta^2 \gamma^2 B^2}{3 m_0 c^2}
+\end{equation}
+
+
+
+Critical frequency:
+\begin{equation}
+\omega_{\mathrm{c}}=\frac{3 Q \beta^2 \gamma^2 B }{2 m_0}
+\end{equation}
+
+Critical energy:
+\begin{equation}
+E_{\gamma \mathrm{c}}=\hbar \omega_{\mathrm{c}}
+=\frac{3 Q \hbar\beta^2 \gamma^2 B }{2 m_0}
+\end{equation}
+
+Number of photons per unit time:
+\begin{equation}
+\dot{n}_{\mathrm{s}}=\frac{15 \sqrt{3}}{8}\frac{P_{\mathrm{s}}}{E_{\gamma \mathrm{c}}} 
+=\frac{60 \sqrt{3}}{72}
+\frac{ r_0 c Q B}{\hbar}
+\end{equation}
+
+Average photon energy:
+\begin{equation}
+\left\langle E_\gamma\right\rangle=\frac{8 \sqrt{3}}{45} E_{\gamma \mathrm{c}}
+=\frac{8 \sqrt{3}}{15} 
+\frac{ Q \hbar\beta^2 \gamma^2 B }{2 m_0}
+\end{equation}
+
+Photon energy variance:
+\begin{equation}
+\left\langle E_\gamma^2\right\rangle=\frac{11}{27} E_{\gamma \mathrm{c}}^2
+= 
+\frac{11}{12}\frac{ Q^2\hbar^2\beta^4\gamma^4 B^2 }{ m_0^2}
+\end{equation}
+
+\begin{equation}
+\left\langle \dot{n}_{\mathrm{s}} \Delta \delta ^2\right\rangle
+=
+\frac{\left\langle \dot{n}_{\mathrm{s}} {E_\gamma^2}
+ \right\rangle} {E_0^2}
+= 
+\frac{11}{12}
+\frac{1}{m_0^2 c^4 \gamma_0^2 }
+\frac{ Q^2\hbar^2\beta^4\gamma^4 B^2 }{ m_0^2}
+\frac{60 \sqrt{3}}{72}
+\frac{ c Q B}{\hbar}
+\frac{Q^2}{4 \pi \epsilon_0 m_0 c^2}
+\end{equation}
+
+The algorithm to generate photon energies with the appropriate distribution in described in~\cite{helmut_synrad_90}.
+
+
+
+\subsection{Damping from synchrotron radiation}
+
+The damping constants from synchrotron radiation can be easily obtained from magnitude of the eigenvalues of the one-turn matrix:
+\begin{align}
+\alpha_x &= -\log( \lvert \lambda_x \rvert)\\
+\alpha_y &= -\log( \lvert \lambda_y \rvert)\\
+\alpha_\zeta &= -\log( \lvert \lambda_\zeta \rvert)
+\end{align}
+
+The damping acts such that:
+\begin{equation}
+\frac{1}{A_x} \frac{dA_x}{dt} = - \frac{\alpha_x}{T_0} 
+\end{equation}
+where $T_0$ is the revolution period.
+From Eq.\,\ref{eq:ampl_x} we obtain:
+\begin{equation}
+\frac{dJ_x}{dt} = - \frac{2\alpha_x}{T_0}  J_x
+\end{equation}
+By averaging over the beam distribution we obtain:
+\begin{equation}
+\frac{d\varepsilon_x}{dt} = - \frac{2\alpha_x}{T_0}  \varepsilon_x
+\label{eq:grate_rad_damp}
+\end{equation}
+
+\subsection{Equilibrium emittance}
+
+This section is based on the approach described in \cite{chao_eq_emit}.
+
+To account for the kicks experienced by the particles due to quantum excitation we note that the transverse momentum change due to an energy kick in the direction of the particle motion can be written as:
+\begin{align}
+P_{x,y}^\text{new} = P_{x,y}^\text{old}  \frac{P^\text{new}}{P^\text{old}}
+\end{align}
+
+From this:
+\begin{align}
+P_{x,y}^\text{new} - P_{x,y}^\text{old} = P_{x,y}^\text{old}  \left(\frac{P^\text{new} - P^\text{old}}{P^\text{old}} \right) 
+\end{align}
+
+Dividing by $P_0$:
+\begin{align}
+\frac{P_{x,y}^\text{new} - P_{x,y}^\text{old}}{P_0} = 
+\frac{P_{x,y}^\text{old}}{P_0}
+\left(\frac{P^\text{new} - P^\text{old}}{P_0} \right) 
+\frac{P_0}{P^\text{old}}
+\end{align}
+
+Using the accelerator coordinates definitions (Eqs.\,\ref{eq:coord1} and \ref{eq:coord2}), we obtain:
+\begin{align}
+\Delta p_{x,y} = \frac{p_{x,y}}{1 + \delta} \Delta \delta
+\end{align}
+
+The corresponding change in normalized coordinates can be computed from Eq.\,\ref{eq:norm_coord}:
+
+\begin{equation}
+\left(\begin{array}{l}
+\Delta \tilde{x} \\
+\Delta \tilde{p}_x\\
+\Delta \tilde{y} \\
+\Delta \tilde{p}_y \\
+\Delta \tilde{\zeta} \\
+\Delta \tilde{p}_\zeta
+\end{array}\right)
+=
+W^{-1}
+\left(\begin{array}{c}
+0 \\
+\cfrac{p_{x}}{1 + \delta} \Delta \delta \\
+0 \\
+\cfrac{p_{y}}{1 + \delta} \Delta \delta \\
+0 \\
+\Delta \delta
+\end{array}\right)
+\label{eq:norm_coord}
+\end{equation}
+
+Using the Eq.\,\ref{eq:winv} we obtain:
+\begin{align}
+&\Delta \hat{x} = \mathcal{K}_x \Delta \delta \label{eq:sr_dxhat}\\
+&\Delta \hat{p}_x = \mathcal{K}_{p_x} \Delta \delta \label{eq:sr_dxphat}\\
+&\Delta \hat{y} = \mathcal{K}_{y} \Delta \delta \\
+&\Delta \hat{p}_y = \mathcal{K}_{p_y} \Delta \delta\\
+&\Delta \hat{\zeta} = \mathcal{K}_{\zeta} \Delta \delta \\
+&\Delta \hat{p}_\zeta = \mathcal{K}_{p_{\zeta}}\Delta \delta
+\end{align}
+where:
+\begin{align}
+\mathcal{K}_x &= 
+\left( \cfrac{a_{11}p_{x} + a_{13}p_{y} }{1 + \delta} + a_{15}\right)\\
+\mathcal{K}_{p_x} &= 
+\left( \cfrac{b_{11}p_{x} + b_{13}p_{y} }{1 + \delta} + b_{15}\right)\\
+\mathcal{K}_y &= 
+\left( \cfrac{a_{21}p_{x} + a_{23}p_{y} }{1 + \delta} + a_{25}\right)\\
+\mathcal{K}_{{p}_y} &= 
+\left( \cfrac{b_{21}p_{x} + b_{23}p_{y} }{1 + \delta} + b_{25}\right)\\
+\mathcal{K}_{\zeta} &= 
+\left( \cfrac{a_{31}p_{x} + a_{33}p_{y} }{1 + \delta} + a_{35}\right)\\
+\mathcal{K}_{p_\zeta} &= 
+\left( \cfrac{b_{31}p_{x} + b_{33}p_{y} }{1 + \delta} + b_{35}\right)
+\end{align}
+
+The change in action (see Eq.\,\ref{eq:action}) associated to the first mode, due to the emission of a photon can be written as:
+\begin{align}
+\Delta J_x &= \frac{1}{2}\left[
+\left(\hat{x} +\Delta \hat{x}\right)^2 
+\left(\hat{p}_x +\Delta \hat{p}_x \right)^2 
+-\hat{x}^2 - \hat{p}_x^2
+\right]\\
+&= \frac{1}{2}\left[
+\Delta \hat{x}^2 + \Delta \hat{p}_{x}^2
++ 2 \hat{x} \Delta \hat{x} + 2 \hat{p}_{x} \Delta \hat{p}_{x} 
+\right]
+\end{align}
+
+Averaging over all particles in the beam we obtain:
+\begin{align}
+\Delta \varepsilon_x = <\Delta J_x> = 
+\frac{1}{2}\left( <\Delta \hat{x}^2> + <\Delta \hat{p}_{x}^2> \right)
+\end{align}
+
+Using Eqs.\,\ref{eq:sr_dxhat} and \ref{eq:sr_dxphat} we obtain:
+\begin{align}
+\Delta \varepsilon_x = <\Delta J_x> = 
+\frac{1}{2}\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\Delta \delta^2>
+\end{align}
+
+Assuming that the kicks are uncorrelated we can obtain the emittance growth rate from quantum excitation integrating over a full turn:
+\begin{align}
+\left(\frac {d\varepsilon_x}{dt} \right)_\text{quant}= 
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\label{eq:grate_quantum}
+\end{align}
+where $\dot{N}$ is the photon emission rate (number of photons per unit time), $T_0$ is the revolution period, C is the circumference.
+
+By summing Eqs.\,\ref{eq:grate_rad_damp} and \ref{eq:grate_quantum} we obtain the total instantaneous growth rate:
+\begin{align}
+\frac {d\varepsilon_x}{dt} = 
+\left(\frac {d\varepsilon_x}{dt}\right)_\text{damp}
++
+\left(\frac {d\varepsilon_x}{dt}\right)_\text{quant}
+=
+- \frac{2\alpha_x}{T_0}  \varepsilon_x
++
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\end{align}
+
+By imposing the derivative to be zero we obtain the value of the equilibrium emittance:
+\begin{align}
+\varepsilon_x= 
+\frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\label{eq:equilemi1}
+\end{align}
+
+In the ultra-relativistic approximation:
+\begin{align}
+<\dot{N} \Delta \delta^2> = 
+\frac{<\dot{N} (\Delta E)^2>}{E_0^2}
+\label{eq:equilemi2}
+\end{align}
+
 \section{Synchrotron motion}
 
-Definition of momentum compation factor:
+Definition of momentum compaction factor:
 \begin{equation}
 \alpha_c = 
 \frac{\Delta C/C}\delta
@@ -1631,7 +2079,7 @@ p_\zeta(s) &= \frac{\hat{\zeta}_A}{\beta_\zeta} \sin\left( 2 \pi Q_s \frac{s}{C}
 \end{align}
 
 For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
-
 \begin{align}
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
+
