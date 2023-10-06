@@ -93,7 +93,7 @@ In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be 
 
 In Anaconda or Miniconda/Miniforge (if you don't have Anaconda or Miniconda/Miniforge, see dedicated section on :ref:`how to get a miniforge installation<miniforge>`)
 
-this can be done as follows for example for CUDA version 10.1.243:
+this can be done as follows:
 
 .. code-block:: bash
 
