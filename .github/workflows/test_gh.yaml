@@ -64,14 +64,12 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Increase swapfile
+    - name: Set up dynamic swapping
       run: |
         sudo swapoff -a
-        sudo fallocate -l 12G /swapfile
-        sudo chmod 600 /swapfile
-        sudo mkswap /swapfile
-        sudo swapon /swapfile
-        sudo swapon --show
+        sudo apt-get install -y swapspace
+        sudo systemctl start swapspace.service
+        df -h
     - name: Setup Miniforge
       uses: conda-incubator/setup-miniconda@v2
       with:
