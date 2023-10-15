@@ -101,7 +101,6 @@ this can be done as follows:
     pip install cupy-cuda11x
     mamba install cudatoolkit=11.8.0
 
-Remember to check your CUDA version e.g. via ``$ nvcc --version`` and use the appropriate tag.
 
 
 Installation of PyOpenCL
@@ -166,7 +165,7 @@ and we install gpyfft with pip providing extra flags as follows:
 
 .. code-block:: bash
 
-     $ pip install --global-option=build_ext --global-option="-I/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
+     pip install --global-option=build_ext --global-option="-I/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
 
 
 Alternatively (if the command above does not work) we can edit the ``setup.py`` of gpyfft to provide the right paths to your clfft installation (and potentially the OpenCL directory of your platform):
@@ -201,11 +200,11 @@ On Linux
 
 .. code-block:: bash
 
-    $ cd ~
-    $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-    $ bash Miniforge3-Linux-x86_64.sh
-    $ source miniforge3/bin/activate
-    $ pip install numpy scipy matplotlib pandas ipython pytest
+    cd ~
+    wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+    bash Miniforge3-Linux-x86_64.sh
+    source miniforge3/bin/activate
+    pip install numpy scipy matplotlib pandas ipython pytest
 
 On MacOS (x86_64)
 --------
