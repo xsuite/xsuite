@@ -35,6 +35,9 @@ on:
         required: true
         type: string
 
+env:
+  with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
@@ -71,6 +74,7 @@ jobs:
             --build-arg xfields_branch=${xfields_branch} \
             --build-arg xmask_branch=${xmask_branch} \
             --build-arg xcoll_branch=${xcoll_branch} \
+            --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
   # Print out some stuff about the test environment
@@ -81,8 +85,10 @@ jobs:
       image_id: ${{ needs.build-test-image.outputs.image_id }}
     steps:
       - name: CUDA info
+        if: ${{ env.with_gpu == 'true' }}
         run: docker run --rm --gpus all ${image_id} nvidia-smi
       - name: OpenCL info
+        if: ${{ env.with_gpu == 'true' }}
         run: docker run --rm --gpus all ${image_id} clinfo
       - name: Package paths
         run: docker run --rm --gpus all ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
