@@ -9,7 +9,7 @@ Aperture of a ring.
    :language: python
 
 
-.. figure:: figures/footprint_HO2D.png
+.. figure:: figures/dynamic_aperture.png
     :width: 80%
     :align: center
 
