@@ -13,4 +13,4 @@ Aperture of a ring.
     :width: 80%
     :align: center
 
-    On-momentum dynamic aperture for the LHC lattice with octupoles on.
+    On-momentum dynamic aperture for the LHC lattice with octupoles active.
