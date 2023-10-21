@@ -13,6 +13,7 @@
    twiss
    match_twiss_params
    footprint
+   dynamic_aperture
    particles_monitor
    acceleration
    synchrotron_radiation
