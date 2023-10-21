@@ -161,6 +161,8 @@ snippet_files = {
         'generated_code_snippets/stabilitydiagram.py',
     'xfields/examples/002_beambeam/010_beambeam2d_weakstrong.py':
         'generated_code_snippets/beambeamws.py',
+    'xtrack/examples/dynamic_aperture/000_tracking_for_da.py':
+        'generated_code_snippets/tracking_for_da.py',
 }
 
 for ss, tt in snippet_files.items():
