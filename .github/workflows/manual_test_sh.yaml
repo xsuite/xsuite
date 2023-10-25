@@ -1,5 +1,5 @@
 # This is a test workflow that is manually triggered
-name: Manual test (self-hosted, GPU)
+name: Manual test (self-hosted)
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -45,11 +45,11 @@ on:
         default: 'ubuntu'
         required: true
 
-# This workflow calls the test_gpu.yaml workflow passing the specified
+# This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
 jobs:
-  run-tests-manual-gpu:
-    uses: ./.github/workflows/test_gpu.yaml
+  run-tests-manual-sh:
+    uses: ./.github/workflows/test_sh.yaml
     secrets: inherit
     with:
       xobjects_location: ${{ inputs.xobjects_location }}

@@ -1,5 +1,5 @@
 # This is a test workflow the other (self-hosted runner based) workflows rely on
-name: Test workflow (self-hosted, GPU)
+name: Test workflow (self-hosted)
 
 # Controls when the action will run. This is a reusable workflow.
 on:
