@@ -19,7 +19,7 @@ ARG with_gpu
 SHELL ["/usr/bin/bash", "-c"]
 
 # Set up the OpenCL profile
-RUN if [[ "with_gpu" == true ]]; then \
+RUN if [[ "$with_gpu" == true ]]; then \
         mkdir -p /etc/OpenCL/vendors \
         && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd; \
     fi
