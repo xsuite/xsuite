@@ -34,6 +34,11 @@ on:
       platform:
         required: true
         type: string
+      suites:
+        description: a list of the suites to run as a JSON string
+        required: false
+        type: string
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -102,14 +107,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test-suite:
-        - xobjects
-        - xdeps
-        - xpart
-        - xtrack
-        - xfields
-        - xmask
-        - xcoll
+        test-suite: ${{ fromJson(inputs.suites) }}
 
     steps:
     - name: Run pytest

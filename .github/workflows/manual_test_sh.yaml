@@ -44,6 +44,11 @@ on:
         description: platform
         default: 'ubuntu'
         required: true
+      suites:
+        description: test suites (JSON array string)
+        required: true
+        type: string
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll"]'
 
 # This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
@@ -61,3 +66,4 @@ jobs:
       xcoll_location: ${{ inputs.xcoll_location }}
       test_contexts: ${{ inputs.test_contexts }}
       platform: ${{ inputs.platform }}
+      suites: ${{ inputs.suites }}

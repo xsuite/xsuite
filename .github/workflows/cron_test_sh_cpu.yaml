@@ -22,3 +22,4 @@ jobs:
       xcoll_location: 'xsuite:main'
       test_contexts: 'ContextCpu;ContextCpu:auto'
       platform: 'alma-cpu'
+      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll"]'
