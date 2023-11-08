@@ -140,6 +140,7 @@ jobs:
     steps:
       - name: Stop the containers and remove the image
         run: |
+          sleep 1800
           docker container stop \
             $(docker ps -q --filter ancestor=${image_id}) || true
           docker container rm --volumes \
