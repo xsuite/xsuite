@@ -129,18 +129,25 @@ jobs:
         path: reports/${{ matrix.test-suite }}/report.html
         if-no-files-found: ignore
 
+  wait:
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
+    needs: [build-test-image, run-tests]
+    if: success() || failure()
+    steps:
+      - name: Wait
+        run: sleep 1800
+
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers
   teardown:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
-    needs: [build-test-image, run-tests]
+    needs: [build-test-image, wait]
     env:
       image_id: ${{ needs.build-test-image.outputs.image_id }}
     if: always()
     steps:
       - name: Stop the containers and remove the image
         run: |
-          sleep 1800
           docker container stop \
             $(docker ps -q --filter ancestor=${image_id}) || true
           docker container rm --volumes \
