@@ -122,12 +122,6 @@ jobs:
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
           ${image_id} \
           /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
-    - name: Upload report
-      uses: actions/upload-artifact@v3
-      with:
-        name: report-${{ matrix.test-suite }}
-        path: reports/${{ matrix.test-suite }}/report.html
-        if-no-files-found: ignore
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
