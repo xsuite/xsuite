@@ -781,12 +781,17 @@ A longitudinally uniform static magnetic field can be described by the following
             &=B_N \sum_{n=N} \frac{b_n+ia_n}{r_0^{n-1}} (x+iy)^{n-1}  .
 \end{align}
 
-Usually multipole are expressed as relative to 
+%Usually multipole are expressed as relative to 
+The kick $\Delta \vec P  = q_0 v_z \hat z \times (B_x \hat x + B_y \hat y)$ translates into
+\begin{align}
+   \Delta p_x - i \Delta p_y = -\frac{q_0}{P_0}\chi(B_y + i B_x) 
+\end{align}
 
-A thin multiple idealize the effect of the field by taking the limit of the integration 
+
+A thin multiple idealizes the effect of the field by taking the limit of the integration 
 length going to zero while keeping constant the integrated strength. The Hamiltonian is:
 \begin{align}
-  H=- \delta(s) \chi L \Re\left[\sum_{n=0} (k_n + i\hat k_n) (x+iy)^{n+1} \right].
+  H= \delta(s) \chi L \Re\left[\sum_{n=0} (k_n + i\hat k_n) (x+iy)^{n+1} \right].
 \end{align}
 where
 \begin{align}
