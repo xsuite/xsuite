@@ -13,13 +13,16 @@ ARG xtrack_branch=xsuite:main
 ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
+ARG with_gpu
 
 # Use bash as the default shell
 SHELL ["/usr/bin/bash", "-c"]
 
 # Set up the OpenCL profile
-RUN mkdir -p /etc/OpenCL/vendors \
-    && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+RUN if [[ "$with_gpu" == true ]]; then \
+        mkdir -p /etc/OpenCL/vendors \
+        && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd; \
+    fi
 
 WORKDIR /opt
 
@@ -39,12 +42,20 @@ RUN echo "mamba activate xsuite" >> ~/.bashrc
 # - cython is needed for cffi
 # - pytest-html for generating html reports
 # - gpyfft is a clfft wrapper that can only be installed from source or .deb
-RUN mamba install git pip compilers cupy cudatoolkit ocl-icd-system clinfo clfft \
-    && mamba clean -afy
-RUN pip install --no-cache-dir cython pyopencl mako gitpython pytest-html \
+RUN mamba install git pip compilers openmp && mamba clean -afy
+RUN pip install --no-cache-dir cython gitpython pytest-html \
     && dnf clean all \
     && rm -rf /var/cache/yum
-RUN git clone --depth 1 https://github.com/geggo/gpyfft.git && pip install ./gpyfft
+
+RUN if [[ "$with_gpu" == true ]]; then \
+        mamba install cupy cudatoolkit ocl-icd-system clinfo clfft \
+        && mamba clean -afy \
+        && pip install --no-cache-dir pyopencl mako \
+        && dnf clean all \
+        && rm -rf /var/cache/yum \
+        && git clone --depth 1 https://github.com/geggo/gpyfft.git \
+        && pip install ./gpyfft; \
+    fi
 
 # Install all the Xsuite packages in the required versions
 WORKDIR /opt/xsuite

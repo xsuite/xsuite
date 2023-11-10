@@ -1,5 +1,5 @@
 # This is a workflow that should run daily
-name: Daily test (self-hosted, CUDA)
+name: Daily test (self-hosted, CPU)
 
 # Controls when the action will run.
 on:
@@ -9,7 +9,7 @@ on:
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
 jobs:
-  run-tests-cron-gpu:
+  run-tests-cron-sh-cpu:
     if: github.repository == 'xsuite/xsuite'
     uses: ./.github/workflows/test_sh.yaml
     with:
@@ -20,5 +20,6 @@ jobs:
       xfields_location: 'xsuite:main'
       xmask_location: 'xsuite:main'
       xcoll_location: 'xsuite:main'
-      test_contexts: 'ContextCupy'
-      platform: 'ubuntu'
+      test_contexts: 'ContextCpu;ContextCpu:auto'
+      platform: 'alma-cpu'
+      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll"]'
