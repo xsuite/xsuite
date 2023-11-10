@@ -75,21 +75,26 @@ def make_flag(pkg):
     show_default=True,
 )
 def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf):
-    """Schedule a test run of Xsuite on a self-hosted runner."""
+    """Schedule a test run of Xsuite on a self-hosted runner.
+
+    Example:
+
+    python run_on_gh.py --suites xf,xd --platform pcbe-abp-gpu001-1 --xo xsuite:release/0.2.10 --xf xd:release/v0.5.0 --xt xsuite:release/0.46.2 --xf xsuite:release/0.14.1 --ctx cuda:3
+    """
     try:
         subprocess.run(('gh', '--version'))
     except FileNotFoundError:
         print(__doc__)
         return 1
-    
+
     ctx = ctx.replace('cl', 'ContextPyopencl')
     ctx = ctx.replace('cuda', 'ContextCupy')
     ctx = ctx.replace('cpu', 'ContextCpu')
     ctx = ctx.replace('omp', 'ContextCpu:auto')
     fmt_contexts = ctx.split(',')
-    
+
     fmt_suites = [ABBRV[x.strip()] for x in suites.split(',')]
-    
+
     parameters = {
         'xobjects_location': xo,
         'xdeps_location': xd,
@@ -102,10 +107,10 @@ def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf):
         'platform': platform,
         'suites': json.dumps(fmt_suites),
     }
-    
+
     print('Scheduling')
     print(json.dumps(parameters, indent=2))
-    
+
     workflow_command = f'gh workflow run {wf} --json'
 
     res = subprocess.run(
