@@ -89,9 +89,9 @@ jobs:
     env:
       image_id: ${{ needs.build-test-image.outputs.image_id }}
     steps:
-      - name: CUDA info
+      - name: CUDA/ROCm info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${image_id} nvidia-smi
+        run: docker run --rm --gpus all ${image_id} bash -c "nvidia-smi || rocm-smi"
       - name: OpenCL info
         if: ${{ env.with_gpu == 'true' }}
         run: docker run --rm --gpus all ${image_id} clinfo
