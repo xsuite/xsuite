@@ -24,6 +24,9 @@ on:
       xmask_location:
         required: true
         type: string
+      xcoll_location:
+        required: true
+        type: string
       precompile_kernels:
         required: false
         default: false
@@ -52,6 +55,7 @@ jobs:
         - xtrack
         - xfields
         - xmask
+        - xcoll
     
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
@@ -60,6 +64,12 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Set up dynamic swapping
+      run: |
+        sudo swapoff -a
+        sudo apt-get install -y swapspace
+        sudo systemctl start swapspace.service
+        df -h
     - name: Setup Miniforge
       uses: conda-incubator/setup-miniconda@v2
       with:
@@ -77,8 +87,9 @@ jobs:
         xtrack_branch: ${{ inputs.xtrack_location }}
         xfields_branch: ${{ inputs.xfields_location }}
         xmask_branch: ${{ inputs.xmask_location }}
+        xcoll_branch: ${{ inputs.xcoll_location }}
       run: |
-        for project in xobjects xdeps xpart xtrack xfields xmask; do
+        for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do
           branch_varname="${project}_branch"
           project_branch=${!branch_varname}  # get value of the variable [project]_branch
           

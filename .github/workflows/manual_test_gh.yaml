@@ -32,6 +32,10 @@ on:
         description: 'xmask branch'
         default: 'xsuite:main'
         required: true
+      xcoll_location:
+        description: 'xcoll branch'
+        default: 'xsuite:main'
+        required: true
       precompile_kernels:
         description: 'precompile kernels?'
         type: boolean
@@ -54,4 +58,6 @@ jobs:
       xtrack_location: ${{ inputs.xtrack_location }}
       xfields_location: ${{ inputs.xfields_location }}
       xmask_location: ${{ inputs.xmask_location }}
+      xcoll_location: ${{ inputs.xcoll_location }}
       precompile_kernels: ${{ inputs.precompile_kernels }}
+      xobjects_test_contexts: ${{ inputs.xobjects_test_contexts }}

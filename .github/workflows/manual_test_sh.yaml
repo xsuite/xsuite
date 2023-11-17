@@ -1,5 +1,5 @@
 # This is a test workflow that is manually triggered
-name: Manual test (self-hosted, GPU + CPU)
+name: Manual test (self-hosted)
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -32,12 +32,29 @@ on:
         description: 'xmask branch'
         default: 'xsuite:main'
         required: true
+      xcoll_location:
+        description: 'xcoll branch'
+        default: 'xsuite:main'
+        required: true
+      test_contexts:
+        description: test contexts
+        default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
+        required: false
+      platform:
+        description: platform
+        default: 'ubuntu'
+        required: true
+      suites:
+        description: test suites (JSON array string)
+        required: true
+        type: string
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll"]'
 
-# This workflow calls the test_gpu.yaml workflow passing the specified
+# This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
 jobs:
-  run-tests-manual-gpu:
-    uses: ./.github/workflows/test_gpu.yaml
+  run-tests-manual-sh:
+    uses: ./.github/workflows/test_sh.yaml
     secrets: inherit
     with:
       xobjects_location: ${{ inputs.xobjects_location }}
@@ -46,3 +63,7 @@ jobs:
       xtrack_location: ${{ inputs.xtrack_location }}
       xfields_location: ${{ inputs.xfields_location }}
       xmask_location: ${{ inputs.xmask_location }}
+      xcoll_location: ${{ inputs.xcoll_location }}
+      test_contexts: ${{ inputs.test_contexts }}
+      platform: ${{ inputs.platform }}
+      suites: ${{ inputs.suites }}

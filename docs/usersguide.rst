@@ -13,6 +13,7 @@
    twiss
    match_twiss_params
    footprint
+   dynamic_aperture
    particles_monitor
    acceleration
    synchrotron_radiation
@@ -27,4 +28,5 @@
    pyhtinterface
    combined_cpu_gpu
    xsuite_data_management
-
+   pipeline
+   beambeam

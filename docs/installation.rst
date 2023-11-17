@@ -93,15 +93,14 @@ In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be 
 
 In Anaconda or Miniconda/Miniforge (if you don't have Anaconda or Miniconda/Miniforge, see dedicated section on :ref:`how to get a miniforge installation<miniforge>`)
 
-this can be done as follows for example for CUDA version 10.1.243:
+this can be done as follows:
 
 .. code-block:: bash
 
     conda install mamba -n base -c conda-forge
-    pip install cupy-cuda101
-    mamba install cudatoolkit=10.1.243
+    pip install cupy-cuda11x
+    mamba install cudatoolkit=11.8.0
 
-Remember to check your CUDA version e.g. via ``$ nvcc --version`` and use the appropriate tag.
 
 
 Installation of PyOpenCL
@@ -166,7 +165,7 @@ and we install gpyfft with pip providing extra flags as follows:
 
 .. code-block:: bash
 
-     $ pip install --global-option=build_ext --global-option="-I/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
+     pip install --global-option=build_ext --global-option="-I/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/include" --global-option="-L/home/giadarol/miniforge3/pkgs/clfft-2.12.2-h83d4a3d_1/lib" gpyfft/
 
 
 Alternatively (if the command above does not work) we can edit the ``setup.py`` of gpyfft to provide the right paths to your clfft installation (and potentially the OpenCL directory of your platform):
@@ -201,11 +200,11 @@ On Linux
 
 .. code-block:: bash
 
-    $ cd ~
-    $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-    $ bash Miniforge3-latest-Linux-x86_64.sh
-    $ source miniforge3/bin/activate
-    $ pip install numpy scipy matplotlib pandas ipython pytest
+    cd ~
+    wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+    bash Miniforge3-Linux-x86_64.sh
+    source miniforge3/bin/activate
+    pip install numpy scipy matplotlib pandas ipython pytest
 
 On MacOS (x86_64)
 --------
@@ -250,6 +249,8 @@ On MacOS (arm64)
     conda install compilers
     conda install pip
     pip install numpy scipy matplotlib pandas ipython pytest
+
+    conda install llvm-openmp  # to use multithreading with OpenMP
 
 See the note for `x86` above in case you have `xcode` installed.
     
