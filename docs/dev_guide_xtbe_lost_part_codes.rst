@@ -25,4 +25,5 @@ State C flag                      Information
 -340  XC_LOST_ON_ABSORBER         Lost in black absorber.
 -390  XC_ERR_INVALID_TRACK        Invalid tracking in collimator (e.g. backtracking, during twiss).
 -399  XC_ERR                      General collimator error.
+-400  XT_LOST_IN_RF_TRACK         Lost in RF-Track
 ===== ==========================  ====================================================================
