@@ -460,7 +460,508 @@ Multidimensional Discrete Fourier Transforms are obtained by applying sequential
 \end{split}
 \end{equation}
 
+
+
 \subsection{FFT convolution - 1D case}
+The potential can be written as the convolution of a Green function with the charge distribution:
+\begin{equation}
+\phi(x) = \int_{-\infty}^{+\infty} \rho(x')\,G(x-x') dx'
+\label{eq:conv}
+\end{equation}
+
+We assume that the source is limited to the region  $[0, L]$:
+\begin{equation}
+\rho(x) = \rho(x)\,\Pi_{[0,L]}\left(x\right)
+\label{eq:rholim}
+\end{equation}
+where $\Pi_{[a,b]}(x)$ is a rectangular window function defined as:
+\begin{equation}
+\Pi_{[a,b]}(x) = 
+\begin{cases}
+1\quad\text{for } x \in [a, b]\\
+0\quad\text{elsewhere}
+\end{cases}
+\end{equation}
+
+We are interested in the electric potential only the region occupied by the sources, so we can compute:
+\begin{equation}
+\phi_L(x) = \phi(x) \Pi_{[0, L]}\left(x\right)
+\label{eq:philim}
+\end{equation}
+
+We replace Eq.\,\eqref{eq:rholim} and Eq.\,\eqref{eq:philim} into Eq.\eqref{eq:conv}, obtaining:
+\begin{equation}
+\phi_L(x) = \Pi_{[0,L]}\left( x\right)
+\int_{-\infty}^{+\infty} 
+\Pi_{[0,L]}\left(x'\right)
+\rho(x')\,G(x-x') dx'
+\end{equation}
+We apply the change of variable $x'' = x - x'$:
+\begin{equation}
+\phi_L(x) = 
+\int_{-\infty}^{+\infty} 
+\Pi_{[0,L]}\left({x}\right)
+\Pi_{[0,L]}\left({x-x''}\right)
+\rho(x-x'')\,G(x'') \,dx''
+\label{eq:conv1}
+\end{equation}
+The integrand vanishes outside the set of the $(x, x'')$ defined by:
+\begin{equation}
+\begin{cases}
+0 < x <{L}\\
+0 < (x-x'') <{L}
+\end{cases}
+\end{equation}
+
+We flip the signs in the second equation, obtaining:
+\begin{equation}
+\begin{cases}
+0 < x <{L}\\
+-L < (x''-x) <0
+\end{cases}
+\end{equation}
+
+Combining the two equations we obtain:
+\begin{equation}
+-L<-L + x < x'' <x<L
+\end{equation}
+i.e. the integrand is zero for $-L<x''<L$.
+Therefore in Eq.\,\eqref{eq:conv1} we can replace $G(x'')$ with its truncated version:
+\begin{equation}
+G_{2L}(x'') = G(x'')\,\Pi_{[-L,L]}
+\left(
+{x''}
+\right)
+\end{equation}
+
+obtaining:
+\begin{equation}
+\phi_L(x) = 
+\int_{-\infty}^{+\infty} 
+\Pi_{[0,L]}\left({x}\right)
+\Pi_{[0,L]}\left({x-x''}\right)
+\rho(x-x'')\,G_{2L}(x'') dx''
+\label{eq:conv2}
+\end{equation}
+
+Since the two window functions force the integrand to zero outside the region $|x''|<L$ we can replace $G_{2L}(x'')$ with its replicated version:
+\begin{equation}
+G_{2LR}(x'') = \sum_{n=-\infty}^{+\infty}G_{2L}(x''-2nL) = \sum_{n=-\infty}^{+\infty}G(x'' -2nL)\,\Pi_{[-L,L]}
+\left(
+{x''-2nL}
+\right)
+\label{eq:GLR}
+\end{equation}
+obtaining:
+\begin{equation}
+\phi_L(x) = 
+\int_{-\infty}^{+\infty} 
+\Pi_{[0,L]}\left({x}\right)
+\Pi_{[0,L]}\left({x-x''}\right)
+\rho(x-x'')\,G_{2LR}(x'') dx''
+\end{equation}
+
+We can go back to the initial coordinate by substituting $x'' = x-x'$:
+\begin{equation}
+\phi_L(x) = 
+\Pi_{[0,L]}\left(x\right)
+\int_{-\infty}^{+\infty} 
+\rho(x')\,G_{2LR}(x-x') dx'
+\end{equation}
+
+This is a cyclic convolution, so we can proceed as follows. We split the integral:
+\begin{equation}
+\phi_L(x) = 
+\Pi_{[0,L]}\left({x}\right)
+\sum_{n=-\infty}^{+\infty}
+\int_{2nL}^{2(n+1)L} 
+\rho(x')\,G_{2LR}(x-x') \,dx'
+\label{eq:conv3}
+\end{equation}
+In each term we replace $x''' = x'+2nL$:
+\begin{equation}
+\phi_L(x) = 
+\Pi_{[0,L]}\left({x}\right)
+\sum_{n=-\infty}^{+\infty}
+\int_{0 }^{2L} 
+\rho(x'''-2nL)\,G_{2LR}(x-x'''-2nL) \,dx'''
+\label{eq:conv4}
+\end{equation}
+We use the fact that $G_{2LR}(x)$ is periodic:
+\begin{equation}
+\begin{split}
+\phi_L(x) &= 
+\Pi_{[0,L]}\left({x}\right)
+\sum_{n=-\infty}^{+\infty}
+\int_{0 }^{2L} 
+\rho(x'''-2nL)\,G_{2LR}(x-x''') dx'''\\
+\\&=
+\Pi_{[0,L]}\left({x}\right)
+\int_{0 }^{2L}  
+\sum_{n=-\infty}^{+\infty}
+\rho(x'''-2nL)\,G_{2LR}(x-x''') dx'''
+\end{split}
+\label{eq:conv5}
+\end{equation}
+
+We can define a replicated version of $\rho(x)$:
+\begin{equation}
+\rho_{2LR}(x)= \sum_{n=-\infty}^{+\infty}
+\rho(x-2nL)
+\end{equation}
+noting that this implies:
+\begin{equation}
+\rho_{2LR}(x)= 0 \quad \text{for } x \in [L, 2L]
+\label{eq:zeros}
+\end{equation}
+
+We obtain:
+\begin{equation}
+\phi_L(x) = 
+\Pi_{[0,L]}\left({x}\right)
+\int_{0 }^{2L} 
+\rho_{2LR}(x')\,G_{2LR}(x-x') dx'
+\label{eq:conv6}
+\end{equation}
+
+The function:
+
+\begin{equation}
+\phi_{2LR}(x) = 
+\int_{0 }^{2L} 
+\rho_{2LR}(x')\,G_{2LR}(x-x') dx'
+\label{eq:confin}
+\end{equation}
+is periodic of period $2L$. From it the potential of interest can be simply calculated by selecting the first half period $[0, L]$:
+\begin{equation}
+\phi_L(x) = 
+\Pi_{[0,L]}\left({x}\right)
+\phi_{2LR}(x)
+\label{eq:sel}
+\end{equation}
+
+To compute the convolution in Eq.\,\ref{eq:confin} we expand $\phi_{2LR}(x)$ in Fourier series:
+\begin{equation}
+\phi_{2LR}(x) = \sum_{k=-\infty}^{+\infty} \tilde{\phi}_k\, e^{j2\pi k \frac{x}{2L}}
+\label{eq:phifour}
+\end{equation}
+where the Fourier coefficients are given by:
+\begin{equation}
+\tilde{\phi}_k = \frac{1}{2L}\int_0^{2L} \phi_{2LR}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx
+\label{eq:phik}
+\end{equation}
+
+We replace Eq.\,\eqref{eq:confin} into Eq.\,\eqref{eq:phik} obtaining:
+\begin{equation}
+\hat{\phi}_k = \frac{1}{2L}\int_0^{2L} \int_{0 }^{2L} 
+\rho_{2LR}(x')\,G_{2LR}(x-x') \, e^{-j2\pi k \frac{x}{2L}} \,  dx'\, dx
+\end{equation}
+
+With the change of variable $x'' = x-x'$ we obtain:
+\begin{equation}
+\tilde{\phi}_k = 
+\frac{1}{2L}
+\int_0^{2L} 
+\rho_{2LR}(x') e^{-j2\pi k \frac{x'}{2L}}dx'\,
+\int_{0 }^{2L} 
+\,G_{2LR}(x'') e^{-j2\pi k \frac{x''}{2L}}\,  \,  dx''
+\end{equation}
+
+where we recognize the Fourier coefficients of $\rho_{2LR}(x)$ and $\,G_{2LR}(x)$:
+\begin{align}
+\tilde{\rho}_k = \frac{1}{2L}\int_0^{2L} \rho_{2LR}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx \label{eq:rhok}\\
+\tilde{G}_k = \frac{1}{2L}\int_0^{2L} G_{2LR}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx \label{eq:Gk}
+\end{align}
+obtaining simply:
+\begin{equation}
+\hat{\phi}_k = 2L \, \hat{G}_k \, \hat{\rho}_k
+\label{eq:freqconv}
+\end{equation}
+
+I assume to have the functions $\rho_{2LR}(x)$ and  $G_{2LR}(x)$ sampled (or averaged) with step:
+\begin{equation}
+h_x = \frac{2L}{M} = \frac{L}{N}
+\end{equation}
+
+I can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
+\begin{align}
+\tilde{\rho}_k = \frac{1}{M}\sum_{n=0}^{M-1} \rho_{2LR}(x_n)\, e^{-j2\pi  \frac{kn}{M}}  
+= \frac{1}{M} \hat{\rho}_k
+\label{eq:rhokfft}\\
+\tilde{G}_k = \frac{1}{M}\sum_{n=0}^{M-1} G_{2LR}(x_n)\, e^{-j2\pi  \frac{kn}{M}} 
+= \frac{1}{M} \hat{G}_k\label{eq:Gkfft}
+\end{align}
+
+where we recognize the Discrete Fourier Transforms:
+\begin{align}
+\hat{\rho}_k = \text{DFT}_M\left\{ \rho_{2LR}(x_n)\right\}\\
+\hat{G}_k = \text{DFT}_M\left\{ G_{2LR}(x_n)\right\}
+\end{align}
+
+
+
+Using Eq.\,\eqref{eq:phifour} we can obtain a sampled version of $\phi(x)$:
+\begin{equation}
+\phi_{2LR}(x_n) = 
+\sum_{n=0}^{M-1}  
+\tilde{\phi}_k\, e^{j2\pi \frac{kn}{M}}
+\label{eq:phifft}
+\end{equation}
+where we have assumed that $\phi(x)$ is sufficiently smooth to allow truncating the sum.
+
+
+Using Eqs.\,\eqref{eq:freqconv}, \eqref{eq:rhokfft} and\,\eqref{eq:Gkfft}  we obtain:
+\begin{equation}
+\phi_{2LR}(x_n) = 
+2L \sum_{n=0}^{M-1}  
+\tilde{G}_k \, \tilde{\rho}_k\, e^{j2\pi \frac{kn}{M}} 
+= 
+\frac{2L}{M^2}
+\sum_{n=0}^{M-1}  
+\hat{G}_k \, \hat{\rho}_k\, e^{j2\pi \frac{kn}{M}} 
+\label{eq:phifftsimpl}
+\end{equation}
+
+This can be rewritten as:
+\begin{equation}
+\phi_{2LR}(x_n) = 
+\frac{1}{M}
+\sum_{n=0}^{M-1}  
+(h_x\hat{G}_k) \, \hat{\rho}_k\, e^{j2\pi \frac{kn}{M}} 
+=\text{DFT}_M^{-1}\left\{\phi_k
+\right\}
+\label{eq:invfft}
+\end{equation}
+where 
+\begin{equation}
+\hat{\phi}_k =h_x\hat{G}_k \, \hat{\rho}_k
+\label{eq:phiknint}
+\end{equation}
+We call ``Integrated Green Function'' the quantity:
+\begin{equation}
+G_{2LR}(x_n) = h_x G_{2LR}(x_n)
+\end{equation}
+we introduce the corresponding Fourier transform:
+\begin{equation}
+\hat{G}_k^\text{int} = \text{DFT}_M\left\{ G_{2LR}^\text{int}(x_n)\right\}
+\end{equation}
+Eq.\,\eqref{eq:phiknint} can be rewritten as:
+\begin{equation}
+\boxed{
+\hat{\phi}_k =\hat{G}_k^\text{int} \, \hat{\rho}_k}
+\end{equation}
+
+In summary the potential at the grid nodes can be computed as follows:
+\begin{enumerate}
+\item We compute the Integrated Green function at the grid points in the range $[0, L]$:
+\begin{equation}
+G_{2LR}^\text{int}(x_n) = \int_{x_n-\frac{h_x}{2}}^{x_n+\frac{h_x}{2}} G(x) dx
+\end{equation}
+\item We extend to the interval $[L, 2L]$ using the fact that in this interval:
+\begin{equation}
+G^\text{int}_{2LR}(x_n) = G^\text{int}_{2LR}(x_n-2L) =  G^\text{int}_{2LR}(2L-x_n)
+\end{equation}
+where the first equality comes from the periodicity of $G^\text{int}_{2LR}(x)$ and the second from the fact that $G(x)$ is an even function (i.e. $G(x) = G(-x)$).
+Note that for $x_n \in [L, 2L]$ we have that $2L-x_n \in [0, L]$ so we can reuse the values computed at the previous step.
+\item We transform it:
+\begin{equation}
+\hat{G}^\text{int}_k = \text{DFT}_{2N}\left\{ G_{2LR}(x_n)\right\}
+\end{equation}
+\item We assume that we are given $\rho(x_n)$ in the interval $[0, L]$. From this we can obtain $\rho_{2LR}(x_n)$ over the interval $[0, 2L]$ simply extending the sequence with zeros (see Eq.\,\eqref{eq:zeros}).
+\item We transform it:
+\begin{equation}
+\hat{\rho}_k = \text{DFT}_{2N}\left\{ \rho_{2LR}(x_n)\right\}
+\end{equation}
+\item We compute the potential in the transformed domain:
+\begin{equation}
+\hat{\phi}_k = \hat{G}^\text{int}_k \hat{\rho}_k \quad \text{for } k\in [0, 2N]
+\end{equation}
+\item We inverse-transform:
+\begin{equation}
+\phi_{2LR}(x_n)  = \text{DFT}_{2N}^{-1}\left\{\hat{\phi}_k\right\}
+\end{equation}
+which provides the physical potential in the range $[0, L]$:
+\begin{equation}
+\phi(x_n)  = \phi_{2LR}(x_n)  \quad \text{for } x_n\in [0, L]
+\end{equation}
+\end{enumerate}
+
+
+
+
+
+\subsection{Extension to multiple dimensionss}
+
+The procedure described above can be extended to multiple dimensions by applying the same reasoning for all coordinates. 
+This gives the following procedure:
+\begin{enumerate}
+\item We compute the Integrated Green function at the grid points in the volume $[0, L_x]\times[0, L_y]\times[0, L_z]$:
+\begin{equation}
+G_{2LR}^\text{int}(x_{n_x}, y_{n_y}, z_{n_z}) = 
+\int_{x_{n_x}-\frac{h_x}{2}}^{x_{n_x}+\frac{h_x}{2}} dx
+\int_{y_{n_y}-\frac{h_y}{2}}^{y_{n_y}+\frac{h_y}{2}} dy
+\int_{z_{n_z}-\frac{h_z}{2}}^{z_{n_z}+\frac{h_z}{2}} dz\,
+G(x,y,z)
+\end{equation}
+\item We extend to the region $[0, 2L_x]\times[0, 2L_y]\times[0, 2L_z]$ using the fact that:
+\begin{multline}
+G^\text{int}_{2LR}(x_n, y_n, z_n) = G^\text{int}_{2LR}(x_n-2L_x, y_n, z_n) =  G^\text{int}_{2LR}(2L_x-x_n, y_n, z_n)\\
+\text{for } x_n \in [L_x, 2L_x], y_n \in [0, 2L_y], z_n \in [0, 2L_z]
+\end{multline}
+\begin{multline}
+G^\text{int}_{2LR}(x_n, y_n, z_n) = G^\text{int}_{2LR}(x_n, y_n-2L_y, z_n) =  G^\text{int}_{2LR}(x_n, 2L_y-y_n,  z_n)\\
+\text{for } y_n \in [L_y, 2L_y], x_n \in [0, 2L_x], z_n \in [0, 2L_z]
+\end{multline}
+\begin{multline}
+G^\text{int}_{2LR}(x_n, y_n, z_n) = G^\text{int}_{2LR}(x_n, y_n, z_n-2L_z) =  G^\text{int}_{2LR}(x_n, y_n,  2L_z-z_n)\\
+\text{for } z_n \in [L_z, 2L_z], x_n \in [0, 2L_x], y_n \in [0, 2L_y]
+\end{multline}
+This allows reusing the values computed at the previous step.
+\item We transform it:
+\begin{equation}
+\hat{G}^\text{int}_{k_x k_y k_z} = 
+\text{DFT}_{2N_x 2N_y 2N_z}\left\{ G_{2LR}(x_n, y_n, z_n)\right\}
+\end{equation}
+\item We assume that we are given $\rho(x_n, y_n, z_n)$ in the region $[0, L_x]\times[0, L_y]\times[0, L_z]$. From this we can obtain $\rho_{2LR}(x_n)$ over the region $[0, 2L_x]\times[0, 2L_y]\times[0, 2L_z]$ simply extending the matrix with zeros (see Eq.\,\eqref{eq:zeros}).
+\item We transform it:
+\begin{equation}
+\hat{\rho}^\text{int}_{k_x k_y k_z} = 
+\text{DFT}_{2N_x 2N_y 2N_z}\left\{ \rho_{2LR}(x_n, y_n, z_n)\right\}
+\end{equation}
+\item We compute the potential in the transformed domain:
+\begin{equation}
+\hat{\phi}_{k_x k_y k_z} = \hat{G}^\text{int}_{k_x k_y k_z} \, \hat{\rho}_{k_x k_y k_z} \quad \text{for } k_{x/y/z}\in [0, 2N_{x/y/z}]
+\end{equation}
+\item We inverse-transform:
+\begin{equation}
+\phi_{2LR}(x_n, y_n, z_n)  = \text{DFT}_{2N_x 2N_y 2N_z}^{-1}
+\left\{\hat{\phi}_{k_x k_y k_z}\right\}
+\end{equation}
+which provides the physical potential in the region $[0, L_x]\times[0, L_y]\times[0, L_z]$:
+\begin{multline}
+\phi(x_n, y_n, z_n) = \phi_{2LR}(x_n, y_n, z_n)  
+\text{ for } (x_n, y_n, z_n) \in [0, L_x]\times[0, L_y]\times[0, L_z]
+\end{multline}
+\end{enumerate}
+
+ 
+\subsection{Green functions for 2D and 3D Poisson problems}
+
+\subsubsection{3D Poisson problem, free space boundary conditions}
+
+For the equation:
+\begin{equation}
+\nabla^2 \phi(x,y,z) = -\frac{1}{\varepsilon_0} \rho(x,y,z)
+\end{equation}
+where:
+\begin{equation}
+\nabla = \left(\frac{\partial}{\partial x}, 
+                      \frac{\partial}{\partial y},
+                      \frac{\partial}{\partial z} \right)
+\end{equation}
+the solution can be written as 
+\begin{equation}
+\phi(x, y, z) = \iiint_{-\infty}^{+\infty} \rho(x', y', z')
+   \,G(x-x', y-y', z-z')\,dx'\,dy'\,dz'
+\end{equation}
+where:
+\begin{equation}
+G(x, y, z) = \frac{1}{4\pi\varepsilon_0}\frac{1}{
+\sqrt{x^2 +y^2 +z^2}
+}
+\end{equation}
+
+The corresponding integrated Green function~\cite{QIANG2004278}. can be written as:
+\begin{align}
+G_{2LR}^\text{int}(x_{n_x}, y_{n_y}, z_{n_z}) =& 
+\int_{x_{n_x}-\frac{h_x}{2}}^{x_{n_x}+\frac{h_x}{2}} dx
+\int_{y_{n_y}-\frac{h_y}{2}}^{y_{n_y}+\frac{h_y}{2}} dy
+\int_{z_{n_z}-\frac{h_z}{2}}^{x_{n_z}+\frac{h_z}{2}} dz\,
+G(x,y,z)\\
+= &+F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right) \\
+    &- F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)\\
+    &- F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right)\\ 
+    &+ F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)\\
+    &-F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right) \\
+    &+ F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)\\
+    &+ F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right)\\ 
+    & - F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)
+\end{align}
+where $F(x,y,z)$ is a primitive of $G(x,y,z)$, which can be obtained as:
+\begin{equation}
+F(x,y,z) = 
+\int_{x_0}^{x} dx
+\int_{y_0}^{y} dy
+\int_{z_0}^{x} dz\,
+G(x,y,z)
+\end{equation}
+with $(x_0, y_0, z_0)$ being an arbitrary starting point.
+
+An expression for $F(x,y,z)$ is the following
+\begin{align}
+F(x,y,z) =&\frac{1}{4\pi\varepsilon_0}\iiint \frac{1}{\sqrt{x^{2}+y^{2}+z^{2}}} d x d y d z\\ 
+= \frac{1}{4\pi \varepsilon_0}&\left[-\frac{z^{2}}{2} \arctan \left(\frac{x y}{z \sqrt{x^{2}+y^{2}+z^{2}}}\right)\right.
+-\frac{y^{2}}{2} \arctan \left(\frac{x z}{y \sqrt{x^{2}+y^{2}+z^{2}}}\right)\\
+&-\frac{x^{2}}{2} \arctan \left(\frac{y z}{x \sqrt{x^{2}+y^{2}+z^{2}}}\right) 
++y z \ln \left(x+\sqrt{x^{2}+y^{2}+z^{2}}\right)\\
+&\left. +x z \ln \left(y+\sqrt{x^{2}+y^{2}+z^{2}}\right)
++x y \ln \left(z+\sqrt{x^{2}+y^{2}+z^{2}}\right)\right]
+\end{align}
+
+Note that we need to choose the first cell center to be in (0,0,0) for evaluation of the integrated Green function. Therefore the cell edges have non zero coordinates and the denominators in the formula will always be non-vanishing.
+
+\subsubsection{2D Poisson problem, free space boundary conditions}
+
+For the equation:
+\begin{equation}
+\nabla_\perp^2 \phi(x,y) = -\frac{1}{\varepsilon_0} \rho(x,y)
+\end{equation}
+where:
+\begin{equation}
+\nabla = \left(\frac{\partial}{\partial x}, 
+                      \frac{\partial}{\partial y} \right)
+\end{equation}
+the solution can be written as 
+\begin{equation}
+\phi(x, y) = \iiint_{-\infty}^{+\infty} \rho(x', y')
+   \,G(x-x', y-y')\,dx'\,dy'
+\end{equation}
+where:
+\begin{equation}
+G(x, y) = -\frac{1}{4\pi\varepsilon_0} \log\left( \frac{x^2 + y^2}{r_0^2}\right)
+\end{equation}
+where $r_0$ is arbitrary constant which has no effect on the evaluated fields (changes the potential by an additive constant). 
+
+The corresponding integrated Green function can be written as:
+\begin{align}
+G_{2LR}^\text{int}(x_{n_x}, y_{n_y}) =& 
+\int_{x_{n_x}-\frac{h_x}{2}}^{x_{n_x}+\frac{h_x}{2}} dx
+\int_{y_{n_y}-\frac{h_y}{2}}^{y_{n_y}+\frac{h_y}{2}} dy\,
+G(x,y,z)\\
+= &+F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}\right)\\
+    &-F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}\right)\\
+    &-F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}\right)\\ 
+    &+F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}\right)
+\end{align}
+where $F(x,y)$ is a primitive of $G(x,y)$, which can be obtained as:
+\begin{equation}
+F(x,y) = 
+\int_{x_0}^{x} dx
+\int_{y_0}^{y} dy\,
+G(x,y)
+\end{equation}
+where $(x_0, y_0)$ is an arbitrary starting point.
+
+An expression for $F(x,y)$ is the following (where we have chosen $r_0=1$):
+\begin{align}
+F(x,y) &=-\frac{1}{4\pi\varepsilon_0}\iint \ln \left(x^{2}+y^{2}\right) dx/,dy\\
+&=\frac{1}{4\pi\varepsilon_0}\left[3 x y-x^{2} \arctan (y / x)-y^{2} \arctan (x / y)-x y \ln \left(x^{2}+y^{2}\right)\right]
+\end{align}
+
+Note that we need to choose the first cell center to be in (0,0) for evaluation of the integrated Green function. Therefore the cell edges have non zero coordinates and the denominators in the formula will always be non-vanishing.
+
+
+\subsection{Generalization to observation interval different from source interval}
 The potential generated by a source $\rho(x)$ can be written as the convolution of a Green function with the charge distribution:
 \begin{equation}
 \phi(x) = \int_{-\infty}^{+\infty} \rho(x')\,G(x-x') dx'
@@ -723,7 +1224,7 @@ We call:
  G_{Rn} &= G_{R}\left(c - b + nh_x\right)
 \end{align}
 
-By construction:
+By construction in the range $0 \leq n <M$:
 \begin{equation}
  \rho_{Rn} \equiv \rho_n = 
  \begin{cases}
@@ -737,8 +1238,7 @@ G_{Rn} \equiv  G_n = G\left(c - b + nh_x\right)
 \text{ for}~0 \leq n <M
 \end{equation}
 
-We can approximate the integral as follows
-
+We can approximate the integral as follows:
 \begin{align}
 \tilde{\rho}_k &= \frac{1}{2L}\int_0^{2L} \rho_{R}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx = \frac{1}{2L}\int_a^{a+2L} \rho_{R}(x)\, e^{-j2\pi k \frac{x}{2L}} \, dx\\
 &\simeq 
@@ -750,7 +1250,6 @@ e^{-j2\pi k \frac{a}{2L}} \frac{1}{M}
 \end{align}
 
 We recognize the Discrete Fourier Transform:
-
 \begin{equation}
 \tilde{\rho}_k 
 =
@@ -799,8 +1298,7 @@ h_x e^{j2\pi k \frac{N_1}{M}}
 
 \clearpage
 
-
-\subsection{FFT convolution compressed}
+\subsection{compressed FFT convolution}
 
 We assume that the source has the form
 \begin{equation}
@@ -1127,286 +1625,3 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \text{~~ for}~0 \leq m <N_T N_\text{aux}\\
 \end{equation}
 
-
-
-
-
-\section{Old stuff}
-
-
-We can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
-\begin{align}
-\tilde{\rho}_k = \frac{1}{M}\sum_{n=0}^{M-1} \rho_{Rn}\, e^{-j2\pi  \frac{kn}{M}}  
-= \frac{1}{M} \hat{\rho}_k
-\label{eq:rhokfft}\\
-\tilde{G}_k = \frac{1}{M}\sum_{n=0}^{M-1} G_{Rn}\, e^{-j2\pi  \frac{kn}{M}} 
-= \frac{1}{M} \hat{G}_k\label{eq:Gkfft}
-\end{align}
-
-
-
-
-We recognize the Discrete Fourier Transforms:
-\begin{align}
-\hat{\rho}_k = \text{DFT}_M\left\{ \rho_{Rn}\right\}\\
-\hat{G}_k = \text{DFT}_M\left\{ G_{Rn}\right\}
-\end{align}
-
-
-
-Using Eq.\,\eqref{eq:phifour} we can obtain a sampled version of $\phi(x)$:
-\begin{equation}
-\phi_{2LR}(x_n) = 
-\sum_{n=0}^{M-1}  
-\tilde{\phi}_k\, e^{j2\pi \frac{kn}{M}}
-\label{eq:phifft}
-\end{equation}
-where we have assumed that $\phi(x)$ is sufficiently smooth to allow truncating the sum.
-
-
-Using Eqs.\,\eqref{eq:freqconv}, \eqref{eq:rhokfft} and\,\eqref{eq:Gkfft}  we obtain:
-\begin{equation}
-\phi_{2LR}(x_n) = 
-2L \sum_{n=0}^{M-1}  
-\tilde{G}_k \, \tilde{\rho}_k\, e^{j2\pi \frac{kn}{M}} 
-= 
-\frac{2L}{M^2}
-\sum_{n=0}^{M-1}  
-\hat{G}_k \, \hat{\rho}_k\, e^{j2\pi \frac{kn}{M}} 
-\label{eq:phifftsimpl}
-\end{equation}
-
-This can be rewritten as:
-\begin{equation}
-\phi_{2LR}(x_n) = 
-\frac{1}{M}
-\sum_{n=0}^{M-1}  
-(h_x\hat{G}_k) \, \hat{\rho}_k\, e^{j2\pi \frac{kn}{M}} 
-=\text{DFT}_M^{-1}\left\{\hat\phi_k
-\right\}
-\label{eq:invfft}
-\end{equation}
-where 
-\begin{equation}
-\hat{\phi}_k =h_x\hat{G}_k \, \hat{\rho}_k
-\label{eq:phiknint}
-\end{equation}
-We call ``Integrated Green Function'' the quantity:
-\begin{equation}
-G^\text{int}_{2LR}(x_n) = h_x G_{2LR}(x_n)
-\end{equation}
-we introduce the corresponding Fourier transform:
-\begin{equation}
-\hat{G}_k^\text{int} = \text{DFT}_M\left\{ G_{2LR}^\text{int}(x_n)\right\}
-\end{equation}
-Eq.\,\eqref{eq:phiknint} can be rewritten as:
-\begin{equation}
-\boxed{
-\hat{\phi}_k =\hat{G}_k^\text{int} \, \hat{\rho}_k}
-\end{equation}
-
-In summary the potential at the grid nodes can be computed as follows:
-\begin{enumerate}
-\item We compute the Integrated Green function at the grid points in the range $[0, L]$:
-\begin{equation}
-G_{2LR}^\text{int}(x_n) = \int_{x_n-\frac{h_x}{2}}^{x_n+\frac{h_x}{2}} G(x) dx
-\end{equation}
-\item We extend to the interval $[L, 2L]$ using the fact that in this interval:
-\begin{equation}
-G^\text{int}_{2LR}(x_n) = G^\text{int}_{2LR}(x_n-2L) =  G^\text{int}_{2LR}(2L-x_n)
-\end{equation}
-where the first equality comes from the periodicity of $G^\text{int}_{2LR}(x)$ and the second from the fact that $G(x)$ is an even function (i.e. $G(x) = G(-x)$).
-Note that for $x_n \in [L, 2L]$ we have that $2L-x_n \in [0, L]$ so we can reuse the values computed at the previous step.
-\item We transform it:
-\begin{equation}
-\hat{G}^\text{int}_k = \text{DFT}_{2N}\left\{ G_{2LR}(x_n)\right\}
-\end{equation}
-\item We assume that we are given $\rho(x_n)$ in the interval $[0, L]$. From this we can obtain $\rho_{2LR}(x_n)$ over the interval $[0, 2L]$ simply extending the sequence with zeros (see Eq.\,\eqref{eq:zeros}).
-\item We transform it:
-\begin{equation}
-\hat{\rho}_k = \text{DFT}_{2N}\left\{ \rho_{2LR}(x_n)\right\}
-\end{equation}
-\item We compute the potential in the transformed domain:
-\begin{equation}
-\hat{\phi}_k = \hat{G}^\text{int}_k \hat{\rho}_k \quad \text{for } k\in [0, 2N]
-\end{equation}
-\item We inverse-transform:
-\begin{equation}
-\phi_{2LR}(x_n)  = \text{DFT}_{2N}^{-1}\left\{\hat{\phi}_k\right\}
-\end{equation}
-which provides the physical potential in the range $[0, L]$:
-\begin{equation}
-\phi(x_n)  = \phi_{2LR}(x_n)  \quad \text{for } x_n\in [0, L]
-\end{equation}
-\end{enumerate}
-
-
-\subsection{Extension to multiple dimensionss}
-
-The procedure described above can be extended to multiple dimensions by applying the same reasoning for all coordinates. 
-This gives the following procedure:
-\begin{enumerate}
-\item We compute the Integrated Green function at the grid points in the volume $[0, L_x]\times[0, L_y]\times[0, L_z]$:
-\begin{equation}
-G_{2LR}^\text{int}(x_{n_x}, y_{n_y}, z_{n_z}) = 
-\int_{x_{n_x}-\frac{h_x}{2}}^{x_{n_x}+\frac{h_x}{2}} dx
-\int_{y_{n_y}-\frac{h_y}{2}}^{y_{n_y}+\frac{h_y}{2}} dy
-\int_{z_{n_z}-\frac{h_z}{2}}^{z_{n_z}+\frac{h_z}{2}} dz\,
-G(x,y,z)
-\end{equation}
-\item We extend to the region $[0, 2L_x]\times[0, 2L_y]\times[0, 2L_z]$ using the fact that:
-\begin{multline}
-G^\text{int}_{2LR}(x_n, y_n, z_n) = G^\text{int}_{2LR}(x_n-2L_x, y_n, z_n) =  G^\text{int}_{2LR}(2L_x-x_n, y_n, z_n)\\
-\text{for } x_n \in [L_x, 2L_x], y_n \in [0, 2L_y], z_n \in [0, 2L_z]
-\end{multline}
-\begin{multline}
-G^\text{int}_{2LR}(x_n, y_n, z_n) = G^\text{int}_{2LR}(x_n, y_n-2L_y, z_n) =  G^\text{int}_{2LR}(x_n, 2L_y-y_n,  z_n)\\
-\text{for } y_n \in [L_y, 2L_y], x_n \in [0, 2L_x], z_n \in [0, 2L_z]
-\end{multline}
-\begin{multline}
-G^\text{int}_{2LR}(x_n, y_n, z_n) = G^\text{int}_{2LR}(x_n, y_n, z_n-2L_z) =  G^\text{int}_{2LR}(x_n, y_n,  2L_z-z_n)\\
-\text{for } z_n \in [L_z, 2L_z], x_n \in [0, 2L_x], y_n \in [0, 2L_y]
-\end{multline}
-This allows reusing the values computed at the previous step.
-\item We transform it:
-\begin{equation}
-\hat{G}^\text{int}_{k_x k_y k_z} = 
-\text{DFT}_{2N_x 2N_y 2N_z}\left\{ G_{2LR}(x_n, y_n, z_n)\right\}
-\end{equation}
-\item We assume that we are given $\rho(x_n, y_n, z_n)$ in the region $[0, L_x]\times[0, L_y]\times[0, L_z]$. From this we can obtain $\rho_{2LR}(x_n)$ over the region $[0, 2L_x]\times[0, 2L_y]\times[0, 2L_z]$ simply extending the matrix with zeros (see Eq.\,\eqref{eq:zeros}).
-\item We transform it:
-\begin{equation}
-\hat{\rho}^\text{int}_{k_x k_y k_z} = 
-\text{DFT}_{2N_x 2N_y 2N_z}\left\{ \rho_{2LR}(x_n, y_n, z_n)\right\}
-\end{equation}
-\item We compute the potential in the transformed domain:
-\begin{equation}
-\hat{\phi}_{k_x k_y k_z} = \hat{G}^\text{int}_{k_x k_y k_z} \, \hat{\rho}_{k_x k_y k_z} \quad \text{for } k_{x/y/z}\in [0, 2N_{x/y/z}]
-\end{equation}
-\item We inverse-transform:
-\begin{equation}
-\phi_{2LR}(x_n, y_n, z_n)  = \text{DFT}_{2N_x 2N_y 2N_z}^{-1}
-\left\{\hat{\phi}_{k_x k_y k_z}\right\}
-\end{equation}
-which provides the physical potential in the region $[0, L_x]\times[0, L_y]\times[0, L_z]$:
-\begin{multline}
-\phi(x_n, y_n, z_n) = \phi_{2LR}(x_n, y_n, z_n)  
-\text{ for } (x_n, y_n, z_n) \in [0, L_x]\times[0, L_y]\times[0, L_z]
-\end{multline}
-\end{enumerate}
-
- 
-\subsection{Green functions for 2D and 3D Poisson problems}
-
-\subsubsection{3D Poisson problem, free space boundary conditions}
-
-For the equation:
-\begin{equation}
-\nabla^2 \phi(x,y,z) = -\frac{1}{\varepsilon_0} \rho(x,y,z)
-\end{equation}
-where:
-\begin{equation}
-\nabla = \left(\frac{\partial}{\partial x}, 
-                      \frac{\partial}{\partial y},
-                      \frac{\partial}{\partial z} \right)
-\end{equation}
-the solution can be written as 
-\begin{equation}
-\phi(x, y, z) = \iiint_{-\infty}^{+\infty} \rho(x', y', z')
-   \,G(x-x', y-y', z-z')\,dx'\,dy'\,dz'
-\end{equation}
-where:
-\begin{equation}
-G(x, y, z) = \frac{1}{4\pi\varepsilon_0}\frac{1}{
-\sqrt{x^2 +y^2 +z^2}
-}
-\end{equation}
-
-The corresponding integrated Green function~\cite{QIANG2004278}. can be written as:
-\begin{align}
-G_{2LR}^\text{int}(x_{n_x}, y_{n_y}, z_{n_z}) =& 
-\int_{x_{n_x}-\frac{h_x}{2}}^{x_{n_x}+\frac{h_x}{2}} dx
-\int_{y_{n_y}-\frac{h_y}{2}}^{y_{n_y}+\frac{h_y}{2}} dy
-\int_{z_{n_z}-\frac{h_z}{2}}^{x_{n_z}+\frac{h_z}{2}} dz\,
-G(x,y,z)\\
-= &+F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right) \\
-    &- F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)\\
-    &- F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right)\\ 
-    &+ F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)\\
-    &-F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right) \\
-    &+ F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)\\
-    &+ F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}+\frac{h_z}{2}\right)\\ 
-    & - F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}, z_{n_x}-\frac{h_z}{2}\right)
-\end{align}
-where $F(x,y,z)$ is a primitive of $G(x,y,z)$, which can be obtained as:
-\begin{equation}
-F(x,y,z) = 
-\int_{x_0}^{x} dx
-\int_{y_0}^{y} dy
-\int_{z_0}^{x} dz\,
-G(x,y,z)
-\end{equation}
-with $(x_0, y_0, z_0)$ being an arbitrary starting point.
-
-An expression for $F(x,y,z)$ is the following
-\begin{align}
-F(x,y,z) =&\frac{1}{4\pi\varepsilon_0}\iiint \frac{1}{\sqrt{x^{2}+y^{2}+z^{2}}} d x d y d z\\ 
-= \frac{1}{4\pi \varepsilon_0}&\left[-\frac{z^{2}}{2} \arctan \left(\frac{x y}{z \sqrt{x^{2}+y^{2}+z^{2}}}\right)\right.
--\frac{y^{2}}{2} \arctan \left(\frac{x z}{y \sqrt{x^{2}+y^{2}+z^{2}}}\right)\\
-&-\frac{x^{2}}{2} \arctan \left(\frac{y z}{x \sqrt{x^{2}+y^{2}+z^{2}}}\right) 
-+y z \ln \left(x+\sqrt{x^{2}+y^{2}+z^{2}}\right)\\
-&\left. +x z \ln \left(y+\sqrt{x^{2}+y^{2}+z^{2}}\right)
-+x y \ln \left(z+\sqrt{x^{2}+y^{2}+z^{2}}\right)\right]
-\end{align}
-
-Note that we need to choose the first cell center to be in (0,0,0) for evaluation of the integrated Green function. Therefore the cell edges have non zero coordinates and the denominators in the formula will always be non-vanishing.
-
-\subsubsection{2D Poisson problem, free space boundary conditions}
-
-For the equation:
-\begin{equation}
-\nabla_\perp^2 \phi(x,y) = -\frac{1}{\varepsilon_0} \rho(x,y)
-\end{equation}
-where:
-\begin{equation}
-\nabla = \left(\frac{\partial}{\partial x}, 
-                      \frac{\partial}{\partial y} \right)
-\end{equation}
-the solution can be written as 
-\begin{equation}
-\phi(x, y) = \iiint_{-\infty}^{+\infty} \rho(x', y')
-   \,G(x-x', y-y')\,dx'\,dy'
-\end{equation}
-where:
-\begin{equation}
-G(x, y) = -\frac{1}{4\pi\varepsilon_0} \log\left( \frac{x^2 + y^2}{r_0^2}\right)
-\end{equation}
-where $r_0$ is arbitrary constant which has no effect on the evaluated fields (changes the potential by an additive constant). 
-
-The corresponding integrated Green function can be written as:
-\begin{align}
-G_{2LR}^\text{int}(x_{n_x}, y_{n_y}) =& 
-\int_{x_{n_x}-\frac{h_x}{2}}^{x_{n_x}+\frac{h_x}{2}} dx
-\int_{y_{n_y}-\frac{h_y}{2}}^{y_{n_y}+\frac{h_y}{2}} dy\,
-G(x,y,z)\\
-= &+F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}\right)\\
-    &-F\left(x_{n_x}+\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}\right)\\
-    &-F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}+\frac{h_y}{2}\right)\\ 
-    &+F\left(x_{n_x}-\frac{h_x}{2}, y_{n_x}-\frac{h_y}{2}\right)
-\end{align}
-where $F(x,y)$ is a primitive of $G(x,y)$, which can be obtained as:
-\begin{equation}
-F(x,y) = 
-\int_{x_0}^{x} dx
-\int_{y_0}^{y} dy\,
-G(x,y)
-\end{equation}
-where $(x_0, y_0)$ is an arbitrary starting point.
-
-An expression for $F(x,y)$ is the following (where we have chosen $r_0=1$):
-\begin{align}
-F(x,y) &=-\frac{1}{4\pi\varepsilon_0}\iint \ln \left(x^{2}+y^{2}\right) dx/,dy\\
-&=\frac{1}{4\pi\varepsilon_0}\left[3 x y-x^{2} \arctan (y / x)-y^{2} \arctan (x / y)-x y \ln \left(x^{2}+y^{2}\right)\right]
-\end{align}
-
-Note that we need to choose the first cell center to be in (0,0) for evaluation of the integrated Green function. Therefore the cell edges have non zero coordinates and the denominators in the formula will always be non-vanishing.
