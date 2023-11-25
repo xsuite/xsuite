@@ -14,20 +14,42 @@
 
 import sys
 import os
+from sphinx.ext.autosummary import Autosummary
+from sphinx.ext.autosummary import get_documenter
+from docutils.parsers.rst import directives
+from sphinx.util.inspect import safe_getattr
+import re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+
+xobjects_branch = 'main'
+xfields_branch = 'main'
+xtrack_branch = 'main'
+xpart_branch = 'main'
+xdeps_branch = 'main'
+xmask_branch = 'main'
+
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xobjects')
+    f'git clone --single-branch --branch {xobjects_branch} '
+    'https://github.com/xsuite/xobjects')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xfields')
+    f'git clone --single-branch --branch {xfields_branch} '
+    'https://github.com/xsuite/xfields')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xtrack')
+    f'git clone --single-branch --branch {xtrack_branch} '
+    'https://github.com/xsuite/xtrack')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xpart')
+    f'git clone --single-branch --branch {xpart_branch} '
+    'https://github.com/xsuite/xpart')
 os.system(
-    'git clone --single-branch --branch main https://github.com/xsuite/xdeps')
+    f'git clone --single-branch --branch {xdeps_branch} '
+    'https://github.com/xsuite/xdeps')
+os.system(
+    f'git clone --single-branch --branch {xmask_branch} '
+    'https://github.com/xsuite/xmask')
+
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
@@ -87,8 +109,16 @@ snippet_files = {
         'generated_code_snippets/twiss.py',
     'xtrack/examples/twiss/003_match_tune_chroma.py':
         'generated_code_snippets/match_tune_chroma.py',
+    'xtrack/examples/twiss/003b_match_4c_bump.py':
+        'generated_code_snippets/match_4c_bump.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
+    'xtrack/examples/twiss/011_tune_vs_delta.py':
+        'generated_code_snippets/tune_vs_delta.py',
+    'xtrack/examples/twiss/017_table_slicing.py':
+        'generated_code_snippets/table_slicing.py',
+    'xtrack/examples/footprint/000_footprint.py':
+        'generated_code_snippets/footprint.py',
     'xtrack/examples/to_json/000_lattice_to_json.py':
         'generated_code_snippets/tojson.py',
     'xtrack/examples/knobs/001_lhc.py':
@@ -125,7 +155,15 @@ snippet_files = {
         'generated_code_snippets/freeze_individual_methods.py',
     'xtrack/examples/optimized_tracker/000_optimized_tracker.py':
         'generated_code_snippets/optimized_tracker.py',
-    }
+    'xfields/examples/002_beambeam/006_beambeam6d_strongstrong_pipeline_MPI2Procs.py':
+        'generated_code_snippets/pipeline.py',
+    'xtrack/examples/footprint/003_stability_diagram.py':
+        'generated_code_snippets/stabilitydiagram.py',
+    'xfields/examples/002_beambeam/010_beambeam2d_weakstrong.py':
+        'generated_code_snippets/beambeamws.py',
+    'xtrack/examples/dynamic_aperture/000_tracking_for_da.py':
+        'generated_code_snippets/tracking_for_da.py',
+}
 
 for ss, tt in snippet_files.items():
     with open(ss, 'r') as fid:
@@ -177,6 +215,9 @@ extensions = ['sphinx.ext.autodoc',
 
 # Add any paths that contain templates here, relative to this directory.ls 
 templates_path = ['_templates']
+
+autosummary_generate = True
+autosummary_generate_overwrite = True
 
 # The suffix of source filenames.
 source_suffix = '.rst'
@@ -243,7 +284,12 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
+html_logo = "figures/xsuite_logo_alpha.png"
+html_theme_options = {
+    'logo_only': True,
+    'display_version': False,
+}
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -401,3 +447,50 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+autoclass_content = 'both'
+
+# The below class allows us to display an automatically generated table of
+# methods and attributes for a class.
+# Adapted from https://stackoverflow.com/a/30783465
+class AutoAutoSummary(Autosummary):
+
+    option_spec = {
+        'methods': directives.unchanged,
+        'attributes': directives.unchanged
+    }
+
+    required_arguments = 1
+
+    def get_members(self, obj, typ, include_public=None):
+        if not include_public:
+            include_public = []
+        items = []
+        for name in obj.__dict__.keys():
+            try:
+                documenter = get_documenter(self.env.app, safe_getattr(obj, name), obj)
+            except AttributeError:
+                continue
+            if documenter.objtype == typ:
+                items.append(name)
+        public = [x for x in items if x in include_public or not x.startswith('_')]
+        return public, items
+
+    def run(self):
+        clazz = str(self.arguments[0])
+        try:
+            (module_name, class_name) = clazz.rsplit('.', 1)
+            m = __import__(module_name, globals(), locals(), [class_name])
+            c = getattr(m, class_name)
+            if 'methods' in self.options:
+                _, methods = self.get_members(c, 'method', ['__init__'])
+
+                self.content = ["~%s.%s" % (clazz, method) for method in methods if not method.startswith('_')]
+            if 'attributes' in self.options:
+                _, attribs = self.get_members(c, 'attribute')
+                self.content = ["~%s.%s" % (clazz, attrib) for attrib in attribs if not attrib.startswith('_')]
+        finally:
+            return super(AutoAutoSummary, self).run()
+
+def setup(app):
+    app.add_directive('autoautosummary', AutoAutoSummary)

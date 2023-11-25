@@ -3,7 +3,7 @@ Acceleration
 ============
 
 The acceleration can be simulated by adding to the line the element
-``xtrack.ReferenceEnergyIncrease`` as illustrated by the following example.
+:class:`xtrack.ReferenceEnergyIncrease` as illustrated by the following example.
 
 .. literalinclude:: generated_code_snippets/acceleration.py
    :language: python

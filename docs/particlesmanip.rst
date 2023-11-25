@@ -45,7 +45,7 @@ It is often convenient to generate new Particles objects starting from a given
 reference particle, which defines the particle type (charge and mass)
 and the reference energy and momentum.
 This can be accomplished using the :meth:`xpart.build_particles` function or
-its alias ``tracker.build_particles``, which
+its alias ``Line.build_particles``, which
 feature three different modes illustrated in the following.
 
 The ``set`` mode
@@ -60,8 +60,8 @@ zero assumed as default). For example:
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
 
-Equivalently one can use the ``tracker.build_particles`` function (automatically
-infers context and reference particle from the tracker):
+Equivalently one can use the ``Line.build_particles`` function (automatically
+infers context and reference particle from the line):
 
 .. literalinclude:: generated_code_snippets/build_particles_set_with_tracker.py
    :language: python
@@ -78,8 +78,8 @@ reference particle and shifted according to the provided input `x`, `px`, `y`,
 .. literalinclude:: generated_code_snippets/build_particles_shift.py
    :language: python
 
-Equivalently one can use the ``tracker.build_particles`` function (automatically
-infers context and reference particle from the tracker):
+Equivalently one can use the `line.build_particles`` function (automatically
+infers context and reference particle from the line):
 
 .. literalinclude:: generated_code_snippets/build_particles_shift_with_tracker.py
    :language: python
@@ -91,7 +91,7 @@ If ``mode=normalized_transverse"`` is passed to the function or if any of the
 input `x_norm`, `px_norm`, `y_norm`, `py_norm` is provided, the transverse
 coordinates are computed from normalized values `x_norm`, `px_norm`, `y_norm`,
 `py_norm` (with zero assumed as default) using the
-closed-orbit information and the linear transfer map obtained from the `tracker`
+closed-orbit information and the linear transfer map obtained from the `line`
 argument or provided by the user. Reference quantities including mass0,
 q0, p0c, gamma0, etc. are taken from the provided reference
 particle. The longitudinal coordinates are set according to the
@@ -174,7 +174,7 @@ the non-linead RF bucket, as illustrated by the following example:
 Matching distribution at custom location in the ring
 ----------------------------------------------------
 
-The functions :meth:`xtrack.Tracker.generate_matched_gaussian_bunch` can be used to
+The functions :meth:`xtrack.Line.generate_matched_gaussian_bunch` can be used to
 match a particle distribution at a custom location in the ring, as illustrated
 by the following example:
 

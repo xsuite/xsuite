@@ -2,7 +2,13 @@
 Interface to PyHEADTAIL
 =======================
 
-PyHEADTAIL elements cannot be natively used by an Xsuite tracker due to different naming conventions for the particles coordinates. A specific interface has been introduced in Xsuite which indtroduces additional properties in the Particles objects in order to make them compatible with PyHEADTAIL beam elements. The interface can be enabled by calling the function ``enable_pyheadtail_interface`` right after importing xtrack, as illustrated in the following example.
+PyHEADTAIL elements cannot be natively used by an Xsuite line due to different
+naming conventions for the particles coordinates. A specific interface has been
+introduced in Xsuite which indtroduces additional properties in the Particles
+objects in order to make them compatible with PyHEADTAIL beam elements.
+The interface can be enabled by calling the function
+``enable_pyheadtail_interface`` right after importing xtrack,as illustrated
+in the following example.
 
 .. code-block:: python
 
@@ -45,7 +51,7 @@ PyHEADTAIL elements cannot be natively used by an Xsuite tracker due to differen
     # Build TrackJob #
     ##################
 
-    tracker = xt.Tracker(_context=context, line=line)
+    line.build_tracker(_context=context)
 
     ######################
     # Get some particles #
@@ -64,13 +70,13 @@ PyHEADTAIL elements cannot be natively used by an Xsuite tracker due to differen
     # Track #
     #########
 
-    tracker.track(particles, num_turns=num_turns, turn_by_turn_monitor=True)
+    line.track(particles, num_turns=num_turns, turn_by_turn_monitor=True)
 
     ########
     # Plot #
     ########
 
-    res = tracker.record_last_track
+    res = line.record_last_track
 
     import matplotlib.pyplot as plt
     plt.close('all')

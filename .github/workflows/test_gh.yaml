@@ -21,6 +21,20 @@ on:
       xfields_location:
         required: true
         type: string
+      xmask_location:
+        required: true
+        type: string
+      xcoll_location:
+        required: true
+        type: string
+      precompile_kernels:
+        required: false
+        default: false
+        type: boolean
+      xobjects_test_contexts:
+        required: false
+        default: "ContextCpu;ContextCpu:auto"
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -40,6 +54,8 @@ jobs:
         - xpart
         - xtrack
         - xfields
+        - xmask
+        - xcoll
     
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
@@ -48,6 +64,12 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Set up dynamic swapping
+      run: |
+        sudo swapoff -a
+        sudo apt-get install -y swapspace
+        sudo systemctl start swapspace.service
+        df -h
     - name: Setup Miniforge
       uses: conda-incubator/setup-miniconda@v2
       with:
@@ -55,6 +77,7 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
+        conda install openmp
         pip install cython
     - name: Check out xsuite repos & pip install
       env:
@@ -63,8 +86,10 @@ jobs:
         xpart_branch: ${{ inputs.xpart_location }}
         xtrack_branch: ${{ inputs.xtrack_location }}
         xfields_branch: ${{ inputs.xfields_location }}
+        xmask_branch: ${{ inputs.xmask_location }}
+        xcoll_branch: ${{ inputs.xcoll_location }}
       run: |
-        for project in xobjects xdeps xpart xtrack xfields; do
+        for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do
           branch_varname="${project}_branch"
           project_branch=${!branch_varname}  # get value of the variable [project]_branch
           
@@ -72,17 +97,33 @@ jobs:
           user="${parts[0]}"
           branch="${parts[1]}"
           
-          echo git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git"
+          echo git clone \
+            --recursive \
+            --single-branch -b "$branch" \
+            "https://github.com/${user}/${project}.git"
           
           cd $GITHUB_WORKSPACE
-          git clone -b "$branch" --single-branch "https://github.com/${user}/${project}.git"
+          git clone \
+            --recursive \
+            --single-branch -b "$branch" \
+            "https://github.com/${user}/${project}.git"
           pip install -e "${GITHUB_WORKSPACE}/${project}[tests]"
         done
+    - name: Checkout xsuite (needed to precompile kernels)
+      if: ${{ inputs.precompile_kernels == true }}
+      uses: actions/checkout@v3
+      with:
+        path: 'xsuite'
+    - name: Precompile kernels
+      if: ${{ inputs.precompile_kernels == true }}
+      run: |
+        pip install -e "${GITHUB_WORKSPACE}/xsuite"
+        xsuite-prebuild
     - name: Print versions
       run: conda list
     - name: Run tests (${{ matrix.test-suite }})
       env:
-        XOBJECTS_TEST_CONTEXTS: ContextCpu
+        XOBJECTS_TEST_CONTEXTS: ${{ inputs.xobjects_test_contexts }}
       run: |
         cd $GITHUB_WORKSPACE/${{ matrix.test-suite }}
         python -m pytest --color=yes -v tests
