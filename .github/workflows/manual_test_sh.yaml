@@ -1,6 +1,6 @@
 # This is a test workflow that is manually triggered
 name: Manual test (self-hosted)
-run-name: Manual test (self-hosted, ${{ inputs.platform }})
+run-name: Manual test (${{ inputs.platform }}, ${{ inputs.test_contexts }})
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
