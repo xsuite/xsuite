@@ -1,20 +1,20 @@
-======================
-Match twiss parameters
-======================
+=====
+Match
+=====
 
-The Xtrack Line class provides a match method that allows to match the twiss parameters of a
+The Xtrack Line class provides a match method that allows using a numerical optimizer
 to adjust knobs attached to the line in order to obtain desired values
-in the twiss results. This feature is illustrated in the following examples.
+in the twiss results (or as a result of other user-defined actions).
 
 .. contents:: Table of Contents
     :depth: 3
 
-Match tunes and chromaticities
-------------------------------
+Basic usage
+-----------
 
 See also :meth:`xtrack.Line.match`
 
-.. literalinclude:: generated_code_snippets/match_tune_chroma.py
+.. literalinclude:: generated_code_snippets/match_basic.py
    :language: python
 
 Match an orbit bump
