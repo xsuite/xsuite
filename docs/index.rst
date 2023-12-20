@@ -29,6 +29,7 @@ Table of contents
    developer
    physicsguide
    apireference
+   jupyter_tutorials
 
 Indices and tables
 ------------------

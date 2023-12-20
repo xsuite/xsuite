@@ -74,7 +74,13 @@ def make_flag(pkg):
     help='The workflow file to use.',
     show_default=True,
 )
-def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf):
+@click.option(
+    '--branch',
+    default='main',
+    help='The branch of the workflow.',
+    show_default=True,
+)
+def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf, branch):
     """Schedule a test run of Xsuite on a self-hosted runner.
 
     Example:
@@ -111,7 +117,7 @@ def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf):
     print('Scheduling')
     print(json.dumps(parameters, indent=2))
 
-    workflow_command = f'gh workflow run {wf} --json'
+    workflow_command = f'gh workflow run {wf} --json --ref {branch}'
 
     res = subprocess.run(
         workflow_command.split(),

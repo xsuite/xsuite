@@ -1620,3 +1620,43 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \text{~~ for}~0 \leq m <N_T N_\text{aux}\\
 \end{equation}
 
+
+\section{Transverse wakefields}
+
+The transverse dipolar wakefield $W^D_{x}$ is defined such that:
+
+\begin{equation}
+\Delta p_x(z) = -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
+    \bar{x}(z')\lambda(z')W^D_{x}(z-z') \, dz'
+\end{equation}
+where $q$ is the particle charge in number of elementary charges, $e$ is the elementary charge in Coulomb, $\bar{x}(z)$ is the average beam position, $\lambda(z)$ is the longitudinal beam density $dN/dz$ in number of particles per meter.
+
+Discretization:
+\begin{equation}
+\Delta p_x(z_i) = -\frac{q^2 e^2}{p_0c}
+    \sum_j
+    \bar{x}(z_j)\lambda(z_j)W^D_{x}(z_i-z_j) \, \Delta z
+\end{equation}
+where:
+\begin{equation}
+z_i = z_a + i\Delta z
+\end{equation}
+\begin{equation}
+z_j = z_b + j\Delta z
+\end{equation}
+
+We replace in the wake term:
+
+
+\begin{equation}
+ W^D_{x}(z_i-z_j)  = 
+  W^D_{x}(z_a + i\Delta z-z_b - j\Delta z)
+ = W^D_{x}(z_a -z_b + (i - j) \Delta z)
+\end{equation}
+
+We define
+\begin{equation}
+W_{l} = W^D_{x}(z_a -z_b + l \Delta z) 
+\end{equation}
+
+
