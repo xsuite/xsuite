@@ -190,6 +190,9 @@ for ss, tt in snippet_files.items():
     while len(lines) > 0 and lines[0].strip() == '':
         lines = lines[1:]
 
+    lines += ['']
+    lines += [f'# Full example: {ss}']
+
     cc = '\n'.join(lines)
 
     with open(tt, 'w') as fid:
