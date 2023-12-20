@@ -191,7 +191,7 @@ for ss, tt in snippet_files.items():
         lines = lines[1:]
 
     lines += ['']
-    lines += [f'# Full example: {ss}']
+    lines += [f'# Example source: {ss}']
 
     cc = '\n'.join(lines)
 
