@@ -26,9 +26,9 @@ Table of contents
    :maxdepth: 2
 
    usersguide
-   developer
-   physicsguide
    apireference
+   physicsguide
+   developer
    jupyter_tutorials
 
 Indices and tables

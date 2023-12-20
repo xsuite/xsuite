@@ -1,6 +1,6 @@
-=============
-API reference
-=============
+================
+Reference manual
+================
 
 .. contents:: Table of Contents
     :depth: 6
@@ -12,19 +12,20 @@ The Xsuite Line class is the main class to build beam lines. Its interface is
 described in the following (more info on how to build and use beam lines for
 different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
 
-Fundamentals
-------------
+.. autoclass:: xtrack.Line
+    :members:
+    :member-order: bysource
 
-This section describes the fundamental methods of the xtrack.Line class, namely
-the :ref:`track method <track_method_label>`, the :ref:`twiss method<twiss_method_label>`,
-the :ref:`match method <match_method_label>` and the
-:ref:`build_particles method <build_particles_method_label>`.
+.. List of all methods
+.. -------------------
 
+.. .. autoautosummary:: xtrack.Line
+..     :methods:
 
 .. _track_method_label:
 
 Track
-~~~~~
+=====
 See also: :doc:`Single particle tracking <singlepart>`,
 :doc:`Tracking with collective elements <collective>`.
 
@@ -34,46 +35,25 @@ See also: :doc:`Single particle tracking <singlepart>`,
 .. _twiss_method_label:
 
 Twiss
-~~~~~
+=====
 
 See also: :doc:`Twiss <twiss>`.
 
 .. automethod:: xtrack.Line.twiss
 
 Match
-~~~~~
+=====
 
 See also: :doc:`Match<match>`.
 
-.. _match_method_label:
+
 
 .. automethod:: xtrack.Line.match
 
 .. _build_particles_method_label:
 
-Build particles
-~~~~~~~~~~~~~~~
-
-See also: :doc:`Working with Particles objects <particlesmanip>`.
-
-.. automethod:: xtrack.Line.build_particles
-
-
-List of all methods
--------------------
-
-.. autoautosummary:: xtrack.Line
-    :methods:
-
-Description of all methods
---------------------------
-
-.. autoclass:: xtrack.Line
-    :members:
-    :member-order: bysource
-
-Auxiliary classes
------------------
+Vary and Target
+---------------
 
 .. autoclass:: xtrack.Vary
     :members:
@@ -90,6 +70,20 @@ Auxiliary classes
 .. autoclass:: xtrack.TargetSet
     :members:
     :member-order: bysource
+
+
+Build particles
+===============
+
+See also: :doc:`Working with Particles objects <particlesmanip>`.
+
+.. automethod:: xtrack.Line.build_particles
+
+
+
+
+
+
 
 
 
