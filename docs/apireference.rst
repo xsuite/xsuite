@@ -71,6 +71,10 @@ Vary and Target
     :members:
     :member-order: bysource
 
+.. autoclass:: xtrack.TargetRelPhaseAdvance
+    :members:
+    :member-order: bysource
+
 
 Build particles
 ===============
