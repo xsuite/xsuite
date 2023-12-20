@@ -12,7 +12,9 @@ in the twiss results (or as a result of other user-defined actions).
 Basic usage
 -----------
 
-See also :meth:`xtrack.Line.match`
+The numerical optimizer can be used calling the method :meth:`xtrack.Line.match`,
+as illustrated in the following example.
+
 
 .. literalinclude:: generated_code_snippets/match_basic.py
    :language: python

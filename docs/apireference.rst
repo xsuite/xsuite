@@ -72,6 +72,25 @@ Description of all methods
     :members:
     :member-order: bysource
 
+Auxiliary classes
+-----------------
+
+.. autoclass:: xtrack.Vary
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.VaryList
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.Target
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.TargetSet
+    :members:
+    :member-order: bysource
+
 
 
 xpart.Particles class
