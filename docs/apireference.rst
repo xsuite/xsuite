@@ -43,7 +43,7 @@ See also: :doc:`Twiss <twiss>`.
 Match
 ~~~~~
 
-See also: :doc:`Match twiss parameters <match_twiss_params>`.
+See also: :doc:`Match<match>`.
 
 .. _match_method_label:
 
