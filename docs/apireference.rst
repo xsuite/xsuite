@@ -52,6 +52,9 @@ See also: :doc:`Match<match>`.
     :members:
     :member-order: bysource
 
+
+.. _vary_target_label:
+
 Vary and Target
 ---------------
 

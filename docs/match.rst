@@ -12,11 +12,26 @@ in the twiss results (or as a result of other user-defined actions).
 Basic usage
 -----------
 
-The numerical optimizer can be used calling the method :meth:`xtrack.Line.match`,
-as illustrated in the following example.
+The numerical optimizer can be used calling the method :meth:`xtrack.Line.match`.
+The optimization is define by a set of :ref:`Vary and Target objects  <vary_target_label>` defining the
+knobs to be varied and the targets to be matched. The following example shows
+how to match the tunes and chromaticities of a ring.
 
 
 .. literalinclude:: generated_code_snippets/match_basic.py
+   :language: python
+
+Interactive matching
+--------------------
+
+The match method can also be used in an interactive way passing `solve=False`
+to the :method:`xtrack.Line.match`. In this case an :class:`xdeps.Optimize` object
+is returned that can be used to interactively drive the optimization process,
+by enabling/disabling knobs and targets, changing target values and tolerances,
+controlling the number of optimization steps. This is illustrated in the
+following example.
+
+.. literalinclude:: generated_code_snippets/match_interactive.py
    :language: python
 
 Match an orbit bump

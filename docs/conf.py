@@ -109,6 +109,8 @@ snippet_files = {
         'generated_code_snippets/twiss.py',
     'xtrack/examples/match_basics/000_match_basic.py':
         'generated_code_snippets/match_basic.py',
+    'xtrack/examples/match_basics/001_match_interactive.py':
+        'generated_code_snippets/match_interactive.py',
     'xtrack/examples/twiss/003b_match_4c_bump.py':
         'generated_code_snippets/match_4c_bump.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
