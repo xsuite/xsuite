@@ -48,6 +48,9 @@ See also: :doc:`Match<match>`.
 
 .. automethod:: xtrack.Line.match
 
+.. autoclass:: xdeps.Optimize
+    :members:
+    :member-order: bysource
 
 Vary and Target
 ---------------
@@ -72,11 +75,6 @@ Vary and Target
     :members:
     :member-order: bysource
 
-Optimize
---------
-.. autoclass:: xdeps.Optimize
-    :members:
-    :member-order: bysource
 
 .. _build_particles_method_label:
 
