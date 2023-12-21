@@ -25,7 +25,7 @@ Interactive matching
 --------------------
 
 The match method can also be used in an interactive way passing `solve=False`
-to the :method:`xtrack.Line.match`. In this case an :class:`xdeps.Optimize` object
+to the :meth:`xtrack.Line.match`. In this case an :class:`xdeps.Optimize` object
 is returned that can be used to interactively drive the optimization process,
 by enabling/disabling knobs and targets, changing target values and tolerances,
 controlling the number of optimization steps. This is illustrated in the
