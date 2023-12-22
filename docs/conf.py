@@ -119,6 +119,8 @@ snippet_files = {
         'generated_code_snippets/match_bump_init_end.py',
     'xtrack/examples/match_basics/002b_match_bump_init_middle.py':
         'generated_code_snippets/match_bump_init_middle.py',
+    'xtrack/examples/match_basics/004_match_bump_common_elements.py':
+        'generated_code_snippets/match_bump_common_elements.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
     'xtrack/examples/twiss/011_tune_vs_delta.py':

@@ -78,3 +78,23 @@ also from an existing TwissTable object, as illustrated in the following example
 
 .. literalinclude:: generated_code_snippets/match_bump_from_table.py
    :language: python
+
+Match involving multiple lines
+------------------------------
+
+See also :meth:`xtrack.Line.match`
+
+The match method can also be used to match multiple lines at the same time.
+This is illustrated in the following example, showing how to match orbit bumps
+in the two beams of a collider to obtain a given crossing angle between the
+two beams. Some of the used dipole magnets are shared between the two beams.
+
+.. literalinclude:: generated_code_snippets/match_bump_common_elements.py
+   :language: python
+
+.. figure:: figures/crossing_bump.png
+    :width: 99%
+    :align: center
+
+    The orbit bump from the example above. The corrector magnets indicated in
+    green act on both beams.
