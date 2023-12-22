@@ -98,3 +98,17 @@ two beams. Some of the used dipole magnets are shared between the two beams.
 
     The orbit bump from the example above. The corrector magnets indicated in
     green act on both beams.
+
+Callables and inequalities in targets
+-------------------------------------
+
+See also :meth:`xtrack.Line.match`
+
+Targets can contain also callables and inequalities. This is illustrated in the
+following example, showing the match of crossing bump (as in the previous section)
+where we use a callable to match the average angle at the IP to zero and
+inequalities to impose a minimum and maximum value for the angle of one beam
+at the IP.
+
+.. literalinclude:: generated_code_snippets/match_bump_common_ele_callable_ineq.py
+   :language: python
