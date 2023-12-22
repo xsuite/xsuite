@@ -113,6 +113,12 @@ snippet_files = {
         'generated_code_snippets/match_interactive.py',
     'xtrack/examples/match_basics/002_match_bump_basic.py':
         'generated_code_snippets/match_bump_basic.py',
+    'xtrack/examples/match_basics/003_match_bump_from_table.py':
+        'generated_code_snippets/match_bump_from_table.py',
+    'xtrack/examples/match_basics/002a_match_bump_init_end.py':
+        'generated_code_snippets/match_bump_init_end.py',
+    'xtrack/examples/match_basics/002b_match_bump_init_middle.py':
+        'generated_code_snippets/match_bump_init_middle.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
     'xtrack/examples/twiss/011_tune_vs_delta.py':

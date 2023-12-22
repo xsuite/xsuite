@@ -40,15 +40,41 @@ Match at specific locations
 
 See also :meth:`xtrack.Line.match`
 
-The match method can also be used with targets at specific locations in the line.
+The match method can also be used on a portion of a beam line and/or with
+targets at specific locations. By default the provided boundary conditions are
+imposed at the start of the specified range. The constants ``xt.START`` and
+``xt.END`` can be used to specify targets at the start and end of the range
+respectively. This is illustrated in the following example, showing how to
+match a closed orbit bump in a given beamline range.
 
 .. literalinclude:: generated_code_snippets/match_bump_basic.py
    :language: python
+
+
+Alternatively, the boundary conditions can be imposed at the end or within
+the specified range as illustrated in the following examples.
+
+.. literalinclude:: generated_code_snippets/match_bump_init_end.py
+   :language: python
+
+
+.. literalinclude:: generated_code_snippets/match_bump_init_middle.py
+   :language: python
+
 
 .. figure:: figures/orbit_bump.png
     :width: 99%
     :align: center
 
-    The matched orbit bump. The green vertical lines mark the range used For
-    the matching. The red line is the point where the position and angle are
-    imposed. The grey lines mark the location of the used orbit correctors.
+    The orbit bump from the three examples above.
+
+Boundary conditions and target values from existing table
+---------------------------------------------------------
+
+See also :meth:`xtrack.Line.match`
+
+Boundary conditions and target values used for the matching can be obtained
+also from an existing TwissTable object, as illustrated in the following example.
+
+.. literalinclude:: generated_code_snippets/match_bump_from_table.py
+   :language: python
