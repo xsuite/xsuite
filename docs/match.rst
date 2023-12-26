@@ -103,6 +103,8 @@ at the IP.
 Matching on results of arbitrary actions
 ----------------------------------------
 
+See also :meth:`xtrack.Line.match`
+
 By default the quantities used as match targets are found in the result of the
 twiss method. It is nevertheless possible to use the match method on results of
 arbitrary user-defined "actions". Each action is defined by writing a small python
@@ -118,6 +120,8 @@ how to use octupole magnets to control the detuning with amplitude coefficients
 Interactive match
 -----------------
 
+See also :meth:`xtrack.Line.match`
+
 The match method can also be used in an interactive way passing `solve=False`
 to the :meth:`xtrack.Line.match`. In this case an :class:`xdeps.Optimize` object
 is returned that can be used to interactively drive the optimization process,
@@ -128,3 +132,18 @@ optimization steps. This is illustrated in the following example.
 .. literalinclude:: generated_code_snippets/match_interactive.py
    :language: python
 
+Create new knobs by matching
+----------------------------
+
+See also :meth:`xtrack.Line.match_knob`
+
+The :meth:`xtrack.Line.match_knob` method allows generating new knobs based on
+the result of an optimization. The user can specify a value for
+``knob_value_start`` corresponding to the line state before the optimization,
+and a value for ``knob_value_end`` corresponding to the line state after the
+optimization. A linear interpolation is used when a different value of the knob
+is set. This shown by the following example, which shows how to build knobs
+controlling the horizontal and vertical chromaticities of a line.
+
+.. literalinclude:: generated_code_snippets/match_knob.py
+   :language: python
