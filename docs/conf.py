@@ -107,23 +107,23 @@ snippet_files = {
         'generated_code_snippets/beam_interaction.py',
     'xtrack/examples/twiss/000_twiss.py':
         'generated_code_snippets/twiss.py',
-    'xtrack/examples/match_basics/000_match_basic.py':
+    'xtrack/examples/match/000_match_basic.py':
         'generated_code_snippets/match_basic.py',
-    'xtrack/examples/match_basics/001_match_interactive.py':
+    'xtrack/examples/match/001_match_interactive.py':
         'generated_code_snippets/match_interactive.py',
-    'xtrack/examples/match_basics/002_match_bump_basic.py':
+    'xtrack/examples/match/002_match_bump_basic.py':
         'generated_code_snippets/match_bump_basic.py',
-    'xtrack/examples/match_basics/003_match_bump_from_table.py':
+    'xtrack/examples/match/003_match_bump_from_table.py':
         'generated_code_snippets/match_bump_from_table.py',
-    'xtrack/examples/match_basics/002a_match_bump_init_end.py':
+    'xtrack/examples/match/002a_match_bump_init_end.py':
         'generated_code_snippets/match_bump_init_end.py',
-    'xtrack/examples/match_basics/002b_match_bump_init_middle.py':
+    'xtrack/examples/match/002b_match_bump_init_middle.py':
         'generated_code_snippets/match_bump_init_middle.py',
-    'xtrack/examples/match_basics/004_match_bump_common_elements.py':
+    'xtrack/examples/match/004_match_bump_common_elements.py':
         'generated_code_snippets/match_bump_common_elements.py',
-    'xtrack/examples/match_basics/005_match_bump_common_ele_callable_ineq.py':
+    'xtrack/examples/match/005_match_bump_common_ele_callable_ineq.py':
         'generated_code_snippets/match_bump_common_ele_callable_ineq.py',
-    'xtrack/examples/match_basics/006_match_action.py':
+    'xtrack/examples/match/006_match_action.py':
         'generated_code_snippets/match_action.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
