@@ -100,6 +100,21 @@ at the IP.
 .. literalinclude:: generated_code_snippets/match_bump_common_ele_callable_ineq.py
    :language: python
 
+Matching on results of arbitrary actions
+----------------------------------------
+
+By default the quantities used as match targets are found in the result of the
+twiss method. It is nevertheless possible to use the match method on results of
+arbitrary user-defined "actions". Each action is defined by writing a small python
+class inheriting from :class:`xtrack.Action` providing a method called ``run``,
+called at each optimization step, which returns a dictionary of quantities that
+can be used as targets. This is illustrated by the following example, showing
+how to use octupole magnets to control the detuning with amplitude coefficients
+(``det_xx = dqx/dJx`` and ``det_yy = dqy/dJy``) as obtained by tracking.
+
+.. literalinclude:: generated_code_snippets/match_action.py
+   :language: python
+
 Interactive match
 -----------------
 
@@ -112,3 +127,4 @@ optimization steps. This is illustrated in the following example.
 
 .. literalinclude:: generated_code_snippets/match_interactive.py
    :language: python
+
