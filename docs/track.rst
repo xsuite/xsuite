@@ -13,3 +13,7 @@ Track
 
 .. include:: freeze_longitudinal.rst
 
+.. include:: fast_lattice_changes.rst
+
+.. include:: exciter.rst
+

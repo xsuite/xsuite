@@ -25,7 +25,7 @@ Example
     :width: 80%
     :align: center
 
-If the communicator is not specified when instanciating the PipelineManager, it will not use MPI:
+If the communicator is not specified when instantiating the PipelineManager, it will not use MPI:
 
 .. code-block:: python
 

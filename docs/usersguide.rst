@@ -3,7 +3,7 @@
 ==============
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    installation
    singlepart
@@ -13,11 +13,8 @@
    track
    particlesmanip
    collective
-   footprint
+   collimation
    acceleration
    synchrotron_radiation
-   tapering
-   exciter
-   fast_lattice_changes
-   collimation
+   footprint
    xsuite_data_management

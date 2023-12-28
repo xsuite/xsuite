@@ -1,6 +1,5 @@
-=========================================
 Exciter beam element
-=========================================
+====================
 
 The beam element :class:`xtrack.Exciter` provides a model for a transverse exciter as a time-dependent thin multipole. 
 
@@ -9,7 +8,7 @@ By providing an array of samples, and the sampling frequency, the element can pr
 This can be used for RFKO slow extraction, excitation tune measurement, power supply ripples, etc.
 
 Samples
-================
+-------
 
 The given multipole components `knl` and `ksl` (normal and skew respectively) are multiplied according to an array of `samples` which allows for arbitrary time dependance:
 
@@ -53,7 +52,7 @@ To generate a chirp array at `sampling_freq`, between frequencies `f_start` and 
     :align: center
 
 Element
-================
+-------
 
 To then define an Exciter element with the custom waveform (array of `samples` at sampling frequency `sampling freq`) and normal and skew components `KNL` and `KSL`:
 

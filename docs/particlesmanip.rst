@@ -1,6 +1,6 @@
-==============================
-Working with Particles objects
-==============================
+=========
+Particles
+=========
 
 
 .. contents:: Table of Contents
