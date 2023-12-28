@@ -1,4 +1,3 @@
-============
 Space charge
 ============
 
@@ -19,7 +18,7 @@ See also: :func:`xfields.install_spacecharge_frozen`,
 :func:`xfields.replace_spacecharge_with_PIC`.
 
 Example
-=======
+-------
 
 .. literalinclude:: generated_code_snippets/spacecharge.py
    :language: python

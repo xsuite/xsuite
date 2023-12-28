@@ -1,11 +1,10 @@
-=================================
 Tracking with collective elements
 =================================
 
 A collective beam element is an element that needs access to the entire particle set (in read and/or write mode). The following example shows how to handle such elements in Xsuite.
 
 Example
-=======
+-------
 
 A typical example of collective element is a space-charge interaction. We can create a space-charge beam element as follows:
 
@@ -61,7 +60,7 @@ This creates a space-charge element where the transverse beam sizes are updated 
                 turn_by_turn_monitor=True)
 
 How does it work?
-=================
+-----------------
 
 To decide whether or not an element needs to be treated as collective, the
 tracker inspects its ``iscollective`` attribute. In our example:

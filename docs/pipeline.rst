@@ -1,6 +1,5 @@
-============
 Pipeline for multibunch simulations
-============
+===================================
 
 Xsuite can be used to simulate multiple bunches interacting through collective forces, such as beam-beam interactions or wakefields. The :class:`xtrack.pipeline.MultiTracker` handles the tracking of multiple :class:`xpart.particles.Particles` objects through their own :class:`xtrack.Line` (e.g. each of the two rings in a circular collider). Each Particles instance and its Line make a :class:`xtrack.pipeline.Branch`. The MultiTracker will iteratively track its branches until an :class:`xtrack.beam_elements.Element` which requires communication is reached (e.g. a strong-strong beam-beam collision, where information about the other beam's charge distribution is required). At this point the MultiTracker will use the :class:`xtrack.pipeline.PipelineManager` to establish communication between the branches that need to exchange information. If the communication cannot take place, e.g. because one of the two branches is not ready, the Multitracker resumes tracking with another branch.
 
@@ -17,7 +16,7 @@ The following example illustrates how to configure and run a simulation with two
     mpirun -np 2 python example.py
 
 Example
-=======
+-------
 
 .. literalinclude:: generated_code_snippets/pipeline.py
    :language: python

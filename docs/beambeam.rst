@@ -1,9 +1,8 @@
-============
-Beam-beam interactions
-============
+Beam-beam
+=========
 
 Weak-strong 2D
-==============
+--------------
 
 The example below shows how to introduce a 2D beam-beam element in a line and perform few studies based on tracking. The 2D beam-beam element provides a kick based on the Basseti-Erskine formula neglecting any longitudinal varitations of the beam-beam force.
 
@@ -25,7 +24,7 @@ The example below shows how to introduce a 2D beam-beam element in a line and pe
     :align: center
 
 Weak-strong 3D
-==============
+--------------
 
 The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method) handled by the :class:`xfields.beam_elements.TempSlicer`.
 
@@ -60,7 +59,7 @@ The 3D beam-beam element can be used similarly, replacing the instanciation of t
                slices_other_beam_Sigma_44 = np.zeros(n_slices,dtype=float)+physemit_y/beta_y)
 
 Strong-strong (soft-Gaussian)
-================================
+-----------------------------
 
 Strong-strong simulations can be performed using the :doc:`pipeline`, as in the example below.
 
@@ -102,11 +101,11 @@ For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.b
                config_for_update = config_for_update_b2_IP1)
 
 Poisson Solver
-==============
+--------------
 
 Particle-in-cell simulations using a Poisson solver for the beam-beam interaction is currently not implemented in xfields
 
 Beam-beam in a real lattice
-===========================
+---------------------------
 
 Identically to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup of beam-beam interactions in a collider lattice: :doc:`xmask`
