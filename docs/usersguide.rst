@@ -7,21 +7,17 @@
 
    installation
    singlepart
-   line2json
-   particlesmanip
-   deferred_expressions
+   line
    twiss
    match
+   track
+   particlesmanip
    footprint
-   dynamic_aperture
-   particles_monitor
    acceleration
    synchrotron_radiation
    tapering
-   freeze_longitudinal
    exciter
    fast_lattice_changes
-   optimize_for_tracking
    collective
    collimation
    spacechargeauto
