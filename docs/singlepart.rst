@@ -21,7 +21,6 @@ python code. More details on the different steps will be discussed in the follow
 
     import xobjects as xo
     import xtrack as xt
-    import xpart as xp
 
     ## Generate a simple line
     line = xt.Line(
@@ -33,8 +32,8 @@ python code. More details on the different steps will be discussed in the follow
 
     ## Attach a reference particle to the line (optional)
     ## (defines the reference mass, charge and energy)
-    line.particle_ref = xp.Particles(p0c=6500e9, #eV
-                                     q0=1, mass0=xp.PROTON_MASS_EV)
+    line.particle_ref = xt.Particles(p0c=6500e9, #eV
+                                     q0=1, mass0=xt.PROTON_MASS_EV)
 
     ## Choose a context
     context = xo.ContextCpu()         # For CPU
@@ -46,8 +45,8 @@ python code. More details on the different steps will be discussed in the follow
 
     ## Build particle object on context
     n_part = 200
-    particles = xp.Particles(p0c=6500e9, #eV
-                            q0=1, mass0=xp.PROTON_MASS_EV,
+    particles = xt.Particles(p0c=6500e9, #eV
+                            q0=1, mass0=xt.PROTON_MASS_EV,
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),
                             y=np.random.uniform(-2e-3, 2e-3, n_part),
@@ -198,8 +197,8 @@ energy loss, etc.). The reference particle can be defined as follows:
 
 .. code-block:: python
 
-    line.particle_ref = xp.Particles(p0c=6500e9, #eV
-                                     q0=1, mass0=xp.PROTON_MASS_EV)
+    line.particle_ref = xt.Particles(p0c=6500e9, #eV
+                                     q0=1, mass0=xt.PROTON_MASS_EV)
 
 
 Create a Context (CPU or GPU)
@@ -253,8 +252,8 @@ the the Particles class (in this example particle coordinates are randomly gener
 
     ## Build particle object on context
     n_part = 200
-    particles = xp.Particles(p0c=6500e9, #eV
-                            q0=1, ,mass0=xp.PROTON_MASS_EV,
+    particles = xt.Particles(p0c=6500e9, #eV
+                            q0=1, ,mass0=xt.PROTON_MASS_EV,
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),
                             y=np.random.uniform(-2e-3, 2e-3, n_part),

@@ -25,7 +25,6 @@ This creates a space-charge element where the transverse beam sizes are updated 
 .. code-block:: python
 
     import xtrack as xt
-    import xpart as xp
 
     ## Generate a simple beam line including the spacecharge element
     myqf = xt.Multipole(knl=[0, 1.])
@@ -44,7 +43,7 @@ This creates a space-charge element where the transverse beam sizes are updated 
 
     ## Build particle object on context
     n_part = 200
-    particles = xp.Particles(_context=context,
+    particles = xt.Particles(_context=context,
                             p0c=6500e9,
                             x=np.random.uniform(-1e-3, 1e-3, n_part),
                             px=np.random.uniform(-1e-5, 1e-5, n_part),

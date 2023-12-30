@@ -6,7 +6,7 @@ naming conventions for the particles coordinates. A specific interface has been
 introduced in Xsuite which indtroduces additional properties in the Particles
 objects in order to make them compatible with PyHEADTAIL beam elements.
 The interface can be enabled by calling the function
-``enable_pyheadtail_interface`` right after importing xtrack,as illustrated
+``enable_pyheadtail_interface`` right after importing xtrack, as illustrated
 in the following example.
 
 .. code-block:: python
@@ -17,8 +17,7 @@ in the following example.
 
     import xobjects as xo
     import xtrack as xt
-    import xpart as xp
-    xp.enable_pyheadtail_interface()
+    xt.enable_pyheadtail_interface()
 
     fname_line = '../../test_data/lhc_no_bb/line_and_particle.json'
     num_turns = int(100)
@@ -56,7 +55,7 @@ in the following example.
     # Get some particles #
     ######################
 
-    particles = xp.Particles(_context=context,
+    particles = xt.Particles(_context=context,
                             p0c=6500e9,
                             x=np.random.uniform(-1e-3, 1e-3, n_part)+1e-3,
                             px=np.random.uniform(-1e-7, 1e-7, n_part),
