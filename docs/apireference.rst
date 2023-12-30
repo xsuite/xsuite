@@ -96,23 +96,23 @@ See also: :doc:`Working with Particles objects <particlesmanip>`.
 
 
 
-xpart.Particles class
-=====================
+Particles class
+===============
 
-Xsuite Particles classes, including the default xpart.Particles class, expose
+Xsuite Particles classes, including the default xtrack.Particles class, expose
 the API described in the following (for more info on how to manipulate Particles
 objects, see the :doc:`Working with Particles objects <particlesmanip>`).
 
 List of all methods
 -------------------
 
-.. autoautosummary:: xpart.Particles
+.. autoautosummary:: xtrack.Particles
     :methods:
 
 Description of all methods
 --------------------------
 
-.. autoclass:: xpart.ParticlesBase
+.. autoclass:: xtrack.ParticlesBase
     :members:
     :inherited-members:
     :member-order: bysource
