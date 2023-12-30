@@ -179,6 +179,8 @@ snippet_files = {
         'generated_code_snippets/beambeamws.py',
     'xtrack/examples/dynamic_aperture/000_tracking_for_da.py':
         'generated_code_snippets/tracking_for_da.py',
+    'xtrack/examples/toy_ring/002_expressions.py':
+        'generated_code_snippets/expressions_basics.py',
 }
 
 for ss, tt in snippet_files.items():
