@@ -34,6 +34,14 @@ Bla
 References and deferred expressions
 ===================================
 
+Accelerators and beam lines have complex control paterns. For example, a single
+high-level parameter can be used to control groups of accelerator components
+(e.g., sets of magnets in series, groups of RF cavities, etc.) following complex
+dependency relations. Xsuite allows including these dependencies in the simulation
+model so that  changes in the high-level parameters are automatically propagated
+down to the line elements properties. Furthermore, the dependency relations can
+be created, inspected and modified at run time, as illustrated in the following example:
+
 .. literalinclude:: generated_code_snippets/expressions_basics.py
    :language: python
 
