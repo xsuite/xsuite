@@ -50,7 +50,7 @@ When importing a MAD-X model, the dependency relations from MAD-X deferred
 expressions are automatically imported as well. The following example illustrates
 how to inspect the dependency relations in a line imported from MAD-X:
 
-.. literalinclude:: generated_code_snippets/expressions.py
+.. literalinclude:: generated_code_snippets/expressions_madx.py
    :language: python
 
 ``Line.attr``
@@ -61,4 +61,5 @@ Bla
 Element slicing
 ===============
 
-Bla
+.. literalinclude:: generated_code_snippets/slicing.py
+   :language: python

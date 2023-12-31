@@ -181,6 +181,8 @@ snippet_files = {
         'generated_code_snippets/tracking_for_da.py',
     'xtrack/examples/toy_ring/002_expressions.py':
         'generated_code_snippets/expressions_basics.py',
+    'xtrack/examples/toy_ring/003_slicing.py':
+        'generated_code_snippets/slicing.py',
 }
 
 for ss, tt in snippet_files.items():
