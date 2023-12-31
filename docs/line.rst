@@ -61,5 +61,9 @@ Bla
 Element slicing
 ===============
 
+It is possible to slice thick element with thin or thick slices, using the Uniform
+or the `Teapot <https://cds.cern.ch/record/165372>`_ scheme. This is illustrated
+in the following example:
+
 .. literalinclude:: generated_code_snippets/slicing.py
    :language: python
