@@ -40,11 +40,18 @@ high-level parameter can be used to control groups of accelerator components
 dependency relations. Xsuite allows including these dependencies in the simulation
 model so that  changes in the high-level parameters are automatically propagated
 down to the line elements properties. Furthermore, the dependency relations can
-be created, inspected and modified at run time, as illustrated in the following example:
+be created, inspected and modified at run time, as illustrated in the following
+example:
 
 .. literalinclude:: generated_code_snippets/expressions_basics.py
    :language: python
 
+When importing a MAD-X model, the dependency relations from MAD-X deferred
+expressions are automatically imported as well. The following example illustrates
+how to inspect the dependency relations in a line imported from MAD-X:
+
+.. literalinclude:: generated_code_snippets/expressions.py
+   :language: python
 
 ``Line.attr``
 =============
