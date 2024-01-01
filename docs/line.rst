@@ -18,10 +18,8 @@ Bla
 Save and reload lines
 =====================
 
-An Xtrack Line object can be transformed into a dictionary and saved in a json file, as
-illustrated in the following example. Note that ``xobjects.JEncoder`` needs to
-be provided to ``json.dump`` in order to serialize Numpy arrays, which are not
-natively supported by json.
+An Xtrack Line object can be transformed into a dictionary or saved to a json
+file, as illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/tojson.py
    :language: python
