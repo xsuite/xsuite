@@ -183,6 +183,8 @@ snippet_files = {
         'generated_code_snippets/expressions_basics.py',
     'xtrack/examples/toy_ring/003_slicing.py':
         'generated_code_snippets/slicing.py',
+    'xtrack/examples/toy_ring/004_inspect.py':
+        'generated_code_snippets/line_inspect.py',
 }
 
 for ss, tt in snippet_files.items():

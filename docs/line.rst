@@ -26,17 +26,14 @@ natively supported by json.
 .. literalinclude:: generated_code_snippets/tojson.py
    :language: python
 
-Line inspection
-===============
+Line inspection, ``Line.get_table()``, ``Line.attr[...]``
+========================================================
 
-``Line.get_table()``
---------------------
-Bla
+The following example illustrates how to inspect the properties of a line and 
+its elements:
 
-``Line.attr``
--------------
-
-Bla
+.. literalinclude:: generated_code_snippets/line_inspect.py
+   :language: python
 
 References and deferred expressions
 ===================================
