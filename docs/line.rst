@@ -26,8 +26,15 @@ natively supported by json.
 .. literalinclude:: generated_code_snippets/tojson.py
    :language: python
 
-Inspecting a line with ``Line.get_table()``
-===========================================
+Line inspection
+===============
+
+``Line.get_table()``
+--------------------
+Bla
+
+``Line.attr``
+-------------
 
 Bla
 
@@ -53,9 +60,8 @@ how to inspect the dependency relations in a line imported from MAD-X:
 .. literalinclude:: generated_code_snippets/expressions_madx.py
    :language: python
 
-``Line.attr``
-=============
-
+Element insertion
+=================
 Bla
 
 Element slicing
@@ -67,3 +73,4 @@ in the following example:
 
 .. literalinclude:: generated_code_snippets/slicing.py
    :language: python
+

@@ -19,8 +19,8 @@ Xsuite is composed by the following packages:
 The implemented physics models are being documented in `this guide <https://github.com/xsuite/xsuite/blob/master/docs/physics_manual/physics_man.pdf>`_.
 The source code is available in these `GitHub repositories <https://github.com/xsuite/>`_.
 
-Table of contents
------------------
+Table of contents (compact)
+---------------------------
 
 .. toctree::
    :maxdepth: 2
@@ -33,8 +33,5 @@ Table of contents
 
 Indices and tables
 ------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+* :doc:`full_table_of_contents`
+* :ref:`API index <genindex>`
