@@ -185,6 +185,8 @@ snippet_files = {
         'generated_code_snippets/slicing.py',
     'xtrack/examples/toy_ring/004_inspect.py':
         'generated_code_snippets/line_inspect.py',
+    'xtrack/examples/toy_ring/000_toy_ring.py':
+        'generated_code_snippets/toy_ring.py',
 }
 
 for ss, tt in snippet_files.items():

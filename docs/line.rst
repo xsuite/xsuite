@@ -8,21 +8,15 @@ Line
 Create a Line object
 ====================
 
-Bla
+An Xsuite Line can be created by providing beam line element objects and the
+corresponding names, as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/toy_ring.py
+   :language: python
 
 Importing a line from MAD-X
 ===========================
 
-Bla
-
-Save and reload lines
-=====================
-
-An Xtrack Line object can be transformed into a dictionary or saved to a json
-file, as illustrated in the following example:
-
-.. literalinclude:: generated_code_snippets/tojson.py
-   :language: python
 
 Line inspection, ``Line.get_table()``, ``Line.attr[...]``
 ========================================================
@@ -53,6 +47,15 @@ expressions are automatically imported as well. The following example illustrate
 how to inspect the dependency relations in a line imported from MAD-X:
 
 .. literalinclude:: generated_code_snippets/expressions_madx.py
+   :language: python
+
+Save and reload lines
+=====================
+
+An Xtrack Line object can be transformed into a dictionary or saved to a json
+file, as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/tojson.py
    :language: python
 
 Element insertion
