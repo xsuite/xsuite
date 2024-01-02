@@ -195,6 +195,8 @@ snippet_files = {
         'generated_code_snippets/twiss_range.py',
     'xtrack/examples/twiss/000b_twiss_range_periodic.py':
         'generated_code_snippets/twiss_range_periodic.py',
+    'xtrack/examples/twiss/012_compute_norm_coordinates.py':
+        'generated_code_snippets/compute_norm_coordinates.py',
 }
 
 for ss, tt in snippet_files.items():

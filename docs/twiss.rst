@@ -80,6 +80,9 @@ following example:
 Periodic twiss on a portion of a line
 =====================================
 
+The twiss method can also be used to find the periodic solution for a portion of
+a beam line, as illustrated in the following example:
+
 .. literalinclude:: generated_code_snippets/twiss_range_periodic.py
    :language: python
 
@@ -94,6 +97,7 @@ Twiss with synchrotron radiation
 
 Bla
 
+
 Beam sizes from twiss table
 ===========================
 
@@ -102,7 +106,12 @@ Bla
 Particles normalized coordinates
 ====================================
 
-Bla
+The twiss table holds the information to convert particle physical coordinates
+into normalized coordinates. This can be done with the method
+``get_normalized_coordinates`` as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/compute_norm_coordinates.py
+   :language: python
 
 Output in the reverse reference frame
 =====================================
