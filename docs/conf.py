@@ -187,6 +187,10 @@ snippet_files = {
         'generated_code_snippets/line_inspect.py',
     'xtrack/examples/toy_ring/000_toy_ring.py':
         'generated_code_snippets/toy_ring.py',
+    'xtrack/examples/toy_ring/005_insert_element.py':
+        'generated_code_snippets/insert_element.py',
+    'xtrack/examples/psb/000a_all_xsuite_import_model.py':
+        'generated_code_snippets/madx_import_psb.py',
 }
 
 for ss, tt in snippet_files.items():

@@ -17,6 +17,15 @@ corresponding names, as illustrated in the following example:
 Importing a line from MAD-X
 ===========================
 
+An Xsuite Line object can be importing from an existing MAD-X model, using the method
+:meth:`xtrack.Line.from_madx_sequence`. The import of certain features of the MAD-X
+model (dererred expressions, apertures, thick elements, alignment errors, field
+errors, etc.) can be controlled by the user. This is illustrated in the following
+example:
+
+.. literalinclude:: generated_code_snippets/madx_import_psb.py
+   :language: python
+
 
 Line inspection, ``Line.get_table()``, ``Line.attr[...]``
 ========================================================
@@ -60,7 +69,9 @@ file, as illustrated in the following example:
 
 Element insertion
 =================
-Bla
+
+.. literalinclude:: generated_code_snippets/insert_element.py
+   :language: python
 
 Element slicing
 ===============
