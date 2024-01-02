@@ -197,6 +197,8 @@ snippet_files = {
         'generated_code_snippets/twiss_range_periodic.py',
     'xtrack/examples/twiss/012_compute_norm_coordinates.py':
         'generated_code_snippets/compute_norm_coordinates.py',
+    'xtrack/examples/twiss/018_compute_beam_sizes.py':
+        'generated_code_snippets/compute_beam_sizes.py',
 }
 
 for ss, tt in snippet_files.items():

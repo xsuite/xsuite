@@ -18,7 +18,7 @@ Basic usage (ring)
    :language: python
 
 .. figure:: figures/twiss.png
-    :width: 75%
+    :width: 80%
     :align: center
 
     Twiss functions and accelerator parameters as obtained by Xtrack twiss.
@@ -70,7 +70,7 @@ following example:
    :language: python
 
 .. figure:: figures/twiss_range.png
-    :width: 75%
+    :width: 80%
     :align: center
 
     Result of all twiss calculations with initial conditions shown in the
@@ -87,7 +87,7 @@ a beam line, as illustrated in the following example:
    :language: python
 
 .. figure:: figures/twiss_periodic.png
-    :width: 75%
+    :width: 80%
     :align: center
 
     Result of the twiss with periodic boundary conditions.
@@ -101,7 +101,14 @@ Bla
 Beam sizes from twiss table
 ===========================
 
-Bla
+.. literalinclude:: generated_code_snippets/compute_beam_sizes.py
+   :language: python
+
+.. figure:: figures/twiss_beam_sizes.png
+    :width: 80%
+    :align: center
+
+    Beam sizes as obtained from twiss.
 
 Particles normalized coordinates
 ====================================
