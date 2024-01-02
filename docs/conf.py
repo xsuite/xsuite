@@ -193,6 +193,8 @@ snippet_files = {
         'generated_code_snippets/madx_import_psb.py',
     'xtrack/examples/twiss/000a_twiss_range.py':
         'generated_code_snippets/twiss_range.py',
+    'xtrack/examples/twiss/000b_twiss_range_periodic.py':
+        'generated_code_snippets/twiss_range_periodic.py',
 }
 
 for ss, tt in snippet_files.items():

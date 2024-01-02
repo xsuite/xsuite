@@ -80,7 +80,14 @@ following example:
 Periodic twiss on a portion of a line
 =====================================
 
-Bla
+.. literalinclude:: generated_code_snippets/twiss_range_periodic.py
+   :language: python
+
+.. figure:: figures/twiss_periodic.png
+    :width: 75%
+    :align: center
+
+    Result of the twiss with periodic boundary conditions.
 
 Twiss with synchrotron radiation
 ================================
