@@ -11,8 +11,8 @@ description of all available options and output quantities, please refer to the
 .. contents:: Table of Contents
     :depth: 3
 
-Basic usage
-===========
+Basic usage (ring)
+==================
 
 .. literalinclude:: generated_code_snippets/twiss.py
    :language: python
@@ -34,8 +34,8 @@ example.
 .. literalinclude:: generated_code_snippets/table_slicing.py
    :language: python
 
-4d method for ``twiss`` and ``build_particles``
-===============================================
+4d method
+=========
 
 When the RF cavities are disabled or not included in the lattice or when the
 longitudinal motion is artificially frozen, the one-turn matrix of the line is
@@ -47,8 +47,8 @@ examples:
 .. literalinclude:: generated_code_snippets/method_4d.py
    :language: python
 
-Non linear momentum detuning
-============================
+Off-momentum twiss
+==================
 
 The 4d mode of the twiss can be used providing in input the initial momentum.
 Such a feature can be used to measure the non linear momentum detuning of the
@@ -60,3 +60,34 @@ accelerator as shown in the following example:
 .. figure:: figures/twiss_vs_delta.png
     :width: 80%
     :align: center
+
+Twiss with "initial" values
+===========================
+
+all possibilities
+
+Output in the reverse reference frame
+=====================================
+
+Bla
+
+Periodic twiss on a portion of a line
+=====================================
+
+Bla
+
+Twiss with synchrotron radiation
+================================
+
+Bla
+
+Beam sizes from twiss table
+===========================
+
+Bla
+
+Particles normalized coordinates
+====================================
+
+Bla
+

@@ -5,8 +5,8 @@ Line
 .. contents:: Table of Contents
     :depth: 3
 
-Create a Line object
-====================
+Creating a Line object
+======================
 
 An Xsuite Line can be created by providing beam line element objects and the
 corresponding names, as illustrated in the following example:
