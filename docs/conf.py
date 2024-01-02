@@ -191,6 +191,8 @@ snippet_files = {
         'generated_code_snippets/insert_element.py',
     'xtrack/examples/psb/000a_all_xsuite_import_model.py':
         'generated_code_snippets/madx_import_psb.py',
+    'xtrack/examples/twiss/000a_twiss_range.py':
+        'generated_code_snippets/twiss_range.py',
 }
 
 for ss, tt in snippet_files.items():

@@ -22,11 +22,9 @@ Basic usage (ring)
     :align: center
 
     Twiss functions and accelerator parameters as obtained by Xtrack twiss.
-    `See the full code generating the image. <https://github.com/xsuite/xtrack/
-    blob/main/examples/twiss/000_twiss.py>`_
 
-Access option of twiss table
-============================
+Inspecting twiss output
+=======================
 
 The twiss table has several access options as illustrated in the following
 example.
@@ -61,15 +59,23 @@ accelerator as shown in the following example:
     :width: 80%
     :align: center
 
-Twiss with "initial" values
-===========================
+Twiss with "initial" conditions
+===============================
 
-all possibilities
+The twiss calculation can be performed with initial conditions provided by the
+users or extracted from an existing twiss table, as illustrated in the
+following example:
 
-Output in the reverse reference frame
-=====================================
+.. literalinclude:: generated_code_snippets/twiss_range.py
+   :language: python
 
-Bla
+.. figure:: figures/twiss_range.png
+    :width: 75%
+    :align: center
+
+    Result of all twiss calculations with initial conditions shown in the
+    example above.
+
 
 Periodic twiss on a portion of a line
 =====================================
@@ -91,3 +97,12 @@ Particles normalized coordinates
 
 Bla
 
+Output in the reverse reference frame
+=====================================
+
+Bla
+
+Twiss defaults
+==============
+
+Bla
