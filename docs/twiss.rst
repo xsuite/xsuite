@@ -32,8 +32,8 @@ example.
 .. literalinclude:: generated_code_snippets/table_slicing.py
    :language: python
 
-4d method
-=========
+4d method (RF off)
+==================
 
 When the RF cavities are disabled or not included in the lattice or when the
 longitudinal motion is artificially frozen, the one-turn matrix of the line is
@@ -96,6 +96,9 @@ a beam line, as illustrated in the following example:
 Beam sizes from twiss table
 ===========================
 
+The transverse and longitudinal beam sizes can be computed from the twiss table
+as illustrated in the following example:
+
 .. literalinclude:: generated_code_snippets/compute_beam_sizes.py
    :language: python
 
@@ -137,7 +140,12 @@ y is unchanged. This is illustrated in the following example:
 Twiss defaults
 ==============
 
-Bla
+It is possible to change the default behavior of the twiss method for a given
+line using ``line.twiss_defaults``, providing a dictionary with the desired
+default twiss arguments. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/twiss_default.py
+   :language: python
 
 Twiss with synchrotron radiation
 ================================
