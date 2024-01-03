@@ -115,8 +115,8 @@ into normalized coordinates. This can be done with the method
 .. literalinclude:: generated_code_snippets/compute_norm_coordinates.py
    :language: python
 
-Output in the reverse reference frame
-=====================================
+Reverse reference frame
+=======================
 
 The `reverse`` flag, allows getting the output of the twiss in the counter-rotating
 reference system. When `reverse` is True, the ordering of the elements is reversed,
