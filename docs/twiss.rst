@@ -92,11 +92,6 @@ a beam line, as illustrated in the following example:
 
     Result of the twiss with periodic boundary conditions.
 
-Twiss with synchrotron radiation
-================================
-
-Bla
-
 
 Beam sizes from twiss table
 ===========================
@@ -123,9 +118,28 @@ into normalized coordinates. This can be done with the method
 Output in the reverse reference frame
 =====================================
 
-Bla
+The `reverse`` flag, allows getting the output of the twiss in the counter-rotating
+reference system. When `reverse` is True, the ordering of the elements is reversed,
+the zero of the s coordinate and fo the phase advances is set at  the new start,
+the sign of the coordinates s and x is inverted, while the sign of the coordinate
+y is unchanged. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/twiss_reverse.py
+   :language: python
+
+.. figure:: figures/twiss_reverse.png
+    :width: 80%
+    :align: center
+
+    Closed Orbit of the two LHC beams in the same reference frame. This is
+    obtained using the ``reverse=True`` on the twiss of beam 2.
 
 Twiss defaults
 ==============
 
 Bla
+
+Twiss with synchrotron radiation
+================================
+
+See :doc:`synchrotron_radiation`.

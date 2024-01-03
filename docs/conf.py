@@ -199,6 +199,8 @@ snippet_files = {
         'generated_code_snippets/compute_norm_coordinates.py',
     'xtrack/examples/twiss/018_compute_beam_sizes.py':
         'generated_code_snippets/compute_beam_sizes.py',
+    'xtrack/examples/twiss/000e_twiss_reverse.py':
+        'generated_code_snippets/twiss_reverse.py',
 }
 
 for ss, tt in snippet_files.items():
