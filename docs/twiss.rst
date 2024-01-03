@@ -132,7 +132,7 @@ y is unchanged. This is illustrated in the following example:
     :align: center
 
     Closed Orbit of the two LHC beams in the same reference frame. This is
-    obtained using the ``reverse=True`` on the twiss of beam 2.
+    obtained setting ``reverse=True`` on the twiss of beam 2.
 
 Twiss defaults
 ==============
