@@ -14,16 +14,33 @@ corresponding names, as illustrated in the following example:
 .. literalinclude:: generated_code_snippets/toy_ring.py
    :language: python
 
+
+.. _madximport:
+
 Importing a line from MAD-X
 ===========================
 
-An Xsuite Line object can be importing from an existing MAD-X model, using the method
+An Xsuite Line object can be imported from an existing MAD-X model, through the
+`cpymad <http://hibtc.github.io/cpymad/>`_ interface of MAD-X, using the method
 :meth:`xtrack.Line.from_madx_sequence`. The import of certain features of the MAD-X
 model (dererred expressions, apertures, thick elements, alignment errors, field
 errors, etc.) can be controlled by the user. This is illustrated in the following
 example:
 
 .. literalinclude:: generated_code_snippets/madx_import_psb.py
+   :language: python
+
+
+
+.. _seqdef:
+
+Define a line through a sequence
+================================
+
+A line can also be defined through a "sequence", providing the element `s`
+positions instead of explicit drifts, as show in the example below:
+
+.. literalinclude:: generated_code_snippets/sequence.py
    :language: python
 
 

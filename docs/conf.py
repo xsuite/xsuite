@@ -203,6 +203,8 @@ snippet_files = {
         'generated_code_snippets/twiss_reverse.py',
     'xtrack/examples/twiss/000f_twiss_default.py':
         'generated_code_snippets/twiss_default.py',
+    'xtrack/examples/sequence/000_sequence.py':
+        'generated_code_snippets/sequence.py',
 }
 
 for ss, tt in snippet_files.items():

@@ -1,3 +1,5 @@
+.. _monitors:
+
 Monitors
 ========
 
