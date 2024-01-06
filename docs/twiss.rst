@@ -14,6 +14,9 @@ description of all available options and output quantities, please refer to the
 Basic usage (ring)
 ==================
 
+The following example shows how to use the twiss method to obtain the lattice
+functions and other quantities for a ring.
+
 .. literalinclude:: generated_code_snippets/twiss.py
    :language: python
 
@@ -35,10 +38,10 @@ example.
 4d method (RF off)
 ==================
 
-When the RF cavities are disabled or not included in the lattice or when the
-longitudinal motion is artificially frozen, the one-turn matrix of the line is
-singular, and it is no possible to use the standard method for the twiss
-calculation and to generate particles distributions matched to the lattice.
+When the RF cavities are disabled or not included in the lattice (or when the
+longitudinal motion is artificially frozen), the one-turn matrix of the line is
+singular, and it is not possible to use the standard method for the twiss
+calculation.
 In these cases, the "4d" method can be used, as illustrated in the following
 examples:
 
@@ -49,8 +52,8 @@ Off-momentum twiss
 ==================
 
 The 4d mode of the twiss can be used providing in input the initial momentum.
-Such a feature can be used to measure the non linear momentum detuning of the
-accelerator as shown in the following example:
+This feature can be used to measure the non-linear momentum detuning of a ring
+as shown in the following example:
 
 .. literalinclude:: generated_code_snippets/tune_vs_delta.py
    :language: python
@@ -96,7 +99,7 @@ a beam line, as illustrated in the following example:
 Beam sizes from twiss table
 ===========================
 
-The transverse and longitudinal beam sizes can be computed from the twiss table
+The transverse and longitudinal beam sizes can be computed from the twiss table,
 as illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/compute_beam_sizes.py
@@ -123,9 +126,9 @@ Reverse reference frame
 
 The `reverse`` flag, allows getting the output of the twiss in the counter-rotating
 reference system. When `reverse` is True, the ordering of the elements is reversed,
-the zero of the s coordinate and fo the phase advances is set at  the new start,
-the sign of the coordinates s and x is inverted, while the sign of the coordinate
-y is unchanged. This is illustrated in the following example:
+the zero of the `s`` coordinate and of the phase advances is set at the new start,
+the sign of the coordinates  `s`` and `x`` is inverted, while the sign of the
+coordinate `y` is unchanged. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/twiss_reverse.py
    :language: python
