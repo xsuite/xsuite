@@ -3,8 +3,8 @@ Twiss
 =====
 
 Xtrack provides a twiss method associated to the line that can be used to
-obtain the twiss parameters and other quantities like tunes, chromaticities,
-slip factor, etc. This is illustrated in the following example. For a complete
+obtain the lattice functions and other quantities like tunes, chromaticities,
+slip factor, etc. This is illustrated in the following examples. For a complete
 description of all available options and output quantities, please refer to the
 :meth:`xtrack.Line.twiss` method documentation.
 
@@ -21,7 +21,7 @@ Basic usage (ring)
     :width: 80%
     :align: center
 
-    Twiss functions and accelerator parameters as obtained by Xtrack twiss.
+    Lattice functions and accelerator parameters as obtained by Xtrack twiss.
 
 Inspecting twiss output
 =======================
@@ -141,7 +141,7 @@ Twiss defaults
 ==============
 
 It is possible to change the default behavior of the twiss method for a given
-line using ``line.twiss_defaults``, providing a dictionary with the desired
+line using ``line.twiss_defaults``, which is a dictionary with the desired
 default twiss arguments. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/twiss_default.py
