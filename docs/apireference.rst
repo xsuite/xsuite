@@ -267,10 +267,59 @@ Drift
     :members:
     :member-order: bysource
 
+Bend
+----
+
+.. autoclass:: xtrack.Bend
+    :members:
+    :member-order: bysource
+
+Quadrupole
+----------
+
+.. autoclass:: xtrack.Quadrupole
+    :members:
+    :member-order: bysource
+
+CombinedFunctionMagnet
+----------------------
+
+.. autoclass:: xtrack.CombinedFunctionMagnet
+    :members:
+    :member-order: bysource
+
+DipoleEdge
+----------
+
+.. autoclass:: xtrack.DipoleEdge
+    :members:
+    :member-order: bysource
+
+Sextupole
+---------
+
+.. autoclass:: xtrack.Sextupole
+    :members:
+    :member-order: bysource
+
 Multipole
 ---------
 
 .. autoclass:: xtrack.Multipole
+    :members:
+    :member-order: bysource
+
+Solenoid
+--------
+
+.. autoclass:: xtrack.Solenoid
+    :members:
+    :member-order: bysource
+
+NonLinearLens
+-------------
+
+.. autoclass:: xtrack.NonLinearLens
     :members:
     :member-order: bysource
 
@@ -288,12 +337,7 @@ RFMultipole
     :members:
     :member-order: bysource
 
-DipoleEdge
-----------
 
-.. autoclass:: xtrack.DipoleEdge
-    :members:
-    :member-order: bysource
 
 ReferenceEnergyIncrease
 -----------------------
@@ -327,6 +371,13 @@ FirstOrderTaylorMap
 -------------------
 
 .. autoclass:: xtrack.FirstOrderTaylorMap
+    :members:
+    :member-order: bysource
+
+SecondOrderTaylorMap
+--------------------
+
+.. autoclass:: xtrack.SecondOrderTaylorMap
     :members:
     :member-order: bysource
 
