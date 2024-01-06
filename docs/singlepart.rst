@@ -25,9 +25,9 @@ python code. More details on the different steps will be discussed in the follow
     ## Generate a simple line
     line = xt.Line(
         elements=[xt.Drift(length=2.),
-                  xt.Multipole(knl=[0, 1.], ksl=[0,0]),
+                  xt.Multipole(knl=[0, 0.5], ksl=[0,0]),
                   xt.Drift(length=1.),
-                  xt.Multipole(knl=[0, -1.], ksl=[0,0])],
+                  xt.Multipole(knl=[0, -0.5], ksl=[0,0])],
         element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
 
     ## Attach a reference particle to the line (optional)
@@ -42,6 +42,18 @@ python code. More details on the different steps will be discussed in the follow
 
     ## Transfer lattice on context and compile tracking code
     line.build_tracker(_context=context)
+
+    ## Compute lattice functions
+    tw = line.twiss(method='4d')
+    tw.cols['s betx bety'].show()
+    # prints:
+    #
+    # name       s    betx    bety
+    # drift_0    0 3.02372 6.04743
+    # quad_0     2 6.04743 3.02372
+    # drift_1    2 6.04743 3.02372
+    # quad_1     3 3.02372 6.04743
+    # _end_point 3 3.02372 6.04743
 
     ## Build particle object on context
     n_part = 200
@@ -64,7 +76,6 @@ python code. More details on the different steps will be discussed in the follow
     line.record_last_track.x
     line.record_last_track.px
     # etc...
-
 
 
 Step-by-step description
