@@ -1,6 +1,6 @@
-=========================================
-Getting started: single-particle tracking
-=========================================
+===============
+Getting started
+===============
 
 This page describes the basic usage of Xsuite to perform tracking simulations.
 Instructions on how to install Xsuite are provided in the dedicated
@@ -159,33 +159,6 @@ object using the following instructions:
     mad.use("lhcb1")
 
     line = xt.Line.from_madx_sequence(mad.sequence['lhcb1'])
-
-Importing lattice from sixtrack input
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Xtrack can import a lattice from a set of sixtrack input files using the
-sixtracktools package.
-
-Assuming that we have a sixtrack input files (fort.2, fort.3, etc.) in a
-folder called ``sixtrackfiles`` we can import the lattice using the following
-instructions:
-
-.. code-block:: python
-
-    import xtrack as xt
-    import sixtracktools as st
-
-
-    sixinput = st.sixinput('./sixtrackfiles')
-
-    line = sixinput.generate_xtrack_line()
-
-
-Once a Xtrack lattice is available, it can be used to track particles CPU or GPU.
-
-**Note:** the generation of xtrack lines from sixtrack input is used
-mainly for testing and is not guaranteed to work correcly for any sixtrack input.
-
 
 Define reference particle
 -------------------------
