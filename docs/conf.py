@@ -205,12 +205,15 @@ snippet_files = {
         'generated_code_snippets/twiss_default.py',
     'xtrack/examples/sequence/000_sequence.py':
         'generated_code_snippets/sequence.py',
+    'xtrack/examples/toy_ring/006a_dynamic_bump_sin.py':
+        'generated_code_snippets/dynamic_bump_sin.py',
 }
 
 for ss, tt in snippet_files.items():
     with open(ss, 'r') as fid:
         cc = fid.read()
 
+    cc = cc.split('#!start-doc-part')[-1]
     cc = cc.split('#!end-doc-part')[0]
     cc = cc.strip()
 
@@ -233,7 +236,7 @@ for ss, tt in snippet_files.items():
         lines = lines[1:]
 
     lines += ['']
-    lines += [f'# Example source: {ss}']
+    lines += [f'# Complete source: {ss}']
 
     cc = '\n'.join(lines)
 

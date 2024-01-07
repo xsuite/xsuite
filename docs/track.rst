@@ -13,6 +13,8 @@ Track
 
 .. include:: freeze_longitudinal.rst
 
+.. include:: time_dependent_knobs.rst
+
 .. include:: fast_lattice_changes.rst
 
 .. include:: exciter.rst

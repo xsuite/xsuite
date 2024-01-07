@@ -26,16 +26,14 @@ The Xsuite documentation includes:
    - a :doc:`reference guide <apireference>` describing interface of all the
      modules and classes of Xsuite;
    - a :doc:`physics guide <physicsguide>` describing the physics models implemented
-     in the code.
+     in the code;
    - a :doc:`developer's guide <developer>` describing the code internals and how
      to add new features.
 
 The source code is available in these `GitHub repositories <https://github.com/xsuite/>`_.
 
-Table of contents (compact)
----------------------------
-
 .. toctree::
+   :hidden:
    :maxdepth: 2
 
    usersguide
