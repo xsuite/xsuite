@@ -3,7 +3,7 @@ Reference manual
 ================
 
 .. contents:: Table of Contents
-    :depth: 6
+    :depth: 3
 
 xtrack.Line class
 =================

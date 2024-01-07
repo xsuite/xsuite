@@ -3,7 +3,7 @@ Developer's guide
 =================
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 2
 
     dev_guide_xtrack_beam_elements
     xobjexample
