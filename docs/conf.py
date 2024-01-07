@@ -207,6 +207,10 @@ snippet_files = {
         'generated_code_snippets/sequence.py',
     'xtrack/examples/toy_ring/006a_dynamic_bump_sin.py':
         'generated_code_snippets/dynamic_bump_sin.py',
+    'xtrack/examples/toy_ring/006b_dynamic_bump_piece_wise_linear.py':
+        'generated_code_snippets/dynamic_bump_piece_wise_linear.py',
+    'xtrack/examples/toy_ring/006c_dynamic_bump_sin_env.py':
+        'generated_code_snippets/dynamic_bump_sin_env.py',
 }
 
 for ss, tt in snippet_files.items():
