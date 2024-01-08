@@ -101,18 +101,10 @@ Particles class
 
 Xsuite Particles classes, including the default xtrack.Particles class, expose
 the API described in the following (for more info on how to manipulate Particles
-objects, see the :doc:`Working with Particles objects <particlesmanip>`).
+objects, see the :doc:`Particles section in the user's guide <particlesmanip>`).
 
-List of all methods
--------------------
 
-.. autoautosummary:: xtrack.Particles
-    :methods:
-
-Description of all methods
---------------------------
-
-.. autoclass:: xtrack.ParticlesBase
+.. autoclass:: xtrack.Particles
     :members:
     :inherited-members:
     :member-order: bysource
@@ -121,7 +113,7 @@ Description of all methods
 Generation of particles distributions
 =====================================
 
-See also :doc:`Working with Particles objects <particlesmanip>`
+See also :doc:`Particles section in the user's guide <particlesmanip>`.
 
 Gaussian bunch generation (6D)
 ------------------------------
