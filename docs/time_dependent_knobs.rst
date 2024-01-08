@@ -1,5 +1,5 @@
 Time dependent knobs
-====================
+--------------------
 
 To simulate the effect of time-changing properties of the beam-line it is possible
 to control any lattice element attribute with a time-dependent function.

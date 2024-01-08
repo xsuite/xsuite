@@ -40,6 +40,9 @@ illustrates how backtrack for a full turn or between specified elements:
 
 .. include:: freeze_longitudinal.rst
 
+Time-dependent line properties
+==============================
+
 .. include:: time_dependent_knobs.rst
 
 .. include:: fast_lattice_changes.rst

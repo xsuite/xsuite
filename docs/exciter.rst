@@ -1,14 +1,11 @@
 Exciter beam element
-====================
+--------------------
 
 The beam element :class:`xtrack.Exciter` provides a model for a transverse exciter as a time-dependent thin multipole. 
 
 By providing an array of samples, and the sampling frequency, the element can provide an arbitrary excitation waveform.
 
 This can be used for RFKO slow extraction, excitation tune measurement, power supply ripples, etc.
-
-Samples
--------
 
 The given multipole components `knl` and `ksl` (normal and skew respectively) are multiplied according to an array of `samples` which allows for arbitrary time dependance:
 
@@ -18,7 +15,7 @@ The given multipole components `knl` and `ksl` (normal and skew respectively) ar
 
 To provide for an arbitrary frequency spectrum, the variations are *not* assumed to be slow compared to the revolution frequency :math:`f_{rev}`, and the particle arrival time is taken into account when determining the sample index
 
-.. math:: 
+.. math::
     \verb|i| = f_{samp} \times \left(\frac{n-n_0}{f_{rev}} - \frac{\zeta}{\beta_0  c_0}\right)
 
 where :math:`\zeta=(s-\beta_0\cdot c_0\cdot t)` is the longitudinal coordinate of the particle, :math:`\beta_0` is the relativistic beta factor of the particle, :math:`c_0` is the speed of light, :math:`n` is the current turn number, :math:`f_{rev}` is the revolution frequency, and :math:`f_{samp}` is the sample frequency.
@@ -51,8 +48,6 @@ To generate a chirp array at `sampling_freq`, between frequencies `f_start` and 
     :width: 75%
     :align: center
 
-Element
--------
 
 To then define an Exciter element with the custom waveform (array of `samples` at sampling frequency `sampling freq`) and normal and skew components `KNL` and `KSL`:
 
