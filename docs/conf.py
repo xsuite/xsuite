@@ -211,6 +211,8 @@ snippet_files = {
         'generated_code_snippets/dynamic_bump_piece_wise_linear.py',
     'xtrack/examples/toy_ring/006c_dynamic_bump_sin_env.py':
         'generated_code_snippets/dynamic_bump_sin_env.py',
+    'xtrack/examples/tracker/000_track.py':
+        'generated_code_snippets/track.py',
 }
 
 for ss, tt in snippet_files.items():
