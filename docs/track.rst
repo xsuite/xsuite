@@ -19,7 +19,14 @@ illustrated in the following example:
 
 .. include:: particles_monitor.rst
 
-.. include:: optimize_for_tracking.rst
+Start/stop tracking at specific elements
+========================================
+
+It is possible to start and/or stop the tracking at specific elements of the
+beam line. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/tracker_start_stop.py
+    :language: python
 
 .. include:: freeze_longitudinal.rst
 
@@ -28,4 +35,6 @@ illustrated in the following example:
 .. include:: fast_lattice_changes.rst
 
 .. include:: exciter.rst
+
+.. include:: optimize_for_tracking.rst
 

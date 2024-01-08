@@ -213,6 +213,8 @@ snippet_files = {
         'generated_code_snippets/dynamic_bump_sin_env.py',
     'xtrack/examples/tracker/000_track.py':
         'generated_code_snippets/track.py',
+    'xtrack/examples/tracker/001_tracker_start_stop.py':
+        'generated_code_snippets/tracker_start_stop.py',
 }
 
 for ss, tt in snippet_files.items():
