@@ -215,6 +215,8 @@ snippet_files = {
         'generated_code_snippets/track.py',
     'xtrack/examples/tracker/001_tracker_start_stop.py':
         'generated_code_snippets/tracker_start_stop.py',
+    'xtrack/examples/tracker/002_backtrack.py':
+        'generated_code_snippets/backtrack.py',
 }
 
 for ss, tt in snippet_files.items():

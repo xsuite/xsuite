@@ -28,6 +28,16 @@ beam line. This is illustrated in the following example:
 .. literalinclude:: generated_code_snippets/tracker_start_stop.py
     :language: python
 
+Backtracking
+============
+
+It is possible to track particles backwards through a beam line, provided that
+all elements included in the line support backtracking. The following example
+illustrates how backtrack for a full turn or between specified elements:
+
+.. literalinclude:: generated_code_snippets/backtrack.py
+    :language: python
+
 .. include:: freeze_longitudinal.rst
 
 .. include:: time_dependent_knobs.rst
