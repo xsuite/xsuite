@@ -217,7 +217,7 @@ snippet_files = {
         'generated_code_snippets/tracker_start_stop.py',
     'xtrack/examples/tracker/002_backtrack.py':
         'generated_code_snippets/backtrack.py',
-    'xtrack/examples/elena_and_leir/000_elena_chromatic_functions.py':
+    'xtrack/examples/small_rings/000_elena_chromatic_functions.py':
         'generated_code_snippets/elena_chromatic_functions.py',
 }
 
