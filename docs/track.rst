@@ -51,5 +51,18 @@ Time-dependent line properties
 
 .. include:: acceleration.rst
 
+Off-momentum from RF frequency change
+=====================================
+
+.. literalinclude:: generated_code_snippets/radial_steering.py
+    :language: python
+
+.. figure:: figures/radial_steering.png
+    :width: 80%
+    :align: center
+
+    Longitudinal phase space from tracking. The backet is centered around the
+    expected momentum.
+
 .. include:: optimize_for_tracking.rst
 
