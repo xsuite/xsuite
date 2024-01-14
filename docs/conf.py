@@ -219,6 +219,8 @@ snippet_files = {
         'generated_code_snippets/backtrack.py',
     'xtrack/examples/small_rings/000_elena_chromatic_functions.py':
         'generated_code_snippets/elena_chromatic_functions.py',
+    'xtrack/examples/acceleration/001_energy_ramp.py':
+        'generated_code_snippets/energy_ramp.py',
 }
 
 for ss, tt in snippet_files.items():
