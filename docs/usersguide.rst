@@ -14,7 +14,6 @@
    particlesmanip
    collective
    collimation
-   acceleration
    synchrotron_radiation
    footprint
    xsuite_data_management

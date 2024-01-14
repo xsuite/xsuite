@@ -49,5 +49,7 @@ Time-dependent line properties
 
 .. include:: exciter.rst
 
+.. include:: acceleration.rst
+
 .. include:: optimize_for_tracking.rst
 
