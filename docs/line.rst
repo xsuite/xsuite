@@ -125,3 +125,15 @@ optics functions and the chromatic properties of the CERN ELENA ring:
     the linear optics is well reproduced by the simplified model, the chromatic
     properties differ significantly (in particular, note the effect of the dipole
     edges).
+
+Extraction of second order transfer maps
+========================================
+
+The method :meth:`xtrack.Line.get_line_with_second_order_maps` allows modeling portions
+of a beam line with second order transfer maps. This is illustrated in the
+following example.
+
+See also :meth:`xtrack.SecondOrderTaylorMap.from_line`.
+
+.. literalinclude:: generated_code_snippets/line_with_maps.py
+   :language: python

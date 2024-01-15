@@ -223,6 +223,8 @@ snippet_files = {
         'generated_code_snippets/energy_ramp.py',
     'xtrack/examples/radial_steering/000_radial_steering.py':
         'generated_code_snippets/radial_steering.py',
+    'xtrack/examples/taylor_map/000_line_with_maps.py':
+        'generated_code_snippets/line_with_maps.py'
 }
 
 for ss, tt in snippet_files.items():
