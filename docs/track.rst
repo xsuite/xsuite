@@ -54,6 +54,13 @@ Time-dependent line properties
 Off-momentum from RF frequency change
 =====================================
 
+The xtrack default RF are synchronized with the reference particle (simply
+because of the coordinate choice). For this reason a change of the RF frequency
+does not result in a change in the revolution frequency. To obtain a change in
+the revolution frequency (and hence in the momentum) it is necessary to
+introduce explicitly a time delay, using the element :class:`xtrack.ZetaShift`.
+This is illustrated in the following example:
+
 .. literalinclude:: generated_code_snippets/radial_steering.py
     :language: python
 
