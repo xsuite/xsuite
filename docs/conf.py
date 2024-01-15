@@ -109,8 +109,8 @@ snippet_files = {
         'generated_code_snippets/beam_interaction.py',
     'xtrack/examples/twiss/000_twiss.py':
         'generated_code_snippets/twiss.py',
-    'xtrack/examples/twiss/003_match_tune_chroma.py':
-        'generated_code_snippets/match_tune_chroma.py',
+    'xtrack/examples/match_basics/000_match_basic.py':
+        'generated_code_snippets/match_basic.py',
     'xtrack/examples/twiss/003b_match_4c_bump.py':
         'generated_code_snippets/match_4c_bump.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
@@ -191,6 +191,9 @@ for ss, tt in snippet_files.items():
     # Remove empty lines at the beginning
     while len(lines) > 0 and lines[0].strip() == '':
         lines = lines[1:]
+
+    lines += ['']
+    lines += [f'# Example source: {ss}']
 
     cc = '\n'.join(lines)
 

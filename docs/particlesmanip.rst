@@ -87,7 +87,7 @@ infers context and reference particle from the line):
 The ``normalized_transverse`` mode
 ----------------------------------
 
-If ``mode=normalized_transverse"`` is passed to the function or if any of the
+If ``mode="normalized_transverse"`` is passed to the function or if any of the
 input `x_norm`, `px_norm`, `y_norm`, `py_norm` is provided, the transverse
 coordinates are computed from normalized values `x_norm`, `px_norm`, `y_norm`,
 `py_norm` (with zero assumed as default) using the
