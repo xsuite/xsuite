@@ -2,20 +2,12 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 WF_BRANCH="main"
 
-# XOBJECTS=xsuite:main
-#    XPART=xsuite:update_doc
-#    XDEPS=xsuite:update_doc
-#   XTRACK=xsuite:update_doc
-#  XFIELDS=xsuite:main
-#    XMASK=xsuite:rename_twiss_args
-#    XCOLL=xsuite:main
-
 XOBJECTS=xsuite:main
-   XPART=xsuite:main
-   XDEPS=xsuite:main
-  XTRACK=xsuite:fix/acceleration_in_line_seg_map
+   XPART=xsuite:update_doc
+   XDEPS=xsuite:update_doc
+  XTRACK=xsuite:update_doc
  XFIELDS=xsuite:main
-   XMASK=xsuite:main
+   XMASK=xsuite:rename_twiss_args
    XCOLL=xsuite:main
 
 # GPU tests
