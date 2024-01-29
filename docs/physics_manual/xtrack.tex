@@ -1656,7 +1656,7 @@ where the emittance $\varepsilon_x$ can be written as:
 \end{equation}
 
 
-\subsection{Crab dispersion}
+\subsection{Dispersion and crab dispersion}
 
 For a particle having no betatron amplitude ($\hat{x} = \hat{p}_x =\hat{y} =\hat{p}_y=0$) we can write:
 
@@ -1665,6 +1665,46 @@ x &= W_{15}\hat{\zeta} + W_{16}\hat{p}_\zeta \label{eq:crab_x}\\
 \zeta &= W_{55}\hat{\zeta} + W_{56}\hat{p}_\zeta \label{eq:crab_zeta}\\
 p_\zeta &= W_{65}\hat{\zeta} + W_{66}\hat{p}_\zeta \label{eq:crab_pzeta}
 \end{align}
+
+
+\subsubsection{Dispersion}
+The dispersion is:
+\begin{equation}
+D_{x}^{p_\zeta} = \frac{dx}{d \delta} \quad \text{for } \zeta=0
+\end{equation}
+
+By imposing $\zeta = 0$ in Eq.\,\ref{eq:crab_zeta} we obtain:
+
+\begin{equation}
+\hat{\zeta} = - \frac{W_{56}}{W_{55}}\hat{p_\zeta}
+\label{eq:crab_zeta_pzeta}
+\end{equation}
+
+We replace in Eq.\,\ref{eq:crab_pzeta}:
+
+\begin{equation}
+  \hat{p}_\zeta = \left( W_{66}\ -  \frac{W_{65}W_{56}}{W_{55}} \right)^{-1}p_\zeta
+\end{equation}
+
+From Eq.\,\ref{eq:crab_zeta_pzeta} we obtain:
+\begin{equation}
+\hat{\zeta} = - \frac{W_{56}}{W_{55}}\left( W_{66}\ -  \frac{W_{65}W_{56}}{W_{55}} \right)^{-1} p_\zeta
+\end{equation}
+
+Replacing the last two into Eq.\,\ref{eq:crab_x} we obtain:
+
+\begin{equation}
+x = \left(W_{16} -\frac{W_{15}W_{56}}{W_{55}}\right)\left( W_{66}\ -  \frac{W_{65}W_{56}}{W_{55}} \right)^{-1} p_\zeta
+\end{equation}
+
+which gives the dispersion:
+\begin{equation}
+D_{x}^{p_\zeta} = \left(W_{16} -\frac{W_{15}W_{56}}{W_{55}}\right)\left( W_{66}\ -  \frac{W_{65}W_{56}}{W_{55}} \right)^{-1}
+\end{equation}
+
+A similar type of calculation can be done for the other planes, and for higher order types of dispersion such as $D_{px}^{p_\zeta}$.
+
+\subsubsection{Crab dispersion}
 
 The crab dispersion is:
 \begin{equation}
@@ -1699,6 +1739,9 @@ which gives the crab dispersion:
 \begin{equation}
 D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
+
+A similar type of calculation can be done for the other planes, and for higher order types of crab dispersion such as $D_{px}^{\zeta}$.
+
 
 \section{Synchrotron radiation}
 
