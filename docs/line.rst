@@ -103,15 +103,16 @@ in the following example:
 Simulation of small rings: drifts, bends, fringe fields
 =======================================================
 
-By default, Xsuite uses and expanded Hamiltonian formalism for the bend and the
-drift and well as linearized maps for the dipole edges. For small rings featuring
-large bending angles it is advisable to switch to the full model for the bends, the
-fringe fields and the drifts (note, instead, that for large rings the expanded
-Hamiltonian formalism is more efficient and accurate).
+The modeling of the body of bending magnets in automatically adapted depending
+on the bending radius, hence no special setting is required for this purpose
+when simulating small rings with large bending angles.
 
-The following example illustrates how to switch to the full model for the bends,
-the fringe fields and the drifts and compares the effect of the two models on the
-optics functions and the chromatic properties of the CERN ELENA ring:
+However, the modeling of the fringe fields and the drifts is not automatically
+adapted and appropriate settings need to be provided by the user.
+
+The following example illustrates how to switch to the full model for the fringe
+fields and the drifts and compares the effect of the two models on the optics
+functions and the chromatic properties of the CERN ELENA ring:
 
 .. literalinclude:: generated_code_snippets/elena_chromatic_functions.py
    :language: python
