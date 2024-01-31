@@ -111,7 +111,7 @@ However, the modeling of the fringe fields and the drifts is not automatically
 adapted and appropriate settings need to be provided by the user.
 
 The following example illustrates how to switch to the full model for the fringe
-fields and the drifts and compares the effect of the two models on the optics
+fields and the drifts and compares the effect of different models on the optics
 functions and the chromatic properties of the CERN ELENA ring:
 
 .. literalinclude:: generated_code_snippets/elena_chromatic_functions.py
