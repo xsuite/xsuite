@@ -1,5 +1,5 @@
 # This is a workflow that should run daily
-name: Daily test (GitHub, CPU)
+name: Daily test (GitHub, OpenMP)
 
 # Controls when the action will run.
 on:
@@ -9,7 +9,7 @@ on:
 # This workflow calls the test_gh.yaml workflow passing the default
 # branches as inputs
 jobs:
-  run-tests-cron-gh:
+  run-tests-cron-gh-omp:
     uses: ./.github/workflows/test_gh.yaml
     with:
       xobjects_location: 'xsuite:main'
@@ -19,16 +19,4 @@ jobs:
       xfields_location: 'xsuite:main'
       xmask_location: 'xsuite:main'
       xcoll_location: 'xsuite:main'
-      xobjects_test_contexts: "ContextCpu"
-  run-tests-cron-gh-precompiled:
-    uses: ./.github/workflows/test_gh.yaml
-    with:
-      xobjects_location: 'xsuite:main'
-      xdeps_location: 'xsuite:main'
-      xpart_location: 'xsuite:main'
-      xtrack_location: 'xsuite:main'
-      xfields_location: 'xsuite:main'
-      xmask_location: 'xsuite:main'
-      xcoll_location: 'xsuite:main'
-      precompile_kernels: true
-      xobjects_test_contexts: "ContextCpu"
+      xobjects_test_contexts: "ContextCpu:auto"
