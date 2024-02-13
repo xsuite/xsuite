@@ -5,7 +5,7 @@ WF_BRANCH="main"
 XOBJECTS=xsuite:main
    XPART=xsuite:main
    XDEPS=xsuite:main
-  XTRACK=xsuite:release/0.48.1
+  XTRACK=xsuite:fix/dqx_cell
  XFIELDS=xsuite:main
    XMASK=xsuite:main
    XCOLL=xsuite:main
@@ -17,7 +17,7 @@ python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform ubuntu --ctx cl \
    --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK
 
 # CPU tests
-python run_on_gh.py --suites xm --platform radeon --ctx cpu \
+python run_on_gh.py --suites xm --platform pcbe-abp-gpu001 --ctx cpu \
   --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --branch $WF_BRANCH
 python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform  radeon --ctx cpu:auto \
    --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --branch $WF_BRANCH

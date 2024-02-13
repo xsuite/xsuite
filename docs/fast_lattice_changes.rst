@@ -1,18 +1,11 @@
-====================
-Fast lattice changes
-====================
+Multisetters
+------------
 
-Changes to beam line parameters can be applied using the python interface. For
-example to change the strength of a quadrupole one can use the following.
-
-.. code-block:: python
-
-    line['myquad'].knl[1] = 0.5
-
-This approach works well when the change is applied to a small number of elements,
-but can introduce a significant overhead on the simulation time when the number of
-changes is very large. For these cases it is possible to use an :class:`xtrack.MultiSetter`
-to perform the changes in a more efficient way. The ``MultiSetter`` stores the
+When the number of beam elements to be changed is very large, this can introduce
+a significant overhead on the simulation time. For these cases it is possible to use
+the :class:`xtrack.MultiSetter` class, to perform the changes in a more efficient way,
+bypassing the expressions and acting directly on the element properties.
+Furthermore, the ``MultiSetter`` stores the
 memory addresses of the quantities to be changed and performs the changes with a single
 compiled kernel, using multithreading when allowed by the context.
 

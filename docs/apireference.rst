@@ -1,9 +1,9 @@
-=============
-API reference
-=============
+================
+Reference manual
+================
 
 .. contents:: Table of Contents
-    :depth: 6
+    :depth: 3
 
 xtrack.Line class
 =================
@@ -12,19 +12,20 @@ The Xsuite Line class is the main class to build beam lines. Its interface is
 described in the following (more info on how to build and use beam lines for
 different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
 
-Fundamentals
-------------
+.. autoclass:: xtrack.Line
+    :members:
+    :member-order: bysource
 
-This section describes the fundamental methods of the xtrack.Line class, namely
-the :ref:`track method <track_method_label>`, the :ref:`twiss method<twiss_method_label>`,
-the :ref:`match method <match_method_label>` and the
-:ref:`build_particles method <build_particles_method_label>`.
+.. List of all methods
+.. -------------------
 
+.. .. autoautosummary:: xtrack.Line
+..     :methods:
 
 .. _track_method_label:
 
 Track
-~~~~~
+=====
 See also: :doc:`Single particle tracking <singlepart>`,
 :doc:`Tracking with collective elements <collective>`.
 
@@ -34,63 +35,76 @@ See also: :doc:`Single particle tracking <singlepart>`,
 .. _twiss_method_label:
 
 Twiss
-~~~~~
+=====
 
 See also: :doc:`Twiss <twiss>`.
 
 .. automethod:: xtrack.Line.twiss
 
 Match
-~~~~~
+=====
 
-See also: :doc:`Match twiss parameters <match_twiss_params>`.
-
-.. _match_method_label:
+See also: :doc:`Match<match>`.
 
 .. automethod:: xtrack.Line.match
+
+.. autoclass:: xdeps.Optimize
+    :members:
+    :member-order: bysource
+
+
+.. _vary_target_label:
+
+Vary and Target
+---------------
+
+.. autoclass:: xtrack.Vary
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.VaryList
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.Target
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.TargetSet
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.TargetRelPhaseAdvance
+    :members:
+    :member-order: bysource
+
 
 .. _build_particles_method_label:
 
 Build particles
-~~~~~~~~~~~~~~~
+===============
 
 See also: :doc:`Working with Particles objects <particlesmanip>`.
 
 .. automethod:: xtrack.Line.build_particles
 
 
-List of all methods
--------------------
-
-.. autoautosummary:: xtrack.Line
-    :methods:
-
-Description of all methods
---------------------------
-
-.. autoclass:: xtrack.Line
-    :members:
-    :member-order: bysource
 
 
 
-xpart.Particles class
-=====================
 
-Xsuite Particles classes, including the default xpart.Particles class, expose
+
+
+
+Particles class
+===============
+
+Xsuite Particles classes, including the default xtrack.Particles class, expose
 the API described in the following (for more info on how to manipulate Particles
-objects, see the :doc:`Working with Particles objects <particlesmanip>`).
+objects, see the :doc:`Particles section in the user's guide <particlesmanip>`).
 
-List of all methods
--------------------
 
-.. autoautosummary:: xpart.Particles
-    :methods:
-
-Description of all methods
---------------------------
-
-.. autoclass:: xpart.ParticlesBase
+.. autoclass:: xtrack.Particles
     :members:
     :inherited-members:
     :member-order: bysource
@@ -99,7 +113,7 @@ Description of all methods
 Generation of particles distributions
 =====================================
 
-See also :doc:`Working with Particles objects <particlesmanip>`
+See also :doc:`Particles section in the user's guide <particlesmanip>`.
 
 Gaussian bunch generation (6D)
 ------------------------------
@@ -245,10 +259,59 @@ Drift
     :members:
     :member-order: bysource
 
+Bend
+----
+
+.. autoclass:: xtrack.Bend
+    :members:
+    :member-order: bysource
+
+Quadrupole
+----------
+
+.. autoclass:: xtrack.Quadrupole
+    :members:
+    :member-order: bysource
+
+CombinedFunctionMagnet
+----------------------
+
+.. autoclass:: xtrack.CombinedFunctionMagnet
+    :members:
+    :member-order: bysource
+
+DipoleEdge
+----------
+
+.. autoclass:: xtrack.DipoleEdge
+    :members:
+    :member-order: bysource
+
+Sextupole
+---------
+
+.. autoclass:: xtrack.Sextupole
+    :members:
+    :member-order: bysource
+
 Multipole
 ---------
 
 .. autoclass:: xtrack.Multipole
+    :members:
+    :member-order: bysource
+
+Solenoid
+--------
+
+.. autoclass:: xtrack.Solenoid
+    :members:
+    :member-order: bysource
+
+NonLinearLens
+-------------
+
+.. autoclass:: xtrack.NonLinearLens
     :members:
     :member-order: bysource
 
@@ -266,12 +329,7 @@ RFMultipole
     :members:
     :member-order: bysource
 
-DipoleEdge
-----------
 
-.. autoclass:: xtrack.DipoleEdge
-    :members:
-    :member-order: bysource
 
 ReferenceEnergyIncrease
 -----------------------
@@ -305,6 +363,13 @@ FirstOrderTaylorMap
 -------------------
 
 .. autoclass:: xtrack.FirstOrderTaylorMap
+    :members:
+    :member-order: bysource
+
+SecondOrderTaylorMap
+--------------------
+
+.. autoclass:: xtrack.SecondOrderTaylorMap
     :members:
     :member-order: bysource
 

@@ -1,6 +1,6 @@
-==============================
-Working with Particles objects
-==============================
+=========
+Particles
+=========
 
 
 .. contents:: Table of Contents
@@ -286,16 +286,16 @@ context in order to keep the code usable on different contexts. For example:
 .. code-block:: python
 
     import xobjects as xo
-    import xpart as xp
+    import xtrack as xt
 
     context = xo.ContextCupy()
 
-    particles = xp.Particles(_context=context, x=[1, 2, 3])
+    particles = xt.Particles(_context=context, x=[1, 2, 3])
 
     # Avoid the following (which does not work if a CPU context is chosen):
     # x_cpu = particles.x.get()
 
     # Instead use the following (which is guaranteed to work on all contexts):
     x_cpu = context.nparray_from_context_array(particles.x)
-  
+
 

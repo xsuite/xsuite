@@ -12,7 +12,8 @@ We assume that you have a recent python installation (python 3.8+). It this is n
 Basic installation
 ==================
 
-The Xsuite packages can be installed using pip:
+The Xsuite packages can be installed using pip. We recommend installing Xsuite
+in a :ref:`conda environment<miniforge>`.
 
 .. code-block:: bash
 
@@ -22,7 +23,8 @@ This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cup
 
 After the installation, you can choose to precompile some often-used kernels, in
 order to reduce the waiting time spent on running the simulations later on. This
-can be accomplished simply by running the following command:
+can be accomplished simply by running the following command (this requires
+Cython, ``pip install cython``):
 
 .. code-block:: bash
 
@@ -54,15 +56,36 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
+If all of the optional dependencies have also been installed, we can
+verify our installation. To install test dependencies for an xsuite
+package, one can replace the ``pip install -e some_package`` commands in
+the above snippet with ``pip install -e 'some_package[tests]'``. Once
+the test dependecies are also installed, we can run the tests to check
+if xsuite works correctly:
+
+.. code:: bash
+
+   cd ..
+   PKGS=(xobjects xdeps xpart xtrack xfields)
+   for PKG in ${PKGS[@]}; do
+   python -m pytest xsuite/$PKG/tests
+   done
+
 
 Optional dependencies
 =====================
+
+MAD-X and cpymad
+----------------
 
 To import MAD-X lattices you will need the cpymad package, which can be installed as follow:
 
 .. code-block:: bash
 
     pip install cpymad
+
+Sixtracktools
+-------------
 
 To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you will need the sixtracktools package, which can be installed as follow:
 
@@ -71,13 +94,29 @@ To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you
     git clone https://github.com/sixtrack/sixtracktools
     pip install -e sixtracktools
 
-Some of the tests rely on pyheadtail to test the corresponding interface:
+PyHEADTAIL
+----------
+
+To use the PyHEADTAIL interface in Xsuite, PyHEADTAIL needs to be installed:
 
 .. code-block:: bash
 
     git clone https://github.com/pycomplete/pyheadtail
-    pip install cython
+    pip install cython h5py
     pip install -e pyheadtail
+
+Other useful packages
+---------------------
+
+* ``pip install tqdm`` will enable progress bars in Xsuite in CLI and notebooks
+* ``pip install cython`` to enable ``xsuite-prebuild`` functionality
+* ``pip install matplotlib`` for plots
+* ``pip install xplt`` is a `plotting library <https://github.com/eltos/xplt/>`_ for Xsuite and similar accelerator physics tools
+* ``pip install jupyter ipympl`` to be able to create and open notebooks with interactive graphs
+* ``pip install ipython`` for a better Python interactive CLI
+* ``pip install pytest-xdist`` extends pytest with an ``-n N`` option that can be used to run tests on ``N`` cores
+* ``pip install gitpython click gh`` needed for various Xsuite-developer related tasks
+
 
 .. _gpuinst:
 
@@ -195,6 +234,12 @@ A miniforge installation is strongly recommended against a miniconda installatio
 while miniconda uses the "default" channel (https://repo.anaconda.com/pkgs/). While the "default" channel can require a paid license 
 depending on its usage, the "conda-forge" channel is free for all to use (see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/channels.html).
 
+
+.. note::
+
+    The current versions of miniconda ship with the `mamba` command, which is a
+    much faster reimplementation of `conda` written in C++. It can also be used.
+
 On Linux
 --------
 
@@ -206,89 +251,27 @@ On Linux
     source miniforge3/bin/activate
     pip install numpy scipy matplotlib pandas ipython pytest
 
-On MacOS (x86_64)
+On MacOS
 --------
+
+We recommend installing Xsuite inside a conda environment:
 
 .. code-block:: bash
 
     cd ~
-    curl https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh > miniforge_inst.sh
-    bash miniforge_inst.sh
+    curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh
+    bash Miniforge3-MacOSX-$(uname -m).sh
     source miniforge3/bin/activate
-    conda install clang_osx-64
-    pip install numpy scipy matplotlib pandas ipython pytest
-
-
-.. note::
-
-    If you have `xcode` installed, the compiler install as above might not
-    work. In that case it is useful to create conda environment and install directly
-    the compilers there. This can be done as follows:
-
-    .. code-block:: bash
-
-        cd ~
-        curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
-        bash Miniforge3-MacOSX-x86_64.sh
-        source miniforge3/bin/activate
-        conda create -n my_env
-        conda activate my_env
-        conda install compilers
-        conda install pip
-        pip install numpy scipy matplotlib pandas ipython pytest
-
-On MacOS (arm64)
---------
-
-.. code-block:: bash
-
-    cd ~
-    curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-    bash Miniforge3-MacOSX-arm64.sh
-    source miniforge3/bin/activate
+    conda create -n xsuite_env python=3.11  # or your preferred version
+    conda activate xsuite_env
     conda install compilers
-    conda install pip
-    pip install numpy scipy matplotlib pandas ipython pytest
 
-    conda install llvm-openmp  # to use multithreading with OpenMP
-
-See the note for `x86` above in case you have `xcode` installed.
     
-.. _apple_silicon:
+Advanced information for developers
+===================================
 
-Install on Apple silicon
-========================
-
-Native installation
--------------------
-
-Conda (Miniforge)
-~~~~~~~~~~~~~~~~~
-
-First, install miniforge using the tips provided above. Do say yes to shell
-initialisation when asked, or, otherwise, run the command suggested by the
-installer to initialise ``conda`` in the current terminal session.
-
-Once miniforge is installed, we can create a conda environment for xsuite.
-This will be beneficial if you want to have multiple separate projects (or
-indeed the native and the emulated x86 versions of xsuite side-by-side).
-
-.. code:: bash
-
-   conda create -n xsuite-arm python=3.10
-   conda activate xsuite-arm
-
-If not installed already, some prerequisites are needed: notably compilers.
-While xsuite itself requires a working C compiler, we will also need to build
-other dependencies from scratch, for these we will need ``gfortran``. We
-can install compilers supplied by ``conda-forge``:
-
-.. code:: bash
-
-   conda install compilers cmake
-
-Building MAD-X and cpymad (optional)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Building MAD-X and cpymad from source (tested with macOS)
+---------------------------------------------------------
 
 First we build ``MAD-X`` and ``cpymad`` (largely following the
 recommendations found
@@ -296,6 +279,8 @@ recommendations found
 `here <https://hibtc.github.io/cpymad/installation/macos.html>`__):
 
 .. code:: bash
+
+   conda install compilers cmake
 
    git clone https://github.com/MethodicalAcceleratorDesign/MAD-X
    pip install --upgrade cmake cython wheel setuptools delocate
@@ -335,64 +320,8 @@ recommendations found
    pip install pandas pytest
    python -m pytest test
 
-Sixtracktools (optional)
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: bash
-
-   git clone https://github.com/sixtrack/sixtracktools
-   pip install ./sixtracktools
-
-PyHEADTAIL (optional)
-~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: bash
-
-   git clone https://github.com/pycomplete/pyheadtail
-   pip install --upgrade cython scipy h5py
-   pip install -e ./pyheadtail
-
-Xsuite
-~~~~~~
-
-Finally, we can install xsuite:
-
-.. code:: bash
-
-   mkdir xsuite && cd xsuite
-
-   git clone https://github.com/xsuite/xobjects
-   pip install -e xobjects
-
-   git clone https://github.com/xsuite/xdeps
-   pip install -e xdeps
-
-   git clone https://github.com/xsuite/xpart
-   pip install -e xpart
-
-   git clone https://github.com/xsuite/xtrack
-   pip install -e xtrack
-
-   git clone https://github.com/xsuite/xfields
-   pip install -e xfields
-
-If all of the optional dependencies have also been installed, we can
-verify our installation. To install test dependencies for an xsuite
-package, one can replace the ``pip install -e some_package`` commands in
-the above snippet with ``pip install -e 'some_package[tests]'``. Once
-the test dependecies are also installed, we can run the tests to check
-if xsuite works correctly:
-
-.. code:: bash
-
-   cd ..
-   PKGS=(xobjects xdeps xpart xtrack xfields)
-   for PKG in ${PKGS[@]}; do
-   python -m pytest xsuite/$PKG/tests
-   done
-
-Rosetta installation (x86 emulation)
-------------------------------------
+Rosetta installation (x86 emulation on Apple Silicon)
+-----------------------------------------------------
 
 Install miniforge as above, and then create an x86 conda environment,
 like so:

@@ -1,19 +1,15 @@
-============
 Acceleration
 ============
 
-The acceleration can be simulated by adding to the line the element
-:class:`xtrack.ReferenceEnergyIncrease` as illustrated by the following example.
+An energy ramp with an arbitrary time dependence of the beam energy can be
+simulated by attaching and ``xtrack.EnergyProgram`` object to the line, as
+shown in the example below.
 
-.. literalinclude:: generated_code_snippets/acceleration.py
+.. literalinclude:: generated_code_snippets/energy_ramp.py
    :language: python
 
 .. figure:: figures/acceleration.png
-    :width: 75%
     :align: center
 
-    Particles motion in the longitudinal phase space as obtained from
-    the simulation above. `See the full code generating the image.
-    <https://github.com/xsuite/xtrack/blob/main/examples/acceleration/
-    000_acceleration.py>`_
-
+    Time evolution of the beam energy and the RF frequency and particles motion
+    in the longitudinal phase space as obtained from the example above.

@@ -109,10 +109,26 @@ snippet_files = {
         'generated_code_snippets/beam_interaction.py',
     'xtrack/examples/twiss/000_twiss.py':
         'generated_code_snippets/twiss.py',
-    'xtrack/examples/match_basics/000_match_basic.py':
+    'xtrack/examples/match/000_match_basic.py':
         'generated_code_snippets/match_basic.py',
-    'xtrack/examples/twiss/003b_match_4c_bump.py':
-        'generated_code_snippets/match_4c_bump.py',
+    'xtrack/examples/match/001_match_interactive.py':
+        'generated_code_snippets/match_interactive.py',
+    'xtrack/examples/match/002_match_bump_basic.py':
+        'generated_code_snippets/match_bump_basic.py',
+    'xtrack/examples/match/003_match_bump_from_table.py':
+        'generated_code_snippets/match_bump_from_table.py',
+    'xtrack/examples/match/002a_match_bump_init_end.py':
+        'generated_code_snippets/match_bump_init_end.py',
+    'xtrack/examples/match/002b_match_bump_init_middle.py':
+        'generated_code_snippets/match_bump_init_middle.py',
+    'xtrack/examples/match/004_match_bump_common_elements.py':
+        'generated_code_snippets/match_bump_common_elements.py',
+    'xtrack/examples/match/005_match_bump_common_ele_callable_ineq.py':
+        'generated_code_snippets/match_bump_common_ele_callable_ineq.py',
+    'xtrack/examples/match/006_match_action.py':
+        'generated_code_snippets/match_action.py',
+    'xtrack/examples/match/007_match_knob.py':
+        'generated_code_snippets/match_knob.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
     'xtrack/examples/twiss/011_tune_vs_delta.py':
@@ -124,7 +140,7 @@ snippet_files = {
     'xtrack/examples/to_json/000_lattice_to_json.py':
         'generated_code_snippets/tojson.py',
     'xtrack/examples/knobs/001_lhc.py':
-        'generated_code_snippets/expressions.py',
+        'generated_code_snippets/expressions_madx.py',
     'xtrack/examples/pyheadtail_interface/004_imped_spacech_cpu_gpu.py':
         'generated_code_snippets/combined_cpu_gpu.py',
     'xtrack/examples/monitor/000_example_quick_monitor.py':
@@ -165,12 +181,59 @@ snippet_files = {
         'generated_code_snippets/beambeamws.py',
     'xtrack/examples/dynamic_aperture/000_tracking_for_da.py':
         'generated_code_snippets/tracking_for_da.py',
+    'xtrack/examples/toy_ring/002_expressions.py':
+        'generated_code_snippets/expressions_basics.py',
+    'xtrack/examples/toy_ring/003_slicing.py':
+        'generated_code_snippets/slicing.py',
+    'xtrack/examples/toy_ring/004_inspect.py':
+        'generated_code_snippets/line_inspect.py',
+    'xtrack/examples/toy_ring/000_toy_ring.py':
+        'generated_code_snippets/toy_ring.py',
+    'xtrack/examples/toy_ring/005_insert_element.py':
+        'generated_code_snippets/insert_element.py',
+    'xtrack/examples/psb/000a_all_xsuite_import_model.py':
+        'generated_code_snippets/madx_import_psb.py',
+    'xtrack/examples/twiss/000a_twiss_range.py':
+        'generated_code_snippets/twiss_range.py',
+    'xtrack/examples/twiss/000b_twiss_range_periodic.py':
+        'generated_code_snippets/twiss_range_periodic.py',
+    'xtrack/examples/twiss/012_compute_norm_coordinates.py':
+        'generated_code_snippets/compute_norm_coordinates.py',
+    'xtrack/examples/twiss/018_compute_beam_sizes.py':
+        'generated_code_snippets/compute_beam_sizes.py',
+    'xtrack/examples/twiss/000e_twiss_reverse.py':
+        'generated_code_snippets/twiss_reverse.py',
+    'xtrack/examples/twiss/000f_twiss_default.py':
+        'generated_code_snippets/twiss_default.py',
+    'xtrack/examples/sequence/000_sequence.py':
+        'generated_code_snippets/sequence.py',
+    'xtrack/examples/toy_ring/006a_dynamic_bump_sin.py':
+        'generated_code_snippets/dynamic_bump_sin.py',
+    'xtrack/examples/toy_ring/006b_dynamic_bump_piece_wise_linear.py':
+        'generated_code_snippets/dynamic_bump_piece_wise_linear.py',
+    'xtrack/examples/toy_ring/006c_dynamic_bump_sin_env.py':
+        'generated_code_snippets/dynamic_bump_sin_env.py',
+    'xtrack/examples/tracker/000_track.py':
+        'generated_code_snippets/track.py',
+    'xtrack/examples/tracker/001_tracker_start_stop.py':
+        'generated_code_snippets/tracker_start_stop.py',
+    'xtrack/examples/tracker/002_backtrack.py':
+        'generated_code_snippets/backtrack.py',
+    'xtrack/examples/small_rings/000_elena_chromatic_functions.py':
+        'generated_code_snippets/elena_chromatic_functions.py',
+    'xtrack/examples/acceleration/001_energy_ramp.py':
+        'generated_code_snippets/energy_ramp.py',
+    'xtrack/examples/radial_steering/000_radial_steering.py':
+        'generated_code_snippets/radial_steering.py',
+    'xtrack/examples/taylor_map/000_line_with_maps.py':
+        'generated_code_snippets/line_with_maps.py'
 }
 
 for ss, tt in snippet_files.items():
     with open(ss, 'r') as fid:
         cc = fid.read()
 
+    cc = cc.split('#!start-doc-part')[-1]
     cc = cc.split('#!end-doc-part')[0]
     cc = cc.strip()
 
@@ -193,7 +256,7 @@ for ss, tt in snippet_files.items():
         lines = lines[1:]
 
     lines += ['']
-    lines += [f'# Example source: {ss}']
+    lines += [f'# Complete source: {ss}']
 
     cc = '\n'.join(lines)
 
@@ -242,9 +305,9 @@ copyright = u'2021, CERN'
 # built documents.
 #
 # The short X.Y version.
-version = '0.2.1'
+version = '0.0.0'
 # The full version, including alpha/beta/rc tags.
-release = '0.2.1'
+release = '0.0.0'
 
 # The language for content autogenerated by Sphinx. Refer to documentation
 # for a list of supported languages.

@@ -7,26 +7,13 @@
 
    installation
    singlepart
-   line2json
-   particlesmanip
-   deferred_expressions
+   line
    twiss
    match
-   footprint
-   dynamic_aperture
-   particles_monitor
-   acceleration
-   synchrotron_radiation
-   tapering
-   freeze_longitudinal
-   exciter
-   fast_lattice_changes
-   optimize_for_tracking
+   track
+   particlesmanip
    collective
    collimation
-   spacechargeauto
-   pyhtinterface
-   combined_cpu_gpu
+   synchrotron_radiation
+   footprint
    xsuite_data_management
-   pipeline
-   beambeam

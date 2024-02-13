@@ -1,14 +1,12 @@
-==================
-Particle and beam monitors
-==================
+.. _monitors:
 
-.. contents:: Table of Contents
-    :depth: 3
+Monitors
+========
 
 See also: :class:`xtrack.ParticlesMonitor`, :class:`xtrack.LastTurnsMonitor`, :class:`xtrack.BeamPositionMonitor`, :class:`xtrack.BeamProfileMonitor`, :class:`xtrack.BeamSizeMonitor`.
 
 The easy way
-============
+------------
 
 When starting a tracking simulation with the Xtrack Line object, the easiest
 way of logging the coordinates of all particles for all turns is to enable the
@@ -21,7 +19,7 @@ at the beginning of the simulation.
 
 
 Custom monitors
-========================
+---------------
 
 In order to customize the monitor's behaviour,
 a custom monitor object can be built and passed to the ``Line.track``
@@ -45,7 +43,7 @@ The example above is changed as follows:
         start_at_turn=5, # <-- first turn to monitor (including)
         stop_at_turn=15, # <-- last turn to monitor (excluding)
     )
-    
+
     line.track(particles, num_turns=num_turns,
                turn_by_turn_monitor=monitor, # <-- pass the monitor here
     )
@@ -86,7 +84,7 @@ As before, the turn numbers recorded can be inspected with ``line.record_last_tr
 
 
 Particles monitor as beam elements
-==================================
+----------------------------------
 
 Particles monitors can be used as regular beam element to record the particle
 coordinates at specific locations in the beam line. For this purpose they can be
@@ -107,12 +105,34 @@ in stand-alone mode as illustrated in the following example.
         line.track(particles)
 
 
-Specialized particle and beam monitor classes
-=================================
 
-The default :class:`xtrack.ParticlesMonitor` used above records
-all particle properties with the drawback of a considerable memory requirement.
-A number of specialized monitors were implemented for dedicated purposes.
+Last turns monitor
+------------------
+
+The :class:`xtrack.LastTurnsMonitor` records particle data in the last turns before respective particle loss
+(or the end of tracking).
+
+The idea is to use a rolling buffer instead of saving all the turns. This saves a lot of memory resources
+when the interest lies only in the last few turns.
+For each particle, the recorded data will cover up to ``n_last_turns*every_n_turns`` turns before it is lost (or the tracking ends).
+
+.. code-block:: python
+
+    monitor = LastTurnsMonitor(
+        particle_id_range=(0, 5),  
+        n_last_turns=5,            # amount of turns to store
+        every_n_turns=3,           # only consider turns which are a multiples of this
+    )
+
+    ... # track
+
+    monitor.at_turn[:,-1]  # turn number of each particle before it is lost (last turn alive)
+    monitor.x[3,-2]        # x coordinate of particle 3 in one but last turn (-2)
+
+The monitor provides the following data as 2D array of shape ``(num_particles, n_last_turns)``,
+where the first index corresponds to the particle in ``particle_id_range``
+and the second index corresponds to the turn (or every_n_turns) before the respective particle is lost:
+``particle_id``, ``at_turn``, ``x``, ``px``, ``y``, ``py``, ``delta``, ``zeta``
 
 
 .. _MonitorBPM:
@@ -229,36 +249,5 @@ Like the :ref:`MonitorBPM` also the beam profile monitor is based on particle ar
 The recorded profiles are 2D arrays of shape ``(sample_size, n)``
 where ``sample_size = round(( stop_at_turn - start_at_turn ) * sampling_frequency / frev)``.
 I.e. ``monitor.x_intensity[0,:]`` is the first recorded profile and ``monitor.x_intensity[-1,:]`` the last.
-
-
-
-Last turns monitor
-------------------
-
-The :class:`xtrack.LastTurnsMonitor` records particle data in the last turns before respective particle loss
-(or the end of tracking).
-
-The idea is to use a rolling buffer instead of saving all the turns. This saves a lot of memory resources
-when the interest lies only in the last few turns.
-For each particle, the recorded data will cover up to ``n_last_turns*every_n_turns`` turns before it is lost (or the tracking ends).
-
-.. code-block:: python
-
-    monitor = LastTurnsMonitor(
-        particle_id_range=(0, 5),  
-        n_last_turns=5,            # amount of turns to store
-        every_n_turns=3,           # only consider turns which are a multiples of this
-    )
-
-    ... # track
-
-    monitor.at_turn[:,-1]  # turn number of each particle before it is lost (last turn alive)
-    monitor.x[3,-2]        # x coordinate of particle 3 in one but last turn (-2)
-
-The monitor provides the following data as 2D array of shape ``(num_particles, n_last_turns)``,
-where the first index corresponds to the particle in ``particle_id_range``
-and the second index corresponds to the turn (or every_n_turns) before the respective particle is lost:
-``particle_id``, ``at_turn``, ``x``, ``px``, ``y``, ``py``, ``delta``, ``zeta``
-
 
 
