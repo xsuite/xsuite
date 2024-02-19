@@ -19,12 +19,15 @@ in a :ref:`conda environment<miniforge>`.
 
     pip install xsuite
 
-This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
+This installation allows using Xsuite on CPU. In order to perform tracking on CPU,
+a C compiler needs to be installed on the system: when using conda, this is provided
+by the ``compilers`` package (``conda install compilers``). To use Xsuite on GPU,
+with the cupy and/or pyopencl you need to install the corresponding packages,
+as described in the :ref:`dedicated section<gpuinst>`.
 
 After the installation, you can choose to precompile some often-used kernels, in
 order to reduce the waiting time spent on running the simulations later on. This
-can be accomplished simply by running the following command (this requires
-Cython, ``pip install cython``):
+can be accomplished simply by running the following command:
 
 .. code-block:: bash
 
@@ -120,10 +123,11 @@ Other useful packages
 
 .. _gpuinst:
 
-GPU support
-===========
+GPU/Multithreading support
+==========================
 
-In the following section we describe the steps to install the two supported GPU platforms, i.e. cupy and pyopencl.
+In the following section we describe the steps to install the two supported GPU platforms, i.e. cupy and pyopencl, as
+well as the multithreading library OpenMP.
 
 Installation of cupy
 --------------------
@@ -222,6 +226,13 @@ And install gpyfft locally.
 .. code-block:: bash
 
     pip install -e gpyfft/
+
+Installation of OpenMP
+----------------------
+
+If using a Mac (and/or the Clang compiler), inside of your conda environment run
+``conda install llvm-openmp``. On Linux, the same functionality (for GCC) is
+provided by ``conda install libgomp``.
 
 
 .. _miniforge:
