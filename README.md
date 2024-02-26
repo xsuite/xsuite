@@ -1,4 +1,4 @@
-# Xsuite 
+<img src="logos/xsuite_logo_banner_on_alpha.png" alt="Xsuite Logo Banner" style="width: 256px;"/>
 
 
 [![Daily test (self-hosted, CUDA)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml)
