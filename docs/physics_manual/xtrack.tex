@@ -2151,3 +2151,70 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
 
+\section{Coasting beams}
+
+In coasting beams different particles have different revolution frequencies, depending on their momentum, particles perform a different number of turns in a given time. 
+
+If in the line we have collective elements which need to measure the beam distribution at a certain location `s` and at a given time `t`, we need to ensure that all particles present a `s` at the instant `t` are present at the element.
+
+We define for each particle:
+\begin{equation}
+\hat{\beta}(s) = \frac{ds}{dt}
+\end{equation}
+
+[DEVELOP A BIT ON ITS MEANING]
+
+We choose an auxiliary value $\beta_\text{sim}$ such that at all times:
+\begin{equation}
+\hat{\beta}(s) < \beta_\text{sim} \quad \text{far all particles}
+\end{equation}
+
+From $\beta_{sim}$ we define an auxiliary time interval $\Delta T$ as:
+\begin{equation}
+\Delta T = \frac{L}{\beta_\text{sim}c}
+\end{equation}
+
+
+At each ``turn'' $n$ we want to simulate at any  collective element the time frame $F_n(s) $ given by:
+\begin{equation}
+F_n(s) = \left[ T_n(s) - \frac{\Delta T}{2}, T_n(s) + \frac{\Delta T}{2} \right]
+\end{equation}
+where:
+\begin{equation}
+T_n(s) = n \Delta T + \frac{s}{\beta_\text{sim} c}
+\label{eq:tndef}
+\end{equation}
+We can see that intervals are contiguous, hence at any locations over $N$ turns we are simulating a time interval of length $N \Delta T$.
+
+From Eq\,\ref{eq:tndef} we can simply derive the following  relations, which will be useful in the following:
+\begin{equation}
+T_{n+1}(s) - T_{n}(s)  = \Delta T
+\end{equation}
+\begin{equation}
+T_{n}(s_2) - T_{n}(s_1)  = \frac{s_2 - s_1}{\beta_\text{sim} c}
+\end{equation}
+
+
+We can prove the following propositions:
+
+~\\
+\textbf{Proposition 1:} If the time $t_k(s_1)$ defining the $k$-th arrival of a particle at location $s_1$ falls in the frame $F_n(s_1)$, then the particle arrives at location $s_2 > s_1$ either in the frame $F_n(s_2)$ or in the following frame $F_{n+1}(s_2)$. In symbols:
+%\begin{equation}
+%T_{n}(s_2) - \frac{\Delta T}{2}
+%< t_k(s_1) <
+%T_{n+1}(s_2) + \frac{\Delta T}{2}
+%\end{equation}
+\begin{equation}
+t_k(s_1) \in F_n(s_1) \Rightarrow t_k(s_2) \in F_n(s_2) \cup  F_{n+1}(s_2) \quad \text{for any } s_1 < s_2 
+\end{equation}
+~\\
+\textbf{Proposition 2:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
+\begin{equation}
+t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
+\end{equation}
+~\\
+\textbf{Proposition 3:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval 
+$F_{n+1}(0)$. In symbols:
+\begin{equation}
+t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
+\end{equation}
