@@ -2234,22 +2234,26 @@ t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
 t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
 \end{equation}
 
-\subsection{Redefinition of $\zeta$}
+\subsection{$\zeta$ definition and update}
 
 For the tracking of coasting beams we define the longitudinal coordinate $\zeta$ as:
-
-In Xsuite the tracked variable is:
 \begin{equation}
-\zeta = s  - \beta_0 c (T - k\Delta T)
+\zeta = s  - \beta_0 c (t - n\Delta T)
 \end{equation}
-where $s$ is the distance from the start of the line for the present turn, $T$ is the absolute time since the start of the simulation, $k$ is the number of timew the particle has passed at the end of the line.
+where $s$ is the distance from the start of the line for the present turn, $t$ is the absolute time since the start of the simulation, $n$ is the index of the present simulated time frame.
+% $k$ is the number of times the particle has passed at the end of the line.
+
+We can write t in terms of $\zeta$ as:
+\begin{equation}
+ t = \frac{s}{\beta_0 c}  - \frac{\zeta}{\beta_0 c} + n\Delta T
+\end{equation}
 
 With this definition the $\zeta$ coordinate needs to be updated each time the particle passes at the start of the line since across the $s=0$ we can write:
 \begin{align}
-\zeta^- &= L - \beta_0 c (T - k\Delta T)\\
-\zeta^+ &= 0 - \beta_0 c (T - (k+1)\Delta T)
+\zeta^- &= L - \beta_0 c (t - n\Delta T)\\
+\zeta^+ &= 0 - \beta_0 c (t - (n+1)\Delta T)
 \end{align}
-where T is the time at which the particle passes zero (which is the same in both equations).
+where $t$ is the time at which the particle passes zero (which is the same in both equations).
 
 Combining the two equations we can write:
 \begin{equation}
@@ -2258,50 +2262,42 @@ Combining the two equations we can write:
 
 In standard simulations for bunched beams the simulated frame is $\Delta T = L / (\beta_0 c)$ , hence the $\zeta$ coordinate is continuous. 
 
-For coasting beams $\Delta T$ is given by Eq.\,\ref{eq:deltatdef}, hence the $\zeta$ needs to be update at each turn using:
+For coasting beams $\Delta T$ is given by Eq.\,\ref{eq:deltatdef}, hence the $\zeta$ needs to be updated at each turn using:
 \begin{equation}
 \zeta^+ = \zeta^- - L\left(1 - \frac{\beta_0}{\beta_\text{sim}} \right)
 \end{equation}
 
--------
-
-From this definition we can write:
-
-\begin{equation}
-t(s) = \frac{s}{\beta_0 c} + n\frac{L}{\beta_0 c} - \zeta(s) 
-\label{eq:tfromzeta}
-\end{equation}
-
 We want to translate the condition Eq.\,\ref{eq:frameineq} into a condition on $\zeta$. Replacing Eq.\,\ref{eq:tfromzeta} into Eq.\,\ref{eq:frameineq} we obtain:
-
 \begin{equation}
-- \frac{\Delta T}{2} < \frac{s}{\beta_0 c} + n\frac{L}{\beta_0 c} - \frac{\zeta(s)}{\beta_0 c}  - n \Delta T - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+- \frac{\Delta T}{2} < \frac{s}{\beta_0 c}  - \frac{\zeta}{\beta_0 c} - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+\end{equation}
+We change signs:
+\begin{equation}
+\frac{\Delta T}{2} > -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} > -\frac{\Delta T}{2}
 \end{equation}
 
-Rearraging we can write:
+We rearrange:
 \begin{equation}
-- \beta_0 c \frac{\Delta T}{2} < s \left(1 - \frac{\beta_0}{\beta_\text{sim} } \right) + n\left(L -\beta_0 c \Delta T\right) - \zeta(s) < \frac{\Delta T}{2}
+-\frac{\Delta T}{2} < -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
 \end{equation}
 
-Using Eq.\,\ref{eq:deltatdef}, we can write:
 \begin{equation}
-- \frac{\beta_\text{sim}}{\beta_1} \frac{L}{2} < (s + nL) \left(1 - \frac{\beta_0}{\beta_\text{sim} } \right) - \zeta(s) < \frac{\beta_\text{sim}}{\beta_1} \frac{L}{2}
+-\beta_0 c \frac{\Delta T}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} \right)} < \beta_0 c\frac{\Delta T}{2}
+\end{equation}
+from which we can write:
+\begin{equation}
+\boxed{
+t \in F_n(s) \quad \Leftrightarrow \quad
+-\frac{\Delta \zeta}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} \right)} < \frac{\Delta \zeta}{2}
+}
+\end{equation}
+where we have defined:
+\begin{equation}
+\boxed{
+ \Delta \zeta = \beta_0 c \Delta T = \frac{\beta_0}{\beta_\text{sim}} L
+}
 \end{equation}
 
-Changing signs:
-\begin{equation}
- \frac{\beta_\text{sim}}{\beta_1} \frac{L}{2} > -(s + nL) \left(1 - \frac{\beta_0}{\beta_\text{sim} } \right) + \zeta(s) > -\frac{\beta_\text{sim}}{\beta_1} \frac{L}{2}
-\end{equation}
-
-Rearranging:
-\begin{equation}
- -\frac{\beta_0}{\beta_\text{sim}} \frac{L}{2} 
- + s\left(1 - \frac{\beta_0}{\beta_\text{sim} } \right)
- <  \zeta(s) 
- - nL \left(1 - \frac{\beta_0}{\beta_\text{sim} } \right)
- < \frac{\beta_\text{sim}}{\beta_1} \frac{L}{2}
-  + s\left(1 - \frac{\beta_0}{\beta_\text{sim} } \right)
-\end{equation}
 
 
 \subsection{Proofs}
