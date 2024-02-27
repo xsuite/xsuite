@@ -8,7 +8,7 @@ Collimation
 Introduction
 ============
 In Xsuite, collimation is added to the simulations by the Xcoll package. 
-The collimators themselves are created as instances of :class:`xcoll.EverestCollimator`, :class:`xcoll.EverestCrystal`, :class:`xcoll.BlackAbsorber` and :class:`xcoll.EverestBlock`. In addition, the Xcoll package also describes the interaction between the particles and the collimators in the simulation. 
+The collimators themselves are created as instances of :class:`xcoll.EverestCollimator`, :class:`xcoll.EverestCrystal` and :class:`xcoll.BlackAbsorber`. In addition, we also have :class:`xcoll.EverestBlock`. The Xcoll package also describes the interaction between the particles and the collimators in the simulation. 
 
 Loss maps are created after the simulations to assess the performance of the LHC collimation system. They give information about where the beam losses are located in the LHC. The loss map, after one simulation, is created as an instance of :class:`xcoll.LossMap`. 
 
@@ -159,9 +159,9 @@ Furthermore, :class:`xcoll.EverestBlock` needs a material, which is an instance 
 .. code-block:: python
    EverestBlock.material
 
-Creating a Collimator object
-=================================
-A collimator object can be created in two different ways; either directly with the class or by loading from file. 
+Creating a Collimator or Block object
+============================
+A collimator (or block) object can be created in two different ways; either directly with the class or by loading from file. 
 For example:
 
 .. code-block:: python
