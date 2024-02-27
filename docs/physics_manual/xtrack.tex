@@ -2155,22 +2155,22 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 
 In coasting beams different particles have different revolution frequencies, depending on their momentum, particles perform a different number of turns in a given time. 
 
-If in the line we have collective elements which need to measure the beam distribution at a certain location `s` and at a given time `t`, we need to ensure that all particles present a `s` at the instant `t` are present at the element.
+If in the line we have collective elements which need to measure the beam distribution at a certain location $s$ and at a given time $t$, we need to ensure that all particles present a $s$ at the instant $t$ are present at the element.
 
-We define for each particle:
+We define for each particle and for any couple of positions $s_1 < s_2$:
 \begin{equation}
-\hat{\beta}(s) = \frac{ds}{dt}
+\hat{\beta}(s_1, s_2) = \frac{s_2-s_1}{t(s_2) - t(s_1)}
 \end{equation}
 
 [DEVELOP A BIT ON ITS MEANING]
 
 We choose an auxiliary value $\beta_\text{sim}$ such that at all times:
 \begin{equation}
-\hat{\beta}(s) < \beta_\text{sim} \quad \text{far all particles at all times}
+\hat{\beta}(s_1, s_2) < \beta_\text{sim} \quad \text{for all particles and any } s_1, s_2
 \label{eq:betasim1}
 \end{equation}
 \begin{equation}
-\hat{\beta}(s) > \frac{\beta_\text{sim}}{2} \quad \text{far all particles at all times}
+\hat{\beta}(s_1, s_2) > \frac{\beta_\text{sim}}{2}\quad \text{for all particles and any } s_1, s_2
 \label{eq:betasim2}
 \end{equation}
 
@@ -2204,7 +2204,7 @@ T_{n}(s_2) - T_{n}(s_1)  = \frac{s_2 - s_1}{\beta_\text{sim} c}
 \end{equation}
 
 
-We can prove the following propositions:
+We can prove the following propositions (see next section):
 
 ~\\
 \textbf{Proposition 1:} If the time $t_k(s_1)$ defining the $k$-th arrival of a particle at location $s_1$ falls in the frame $F_n(s_1)$, then the particle arrives at location $s_2 > s_1$ either in the frame $F_n(s_2)$ or in the following frame $F_{n+1}(s_2)$. In symbols:
@@ -2233,21 +2233,21 @@ t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_
 
 We notice that from Eqs.\,\ref{eq:betasim1} and~\ref{eq:betasim2} we can write
 \begin{equation}
-\hat{\beta}(s) < \beta_\text{sim} 
+\hat{\beta} < \beta_\text{sim} 
 \quad \Rightarrow \quad
-\frac{1}{\hat{\beta}(s)} > \frac{1}{\beta_\text{sim}}
+\frac{1}{\hat{\beta}} > \frac{1}{\beta_\text{sim}}
 \quad \Rightarrow \quad
 \left(
-\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\frac{1}{\hat{\beta}} - \frac{1}{\beta_\text{sim}}
 \right) > 0
 \end{equation}
 \begin{equation}
-\hat{\beta}(s) > \frac{\beta_\text{sim}}{2} 
+\hat{\beta} > \frac{\beta_\text{sim}}{2} 
 \quad \Rightarrow \quad
-\frac{1}{\hat{\beta}(s)} > \frac{2}{\beta_\text{sim}}
+\frac{1}{\hat{\beta}} > \frac{2}{\beta_\text{sim}}
 \quad \Rightarrow \quad
 \left(
-\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\frac{1}{\hat{\beta}} - \frac{1}{\beta_\text{sim}}
 \right) < \frac{1}{\beta_\text{sim}}
 \end{equation}
 
@@ -2255,7 +2255,7 @@ Combining the two we obtain
 
 \begin{equation}
 0<\left(
-\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\frac{1}{\hat{\beta}} - \frac{1}{\beta_\text{sim}}
 \right) < \frac{1}{\beta_\text{sim}}
 \label{eq:betaineq}
 \end{equation}
