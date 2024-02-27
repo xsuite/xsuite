@@ -2166,18 +2166,25 @@ We define for each particle:
 
 We choose an auxiliary value $\beta_\text{sim}$ such that at all times:
 \begin{equation}
-\hat{\beta}(s) < \beta_\text{sim} \quad \text{far all particles}
+\hat{\beta}(s) < \beta_\text{sim} \quad \text{far all particles at all times}
+\label{eq:betasim1}
+\end{equation}
+\begin{equation}
+\hat{\beta}(s) > \frac{\beta_\text{sim}}{2} \quad \text{far all particles at all times}
+\label{eq:betasim2}
 \end{equation}
 
 From $\beta_{sim}$ we define an auxiliary time interval $\Delta T$ as:
 \begin{equation}
 \Delta T = \frac{L}{\beta_\text{sim}c}
+\label{eq:deltatdef}
 \end{equation}
 
 
 At each ``turn'' $n$ we want to simulate at any  collective element the time frame $F_n(s) $ given by:
 \begin{equation}
 F_n(s) = \left[ T_n(s) - \frac{\Delta T}{2}, T_n(s) + \frac{\Delta T}{2} \right]
+\label{eq:framedef}
 \end{equation}
 where:
 \begin{equation}
@@ -2189,9 +2196,11 @@ We can see that intervals are contiguous, hence at any locations over $N$ turns 
 From Eq\,\ref{eq:tndef} we can simply derive the following  relations, which will be useful in the following:
 \begin{equation}
 T_{n+1}(s) - T_{n}(s)  = \Delta T
+\label{eq:tniter}
 \end{equation}
 \begin{equation}
 T_{n}(s_2) - T_{n}(s_1)  = \frac{s_2 - s_1}{\beta_\text{sim} c}
+\label{eq:frametransport}
 \end{equation}
 
 
@@ -2208,13 +2217,147 @@ We can prove the following propositions:
 t_k(s_1) \in F_n(s_1) \Rightarrow t_k(s_2) \in F_n(s_2) \cup  F_{n+1}(s_2) \quad \text{for any } s_1 < s_2 
 \end{equation}
 ~\\
-\textbf{Proposition 2:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
-\begin{equation}
-t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
-\end{equation}
-~\\
-\textbf{Proposition 3:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval 
+\textbf{Proposition 2:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval 
 $F_{n+1}(0)$. In symbols:
 \begin{equation}
 t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
 \end{equation}
+~\\
+\textbf{Proposition 3:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
+\begin{equation}
+t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
+\end{equation}
+
+\subsection{Proofs}
+
+
+We notice that from Eqs.\,\ref{eq:betasim1} and~\ref{eq:betasim2} we can write
+\begin{equation}
+\hat{\beta}(s) < \beta_\text{sim} 
+\quad \Rightarrow \quad
+\frac{1}{\hat{\beta}(s)} > \frac{1}{\beta_\text{sim}}
+\quad \Rightarrow \quad
+\left(
+\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\right) > 0
+\end{equation}
+\begin{equation}
+\hat{\beta}(s) > \frac{\beta_\text{sim}}{2} 
+\quad \Rightarrow \quad
+\frac{1}{\hat{\beta}(s)} > \frac{2}{\beta_\text{sim}}
+\quad \Rightarrow \quad
+\left(
+\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\right) < \frac{1}{\beta_\text{sim}}
+\end{equation}
+
+Combining the two we obtain
+
+\begin{equation}
+0<\left(
+\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\right) < \frac{1}{\beta_\text{sim}}
+\label{eq:betaineq}
+\end{equation}
+
+\subsubsection*{Proof of proposition 1}
+By definition of $\hat{\beta}$ we can write:
+\begin{equation}
+t_k(s_2) = t_k(s_1) + \frac{s_2 - s_1}{\hat{\beta} c} 
+\label{eq:tk2fromtk1}
+\end{equation}
+
+By the hypothesis:
+\begin{equation}
+t_k(s_1) > T_n(s_1) - \frac{\Delta T}{2}
+\end{equation}
+hence:
+\begin{equation}
+t_k(s_2) > T_n(s_1) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Using Eq.\,\ref{eq:frametransport} we can write:
+\begin{equation}
+t_k(s_2) > T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Rearranging:
+\begin{equation}
+t_k(s_2) > T_n(s_2) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
+\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\right)
+\end{equation}
+
+Using Eq.\,\ref{eq:betaineq} and the fact that by hypotheses that $s_2 > s_1$, we know that the last term is positive. Therefore we can write:
+\begin{equation}
+t_k(s_2) > T_n(s_2) - \frac{\Delta T}{2}
+\label{tk_s2_right}
+\end{equation}
+
+Similarly from the hypothesis we know:
+\begin{equation}
+t_k(s_1) < T_n(s_1) + \frac{\Delta T}{2}
+\end{equation}
+
+From Eq.\,\ref{eq:tk2fromtk1} we can write:
+\begin{equation}
+t_k(s_2) < T_n(s_1) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Again, using Eq.\,\ref{eq:frametransport} we obtain:
+\begin{equation}
+t_k(s_2) < T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Rearranging:
+\begin{equation}
+t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
+\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\right)
+\end{equation}
+Using Eq.\,\ref{eq:betaineq} we obtain:
+\begin{equation}
+t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{\beta_\text{sim}c}
+\label{eq:tk2smallerinterm}
+\end{equation}
+Using the fact that $s_2 - s_1 < L$ and Eq.\,\ref{eq:deltatdef} we can write:
+\begin{equation}
+\frac{s_2 - s_1}{\beta_\text{sim}c} < \frac{L}{\beta_\text{sim}c} = \Delta T
+\end{equation}
+Replacing in Eq.\,\ref{eq:tk2smallerinterm} we obtain:
+\begin{equation}
+t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \Delta T
+\end{equation}
+Using Eq.\,\ref{eq:tniter} we obtain:
+\begin{equation}
+t_k(s_2) < T_{n+1}(s_2) + T\frac{\Delta T}{2}
+\label{tk_s2_left}
+\end{equation}
+Combining Eq.\,\ref{tk_s2_right} and~\ref{tk_s2_right} we obtain:
+\begin{equation}
+T_{n}(s_2) + \frac{\Delta T}{2} < t_k(s_2) < T_{n+1}(s_2) + \frac{\Delta T}{2}
+\label{tk_s2_left}
+\end{equation}
+which is what we wanted to prove.
+
+\subsubsection*{Proof of proposition 2}
+
+By definition:
+\begin{equation}
+t_{k+1}(0) = t_{k}(L)
+\end{equation}
+
+We know that $t_{k}(L) \in F_n(L)$ hence, from Eq.\,\ref{eq:framedef} we can write:
+\begin{equation}
+t_{k+1}(0) > T_n(L) - \frac{\Delta T}{2}
+\end{equation}
+From Eq.\,\ref{eq:tndef} we obtain:
+\begin{equation}
+t_{k+1}(0) > n \Delta T - \frac{\Delta T}{2} + \frac{L}{\beta_\text{sim}c}
+\end{equation}
+from Eq.\,\ref{eq:deltatdef} we get:
+\begin{equation}
+t_{k+1}(0) > (n+1) \Delta T - \frac{\Delta T}{2}
+\end{equation}
+and from Eq.\,\ref{eq:tndef} (with $s=0$) we obtain:\begin{equation}
+t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
+\end{equation}
+which is what we wanted to prove.
+
+\subsubsection*{Proof of proposition 3}
