@@ -151,10 +151,10 @@ small example:
 .. literalinclude:: generated_code_snippets/compound_transform.py
    :language: python
 
-Cut a line at some given s positions
-====================================
+Cut line elements at given s positions
+=====================================
 
-The method :meth:`xtrack.Line.cut_at_s` allows for cutting the line at the
+The method :meth:`xtrack.Line.cut_at_s` allows for cutting the line elements at the
 specified s positions. In the example before we take the same toy ring introduced
 in the :ref:`earlier example<createline>` and we cut it into 100 equal length slices:
 
