@@ -3,9 +3,9 @@ set -e # Exit immediately if a command exits with a non-zero status.
 WF_BRANCH="main"
 
 XOBJECTS=xsuite:main
-   XPART=xsuite:main
+   XPART=xsuite:fix/add_to_energy_fragments
    XDEPS=xsuite:main
-  XTRACK=xsuite:fix/dqx_cell
+  XTRACK=xsuite:release/v0.53.0
  XFIELDS=xsuite:main
    XMASK=xsuite:main
    XCOLL=xsuite:main

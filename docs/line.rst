@@ -5,6 +5,8 @@ Line
 .. contents:: Table of Contents
     :depth: 3
 
+.. _createline:
+
 Creating a Line object
 ======================
 
@@ -137,4 +139,24 @@ following example.
 See also :meth:`xtrack.SecondOrderTaylorMap.from_line`.
 
 .. literalinclude:: generated_code_snippets/line_with_maps.py
+   :language: python
+
+Apply transformations (tilt, shift) to compound elements
+========================================================
+
+The method :meth:`xtrack.Line.transform_compound` allows for applying
+transformations (rotations, shifts) to compound elements. See the following
+small example:
+
+.. literalinclude:: generated_code_snippets/compound_transform.py
+   :language: python
+
+Cut line elements at given s positions
+=====================================
+
+The method :meth:`xtrack.Line.cut_at_s` allows for cutting the line elements at the
+specified s positions. In the example before we take the same toy ring introduced
+in the :ref:`earlier example<createline>` and we cut it into 100 equal length slices:
+
+.. literalinclude:: generated_code_snippets/cut_at_s.py
    :language: python
