@@ -235,6 +235,9 @@ Nvidia device files:
    sudo semanage fcontext -a -t container_file_t '/dev/nvidia.*'
    restorecon -v /dev/*
 
+Note that it may be necessary to relabel the device files with the ``restorecon`` 
+command in the case of changes/updates to the hypervisor.
+
 Check that everything works with:
 
 .. code:: bash
