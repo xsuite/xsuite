@@ -2,11 +2,11 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 WF_BRANCH="main"
 
-XOBJECTS=xsuite:main
-   XPART=xsuite:fix/add_to_energy_fragments
-   XDEPS=xsuite:main
-  XTRACK=xsuite:release/v0.53.0
- XFIELDS=xsuite:main
+XOBJECTS=xsuite:merge/compact_json
+   XPART=xsuite:refactor/adapt_to_xtrack_replicas
+   XDEPS=xsuite:feature/check_limits
+  XTRACK=xsuite:refactor/replicas
+ XFIELDS=xsuite:refactor/nocompounds
    XMASK=xsuite:main
    XCOLL=xsuite:main
 
