@@ -150,6 +150,13 @@ in the following example:
 .. literalinclude:: generated_code_snippets/compound_transform.py
    :language: python
 
+Tranfromations are propagated when the elements are sliced and can be updated
+also after the slicing by acting on the parent element. This is illustrated in
+the following example:
+
+.. literalinclude:: generated_code_snippets/compound_transform_sliced.py
+   :language: python
+
 Cut line elements at given s positions
 ======================================
 
