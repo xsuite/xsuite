@@ -24,11 +24,11 @@ import re
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-xobjects_branch = 'main'
-xfields_branch = 'main'
-xtrack_branch = 'main'
-xpart_branch = 'main'
-xdeps_branch = 'main'
+xobjects_branch = 'merge/compact_json'
+xfields_branch = 'refactor/nocompounds'
+xtrack_branch = 'refactor/replicas'
+xpart_branch = 'refactor/adapt_to_xtrack_replicas'
+xdeps_branch = 'feature/check_limits'
 xmask_branch = 'main'
 
 os.system(
