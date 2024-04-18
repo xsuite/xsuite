@@ -2151,3 +2151,336 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
 
+\section{Coasting beams}
+
+In coasting beams different particles have different revolution frequencies, depending on their momentum, particles perform a different number of turns in a given time. 
+
+If in the line we have collective elements which need to measure the beam distribution at a certain location $s$ and at a given time $t$, we need to ensure that all particles present a $s$ at the instant $t$ are present at the element.
+
+We define for each particle and for any couple of positions $s_1 < s_2$:
+\begin{equation}
+\hat{\beta}(s_1, s_2) = \frac{s_2-s_1}{t(s_2) - t(s_1)}
+\end{equation}
+
+[DEVELOP A BIT ON ITS MEANING]
+
+We choose an auxiliary value $\beta_\text{sim}$ such that at all times:
+\begin{equation}
+\hat{\beta}(s_1, s_2) < \beta_\text{sim} \quad \text{for all particles and any } s_1, s_2
+\label{eq:betasim1}
+\end{equation}
+\begin{equation}
+\hat{\beta}(s_1, s_2) > \frac{\beta_\text{sim}}{2}\quad \text{for all particles and any } s_1, s_2
+\label{eq:betasim2}
+\end{equation}
+
+From $\beta_{sim}$ we define an auxiliary time interval $\Delta T$ as:
+\begin{equation}
+\Delta T = \frac{L}{\beta_\text{sim}c}
+\label{eq:deltatdef}
+\end{equation}
+
+
+At each ``turn'' $n$ we want to simulate at any  collective element the time frame $F_n(s) $ given by:
+\begin{equation}
+F_n(s) = \left[ T_n(s) - \frac{\Delta T}{2}, T_n(s) + \frac{\Delta T}{2} \right]
+\label{eq:framedef}
+\end{equation}
+where:
+\begin{equation}
+T_n(s) = n \Delta T + \frac{s}{\beta_\text{sim} c}
+\label{eq:tndef}
+\end{equation}
+We can see that intervals are contiguous, hence at any locations over $N$ turns we are simulating a time interval of length $N \Delta T$.
+
+From Eq\,\ref{eq:tndef} we can simply derive the following  relations, which will be useful in the following:
+\begin{equation}
+T_{n+1}(s) - T_{n}(s)  = \Delta T
+\label{eq:tniter}
+\end{equation}
+\begin{equation}
+T_{n}(s_2) - T_{n}(s_1)  = \frac{s_2 - s_1}{\beta_\text{sim} c}
+\label{eq:frametransport}
+\end{equation}
+
+We also note that the condition $t(s) \in F_n(s)$ can be rewritten as:
+\begin{equation}
+- \frac{\Delta T}{2} < t - n \Delta T - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+\label{eq:frameineq}
+\end{equation}
+
+
+We can prove the following propositions (see Sec.\,\ref{seq:coasting_proofs}):
+
+~\\
+\textbf{Proposition 1:} If the time $t_k(s_1)$ defining the $k$-th arrival of a particle at location $s_1$ falls in the frame $F_n(s_1)$, then the particle arrives at location $s_2 > s_1$ either in the frame $F_n(s_2)$ or in the following frame $F_{n+1}(s_2)$. In symbols:
+%\begin{equation}
+%T_{n}(s_2) - \frac{\Delta T}{2}
+%< t_k(s_1) <
+%T_{n+1}(s_2) + \frac{\Delta T}{2}
+%\end{equation}
+\begin{equation}
+t_k(s_1) \in F_n(s_1) \Rightarrow t_k(s_2) \in F_n(s_2) \cup  F_{n+1}(s_2) \quad \text{for any } s_1 < s_2 
+\end{equation}
+~\\
+\textbf{Proposition 2:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval 
+$F_{n+1}(0)$. In symbols:
+\begin{equation}
+t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
+\end{equation}
+~\\
+\textbf{Proposition 3:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
+\begin{equation}
+t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
+\end{equation}
+
+\subsection{$\zeta$ definition and update}
+
+For the tracking of coasting beams we define the longitudinal coordinate $\zeta$ as:
+\begin{equation}
+\zeta = s  - \beta_0 c (t - n\Delta T)
+\end{equation}
+where $s$ is the distance from the start of the line for the present turn, $t$ is the absolute time since the start of the simulation, $n$ is the index of the present simulated time frame.
+% $k$ is the number of times the particle has passed at the end of the line.
+
+We can write t in terms of $\zeta$ as:
+\begin{equation}
+ t = \frac{s}{\beta_0 c}  - \frac{\zeta}{\beta_0 c} + n\Delta T
+ \label{eq:tfromzeta}
+\end{equation}
+
+With this definition the $\zeta$ coordinate needs to be updated each time the particle passes at the start of the line since across the $s=0$ we can write:
+\begin{align}
+\zeta^- &= L - \beta_0 c (t - n\Delta T)\\
+\zeta^+ &= 0 - \beta_0 c (t - (n+1)\Delta T)
+\end{align}
+where $t$ is the time at which the particle passes zero (which is the same in both equations).
+
+Combining the two equations we can write:
+\begin{equation}
+\zeta^+ = \zeta^- - (L - \beta_0 c \Delta T)
+\end{equation}
+
+In standard simulations for bunched beams the simulated frame is $\Delta T = L / (\beta_0 c)$ , hence the $\zeta$ coordinate is continuous. 
+
+For coasting beams $\Delta T$ is given by Eq.\,\ref{eq:deltatdef}, hence the $\zeta$ needs to be updated at each turn using:
+\begin{equation}
+\boxed{
+\zeta^+ = \zeta^- - L\left(1 - \frac{\beta_0}{\beta_\text{sim}} \right)
+}
+\end{equation}
+
+We want to translate the condition Eq.\,\ref{eq:frameineq} into a condition on $\zeta$. Replacing Eq.\,\ref{eq:tfromzeta} into Eq.\,\ref{eq:frameineq} we obtain:
+\begin{equation}
+- \frac{\Delta T}{2} < \left(\frac{s}{\beta_0 c}  - \frac{\zeta}{\beta_0 c} + n \Delta T\right) - n \Delta T - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+\end{equation}
+We change signs:
+\begin{equation}
+\frac{\Delta T}{2} > -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} > -\frac{\Delta T}{2}
+\end{equation}
+
+We rearrange:
+\begin{equation}
+-\frac{\Delta T}{2} < -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+\end{equation}
+
+\begin{equation}
+-\beta_0 c \frac{\Delta T}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} \right)} < \beta_0 c\frac{\Delta T}{2}
+\end{equation}
+from which we can write:
+\begin{equation}
+\boxed{
+t \in F_n(s) \quad \Leftrightarrow \quad
+-\frac{\Delta \zeta}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} \right)} < \frac{\Delta \zeta}{2}
+}
+\label{eq:framezeta}
+\end{equation}
+where we have defined:
+\begin{equation}
+\boxed{
+ \Delta \zeta = \beta_0 c \Delta T = \frac{\beta_0}{\beta_\text{sim}} L
+}
+\end{equation}
+
+\subsection{Handling particles jumping to the following frame}
+
+From Proposition 1 we know that during tracking particles will either stay in the present frame or ``jump'' to the following one.
+
+From Eqs.\,\ref{eq:framedef} and \ref{eq:framezeta}, we know that the jump occurs when:
+\begin{equation}
+t > T_n(s) + \frac{\Delta T}{2}
+~
+\Leftrightarrow
+~
+\zeta < \frac{\Delta \zeta}{2}
+ \end{equation}
+ 
+When this condition is met, the particle tracking needs to be paused for the remainder of the frame $n$ (based on Proposition~1 it cannot go back to frame $n$) and, based on Proposition~2, its tracking needs to be resumed from the same location where the tracking was paused when tracking the following frame.
+As the frame index is increased, $\zeta$ needs to be updated to preserve the time of arrival:
+\begin{align}
+\zeta_\text{before jump} &= s  - \beta_0 c \left( t - n\Delta T \right) \\
+\zeta_\text{after jump} &= s  - \beta_0 c \left( t - (n+1) \right)
+\end{align}
+from which we obtain:
+\begin{align}
+\boxed{
+\zeta_\text{after jump} = \zeta_\text{before jump} + \beta_0 c \Delta T = \zeta_\text{before jump} + \Delta \zeta
+}
+\end{align}
+
+
+
+
+\subsection{Proofs}
+\label{seq:coasting_proofs}
+
+
+We notice that from Eqs.\,\ref{eq:betasim1} and~\ref{eq:betasim2} we can write
+\begin{equation}
+\hat{\beta} < \beta_\text{sim} 
+\quad \Rightarrow \quad
+\frac{1}{\hat{\beta}} > \frac{1}{\beta_\text{sim}}
+\quad \Rightarrow \quad
+\left(
+\frac{1}{\hat{\beta}} - \frac{1}{\beta_\text{sim}}
+\right) > 0
+\end{equation}
+\begin{equation}
+\hat{\beta} > \frac{\beta_\text{sim}}{2} 
+\quad \Rightarrow \quad
+\frac{1}{\hat{\beta}} > \frac{2}{\beta_\text{sim}}
+\quad \Rightarrow \quad
+\left(
+\frac{1}{\hat{\beta}} - \frac{1}{\beta_\text{sim}}
+\right) < \frac{1}{\beta_\text{sim}}
+\end{equation}
+
+Combining the two we obtain
+
+\begin{equation}
+0<\left(
+\frac{1}{\hat{\beta}} - \frac{1}{\beta_\text{sim}}
+\right) < \frac{1}{\beta_\text{sim}}
+\label{eq:betaineq}
+\end{equation}
+
+\subsubsection*{Proof of proposition 1}
+By definition of $\hat{\beta}$ we can write:
+\begin{equation}
+t_k(s_2) = t_k(s_1) + \frac{s_2 - s_1}{\hat{\beta} c} 
+\label{eq:tk2fromtk1}
+\end{equation}
+
+By the hypothesis:
+\begin{equation}
+t_k(s_1) > T_n(s_1) - \frac{\Delta T}{2}
+\end{equation}
+hence:
+\begin{equation}
+t_k(s_2) > T_n(s_1) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Using Eq.\,\ref{eq:frametransport} we can write:
+\begin{equation}
+t_k(s_2) > T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Rearranging:
+\begin{equation}
+t_k(s_2) > T_n(s_2) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
+\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\right)
+\end{equation}
+
+Using Eq.\,\ref{eq:betaineq} and the fact that by hypotheses that $s_2 > s_1$, we know that the last term is positive. Therefore we can write:
+\begin{equation}
+t_k(s_2) > T_n(s_2) - \frac{\Delta T}{2}
+\label{tk_s2_right}
+\end{equation}
+
+Similarly from the hypothesis we know:
+\begin{equation}
+t_k(s_1) < T_n(s_1) + \frac{\Delta T}{2}
+\end{equation}
+
+From Eq.\,\ref{eq:tk2fromtk1} we can write:
+\begin{equation}
+t_k(s_2) < T_n(s_1) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Again, using Eq.\,\ref{eq:frametransport} we obtain:
+\begin{equation}
+t_k(s_2) < T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c} 
+\end{equation}
+Rearranging:
+\begin{equation}
+t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
+\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\right)
+\end{equation}
+Using Eq.\,\ref{eq:betaineq} we obtain:
+\begin{equation}
+t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{\beta_\text{sim}c}
+\label{eq:tk2smallerinterm}
+\end{equation}
+Using the fact that $s_2 - s_1 < L$ and Eq.\,\ref{eq:deltatdef} we can write:
+\begin{equation}
+\frac{s_2 - s_1}{\beta_\text{sim}c} < \frac{L}{\beta_\text{sim}c} = \Delta T
+\end{equation}
+Replacing in Eq.\,\ref{eq:tk2smallerinterm} we obtain:
+\begin{equation}
+t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \Delta T
+\end{equation}
+Using Eq.\,\ref{eq:tniter} we obtain:
+\begin{equation}
+t_k(s_2) < T_{n+1}(s_2) + T\frac{\Delta T}{2}
+\label{tk_s2_left}
+\end{equation}
+Combining Eq.\,\ref{tk_s2_right} and~\ref{tk_s2_right} we obtain:
+\begin{equation}
+T_{n}(s_2) + \frac{\Delta T}{2} < t_k(s_2) < T_{n+1}(s_2) + \frac{\Delta T}{2}
+\label{tk_s2_left}
+\end{equation}
+which is what we wanted to prove.
+
+\subsubsection*{Proof of proposition 2}
+
+By definition:
+\begin{equation}
+t_{k+1}(0) = t_{k}(L)
+\end{equation}
+
+We know that $t_{k}(L) \in F_n(L)$ hence, from Eq.\,\ref{eq:framedef} we can write:
+\begin{equation}
+t_{k+1}(0) > T_n(L) - \frac{\Delta T}{2}
+\end{equation}
+From Eq.\,\ref{eq:tndef} we obtain:
+\begin{equation}
+t_{k+1}(0) > n \Delta T - \frac{\Delta T}{2} + \frac{L}{\beta_\text{sim}c}
+\end{equation}
+from Eq.\,\ref{eq:deltatdef} we get:
+\begin{equation}
+t_{k+1}(0) > (n+1) \Delta T - \frac{\Delta T}{2}
+\end{equation}
+and from Eq.\,\ref{eq:tndef} (with $s=0$) we obtain:\begin{equation}
+t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
+\end{equation}
+which is what we wanted to prove.
+
+\subsubsection*{Proof of proposition 3}
+
+From the hypothesis:
+\begin{equation}
+t_{k}(s_2) > T_{n}(s_2) - \frac{\Delta T}{2}
+\end{equation}
+As $L>s_2$, using Proposition 1 we can write:
+\begin{equation}
+t_{k}(L) > T_{n}(L) - \frac{\Delta T}{2}
+\end{equation}
+Using Proposition 2 we can write:
+\begin{equation}
+t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
+\end{equation}
+Using the fact that $s1>0$, we can apply again Proposition 1, obtaining:
+\begin{equation}
+t_{k+1}(s1) > T_{n+1}(1) - \frac{\Delta T}{2}
+\end{equation}
+which is what we wanted to prove.
+
