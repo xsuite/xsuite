@@ -127,6 +127,8 @@ snippet_files = {
         'generated_code_snippets/match_action.py',
     'xtrack/examples/match/007_match_knob.py':
         'generated_code_snippets/match_knob.py',
+    'xtrack/examples/match/005a_match_bump_common_targets_from_table.py':
+        'generated_code_snippets/match_targets_from_vars_or_line.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
     'xtrack/examples/twiss/011_tune_vs_delta.py':

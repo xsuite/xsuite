@@ -147,3 +147,12 @@ controlling the horizontal and vertical chromaticities of a line.
 
 .. literalinclude:: generated_code_snippets/match_knob.py
    :language: python
+
+Targets from variables and from line elements
+---------------------------------------------
+
+Targets for optimization can be defined also from variables and from from the
+lines, as illustrated in the following example.
+
+.. literalinclude:: generated_code_snippets/match_targets_from_vars_or_line.py
+   :language: python
