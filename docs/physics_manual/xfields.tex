@@ -143,7 +143,6 @@ where $\phi_\perp(x,y)$ is the solution of the following 2D Poisson equation:
 \frac{\partial^2 \phi_\perp}{\partial x^2} +  \frac{\partial^2 \phi_\perp}{\partial y^2} = -\frac{1}{\varepsilon_0}{\rho}_\perp \left(x, y\right) \label{2dpoisspeerp}
 \end{equation}
 
-
 %\section{Interaction time}
 %In the lab frame the particle moves with speed $\beta$:
 %\begin{equation}
@@ -264,7 +263,6 @@ F_z(x, y, \zeta(t)) &=  -q\left(1-\beta  \beta_0 -\frac{\beta_0(\beta-\beta_0)}{
 \end{align}
 where $\zeta(t)$ is the position of the particle within the bunch.
 
-
 \section{Space charge}
 
 Over the single interaction we neglect the particle slippage\footnote{In any case one would need to take into account also the dispersion in order to have the right slippage.}:
@@ -330,7 +328,109 @@ The horizontal (\(\tau_x\)), vertical (\(\tau_y\)) and longitudinal (\(\tau_z\))
 \end{equation}
 
 The growth rates themselves are expressed from the lattice optics and the beam properties.
-In xfields two different formalism are available to compute these growth rates.
+In xfields two different formalism are available to compute these growth rates, which both assume transverse and longitudinal Gaussian bunch profiles.
+Both rely on the computation of the Coulomb logarithm, which in \textit{xfields} is computed as in MAD-X, according to the expression in the Physics Vade Mecum~\cite{AIP:Anderson:Physics_Vade_Mecum}.
+
+\subsubsection{Nagaitsev Formalism}
+
+One available formalism follows the approach introduced by S.~Nagaitsev in~\cite{PRAB:Nagaitsev:IBS_formulas_fast_numerical_evaluation}.
+It provides a fast computation method through symmetric elliptic integrals of the second kind, \(R_D(x,y,z)\):
+
+\begin{equation}
+    R_D(x, y, z) = \frac{3}{2} \int_{0}^{\infty} \frac{dt}{\sqrt{(t + x)(t + y)(t + z)^3}} \text{ .}
+    \label{equation:elliptic_integrals}
+\end{equation}
+
+Interestingly, this integral has the following special properties:
+
+\begin{equation}
+    R_D(x, x, x) = x^{-3/2} \text{,  }
+    \label{equation:RD_property1}
+\end{equation}
+
+\begin{equation}
+    R_D(x, y, z) + R_D(y, z, x) + R_D(z, x, y) = \frac{3}{\sqrt{xyz}} \text{ .}
+    \label{equation:RD_property2}
+\end{equation}
+
+This method is particularly efficient, as thanks to \eqref{equation:RD_property2} only two evaluations of this integral (which does not scale with the size of the lattice) are needed to obtain various simple terms from which one can compute the growth rates.
+
+In xfields, the following steps are followed.
+First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed:
+
+\begin{equation}
+    \begin{aligned}
+        a_x &= \frac{\beta_x}{\varepsilon_x} \text{,  }
+        a_y = \frac{\beta_y}{\varepsilon_y} \text{,  }
+        a_s = a_x \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi^2 \right) + \frac{1}{\sigma_p^{2}} \text{,  } \\
+        a_1 &= \frac{1}{2} (a_x + \gamma^2 a_s) \text{,  }
+        a_2 = \frac{1}{2} (a_x - \gamma^2 a_s) \text{ .}
+    \end{aligned}
+    \label{equation:nagaitsev_step1}
+\end{equation}
+where the \(\Phi\) term is defined as:
+
+\begin{equation}
+    \Phi = D_x^{\prime} - \frac{\beta_x^{\prime} D_x}{2 \beta_x} \text{ .}
+\end{equation}
+
+Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed:
+
+\begin{equation}
+    \lambda_1 = a_y \text{ , }
+    \lambda_2 = a_1 + \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2} \text{ , }
+    \lambda_3 = a_1 - \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2} \text{ .}
+    \label{equation:nagaitsev_lambdas}
+\end{equation}
+and used to compute three integrals \(R_1, R_2\) and \(R_3\) (through with \eqref{equation:RD_property2} only two need to be computed):
+
+\begin{equation}
+    \begin{aligned}
+        R1 = \frac{1}{\lambda_1} R_D(\frac{1}{\lambda_2}, \frac{1}{\lambda_3}, \frac{1}{\lambda_1}) \text{ ,} \\
+        R2 = \frac{1}{\lambda_2} R_D(\frac{1}{\lambda_3}, \frac{1}{\lambda_1}, \frac{1}{\lambda_2}) \text{ ,} \\
+        R3 = \frac{1}{\lambda_3} R_D(\frac{1}{\lambda_1}, \frac{1}{\lambda_2}, \frac{1}{\lambda_3}) \text{ .}
+    \end{aligned}
+    \label{equation:nagaitsev_r1r2r3}
+\end{equation}
+
+Using all the above the \(S_p, S_x\) and \(S_{xp}\) terms are computed according to \eqref{equation:nagaitsev_spsxsxp}:
+
+\begin{equation}
+    \begin{aligned}
+        S_p &= \frac{\gamma^2}{2} \left[ 2 R_1 - R_2 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) - R_3 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) \right] \text{ ,} \\
+        S_x &= \frac{1}{2} \left[ 2 R_1 - R_2 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) - R_3 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) \right] \text{ ,} \\
+        S_{xp} &= \frac{3 \gamma^2 \Phi^2 a_x}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}} \left( R_3 - R_2 \right) \text{ .}
+    \end{aligned}
+    \label{equation:nagaitsev_spsxsxp}
+\end{equation}
+
+From these, one computes the integrals - called the \textit{Nagaitsev integrals} in the \textit{xfields} code base - \(I_x, I_y\) and \(I_z\):
+
+\begin{equation}
+    \begin{aligned}
+        I_x &= \int_0^C \frac{\beta_x ds}{L \sigma_x \sigma_y} \left[S_x + \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi^{2} \right) S_p + S_{xp} \right] \text{ ,} \\
+        I_y &= \int_0^C \frac{\beta_y ds}{L \sigma_x \sigma_y} \left(R_2 + R_3 - 2 R_1\right) \text{ ,} \\
+        I_z &= \int_0^C \frac{ds}{L \sigma_x \sigma_y} S_p \text{ .}
+    \end{aligned}
+    \label{equation:nagaitsev_integrals}
+\end{equation}
+with \(C\) the circumference of the machine.
+Finally, the growth rates are computed as:
+
+\begin{equation}
+    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_p^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_x}
+\end{equation}
+\begin{equation}
+    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_p^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_y}
+\end{equation}
+\begin{equation}
+    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_p^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_z}
+\end{equation}
+where in the above \(N\) is the total beam intensity, \(r_p\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_s\) the bunch length.
+
+\subsubsection{Bjorken-Mtingwa Formalism}
+
+\cite{CERN:Bjorken_Mtingwa:Intrabeam_Scattering,CERN:Antoniou:Revision_IBS_MADX}
 
 \section{Beam-beam interaction (4D model)}
 
@@ -407,6 +507,7 @@ From which we can write:
 \end{align}
 
 \section{Longitudinal profiles}
+
 \subsection{Gaussian profile}
 
 The profile is in the form:
@@ -445,11 +546,7 @@ These expressions are valid for values of the parameter $q$ is   the range of in
 
 In general the q-Gaussian is defined outside this range, but for smaller values it has a limited support (not of interest) and for larger values has a not defined standard deviation.
 
-
-
 \section{FFT solvers and covolutions}
-
-
 
 \subsection{Notation for Discrete Fourier Transform}
 We will use the following notation for the Discrete Fourier Transform of a sequence of length $M$:
@@ -1640,7 +1737,6 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \text{~~ for}~0 \leq m <N_T N_\text{aux}\\
 \end{equation}
 
-
 \section{Transverse wakefields}
 
 The transverse dipolar wakefield $W^D_{x}$ is defined such that:
@@ -1678,5 +1774,3 @@ We define
 \begin{equation}
 W_{l} = W^D_{x}(z_a -z_b + l \Delta z) 
 \end{equation}
-
-
