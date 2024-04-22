@@ -418,19 +418,25 @@ with \(C\) the circumference of the machine.
 Finally, the growth rates are computed as:
 
 \begin{equation}
-    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_p^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_x}
+    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_x}
 \end{equation}
 \begin{equation}
-    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_p^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_y}
+    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_y}
 \end{equation}
 \begin{equation}
-    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_p^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_z}
+    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_z}
 \end{equation}
-where in the above \(N\) is the total beam intensity, \(r_p\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_s\) the bunch length.
+where in the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_s\) the bunch length.
+
+One should note however, that this formalism does not take into account vertical dispersion, and in the presence of \(D_y\) will yield an erroneous vertical growth rate.
+For machines with vertical dispersion, the Bjorken-Mtingwa formalism presented below is recommended.
 
 \subsubsection{Bjorken-Mtingwa Formalism}
 
-\cite{CERN:Bjorken_Mtingwa:Intrabeam_Scattering,CERN:Antoniou:Revision_IBS_MADX}
+The IBS growth rates can also be computed according to the theory by Bjorken and Mtingwa~\cite{CERN:Bjorken_Mtingwa:Intrabeam_Scattering}.
+The specific implementation follows that of the MAD-X code, for which modifications to the terms of B\&M's theory have been made to account for vertical dispersion non-ultrarelativistic beams~\cite{CERN:Antoniou:Revision_IBS_MADX}.
+
+
 
 \section{Beam-beam interaction (4D model)}
 
