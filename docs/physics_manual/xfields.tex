@@ -423,17 +423,22 @@ From these, one computes the integrals - called the \textit{Nagaitsev integrals}
     \end{aligned}
     \label{equation:nagaitsev_integrals}
 \end{equation}
-with \(C\) the circumference of the machine.
+with \(C\) the circumference (or length) of the machine.
 Finally, the growth rates are computed as:
 
 \begin{equation}
     \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_x}
+    \label{equation:nagaitsev_tx}
 \end{equation}
+
 \begin{equation}
     \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_y}
+    \label{equation:nagaitsev_ty}
 \end{equation}
+
 \begin{equation}
     \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_z}
+    \label{equation:nagaitsev_tz}
 \end{equation}
 
 In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from \eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_s\) the bunch length.
@@ -571,6 +576,23 @@ First the \(a, b, c, a_x, b_x, a_y, b_y, a_z\) and \(b_z\) terms are computed as
 \begin{equation}
     b_z = \left(\frac{\beta_x}{\varepsilon_x} + \frac{\beta_y}{\varepsilon_y}\right) \gamma^2 \left(\frac{H_x}{\varepsilon_x} + \frac{H_y}{\varepsilon_y} + \frac{1}{\sigma_{\delta}^{2}}\right) - 2 \frac{\beta_x \beta_y}{\varepsilon_x \varepsilon_y} - \gamma^2 \left(\frac{\beta_x^{2} \Phi_x^{2}}{\varepsilon_x^{2}} + \frac{\beta_y^{2} \Phi_y^{2}}{\varepsilon_y^{2}}\right)
     \label{equation:bm_bz}
+\end{equation}
+
+From these, one can compute the growth rates as:
+
+\begin{equation}
+    \boxed{T_x = \frac{1}{\tau_x} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2 H_x}{\varepsilon_x}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_x \lambda + b_x\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
+    \label{equation:bm_tx}
+\end{equation}
+
+\begin{equation}
+    \boxed{T_y = \frac{1}{\tau_y} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\beta_y}{\varepsilon_y}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_y \lambda + b_y\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
+    \label{equation:bm_ty}
+\end{equation}
+
+\begin{equation}
+    \boxed{T_z = \frac{1}{\tau_z} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2}{\sigma_{\delta}^{2}}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_z \lambda + b_z\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
+    \label{equation:bm_tz}
 \end{equation}
 
 \section{Beam-beam interaction (4D model)}
