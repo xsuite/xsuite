@@ -881,27 +881,26 @@ where
 
 \subsection{Solenoid}
 
-\subsubsection{Thick Solenoid}
-
 The derivation largely follows one by Forest~\cite{forest99}, while the final map can be verified to be the same as the one by Wolski~\cite{wolski2014beam}.
 
 We can write the Hamiltonian for the solenoid as follows:
-\[
-  H = -\sqrt{(1 + \delta)^2 - (p_x + \frac{b_z}{2}y)^2 - (p_y - \frac{b_z}{2}x)^2}.
-\]
+\begin{equation}
+  H = p_\zeta -\sqrt{\left(1 + \delta \right)^2 - \left(p_x + \frac{b_z}{2}y\right)^2 - \left(p_y - \frac{b_z}{2}x\right)^2}
+\end{equation}
+where we have defined the normalized quantities $b_z = B_z\frac{q_0}{P_0}$, $a_x = A_x\frac{q_0}{P_0}$, $a_y = A_y\frac{q_0}{P_0}$.
 Knowing the general Hamiltonian
-\[
-  H = -\sqrt{(1 + \delta)^2 - (p_x - a_x)^2 - (p_y - a_y)^2} - a_z,
-\]
-we can extract the magnetic field potential and convince ourselves that $H$ describes a magnetic field with only the longitudinal component equal to $b_z$, as expected of a solenoid:
-\[
+\begin{equation}
+  H = p_\zeta -\sqrt{(1 + \delta)^2 - (p_x - a_x)^2 - (p_y - a_y)^2} - a_z,
+\end{equation}
+we can extract the magnetic field potential and convince ourselves that $H$ describes a magnetic field with only the longitudinal component equal to $B_z$, as expected of a solenoid:
+\begin{equation}
   \mathbf{A} =
   \begin{bmatrix}
-    a_x \\ a_y \\ a_z
+    A_x \\ A_y \\ A_z
   \end{bmatrix}
   = \begin{bmatrix}
-    -\frac{b_z}{2}y\\
-    \frac{b_z}{2}x\\
+    -\frac{B_z}{2}y\\
+    \frac{B_z}{2}x\\
     0
   \end{bmatrix}
   %
@@ -909,16 +908,16 @@ we can extract the magnetic field potential and convince ourselves that $H$ desc
   %
   \mathbf{B} = \nabla \times \mathbf{A}
   = \begin{bmatrix}
-    \frac{\partial a_z}{\partial y} - \frac{\partial a_y}{\partial z}\\
-    \frac{\partial a_z}{\partial x} - \frac{\partial a_x}{\partial z}\\
-    \frac{\partial a_y}{\partial x} - \frac{\partial a_x}{\partial y}\\
+    \frac{\partial A_z}{\partial y} - \frac{\partial A_y}{\partial z}\\
+    \frac{\partial A_z}{\partial x} - \frac{\partial A_x}{\partial z}\\
+    \frac{\partial A_y}{\partial x} - \frac{\partial A_x}{\partial y}\\
   \end{bmatrix}
   = \begin{bmatrix}
     0\\
     0\\
-    b_z
+    B_z
   \end{bmatrix}.
-\]
+\end{equation}
 
 The Hamiltonian $H$ can be simplified, by applying the following transformation, which should be understood as the change of reference from the general coordinate system $\mathbf{X}$ to a new $\mathbf{X}_\text{new}$:
 \[
