@@ -117,8 +117,8 @@ jobs:
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
       run: |
-        pip install -e "${GITHUB_WORKSPACE}/xsuite"
-        xsuite-prebuild
+        SKIP_KERNEL_BUILD=1 pip install --no-deps xsuite-kernels
+        xsuite-kernels regenerate
     - name: Print versions
       run: conda list
     - name: Run tests (${{ matrix.test-suite }})
