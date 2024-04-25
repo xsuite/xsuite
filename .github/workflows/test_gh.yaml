@@ -102,8 +102,11 @@ jobs:
         xsuite_kernels: ${{ inputs.xsuite_kernels }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        export prefix="$GITHUB_WORKSPACE"
-        bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
+        export xsuite_prefix="$GITHUB_WORKSPACE"
+        cd $GITHUB_WORKSPACE
+        ls -l
+        chmod +x $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
+        $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
       run: |
