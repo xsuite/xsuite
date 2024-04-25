@@ -7,25 +7,36 @@ on:
     # Inputs the workflow accepts.
     inputs:
       xobjects_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xdeps_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xpart_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xtrack_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xfields_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xmask_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xcoll_location:
-        required: true
+        required: false
+        default: "xsuite:main"
+        type: string
+      xsuite_kernels_location:
+        required: false
+        default: "xsuite:main"
         type: string
       test_contexts:
         required: false
@@ -66,6 +77,7 @@ jobs:
           xfields_branch: ${{ inputs.xfields_location }}
           xmask_branch: ${{ inputs.xmask_location }}
           xcoll_branch: ${{ inputs.xcoll_location }}
+          xsuite_kernels_branch: ${{ xsuite_kernels_location }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
@@ -79,6 +91,7 @@ jobs:
             --build-arg xfields_branch=${xfields_branch} \
             --build-arg xmask_branch=${xmask_branch} \
             --build-arg xcoll_branch=${xcoll_branch} \
+            --build_arg xsuite_kernels_branch=${xsuite_kernels_branch} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
@@ -129,7 +142,7 @@ jobs:
     if: success() || failure()
     steps:
       - name: Wait
-        run: sleep 1800
+        run: sleep 300
 
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers

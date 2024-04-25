@@ -12,11 +12,4 @@ jobs:
   run-tests-cron-gh-omp:
     uses: ./.github/workflows/test_gh.yaml
     with:
-      xobjects_location: 'xsuite:main'
-      xdeps_location: 'xsuite:main'
-      xpart_location: 'xsuite:main'
-      xtrack_location: 'xsuite:main'
-      xfields_location: 'xsuite:main'
-      xmask_location: 'xsuite:main'
-      xcoll_location: 'xsuite:main'
       xobjects_test_contexts: "ContextCpu:auto"

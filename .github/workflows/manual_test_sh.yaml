@@ -37,6 +37,10 @@ on:
         description: 'xcoll branch'
         default: 'xsuite:main'
         required: true
+      xsuite_kernels_location:
+        description: 'xsuite-kernels branch'
+        default: 'xsuite:main'
+        required: true
       test_contexts:
         description: test contexts
         default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
@@ -65,6 +69,7 @@ jobs:
       xfields_location: ${{ inputs.xfields_location }}
       xmask_location: ${{ inputs.xmask_location }}
       xcoll_location: ${{ inputs.xcoll_location }}
+      xsuite_kernels_location: ${{ inputs.xsuite_kernels_location }}
       test_contexts: ${{ inputs.test_contexts }}
       platform: ${{ inputs.platform }}
       suites: ${{ inputs.suites }}
