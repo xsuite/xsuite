@@ -103,7 +103,7 @@ jobs:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export prefix="$GITHUB_WORKSPACE"
-        bash $GITHUB_WORKSPACE/.github/scripts/install_branches.sh
+        bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
       run: |
