@@ -6,7 +6,7 @@
 set -xe
 
 repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xsuite-kernels)
-prefix="${prefix:-.}"
+xsuite_prefix="${xsuite_prefix:-.}"
 
 # Expects the following environment variables:
 # - $prefix, where to clone the packages
@@ -21,7 +21,7 @@ for project in "${repos[@]}"; do
   user="${parts[0]}"
   branch="${parts[1]}"
 
-  cd "$prefix"
+  cd "$xsuite_prefix"
   git clone \
     --recursive \
     --single-branch -b "$branch" \
@@ -31,8 +31,8 @@ for project in "${repos[@]}"; do
       if [ "${precompile_kernels:-false}" == "false" ]; then
           echo export SKIP_KERNEL_BUILD=1
       fi
-      echo pip install --no-deps -e "${prefix}/${project}"
+      pip install --no-deps -e "${xsuite_prefix}/${project}"
   else
-      echo pip install -e "${prefix}/${project}[tests]"
+      pip install -e "${xsuite_prefix}/${project}[tests]"
   fi
 done
