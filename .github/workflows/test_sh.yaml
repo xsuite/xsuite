@@ -91,7 +91,7 @@ jobs:
             --build-arg xfields_branch=${xfields_branch} \
             --build-arg xmask_branch=${xmask_branch} \
             --build-arg xcoll_branch=${xcoll_branch} \
-            --build_arg xsuite_kernels_branch=${xsuite_kernels_branch} \
+            --build-arg xsuite_kernels_branch=${xsuite_kernels_branch} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
