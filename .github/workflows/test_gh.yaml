@@ -90,6 +90,10 @@ jobs:
       run: |
         conda install openmp
         pip install cython
+    - name: Checkout xsuite
+      uses: actions/checkout@v4
+      with:
+        path: xsuite
     - name: Check out xsuite repos & pip install
       env:
         xobjects_branch: ${{ inputs.xobjects_location }}
