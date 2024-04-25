@@ -77,7 +77,7 @@ jobs:
           xfields_branch: ${{ inputs.xfields_location }}
           xmask_branch: ${{ inputs.xmask_location }}
           xcoll_branch: ${{ inputs.xcoll_location }}
-          xsuite_kernels_branch: ${{ xsuite_kernels_location }}
+          xsuite_kernels_branch: ${{ inputs.xsuite_kernels_location }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
