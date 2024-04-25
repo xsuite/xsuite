@@ -103,7 +103,7 @@ jobs:
         xfields_branch: ${{ inputs.xfields_location }}
         xmask_branch: ${{ inputs.xmask_location }}
         xcoll_branch: ${{ inputs.xcoll_location }}
-        xsuite_kernels: ${{ inputs.xsuite_kernels_location }}
+        xsuite_kernels_branch: ${{ inputs.xsuite_kernels_location }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xsuite_prefix="$GITHUB_WORKSPACE"
