@@ -18,7 +18,6 @@ from sphinx.ext.autosummary import Autosummary
 from sphinx.ext.autosummary import get_documenter
 from docutils.parsers.rst import directives
 from sphinx.util.inspect import safe_getattr
-import re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -228,7 +227,9 @@ snippet_files = {
     'xtrack/examples/compounds/001_compound_transform.py':
         'generated_code_snippets/compound_transform.py',
     'xtrack/examples/toy_ring/007_cut_at_s.py':
-        'generated_code_snippets/cut_at_s.py'
+        'generated_code_snippets/cut_at_s.py',
+    'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':
+        'generated_code_snippets/ibs_rates_with_vdisp.py',
 }
 
 for ss, tt in snippet_files.items():
