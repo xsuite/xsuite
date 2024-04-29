@@ -224,8 +224,6 @@ snippet_files = {
         'generated_code_snippets/radial_steering.py',
     'xtrack/examples/taylor_map/000_line_with_maps.py':
         'generated_code_snippets/line_with_maps.py',
-    'xtrack/examples/compounds/001_compound_transform.py':
-        'generated_code_snippets/compound_transform.py',
     'xtrack/examples/toy_ring/007_cut_at_s.py':
         'generated_code_snippets/cut_at_s.py',
     'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':
