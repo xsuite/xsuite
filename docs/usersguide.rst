@@ -14,6 +14,7 @@
    particlesmanip
    collective
    collimation
+   intrabeam_scattering
    synchrotron_radiation
    footprint
    xsuite_data_management

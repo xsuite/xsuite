@@ -18,17 +18,16 @@ from sphinx.ext.autosummary import Autosummary
 from sphinx.ext.autosummary import get_documenter
 from docutils.parsers.rst import directives
 from sphinx.util.inspect import safe_getattr
-import re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
-xobjects_branch = 'merge/compact_json'
-xfields_branch = 'refactor/nocompounds'
-xtrack_branch = 'refactor/replicas'
-xpart_branch = 'refactor/adapt_to_xtrack_replicas'
-xdeps_branch = 'feature/check_limits'
+xobjects_branch = 'main'
+xfields_branch = 'main'
+xtrack_branch = 'main'
+xpart_branch = 'main'
+xdeps_branch = 'main'
 xmask_branch = 'main'
 
 os.system(
@@ -232,7 +231,9 @@ snippet_files = {
     'xtrack/examples/element_transformations/001_sliced_element_transform.py':
         'generated_code_snippets/compound_transform_sliced.py',
     'xtrack/examples/toy_ring/007_cut_at_s.py':
-        'generated_code_snippets/cut_at_s.py'
+        'generated_code_snippets/cut_at_s.py',
+    'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':
+        'generated_code_snippets/ibs_rates_with_vdisp.py',
 }
 
 for ss, tt in snippet_files.items():
