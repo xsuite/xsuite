@@ -126,6 +126,8 @@ snippet_files = {
         'generated_code_snippets/match_action.py',
     'xtrack/examples/match/007_match_knob.py':
         'generated_code_snippets/match_knob.py',
+    'xtrack/examples/match/005a_match_bump_common_targets_from_table.py':
+        'generated_code_snippets/match_targets_from_vars_or_line.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
     'xtrack/examples/twiss/011_tune_vs_delta.py':
@@ -224,6 +226,10 @@ snippet_files = {
         'generated_code_snippets/radial_steering.py',
     'xtrack/examples/taylor_map/000_line_with_maps.py':
         'generated_code_snippets/line_with_maps.py',
+    'xtrack/examples/element_transformations/000_element_transform.py':
+        'generated_code_snippets/compound_transform.py',
+    'xtrack/examples/element_transformations/001_sliced_element_transform.py':
+        'generated_code_snippets/compound_transform_sliced.py',
     'xtrack/examples/toy_ring/007_cut_at_s.py':
         'generated_code_snippets/cut_at_s.py',
     'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':

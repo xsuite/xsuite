@@ -3,5 +3,6 @@ scipy
 pandas
 cython
 lark
+pytest
 sphinx_rtd_theme>=0.5.2
 sphinx==5.3.0
