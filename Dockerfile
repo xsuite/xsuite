@@ -14,7 +14,7 @@ ARG xtrack_branch=xsuite:main
 ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
-ARG xsuite_kernels_branch=xsuite:main
+ARG xsuite_branch=xsuite:main
 ARG with_gpu
 
 # Use bash as the default shell
@@ -82,7 +82,7 @@ RUN bash /opt/xsuite/install_branches.sh && pip cache purge
 
 # Copy the test runner script into the image
 WORKDIR /opt
-COPY run_tests.sh /opt/
+COPY .github/scripts/run_tests.sh /opt/
 RUN chmod +x run_tests.sh
 
 CMD python /opt/xsuite/xtrack/examples/print_package_paths.py
