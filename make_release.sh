@@ -53,4 +53,5 @@ git add pyproject.toml
 git commit -m "Bump versions"
 git tag -a $next_version -m "Release $next_version"
 
-echo "=== RUN 'git push' TO TRIGGER THE RELEASE ==="
+echo "=== RUN THE FOLLOWING TO PUBLISH RELEASE: ==="
+echo "git push --follow-tags"
