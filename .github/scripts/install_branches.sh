@@ -27,11 +27,11 @@ for project in "${repos[@]}"; do
     --single-branch -b "$branch" \
     "https://github.com/${user}/${project}.git"
 
-   if [ "$project" == "xsuite-kernels" ]; then
+   if [ "$project" == "xsuite" ]; then
       if [ "${precompile_kernels:-false}" == "false" ]; then
           echo export SKIP_KERNEL_BUILD=1
       fi
-      pip install --no-deps -e "${xsuite_prefix}/${project}"
+      pip install --no-deps -e -v "${xsuite_prefix}/${project}"
   else
       pip install -e "${xsuite_prefix}/${project}[tests]"
   fi
