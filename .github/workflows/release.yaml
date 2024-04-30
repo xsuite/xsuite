@@ -8,12 +8,15 @@ on:
 
 jobs:
   build-wheels:
-    name: Build wheels for ${{ matrix.os }}
+    name: Build wheels for ${{ matrix.pyver }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-13, macos-14]
         pyver: [cp38, cp39, cp310, cp311, cp312]
+        exclude:
+          - os: macos-14
+            pyver: cp38
 
     steps:
       - uses: actions/checkout@v4
