@@ -106,10 +106,10 @@ NON_TRACKING_ELEMENTS = [
 
 # These are enumerated in order specified below: the highest priority at the top
 kernel_definitions = [
-    ('default_only_xtrack_no_config', {
-        'config': {},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
-    }),
+    # ('default_only_xtrack_no_config', {
+    #     'config': {},
+    #     'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+    # }),
     ('default_only_xtrack', {
         'config': BASE_CONFIG,
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
