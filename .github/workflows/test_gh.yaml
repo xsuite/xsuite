@@ -7,25 +7,36 @@ on:
     # Inputs the workflow accepts.
     inputs:
       xobjects_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xdeps_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xpart_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xtrack_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xfields_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xmask_location:
-        required: true
+        required: false
+        default: "xsuite:main"
         type: string
       xcoll_location:
-        required: true
+        required: false
+        default: "xsuite:main"
+        type: string
+      xsuite_kernels_location:
+        required: false
+        default: "xsuite:main"
         type: string
       precompile_kernels:
         required: false
@@ -79,6 +90,10 @@ jobs:
       run: |
         conda install openmp
         pip install cython
+    - name: Checkout xsuite
+      uses: actions/checkout@v4
+      with:
+        path: xsuite
     - name: Check out xsuite repos & pip install
       env:
         xobjects_branch: ${{ inputs.xobjects_location }}
@@ -88,37 +103,16 @@ jobs:
         xfields_branch: ${{ inputs.xfields_location }}
         xmask_branch: ${{ inputs.xmask_location }}
         xcoll_branch: ${{ inputs.xcoll_location }}
+        xsuite_kernels_branch: ${{ inputs.xsuite_kernels_location }}
+        precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        for project in xobjects xdeps xpart xtrack xfields xmask xcoll; do
-          branch_varname="${project}_branch"
-          project_branch=${!branch_varname}  # get value of the variable [project]_branch
-          
-          IFS=':' read -r -a parts <<< $project_branch
-          user="${parts[0]}"
-          branch="${parts[1]}"
-          
-          echo git clone \
-            --recursive \
-            --single-branch -b "$branch" \
-            "https://github.com/${user}/${project}.git"
-          
-          cd $GITHUB_WORKSPACE
-          git clone \
-            --recursive \
-            --single-branch -b "$branch" \
-            "https://github.com/${user}/${project}.git"
-          pip install -e "${GITHUB_WORKSPACE}/${project}[tests]"
-        done
-    - name: Checkout xsuite (needed to precompile kernels)
-      if: ${{ inputs.precompile_kernels == true }}
-      uses: actions/checkout@v3
-      with:
-        path: 'xsuite'
+        export xsuite_prefix="$GITHUB_WORKSPACE"
+        chmod +x $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
+        $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
       run: |
-        pip install -e "${GITHUB_WORKSPACE}/xsuite"
-        xsuite-prebuild
+        xsuite-kernels regenerate
     - name: Print versions
       run: conda list
     - name: Run tests (${{ matrix.test-suite }})

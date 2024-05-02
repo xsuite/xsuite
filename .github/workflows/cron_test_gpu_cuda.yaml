@@ -13,12 +13,5 @@ jobs:
     if: github.repository == 'xsuite/xsuite'
     uses: ./.github/workflows/test_sh.yaml
     with:
-      xobjects_location: 'xsuite:main'
-      xdeps_location: 'xsuite:main'
-      xpart_location: 'xsuite:main'
-      xtrack_location: 'xsuite:main'
-      xfields_location: 'xsuite:main'
-      xmask_location: 'xsuite:main'
-      xcoll_location: 'xsuite:main'
       test_contexts: 'ContextCupy'
       platform: 'ubuntu'
