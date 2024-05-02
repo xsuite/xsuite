@@ -59,7 +59,7 @@ next_version="v$next_version"
 
 echo "=== WILL PROCEED TO TAG AND COMMIT NOW ==="
 git add pyproject.toml
-git commit -m "Bump versions"
+git commit --allow-empty -m "Bump versions"
 git tag -a $next_version -m "Release $next_version"
 
 echo "=== RUN THE FOLLOWING TO PUBLISH RELEASE: ==="
