@@ -39,7 +39,14 @@ git diff -- pyproject.toml
 verify_input
 
 echo "=== WHAT SHOULD BE THE NEXT VERSION? ==="
-read -p "Next version: " next_version
+read -p "Next version (X.Y.Z): " next_version
+
+if ! [[ $next_version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+then
+  echo "Invalid version format. Exiting."
+  exit 1
+fi
+
 read -p "Retype the version: " retype_version
 
 if [[ $next_version != $retype_version ]]
@@ -47,6 +54,8 @@ then
   echo "Versions do not match. Exiting."
   exit 1
 fi
+
+next_version="v$next_version"
 
 echo "=== WILL PROCEED TO TAG AND COMMIT NOW ==="
 git add pyproject.toml
