@@ -1,1 +1,15 @@
+*.so
+*.pyc
+.project
+.pydevproject
+*.png
+norepository_*
+*~
+build
+examples/*/res/*
 *.egg-info
+__pycache__
+.pytest_cache
+**/.DS_Store
+xsuite/lib
+!xsuite/lib/*.py
