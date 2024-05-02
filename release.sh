@@ -27,10 +27,10 @@ verify_input() {
 }
 
 echo "=== THE LAST TAGGED VERSION IS: ==="
-git tag --sort=authordate | tail -n 1
+git tag --sort=taggerdate | tail -n 1
 
 echo "=== BUMPING DEPENDENCY VERSIONS in pyproject.toml ==="
-for package in xtrack xfields xcoll xobjects; do
+for package in xdeps xtrack xfields xcoll xobjects xpart; do
   latest_version=$(get_latest_version $package)
   update_version $package $latest_version
 done
