@@ -1,6 +1,80 @@
 [build-system]
-build-backend = 'setuptools.build_meta'
 requires = [
-    'setuptools >= 43.0.0',
-    'numpy',
-    ]
+    'setuptools>=64',
+    'setuptools-scm[toml]>=8',
+    "xtrack==0.57.3",
+    "xfields==0.16.0",
+    "xcoll==0.3.5",
+    "xobjects==0.4.1",
+]
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = "xsuite"
+authors = [
+    {name = "Riccardo De Maria"},
+    {name = "Giovanni Iadarola"},
+    {name = "Szymon Łopaciuk"},
+    {name = "et al."},
+]
+description = "Integrated suite for particle accelerator simulations."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+dependencies = [
+    "xtrack==0.57.3",
+    "xfields==0.16.0",
+    "xcoll==0.3.5",
+    "xobjects==0.4.1",
+]
+dynamic = ["version"]
+
+[project.urls]
+Download = "https://pypi.python.org/pypi/xsuite"
+"Bug Tracker" = "https://github.com/xsuite/xsuite/issues"
+Documentation = 'https://xsuite.readthedocs.io/'
+"Source Code" = "https://github.com/xsuite/xsuite"
+
+[project.scripts]
+xsuite-prebuild = "xsuite.cli:main"
+
+[tool.setuptools_scm]
+# empty for default configuration
+
+# The very non-obvious way files can be included in either sdist or bdist with
+# setuptools. We need to list the file in:
+# - MANIFEST.in if we want it in both sdist and bdist,
+# - package_data and exclude it from the manifest if we want it in bdist only,
+# - exclude_package_data if we want it in sdist only,
+# - nowhere if we don't want to package them.
+# Thanks to this setup an sdist can be build without the binary files, and a
+# bdist can be build including them following the standard PEP 517 procedure
+# using the `build` command.
+[tool.setuptools]
+packages = ["xsuite"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+xsuite = [
+    'lib/*.so',
+    'lib/*.dylib',
+    'lib/*.dll',
+    'lib/*.json',
+]
+
+[tool.cibuildwheel]
+skip = [
+    # PyPy does not work for us
+    "pp*",
+    # i686 is not needed or supported
+    "*i686",
+    # We don't need musl libc support
+    "*musllinux*",
+    # Apparently there's a problem with with Python 3.8 on ARM64 macOS; the
+    # x86_64 version is run anyway pulling the x86 cffi library, building
+    # x86 dylibs that cannot then be imported properly by the ARM64 Python.
+    # Witnessed on here: https://github.com/pypa/cibuildwheel/issues/1278.
+    # It does not make 100% sense to me, but for now this is the workaround.
+    "cp38-macosx_arm64",
+]
+build-verbosity = 1
