@@ -15,7 +15,7 @@ xsuite_prefix="${xsuite_prefix:-.}"
 
 # Expect Xsuite already cloned by the main workflow
 if [ "${precompile_kernels:-false}" == "false" ]; then
-    echo export SKIP_KERNEL_BUILD=1
+  export SKIP_KERNEL_BUILD=1
 fi
 pip install --no-deps -v -e "${xsuite_prefix}/xsuite"
 

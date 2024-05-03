@@ -4,19 +4,22 @@
 # ######################################### #
 import json
 import os
+from multiprocessing import Pool
 from pathlib import Path
 from pprint import pformat
-from multiprocessing import Pool
 from typing import Iterator, Optional, Tuple
 
 import numpy as np
 
+import xsuite as xs
+import xcoll as xc
+import xfields as xf
 import xobjects as xo
-import xsuite
 import xtrack as xt
+from xsuite.kernel_definitions import kernel_definitions
 from xtrack.general import _print
 
-XSK_PREBUILT_KERNELS_LOCATION = Path(xsuite.__file__).parent / 'lib'
+XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 
 BEAM_ELEMENTS_INIT_DEFAULTS = {
     'Bend': {
@@ -74,6 +77,15 @@ BEAM_ELEMENTS_INIT_DEFAULTS = {
             'sigma_z': 0,
         }
     },
+    'EverestBlock': {
+        'material': xc.materials.Silicon,
+    },
+    'EverestCollimator': {
+        'material': xc.materials.Silicon,
+    },
+    'EverestCrystal': {
+        'material': xc.materials.SiliconCrystal,
+    }
 }
 
 # SpaceChargeBiGaussian is not included for now (different issues -
@@ -81,21 +93,11 @@ BEAM_ELEMENTS_INIT_DEFAULTS = {
 
 
 def get_element_class_by_name(name: str) -> type:
-    try:
-        from xfields import element_classes as xf_element_classes
-    except ModuleNotFoundError:
-        xf_element_classes = ()
+    extra_classes = (xt.MultiSetter, )
 
-    try:
-        from xcoll import element_classes as xc_element_classes
-    except ModuleNotFoundError:
-        xc_element_classes = ()
-
-    xt_multisetter = (xt.MultiSetter, )
-
-    element_classes = (xt.element_classes + xt.rng_classes
-                       + xt.monitor_classes + xt_multisetter
-                       + xf_element_classes + xc_element_classes)
+    element_classes = (xt.element_classes + xt.rng_classes + xt.monitor_classes
+                       + xf.element_classes + xc.element_classes
+                       + extra_classes)
 
     for cls in element_classes:
         if cls.__name__ == name:
@@ -113,25 +115,13 @@ def save_kernel_metadata(
     location = Path(location)
     out_file = location / f'{module_name}.json'
 
-    try:
-        import xfields
-        xf_version = xfields.__version__
-    except ModuleNotFoundError:
-        xf_version = None
-
-    try:
-        import xcoll
-        xc_version = xcoll.__version__
-    except ModuleNotFoundError:
-        xc_version = None
-
     kernel_metadata = {
         'config': config.data,
         'classes': [cls._DressingClass.__name__ for cls in kernel_element_classes],
         'versions': {
             'xtrack': xt.__version__,
-            'xfields': xf_version,
-            'xcoll': xc_version,
+            'xfields': xf.__version__,
+            'xcoll': xc.__version__,
             'xobjects': xo.__version__,
         }
     }
@@ -140,13 +130,12 @@ def save_kernel_metadata(
         json.dump(kernel_metadata, fd, indent=4)
 
 
-def enumerate_kernels() -> Iterator[Tuple[str, dict]]:
+def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
     """
     Iterate over the prebuilt kernels compatible with the current version of
     xsuite. The first element of the tuple is the name of the kernel module
     and the second is a dictionary with the kernel metadata.
     """
-    from xsuite.kernel_definitions import kernel_definitions
     for kernel_name, _ in kernel_definitions:
         metadata_file = XSK_PREBUILT_KERNELS_LOCATION / f'{kernel_name}.json'
 
@@ -156,30 +145,29 @@ def enumerate_kernels() -> Iterator[Tuple[str, dict]]:
         with metadata_file.open('r') as fd:
             kernel_metadata = json.load(fd)
 
-        try:
-            import xfields
-            xf_version = xfields.__version__
-        except ModuleNotFoundError:
-            xf_version = None
+        needed_versions = kernel_metadata['versions']
+        have_versions = {
+            'xtrack': xt.__version__,
+            'xfields': xf.__version__,
+            'xcoll': xc.__version__,
+            'xobjects': xo.__version__,
+        }
 
-        try:
-            import xcoll
-            xc_version = xcoll.__version__
-        except ModuleNotFoundError:
-            xc_version = None
+        version_mismatch = False
+        for package in needed_versions.keys():
+            need = needed_versions[package]
+            have = have_versions[package]
+            if need == have:
+                continue
 
-        if kernel_metadata['versions']['xtrack'] != xt.__version__:
-            continue
+            version_mismatch = True
+            if verbose:
+                _print(
+                    f'Version mismatch for kernel `{kernel_name}`: needs '
+                    f'{package}=={need}, but have {package}=={have}.'
+                )
 
-        if kernel_metadata['versions']['xobjects'] != xo.__version__:
-            continue
-
-        if (kernel_metadata['versions']['xfields'] != xf_version
-                and xf_version is not None):
-            continue
-
-        if (kernel_metadata['versions']['xcoll'] != xc_version
-                and xc_version is not None):
+        if version_mismatch:
             continue
 
         yield metadata_file.stem, kernel_metadata
@@ -196,7 +184,6 @@ def get_suitable_kernel(
     element classes that were used to build it. Set `verbose` to True, to
     obtain a justification of the choice (or lack thereof) on standard output.
     """
-    _print.suppress = False
     env_var = os.environ.get("XSUITE_PREBUILT_KERNELS")
     if env_var and env_var == '0':
         if verbose:
@@ -204,11 +191,14 @@ def get_suitable_kernel(
                    'environment variable XSUITE_PREBUILT_KERNELS == "0".')
         return
 
+    if os.environ.get("XSUITE_VERBOSE", None) is not None:
+        verbose = True
+
     requested_class_names = [
         cls._DressingClass.__name__ for cls in line_element_classes
     ]
 
-    for module_name, kernel_metadata in enumerate_kernels():
+    for module_name, kernel_metadata in enumerate_kernels(verbose=verbose):
         if verbose:
             _print(f"==> Considering the precompiled kernel `{module_name}`...")
 
@@ -267,24 +257,6 @@ def regenerate_kernels(
     # Delete existing kernels to avoid accidentally loading in existing C code
     clear_kernels(kernels=kernels, location=location)
 
-    from xsuite.kernel_definitions import kernel_definitions
-    try:
-        import xcoll as xc
-        BEAM_ELEMENTS_INIT_DEFAULTS['EverestBlock'] = {
-                'material': xc.materials.Silicon,
-                'use_prebuilt_kernels': False
-            }
-        BEAM_ELEMENTS_INIT_DEFAULTS['EverestCollimator'] = {
-                'material': xc.materials.Silicon,
-                'use_prebuilt_kernels': False
-            }
-        BEAM_ELEMENTS_INIT_DEFAULTS['EverestCrystal'] = {
-                'material': xc.materials.SiliconCrystal,
-                'use_prebuilt_kernels': False
-            }
-    except ImportError:
-        pass
-
     kernels_to_build = []
     for module_name, metadata in kernel_definitions:
         if kernels is not None and module_name not in kernels:
@@ -292,12 +264,18 @@ def regenerate_kernels(
         kernels_to_build.append((module_name, metadata))
 
     thread_pool = Pool(processes=n_threads)
+    results = []
     for idx, (module_name, metadata) in enumerate(kernels_to_build):
         args = (idx, len(kernels_to_build), location, metadata, module_name)
-        thread_pool.apply_async(build_single_kernel, args=args)
+        result = thread_pool.apply_async(build_single_kernel, args=args)
+        results.append(result)
 
     thread_pool.close()
     thread_pool.join()
+
+    # Ensure no errors
+    for result in results:
+        result.get()
 
     _print(f'Built {len(kernels_to_build)} kernels.')
 

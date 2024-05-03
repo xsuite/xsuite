@@ -96,6 +96,22 @@ NO_SYNRAD_ELEMENTS = [
     Exciter,
 ]
 
+# Xfields elements
+DEFAULT_XF_ELEMENTS = [
+    xf.BeamBeamBiGaussian2D,
+    xf.BeamBeamBiGaussian3D,
+    xf.SpaceChargeBiGaussian,
+]
+
+# Xcoll elements
+DEFAULT_XCOLL_ELEMENTS = [
+    ZetaShift,
+    xc.BlackAbsorber,
+    xc.EverestBlock,
+    xc.EverestCollimator,
+    xc.EverestCrystal
+]
+
 NON_TRACKING_ELEMENTS = [
     RandomUniform,
     RandomExponential,
@@ -106,61 +122,56 @@ NON_TRACKING_ELEMENTS = [
 
 # These are enumerated in order specified below: the highest priority at the top
 kernel_definitions = [
-    # ('default_only_xtrack_no_config', {
-    #     'config': {},
-    #     'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
-    # }),
-    ('default_only_xtrack', {
+    ('non_tracking_kernels', {
         'config': BASE_CONFIG,
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': [],
+        'extra_classes': NON_TRACKING_ELEMENTS
     }),
-    ('default_only_xtrack_exact_drifts', {
+    ('default_no_config', {
+        'config': {},
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+    }),
+    ('default_base_config', {
+        'config': BASE_CONFIG,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+    }),
+    ('exact_drifts', {
         'config': {
             **BASE_CONFIG,
             'XTRACK_USE_EXACT_DRIFTS': True,
         },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('default_only_xtrack_no_limit', {
+    ('default_no_limit', {
         'config': {
             **{k: v for k, v in BASE_CONFIG.items()
                 if k != 'XTRACK_GLOBAL_XY_LIMIT'}
         },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('only_xtrack_non_tracking_kernels_no_config', {
-        'config': {},
-        'classes': [],
-        'extra_classes': NON_TRACKING_ELEMENTS
-    }),
-    ('only_xtrack_non_tracking_kernels', {
-        'config': BASE_CONFIG,
-        'classes': [],
-        'extra_classes': NON_TRACKING_ELEMENTS
-    }),
-    ('default_only_xtrack_backtrack', {
+    ('default_backtrack', {
         'config': {**BASE_CONFIG, 'XSUITE_BACKTRACK': True},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('default_only_xtrack_backtrack_no_limit', {
+    ('only_xtrack_backtrack_no_limit', {
         'config': {
-            **{k: v for k, v in BASE_CONFIG.items()
-                if k != 'XTRACK_GLOBAL_XY_LIMIT'},
-            'XSUITE_BACKTRACK': True
+            **BASE_CONFIG,
+            'XSUITE_BACKTRACK': True,
+            'XTRACK_GLOBAL_XY_LIMIT': False,
         },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('only_xtrack_frozen_longitudinal', {
+    ('frozen_longitudinal', {
         'config': {**BASE_CONFIG, **FREEZE_LONGITUDINAL},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('only_xtrack_frozen_energy', {
+    ('frozen_energy', {
         'config': {**BASE_CONFIG, **FREEZE_ENERGY},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('only_xtrack_backtrack_frozen_energy', {
+    ('backtrack_frozen_energy', {
         'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_BACKTRACK': True},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_taper', {
         'config': {
@@ -181,86 +192,5 @@ kernel_definitions = [
             'XTRACK_SYNRAD_KICK_SAME_AS_FIRST': True
         },
         'classes': ONLY_XTRACK_ELEMENTS,
-    }),
-]
-
-
-# Xfields elements
-DEFAULT_XF_ELEMENTS = [
-    *ONLY_XTRACK_ELEMENTS,
-    xf.BeamBeamBiGaussian2D,
-    xf.BeamBeamBiGaussian3D,
-    xf.SpaceChargeBiGaussian,
-]
-
-kernel_definitions += [
-    ('default_xfields', {
-        'config': BASE_CONFIG,
-        'classes': [*DEFAULT_XF_ELEMENTS],
-    }),
-    ('default_xfields_no_config', {
-        'config': {},
-        'classes': [*DEFAULT_XF_ELEMENTS],
-    }),
-    ('default_xfields_frozen_longitudinal', {
-        'config': {**BASE_CONFIG, **FREEZE_LONGITUDINAL},
-        'classes': DEFAULT_XF_ELEMENTS,
-    }),
-    ('default_xfields_frozen_energy', {
-        'config': {**BASE_CONFIG, **FREEZE_ENERGY},
-        'classes': DEFAULT_XF_ELEMENTS,
-    }),
-]
-
-# Xcoll elements
-DEFAULT_XCOLL_ELEMENTS = [
-    *ONLY_XTRACK_ELEMENTS,
-    *NO_SYNRAD_ELEMENTS,
-    ZetaShift,
-    xc.BlackAbsorber,
-    xc.EverestBlock,
-    xc.EverestCollimator,
-    xc.EverestCrystal
-]
-
-kernel_definitions += [
-    ('default_xcoll', {
-        'config': BASE_CONFIG,
-        'classes': DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_xcoll_no_config', {
-        'config': {},
-        'classes': DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_xcoll_no_limit', {
-        'config': {
-            **{k: v for k, v in BASE_CONFIG.items()
-                if k != 'XTRACK_GLOBAL_XY_LIMIT'}
-        },
-        'classes': DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_xcoll_frozen_longitudinal', {
-        'config': {**BASE_CONFIG, **FREEZE_LONGITUDINAL},
-        'classes': DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_xcoll_frozen_energy', {
-        'config': {**BASE_CONFIG, **FREEZE_ENERGY},
-        'classes': DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_xcoll_backtrack', {
-        'config': {**BASE_CONFIG, 'XSUITE_BACKTRACK': True},
-        'classes': DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_xcoll_backtrack_no_limit', {
-        'config': {
-            **{k: v for k, v in BASE_CONFIG.items()
-                if k != 'XTRACK_GLOBAL_XY_LIMIT'},
-            'XSUITE_BACKTRACK': True
-        },
-        'classes': DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_xcoll_backtrack_frozen_energy', {
-        'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_BACKTRACK': True},
-        'classes': DEFAULT_XCOLL_ELEMENTS,
     }),
 ]
