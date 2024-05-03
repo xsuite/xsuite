@@ -157,6 +157,22 @@ the following example:
 .. literalinclude:: generated_code_snippets/compound_transform_sliced.py
    :language: python
 
+Add multipolar components to elements
+=====================================
+
+Multipolar components can be added to thick beam elements, as illustrated in the
+following example:
+
+.. literalinclude:: generated_code_snippets/multipolar_components.py
+   :language: python
+
+Multipolar components are propagated when the elements are sliced and can be updated
+also after the slicing by acting on the parent element. This is illustrated in
+the following example:
+
+.. literalinclude:: generated_code_snippets/multipolar_components_sliced.py
+   :language: python
+
 Cut line elements at given s positions
 ======================================
 
