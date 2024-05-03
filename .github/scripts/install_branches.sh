@@ -5,7 +5,7 @@
 # ######################################### #
 set -xe
 
-repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xsuite)
+repos=(xobjects xdeps xpart xtrack xfields xmask xcoll)
 xsuite_prefix="${xsuite_prefix:-.}"
 
 # Expects the following environment variables:
@@ -13,6 +13,13 @@ xsuite_prefix="${xsuite_prefix:-.}"
 # - ${repo}_branch, where $repo is one of the repos above (replace - with _)
 # - $precompile_kernels set to "true" or "false"
 
+# Expect Xsuite already cloned by the main workflow
+if [ "${precompile_kernels:-false}" == "false" ]; then
+    echo export SKIP_KERNEL_BUILD=1
+fi
+pip install --no-deps -v -e "${xsuite_prefix}/xsuite"
+
+# Clone the repos and install them in the correct branch
 for project in "${repos[@]}"; do
   branch_varname="${project//-/_}_branch"
   project_branch=${!branch_varname}  # get value of the variable [project]_branch
@@ -27,12 +34,5 @@ for project in "${repos[@]}"; do
     --single-branch -b "$branch" \
     "https://github.com/${user}/${project}.git"
 
-   if [ "$project" == "xsuite" ]; then
-      if [ "${precompile_kernels:-false}" == "false" ]; then
-          echo export SKIP_KERNEL_BUILD=1
-      fi
-      pip install --no-deps -e -v "${xsuite_prefix}/${project}"
-  else
-      pip install -e "${xsuite_prefix}/${project}[tests]"
-  fi
+    pip install -e "${xsuite_prefix}/${project}[tests]"
 done

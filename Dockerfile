@@ -77,12 +77,12 @@ RUN if [[ "$with_gpu" == true ]]; then \
 
 # Install all the Xsuite packages in the required versions
 WORKDIR /opt/xsuite
-COPY .github/scripts/install_branches.sh /opt/xsuite/
-RUN bash /opt/xsuite/install_branches.sh && pip cache purge
+COPY ./ /opt/xsuite/xsuite/
+RUN bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
 
 # Copy the test runner script into the image
 WORKDIR /opt
-COPY .github/scripts/run_tests.sh /opt/
+RUN ln -s /opt/xsuite/xsuite/.github/scripts/run_tests.sh /opt/
 RUN chmod +x run_tests.sh
 
 CMD python /opt/xsuite/xtrack/examples/print_package_paths.py

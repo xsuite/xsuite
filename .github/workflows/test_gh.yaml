@@ -34,10 +34,6 @@ on:
         required: false
         default: "xsuite:main"
         type: string
-      xsuite_location:
-        required: false
-        default: "xsuite:main"
-        type: string
       precompile_kernels:
         required: false
         default: false
@@ -103,12 +99,10 @@ jobs:
         xfields_branch: ${{ inputs.xfields_location }}
         xmask_branch: ${{ inputs.xmask_location }}
         xcoll_branch: ${{ inputs.xcoll_location }}
-        xsuite_branch: ${{ inputs.xsuite_location }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xsuite_prefix="$GITHUB_WORKSPACE"
-        chmod +x $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
-        $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
+        bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
       run: |
