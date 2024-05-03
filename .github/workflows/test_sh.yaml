@@ -34,7 +34,7 @@ on:
         required: false
         default: "xsuite:main"
         type: string
-      xsuite_kernels_location:
+      xsuite_location:
         required: false
         default: "xsuite:main"
         type: string
@@ -77,7 +77,7 @@ jobs:
           xfields_branch: ${{ inputs.xfields_location }}
           xmask_branch: ${{ inputs.xmask_location }}
           xcoll_branch: ${{ inputs.xcoll_location }}
-          xsuite_kernels_branch: ${{ inputs.xsuite_kernels_location }}
+          xsuite_branch: ${{ inputs.xsuite_location }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
@@ -91,7 +91,7 @@ jobs:
             --build-arg xfields_branch=${xfields_branch} \
             --build-arg xmask_branch=${xmask_branch} \
             --build-arg xcoll_branch=${xcoll_branch} \
-            --build-arg xsuite_kernels_branch=${xsuite_kernels_branch} \
+            --build-arg xsuite_branch=${xsuite_branch} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 

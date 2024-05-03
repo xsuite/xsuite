@@ -5,7 +5,7 @@
 # ######################################### #
 set -xe
 
-repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xsuite-kernels)
+repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xsuite)
 xsuite_prefix="${xsuite_prefix:-.}"
 
 # Expects the following environment variables:
