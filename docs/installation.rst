@@ -25,11 +25,7 @@ by the ``compilers`` package (``conda install compilers``). To use Xsuite on GPU
 with the cupy and/or pyopencl you need to install the corresponding packages,
 as described in the :ref:`dedicated section<gpuinst>`.
 
-If you are working on a Windows machine, Xsuite can be installed under
-Windows Subsystem for Linux using the same instructions as for a vanilla Linux
-machine. To install WSL, follow the `steps outlined by Microsoft <https://learn.microsoft.com/en-us/windows/wsl/install>`_
-(at the time of writing it suffices to run ``wsl --install`` in an administrator
-PowerShell or CMD prompt and follow the instructions).
+
 
 After the installation, you can choose to precompile some often-used kernels, in
 order to reduce the waiting time spent on running the simulations later on. This
@@ -38,6 +34,17 @@ can be accomplished simply by running the following command:
 .. code-block:: bash
 
     xsuite-prebuild
+
+Usage in Microsoft Windows
+--------------------------
+
+Xsuite is developed and tested on Linux and macOS. However, it can also be used
+on Windows.
+If you are working on a Windows machine, you can install Xsuite under
+Windows Subsystem for Linux using the same instructions as for a vanilla Linux
+machine. To install WSL, follow the `steps outlined by Microsoft <https://learn.microsoft.com/en-us/windows/wsl/install>`_
+(at the time of writing it suffices to run ``wsl --install`` in an administrator
+PowerShell or CMD prompt and follow the instructions).
 
 
 Developer installation
