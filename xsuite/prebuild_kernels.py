@@ -85,6 +85,7 @@ BEAM_ELEMENTS_INIT_DEFAULTS = {
     },
     'EverestCrystal': {
         'material': xc.materials.SiliconCrystal,
+        'side': '+',
     }
 }
 
