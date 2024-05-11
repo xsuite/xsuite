@@ -1,6 +1,6 @@
-====================
-IntraBeam Scattering
-====================
+=====================
+Intra-beam scattering
+=====================
 
 .. contents:: Table of Contents
     :depth: 3
@@ -8,7 +8,7 @@ IntraBeam Scattering
 Analytical Growth Rates
 =======================
 
-The following example illustrates how to obtain IntraBeam Scattering growth rates in Xsuite.
+The following example illustrates how to obtain growth rates from intra-beam scattering  in Xsuite.
 The functionality is exposed through the `TwissTable` and can make use of two different formalism, ``Nagaitsev`` and ``Bjorken-Mtingwa``.
 The former provides a computationally efficient approach but does not account for vertical dispersion, while the latter accounts for it but is slower.
 
