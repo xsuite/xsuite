@@ -238,6 +238,16 @@ snippet_files = {
         'generated_code_snippets/cut_at_s.py',
     'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':
         'generated_code_snippets/ibs_rates_with_vdisp.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/000_closed_orbit_correction_basic.py':
+        'generated_code_snippets/closed_orbit_correction_basic.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/001_closed_orbit_correction_micado.py':
+        'generated_code_snippets/closed_orbit_correction_micado.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/002_closed_orbit_correction_customize.py':
+        'generated_code_snippets/closed_orbit_correction_customize.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/003_closed_orbit_correction_thread.py':
+        'generated_code_snippets/closed_orbit_correction_thread.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/005_transfer_line_correction.py':
+        'generated_code_snippets/transfer_line_correction.py',
 }
 
 for ss, tt in snippet_files.items():

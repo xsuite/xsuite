@@ -12,6 +12,7 @@
    match
    track
    particlesmanip
+   trajectory_correction
    collective
    collimation
    intrabeam_scattering
