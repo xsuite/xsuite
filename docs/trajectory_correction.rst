@@ -2,7 +2,21 @@
 Closed orbit and trajectory correction
 ======================================
 
-Bla bla
+Xsuite offers the possibility to correct the beam closed orbit for circular
+accelerators and the beam trajectory in transfer lines. The correction is
+performed using a linearized response matrix, which is built from a twiss table.
+The correction is computed using the singular value decomposition (SVD) of the
+response matrix or the MICADO algorithm.
+
+For the case of rings, in order to proceed with the correction, is in necessary
+to successfully measure the closed orbit to correct. In certain cases, when
+strong lattice perturbations are present (e.g. field errors or large element
+misalignments), the closed orbit search might fail. In such cases, the user can
+use a threading capability to perform a first correction of the trajectory,
+after which the closed orbit search can be performed.
+
+The following sections illustrate different usages of the trajectory correction
+module.
 
 .. contents:: Table of Contents
     :depth: 3
