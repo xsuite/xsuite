@@ -108,7 +108,7 @@ following example.
     :width: 80%
     :align: center
 
-    Bla bla bla
+    Closed orbit obtained after threading, followed by conventional SVD correction.
 
 Trajectory correction for transfer lines
 ========================================
