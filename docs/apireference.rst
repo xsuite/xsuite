@@ -79,6 +79,14 @@ Vary and Target
     :member-order: bysource
 
 
+Trajectory correction
+=====================
+
+.. autoclass:: xtrack.TrajectoryCorrection
+    :members:
+    :member-order: bysource
+
+
 .. _build_particles_method_label:
 
 Build particles
@@ -87,13 +95,6 @@ Build particles
 See also: :doc:`Working with Particles objects <particlesmanip>`.
 
 .. automethod:: xtrack.Line.build_particles
-
-
-
-
-
-
-
 
 
 Particles class
