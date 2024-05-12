@@ -124,5 +124,5 @@ The following example shows how to correct the beam trajectory in a transfer lin
     :width: 80%
     :align: center
 
-    Bla bla bla
+    Trajectory correction for one of the LHC injection lines (TI2).
 
