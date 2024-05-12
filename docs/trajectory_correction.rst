@@ -115,6 +115,8 @@ Trajectory correction for transfer lines
 
 See also: :meth:`xtrack.Line.correct_trajectory`
 
+The following example shows how to correct the beam trajectory in a transfer line.
+
 .. literalinclude:: generated_code_snippets/transfer_line_correction.py
     :language: python
 
