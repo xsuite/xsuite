@@ -4,10 +4,10 @@ WF_BRANCH="main"
 
 XOBJECTS=xsuite:main
    XPART=xsuite:main
-   XDEPS=xsuite:main
-  XTRACK=xsuite:feature/shift_s
+   XDEPS=xsuite:merge/from_riccardo
+  XTRACK=xsuite:merge/from_riccardo
  XFIELDS=xsuite:main
-   XMASK=xsuite:main
+   XMASK=xsuite:adapt/rename_orbit_corretion_name
    XCOLL=xsuite:main
 
 # GPU tests
