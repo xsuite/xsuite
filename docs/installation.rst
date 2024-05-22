@@ -19,21 +19,19 @@ in a :ref:`conda environment<miniforge>`.
 
     pip install xsuite
 
-This installation allows using Xsuite on CPU. In order to perform tracking on CPU,
-a C compiler needs to be installed on the system: when using conda, this is provided
-by the ``compilers`` package (``conda install compilers``). To use Xsuite on GPU,
-with the cupy and/or pyopencl you need to install the corresponding packages,
-as described in the :ref:`dedicated section<gpuinst>`.
+This installation allows using Xsuite on CPU in many basic scenarios. In order
+to handle more complicated case it may be necessary to install compilers with
+``conda install compilers``. To use Xsuite on GPU, with the cupy and/or pyopencl
+you need to install the corresponding packages, as described in the
+q:ref:`dedicated section<gpuinst>`.
 
+.. note::
+    On most machines, when using Xsuite installed from PyPI, there is no longer
+    a need to run ``xsuite-prebuild`` to precompile the kernels. The precompiled
+    kernels are automatically downloaded and installed with the ``xsuite``
+    package. See the :ref:`relevant section<prebuiltkernels>` of the developer
+    guide below for more details.
 
-
-After the installation, you can choose to precompile some often-used kernels, in
-order to reduce the waiting time spent on running the simulations later on. This
-can be accomplished simply by running the following command:
-
-.. code-block:: bash
-
-    xsuite-prebuild
 
 Usage in Microsoft Windows
 --------------------------
@@ -72,6 +70,9 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
+Testing
+-------
+
 If all of the optional dependencies have also been installed, we can
 verify our installation. To install test dependencies for an xsuite
 package, one can replace the ``pip install -e some_package`` commands in
@@ -86,6 +87,39 @@ if xsuite works correctly:
    for PKG in ${PKGS[@]}; do
    python -m pytest xsuite/$PKG/tests
    done
+
+.. _prebuiltkernels:
+
+Prebuilt kernels
+----------------
+
+The ``xsuite`` package provides a set of precompiled kernels, so that commonly
+used tracking scenarios can be run without the need to run the compiler on the
+target machine. The precompiled kernels are distributed as binary Python wheels
+on PyPI.
+
+When the package is installed on a supported machine pip will automatically
+download the appropriate kernel files and install them in the correct location,
+so that Xtrack can use them. If the right versions of kernels are not installed,
+Xtrack will fall back to the default behaviour of compiling the kernels on the fly.
+
+This can happen, e.g., if the package is installed from source (e.g. by cloning
+the repository or downloading the source distribution in case of an unsupported
+platform). In such a case, the kernels will be compiled automatically during the
+installation process when running ``pip install -e`` (see setup.py).
+
+In order to perform tracking on CPU,
+a C compiler needs to be installed on the system: when using conda, this is provided
+by the ``compilers`` package (``conda install compilers``).
+
+After the installation, you can choose to precompile some often-used kernels, in
+order to reduce the waiting time spent on running the simulations later on. This
+can be accomplished simply by running the following command:
+
+.. code-block:: bash
+
+    xsuite-prebuild regenerate
+
 
 
 Optional dependencies
