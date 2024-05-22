@@ -3,11 +3,11 @@ set -e # Exit immediately if a command exits with a non-zero status.
 WF_BRANCH="main"
 
 XOBJECTS=xsuite:main
-   XPART=xsuite:main
-   XDEPS=xsuite:merge/from_riccardo
-  XTRACK=xsuite:merge/from_riccardo
- XFIELDS=xsuite:main
-   XMASK=xsuite:adapt/rename_orbit_corretion_name
+   XPART=xsuite:release/v0.18.3
+   XDEPS=xsuite:main
+  XTRACK=xsuite:merge/radiation_in_matrix
+ XFIELDS=xsuite:release/v0.17.0
+   XMASK=xsuite:main
    XCOLL=xsuite:main
 
 # GPU tests
