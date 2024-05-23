@@ -12,18 +12,21 @@ We assume that you have a recent python installation (python 3.8+). It this is n
 Basic installation
 ==================
 
-The Xsuite packages can be installed using pip. We recommend installing Xsuite
-in a :ref:`conda environment<miniforge>`.
+If you do not have a Python installation, please follow the instructions in
+:ref:`this section<miniforge>` to get a Miniforge environment and install Xsuite.
+
+Instead, if you already have a Python installation, the Xsuite packages can be
+installed using pip:
 
 .. code-block:: bash
 
     pip install xsuite
 
-This installation allows using Xsuite on CPU in many basic scenarios. In order
-to handle more complicated case it may be necessary to install compilers with
+This installation allows using Xsuite on CPU in most scenarios. In order
+to handle more complicated cases it may be necessary to install compilers with
 ``conda install compilers``. To use Xsuite on GPU, with the cupy and/or pyopencl
 you need to install the corresponding packages, as described in the
-q:ref:`dedicated section<gpuinst>`.
+:ref:`dedicated section<gpuinst>`.
 
 .. note::
     On most machines, when using Xsuite installed from PyPI, there is no longer
@@ -287,16 +290,11 @@ provided by ``conda install libgomp``.
 Install Miniforge
 =================
 
-If you don't have a miniconda or miniforge installation, you can quickly get one ready for xsuite installation with the following steps.
-A miniforge installation is strongly recommended against a miniconda installation as miniforge uses by default the "conda-forge" channel
-while miniconda uses the "default" channel (https://repo.anaconda.com/pkgs/). While the "default" channel can require a paid license 
-depending on its usage, the "conda-forge" channel is free for all to use (see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/channels.html).
+If you don't have a miniconda or miniforge installation, you can quickly get one
+with the following steps.
 
 
-.. note::
 
-    The current versions of miniconda ship with the `mamba` command, which is a
-    much faster reimplementation of `conda` written in C++. It can also be used.
 
 On Linux
 --------
@@ -308,6 +306,9 @@ On Linux
     bash Miniforge3-Linux-x86_64.sh
     source miniforge3/bin/activate
     pip install numpy scipy matplotlib pandas ipython pytest
+    pip install jupyter ipympl # to use jupyter notebooks (optional)
+    pip install cpymad # to load MAD-X lattices (optional)
+    pip install xsuite
 
 On MacOS
 --------
@@ -323,8 +324,33 @@ We recommend installing Xsuite inside a conda environment:
     conda create -n xsuite_env python=3.11  # or your preferred version
     conda activate xsuite_env
     conda install compilers
+    pip install numpy scipy matplotlib pandas ipython pytest
+    pip install jupyter ipympl # to use jupyter notebooks (optional)
+    pip install cpymad # to load MAD-X lattices (optional)
+    pip install xsuite
 
-    
+Microsoft Windows
+-----------------
+
+If you are working on a Windows machine, you can install Miniforge under
+Windows Subsystem for Linux using the same instructions as for a vanilla Linux
+machine. To install WSL, follow the `steps outlined by Microsoft <https://learn.microsoft.com/en-us/windows/wsl/install>`_
+(at the time of writing it suffices to run ``wsl --install`` in an administrator
+PowerShell or CMD prompt and follow the instructions).
+Once you have WSL installed, you can follow the Linux instructions above.
+
+Miniforge vs Miniconda
+----------------------
+
+A miniforge installation is recommended against a miniconda installation as miniforge uses by default the "conda-forge" channel
+while miniconda uses the "default" channel (https://repo.anaconda.com/pkgs/). While the "default" channel can require a paid license 
+depending on its usage, the "conda-forge" channel is free for all to use (see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/channels.html).
+
+.. note::
+
+    The current versions of miniconda ship with the `mamba` command, which is a
+    much faster reimplementation of `conda` written in C++. It can also be used.
+
 Advanced information for developers
 ===================================
 
