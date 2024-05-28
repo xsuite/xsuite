@@ -5,6 +5,7 @@ Intra-Beam Scattering
 .. contents:: Table of Contents
     :depth: 3
 
+
 Analytical Growth Rates
 =======================
 
@@ -17,6 +18,7 @@ See also: :meth:`xtrack.twiss.TwissTable.get_ibs_growth_rates`
 .. literalinclude:: generated_code_snippets/ibs_rates_with_vdisp.py
    :language: python
 
+
 IBS Kicks for Tracking
 ======================
 
@@ -28,7 +30,7 @@ Two kick elements are available:
 - ``IBSKineticKick`` (from `P. Zenkevich <https://www.sciencedirect.com/science/article/abs/pii/S0168900206000465>`_) for kicks based on diffusion and friction terms from the kinetic theory of gases.
 
 The following example illustrates how to create a kick element, inserting and configuring it for tracking.
-Refer to 
+Refer to the :doc:`Reference manual<apireference>` for the full list of parameters and their explanation, and to the :doc:`Physics guide<physicsguide>` for full information.
 
 See also: :meth:`xtrack.Line.configure_intrabeam_scattering`
 
