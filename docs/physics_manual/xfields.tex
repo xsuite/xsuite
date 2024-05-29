@@ -627,6 +627,52 @@ It is worth noting that due to the form of Eq~\eqref{equation:momentum_kick_anal
 The longitudinal line density \(\rho(z)\) is used as a weighting factor to provide a stronger kick to particles in the denser regions of the bunch.
 It is obtained by binning the longitudinal plane of the particle distribution and normalizing the values.
 
+\subsubsection{Kinetic Kicks}
+
+A second element is available to provide momenta kicks based on diffusion and friction terms from the kinetic theory of gases, as introduced by P. Zenkevich~\cite{NuclInstr:Zenkevich:IBSKineticKick}.
+The momentum kick has a form similar to the Langevin equation:
+
+\begin{equation}
+    \Delta p_u = - K_u p_u \sigma_z \sqrt{\pi} \rho(z) \Delta t + R \sigma_{p_u} \sqrt{2 C_u \sigma_z \sqrt{\pi} \rho(z) \Delta t} \text{ ;   } u=x,y,z
+    \label{equation:original_kinetic_kick}
+\end{equation}
+where \(K_u\) and \(C_u\) are functions of the friction and diffusion terms, respectively.
+\newline
+
+In \textit{xfields} the exact implementation makes use of terms from the Nagaitsev formalism (see previous section) as derived by M. Zampetakis~\cite{arXiv:Zampetakis:Interplay_SC_IBS_LHC_Chain}.
+The following steps are taken.
+First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed according to Eq~\eqref{equation:nagaitsev_step1}.
+Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed according to Eq~\eqref{equation:nagaitsev_lambdas}, to obtain the \(R_1, R_2\) and \(R_3\) elliptic integrals according to Eq~\eqref{equation:nagaitsev_r1r2r3}.
+
+New forms equivalent to the original diffusion and friction terms of the Approximate Model can be expressed from the terms above.
+By first defining
+
+\begin{equation}
+    q = \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ ,}
+\end{equation}
+they are expressed and computed as:
+
+\begin{equation}
+    \begin{aligned}
+        D_{x,x} &= \frac{1}{2} \left[ 2 R_1 + R2 \left(1 - \frac{a_2}{q}\right) + R_3 \left(1 + \frac{a_2}{q}\right) \right] \text{,  } \\
+        D_{x,z} &= \frac{3 \gamma^2 \Phi_x^2 a_x}{q} \left(R_3 - R_2\right) \text{,  }  \\
+        D_{y,y} &= R_2 + R_3 \text{,  }  \\
+        D_{z,z} &= \frac{\gamma^2}{2} \left[ 2 R_1 +  R_2 \left(1 + \frac{a_2}{q}\right) + R_3 \left(1 - \frac{a_2}{q}\right) \right] \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_AM_diffusion_terms}
+\end{equation}
+
+\begin{equation}
+    \begin{aligned}
+        K_x &= R_2 \left(1 + \frac{a_2}{q}\right) + R_3 \left(1 - \frac{a_2}{q}\right) \text{,  } \\
+        K_y &= 2 R_1 \text{,  }  \\
+        K_z &= \gamma^2 \left[ R_2 \left(1 - \frac{a_2}{q}\right) + R_3 \left(1 + \frac{a_2}{q}\right) \right] \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_AM_friction_terms}
+\end{equation}
+
+
+
 \section{Beam-beam interaction (4D model)}
 
 We consider a test particle moving in the opposite direction with velocity:
