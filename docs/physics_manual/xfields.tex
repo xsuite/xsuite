@@ -430,21 +430,21 @@ with \(C\) the circumference (or length) of the machine.
 Finally, the growth rates are computed as:
 
 \begin{equation}
-    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_x}
+    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_x}
     \label{equation:nagaitsev_tx}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_y}
+    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_y}
     \label{equation:nagaitsev_ty}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_z}
+    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_z}
     \label{equation:nagaitsev_tz}
 \end{equation}
 
-In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_s\) the bunch length.
+In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
 \newline
 
 One should note, however, that this formalism does not take into account vertical dispersion, and in the presence of \(D_y\) will yield an erroneous vertical growth rate.
@@ -613,7 +613,7 @@ In \textit{xfields} the computation of the kick is done as follows.
 First, the beam intensity \(N\), bunch length \(\sigma_z\), momentum deviation \(\sigma_{\delta}\), and geometric emittances \(\varepsilon_{x,y}\) are inferred from the tracked particles object.
 These are used to compute the growth rates \(T_x, T_y\) and \(T_z\) according to the desired formalism, as presented in~\ref{subsection:ibs_growth_rates}.
 
-From these growth rates, each particle is given a momentum kick in each dimension  (transverse, longitudinal) according to:
+From these growth rates, each particle is given a momentum kick in each dimension (transverse, longitudinal) according to:
 
 \begin{equation}
     \boxed{\Delta p_u = R \sigma_{p_u} \sqrt{ 2 T_{IBS,u} T_{rev} \sigma_z \sqrt{\pi} \rho(z)} \text{ ;   } u=x,y,z}
@@ -671,7 +671,71 @@ they are expressed and computed as:
     \label{equation:kinetic_AM_friction_terms}
 \end{equation}
 
+The following integrals are computed from the above:
 
+\begin{equation}
+    \begin{aligned}
+        D_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x \sigma_y} \left[D_{x,x} + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) D_{z,z} + D_{x,z} \right] \text{,  } \\
+        D_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x \sigma_y} D_{y,y} \text{,  }  \\
+        D_{zi} &= \int_0^C \frac{ds}{C \sigma_x \sigma_y} D_{z,z} \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_diffusion_integrals}
+\end{equation}
+
+\begin{equation}
+    \begin{aligned}
+        F_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x \sigma_y} \left[K_x + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) K_z \right] \text{,  } \\
+        F_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x \sigma_y} K_x \text{,  }  \\
+        F_{zi} &= \int_0^C \frac{ds}{C \sigma_x \sigma_y} K_z \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_friction_integrals}
+\end{equation}
+with \(C\) the circumference of the machine.
+
+Finally, the new diffusion coefficients are computed according to:
+
+\begin{equation}
+    \boxed{G_x = \frac{1}{\varepsilon_x} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} D_{xi}}
+    \label{equation:kinetic_horizontal_diffusion_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{G_y = \frac{1}{\varepsilon_y} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} D_{yi}}
+    \label{equation:kinetic_vertical_diffusion_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{G_z = \frac{1}{\sigma_{\delta}^2} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} D_{zi}}
+    \label{equation:kinetic_longitudinal_diffusion_coefficient}
+\end{equation}
+and the friction coefficients according to:
+
+\begin{equation}
+    \boxed{F_x = \frac{1}{\varepsilon_x} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} F_{xi}}
+    \label{equation:kinetic_horizontal_friction_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{F_y = \frac{1}{\varepsilon_y} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} F_{yi}}
+    \label{equation:kinetic_vertical_friction_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{F_z = \frac{1}{\sigma_{\delta}^2} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} F_{zi}}
+    \label{equation:kinetic_longitudinal_friction_coefficient}
+\end{equation}
+
+In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
+\newline
+
+From these coefficients, each particle is given a momentum kick in each dimension (transverse, longitudinal) according to:
+
+\begin{equation}
+    \boxed{\Delta p_u = - F_u p_u T_{rev} 2 \sqrt{\pi} \sigma_z \rho(z) + R \sigma_{p_u} \sqrt{T_{rev} G_u 2 \sqrt{\pi} \sigma_z \rho(z)} \text{ ;   } u=x,y,z}
+    \label{equation:momentum_kick_kinetic}
+\end{equation}
+
+Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density, as defined and used in the analytical kicks (see previous subsection).
 
 \section{Beam-beam interaction (4D model)}
 
