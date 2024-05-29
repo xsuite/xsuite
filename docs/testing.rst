@@ -197,7 +197,7 @@ the available GPUs:
 
    nvidia-smi
 
-..
+.. note::
 
    **Troubleshooting Note:** If at this stage the driver is not working,
    it could be that it was not picked up by DKMS. We can verify this by
@@ -254,7 +254,7 @@ Nvidia device files:
 Note that it may be necessary to relabel the device files with the ``restorecon`` 
 command in the case of changes/updates to the hypervisor.
 
-..
+.. note::
 
     **Troubleshooting Note:** It may be necessary to run
     ``sudo dnf install policycoreutils-python-utils``
