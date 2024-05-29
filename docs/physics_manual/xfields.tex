@@ -374,24 +374,24 @@ First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed:
     \begin{aligned}
         a_x &= \frac{\beta_x}{\varepsilon_x} \text{,  }
         a_y = \frac{\beta_y}{\varepsilon_y} \text{,  }
-        a_s = a_x \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi^2 \right) + \frac{1}{\sigma_p^{2}} \text{,  } \\
+        a_s = a_x \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi_x^2 \right) + \frac{1}{\sigma_p^{2}} \text{,  } \\
         a_1 &= \frac{1}{2} (a_x + \gamma^2 a_s) \text{,  }
         a_2 = \frac{1}{2} (a_x - \gamma^2 a_s) \text{ .}
     \end{aligned}
     \label{equation:nagaitsev_step1}
 \end{equation}
-where the \(\Phi\) term is defined as:
+where the \(\Phi_{x,y}\) term is defined as:
 
 \begin{equation}
-    \Phi = D_x^{\prime} - \frac{\beta_x^{\prime} D_x}{2 \beta_x} \text{ .}
+    \Phi_{x,y} = D_{x,y}^{\prime} - \frac{\beta_{x,y}^{\prime} D_{x,y}}{2 \beta_{x,y}} \text{ .}
 \end{equation}
 
 Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed:
 
 \begin{equation}
     \lambda_1 = a_y \text{ , }
-    \lambda_2 = a_1 + \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2} \text{ , }
-    \lambda_3 = a_1 - \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2} \text{ .}
+    \lambda_2 = a_1 + \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ , }
+    \lambda_3 = a_1 - \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ .}
     \label{equation:nagaitsev_lambdas}
 \end{equation}
 and used to compute three integrals \(R_1, R_2\) and \(R_3\) (through with Eq~\eqref{equation:RD_property2} only two need to be computed):
@@ -409,9 +409,9 @@ Using all the above the \(S_p, S_x\) and \(S_{xp}\) terms are computed according
 
 \begin{equation}
     \begin{aligned}
-        S_p &= \frac{\gamma^2}{2} \left[ 2 R_1 - R_2 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) - R_3 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) \right] \text{ ,} \\
-        S_x &= \frac{1}{2} \left[ 2 R_1 - R_2 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) - R_3 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) \right] \text{ ,} \\
-        S_{xp} &= \frac{3 \gamma^2 \Phi^2 a_x}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}} \left( R_3 - R_2 \right) \text{ .}
+        S_p &= \frac{\gamma^2}{2} \left[ 2 R_1 - R_2 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) - R_3 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) \right] \text{ ,} \\
+        S_x &= \frac{1}{2} \left[ 2 R_1 - R_2 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) - R_3 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) \right] \text{ ,} \\
+        S_{xp} &= \frac{3 \gamma^2 \Phi_x^2 a_x}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}} \left( R_3 - R_2 \right) \text{ .}
     \end{aligned}
     \label{equation:nagaitsev_spsxsxp}
 \end{equation}
@@ -420,7 +420,7 @@ From these, one computes the integrals - called the \textit{Nagaitsev integrals}
 
 \begin{equation}
     \begin{aligned}
-        I_x &= \int_0^C \frac{\beta_x ds}{L \sigma_x \sigma_y} \left[S_x + \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi^{2} \right) S_p + S_{xp} \right] \text{ ,} \\
+        I_x &= \int_0^C \frac{\beta_x ds}{L \sigma_x \sigma_y} \left[S_x + \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi_x^{2} \right) S_p + S_{xp} \right] \text{ ,} \\
         I_y &= \int_0^C \frac{\beta_y ds}{L \sigma_x \sigma_y} \left(R_2 + R_3 - 2 R_1\right) \text{ ,} \\
         I_z &= \int_0^C \frac{ds}{L \sigma_x \sigma_y} S_p \text{ .}
     \end{aligned}
@@ -613,15 +613,16 @@ In \textit{xfields} the computation of the kick is done as follows.
 First, the beam intensity \(N\), bunch length \(\sigma_z\), momentum deviation \(\sigma_{\delta}\), and geometric emittances \(\varepsilon_{x,y}\) are inferred from the tracked particles object.
 These are used to compute the growth rates \(T_x, T_y\) and \(T_z\) according to the desired formalism, as presented in~\ref{subsection:ibs_growth_rates}.
 
-Finally, each particle is given a momentum kick in each dimension according to:
+From these growth rates, each particle is given a momentum kick in each dimension  (transverse, longitudinal) according to:
 
 \begin{equation}
-    \boxed{\Delta p_u = R \sigma_{p_u} \sqrt{ 2 T_{IBS,u} T_{rev} \sigma_z \sqrt{\pi} \rho(z)}}
+    \boxed{\Delta p_u = R \sigma_{p_u} \sqrt{ 2 T_{IBS,u} T_{rev} \sigma_z \sqrt{\pi} \rho(z)} \text{ ;   } u=x,y,z}
     \label{equation:momentum_kick_analytical}
 \end{equation}
 
-Here \(R\) is a random number from the standard normal distribution; \(\sigma_{p_u}\) is the standard deviation of the momentum in plane \(u = x, y, z\); \(T_{IBS,u}\) is the growth rate for plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density.
-It is worth noting that due to the form of Eq~\eqref{equation:momentum_kick_analytical} only zero or strictly positive growth rates are accepted, and as such this formalism is traditionally available above transition energy.
+Here \(R\) is a random number from the standard normal distribution; \(\sigma_{p_u}\) is the standard deviation of the momentum in plane \(u\); \(T_{IBS,u}\) is the growth rate for plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density.
+
+It is worth noting that due to the form of Eq~\eqref{equation:momentum_kick_analytical} only zero or strictly positive growth rates are valid, and as such this formalism is traditionally available above transition energy.
 
 The longitudinal line density \(\rho(z)\) is used as a weighting factor to provide a stronger kick to particles in the denser regions of the bunch.
 It is obtained by binning the longitudinal plane of the particle distribution and normalizing the values.
