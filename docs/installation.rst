@@ -12,26 +12,40 @@ We assume that you have a recent python installation (python 3.8+). It this is n
 Basic installation
 ==================
 
-The Xsuite packages can be installed using pip. We recommend installing Xsuite
-in a :ref:`conda environment<miniforge>`.
+If you do not have a Python installation, please follow the instructions in
+:ref:`this section<miniforge>` to get a Miniforge environment and install Xsuite.
+
+Instead, if you already have a Python installation, the Xsuite packages can be
+installed using pip:
 
 .. code-block:: bash
 
     pip install xsuite
 
-This installation allows using Xsuite on CPU. In order to perform tracking on CPU,
-a C compiler needs to be installed on the system: when using conda, this is provided
-by the ``compilers`` package (``conda install compilers``). To use Xsuite on GPU,
-with the cupy and/or pyopencl you need to install the corresponding packages,
-as described in the :ref:`dedicated section<gpuinst>`.
+This installation allows using Xsuite on CPU in most scenarios. In order
+to handle more complicated cases it may be necessary to install compilers with
+``conda install compilers``. To use Xsuite on GPU, with the cupy and/or pyopencl
+you need to install the corresponding packages, as described in the
+:ref:`dedicated section<gpuinst>`.
 
-After the installation, you can choose to precompile some often-used kernels, in
-order to reduce the waiting time spent on running the simulations later on. This
-can be accomplished simply by running the following command:
+.. note::
+    On most machines, when using Xsuite installed from PyPI, there is no longer
+    a need to run ``xsuite-prebuild`` to precompile the kernels. The precompiled
+    kernels are automatically downloaded and installed with the ``xsuite``
+    package. See the :ref:`relevant section<prebuiltkernels>` of the developer
+    guide below for more details.
 
-.. code-block:: bash
 
-    xsuite-prebuild
+Usage in Microsoft Windows
+--------------------------
+
+Xsuite is developed and tested on Linux and macOS. However, it can also be used
+on Windows.
+If you are working on a Windows machine, you can install Xsuite under
+Windows Subsystem for Linux using the same instructions as for a vanilla Linux
+machine. To install WSL, follow the `steps outlined by Microsoft <https://learn.microsoft.com/en-us/windows/wsl/install>`_
+(at the time of writing it suffices to run ``wsl --install`` in an administrator
+PowerShell or CMD prompt and follow the instructions).
 
 
 Developer installation
@@ -59,6 +73,9 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
+Testing
+-------
+
 If all of the optional dependencies have also been installed, we can
 verify our installation. To install test dependencies for an xsuite
 package, one can replace the ``pip install -e some_package`` commands in
@@ -73,6 +90,39 @@ if xsuite works correctly:
    for PKG in ${PKGS[@]}; do
    python -m pytest xsuite/$PKG/tests
    done
+
+.. _prebuiltkernels:
+
+Prebuilt kernels
+----------------
+
+The ``xsuite`` package provides a set of precompiled kernels, so that commonly
+used tracking scenarios can be run without the need to run the compiler on the
+target machine. The precompiled kernels are distributed as binary Python wheels
+on PyPI.
+
+When the package is installed on a supported machine pip will automatically
+download the appropriate kernel files and install them in the correct location,
+so that Xtrack can use them. If the right versions of kernels are not installed,
+Xtrack will fall back to the default behaviour of compiling the kernels on the fly.
+
+This can happen, e.g., if the package is installed from source (e.g. by cloning
+the repository or downloading the source distribution in case of an unsupported
+platform). In such a case, the kernels will be compiled automatically during the
+installation process when running ``pip install -e`` (see setup.py).
+
+In order to perform tracking on CPU,
+a C compiler needs to be installed on the system: when using conda, this is provided
+by the ``compilers`` package (``conda install compilers``).
+
+After the installation, you can choose to precompile some often-used kernels, in
+order to reduce the waiting time spent on running the simulations later on. This
+can be accomplished simply by running the following command:
+
+.. code-block:: bash
+
+    xsuite-prebuild regenerate
+
 
 
 Optional dependencies
@@ -240,16 +290,11 @@ provided by ``conda install libgomp``.
 Install Miniforge
 =================
 
-If you don't have a miniconda or miniforge installation, you can quickly get one ready for xsuite installation with the following steps.
-A miniforge installation is strongly recommended against a miniconda installation as miniforge uses by default the "conda-forge" channel
-while miniconda uses the "default" channel (https://repo.anaconda.com/pkgs/). While the "default" channel can require a paid license 
-depending on its usage, the "conda-forge" channel is free for all to use (see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/channels.html).
+If you don't have a miniconda or miniforge installation, you can quickly get one
+with the following steps.
 
 
-.. note::
 
-    The current versions of miniconda ship with the `mamba` command, which is a
-    much faster reimplementation of `conda` written in C++. It can also be used.
 
 On Linux
 --------
@@ -261,6 +306,9 @@ On Linux
     bash Miniforge3-Linux-x86_64.sh
     source miniforge3/bin/activate
     pip install numpy scipy matplotlib pandas ipython pytest
+    pip install jupyter ipympl # to use jupyter notebooks (optional)
+    pip install cpymad # to load MAD-X lattices (optional)
+    pip install xsuite
 
 On MacOS
 --------
@@ -276,8 +324,33 @@ We recommend installing Xsuite inside a conda environment:
     conda create -n xsuite_env python=3.11  # or your preferred version
     conda activate xsuite_env
     conda install compilers
+    pip install numpy scipy matplotlib pandas ipython pytest
+    pip install jupyter ipympl # to use jupyter notebooks (optional)
+    pip install cpymad # to load MAD-X lattices (optional)
+    pip install xsuite
 
-    
+Microsoft Windows
+-----------------
+
+If you are working on a Windows machine, you can install Miniforge under
+Windows Subsystem for Linux using the same instructions as for a vanilla Linux
+machine. To install WSL, follow the `steps outlined by Microsoft <https://learn.microsoft.com/en-us/windows/wsl/install>`_
+(at the time of writing it suffices to run ``wsl --install`` in an administrator
+PowerShell or CMD prompt and follow the instructions).
+Once you have WSL installed, you can follow the Linux instructions above.
+
+Miniforge vs Miniconda
+----------------------
+
+A miniforge installation is recommended against a miniconda installation as miniforge uses by default the "conda-forge" channel
+while miniconda uses the "default" channel (https://repo.anaconda.com/pkgs/). While the "default" channel can require a paid license 
+depending on its usage, the "conda-forge" channel is free for all to use (see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/channels.html).
+
+.. note::
+
+    The current versions of miniconda ship with the `mamba` command, which is a
+    much faster reimplementation of `conda` written in C++. It can also be used.
+
 Advanced information for developers
 ===================================
 

@@ -129,15 +129,35 @@ run our actions:
 
    adduser xsuite
 
-We add the user to the sudoers file, by appending the line
-``xsuite  ALL=(ALL)   NOPASSWD:ALL`` to ``/etc/sudoers``. If necessary,
-copy the authorised SSH key from the root account
-(``/root/.ssh/authorized_keys``) to the new account
-(``/home/xsuite/.ssh/authorized_keys``). Fix permissions
-(``sudo chown -R xsuite:xsuite .ssh`` and ``chmod -R +rw .ssh``).
+We add the user to the sudoers file, by appending a line to
+``/etc/sudoers``: ``echo 'xsuite  ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers``.
+If necessary, copy the authorised SSH key from the root account
+to the new account:
+``cp /root/.ssh/authorized_keys /home/xsuite/.ssh/``. Fix permissions
+with ``sudo chown -R xsuite:xsuite .ssh`` and ``chmod -R +rw .ssh``.
 
-Installing Nvidia drivers
--------------------------
+From now on we reconnect with SSH using the ``xsuite`` account or
+switch to it with ``su xsuite``.
+
+Install a Container Engine
+--------------------------
+
+We will need a container engine to run the tests. In this case
+we install Podman as it is more lightweight:
+
+.. code:: bash
+
+   sudo dnf install podman
+
+Let's make a link called ``docker`` pointing to ``podman``, so
+that the workflows (which presume Docker) work on the new machine:
+
+.. code:: bash
+
+   sudo ln -s /usr/bin/podman /usr/bin/docker
+
+Installing Nvidia drivers (can be skipped for CPU-only VM)
+----------------------------------------------------------
 
 We will largely be following the official Nvidia guide [1]_, however
 only as far as installing the drivers. CUDA is not necessary on the host
@@ -177,7 +197,7 @@ the available GPUs:
 
    nvidia-smi
 
-..
+.. note::
 
    **Troubleshooting Note:** If at this stage the driver is not working,
    it could be that it was not picked up by DKMS. We can verify this by
@@ -185,18 +205,14 @@ the available GPUs:
    to the right of it its status is not listed as ``installed``, we can
    run ``dkms autoinstall`` to attempt to recompile the drivers.
 
-Installing the Nvidia Container Toolkit
----------------------------------------
+Installing the Nvidia Container Toolkit (can be skipped for a CPU-only VM)
+--------------------------------------------------------------------------
 
 We will follow the instruction of the official Nvidia guide [2]_, the
 steps of which are summarised below.
 
-A container environment is a prerequisite for installing the NCT. We can
-easily install Podman with:
-
-.. code:: bash
-
-   sudo dnf install podman
+A container environment is a prerequisite for installing the NCT: earlier
+we have installed Podman.
 
 Podman is compatible with the Container Device Interface specification,
 which means that only the base components of the Nvidia Container
@@ -235,18 +251,21 @@ Nvidia device files:
    sudo semanage fcontext -a -t container_file_t '/dev/nvidia.*'
    restorecon -v /dev/*
 
+Note that it may be necessary to relabel the device files with the ``restorecon`` 
+command in the case of changes/updates to the hypervisor.
+
+.. note::
+
+    **Troubleshooting Note:** It may be necessary to run
+    ``sudo dnf install policycoreutils-python-utils``
+    for ``semanage`` to work, as after a certain update to
+    Alma it stopped being provided by default.
+
 Check that everything works with:
 
 .. code:: bash
 
    podman run --rm --gpus all cupy/cupy:latest nvidia-smi
-
-Finally, we make a link called ``docker`` pointing to ``podman``, so
-that the workflows (which presume Docker) work on the new machine:
-
-.. code:: bash
-
-   sudo ln -s /usr/bin/podman /usr/bin/docker
 
 Setup the GitHub runner
 -----------------------
@@ -256,17 +275,8 @@ instructions for creating the new runner. Once this is done, there are
 three final steps that need to be done before we enable the runner
 service.
 
-Configure SELinux
-~~~~~~~~~~~~~~~~~
-
-We need to label the service script as an executable to SELinux,
-otherwise it will prevent us from launching the service.
-
-.. code:: bash
-
-   sudo semanage fcontext -a -t bin_t '/home/xsuite/actions-runner/runsvc.sh'
-   sudo semanage fcontext -a -t bin_t '/home/xsuite/actions-runner/bin(/.*)?'
-   sudo restorecon -v -R /home/xsuite/actions-runner/
+Take care to replace ``{runner-name}`` in the subsequent commands
+with the chosen name of your runner.
 
 Set the right container format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -279,7 +289,7 @@ an environment variable to the runner service file:
 .. code:: bash
 
    sudo ./svc.sh install xsuite && sudo ./svc.sh stop  # create but don't start the service
-   sudo systemctl edit actions.runner.xsuite-xsuite.xsuite-alma-tests.service
+   sudo systemctl edit actions.runner.xsuite-xsuite.{runner-name}.service
 
 In the opened editor (which may be empty), we paste the following:
 
@@ -287,6 +297,18 @@ In the opened editor (which may be empty), we paste the following:
 
    [Service]
    Environment="BUILDAH_FORMAT=docker"
+
+Configure SELinux
+~~~~~~~~~~~~~~~~~
+
+We need to label the service script as an executable to SELinux,
+otherwise it will prevent us from launching the service.
+
+.. code:: bash
+
+   sudo semanage fcontext -a -t bin_t '/home/xsuite/actions-runner/runsvc.sh'
+   sudo semanage fcontext -a -t bin_t '/home/xsuite/actions-runner/bin(/.*)?'
+   sudo restorecon -v -R /home/xsuite/actions-runner/
 
 Enable account lingering
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -307,8 +329,17 @@ listening for new jobs:
 
 .. code:: bash
 
-   sudo ./svc.sh install xsuite
    sudo ./svc.sh start
+
+..
+
+    **Troubleshooting Note**: The status of the runner service can
+    be checked with ``sudo ./svc.sh status`` which is an alias to
+    ``systemctl status actions.runner.xsuite-xsuite.{runner-name}``
+    More logs for the service can be viewed with 
+    ``sudo journalctl -x -u actions.runner.xsuite-xsuite.{runner-name}``.
+    In case of errors it can be useful to also consult SELinux logs:
+    ``sudo cat /var/log/audit/audit.log | grep 'denied'``.
 
 .. [1]
    https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html

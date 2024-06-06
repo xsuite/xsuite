@@ -18,7 +18,6 @@ from sphinx.ext.autosummary import Autosummary
 from sphinx.ext.autosummary import get_documenter
 from docutils.parsers.rst import directives
 from sphinx.util.inspect import safe_getattr
-import re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -129,6 +128,8 @@ snippet_files = {
         'generated_code_snippets/match_action.py',
     'xtrack/examples/match/007_match_knob.py':
         'generated_code_snippets/match_knob.py',
+    'xtrack/examples/match/005a_match_bump_common_targets_from_table.py':
+        'generated_code_snippets/match_targets_from_vars_or_line.py',
     'xtrack/examples/twiss/008_4d_twiss_and_particle_match.py':
         'generated_code_snippets/method_4d.py',
     'xtrack/examples/twiss/011_tune_vs_delta.py':
@@ -227,10 +228,28 @@ snippet_files = {
         'generated_code_snippets/radial_steering.py',
     'xtrack/examples/taylor_map/000_line_with_maps.py':
         'generated_code_snippets/line_with_maps.py',
-    'xtrack/examples/compounds/001_compound_transform.py':
+    'xtrack/examples/element_transformations/000_element_transform.py':
         'generated_code_snippets/compound_transform.py',
+    'xtrack/examples/element_transformations/001_sliced_element_transform.py':
+        'generated_code_snippets/compound_transform_sliced.py',
+    'xtrack/examples/element_transformations/000a_multipolar_components.py':
+        'generated_code_snippets/multipolar_components.py',
+    'xtrack/examples/element_transformations/001a_sliced_multipolar_components.py':
+        'generated_code_snippets/multipolar_components_sliced.py',
     'xtrack/examples/toy_ring/007_cut_at_s.py':
-        'generated_code_snippets/cut_at_s.py'
+        'generated_code_snippets/cut_at_s.py',
+    'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':
+        'generated_code_snippets/ibs_rates_with_vdisp.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/000_closed_orbit_correction_basic.py':
+        'generated_code_snippets/closed_orbit_correction_basic.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/001_closed_orbit_correction_micado.py':
+        'generated_code_snippets/closed_orbit_correction_micado.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/002_closed_orbit_correction_customize.py':
+        'generated_code_snippets/closed_orbit_correction_customize.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/003_closed_orbit_correction_thread.py':
+        'generated_code_snippets/closed_orbit_correction_thread.py',
+    'xtrack/examples/orbit_and_tracjectory_correction/005_transfer_line_correction.py':
+        'generated_code_snippets/transfer_line_correction.py',
 }
 
 for ss, tt in snippet_files.items():

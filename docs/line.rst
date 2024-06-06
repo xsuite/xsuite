@@ -141,18 +141,40 @@ See also :meth:`xtrack.SecondOrderTaylorMap.from_line`.
 .. literalinclude:: generated_code_snippets/line_with_maps.py
    :language: python
 
-Apply transformations (tilt, shift) to compound elements
-========================================================
+Apply transformations (tilt, shift) to elements
+===============================================
 
-The method :meth:`xtrack.Line.transform_compound` allows for applying
-transformations (rotations, shifts) to compound elements. See the following
-small example:
+Tilt and shifts transformations can be applied to beam elements, as illustrated
+in the following example:
 
 .. literalinclude:: generated_code_snippets/compound_transform.py
    :language: python
 
-Cut line elements at given s positions
+Tranfromations are propagated when the elements are sliced and can be updated
+also after the slicing by acting on the parent element. This is illustrated in
+the following example:
+
+.. literalinclude:: generated_code_snippets/compound_transform_sliced.py
+   :language: python
+
+Add multipolar components to elements
 =====================================
+
+Multipolar components can be added to thick beam elements, as illustrated in the
+following example:
+
+.. literalinclude:: generated_code_snippets/multipolar_components.py
+   :language: python
+
+Multipolar components are propagated when the elements are sliced and can be updated
+also after the slicing by acting on the parent element. This is illustrated in
+the following example:
+
+.. literalinclude:: generated_code_snippets/multipolar_components_sliced.py
+   :language: python
+
+Cut line elements at given s positions
+======================================
 
 The method :meth:`xtrack.Line.cut_at_s` allows for cutting the line elements at the
 specified s positions. In the example before we take the same toy ring introduced
