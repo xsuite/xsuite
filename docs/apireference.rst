@@ -515,3 +515,13 @@ Space Charge 3D
     :members:
     :member-order: bysource
 
+Intra-Beam Scattering Kicks
+---------------------------
+
+.. autoclass:: xfields.IBSAnalyticalKick
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xfields.IBSKineticKick
+    :members:
+    :member-order: bysource
