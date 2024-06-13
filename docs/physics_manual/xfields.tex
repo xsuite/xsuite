@@ -316,6 +316,7 @@ Intra-beam scattering (IBS) is the process of small angle, multiple Coulomb scat
 It leads to a redistribution of the particle momenta in six-dimentional phase space.
 
 \subsection{Analytical Growth Rates}
+\label{subsection:ibs_growth_rates}
 
 Theoretical models commonly characterize the effect of IBS with growth rates, which govern differential equations describing the evolution of rms emittances of the beam.
 The horizontal (\(\tau_x\)), vertical (\(\tau_y\)) and longitudinal (\(\tau_z\)) growth rates are defined as:
@@ -363,7 +364,7 @@ Interestingly, this integral has the following special properties:
     \label{equation:RD_property2}
 \end{equation}
 
-This method is particularly efficient, as thanks to \eqref{equation:RD_property2} only two evaluations of this integral (which does not scale with the size of the lattice) are needed to obtain various simple terms from which one can compute the growth rates.
+This method is particularly efficient, as thanks to Eq~\eqref{equation:RD_property2} only two evaluations of this integral (which does not scale with the size of the lattice) are needed to obtain various simple terms from which one can compute the growth rates.
 \newline
 
 In \textit{xfields}, the following steps are taken.
@@ -373,27 +374,27 @@ First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed:
     \begin{aligned}
         a_x &= \frac{\beta_x}{\varepsilon_x} \text{,  }
         a_y = \frac{\beta_y}{\varepsilon_y} \text{,  }
-        a_s = a_x \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi^2 \right) + \frac{1}{\sigma_p^{2}} \text{,  } \\
+        a_s = a_x \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi_x^2 \right) + \frac{1}{\sigma_p^{2}} \text{,  } \\
         a_1 &= \frac{1}{2} (a_x + \gamma^2 a_s) \text{,  }
         a_2 = \frac{1}{2} (a_x - \gamma^2 a_s) \text{ .}
     \end{aligned}
     \label{equation:nagaitsev_step1}
 \end{equation}
-where the \(\Phi\) term is defined as:
+where the \(\Phi_{x,y}\) term is defined as:
 
 \begin{equation}
-    \Phi = D_x^{\prime} - \frac{\beta_x^{\prime} D_x}{2 \beta_x} \text{ .}
+    \Phi_{x,y} = D_{x,y}^{\prime} - \frac{\beta_{x,y}^{\prime} D_{x,y}}{2 \beta_{x,y}} \text{ .}
 \end{equation}
 
 Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed:
 
 \begin{equation}
     \lambda_1 = a_y \text{ , }
-    \lambda_2 = a_1 + \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2} \text{ , }
-    \lambda_3 = a_1 - \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2} \text{ .}
+    \lambda_2 = a_1 + \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ , }
+    \lambda_3 = a_1 - \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ .}
     \label{equation:nagaitsev_lambdas}
 \end{equation}
-and used to compute three integrals \(R_1, R_2\) and \(R_3\) (through with \eqref{equation:RD_property2} only two need to be computed):
+and used to compute three integrals \(R_1, R_2\) and \(R_3\) (through with Eq~\eqref{equation:RD_property2} only two need to be computed):
 
 \begin{equation}
     \begin{aligned}
@@ -404,13 +405,13 @@ and used to compute three integrals \(R_1, R_2\) and \(R_3\) (through with \eqre
     \label{equation:nagaitsev_r1r2r3}
 \end{equation}
 
-Using all the above the \(S_p, S_x\) and \(S_{xp}\) terms are computed according to \eqref{equation:nagaitsev_spsxsxp}:
+Using all the above the \(S_p, S_x\) and \(S_{xp}\) terms are computed according to Eq~\eqref{equation:nagaitsev_spsxsxp}:
 
 \begin{equation}
     \begin{aligned}
-        S_p &= \frac{\gamma^2}{2} \left[ 2 R_1 - R_2 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) - R_3 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) \right] \text{ ,} \\
-        S_x &= \frac{1}{2} \left[ 2 R_1 - R_2 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) - R_3 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}}\right) \right] \text{ ,} \\
-        S_{xp} &= \frac{3 \gamma^2 \Phi^2 a_x}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi^2}} \left( R_3 - R_2 \right) \text{ .}
+        S_p &= \frac{\gamma^2}{2} \left[ 2 R_1 - R_2 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) - R_3 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) \right] \text{ ,} \\
+        S_x &= \frac{1}{2} \left[ 2 R_1 - R_2 \left(1 + \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) - R_3 \left(1 - \frac{3 a_2}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}}\right) \right] \text{ ,} \\
+        S_{xp} &= \frac{3 \gamma^2 \Phi_x^2 a_x}{\sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2}} \left( R_3 - R_2 \right) \text{ .}
     \end{aligned}
     \label{equation:nagaitsev_spsxsxp}
 \end{equation}
@@ -419,7 +420,7 @@ From these, one computes the integrals - called the \textit{Nagaitsev integrals}
 
 \begin{equation}
     \begin{aligned}
-        I_x &= \int_0^C \frac{\beta_x ds}{L \sigma_x \sigma_y} \left[S_x + \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi^{2} \right) S_p + S_{xp} \right] \text{ ,} \\
+        I_x &= \int_0^C \frac{\beta_x ds}{L \sigma_x \sigma_y} \left[S_x + \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi_x^{2} \right) S_p + S_{xp} \right] \text{ ,} \\
         I_y &= \int_0^C \frac{\beta_y ds}{L \sigma_x \sigma_y} \left(R_2 + R_3 - 2 R_1\right) \text{ ,} \\
         I_z &= \int_0^C \frac{ds}{L \sigma_x \sigma_y} S_p \text{ .}
     \end{aligned}
@@ -429,21 +430,21 @@ with \(C\) the circumference (or length) of the machine.
 Finally, the growth rates are computed as:
 
 \begin{equation}
-    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_x}
+    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_x}
     \label{equation:nagaitsev_tx}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_y}
+    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_y}
     \label{equation:nagaitsev_ty}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_s} I_z}
+    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_z}
     \label{equation:nagaitsev_tz}
 \end{equation}
 
-In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from \eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_s\) the bunch length.
+In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
 \newline
 
 One should note, however, that this formalism does not take into account vertical dispersion, and in the presence of \(D_y\) will yield an erroneous vertical growth rate.
@@ -462,7 +463,7 @@ For a given plane \(d\) (horizontal, vertical or longitudinal), the growth rate 
     \frac{1}{\tau_d} = \frac{N r_0^{2} c m^3 L_C \pi^{2}}{\gamma \Gamma} \left\langle \int_0^{\infty} \frac{d \lambda \lambda^{1 / 2}}{\left[\operatorname{det}(L + \lambda I)\right]^{1/2}} \left\{\operatorname{Tr} L^d \operatorname{Tr}\left(\frac{1}{L + \lambda I}\right) - 3 \operatorname{Tr} L^d \left(\frac{1}{L + \lambda I}\right)\right\}\right\rangle
     \label{equation:bjorken_mtingwa_original}
 \end{equation}
-in which \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(m\) the mass of the considered particle, \(L_C\) the Coulomb logarithm from \eqref{equation:coulomb_logarithm}, \(\gamma\) the relativistic parameter of the beam, and \(\Gamma\) the six-dimensional phase space volume of the beam, defined as:
+in which \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(m\) the mass of the considered particle, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\gamma\) the relativistic parameter of the beam, and \(\Gamma\) the six-dimensional phase space volume of the beam, defined as:
 
 \begin{equation}
     \Gamma = \left( 2 \pi \right)^3 \left( \beta \gamma \right)^3 m^3 \varepsilon_x \varepsilon_y \sigma_{\delta} \sigma_z
@@ -470,7 +471,7 @@ in which \(N\) is the total beam intensity, \(r_0\) the classical particle radiu
 with \(\sigma_{\delta}\) the relative momentum spread and \(\sigma_z\) the bunch length.
 One should not this expression is corrected by a factor \(\sqrt{2}\) for coasting beams.
 
-In \eqref{equation:bjorken_mtingwa_original} \(\lambda\) is simply the integration variable, \(I\) is the 3x3 identity matrix, and \(L\) is the 3x3 matrix and the matrix \(L\) is defined as:
+In Eq~\eqref{equation:bjorken_mtingwa_original} \(\lambda\) is simply the integration variable, \(I\) is the 3x3 identity matrix, and \(L\) is the 3x3 matrix and the matrix \(L\) is defined as:
 
 \begin{equation}
     L = L^{(x)} + L^{(y)} + L^{(z)} \text{ ,}
@@ -596,7 +597,145 @@ From these, one can compute the growth rates as:
     \boxed{T_z = \frac{1}{\tau_z} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2}{\sigma_{\delta}^{2}}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_z \lambda + b_z\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
     \label{equation:bm_tz}
 \end{equation}
-where the constants in the common fraction term are the same as for~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signify the averaging over the lattice, given the terms contained inside are arrays with one values per element.
+where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signify the averaging over the lattice, given the terms contained inside are arrays with one values per element.
+
+\subsection{IBS Kicks}
+\label{subsection:ibs_kicks}
+
+The approach of using analytical growth rates does not provide a way to study the interplay of IBS with arbitrary effects, such as space charge, electrong clouds, beam-beam etc.
+To do so, it is necessary to include IBS effects in tracking simulations together with other desired effects.
+In \textit{xfields} two elements are available to model IBS effects in tracking simulations, both providing momenta kicks to tracked particles according to a specific formalism.
+
+\subsubsection{Analytical Kicks}
+
+A first element is available to provide momenta kicks based on analytical growth rates, according to the approach introduced by R. Bruce~\cite{PRAB:Bruce:IBSAnalyticalKick}.
+In \textit{xfields} the computation of the kick is done as follows.
+First, the beam intensity \(N\), bunch length \(\sigma_z\), momentum deviation \(\sigma_{\delta}\), and geometric emittances \(\varepsilon_{x,y}\) are inferred from the tracked particles object.
+These are used to compute the growth rates \(T_x, T_y\) and \(T_z\) according to the desired formalism, as presented in~\ref{subsection:ibs_growth_rates}.
+
+From these growth rates, each particle is given a momentum kick in each dimension (transverse, longitudinal) according to:
+
+\begin{equation}
+    \boxed{\Delta p_u = R \sigma_{p_u} \sqrt{ 2 T_{IBS,u} T_{rev} \sigma_z \sqrt{\pi} \rho(z)} \text{ ;   } u=x,y,z}
+    \label{equation:momentum_kick_analytical}
+\end{equation}
+
+Here \(R\) is a random number from the standard normal distribution; \(\sigma_{p_u}\) is the standard deviation of the momentum in plane \(u\); \(T_{IBS,u}\) is the growth rate for plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density.
+
+It is worth noting that due to the form of Eq~\eqref{equation:momentum_kick_analytical} only zero or strictly positive growth rates are valid, and as such this formalism is traditionally available above transition energy.
+
+The longitudinal line density \(\rho(z)\) is used as a weighting factor to provide a stronger kick to particles in the denser regions of the bunch.
+It is obtained by binning the longitudinal plane of the particle distribution and normalizing the values.
+
+\subsubsection{Kinetic Kicks}
+
+A second element is available to provide momenta kicks based on diffusion and friction terms from the kinetic theory of gases, as introduced by P. Zenkevich~\cite{NuclInstr:Zenkevich:IBSKineticKick}.
+The momentum kick has a form similar to the Langevin equation:
+
+\begin{equation}
+    \Delta p_u = - K_u p_u \sigma_z \sqrt{\pi} \rho(z) \Delta t + R \sigma_{p_u} \sqrt{2 C_u \sigma_z \sqrt{\pi} \rho(z) \Delta t} \text{ ;   } u=x,y,z
+    \label{equation:original_kinetic_kick}
+\end{equation}
+where \(K_u\) and \(C_u\) are functions of the friction and diffusion terms, respectively.
+\newline
+
+In \textit{xfields} the exact implementation makes use of terms from the Nagaitsev formalism (see previous section) as derived by M. Zampetakis~\cite{arXiv:Zampetakis:Interplay_SC_IBS_LHC_Chain}.
+The following steps are taken.
+First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed according to Eq~\eqref{equation:nagaitsev_step1}.
+Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed according to Eq~\eqref{equation:nagaitsev_lambdas}, to obtain the \(R_1, R_2\) and \(R_3\) elliptic integrals according to Eq~\eqref{equation:nagaitsev_r1r2r3}.
+
+New forms equivalent to the original diffusion and friction terms of the Approximate Model can be expressed from the terms above.
+By first defining
+
+\begin{equation}
+    q = \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ ,}
+\end{equation}
+they are expressed and computed as:
+
+\begin{equation}
+    \begin{aligned}
+        D_{x,x} &= \frac{1}{2} \left[ 2 R_1 + R2 \left(1 - \frac{a_2}{q}\right) + R_3 \left(1 + \frac{a_2}{q}\right) \right] \text{,  } \\
+        D_{x,z} &= \frac{3 \gamma^2 \Phi_x^2 a_x}{q} \left(R_3 - R_2\right) \text{,  }  \\
+        D_{y,y} &= R_2 + R_3 \text{,  }  \\
+        D_{z,z} &= \frac{\gamma^2}{2} \left[ 2 R_1 +  R_2 \left(1 + \frac{a_2}{q}\right) + R_3 \left(1 - \frac{a_2}{q}\right) \right] \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_AM_diffusion_terms}
+\end{equation}
+
+\begin{equation}
+    \begin{aligned}
+        K_x &= R_2 \left(1 + \frac{a_2}{q}\right) + R_3 \left(1 - \frac{a_2}{q}\right) \text{,  } \\
+        K_y &= 2 R_1 \text{,  }  \\
+        K_z &= \gamma^2 \left[ R_2 \left(1 - \frac{a_2}{q}\right) + R_3 \left(1 + \frac{a_2}{q}\right) \right] \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_AM_friction_terms}
+\end{equation}
+
+The following integrals are computed from the above:
+
+\begin{equation}
+    \begin{aligned}
+        D_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x \sigma_y} \left[D_{x,x} + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) D_{z,z} + D_{x,z} \right] \text{,  } \\
+        D_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x \sigma_y} D_{y,y} \text{,  }  \\
+        D_{zi} &= \int_0^C \frac{ds}{C \sigma_x \sigma_y} D_{z,z} \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_diffusion_integrals}
+\end{equation}
+
+\begin{equation}
+    \begin{aligned}
+        F_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x \sigma_y} \left[K_x + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) K_z \right] \text{,  } \\
+        F_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x \sigma_y} K_x \text{,  }  \\
+        F_{zi} &= \int_0^C \frac{ds}{C \sigma_x \sigma_y} K_z \text{ .}
+    \end{aligned}
+    \label{equation:kinetic_friction_integrals}
+\end{equation}
+with \(C\) the circumference of the machine.
+
+Finally, the new diffusion coefficients are computed according to:
+
+\begin{equation}
+    \boxed{G_x = \frac{1}{\varepsilon_x} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} D_{xi}}
+    \label{equation:kinetic_horizontal_diffusion_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{G_y = \frac{1}{\varepsilon_y} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} D_{yi}}
+    \label{equation:kinetic_vertical_diffusion_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{G_z = \frac{1}{\sigma_{\delta}^2} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} D_{zi}}
+    \label{equation:kinetic_longitudinal_diffusion_coefficient}
+\end{equation}
+and the friction coefficients according to:
+
+\begin{equation}
+    \boxed{F_x = \frac{1}{\varepsilon_x} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} F_{xi}}
+    \label{equation:kinetic_horizontal_friction_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{F_y = \frac{1}{\varepsilon_y} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} F_{yi}}
+    \label{equation:kinetic_vertical_friction_coefficient}
+\end{equation}
+
+\begin{equation}
+    \boxed{F_z = \frac{1}{\sigma_{\delta}^2} \frac{N r_0^2 c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} F_{zi}}
+    \label{equation:kinetic_longitudinal_friction_coefficient}
+\end{equation}
+
+In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
+\newline
+
+From these coefficients, each particle is given a momentum kick in each dimension (transverse, longitudinal) according to:
+
+\begin{equation}
+    \boxed{\Delta p_u = - F_u p_u T_{rev} 2 \sqrt{\pi} \sigma_z \rho(z) + R \sigma_{p_u} \sqrt{T_{rev} G_u 2 \sqrt{\pi} \sigma_z \rho(z)} \text{ ;   } u=x,y,z}
+    \label{equation:momentum_kick_kinetic}
+\end{equation}
+
+Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density, as defined and used in the analytical kicks (see previous subsection).
 
 \section{Beam-beam interaction (4D model)}
 

@@ -240,6 +240,8 @@ snippet_files = {
         'generated_code_snippets/cut_at_s.py',
     'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':
         'generated_code_snippets/ibs_rates_with_vdisp.py',
+    'xfields/examples/005_ibs/003_tracking_with_kicks.py':
+        'generated_code_snippets/ibs_kicks_tracking.py',
     'xtrack/examples/orbit_and_tracjectory_correction/000_closed_orbit_correction_basic.py':
         'generated_code_snippets/closed_orbit_correction_basic.py',
     'xtrack/examples/orbit_and_tracjectory_correction/001_closed_orbit_correction_micado.py':
