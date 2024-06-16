@@ -46,4 +46,3 @@ jobs:
           suites: ${{ inputs.suites }}
       - name: Use Secret
         run: echo "Using secret in workflow: ${{ secrets.MY_SECRET }}"
-
