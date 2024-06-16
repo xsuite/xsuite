@@ -34,6 +34,10 @@ on:
         required: false
         default: "xsuite:main"
         type: string
+      xboinc_location:
+        required: false
+        default: "xsuite:main"
+        type: string
       precompile_kernels:
         required: false
         default: false
@@ -63,6 +67,7 @@ jobs:
         - xfields
         - xmask
         - xcoll
+        - xboinc
     
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
@@ -99,6 +104,7 @@ jobs:
         xfields_branch: ${{ inputs.xfields_location }}
         xmask_branch: ${{ inputs.xmask_location }}
         xcoll_branch: ${{ inputs.xcoll_location }}
+        xboinc_branch: ${{ inputs.xboinc_location }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xsuite_prefix="$GITHUB_WORKSPACE"
