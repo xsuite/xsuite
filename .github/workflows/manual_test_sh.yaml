@@ -9,38 +9,10 @@ on:
     # Inputs the workflow accepts.
     # Specify branches using the refspec-like syntax: <user>:<branch>
     inputs:
-      xobjects_location:
-        description: 'xobjects branch'
-        default: 'xsuite:main'
+      branch_location:
+        description: 'Branches in user:branch format, separated by semicolons (e.g., xsuite:main)'
+        default: 'xsuite:main;xsuite:main;xsuite:main;xsuite:main;xsuite:main;xsuite:main;xsuite:main;xsuite:main'
         required: true
-      xdeps_location:
-        description: 'xdeps branch'
-        default: 'xsuite:main'
-        required: true
-      xpart_location:
-        description: 'xpart branch'
-        default: 'xsuite:main'
-        required: true
-      xtrack_location:
-        description: 'xtrack branch'
-        default: 'xsuite:main'
-        required: true
-      xfields_location:
-        description: 'xfields branch'
-        default: 'xsuite:main'
-        required: true
-      xmask_location:
-        description: 'xmask branch'
-        default: 'xsuite:main'
-        required: true
-      xcoll_location:
-        description: 'xcoll branch'
-        default: 'xsuite:main'
-        required: true
-      xboinc_location:
-        description: 'xboinc branch'
-        default: 'xsuite:main'
-        required: true 
       test_contexts:
         description: test contexts
         default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
@@ -59,17 +31,17 @@ on:
 # branches as inputs
 jobs:
   run-tests-manual-sh:
-    uses: ./.github/workflows/test_sh.yaml
-    secrets: inherit
+    runs-on: [self-hosted, linux] 
+  steps:
+    - name: Checkout code 
+      uses: actions/checkout@v2
+    - name: Set up job
+      run: echo "Setting up job with branches ${{ github.event.inputs.branch_location}}"
+    - name: Run tests
+      uses: ./.github/workflows/test_sh.yaml
     with:
-      xobjects_location: ${{ inputs.xobjects_location }}
-      xdeps_location: ${{ inputs.xdeps_location }}
-      xpart_location: ${{ inputs.xpart_location }}
-      xtrack_location: ${{ inputs.xtrack_location }}
-      xfields_location: ${{ inputs.xfields_location }}
-      xmask_location: ${{ inputs.xmask_location }}
-      xcoll_location: ${{ inputs.xcoll_location }}
-      xboinc_location: ${{ inputs.xboinc_location }}
-      test_contexts: ${{ inputs.test_contexts }}
-      platform: ${{ inputs.platform }}
-      suites: ${{ inputs.suites }}
+      branch_locations: ${{ inputs.branch_locations }}
+          test_contexts: ${{ inputs.test_contexts }}
+          platform: ${{ inputs.platform }}
+          suites: ${{ inputs.suites }}
+        secrets: inherit
