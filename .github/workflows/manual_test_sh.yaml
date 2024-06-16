@@ -31,16 +31,16 @@ on:
 # branches as inputs
 jobs:
   run-tests-manual-sh:
-    runs-on: [self-hosted, linux] 
-  steps:
+    runs-on: [self-hosted, linux]
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Set up job
         run: echo "Setting up job with branches ${{ github.event.inputs.branch_location }}"
       - name: Run tests
         uses: ./.github/workflows/test_sh.yaml
-    with:
-      branch_locations: ${{ inputs.branch_locations }}
+        with:
+          branch_locations: ${{ inputs.branch_location }}
           test_contexts: ${{ inputs.test_contexts }}
           platform: ${{ inputs.platform }}
           suites: ${{ inputs.suites }}
