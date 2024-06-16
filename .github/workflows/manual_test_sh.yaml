@@ -44,4 +44,6 @@ jobs:
           test_contexts: ${{ inputs.test_contexts }}
           platform: ${{ inputs.platform }}
           suites: ${{ inputs.suites }}
-        secrets: inherit
+      - name: Use Secret
+        run: echo "Using secret in workflow: ${{ secrets.MY_SECRET }}"
+
