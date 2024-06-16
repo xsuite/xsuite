@@ -34,6 +34,10 @@ on:
         required: false
         default: "xsuite:main"
         type: string
+      xboinc_location:
+        required: false
+        default: "xsuite:main"
+        type: string
       test_contexts:
         required: false
         type: string
@@ -45,7 +49,7 @@ on:
         description: a list of the suites to run as a JSON string
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -73,6 +77,7 @@ jobs:
           xfields_branch: ${{ inputs.xfields_location }}
           xmask_branch: ${{ inputs.xmask_location }}
           xcoll_branch: ${{ inputs.xcoll_location }}
+          xboinc_branch: ${{ inputs.xboinc_location }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
@@ -86,6 +91,7 @@ jobs:
             --build-arg xfields_branch=${xfields_branch} \
             --build-arg xmask_branch=${xmask_branch} \
             --build-arg xcoll_branch=${xcoll_branch} \
+            --build-arg xboinc_branch=${xboinc_branch} \ 
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
