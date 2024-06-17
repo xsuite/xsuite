@@ -77,14 +77,14 @@ jobs:
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=$xobjects_branch  \
-            --build-arg xdeps_branch=$xdeps_branch \
-            --build-arg xpart_branch=$xpart_branch \
-            --build-arg xtrack_branch=$xtrack_branch \
-            --build-arg xfields_branch=$xfields_branch \
-            --build-arg xmask_branch=$xmask_branch \
-            --build-arg xcoll_branch=$xcoll_branch \
-            --build-arg xboinc_branch=$xboinc_branch \ 
+            --build-arg xobjects_branch=${{ env.xobjects_branch }}  \
+            --build-arg xdeps_branch=${{ env.xdeps_branch }} \
+            --build-arg xpart_branch=${{ env.xpart_branch }} \
+            --build-arg xtrack_branch=${{ env.xtrack_branch }} \
+            --build-arg xfields_branch=${{ env.xfields_branch }} \
+            --build-arg xmask_branch=${{ env.xmask_branch }} \
+            --build-arg xcoll_branch=${{ env.xcoll_branch }} \
+            --build-arg xboinc_branch=${{ env.xboinc_branch }} \ 
             --build-arg with_gpu=${{ env.with_gpu }} \
             -t $IMAGE .
 
@@ -98,14 +98,14 @@ jobs:
     steps:
       - name: CUDA/ROCm info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${image_id} bash -c "nvidia-smi || rocm-smi"
+        run: docker run --rm --gpus all ${{ env.image_id }} bash -c "nvidia-smi || rocm-smi"
       - name: OpenCL info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${image_id} clinfo
+        run: docker run --rm --gpus all ${{ env.image_id }} clinfo
       - name: Package paths
-        run: docker run --rm --gpus all ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+        run: docker run --rm --gpus all ${{ env.image_id }} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
       - name: List dependencies
-        run: docker run --rm --gpus all ${image_id} pip freeze
+        run: docker run --rm --gpus all ${{ env.image_id }} pip freeze
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
