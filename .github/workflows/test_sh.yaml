@@ -48,6 +48,7 @@ jobs:
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
+
       - id: build-image
         name: Build the test image
         env:
@@ -72,11 +73,13 @@ jobs:
 
   # Print out some stuff about the test environment
   image-sanity-checks:
+    needs: build-test-image 
     runs-on: [self-hosted, "${{ inputs.platform }}"]
-    needs: build-test-image
     env:
       image_id: ${{ needs.build-test-image.outputs.image_id }}
     steps:
+      - name: Check Image
+        run: echo Use image ${{ needs.build-test-image.outputs.image_id }}
       - name: CUDA/ROCm info
         if: ${{ env.with_gpu == 'true' }}
         run: docker run --rm --gpus all ${{ env.image_id }} bash -c "nvidia-smi || rocm-smi"
@@ -99,10 +102,6 @@ jobs:
         test-suite: ${{ fromJson(inputs.suites) }}
 
     steps:
-    - name : Check directory and list
-      run: |
-        pwd
-        ls -la
     - name: Run pytest
       env:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
