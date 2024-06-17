@@ -34,7 +34,7 @@ on:
 # branches as inputs
 jobs:
   run-tests-manual-sh:
-    uses: .github/workflows/test_sh.yaml
+    uses: ./.github/workflows/test_sh.yaml
     secrets: inherit
     with:
       locations: ${{ inputs.locations }}
