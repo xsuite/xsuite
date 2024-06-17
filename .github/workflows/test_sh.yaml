@@ -49,7 +49,7 @@ jobs:
         name: Checkout the repo
         uses: actions/checkout@v3
       - id: build-image
-        - name: Set branch Environment Variable
+        name: Set branch Environment Variable
        env:  
           JSON_INPUT: ${{ github.event.inputs.locations }}
           echo -e "xobjects_branch = $( echo $JSON_INPUT | jq ".xobjects_branch")" >> $GITHUB_ENV
