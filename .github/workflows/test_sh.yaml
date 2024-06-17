@@ -33,7 +33,14 @@ on:
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
-  JSON_INPUT: ${{ github.event.inputs.locations }}
+  JSON_INPUT: '{"xobjects_branch":"xobjects:main",
+        "xdeps_branch":"xdeps:main" ,
+        "xpart_branch":"xpart:main" ,
+        "xtrack_branch":"xtrack:main" ,
+        "xfields_branch":"xfields:main" ,
+        "xmask_branch":"xmask:main" ,
+        "xcoll_branch":"xcoll:main" ,
+        "xboinc_branch":"xboinc:main" }'
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
