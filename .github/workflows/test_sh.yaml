@@ -33,7 +33,6 @@ on:
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
-  JSON_INPUT: ${{ github.event.inputs.locations }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -45,11 +44,15 @@ jobs:
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
+      - name : Install jq
+        run: sudo apt-get update $$ sudo apt-get indtall -y jq
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
 
       - id: build-image
+        env:
+          JSON_INPUT: ${{ github.event.inputs.locations }}
         name: Set branch Environment Variable
       #  env:  
           
