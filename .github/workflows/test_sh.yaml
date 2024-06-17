@@ -59,14 +59,14 @@ jobs:
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${{ fromJson(inputs.locations)['xobjects_branch']}} \
-            --build-arg xdeps_branch=${{ fromJson(inputs.locations)['xdeps_branch']}} \
-            --build-arg xpart_branch=${{ fromJson(inputs.locations)['xpart_branch']}} \
-            --build-arg xtrack_branch=${{ fromJson(inputs.locations)['xtrack_branch']}} \
-            --build-arg xfields_branch=${{ fromJson(inputs.locations)['xfields_branch']}} \
-            --build-arg xmask_branch=${{ fromJson(inputs.locations)['xmask_branch']}} \
-            --build-arg xcoll_branch=${{ fromJson(inputs.locations)['xcoll_branch']}} \
-            --build-arg xboinc_branch=${{ fromJson(inputs.locations)['xboinc_branch']}} \ 
+            --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_branch}} \
+            --build-arg xdeps_branch=${{ fromJson(inputs.locations).xdeps_branch}} \
+            --build-arg xpart_branch=${{ fromJson(inputs.locations).xpart_branch}} \
+            --build-arg xtrack_branch=${{ fromJson(inputs.locations).xtrack_branch}} \
+            --build-arg xfields_branch=${{ fromJson(inputs.locations).xfields_branch}} \
+            --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_branch}} \
+            --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_branch}} \
+            --build-arg xboinc_branch=${{ fromJson(inputs.locations).xboinc_branch}} \ 
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
