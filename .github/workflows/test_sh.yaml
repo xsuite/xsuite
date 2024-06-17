@@ -44,29 +44,29 @@ jobs:
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
-        env:
-          xobjects_branch: ${{ fromJson(inputs.locations).xobjects_branch }}
-          xdeps_branch: ${{ fromJson(inputs.locations).xdeps_branch }}
-          xpart_branch: ${{ fromJson(inputs.locations).xpart_branch }}
-          xtrack_branch: ${{ fromJson(inputs.locations).xtrack_branch }}
-          xfields_branch: ${{ fromJson(inputs.locations).xfields_branch }}
-          xmask_branch: ${{ fromJson(inputs.locations).xmask_branch }}
-          xcoll_branch: ${{ fromJson(inputs.locations).xcoll_branch }}
-          xboinc_branch: ${{ fromJson(inputs.locations).xboinc_branch }}
+       # env:
+       #   xobjects_branch: ${{ fromJson(inputs.locations).xobjects_branch }}
+       #   xdeps_branch: ${{ fromJson(inputs.locations).xdeps_branch }}
+       #   xpart_branch: ${{ fromJson(inputs.locations).xpart_branch }}
+       #   xtrack_branch: ${{ fromJson(inputs.locations).xtrack_branch }}
+       #   xfields_branch: ${{ fromJson(inputs.locations).xfields_branch }}
+       #   xmask_branch: ${{ fromJson(inputs.locations).xmask_branch }}
+       #   xcoll_branch: ${{ fromJson(inputs.locations).xcoll_branch }}
+       #   xboinc_branch: ${{ fromJson(inputs.locations).xboinc_branch }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${xobjects_branch} \
-            --build-arg xdeps_branch=${xdeps_branch} \
-            --build-arg xpart_branch=${xpart_branch} \
-            --build-arg xtrack_branch=${xtrack_branch} \
-            --build-arg xfields_branch=${xfields_branch} \
-            --build-arg xmask_branch=${xmask_branch} \
-            --build-arg xcoll_branch=${xcoll_branch} \
-            --build-arg xboinc_branch=${xboinc_branch} \ 
+            --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_branch}} \
+            --build-arg xdeps_branch=${{ fromJson(inputs.locations).xdeps_branch}} \
+            --build-arg xpart_branch=${{ fromJson(inputs.locations).xpart_branch}} \
+            --build-arg xtrack_branch=${{ fromJson(inputs.locations).xtrack_branch}} \
+            --build-arg xfields_branch=${{ fromJson(inputs.locations).xfields_branch}} \
+            --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_branch}} \
+            --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_branch}} \
+            --build-arg xboinc_branch=${{ fromJson(inputs.locations).xboinc_branch}} \ 
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
