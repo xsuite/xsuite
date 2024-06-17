@@ -6,7 +6,6 @@ on:
   workflow_call:
     # Inputs the workflow accepts.
     inputs:
-      inputs:
       locations:
         description: 'Branch locations (JSON array string)'
         default: '[ "xobjects_branch":"xobjects:main" ,
