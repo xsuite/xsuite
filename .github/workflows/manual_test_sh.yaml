@@ -33,8 +33,6 @@ on:
 # This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
 jobs:
-  setup-env:
-    runs-on: ubantu-latest
   run-tests-manual-sh:
     uses: ./.github/workflows/test_sh.yaml
     secrets: inherit
