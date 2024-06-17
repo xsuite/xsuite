@@ -66,10 +66,6 @@ jobs:
       - id: build-image
         name: Set branch Environment Variable
         run: |
-          echo '${{ inputs.locations }}' > input.json
-          SUITE=$(echo $SUITES | jq -r '.[0]')
-          BRANCH_KEY="${SUITE}_branch"
-          BRANCH_VALUE=$(jq -r --arg key "$BRANCH_KEY" '.[$key]' input.json)
           echo "xobjects_branch = $( jq -r '.xobjects_branch' inputs.xobjects_branch)" >> $GITHUB_ENV
           echo "xdeps_branch = $(jq -r '.xdeps_branch' inputs.xdeps_branch)" >> $GITHUB_ENV
           echo "xpart_branch = $( jq -r '.xpart_branch' inputs.xpart_branch)" >> $GITHUB_ENV
