@@ -331,7 +331,7 @@ listening for new jobs:
 
    sudo ./svc.sh start
 
-..
+.. note::
 
     **Troubleshooting Note**: The status of the runner service can
     be checked with ``sudo ./svc.sh status`` which is an alias to
