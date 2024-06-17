@@ -65,7 +65,7 @@ jobs:
       - id: build-image
         name: Set branch Environment Variable
         run: |
-          echo '${{ env.JSON_INPUT }}' > input.json
+          echo '${{ inputs.locations }}' > input.json
           cat input.json # debagging
           echo "xobjects_branch = $( jq -r '.xobjects_branch' input.json)" >> $GITHUB_ENV
           echo "xdeps_branch = $(jq -r '.xdeps_branch' input.json)" >> $GITHUB_ENV
