@@ -16,7 +16,7 @@ on:
         "xmask_branch":"xmask:main" ,
         "xcoll_branch":"xcoll:main" ,
         "xboinc_branch":"xboinc:main" }'
-        required: true
+        required: false
         type: string
       test_contexts:
         required: false
