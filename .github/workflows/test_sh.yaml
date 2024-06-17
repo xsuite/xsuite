@@ -66,7 +66,7 @@ jobs:
         name: Set branch Environment Variable
         run: |
           echo '${{ env.JSON_INPUT }}' > input.json
-          cat input.jso # debagging
+          cat input.json # debagging
           echo "xobjects_branch = $(input.json | jq -r '.xobjects_branch')" >> $GITHUB_ENV
           echo "xdeps_branch = $( input.json | jq -r '.xdeps_branch')" >> $GITHUB_ENV
           echo "xpart_branch = $( input.json | jq -r '.xpart_branch')" >> $GITHUB_ENV
