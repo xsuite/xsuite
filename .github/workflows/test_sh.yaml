@@ -40,7 +40,6 @@ env:
 jobs:
   # First, we build our test image
   build-test-image:
-    build-test-image:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
