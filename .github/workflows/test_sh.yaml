@@ -48,40 +48,50 @@ jobs:
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
+
       - id: build-image
         name: Set branch Environment Variable
-       env:  
-          JSON_INPUT: ${{ github.event.inputs.locations }}
-          echo -e "xobjects_branch = $( echo $JSON_INPUT | jq ".xobjects_branch")" >> $GITHUB_ENV
-          echo -e "xdeps_branch = $( echo $JSON_INPUT | jq ".xdeps_branch")" >> $GITHUB_ENV
-          echo -e "xpart_branch = $( echo $JSON_INPUT | jq ".xpart_branch")" >> $GITHUB_ENV
-          echo -e "xtrack_branch = $( echo $JSON_INPUT | jq ".xtrack_branch")" >> $GITHUB_ENV
-          echo -e "xfields_branch = $( echo $JSON_INPUT | jq ".xfields_branch")" >> $GITHUB_ENV
-          echo -e "xmask_branch = $( echo $JSON_INPUT | jq ".xmask_branch")" >> $GITHUB_ENV
-          echo -e "xcoll_branch = $( echo $JSON_INPUT | jq ".xcoll_branch")" >> $GITHUB_ENV
-          echo -e "xboinc_branch = $( echo $JSON_INPUT | jq ".xboinc_branch")" >> $GITHUB_ENV
+      #  env:  
+          
+      #     echo -e "xobjects_branch = $( echo $JSON_INPUT | jq ".xobjects_branch")" >> $GITHUB_ENV
+      #     echo -e "xdeps_branch = $( echo $JSON_INPUT | jq ".xdeps_branch")" >> $GITHUB_ENV
+      #     echo -e "xpart_branch = $( echo $JSON_INPUT | jq ".xpart_branch")" >> $GITHUB_ENV
+      #     echo -e "xtrack_branch = $( echo $JSON_INPUT | jq ".xtrack_branch")" >> $GITHUB_ENV
+      #     echo -e "xfields_branch = $( echo $JSON_INPUT | jq ".xfields_branch")" >> $GITHUB_ENV
+      #     echo -e "xmask_branch = $( echo $JSON_INPUT | jq ".xmask_branch")" >> $GITHUB_ENV
+      #     echo -e "xcoll_branch = $( echo $JSON_INPUT | jq ".xcoll_branch")" >> $GITHUB_ENV
+      #     echo -e "xboinc_branch = $( echo $JSON_INPUT | jq ".xboinc_branch")" >> $GITHUB_ENV
         #  xpart_branch: ${{ fromJson(inputs.locations).xpart_branch }}
         #  xtrack_branch: ${{ fromJson(inputs.locations).xtrack_branch }}
         #  xfields_branch: ${{ fromJson(inputs.locations).xfields_branch }}
         #  xmask_branch: ${{ fromJson(inputs.locations).xmask_branch }}
         #  xcoll_branch: ${{ fromJson(inputs.locations).xcoll_branch }}
         #  xboinc_branch: ${{ fromJson(inputs.locations).xboinc_branch }}
-        - name: Build and Deploy 
+      #   - name: Build and Deploy 
         run: |
+          JSON_INPUT: ${{ github.event.inputs.locations }}
+          echo -e "xobjects_branch = $( echo $JSON_INPUT | jq -r ".xobjects_branch")" 
+          echo -e "xdeps_branch = $( echo $JSON_INPUT | jq -r ".xdeps_branch")" 
+          echo -e "xpart_branch = $( echo $JSON_INPUT | jq -r ".xpart_branch")" 
+          echo -e "xtrack_branch = $( echo $JSON_INPUT | jq -r ".xtrack_branch")" 
+          echo -e "xfields_branch = $( echo $JSON_INPUT | jq -r ".xfields_branch")" 
+          echo -e "xmask_branch = $( echo $JSON_INPUT | jq -r ".xmask_branch")" 
+          echo -e "xcoll_branch = $( echo $JSON_INPUT | jq -r ".xcoll_branch")"          
+          echo -e "xboinc_branch = $( echo $JSON_INPUT | jq -r ".xboinc_branch")" 
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${{ env.xobjects_branch }} \
-            --build-arg xdeps_branch=${{ env.xdeps_branch}} \
-            --build-arg xpart_branch=${{ env.xpart_branch}} \
-            --build-arg xtrack_branch=${{ env.xtrack_branch}} \
-            --build-arg xfields_branch=${{ env.xfields_branch}} \
-            --build-arg xmask_branch=${{ env.xmask_branch}} \
-            --build-arg xcoll_branch=${{ env.xcoll_branch}} \
-            --build-arg xboinc_branch=${{ env.xboinc_branch}} \ 
-            --build-arg with_gpu=${with_gpu} \
+            --build-arg xobjects_branch=$xobjects_branch  \
+            --build-arg xdeps_branch=$xdeps_branch \
+            --build-arg xpart_branch=$xpart_branch \
+            --build-arg xtrack_branch=$xtrack_branch \
+            --build-arg xfields_branch=$xfields_branch \
+            --build-arg xmask_branch=$xmask_branch \
+            --build-arg xcoll_branch=$xcoll_branch \
+            --build-arg xboinc_branch=$xboinc_branch \ 
+            --build-arg with_gpu=${{ env.with_gpu }} \
             -t $IMAGE .
           echo "Docker Image Built: $IMAGE"
 
