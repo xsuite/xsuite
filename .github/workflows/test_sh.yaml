@@ -8,7 +8,7 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: > 
+        default: '
           { 
             "xobjects_branch":"xobjects:main" ,
             "xdeps_branch":"xdeps:main",
@@ -18,7 +18,7 @@ on:
             "xmask_branch":"xmask:main",
             "xcoll_branch":"xcoll:main",
             "xboinc_branch":"xboinc:main" 
-          }
+          }' 
         required: false
         type: string
       test_contexts:
