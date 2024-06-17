@@ -56,7 +56,7 @@ jobs:
         env:
           branches: ${{ fromJson(inputs.locations) }}
         run: |
-          IMAGE="x-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
