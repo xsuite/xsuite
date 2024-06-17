@@ -77,15 +77,16 @@ jobs:
           "xmask_branch":"xmask:main" ,
           "xcoll_branch":"xcoll:main" ,
           "xboinc_branch":"xboinc:main"}'
-          
-          echo -e "xobjects_branch = $( echo $JSON_INPUT | jq -r ".xobjects_branch")" 
-          echo -e "xdeps_branch = $( echo $JSON_INPUT | jq -r ".xdeps_branch")" 
-          echo -e "xpart_branch = $( echo $JSON_INPUT | jq -r ".xpart_branch")" 
-          echo -e "xtrack_branch = $( echo $JSON_INPUT | jq -r ".xtrack_branch")" 
-          echo -e "xfields_branch = $( echo $JSON_INPUT | jq -r ".xfields_branch")" 
-          echo -e "xmask_branch = $( echo $JSON_INPUT | jq -r ".xmask_branch")" 
-          echo -e "xcoll_branch = $( echo $JSON_INPUT | jq -r ".xcoll_branch")"          
-          echo -e "xboinc_branch = $( echo $JSON_INPUT | jq -r ".xboinc_branch")" 
+
+          xobjects_branch = $( echo $JSON_INPUT | jq -r ".xobjects_branch")
+          xdeps_branch = $( echo $JSON_INPUT | jq -r ".xdeps_branch")
+          xpart_branch = $( echo $JSON_INPUT | jq -r ".xpart_branch") 
+          xtrack_branch = $( echo $JSON_INPUT | jq -r ".xtrack_branch") 
+          xfields_branch = $( echo $JSON_INPUT | jq -r ".xfields_branch") 
+          xmask_branch = $( echo $JSON_INPUT | jq -r ".xmask_branch") 
+          xcoll_branch = $( echo $JSON_INPUT | jq -r ".xcoll_branch")          
+          xboinc_branch = $( echo $JSON_INPUT | jq -r ".xboinc_branch") 
+         
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
