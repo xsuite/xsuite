@@ -8,9 +8,9 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '[{"xobjects_branch":"xobjects:main"},{"xdeps_branch":"xdeps:main"},{"xpart_branch":"xpart:main"},
-        {"xtrack_branch":"xtrack:main"},{"xfields_branch":"xfields:main"},{"xmask_branch":"xmask:main"},
-        {"xcoll_branch":"xcoll:main"},{"xboinc_branch":"xboinc:main"} ]'
+        default: '["xobjects_branch":"xobjects:main","xdeps_branch":"xdeps:main","xpart_branch":"xpart:main",
+        "xtrack_branch":"xtrack:main","xfields_branch":"xfields:main","xmask_branch":"xmask:main",
+        "xcoll_branch":"xcoll:main","xboinc_branch":"xboinc:main" ]'
         required: true
         type: string
       test_contexts:
@@ -28,6 +28,7 @@ on:
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
+  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -43,32 +44,41 @@ jobs:
         name: Checkout the repo
         uses: actions/checkout@v3
       - id: build-image
-        name: Build the test image
-       # env:
-       #   xobjects_branch: ${{ fromJson(inputs.locations).xobjects_branch }}
-       #   xdeps_branch: ${{ fromJson(inputs.locations).xdeps_branch }}
-       #   xpart_branch: ${{ fromJson(inputs.locations).xpart_branch }}
-       #   xtrack_branch: ${{ fromJson(inputs.locations).xtrack_branch }}
-       #   xfields_branch: ${{ fromJson(inputs.locations).xfields_branch }}
-       #   xmask_branch: ${{ fromJson(inputs.locations).xmask_branch }}
-       #   xcoll_branch: ${{ fromJson(inputs.locations).xcoll_branch }}
-       #   xboinc_branch: ${{ fromJson(inputs.locations).xboinc_branch }}
+        - name: Set branch Environment Variable
+       env:  
+          JSON_INPUT: ${{ github.event.inputs.locations }}
+          echo -e "xobjects_branch = $( echo $JSON_INPUT | jq ".xobjects_branch")" >> $GITHUB_ENV
+          echo -e "xdeps_branch = $( echo $JSON_INPUT | jq ".xdeps_branch")" >> $GITHUB_ENV
+          echo -e "xpart_branch = $( echo $JSON_INPUT | jq ".xpart_branch")" >> $GITHUB_ENV
+          echo -e "xtrack_branch = $( echo $JSON_INPUT | jq ".xtrack_branch")" >> $GITHUB_ENV
+          echo -e "xfields_branch = $( echo $JSON_INPUT | jq ".xfields_branch")" >> $GITHUB_ENV
+          echo -e "xmask_branch = $( echo $JSON_INPUT | jq ".xmask_branch")" >> $GITHUB_ENV
+          echo -e "xcoll_branch = $( echo $JSON_INPUT | jq ".xcoll_branch")" >> $GITHUB_ENV
+          echo -e "xboinc_branch = $( echo $JSON_INPUT | jq ".xboinc_branch")" >> $GITHUB_ENV
+        #  xpart_branch: ${{ fromJson(inputs.locations).xpart_branch }}
+        #  xtrack_branch: ${{ fromJson(inputs.locations).xtrack_branch }}
+        #  xfields_branch: ${{ fromJson(inputs.locations).xfields_branch }}
+        #  xmask_branch: ${{ fromJson(inputs.locations).xmask_branch }}
+        #  xcoll_branch: ${{ fromJson(inputs.locations).xcoll_branch }}
+        #  xboinc_branch: ${{ fromJson(inputs.locations).xboinc_branch }}
+        - name: Build and Deploy 
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_branch}} \
-            --build-arg xdeps_branch=${{ fromJson(inputs.locations).xdeps_branch}} \
-            --build-arg xpart_branch=${{ fromJson(inputs.locations).xpart_branch}} \
-            --build-arg xtrack_branch=${{ fromJson(inputs.locations).xtrack_branch}} \
-            --build-arg xfields_branch=${{ fromJson(inputs.locations).xfields_branch}} \
-            --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_branch}} \
-            --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_branch}} \
-            --build-arg xboinc_branch=${{ fromJson(inputs.locations).xboinc_branch}} \ 
+            --build-arg xobjects_branch=${{ env.xobjects_branch }} \
+            --build-arg xdeps_branch=${{ env.xdeps_branch}} \
+            --build-arg xpart_branch=${{ env.xpart_branch}} \
+            --build-arg xtrack_branch=${{ env.xtrack_branch}} \
+            --build-arg xfields_branch=${{ env.xfields_branch}} \
+            --build-arg xmask_branch=${{ env.xmask_branch}} \
+            --build-arg xcoll_branch=${{ env.xcoll_branch}} \
+            --build-arg xboinc_branch=${{ env.xboinc_branch}} \ 
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
+          echo "Docker Image Built: $IMAGE"
 
   # Print out some stuff about the test environment
   image-sanity-checks:
