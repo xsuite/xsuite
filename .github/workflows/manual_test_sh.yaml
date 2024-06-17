@@ -30,11 +30,23 @@ on:
 # This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
 jobs:
+  setup-env:
+    runs-on: ubantu-latest
+    outputs:
+      branch_names: ${{ steps.set_env.outputs.beanches }}
+    steps:
+      - name: Set Environment Variables
+        id: set_env
+        run: |
+          echo "BRANCH_NAMES = $(echo '${{ inputs.branches }}' | jq -r '.[]'" >> $GITHUB_ENV
+          BRANCH_LIST = $(echo '${{ inputs.branches }}' | jq -r '.[]' | tr '\n' ',')\
+          echo ":: set-output name = branches::$BRANCH_LIST"
   run-tests-manual-sh:
+    needs: setup-env
     uses: ./.github/workflows/test_sh.yaml
     secrets: inherit
     with:
-      branches: ${{ inputs.branches }}
+      branches: ${{ needs.setup-env.outputs.branch_names }}
       test_contexts: ${{ inputs.test_contexts }}
       platform: ${{ inputs.platform }}
       suites: ${{ inputs.suites }}
