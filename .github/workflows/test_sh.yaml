@@ -66,14 +66,17 @@ jobs:
       - id: build-image
         name: Set branch Environment Variable
         run: |
-          echo "xobjects_branch = $( jq -r '.xobjects_branch' inputs.xobjects_branch)" >> $GITHUB_ENV
-          echo "xdeps_branch = $(jq -r '.xdeps_branch' inputs.xdeps_branch)" >> $GITHUB_ENV
-          echo "xpart_branch = $( jq -r '.xpart_branch' inputs.xpart_branch)" >> $GITHUB_ENV
-          echo "xtrack_branch = $( jq -r '.xtrack_branch' inputs.xtrack_branch)" >> $GITHUB_ENV
-          echo "xfields_branch = $(jq -r '.xfields_branch' inputs.xfields_branch)" >> $GITHUB_ENV
-          echo "xmask_branch = $( jq -r '.xmask_branch' inputs.xmask_branch)" >> $GITHUB_ENV
-          echo "xcoll_branch = $( jq -r '.xcoll_branch' inputs.xcoll_branch)" >> $GITHUB_ENV
-          echo "xboinc_branch = $( jq -r '.xboinc_branch' inputs.xboinc_branch)" >> $GITHUB_ENV
+          echo '${{ inputs.locations }}' > input.json
+          echo "xobjects_branch = $( jq -r '.xobjects_branch' input.json)" >> $GITHUB_ENV
+          echo "xdeps_branch = $(jq -r '.xdeps_branch' input.json)" >> $GITHUB_ENV
+          echo "xpart_branch = $( jq -r '.xpart_branch' input.json)" >> $GITHUB_ENV
+          echo "xtrack_branch = $( jq -r '.xtrack_branch' input.json)" >> $GITHUB_ENV
+          echo "xfields_branch = $(jq -r '.xfields_branch' input.json)" >> $GITHUB_ENV
+          echo "xmask_branch = $( jq -r '.xmask_branch' input.json)" >> $GITHUB_ENV
+          echo "xcoll_branch = $( jq -r '.xcoll_branch' input.json)" >> $GITHUB_ENV
+          echo "xboinc_branch = $( jq -r '.xboinc_branch' input.json)" >> $GITHUB_ENV
+         
+
          
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
