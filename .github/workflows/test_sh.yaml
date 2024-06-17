@@ -6,37 +6,12 @@ on:
   workflow_call:
     # Inputs the workflow accepts.
     inputs:
-      xobjects_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xdeps_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xpart_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xtrack_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xfields_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xmask_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xcoll_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xboinc_location:
-        required: false
-        default: "xsuite:main"
+      locations:
+        description: 'Branch locations (JSON array string)'
+        default: '["xobjects_branch":"xobjects:main" ,"xdeps_branch":"xdeps:main","xpart_branch":"xpart:main",
+        "xtrack_branch":"xtrack:main","xfields_branch":"xfields:main","xmask_branch":"xmask:main",
+        "xcoll_branch":"xcoll:main","xboinc_branch":"xboinc:main" ]'
+        required: true
         type: string
       test_contexts:
         required: false
