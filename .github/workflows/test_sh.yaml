@@ -24,7 +24,7 @@ on:
         description: a list of the suites to run as a JSON string
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll","xboinc"]'
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -42,32 +42,23 @@ jobs:
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
-      - id: build-image
-        name: Build the test image
-        env:
-          xobjects_branch: ${{ inputs.location }}
-          xdeps_branch: ${{ inputs.location }}
-          xpart_branch: ${{ inputs.location }}
-          xtrack_branch: ${{ inputs.location }}
-          xfields_branch: ${{ inputs.location }}
-          xmask_branch: ${{ inputs.location }}
-          xcoll_branch: ${{ inputs.location }}
-          xboinc_branch: ${{ inputs.location }}
+      - name: Build the test image
+        id: build-image
         run: |
-          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          IMAGE="x-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${xobjects_branch} \
-            --build-arg xdeps_branch=${xdeps_branch} \
-            --build-arg xpart_branch=${xpart_branch} \
-            --build-arg xtrack_branch=${xtrack_branch} \
-            --build-arg xfields_branch=${xfields_branch} \
-            --build-arg xmask_branch=${xmask_branch} \
-            --build-arg xcoll_branch=${xcoll_branch} \
-            --build-arg xboinc_branch=${xboinc_branch} \ 
-            --build-arg with_gpu=${with_gpu} \
+            --build-arg xobjects_branch=${{ fromJson(inputs.locations)['xobjects_branch'] }} \
+            --build-arg xdeps_branch=${{ fromJson(inputs.locations)['xdeps_branch'] }} \
+            --build-arg xpart_branch=${{ fromJson(inputs.locations)['xpart_branch'] }} \
+            --build-arg xtrack_branch=${{ fromJson(inputs.locations)['xtrack_branch'] }} \
+            --build-arg xfields_branch=${{ fromJson(inputs.locations)['xfields_branch'] }} \
+            --build-arg xmask_branch=${{ fromJson(inputs.locations)['xmask_branch'] }} \
+            --build-arg xcoll_branch=${{ fromJson(inputs.locations)['xcoll_branch'] }} \
+            --build-arg xboinc_branch=${{ fromJson(inputs.locations)['xboinc_branch'] }} \
+            --build-arg with_gpu=${{ env.with_gpu }} \
             -t $IMAGE .
 
   # Print out some stuff about the test environment
