@@ -12,6 +12,7 @@ on:
       branches:
         description: 'Branch locations (JSON array string)'
         default: '["xsuite:main"]'
+        type: string
         required: true
       test_contexts:
         description: test contexts
