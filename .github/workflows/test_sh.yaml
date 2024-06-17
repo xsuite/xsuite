@@ -8,9 +8,9 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '["xobjects_branch":"xobjects:main","xdeps_branch":"xdeps:main","xpart_branch":"xpart:main",
-        "xtrack_branch":"xtrack:main","xfields_branch":"xfields:main","xmask_branch":"xmask:main",
-        "xcoll_branch":"xcoll:main","xboinc_branch":"xboinc:main" ]'
+        default: '[{"xobjects_branch":"xobjects:main"},{"xdeps_branch":"xdeps:main"},{"xpart_branch":"xpart:main"},
+        {"xtrack_branch":"xtrack:main"},{"xfields_branch":"xfields:main"},{"xmask_branch":"xmask:main"},
+        {"xcoll_branch":"xcoll:main"},{"xboinc_branch":"xboinc:main"} ]'
         required: true
         type: string
       test_contexts:
