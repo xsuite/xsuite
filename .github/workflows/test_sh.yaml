@@ -79,14 +79,14 @@ jobs:
     steps:
       - name: CUDA/ROCm info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${{ env.image_id }} bash -c "nvidia-smi || rocm-smi"
+        run: docker run --rm --gpus all ${{ image_id }} bash -c "nvidia-smi || rocm-smi"
       - name: OpenCL info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${{ env.image_id }} clinfo
+        run: docker run --rm --gpus all ${{ image_id }} clinfo
       - name: Package paths
-        run: docker run --rm --gpus all ${{ env.image_id }} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+        run: docker run --rm --gpus all ${{ image_id }} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
       - name: List dependencies
-        run: docker run --rm --gpus all ${{ env.image_id }} pip freeze
+        run: docker run --rm --gpus all ${{ image_id }} pip freeze
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
