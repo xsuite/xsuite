@@ -33,7 +33,7 @@ on:
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
-  JSON_INPUT: ${{ ithub.event.inputs.locations }}
+  JSON_INPUT: ${{ github.event.inputs.locations }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
