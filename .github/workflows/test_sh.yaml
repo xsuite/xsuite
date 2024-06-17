@@ -69,7 +69,15 @@ jobs:
         #  xboinc_branch: ${{ fromJson(inputs.locations).xboinc_branch }}
       #   - name: Build and Deploy 
         run: |
-          JSON_INPUT: ${{ github.event.inputs.locations }}
+          JSON_INPUT: '{"xobjects_branch":"xobjects:main",
+          "xdeps_branch":"xdeps:main" ,
+          "xpart_branch":"xpart:main" ,
+          "xtrack_branch":"xtrack:main" ,
+          "xfields_branch":"xfields:main" ,
+          "xmask_branch":"xmask:main" ,
+          "xcoll_branch":"xcoll:main" ,
+          "xboinc_branch":"xboinc:main"}'
+          
           echo -e "xobjects_branch = $( echo $JSON_INPUT | jq -r ".xobjects_branch")" 
           echo -e "xdeps_branch = $( echo $JSON_INPUT | jq -r ".xdeps_branch")" 
           echo -e "xpart_branch = $( echo $JSON_INPUT | jq -r ".xpart_branch")" 
