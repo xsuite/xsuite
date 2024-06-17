@@ -6,16 +6,10 @@ on:
   workflow_call:
     # Inputs the workflow accepts.
     inputs:
+      inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '{"xobjects_branch":"xobjects:main" ,
-        "xdeps_branch":"xdeps:main",
-        "xpart_branch":"xpart:main",
-        "xtrack_branch":"xtrack:main",
-        "xfields_branch":"xfields:main",
-        "xmask_branch":"xmask:main",
-        "xcoll_branch":"xcoll:main",
-        "xboinc_branch":"xboinc:main" }'
+        default: '{"xobjects_branch":"xobjects:main", "xdeps_branch":"xdeps:main", "xpart_branch":"xpart:main", "xtrack_branch":"xtrack:main", "xfields_branch":"xfields:main", "xmask_branch":"xmask:main", "xcoll_branch":"xcoll:main", "xboinc_branch":"xboinc:main"}'
         required: false
         type: string
       test_contexts:
@@ -26,20 +20,21 @@ on:
         required: true
         type: string
       suites:
-        description: a list of the suites to run as a JSON string
+        description: 'A list of the suites to run as a JSON string'
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll","xboinc"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll", "xboinc"]'
+
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
-  
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
 jobs:
   # First, we build our test image
-  build-test-image:
+   build-test-image:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
@@ -47,25 +42,24 @@ jobs:
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
-
       - id: build-image
         name: Build the test image
         env:
           branches: ${{ fromJson(inputs.locations) }}
         run: |
-          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          IMAGE="x-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${branches['xobjects_branch']} \
-            --build-arg xdeps_branch=${branches['xdeps_branch']} \
-            --build-arg xpart_branch=${branches['xpart_branch']} \
-            --build-arg xtrack_branch=${branches['xtrack_branch']} \
-            --build-arg xfields_branch=${branches['xfields_branch']} \
-            --build-arg xmask_branch=${branches['xmask_branch']} \
-            --build-arg xcoll_branch=${branches['xcoll_branch']} \
-            --build-arg xboinc_branch=${branches['xboinc_branch']} \
+            --build-arg xobjects_branch=${{branches['xobjects_branch']}} \
+            --build-arg xdeps_branch=${{branches['xdeps_branch']}} \
+            --build-arg xpart_branch=${{branches['xpart_branch']}} \
+            --build-arg xtrack_branch=${{branches['xtrack_branch']}} \
+            --build-arg xfields_branch=${{branches['xfields_branch']}} \
+            --build-arg xmask_branch=${{branches['xmask_branch']}} \
+            --build-arg xcoll_branch=${{branches['xcoll_branch']}} \
+            --build-arg xboinc_branch=${{branches['xboinc_branch']}} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
