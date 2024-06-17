@@ -115,7 +115,7 @@ jobs:
             --build-arg xboinc_branch=$xboinc_branch \ 
             --build-arg with_gpu=${{ env.with_gpu }} \
             -t $IMAGE .
-          echo "Docker Image Built: $IMAGE"
+
 
   # Print out some stuff about the test environment
   image-sanity-checks:
