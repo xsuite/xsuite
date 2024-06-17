@@ -33,7 +33,6 @@ on:
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
@@ -45,15 +44,25 @@ jobs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
       - name : Install jq
-        run: sudo apt-get update $$ sudo apt-get indtall -y jq
+        run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          elif command -v yum &> /dev/null; then
+            sudo yum install -y jq
+          elif command -v apk &> /dev/null; then
+            sudo apk add --no-cache jq
+          else
+            echo "Package manager not supported"
+            exit 1
+          fi
+
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
 
       - id: build-image
-        env:
-          JSON_INPUT: ${{ github.event.inputs.locations }}
         name: Set branch Environment Variable
+        JSON_INPUT: ${{ github.event.inputs.locations }}
       #  env:  
           
       #     echo -e "xobjects_branch = $( echo $JSON_INPUT | jq ".xobjects_branch")" >> $GITHUB_ENV
