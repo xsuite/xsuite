@@ -14,8 +14,8 @@ on:
         default: '["xobjects_branch":"xobjects:main" ,"xdeps_branch":"xdeps:main","xpart_branch":"xpart:main",
         "xtrack_branch":"xtrack:main","xfields_branch":"xfields:main","xmask_branch":"xmask:main",
         "xcoll_branch":"xcoll:main","xboinc_branch":"xboinc:main" ]'
-        type: string
         required: true
+        type: string
       test_contexts:
         description: test contexts
         default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
