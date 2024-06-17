@@ -61,7 +61,7 @@ jobs:
         name: Checkout the repo
         uses: actions/checkout@v3
       - id: build-image
-        - name: Set branch Environment Variable
+        name: Set branch Environment Variable
         # JSON_INPUT: ${{ github.event.inputs.locations }}
       #  env:  
           
