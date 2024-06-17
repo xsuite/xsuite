@@ -33,7 +33,7 @@ on:
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
-  
+  JSON_INPUT: ${{ ithub.event.inputs.locations }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
@@ -69,15 +69,6 @@ jobs:
         #  xboinc_branch: ${{ fromJson(inputs.locations).xboinc_branch }}
       #   - name: Build and Deploy 
         run: |
-          JSON_INPUT: '{"xobjects_branch":"xobjects:main",
-          "xdeps_branch":"xdeps:main" ,
-          "xpart_branch":"xpart:main" ,
-          "xtrack_branch":"xtrack:main" ,
-          "xfields_branch":"xfields:main" ,
-          "xmask_branch":"xmask:main" ,
-          "xcoll_branch":"xcoll:main" ,
-          "xboinc_branch":"xboinc:main"}'
-
           xobjects_branch = $( echo $JSON_INPUT | jq -r ".xobjects_branch")
           xdeps_branch = $( echo $JSON_INPUT | jq -r ".xdeps_branch")
           xpart_branch = $( echo $JSON_INPUT | jq -r ".xpart_branch") 
