@@ -45,14 +45,14 @@ jobs:
       - id: build-image
         name: Build the test image
         env:
-          xobjects_branch: ${{ inputs.xobjects_location }}
-          xdeps_branch: ${{ inputs.xdeps_location }}
-          xpart_branch: ${{ inputs.xpart_location }}
-          xtrack_branch: ${{ inputs.xtrack_location }}
-          xfields_branch: ${{ inputs.xfields_location }}
-          xmask_branch: ${{ inputs.xmask_location }}
-          xcoll_branch: ${{ inputs.xcoll_location }}
-          xboinc_branch: ${{ inputs.xboinc_location }}
+          xobjects_branch: ${{ inputs.location }}
+          xdeps_branch: ${{ inputs.location }}
+          xpart_branch: ${{ inputs.location }}
+          xtrack_branch: ${{ inputs.location }}
+          xfields_branch: ${{ inputs.location }}
+          xmask_branch: ${{ inputs.location }}
+          xcoll_branch: ${{ inputs.location }}
+          xboinc_branch: ${{ inputs.location }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
