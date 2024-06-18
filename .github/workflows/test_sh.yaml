@@ -43,7 +43,10 @@ jobs:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
-    steps:
+    steps: 
+      - id: checkout-repo
+        name: Checkout the repo
+        uses: actions/checkout@v3
       - name: Install jq  
         run: |
           if command -v apt-get &> /dev/null; then
@@ -57,9 +60,7 @@ jobs:
             chmod +x ./jq
             sudo mv jq /usr/bin
           fi
-      - id: checkout-repo
-        name: Checkout the repo
-        uses: actions/checkout@v3
+     
       - id: build-image
         name: Build the test image
         env:
