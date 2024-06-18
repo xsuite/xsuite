@@ -58,7 +58,6 @@ jobs:
             chmod +x ./jq
             sudo mv jq /usr/bin
           fi
-
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
