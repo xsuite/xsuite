@@ -45,6 +45,8 @@ jobs:
   # First, we build our test image
    build-test-image:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
+    env:
+      branches: ${{ fromJson(inputs.locations) }}
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
@@ -53,8 +55,6 @@ jobs:
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
-        env:
-          branches: ${{ fromJson(inputs.locations) }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
