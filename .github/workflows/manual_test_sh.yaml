@@ -39,7 +39,7 @@ on:
 # branches as inputs
 jobs:
   run-tests-manual-sh:
-    uses: ./.github/workflows/test_sh.yaml@main
+    uses: ./.github/workflows/test_sh.yaml@{a715c37b8db7146fad434d86f720ee0f76825629}
     secrets: inherit
     with:
       locations: ${{ inputs.locations }}
