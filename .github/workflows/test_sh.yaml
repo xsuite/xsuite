@@ -6,20 +6,37 @@ on:
   workflow_call:
     # Inputs the workflow accepts.
     inputs:
-      locations:
-        description: 'Branch locations (JSON array string)'
-        default: '
-          { 
-            "xobjects_branch":"xobjects:main" ,
-            "xdeps_branch":"xdeps:main",
-            "xpart_branch":"xpart:main",
-            "xtrack_branch":"xtrack:main",
-            "xfields_branch":"xfields:main",
-            "xmask_branch":"xmask:main",
-            "xcoll_branch":"xcoll:main",
-            "xboinc_branch":"xboinc:main" 
-          }' 
+      xobjects_location:
         required: false
+        default: "xsuite:main"
+        type: string
+      xdeps_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xpart_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xtrack_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xfields_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xmask_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xcoll_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xboinc_location:
+        required: false
+        default: "xsuite:main"
         type: string
       test_contexts:
         required: false
@@ -29,11 +46,10 @@ on:
         required: true
         type: string
       suites:
-        description: 'A list of the suites to run as a JSON string'
+        description: a list of the suites to run as a JSON string
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll", "xboinc"]'
-
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -43,10 +59,8 @@ env:
 # for each of the test suites specified in the matrix below.
 jobs:
   # First, we build our test image
-   build-test-image:
+  build-test-image:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
-    env:
-      branches: ${{ fromJson(inputs.locations) }}
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
@@ -55,43 +69,49 @@ jobs:
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
+        env:
+          xobjects_branch: ${{ inputs.xobjects_location }}
+          xdeps_branch: ${{ inputs.xdeps_location }}
+          xpart_branch: ${{ inputs.xpart_location }}
+          xtrack_branch: ${{ inputs.xtrack_location }}
+          xfields_branch: ${{ inputs.xfields_location }}
+          xmask_branch: ${{ inputs.xmask_location }}
+          xcoll_branch: ${{ inputs.xcoll_location }}
+          xboinc_branch: ${{ inputs.xboinc_location }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${{ branches['xobjects_branch'] }} \
-            --build-arg xdeps_branch=${{ branches['xdeps_branch'] }} \
-            --build-arg xpart_branch=${{ branches['xpart_branch'] }} \
-            --build-arg xtrack_branch=${{ branches['xtrack_branch'] }} \
-            --build-arg xfields_branch=${{ branches['xfields_branch'] }} \
-            --build-arg xmask_branch=${{ branches['xmask_branch'] }} \
-            --build-arg xcoll_branch=${{ branches['xcoll_branch'] }} \
-            --build-arg xboinc_branch=${{ branches['xboinc_branch'] }} \
+            --build-arg xobjects_branch=${xobjects_branch} \
+            --build-arg xdeps_branch=${xdeps_branch} \
+            --build-arg xpart_branch=${xpart_branch} \
+            --build-arg xtrack_branch=${xtrack_branch} \
+            --build-arg xfields_branch=${xfields_branch} \
+            --build-arg xmask_branch=${xmask_branch} \
+            --build-arg xcoll_branch=${xcoll_branch} \
+            --build-arg xboinc_branch=${xboinc_branch} \ 
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
-
   # Print out some stuff about the test environment
   image-sanity-checks:
-    needs: build-test-image 
     runs-on: [self-hosted, "${{ inputs.platform }}"]
+    needs: build-test-image
     env:
       image_id: ${{ needs.build-test-image.outputs.image_id }}
     steps:
-      - name: Check Image
-        run: echo Use image ${{ needs.build-test-image.outputs.image_id }}
       - name: CUDA/ROCm info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${{ env.image_id }} bash -c "nvidia-smi || rocm-smi"
+        run: docker run --rm --gpus all ${image_id} bash -c "nvidia-smi || rocm-smi"
       - name: OpenCL info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${{ env.image_id }} clinfo
+        run: docker run --rm --gpus all ${image_id} clinfo
       - name: Package paths
-        run: docker run --rm --gpus all ${{ env.image_id }} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+        run: docker run --rm --gpus all ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
       - name: List dependencies
-        run: docker run --rm --gpus all ${{ env.image_id }} pip freeze
+        run: docker run --rm --gpus all ${image_id} pip freeze
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
