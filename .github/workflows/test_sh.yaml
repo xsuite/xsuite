@@ -79,14 +79,6 @@ jobs:
             --build-arg xmask_branch=$(jq -r '.["xmask_branch"]' locations.json) \
             --build-arg xcoll_branch=$(jq -r '.["xcoll_branch"]' locations.json) \
             --build-arg xboinc_branch=$(jq -r '.["xboinc_branch"]' locations.json) \
-        # --build-arg xobjects_branch=${{ branches['xobjects_branch'] }} \
-        # --build-arg xdeps_branch=${{ branches['xdeps_branch'] }} \
-        # --build-arg xpart_branch=${{ branches['xpart_branch'] }} \
-        # --build-arg xtrack_branch=${{ branches['xtrack_branch'] }} \
-        # --build-arg xfields_branch=${{ branches['xfields_branch'] }} \
-        # --build-arg xmask_branch=${{ branches['xmask_branch'] }} \
-        # --build-arg xcoll_branch=${{ branches['xcoll_branch'] }} \
-        # --build-arg xboinc_branch=${{ branches['xboinc_branch'] }} \ 
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
