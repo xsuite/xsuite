@@ -65,7 +65,6 @@ jobs:
         env:
           branches: ${{ fromJson(inputs.locations) }}
         run: |
-          echo '${{ inputs.locations }}' | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
