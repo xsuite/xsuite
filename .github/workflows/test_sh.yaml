@@ -44,25 +44,26 @@ jobs:
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
-      # - name : Install jq
-      #   run: |
-      #     if command -v apt-get &> /dev/null; then
-      #       sudo apt-get update && sudo apt-get install -y jq
-      #     elif command -v yum &> /dev/null; then
-      #       sudo yum install -y jq
-      #     elif command -v apk &> /dev/null; then
-      #       sudo apk add --no-cache jq
-      #     else
-      #       wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
-      #       chmod +x ./jq
-      #       sudo mv jq /usr/bin
-      #     fi
-      - name: Checkout the repo
+      - name : Install jq
+        run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          elif command -v yum &> /dev/null; then
+            sudo yum install -y jq
+          elif command -v apk &> /dev/null; then
+            sudo apk add --no-cache jq
+          else
+            wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+            chmod +x ./jq
+            sudo mv jq /usr/bin
+          fi
+      - id: checkout-repo
+        name: Checkout the repo
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
         env:
-          branches: ${{ fromJson(inputs.locations) }}
+          branch: ${{ fromJson(inputs.locations) }}
         run: |
           echo '${{ inputs.locations }}' | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
