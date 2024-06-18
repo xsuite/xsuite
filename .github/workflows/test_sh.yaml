@@ -44,13 +44,28 @@ jobs:
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps: 
-      - name : Install jq
-        run: sudo apt-get update && vsudo apt-get install -y jq
-      
+      - name: Install jq
+        run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          elif command -v yum &> /dev/null; then
+            sudo yum install -y jq
+          elif command -v apk &> /dev/null; then
+            sudo apk add --no-cache jq
+          else
+            echo "No known package manager found, attempting to download jq binary directly"
+            wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+            chmod +x ./jq
+            sudo mv jq /usr/local/bin
+            if [ ! -f /usr/local/bin/jq ]; then
+              echo "Failed to install jq"
+              exit 1
+            fi
+          fi
+          echo "jq installation complete."
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
-        
       - id: build-image
         name: Build the test image
         env:
