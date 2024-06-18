@@ -57,10 +57,7 @@ jobs:
             wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
             chmod +x ./jq
             sudo mv jq /usr/local/bin
-            if [ ! -f /usr/local/bin/jq ]; then
-              echo "Failed to install jq"
-              exit 1
-            fi
+            exit 1
           fi
           echo "jq installation complete."
       - id: checkout-repo
@@ -77,14 +74,14 @@ jobs:
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=$( jq -r '.["xobjects_branch"]' locations.json) \
-            --build-arg xdeps_branch=$( jq -r '.["xdeps_branch"]' locations.json) \
-            --build-arg xpart_branch=$( jq -r '.["xpart_branch"]' locations.json) \
-            --build-arg xtrack_branch=$( jq -r '.["xtrack_branch"]' locations.json) \
-            --build-arg xfields_branch=$( jq -r '.["xfields_branch"]' locations.json) \
-            --build-arg xmask_branch=$( jq -r '.["xmask_branch"]' locations.json) \
-            --build-arg xcoll_branch=$( jq -r '.["xcoll_branch"]' locations.json) \
-            --build-arg xboinc_branch=$( jq -r '.["xboinc_branch"]' locations.json) \
+            --build-arg xobjects_branch=$(jq -r '.["xobjects_branch"]' locations.json) \
+            --build-arg xdeps_branch=$(jq -r '.["xdeps_branch"]' locations.json) \
+            --build-arg xpart_branch=$(jq -r '.["xpart_branch"]' locations.json) \
+            --build-arg xtrack_branch=$(jq -r '.["xtrack_branch"]' locations.json) \
+            --build-arg xfields_branch=$(jq -r '.["xfields_branch"]' locations.json) \
+            --build-arg xmask_branch=$(jq -r '.["xmask_branch"]' locations.json) \
+            --build-arg xcoll_branch=$(jq -r '.["xcoll_branch"]' locations.json) \
+            --build-arg xboinc_branch=$(jq -r '.["xboinc_branch"]' locations.json) \
         # --build-arg xobjects_branch=${{ branches['xobjects_branch'] }} \
         # --build-arg xdeps_branch=${{ branches['xdeps_branch'] }} \
         # --build-arg xpart_branch=${{ branches['xpart_branch'] }} \
