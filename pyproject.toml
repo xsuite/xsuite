@@ -8,6 +8,7 @@ requires = [
     "xobjects==0.4.2",
     "xdeps==0.6.1",
     "xpart==0.18.4",
+    "numpy<2.0",
 ]
 build-backend = 'setuptools.build_meta'
 
