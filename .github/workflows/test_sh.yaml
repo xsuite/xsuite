@@ -53,13 +53,9 @@ jobs:
           elif command -v apk &> /dev/null; then
             sudo apk add --no-cache jq
           else
-            echo "No known package manager found, attempting to download jq binary directly"
-            wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
-            chmod +x ./jq
-            sudo mv jq /usr/local/bin
-            exit 1
-          fi
-          echo "jq installation complete."
+            wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 \
+            chmod +x ./jq \
+            cp jq /usr/bin \
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
