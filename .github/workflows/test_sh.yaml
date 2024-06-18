@@ -3,40 +3,21 @@ name: Test workflow (self-hosted)
 
 # Controls when the action will run. This is a reusable workflow.
 on:
-  workflow_call:
+  workflow_dispatch:
     # Inputs the workflow accepts.
+    # Specify branches using the refspec-like syntax: <user>:<branch>
     inputs:
-      xobjects_location:
+      locations:
+        description: 'Branch locations (JSON array string)'
+        default: '{ "xobjects_branch":"xobjects:main" ,
+        "xdeps_branch":"xdeps:main",
+        "xpart_branch":"xpart:main",
+        "xtrack_branch":"xtrack:main",
+        "xfields_branch":"xfields:main",
+        "xmask_branch":"xmask:main",
+        "xcoll_branch":"xcoll:main",
+        "xboinc_branch":"xboinc:main" }'
         required: false
-        default: "xsuite:main"
-        type: string
-      xdeps_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xpart_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xtrack_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xfields_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xmask_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xcoll_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xboinc_location:
-        required: false
-        default: "xsuite:main"
         type: string
       test_contexts:
         required: false
@@ -70,28 +51,21 @@ jobs:
       - id: build-image
         name: Build the test image
         env:
-          xobjects_branch: ${{ inputs.xobjects_location }}
-          xdeps_branch: ${{ inputs.xdeps_location }}
-          xpart_branch: ${{ inputs.xpart_location }}
-          xtrack_branch: ${{ inputs.xtrack_location }}
-          xfields_branch: ${{ inputs.xfields_location }}
-          xmask_branch: ${{ inputs.xmask_location }}
-          xcoll_branch: ${{ inputs.xcoll_location }}
-          xboinc_branch: ${{ inputs.xboinc_location }}
+          branches: ${{ fromJson(inputs.locations) }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${xobjects_branch} \
-            --build-arg xdeps_branch=${xdeps_branch} \
-            --build-arg xpart_branch=${xpart_branch} \
-            --build-arg xtrack_branch=${xtrack_branch} \
-            --build-arg xfields_branch=${xfields_branch} \
-            --build-arg xmask_branch=${xmask_branch} \
-            --build-arg xcoll_branch=${xcoll_branch} \
-            --build-arg xboinc_branch=${xboinc_branch} \ 
+            --build-arg xobjects_branch=${{ branches['xobjects_branch'] }} \
+            --build-arg xdeps_branch=${{ branches['xdeps_branch'] }} \
+            --build-arg xpart_branch=${{ branches['xpart_branch'] }} \
+            --build-arg xtrack_branch=${{ branches['xtrack_branch'] }} \
+            --build-arg xfields_branch=${{ branches['xfields_branch'] }} \
+            --build-arg xmask_branch=${{ branches['xmask_branch'] }} \
+            --build-arg xcoll_branch=${{ branches['xcoll_branch'] }} \
+            --build-arg xboinc_branch=${{ branches['xboinc_branch'] }} \ 
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
