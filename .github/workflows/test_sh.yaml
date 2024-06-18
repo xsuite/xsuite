@@ -3,7 +3,7 @@ name: Test workflow (self-hosted)
 
 # Controls when the action will run. This is a reusable workflow.
 on:
-  workflow_dispatch:
+  workflow_call:
     # Inputs the workflow accepts.
     # Specify branches using the refspec-like syntax: <user>:<branch>
     inputs:
