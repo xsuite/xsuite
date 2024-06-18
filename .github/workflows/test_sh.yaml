@@ -44,11 +44,13 @@ jobs:
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps: 
+      - name : Install jq
+        run: sudo apt-get update && vsudo apt-get install -y jq
+      
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
-      - name : Install jq
-        run: sudo apt-get update && vsudo apt-get install -y jq
+        
       - id: build-image
         name: Build the test image
         env:
