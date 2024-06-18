@@ -47,7 +47,7 @@ jobs:
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
-      - name: Install jq  
+      - name : Install jq
         run: |
           if command -v apt-get &> /dev/null; then
             sudo apt-get update && sudo apt-get install -y jq
@@ -56,9 +56,9 @@ jobs:
           elif command -v apk &> /dev/null; then
             sudo apk add --no-cache jq
           else
-            wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
-            chmod +x ./jq
-            sudo mv jq /usr/bin
+            echo "Package manager not supported"
+            exit 1
+          fi
       - id: build-image
         name: Build the test image
         env:
