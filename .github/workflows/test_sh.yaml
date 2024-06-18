@@ -60,7 +60,6 @@ jobs:
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
-
       - id: build-image
         name: Build the test image
         # env:
