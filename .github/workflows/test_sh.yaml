@@ -56,9 +56,9 @@ jobs:
           elif command -v apk &> /dev/null; then
             sudo apk add --no-cache jq
           else
-            echo "Package manager not supported"
-            exit 1
-          fi
+            wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+            chmod +x ./jq
+            sudo mv jq /usr/bin
       - id: build-image
         name: Build the test image
         env:
