@@ -48,14 +48,8 @@ jobs:
         run: |
           if command -v apt-get &> /dev/null; then
             sudo apt-get update && sudo apt-get install -y jq
-          elif command -v yum &> /dev/null; then
+          else command -v yum &> /dev/null; 
             sudo yum install -y jq
-          elif command -v apk &> /dev/null; then
-            sudo apk add --no-cache jq
-          else
-            wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
-            chmod +x ./jq
-            sudo mv jq /usr/bin
           fi
       - id: checkout-repo
         name: Checkout the repo
