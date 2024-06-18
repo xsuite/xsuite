@@ -64,11 +64,10 @@ jobs:
       - id: build-image
         name: Build the test image
         env:
-        #   branches: ${{ fromJson(inputs.locations) }}
-        JSON_INPUT: ${{ github.event.inputs.locstions }}
+          branches: ${{ fromJson(inputs.locations) }}
         run: |
 # echo '${{ inputs.locations }}' | jq '.' > locations.json
-          echo -e "xobjects_branch = $( echo $JSON_INPUT | jq ".xobjects_branch")" >> $GITHUB_ENV
+          echo -e "xobjects_branch = $( echo $branches | jq ".xobjects_branch")" >> $GITHUB_ENV
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
