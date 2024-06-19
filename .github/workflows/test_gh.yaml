@@ -91,7 +91,11 @@ jobs:
         echo $BRANCH_LOCATIONS | jq -r '. | to_entries[] | "\(.value)"' | while read -r branch; do
           repo=$(echo $branch | cut -d: -f1)
           branch=$(echo $branch | cut -d: -f2)
-          git clone -b $branch https://github.com/$repo.git $xsuite_prefix/$repo
+          repo_dir=$xsuite_prefix/$repo
+          if [ -d "$repo_dir" ]; then
+            rm -rf "$repo_dir"
+          fi
+          git clone --recursive --single-branch -b $branch https://github.com/$repo.git $xsuite_prefix/$repo
         done
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
