@@ -71,6 +71,13 @@ jobs:
       run: |
         conda install openmp
         pip install cython
+    - name: Install jq
+      run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          else command -v yum &> /dev/null; 
+            sudo yum install -y jq
+          fi
     - name: Checkout xsuite
       uses: actions/checkout@v4
       with:
