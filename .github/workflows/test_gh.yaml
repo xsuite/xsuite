@@ -82,7 +82,6 @@ jobs:
         BRANCH_LOCATIONS: ${{ inputs.locations }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        export xsuite_prefix="$GITHUB_WORKSPACE"
         echo $BRANCH_LOCATIONS > locations.json
         echo xobjects_location=$(jq -r '.["xobjects_branch"]' locations.json)
         echo xdeps_location=$(jq -r '.["xdeps_branch"]' locations.json)
