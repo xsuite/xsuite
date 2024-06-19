@@ -15,7 +15,7 @@ ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
 ARG xsuite_branch=xsuite:main
-ARG xboinc_branch=xsiuit:main 
+ARG xboinc_branch=xsuite:main 
 ARG with_gpu
 
 # Use bash as the default shell
