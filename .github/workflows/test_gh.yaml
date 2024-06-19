@@ -6,17 +6,37 @@ on:
   workflow_call:
     # Inputs the workflow accepts.
     inputs:
-      locations:
-        description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_location":"xsuite:main" ,
-        "xdeps_location":"xsuite:main",
-        "xpart_location":"xsuite:main",
-        "xtrack_location":"xsuite:main",
-        "xfields_location":"xsuite:main",
-        "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main",
-        "xboinc_location":"xsuite:main" }'
+      xobjects_location:
         required: false
+        default: "xsuite:main"
+        type: string
+      xdeps_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xpart_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xtrack_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xfields_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xmask_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xcoll_location:
+        required: false
+        default: "xsuite:main"
+        type: string
+      xboinc_location:
+        required: false
+        default: "xsuite:main"
         type: string
       precompile_kernels:
         required: false
@@ -39,16 +59,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test-suite: [
-          xobjects,
-          xdeps,
-          xpart,
-          xtrack,
-          xfields,
-          xmask,
-          xcoll,
-          xboinc
-        ]
+        test-suite:
+        - xobjects
+        - xdeps
+        - xpart
+        - xtrack
+        - xfields
+        - xmask
+        - xcoll
+        - xboinc
+    
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
       run:
@@ -71,33 +91,23 @@ jobs:
       run: |
         conda install openmp
         pip install cython
-    - name: Install jq
-      run: |
-          if command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y jq
-          else command -v yum &> /dev/null; 
-            sudo yum install -y jq
-          fi
     - name: Checkout xsuite
       uses: actions/checkout@v4
       with:
         path: xsuite
     - name: Check out xsuite repos & pip install
       env:
-        BRANCH_LOCATIONS: ${{ inputs.locations }}
+        xobjects_branch: ${{ inputs.xobjects_location }}
+        xdeps_branch: ${{ inputs.xdeps_location }}
+        xpart_branch: ${{ inputs.xpart_location }}
+        xtrack_branch: ${{ inputs.xtrack_location }}
+        xfields_branch: ${{ inputs.xfields_location }}
+        xmask_branch: ${{ inputs.xmask_location }}
+        xcoll_branch: ${{ inputs.xcoll_location }}
+        xboinc_branch: ${{ inputs.xboinc_location }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xsuite_prefix="$GITHUB_WORKSPACE"
-        echo $BRANCH_LOCATIONS | jq -r '. | to_entries[] |  "\(.key)=\(.value)"' | while read -r branch; do
-          repo=$(echo $branch | cut -d: -f1)
-          repo=$(echo $repo | cut -d_ -f1)
-          branch=$(echo $branch | cut -d= -f2 | cut -d: -f2)
-          repo_dir=$xsuite_prefix/$repo
-          if [ -d "$repo_dir" ]; then
-            rm -rf "$repo_dir"
-          fi
-          git clone --recursive --single-branch -b $branch https://github.com/$repo.git $repo_dir
-        done
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}

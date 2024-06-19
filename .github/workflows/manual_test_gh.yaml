@@ -8,18 +8,42 @@ on:
     # Inputs the workflow accepts.
     # Specify branches using the refspec-like syntax: <user>:<branch>
     inputs:
-      locations:
-        description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_location":"xsuite:main" ,
-        "xdeps_location":"xsuite:main",
-        "xpart_location":"xsuite:main",
-        "xtrack_location":"xsuite:main",
-        "xfields_location":"xsuite:main",
-        "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main",
-        "xboinc_location":"xsuite:main" }'
+      xobjects_location:
+        description: 'xobjects branch'
+        default: 'xsuite:main'
         required: true
-        type: string
+      xdeps_location:
+        description: 'xdeps branch'
+        default: 'xsuite:main'
+        required: true
+      xpart_location:
+        description: 'xpart branch'
+        default: 'xsuite:main'
+        required: true
+      xtrack_location:
+        description: 'xtrack branch'
+        default: 'xsuite:main'
+        required: true
+      xfields_location:
+        description: 'xfields branch'
+        default: 'xsuite:main'
+        required: true
+      xmask_location:
+        description: 'xmask branch'
+        default: 'xsuite:main'
+        required: true
+      xcoll_location:
+        description: 'xcoll branch'
+        default: 'xsuite:main'
+        required: true
+      xboinc_location:
+        description: 'xcoll branch'
+        default: 'xsuite:main'
+        required: true
+      xboinc_location:
+        description: 'xboinc branch'
+        default: "xsuite:main"
+        required: true 
       precompile_kernels:
         description: 'precompile kernels?'
         type: boolean
@@ -36,6 +60,13 @@ jobs:
   run-tests-manual-gh:
     uses: ./.github/workflows/test_gh.yaml
     with:
-      locations: ${{ inputs.locations }}
+      xobjects_location: ${{ inputs.xobjects_location }}
+      xdeps_location: ${{ inputs.xdeps_location }}
+      xpart_location: ${{ inputs.xpart_location }}
+      xtrack_location: ${{ inputs.xtrack_location }}
+      xfields_location: ${{ inputs.xfields_location }}
+      xmask_location: ${{ inputs.xmask_location }}
+      xcoll_location: ${{ inputs.xcoll_location }}
+      xboinc_location: ${{ inputs.xboinc_location }}
       precompile_kernels: ${{ inputs.precompile_kernels }}
       xobjects_test_contexts: ${{ inputs.xobjects_test_contexts }}
