@@ -71,7 +71,7 @@ RUN if [[ "$with_gpu" == true ]]; then \
         mamba install cupy cudatoolkit ocl-icd-system clinfo clfft \
         && mamba clean -afy \
         && dnf install -y opencl-headers ocl-icd-devel \
-        && export CL_INC_DIR=/usr/include/CL \
+        && export CL_INC_DIR=/usr/include \
         && export CL_LIB_DIR=/usr/lib64 \
         && pip install --no-binary pyopencl --no-cache-dir -v numpy pyopencl mako \
         && git clone --depth 1 https://github.com/geggo/gpyfft.git \
