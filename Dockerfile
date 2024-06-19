@@ -70,7 +70,7 @@ RUN pip install --no-cache-dir cython gitpython pytest-html \
 RUN if [[ "$with_gpu" == true ]]; then \
         mamba install cupy cudatoolkit ocl-icd-system clinfo clfft \
         && mamba clean -afy \
-        && pip install --no-cache-dir pyopencl mako \
+        && pip install --no-binary pyopencl --no-cache-dir pyopencl mako \
         && git clone --depth 1 https://github.com/geggo/gpyfft.git \
         && pip install ./gpyfft; \
     fi
