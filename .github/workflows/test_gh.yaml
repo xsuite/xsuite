@@ -83,14 +83,22 @@ jobs:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         echo $BRANCH_LOCATIONS > locations.json
-        echo xobjects_location=$(jq -r '.["xobjects_branch"]' locations.json)
-        echo xdeps_location=$(jq -r '.["xdeps_branch"]' locations.json)
-        echo xpart_location=$(jq -r '.["xpart_branch"]' locations.json)
-        echo xtrack_location=$(jq -r '.["xtrack_branch"]' locations.json)
-        echo xfields_location=$(jq -r '.["xfields_branch"]' locations.json)
-        echo xmask_location=$(jq -r '.["xmask_branch"]' locations.json)
-        echo xcoll_location=$(jq -r '.["xcoll_branch"]' locations.json)
-        echo xboinc_location=$(jq -r '.["xboinc_branch"]' locations.json)
+        branch_xobjects=$(jq -r '.["xobjects_branch"]' locations.json)
+        branch_xdeps=$(jq -r '.["xdeps_branch"]' locations.json)
+        branch_xpart=$(jq -r '.["xpart_branch"]' locations.json)
+        branch_xtrack=$(jq -r '.["xtrack_branch"]' locations.json)
+        branch_xfields=$(jq -r '.["xfields_branch"]' locations.json)
+        branch_xmask=$(jq -r '.["xmask_branch"]' locations.json)
+        branch_xcoll=$(jq -r '.["xcoll_branch"]' locations.json)
+        branch_xboinc=$(jq -r '.["xboinc_branch"]' locations.json)
+        echo "Branch xobjects : $branch_xobjects"
+        echo "Branch xdeps : $branch_xdeps"
+        echo "Branch xpart : $branch_xpart"
+        echo "Branch xtrack : $branch_xtrack"
+        echo "Branch xfields : $branch_xfields"
+        echo "Branch xmask : $branch_xmask"
+        echo "Branch xcoll : $branch_xcoll"
+        echo "Branch xboinc : $branch_xboinc"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
 
     - name: Precompile kernels
