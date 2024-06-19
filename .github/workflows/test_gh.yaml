@@ -95,7 +95,7 @@ jobs:
           if [ -d "$repo_dir" ]; then
             rm -rf "$repo_dir"
           fi
-          git clone --recursive --single-branch -b $branch https://github.com/$repo.git $xsuite_prefix/$repo
+          git clone --recursive --single-branch -b $branch https://github.com/$repo.git $repo_dir
         done
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
