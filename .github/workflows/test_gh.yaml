@@ -84,7 +84,7 @@ jobs:
         path: xsuite
     - name: Check out xsuite repos & pip install
       env:
-        Branch_locations: ${{ inputs.locations }}
+        BRANCH_LOCATIONS: ${{ inputs.locations }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export x_prefix="$GITHUB_WORKSPACE"
