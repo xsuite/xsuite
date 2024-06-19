@@ -98,6 +98,7 @@ jobs:
         echo "Branch xmask : $branch_xmask"
         echo "Branch xcoll : $branch_xcoll"
         echo "Branch xboinc : $branch_xboinc"
+        export xsuite_prefix="$GITHUB_WORKSPACE"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
 
     - name: Precompile kernels
