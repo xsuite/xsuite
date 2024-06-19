@@ -36,23 +36,19 @@ jobs:
     runs-on: ubuntu-latest
     
     # Run tests for all the xsuite packages in separate jobs in parallel
-    {
-      "strategy":{
-        "fail-fast": false,
-        "matrix":{
-          "test-suite": [
-            xobjects,
-            xdeps,
-            xpart,
-            xtrack,
-            xfields,
-            xmask,
-            xcoll,
-            xboinc
-          ]
-        }
-      }
-    }
+    strategy:
+      fail-fast: false
+      matrix:
+        test-suite: [
+          xobjects,
+          xdeps,
+          xpart,
+          xtrack,
+          xfields,
+          xmask,
+          xcoll,
+          xboinc
+        ]
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
       run:
