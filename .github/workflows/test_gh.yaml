@@ -79,11 +79,19 @@ jobs:
         path: xsuite
     - name: Check out xsuite repos & pip install
       env:
-        #BRANCH_LOCATIONS: ${{ github.event.inputs.locations }}
+        BRANCH_LOCATIONS: ${{ inputs.locations }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        echo '${{ inputs.locations }}' | jq '.' > locations.json
         export xsuite_prefix="$GITHUB_WORKSPACE"
+        echo $BRANCH_LOCATIONS > locations.json
+        echo xobjects_location=$(jq -r '.["xobjects_branch"]' locations.json)
+        echo xdeps_location=$(jq -r '.["xdeps_branch"]' locations.json)
+        echo xpart_location=$(jq -r '.["xpart_branch"]' locations.json)
+        echo xtrack_location=$(jq -r '.["xtrack_branch"]' locations.json)
+        echo xfields_location=$(jq -r '.["xfields_branch"]' locations.json)
+        echo xmask_location=$(jq -r '.["xmask_branch"]' locations.json)
+        echo xcoll_location=$(jq -r '.["xcoll_branch"]' locations.json)
+        echo xboinc_location=$(jq -r '.["xboinc_branch"]' locations.json)
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
 
     - name: Precompile kernels
