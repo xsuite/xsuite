@@ -111,6 +111,7 @@ def run(xo, xd, xp, xt, xf, xm, xc, xb, platform, ctx, suites, wf, branch):
         'xfields_location': xf,
         'xmask_location': xm,
         'xcoll_location': xc,
+        'xboinc_location': xb,
         'test_contexts': ';'.join(fmt_contexts),
         'platform': platform,
         'suites': json.dumps(fmt_suites),
