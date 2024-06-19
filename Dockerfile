@@ -70,10 +70,10 @@ RUN pip install --no-cache-dir cython gitpython pytest-html \
 RUN if [[ "$with_gpu" == true ]]; then \
         mamba install cupy cudatoolkit ocl-icd-system clinfo clfft \
         && mamba clean -afy \
-        && dnf install -y opencl-headers ocl-icd-devel  # Required to build pyopencl from source, which we only do while wheels \
-        && export CL_INC_DIR=/usr/include/CL; \
-        && export CL_LIB_DIR=/usr/lib64; \
-        && pip install --no-binary pyopencl --no-cache-dir -v numpy pyopencl mako  # supporting numpy>=2.0 are WIP \
+        && dnf install -y opencl-headers ocl-icd-devel \
+        && export CL_INC_DIR=/usr/include/CL \
+        && export CL_LIB_DIR=/usr/lib64 \
+        && pip install --no-binary pyopencl --no-cache-dir -v numpy pyopencl mako \
         && git clone --depth 1 https://github.com/geggo/gpyfft.git \
         && pip install ./gpyfft; \
     fi
