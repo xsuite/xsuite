@@ -11,14 +11,14 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_branch":"xsuite:main" ,
-        "xdeps_branch":"xsuite:main",
-        "xpart_branch":"xsuite:main",
-        "xtrack_branch":"xsuite:main",
-        "xfields_branch":"xsuite:main",
-        "xmask_branch":"xsuite:main",
-        "xcoll_branch":"xsuite:main",
-        "xboinc_branch":"xsuite:main" }'
+        default: '{ "xobjects_location":"xsuite:main" ,
+        "xdeps_location":"xsuite:main",
+        "xpart_location":"xsuite:main",
+        "xtrack_location":"xsuite:main",
+        "xfields_location":"xsuite:main",
+        "xmask_location":"xsuite:main",
+        "xcoll_location":"xsuite:main",
+        "xboinc_location":"xsuite:main" }'
         required: true
         type: string
       test_contexts:
