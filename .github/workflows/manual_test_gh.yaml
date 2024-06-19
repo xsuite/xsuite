@@ -37,13 +37,9 @@ on:
         default: 'xsuite:main'
         required: true
       xboinc_location:
-        description: 'xcoll branch'
+        description: 'xboinc branch'
         default: 'xsuite:main'
         required: true
-      xboinc_location:
-        description: 'xboinc branch'
-        default: "xsuite:main"
-        required: true 
       precompile_kernels:
         description: 'precompile kernels?'
         type: boolean
