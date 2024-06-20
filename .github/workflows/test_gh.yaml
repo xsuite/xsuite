@@ -81,21 +81,16 @@ jobs:
       env:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        export xsuite_prefix="$GITHUB_WORKSPACE"
         echo '${{ inputs.locations }}' | jq '.' > locations.json
-        declare -a names=("xobjects_location" "xdeps_location" "xpart_location" "xtrack_location" "xfields_location" "xmask_location" "xcoll_location" "xboinc_location")
-          for i in "$names[@]"; do
-            branch_var="${i}_location"
-            project_branch=$(jq -r .["$name"] locations.json)
-            IFS=':' read -r user branch <<< "$project_branch"
-            repo_url="https://github.com/${user}/${name}.git"
-            if [[ -z "$user" || -z "$branch" ]]; then
-              echo "User or branch name not provided for $name"
-              continue
-            fi
-            echo "Cloning $repo_url with branch $branch"
-            git clone --recursive --single-branch -b "$branch" "$repo_url" "$GITHUB_WORKSPACE/xsuite/$name"
-          done
+        export xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) 
+        export xdeps_location=$(jq -r '.["xdeps_location"]' locations.json) 
+        export xpart_location=$(jq -r '.["xpart_location"]' locations.json) 
+        export xtrack_location=$(jq -r '.["xtrack_location"]' locations.json) 
+        export xfields_location=$(jq -r '.["xfields_location"]' locations.json) 
+        export xmask_location=$(jq -r '.["xmask_location"]' locations.json) 
+        export xcoll_location=$(jq -r '.["xcoll_location"]' locations.json) 
+        export xboinc_location=$(jq -r '.["xboinc_location"]' locations.json) 
+        export xsuite_prefix="$GITHUB_WORKSPACE"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
