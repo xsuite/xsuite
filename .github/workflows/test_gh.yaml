@@ -82,22 +82,17 @@ jobs:
         precompile_kernels: ${{ inputs.precompile_kernels }}
         JSON_INPUT: ${{ github.event.inputs.locations }}
       run: |
-        echo -e "xobjects_location=$(echo $JSON_INPUT | jq ".xobjects_location")" >> $GITHUB_ENV
-        echo -e "xdeps_location=$(echo $JSON_INPUT | jq ".xdeps_location")" >> $GITHUB_ENV
-        echo -e "xpart_location=$(echo $JSON_INPUT | jq ".xpart_location")" >> $GITHUB_ENV
-        echo -e "xtrack_location=$(echo $JSON_INPUT | jq ".xtrack_location")" >> $GITHUB_ENV
-        echo -e "xfields_location=$(echo $JSON_INPUT | jq ".xfields_location")" >> $GITHUB_ENV
-        echo -e "xmask_location=$(echo $JSON_INPUT | jq ".xmask_location")" >> $GITHUB_ENV
-        echo -e "xcoll_location=$(echo $JSON_INPUT | jq ".xcoll_location")" >> $GITHUB_ENV
-        echo -e "xboinc_location=$(echo $JSON_INPUT | jq ".xboinc_location")" >> $GITHUB_ENV
-        echo "xobjects_location=${{ xobjects_location }}" 
-        echo "xdeps_location=${{ xdeps_location }}" 
-        echo "xpart_location=${{ xpart_location }}" 
-        echo "xtrack_location=${{ xtrack_location }}" 
-        echo "xfields_location=${{ xfields_location }}" 
-        echo "xmask_location=${{ xmask_location }}" 
-        echo "xcoll_location=${{ xcoll_location }}" 
-        echo "xboinc_location=${{ xboinc_location }}" 
+        echo '${{ inputs.locations }}' | jq '.' > locations.json\
+        IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+        echo "image_id=$IMAGE" >> $GITHUB_ENV
+        xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) 
+        export xdeps_location=$(jq -r '.["xdeps_location"]' locations.json) 
+        export xpart_location=$(jq -r '.["xpart_location"]' locations.json) 
+        export xtrack_location=$(jq -r '.["xtrack_location"]' locations.json) 
+        export xfields_location=$(jq -r '.["xfields_location"]' locations.json) 
+        export xmask_location=$(jq -r '.["xmask_location"]' locations.json) 
+        export xcoll_location=$(jq -r '.["xcoll_location"]' locations.json) 
+        export xboinc_location=$(jq -r '.["xboinc_location"]' locations.json) 
         export xsuite_prefix="$GITHUB_WORKSPACE"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
