@@ -79,27 +79,17 @@ jobs:
         path: xsuite
     - name: Check out xsuite repos & pip install
       env:
-        BRANCH_LOCATIONS: ${{ inputs.locations }} 
+        xobjects_location: ${{ inputs.locations.xobjects_location }}
+        xdeps_location: ${{ inputs.locations.xdeps_location }}
+        xpart_location: ${{ inputs.locations.xpart_location }}
+        xtrack_location: ${{ inputs.locations.xtrack_location }}
+        xfields_location: ${{ inputs.locations.xfields_location }}
+        xmask_location: ${{ inputs.locations.xmask_location }}
+        xcoll_location: ${{ inputs.locations.xcoll_location }}
+        xboinc_location: ${{ inputs.locations.xboinc_location }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        echo '$BRANCH_LOCATIONS ' > locations.json
         export xsuite_prefix="$GITHUB_WORKSPACE"
-        xobjects_location=$(jq -r '.["xobjects_location"]' locations.json)
-        xdeps_location=$(jq -r '.["xdeps_location"]' locations.json)
-        xpart_location=$(jq -r '.["xpart_location"]' locations.json)
-        xtrack_location=$(jq -r '.["xtrack_location"]' locations.json)
-        xfields_location=$(jq -r '.["xfields_location"]' locations.json)
-        xmask_location=$(jq -r '.["xmask_location"]' locations.json)
-        xcoll_location=$(jq -r '.["xcoll_location"]' locations.json)
-        xboinc_location=$(jq -r '.["xboinc_location"]' locations.json)
-        echo "xobjects_location: $xsuite_prefix/xobjects_location"
-        echo "xdeps_location: $xsuite_prefix/xdeps_location"
-        echo "xtrack_location: $xsuite_prefix/xtrack_location"
-        echo "xfields_location: $xsuite_prefix/xfields_location"
-        echo "xmask_location: $xsuite_prefix/xmask_location"
-        echo "xcoll_location: $xsuite_prefix/xcoll_location"
-        echo "xcoll_location: $xsuite_prefix/xcoll_location"
-        echo "xboinc_location: $xsuite_prefix/xboinc_location"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
