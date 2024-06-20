@@ -5,6 +5,8 @@
 # ######################################### #
 set -xe
 
+echo $xobjects_branch
+
 repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xboinc)
 xsuite_prefix="${xsuite_prefix:-.}"
 
