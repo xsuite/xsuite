@@ -82,7 +82,7 @@ jobs:
         BRANCH_LOCATIONS: ${{ inputs.locations }} 
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        echo $BRANCH_LOCATIONS > locations.json
+        echo '$BRANCH_LOCATIONS ' | jq '.' > locations.json
         xobjects_location=$(jq -r '.["xobjects_location"]' locations.json)
         xdeps_location=$(jq -r '.["xdeps_location"]' locations.json)
         xpart_location=$(jq -r '.["xpart_location"]' locations.json)
