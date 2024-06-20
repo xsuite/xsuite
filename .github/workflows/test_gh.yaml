@@ -81,15 +81,6 @@ jobs:
       env:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        echo '${{ inputs.locations }}' | jq '.' > locations.json
-        xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) >> $GITHUB_ENV
-        xdeps_location=$(jq -r '.["xdeps_location"]' locations.json) >> $GITHUB_ENV
-        xpart_location=$(jq -r '.["xpart_location"]' locations.json) >> $GITHUB_ENV
-        xtrack_location=$(jq -r '.["xtrack_location"]' locations.json) >> $GITHUB_ENV
-        xfields_location=$(jq -r '.["xfields_location"]' locations.json) >> $GITHUB_ENV
-        xmask_location=$(jq -r '.["xmask_location"]' locations.json) >> $GITHUB_ENV
-        xcoll_location=$(jq -r '.["xcoll_location"]' locations.json) >> $GITHUB_ENV
-        xboinc_location=$(jq -r '.["xboinc_location"]' locations.json) >> $GITHUB_ENV
         export xsuite_prefix="$GITHUB_WORKSPACE"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
