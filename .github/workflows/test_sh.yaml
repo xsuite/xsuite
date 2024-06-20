@@ -45,7 +45,12 @@ jobs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
       - name: Install jq
-        run: sudo apt-get install -y jq
+        run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          else command -v yum &> /dev/null; 
+            sudo yum install -y jq
+          fi
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
