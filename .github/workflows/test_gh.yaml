@@ -90,7 +90,6 @@ jobs:
         xmask_location=$(jq -r '.["xmask_location"]' locations.json)
         xcoll_location=$(jq -r '.["xcoll_location"]' locations.json)
         xboinc_location=$(jq -r '.["xboinc_location"]' locations.json)
-        export xsuite_prefix="$GITHUB_WORKSPACE"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
