@@ -82,9 +82,7 @@ jobs:
         precompile_kernels: ${{ inputs.precompile_kernels }}
         JSON_INPUT: ${{ github.event.inputs.locations }}
       run: |
-        echo '${{ inputs.locations }}' | jq '.' > locations.json\
-        IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
-        echo "image_id=$IMAGE" >> $GITHUB_ENV
+        echo '${{ inputs.locations }}' | jq '.' > locations.json
         xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) 
         export xdeps_location=$(jq -r '.["xdeps_location"]' locations.json) 
         export xpart_location=$(jq -r '.["xpart_location"]' locations.json) 
