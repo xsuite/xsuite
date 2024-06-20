@@ -79,7 +79,7 @@ jobs:
         path: xsuite
     - name: Check out xsuite repos & pip install
       env:
-        BRANCH_LOCATIONS: ${{ inputs.locations }}
+        BRANCH_LOCATIONS: ${{ inputs.locations }} 
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xsuite_prefix="$GITHUB_WORKSPACE"
@@ -100,6 +100,7 @@ jobs:
         echo "xcoll_location: $xcoll_location"
         echo "xcoll_location: $xcoll_location"
         echo "xboinc_location: $xboinc_location"
+        git clone --recursive --single-branch -b main https://github.com/xsuite/${location1}
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
