@@ -81,6 +81,7 @@ jobs:
       env:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
+        export xsuite_prefix="$GITHUB_WORKSPACE"
         echo '${{ inputs.locations }}' | jq '.' > locations.json
         xobjects_location=$(jq -r '.["xobjects_location"]' locations.json)
         xdeps_location=$(jq -r '.["xdeps_location"]' locations.json)
