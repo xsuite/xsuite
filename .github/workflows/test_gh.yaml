@@ -39,15 +39,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test-suite: [
-          xobjects,
-          xdeps,
-          xpart,
-          xtrack,
-          xfields,
-          xmask,
-          xcoll,
-          xboinc, ]
+        test-suite: 
+          - xobjects
+          - xdeps
+          - xpart
+          - xtrack
+          - xfields
+          - xmask
+          - xcoll
+          - xboinc
     
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
@@ -77,16 +77,30 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: xsuite
+    - name : JSON input
+      id : parse_json
+      run: echo "${{ inputs.locations }}" > locations.json && cat locations.json
+    - name: Set Environment variable from JSON
+      run: |
+        locations=$(cat locations.json)
+        echo "xobjects_branch=$(echo $locations | jq -r 'xobjects_location')" >> $GITHUB_ENV
+        echo "xdeps_branch=$(echo $locations | jq -r 'xdeps_location')" >> $GITHUB_ENV
+        echo "xpart_branch=$(echo $locations | jq -r 'xpart_location')" >> $GITHUB_ENV
+        echo "xtrack_branch=$(echo $locations | jq -r 'xtrack_location')" >> $GITHUB_ENV
+        echo "xfields_branch=$(echo $locations | jq -r 'xfields_location')" >> $GITHUB_ENV
+        echo "xmask_branch=$(echo $locations | jq -r 'xmask_location')" >> $GITHUB_ENV
+        echo "xcoll_branch=$(echo $locations | jq -r 'xcoll_location')" >> $GITHUB_ENV
+        echo "xboinc_branch=$(echo $locations | jq -r 'xboinc_location')" >> $GITHUB_ENV
     - name: Check out xsuite repos & pip install
       env:
-        xobjects_location: ${{ inputs.locations.xobjects_location }}
-        xdeps_location: ${{ inputs.locations.xdeps_location }}
-        xpart_location: ${{ inputs.locations.xpart_location }}
-        xtrack_location: ${{ inputs.locations.xtrack_location }}
-        xfields_location: ${{ inputs.locations.xfields_location }}
-        xmask_location: ${{ inputs.locations.xmask_location }}
-        xcoll_location: ${{ inputs.locations.xcoll_location }}
-        xboinc_location: ${{ inputs.locations.xboinc_location }}
+        xobjects_branch: ${{ env.xobjects_branch }}
+        xdeps_branch: ${{ env.xdeps_location }}
+        xpart_branch: ${{ env.xpart_location }}
+        xtrack_branch: ${{ env.xtrack_location }}
+        xfields_branch: ${{ env.xfields_location }}
+        xmask_branch: ${{ env.xmask_location }}
+        xcoll_branch: ${{ env.xcoll_location }}
+        xboinc_branch: ${{ env.xboinc_location }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xsuite_prefix="$GITHUB_WORKSPACE"
