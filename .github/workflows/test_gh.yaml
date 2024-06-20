@@ -92,7 +92,7 @@ jobs:
         xmask_location=$(jq -r '.["xmask_location"]' locations.json)
         xcoll_location=$(jq -r '.["xcoll_location"]' locations.json)
         xboinc_location=$(jq -r '.["xboinc_location"]' locations.json)
-        git clone --recursive --single-branch -b "location-name" "https://github.com/$xsuite_prefix/$xobjects_location.git"
+         git clone --recursive --single-branch -b "$xmask_location" "https://github.com/$xsuite_prefix/$xmask.git"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
