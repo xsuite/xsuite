@@ -82,8 +82,8 @@ jobs:
         BRANCH_LOCATIONS: ${{ inputs.locations }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        export xsuite_prefix="$GITHUB_WORKSPACE"
-        echo $BRANCH_LOCATIONS | jq -r 'to_entries[] | "\(.value)"' | while read -r branch; do
+        export xsuite_prefix="$GITHUB_WORKSPACE/xsuite"
+        echo $BRANCH_LOCATIONS | jq -r 'to_entries[] | "\(.key) \(.value)"' | while read -r branch; do
           repo=$(echo $branch | cut -d: -f1)
           branch=$(echo $branch | cut -d: -f2)
           repo_dir=$xsuite_prefix/$(echo $key | cut -d_ -f1)
