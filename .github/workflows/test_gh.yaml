@@ -77,32 +77,19 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: xsuite
-    - name : JSON input
-      id : parse_json
-      run: echo "${{ inputs.locations }}" > locations.json && cat locations.json
-    - name: Set Environment variable from JSON
-      run: |
-        locations=$(cat locations.json)
-        echo "xobjects_location=$(echo $locations | jq -r 'xobjects_location')" >> $GITHUB_ENV
-        echo "xdeps_location=$(echo $locations | jq -r 'xdeps_location')" >> $GITHUB_ENV
-        echo "xpart_location=$(echo $locations | jq -r 'xpart_location')" >> $GITHUB_ENV
-        echo "xtrack_location=$(echo $locations | jq -r 'xtrack_location')" >> $GITHUB_ENV
-        echo "xfields_location=$(echo $locations | jq -r 'xfields_location')" >> $GITHUB_ENV
-        echo "xmask_location=$(echo $locations | jq -r 'xmask_location')" >> $GITHUB_ENV
-        echo "xcoll_location=$(echo $locations | jq -r 'xcoll_location')" >> $GITHUB_ENV
-        echo "xboinc_location=$(echo $locations | jq -r 'xboinc_location')" >> $GITHUB_ENV
     - name: Check out xsuite repos & pip install
       env:
-        xobjects_location: ${{ env.xobjects_location }}
-        xdeps_location: ${{ env.xdeps_location }}
-        xpart_location: ${{ env.xpart_location }}
-        xtrack_location: ${{ env.xtrack_location }}
-        xfields_location: ${{ env.xfields_location }}
-        xmask_location: ${{ env.xmask_location }}
-        xcoll_location: ${{ env.xcoll_location }}
-        xboinc_location: ${{ env.xboinc_location }}
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
+        echo '${{ inputs.locations }}' | jq '.' > locations.json
+        xobjects_location=$(jq -r '.["xobjects_location"]' locations.json)
+        xdeps_location=$(jq -r '.["xdeps_location"]' locations.json)
+        xpart_location=$(jq -r '.["xpart_location"]' locations.json)
+        xtrack_location=$(jq -r '.["xtrack_location"]' locations.json)
+        xfields_location=$(jq -r '.["xfields_location"]' locations.json)
+        xmask_location=$(jq -r '.["xmask_location"]' locations.json)
+        xcoll_location=$(jq -r '.["xcoll_location"]' locations.json)
+        xboinc_location=$(jq -r '.["xboinc_location"]' locations.json)
         export xsuite_prefix="$GITHUB_WORKSPACE"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
