@@ -42,7 +42,7 @@ jobs:
     uses: ./.github/workflows/test_sh.yaml
     secrets: inherit
     with:
-      locations: ${{ fromJson(inputs.locations) }}
+      locations: ${{ inputs.locations }}
       test_contexts: ${{ inputs.test_contexts }}
       platform: ${{ inputs.platform }}
       suites: ${{ inputs.suites }}
