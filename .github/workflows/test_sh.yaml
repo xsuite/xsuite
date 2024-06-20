@@ -63,14 +63,14 @@ jobs:
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) \
-            --build-arg xdeps_location=$(jq -r '.["xdeps_location"]' locations.json) \
-            --build-arg xpart_location=$(jq -r '.["xpart_location"]' locations.json) \
-            --build-arg xtrack_location=$(jq -r '.["xtrack_location"]' locations.json) \
-            --build-arg xfields_location=$(jq -r '.["xfields_location"]' locations.json) \
-            --build-arg xmask_location=$(jq -r '.["xmask_location"]' locations.json) \
-            --build-arg xcoll_location=$(jq -r '.["xcoll_location"]' locations.json) \
-            --build-arg xboinc_location=$(jq -r '.["xboinc_location"]' locations.json) \
+            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
+            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
+            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
+            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
+            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
+            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
+            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
+            --build-arg xboinc_branch=$(jq -r '.["xboinc_location"]' locations.json) \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
