@@ -77,21 +77,19 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: xsuite
-    -name: Set Envieonment Variable
-      env: JSON_INPUT: ${{ github.event.inputs.locations }}
-      run: |
-      echo -e "xobjects_location=$(echo $JSON_INPUT | jq ".xobjects_location")" >> $GITHUB_ENV
-      echo -e "xdeps_location=$(echo $JSON_INPUT | jq ".xdeps_location")" >> $GITHUB_ENV
-      echo -e "xpart_location=$(echo $JSON_INPUT | jq ".xpart_location")" >> $GITHUB_ENV
-      echo -e "xtrack_location=$(echo $JSON_INPUT | jq ".xtrack_location")" >> $GITHUB_ENV
-      echo -e "xfields_location=$(echo $JSON_INPUT | jq ".xfields_location")" >> $GITHUB_ENV
-      echo -e "xmask_location=$(echo $JSON_INPUT | jq ".xmask_location")" >> $GITHUB_ENV
-      echo -e "xcoll_location=$(echo $JSON_INPUT | jq ".xcoll_location")" >> $GITHUB_ENV
-      echo -e "xboinc_location=$(echo $JSON_INPUT | jq ".xboinc_location")" >> $GITHUB_ENV
     - name: Check out xsuite repos & pip install
       env:
         precompile_kernels: ${{ inputs.precompile_kernels }}
+        JSON_INPUT: ${{ github.event.inputs.locations }}
       run: |
+        echo -e "xobjects_location=$(echo $JSON_INPUT | jq ".xobjects_location")" >> $GITHUB_ENV
+        echo -e "xdeps_location=$(echo $JSON_INPUT | jq ".xdeps_location")" >> $GITHUB_ENV
+        echo -e "xpart_location=$(echo $JSON_INPUT | jq ".xpart_location")" >> $GITHUB_ENV
+        echo -e "xtrack_location=$(echo $JSON_INPUT | jq ".xtrack_location")" >> $GITHUB_ENV
+        echo -e "xfields_location=$(echo $JSON_INPUT | jq ".xfields_location")" >> $GITHUB_ENV
+        echo -e "xmask_location=$(echo $JSON_INPUT | jq ".xmask_location")" >> $GITHUB_ENV
+        echo -e "xcoll_location=$(echo $JSON_INPUT | jq ".xcoll_location")" >> $GITHUB_ENV
+        echo -e "xboinc_location=$(echo $JSON_INPUT | jq ".xboinc_location")" >> $GITHUB_ENV
         echo "xobjects_location=${{ xobjects_location }}" 
         echo "xdeps_location=${{ xdeps_location }}" 
         echo "xpart_location=${{ xpart_location }}" 
