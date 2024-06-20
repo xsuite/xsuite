@@ -171,6 +171,28 @@ the non-linead RF bucket, as illustrated by the following example:
     <https://github.com/xsuite/xpart/blob/main/examples/
     particles_generation/004_generate_gaussian.py>`_
 
+Example: Parabolic bunch
+-----------------------
+
+The function :meth:`xpart.parabolic_longitudinal_distribution` can be used to
+generate a bunch with a longitudinally parabolic distribution and
+with a Gaussian distribution in the transverse coordinates :
+
+.. literalinclude:: generated_code_snippets/parabolic.py
+   :language: python
+
+.. figure:: figures/Parabolic_phase_space.png
+    :width: 65%
+    :align: center
+    
+.. figure:: figures/Parabolic_histogram.png
+    :width: 55%
+    :align: center
+
+    `See the full code generating the image.
+    <https://github.com/xsuite/xpart/blob/main/examples/
+    longitudinal/006_generate_parabolic.py>`_
+
 Matching distribution at custom location in the ring
 ----------------------------------------------------
 
