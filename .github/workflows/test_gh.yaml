@@ -79,11 +79,11 @@ jobs:
         path: xsuite
     - name: Check out xsuite repos & pip install
       env:
-        BRANCH_LOCATIONS: ${{ inputs.locations }} 
+       # BRANCH_LOCATIONS: ${{ inputs.locations }} 
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xsuite_prefix="$GITHUB_WORKSPACE"
-        echo '$BRANCH_LOCATIONS ' > locations.json
+        echo '${{ inputs.locations }}' | jq '.' > locations.json
         xobjects_location=$(jq -r '.["xobjects_location"]' locations.json)
         xdeps_location=$(jq -r '.["xdeps_location"]' locations.json)
         xpart_location=$(jq -r '.["xpart_location"]' locations.json)
