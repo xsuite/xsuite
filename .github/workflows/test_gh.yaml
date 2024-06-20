@@ -83,7 +83,7 @@ jobs:
       run: |
         echo '${{ inputs.locations }}' | jq '.' > locations.json
         export xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) 
-        export xdeps_branchn=$(jq -r '.["xdeps_location"]' locations.json)
+        export xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json)
         export xpart_branch=$(jq -r '.["xpart_location"]' locations.json) 
         export xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json)
         export xfields_branch=$(jq -r '.["xfields_location"]' locations.json) 
