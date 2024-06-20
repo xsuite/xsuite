@@ -80,7 +80,6 @@ jobs:
     - name: Check out xsuite repos & pip install
       env:
         precompile_kernels: ${{ inputs.precompile_kernels }}
-        JSON_INPUT: ${{ github.event.inputs.locations }}
       run: |
         echo '${{ inputs.locations }}' | jq '.' > locations.json
         xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) 
