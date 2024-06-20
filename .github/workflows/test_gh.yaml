@@ -82,7 +82,7 @@ jobs:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         echo '${{ inputs.locations }}' | jq '.' > locations.json
-        xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) 
+        export xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) 
         export xdeps_location=$(jq -r '.["xdeps_location"]' locations.json) 
         export xpart_location=$(jq -r '.["xpart_location"]' locations.json) 
         export xtrack_location=$(jq -r '.["xtrack_location"]' locations.json) 
