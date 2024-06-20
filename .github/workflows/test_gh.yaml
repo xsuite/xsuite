@@ -82,24 +82,9 @@ jobs:
         BRANCH_LOCATIONS: ${{ inputs.locations }} 
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        echo '$BRANCH_LOCATIONS ' | jq '.' > locations.json
-        xobjects_location=$(jq -r '.["xobjects_location"]' locations.json)
-        xdeps_location=$(jq -r '.["xdeps_location"]' locations.json)
-        xpart_location=$(jq -r '.["xpart_location"]' locations.json)
-        xtrack_location=$(jq -r '.["xtrack_location"]' locations.json)
-        xfields_location=$(jq -r '.["xfields_location"]' locations.json)
-        xmask_location=$(jq -r '.["xmask_location"]' locations.json)
-        xcoll_location=$(jq -r '.["xcoll_location"]' locations.json)
-        xboinc_location=$(jq -r '.["xboinc_location"]' locations.json)
-        echo "xobjects_location: $xobjects_location"
-        echo "xdeps_location: $xdeps_location"
-        echo "xtrack_location: $xtrack_location"
-        echo "xfields_location: $xfields_location"
-        echo "xmask_location: $xmask_location"
-        echo "xcoll_location: $xcoll_location"
-        echo "xcoll_location: $xcoll_location"
-        echo "xboinc_location: $xboinc_location"
         export xsuite_prefix="$GITHUB_WORKSPACE"
+        echo '$BRANCH_LOCATIONS ' > locations.json
+        git clone --recursive --single-branch -b "branch-name" "https://github.com/$xsuite_prefix/$BRANCH_LOCATIONS.git"
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
       if: ${{ inputs.precompile_kernels == true }}
