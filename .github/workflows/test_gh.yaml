@@ -82,6 +82,7 @@ jobs:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         echo '${{ inputs.locations }}' | jq '.' > locations.json
+        cat locations.json
         echo xobjects_location=$(jq -r '.["xobjects_location"]' locations.json) >> $GITHUB_ENV
         echo xdeps_location=$(jq -r '.["xdeps_location"]' locations.json) >> $GITHUB_ENV
         echo xpart_location=$(jq -r '.["xpart_location"]' locations.json) >> $GITHUB_ENV
