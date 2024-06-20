@@ -92,7 +92,7 @@ jobs:
         xmask_location=$(jq -r '.["xmask_location"]' locations.json)
         xcoll_location=$(jq -r '.["xcoll_location"]' locations.json)
         xboinc_location=$(jq -r '.["xboinc_location"]' locations.json)
-        echo "xobjects_location: $xobjects_location"
+        echo "xobjects_location: $xsuite_prefix/xobjects_location"
         echo "xdeps_location: $xsuite_prefix/xdeps_location"
         echo "xtrack_location: $xsuite_prefix/xtrack_location"
         echo "xfields_location: $xsuite_prefix/xfields_location"
