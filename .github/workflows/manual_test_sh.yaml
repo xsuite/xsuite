@@ -23,7 +23,7 @@ on:
         type: string
       test_command:
         description: test command
-        required: true
+        required: false
         type: string
       test_contexts:
         description: test contexts
