@@ -23,7 +23,6 @@ on:
         type: string
       test_command:
         description: test command
-        default: ''
         required: true
         type: string
       test_contexts:
