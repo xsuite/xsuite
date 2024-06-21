@@ -885,6 +885,7 @@ Multidimensional Discrete Fourier Transforms are obtained by applying sequential
 
 
 \subsection{FFT convolution - 1D case}
+\label{sec:fftconv1d}
 The potential can be written as the convolution of a Green function with the charge distribution:
 \begin{equation}
 \phi(x) = \int_{-\infty}^{+\infty} \rho(x')\,G(x-x') dx'
@@ -2042,40 +2043,102 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \text{~~ for}~0 \leq m <N_T N_\text{aux}\\
 \end{equation}
 
-\section{Transverse wakefields}
+\section{Wakefields}
+We treat separately transverse and longitudinal wakefields.
+\subsection{Transverse Wakefields}
+The wakefield function is typically expanded in a Taylor series with respect
+to the position of the test and source particles:
 
-The transverse dipolar wakefield $W^D_{x}$ is defined such that:
+\begin{align*}
+    W_x(z, x_s, y_s, x_t, y_t) =& W^{const}_x(z) + W_x^{dip}(z) x_s + W_x^{quad}(z) x_t +\\
+    &W_{xy}^{dip}(z) y_s + W_{xy}^{quad}(z) y_t + h.o.t. \\
+    W_y(z, x_s, y_s, x_t, y_t) =& W^{const}_y(z) + W_y^{dip}(z) y_s + W_y^{quad}(z) y_t +\\
+    &W_{yx}^{dip}(z) x_s + W_{yx}^{quad}(z) x_t + h.o.t.
+\end{align*}
 
-\begin{equation}
-\Delta p_x(z) = -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
-    \bar{x}(z')\lambda(z')W^D_{x}(z-z') \, dz'
-\end{equation}
-where $q$ is the particle charge in number of elementary charges, $e$ is the elementary charge in Coulomb, $\bar{x}(z)$ is the average beam position, $\lambda(z)$ is the longitudinal beam density $dN/dz$ in number of particles per meter.
+The kick of each of these terms induced on a particle at position $z$ is computed differently:
 
-Discretization:
-\begin{equation}
-\Delta p_x(z_i) = -\frac{q^2 e^2}{p_0c}
-    \sum_j
-    \bar{x}(z_j)\lambda(z_j)W^D_{x}(z_i-z_j) \, \Delta z
-\end{equation}
-where:
-\begin{equation}
-z_i = z_a + i\Delta z
-\end{equation}
-\begin{equation}
-z_j = z_b + j\Delta z
-\end{equation}
+\begin{itemize}
+    \item For the constant wakes:
+        \begin{align*}
+            \Delta p_x(z) &= -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty  \lambda(z')W^{const}_x(z - z') dz',\\
+            \Delta p_y(z) &= -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty  \lambda(z')W^{const}_y(z - z') dz',\\
+        \end{align*}
+    \item For the dipolar components:
+        \begin{align*}
+            \Delta p_x(z) =& -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty
+                \bar{x}(z')\lambda(z')W^{dip}_{x}(z-z') \, dz' +\\
+             & -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
+                \bar{y}(z')\lambda(z')W^{dip}_{xy}(z-z') \, dz',\\
+            \Delta p_y(z) =& -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
+                \bar{y}(z')\lambda(z')W^{dip}_{y}(z-z') \, dz' +\\
+            & -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
+                \bar{x}(z')\lambda(z')W^{dip}_{yx}(z-z') \, dz',
+        \end{align*}
+    \item For the quadrupolar components:
+        \begin{align*}
+            \Delta p_x(z) =& -\frac{q^2 e^2}{p_0c}x(z)\int_{-\infty}^\infty 
+                \lambda(z')W^{quad}_{x}(z-z') \, dz'+\\
+            & -\frac{q^2 e^2}{p_0c}y(z)\int_{-\infty}^\infty 
+                \lambda(z')W^{quad}_{xy}(z-z') \, dz',\\
+            \Delta p_y(z) =& -\frac{q^2 e^2}{p_0c}y(z)\int_{-\infty}^\infty 
+                \lambda(z')W^{quad}_{y}(z-z') \, dz'+\\
+            & -\frac{q^2 e^2}{p_0c}x(z)\int_{-\infty}^\infty 
+                \lambda(z')W^{quad}_{yx}(z-z') \, dz',
+        \end{align*}
+\end{itemize}
+where $q$ is the particle charge in number of elementary charges, $e$ is the elementary charge in Coulomb, $\bar{x}(z)$ and $\bar{y}(z)$ 
+the average beam offsets, $\lambda(z)$ is the longitudinal beam density $dN/dz$ in number of particles per meter.
+\newline
+The previous integrals can be approximated using the method of Section \ref*{sec:fftconv1d}, where the 
+Green function is replaced by the wakefield function and the source density is replaced by the beam density possibly multiplied by the average beam position.
+\newline
+\newline
+In general, including an arbitrary number of terms in the wakefield expansion, the wakefield functions can be written as:
+\begin{align*}
+    W_x(z, x_s, y_s, x_t, y_t) &= \sum_{i} \sum_{j} W^{i,j}_{x}(z) x_s^i x_t^j + \sum_{i} \sum_{j} W^{i,j}_{xy}(z) y_s^i y_t^j,\\
+    W_y(z, x_s, y_s, x_t, y_t) &= \sum_{i} \sum_{j} W^{i,j}_{y}(z) y_s^i y_t^j + \sum_{i} \sum_{j} W^{i,j}_{yx}(z) x_s^i x_t^j,
+\end{align*}
 
-We replace in the wake term:
+and the corresponding kicks are computed as
 
+\begin{align*}
+    \Delta p_x(z) =& -\frac{q^2 e^2}{p_0c} \sum_{i} \sum_{j}  x(z)^j \int_{-\infty}^\infty 
+        \bar{x}(z')^i\lambda(z')W^{i,j}_{x}(z - z') \, dz'+\\
+     & -\frac{q^2 e^2}{p_0c}\sum_{i} \sum_{j} y(z)^j \int_{-\infty}^\infty 
+        \bar{y}(z')^i \lambda(z')W^{i,j}_{xy}(z- z') \, dz',\\
+    \Delta p_y(z) =& -\frac{q^2 e^2}{p_0c}\sum_{i} \sum_{j} y(z)^j \int_{-\infty}^\infty 
+        \bar{y}(z')^i \lambda(z')W^{i,j}_{y}(z- z') \, dz'+\\
+     & -\frac{q^2 e^2}{p_0c}\sum_{i} \sum_{j} x(z)^j \int_{-\infty}^\infty 
+        \bar{x}(z')^i \lambda(z') W^{i,j}_{yx}(z- z') \, dz',
+\end{align*}
 
-\begin{equation}
- W^D_{x}(z_i-z_j)  = 
-  W^D_{x}(z_a + i\Delta z-z_b - j\Delta z)
- = W^D_{x}(z_a -z_b + (i - j) \Delta z)
-\end{equation}
+%\subsection{Longitudinal Wakefields}
 
-We define
-\begin{equation}
-W_{l} = W^D_{x}(z_a -z_b + l \Delta z) 
-\end{equation}
+%Discretization:
+%\begin{equation}
+%\Delta p_x(z_i) = -\frac{q^2 e^2}{p_0c}
+%    \sum_j
+%    \bar{x}(z_j)\lambda(z_j)W^D_{x}(z_i-z_j) \, \Delta z
+%\end{equation}
+%where:
+%\begin{equation}
+%z_i = z_a + i\Delta z
+%\end{equation}
+%\begin{equation}
+%z_j = z_b + j\Delta z
+%\end{equation}
+%
+%We replace in the wake term:
+%
+%
+%\begin{equation}
+% W^D_{x}(z_i-z_j)  = 
+%  W^D_{x}(z_a + i\Delta z-z_b - j\Delta z)
+% = W^D_{x}(z_a -z_b + (i - j) \Delta z)
+%\end{equation}
+%
+%We define
+%\begin{equation}
+%W_{l} = W^D_{x}(z_a -z_b + l \Delta z) 
+%\end{equation}
