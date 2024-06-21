@@ -21,10 +21,6 @@ on:
         "xboinc_location":"xsuite:main" }'
         required: true
         type: string
-      test_command:
-        description: test command
-        required: false
-        type: string
       test_contexts:
         description: test contexts
         default: 'ContextCpu;ContextCpu:auto;ContextCupy;ContextPyopencl'
@@ -47,7 +43,6 @@ jobs:
     secrets: inherit
     with:
       locations: ${{ inputs.locations }}
-      test_command: ${{ inputs.test_command }}
       test_contexts: ${{ inputs.test_contexts }}
       platform: ${{ inputs.platform }}
       suites: ${{ inputs.suites }}
