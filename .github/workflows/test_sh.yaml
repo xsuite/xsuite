@@ -17,7 +17,7 @@ on:
         "xmask_location":"xsuite:main",
         "xcoll_location":"xsuite:main",
         "xboinc_location":"xsuite:main" }'
-        required: true
+        required: false
         type: string
       test_command:
         description: Command to run tests
@@ -32,7 +32,7 @@ on:
         type: string
       suites:
         description: a list of the suites to run as a JSON string
-        required: true
+        required: false
         type: string
         default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
 
@@ -119,7 +119,7 @@ jobs:
             --env PYTEST_ADDOPTS= "${test_command}"
             -v $REPORT_DIR:/opt/reports:Z \
             ${image_id} \
-            bash -c "/opt/run_tests.sh ${test_command}"
+            bash -c "/opt/run_tests.sh \"${test_command}\""
         else 
           mkdir -p reports/${{ matrix.test-suite }}
           docker run --rm --gpus all \
