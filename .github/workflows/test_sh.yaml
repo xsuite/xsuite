@@ -60,8 +60,6 @@ jobs:
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
-        env: 
-          PYTEST_ADDOPTS: "-ra -q -v"
         run: |
           echo '${{ inputs.locations }}' | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
@@ -69,7 +67,6 @@ jobs:
           docker build \
             --network=host \
             --no-cache=true \
-            --env PYTEST_ADDOPTS="${{ inputs.test_command }}" \
             --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
             --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
             --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
@@ -114,13 +111,22 @@ jobs:
       env:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
         test_contexts: ${{ inputs.test_contexts }}
+        test_command: ${{ inputs.test_command }}
+        PYTEST-ADDOPTS: "-ra -q -v"
       run: |
         mkdir -p reports/${{ matrix.test-suite }}
-        docker run --rm --gpus all \
-          --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-          -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
-          ${image_id} \
-          /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
+        if [[ -n "$test_command" ]]; then
+          docker run --rm --gpus all \
+            --env PYTEST_ADDOPTS= "${{ test_command }}"
+            -v $REPORT_DIR:/opt/reports:Z \
+            ${image_id} \
+            bash -c "${test_command}"
+        else 
+          docker run --rm --gpus all \
+            --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+            -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
+            ${image_id} \
+            /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
