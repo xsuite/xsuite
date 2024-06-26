@@ -14,8 +14,7 @@ on:
         "xtrack_location":"xsuite:main",
         "xfields_location":"xsuite:main",
         "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main",
-        "xboinc_location":"xsuite:main" }'
+        "xcoll_location":"xsuite:main"}'
         required: false
         type: string
       precompile_kernels:
@@ -47,7 +46,7 @@ jobs:
           - xfields
           - xmask
           - xcoll
-          - xboinc
+   
     
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
@@ -89,7 +88,6 @@ jobs:
         export xfields_branch=$(jq -r '.["xfields_location"]' locations.json) 
         export xmask_branch=$(jq -r '.["xmask_location"]' locations.json)
         export xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json)
-        export xboinc_branch=$(jq -r '.["xboinc_location"]' locations.json)
         export xsuite_prefix="$GITHUB_WORKSPACE" 
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels

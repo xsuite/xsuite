@@ -15,8 +15,7 @@ on:
         "xtrack_location":"xsuite:main",
         "xfields_location":"xsuite:main",
         "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main",
-        "xboinc_location":"xsuite:main" }'
+        "xcoll_location":"xsuite:main"}'
         required: false
         type: string
       test_command:
@@ -34,7 +33,7 @@ on:
         description: a list of the suites to run as a JSON string
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -74,7 +73,6 @@ jobs:
             --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
             --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
             --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
-            --build-arg xboinc_branch=$(jq -r '.["xboinc_location"]' locations.json) \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 

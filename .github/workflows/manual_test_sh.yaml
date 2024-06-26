@@ -17,8 +17,7 @@ on:
         "xtrack_location":"xsuite:main",
         "xfields_location":"xsuite:main",
         "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main",
-        "xboinc_location":"xsuite:main" }'
+        "xcoll_location":"xsuite:main"}'
         required: false
         type: string
       test_command:
@@ -37,7 +36,7 @@ on:
         description: test suites (JSON array string)
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll","xboinc"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll"]'
 
 # This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
