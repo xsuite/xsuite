@@ -35,7 +35,7 @@ on:
         required: true
       suites:
         description: test suites (JSON array string)
-        required: true
+        required: false
         type: string
         default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll","xboinc"]'
 
