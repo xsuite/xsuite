@@ -48,9 +48,6 @@ jobs:
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
-      - name: pytest addopts
-        uses: 
-          PYTEST_ADDOPTS=${{ inputs.test_command }}
       - name: Install jq
         run: |
           if command -v apt-get &> /dev/null; then
