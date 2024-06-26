@@ -50,9 +50,7 @@ jobs:
     steps:
       - name: pytest addopts
         env: 
-          PYTEST_ADDOPTS: "-ra -q -v" 
-        run: 
-          --env PYTEST_ADDOPTS=${{ inputs.test_command }}
+          PYTEST_ADDOPTS=${{ inputs.test_command }}
       - name: Install jq
         run: |
           if command -v apt-get &> /dev/null; then
