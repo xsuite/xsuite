@@ -117,7 +117,7 @@ jobs:
         mkdir -p reports/${{ matrix.test-suite }}
         if [[ -n "$test_command" ]]; then
           docker run --rm --gpus all \
-            --env PYTEST_ADDOPTS= "${{ test_command }}"
+            --env PYTEST_ADDOPTS= "${test_command}"
             -v $REPORT_DIR:/opt/reports:Z \
             ${image_id} \
             bash -c "${test_command}"
