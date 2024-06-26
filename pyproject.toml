@@ -7,7 +7,7 @@ requires = [
     "xcoll==0.4.0",
     "xobjects==0.4.3",
     "xdeps==0.6.2",
-    "xpart==0.18.5",
+    "xpart==0.18.6",
     "numpy<2.0",
 ]
 build-backend = 'setuptools.build_meta'
@@ -30,7 +30,7 @@ dependencies = [
     "xcoll==0.4.0",
     "xobjects==0.4.3",
     "xdeps==0.6.2",
-    "xpart==0.18.5",
+    "xpart==0.18.6",
 ]
 dynamic = ["version"]
 
