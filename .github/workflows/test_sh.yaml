@@ -17,7 +17,7 @@ on:
         "xmask_location":"xsuite:main",
         "xcoll_location":"xsuite:main",
         "xboinc_location":"xsuite:main" }'
-        required: false
+        required: true
         type: string
       test_command:
         description: Command to run tests
@@ -32,7 +32,7 @@ on:
         type: string
       suites:
         description: a list of the suites to run as a JSON string
-        required: false
+        required: true
         type: string
         default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
 
