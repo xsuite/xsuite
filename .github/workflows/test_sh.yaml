@@ -116,7 +116,7 @@ jobs:
           mkdir -p reports/${{ matrix.test-suite }}
           docker run --rm --gpus all \
             --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-            --env PYTEST_ADDOPTS= "${{ test_command }}" \
+            --env PYTEST_ADDOPTS="${test_command}" \
             -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
             ${image_id} \
             /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
