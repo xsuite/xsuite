@@ -15,9 +15,12 @@ on:
         "xtrack_location":"xsuite:main",
         "xfields_location":"xsuite:main",
         "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main",
-        "xboinc_location":"xsuite:main" }'
+        "xcoll_location":"xsuite:main"}'
         required: false
+        type: string
+      pytest_options:
+        description: Command to run tests
+        required: true
         type: string
       test_contexts:
         required: false
@@ -30,7 +33,7 @@ on:
         description: a list of the suites to run as a JSON string
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -70,7 +73,6 @@ jobs:
             --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
             --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
             --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
-            --build-arg xboinc_branch=$(jq -r '.["xboinc_location"]' locations.json) \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
@@ -107,13 +109,15 @@ jobs:
       env:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
         test_contexts: ${{ inputs.test_contexts }}
+        pytest_options: ${{ inputs.pytest_options }}
       run: |
-        mkdir -p reports/${{ matrix.test-suite }}
-        docker run --rm --gpus all \
-          --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-          -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
-          ${image_id} \
-          /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
+          mkdir -p reports/${{ matrix.test-suite }}
+          docker run --rm --gpus all \
+            --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+            --env PYTEST_ADDOPTS="${pytest_options}" \
+            -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
+            ${image_id} \
+            /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]

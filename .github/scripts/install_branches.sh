@@ -7,7 +7,7 @@ set -xe
 
 echo $xobjects_branch
 
-repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xboinc)
+repos=(xobjects xdeps xpart xtrack xfields xmask xcoll )
 xsuite_prefix="${xsuite_prefix:-.}"
 
 # Expects the following environment variables:

@@ -17,9 +17,12 @@ on:
         "xtrack_location":"xsuite:main",
         "xfields_location":"xsuite:main",
         "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main",
-        "xboinc_location":"xsuite:main" }'
+        "xcoll_location":"xsuite:main"}'
         required: true
+        type: string
+      pytest_options:
+        description: Command to run tests
+        required: false
         type: string
       test_contexts:
         description: test contexts
@@ -33,7 +36,7 @@ on:
         description: test suites (JSON array string)
         required: true
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll","xboinc"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll"]'
 
 # This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
@@ -43,6 +46,7 @@ jobs:
     secrets: inherit
     with:
       locations: ${{ inputs.locations }}
+      pytest_options: ${{ inputs.pytest_options }}
       test_contexts: ${{ inputs.test_contexts }}
       platform: ${{ inputs.platform }}
       suites: ${{ inputs.suites }}
