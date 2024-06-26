@@ -17,11 +17,11 @@ on:
         "xmask_location":"xsuite:main",
         "xcoll_location":"xsuite:main",
         "xboinc_location":"xsuite:main" }'
-        required: false
+        required: true
         type: string
       test_command:
         description: Command to run tests
-        required: false
+        required: true
         type: string
       test_contexts:
         required: false
