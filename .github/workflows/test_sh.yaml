@@ -17,7 +17,7 @@ on:
         "xmask_location":"xsuite:main",
         "xcoll_location":"xsuite:main",
         "xboinc_location":"xsuite:main" }'
-        required: true
+        required: false
         type: string
       test_command:
         description: Command to run tests
@@ -60,6 +60,8 @@ jobs:
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
+        env:
+          PYTEST_ADDOPTS: "-ra -q -v" 
         run: |
           echo '${{ inputs.locations }}' | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
@@ -67,6 +69,7 @@ jobs:
           docker build \
             --network=host \
             --no-cache=true \
+            --env PYTEST_ADDOPTS="${PYTEST_ADDOPTS}" \
             --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
             --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
             --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
