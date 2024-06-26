@@ -67,7 +67,6 @@ jobs:
           docker build \
             --network=host \
             --no-cache=true \
-            --env PYTEST_ADDOPTS= "${{inputs.test_command}}"
             --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
             --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
             --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
@@ -113,12 +112,14 @@ jobs:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
         test_contexts: ${{ inputs.test_contexts }}
         test_command: ${{ inputs.test_command }}
+        PYTEST-ADDOPTS: "-ra -q -v"
       run: |
         if [[ -n "$test_command" ]]; then
           docker run --rm --gpus all \
+            --env PYTEST_ADDOPTS= "${test_command}"
             -v $REPORT_DIR:/opt/reports:Z \
             ${image_id} \
-            bash -c "/opt/run_tests.sh \"${test_command}\""
+            bash -c "/opt/run_tests.sh \"${test_command}\"
         else 
           mkdir -p reports/${{ matrix.test-suite }}
           docker run --rm --gpus all \
