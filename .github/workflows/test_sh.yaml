@@ -19,6 +19,10 @@ on:
         "xboinc_location":"xsuite:main" }'
         required: false
         type: string
+      test_command:
+        description: Command to run tests
+        required: false
+        type: string
       test_contexts:
         required: false
         type: string
