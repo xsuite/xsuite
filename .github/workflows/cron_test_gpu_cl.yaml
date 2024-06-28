@@ -31,9 +31,7 @@ jobs:
           image_id=$(docker image --format "{{.Repository}}:{{.Tag}}" | head -n 1 )
           echo "LOAD image: $IMAGE_ID"
           echo "image_id=@IMAGE_ID" >>GITHHUB
-
-  run-tests-cron-gpu:
-    steps:
+          
       - name: Run pytest
         env:
           image_id: ${{ env.IMAGE_ID  }}

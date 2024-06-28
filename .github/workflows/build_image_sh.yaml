@@ -3,7 +3,7 @@ name: Build Docker Image
 
 on: 
   schedule:
-    - cron: '19 10 * * *' 
+    - cron: '50 10 * * *' 
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
