@@ -72,10 +72,11 @@ jobs:
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
           docker save $IMAGE | gzip > $IMAGE.tar.gz
+          ls -la
 
       - id: Upload-image
         name: Upload Docker image as artifact
         uses: actions/upload-artifact@v4
         with: 
           name: docker-image
-          path: $IMAGE.tar.gz
+          path: "${{ env.IMAGE }}.tar.gz"
