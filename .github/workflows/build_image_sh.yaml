@@ -34,7 +34,7 @@ jobs:
       - id: build-image
         name: Build the test image
         run: |
-        locations='{
+        cat <<EOF > locations.json {
             "xobjects_location":"xsuite:main",
             "xdeps_location":"xsuite:main",
             "xpart_location":"xsuite:main",
@@ -42,20 +42,21 @@ jobs:
             "xfields_location":"xsuite:main",
             "xmask_location":"xsuite:main",
             "xcoll_location":"xsuite:main"
-          }'
-          echo $locations | jq '.' > locations.json
+          }
+          EOF
+
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
-            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
-            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
-            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
-            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
-            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
-            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
+            --build-arg xobjects_branch=$xobjects_location \
+            --build-arg xdeps_branch=$xdeps_location\
+            --build-arg xpart_branch=$xpart_location\
+            --build-arg xtrack_branch=$xtrack_location\
+            --build-arg xfields_branch=$xfields_location \
+            --build-arg xmask_branch=$xmask_location\
+            --build-arg xcoll_branch=$xcoll_location\
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
