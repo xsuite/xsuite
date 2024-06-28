@@ -4,14 +4,65 @@ name: Daily test (self-hosted, OpenCL)
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+    - cron: '20 10 * * *'  # run at 19:00 UTC daily
 
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
 jobs:
-  run-tests-cron-gpu:
-    if: github.repository == 'xsuite/xsuite'
-    uses: ./.github/workflows/test_sh.yaml
-    with:
+  download-and-test:
+    runs-on: [self-hosted, "alma" ]
+    env: 
       test_contexts: 'ContextPyopencl'
-      platform: 'alma'
+
+    steps:
+      - id: checkout-repo
+        name: Checkout the repo
+        uses: actions/checkout@v3
+
+      - name: Download Docker Image Artifact
+        uses: actions/download-artifact@v4
+        with: 
+          name: docker-image
+          path: docker -image 
+      
+      name: Load docker Image from Artifact 
+      run: |
+        gunzip -c docker-iamge/iamge_${{ github.sha }}.tar.gz | docker load
+        image_id=$(docker image --format "{{.Repository}}:{{.Tag}}" | head -n 1 )
+        echo "LOAD image: $IMAGE_ID"
+        echo "image_id=@IMAGE_ID" >>GITHHUB
+
+  run-tests-cron-gpu:
+    - name: Run pytest
+      env:
+        image_id: ${{ env.IMAGE_ID  }}
+        test_contexts: ${ test_contexts }
+      run: |
+          docker run --rm --gpus all \
+            --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+            ${image_id} \
+            /opt/run_tests.sh 
+  wait:
+      runs-on: [self-hosted, "alma" ]
+      needs: [download-and-test, run-tests-cron-gpu]
+      if: success() || failure()
+      steps:
+        - name: Wait
+          run: sleep 300
+
+  # Cleanup after the tests by removing the image and making sure there are
+  # no unused images and stopped containers
+  teardown:
+    runs-on: [self-hosted, "alma" ]
+    needs: [download-and-test, run-tests-cron-gpu]
+    env:
+      image_id: ${{ env.IMAGE_ID }}
+    if: always()
+    steps:
+      - name: Stop the containers and remove the image
+        run: |
+          docker container stop \
+            $(docker ps -q --filter ancestor=${image_id}) || true
+          docker container rm --volumes \
+            $(docker ps -qa --filter ancestor=${image_id}) || true
+          docker image rm ${image_id}

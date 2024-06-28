@@ -1,0 +1,77 @@
+#This is a workflow to build a docker image for self-host
+name: Build Docker Image 
+
+on: 
+  schedule:
+    - cron: '55 9 * * *' 
+
+env:
+  with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# The jobs are all run in independent environments. Here we will run a separate job
+# for each of the test suites specified in the matrix below.
+jobs:
+  build-test-image:
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
+    outputs:
+      image_id: ${{ steps.build-image.outputs.image_id }}
+    steps:
+      - name: Install jq
+        run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          else command -v yum &> /dev/null; 
+            sudo yum install -y jq
+          fi
+      - id: checkout-repo
+        name: Checkout the repo
+        uses: actions/checkout@v3
+      - id: build-image
+        name: Build the test image
+        run: |
+          echo '${{ inputs.locations }}' | jq '.' > locations.json
+          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
+          docker build \
+            --network=host \
+            --no-cache=true \
+            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
+            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
+            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
+            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
+            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
+            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
+            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
+            --build-arg with_gpu=${with_gpu} \
+            -t $IMAGE .
+
+  image-sanity-checks-and-save:
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
+    needs: build-test-image
+    env:
+      image_id: ${{ needs.build-test-image.outputs.image_id }}
+    steps:
+      - name: CUDA/ROCm info
+        if: ${{ env.with_gpu == 'true' }}
+        run: docker run --rm --gpus all ${image_id} bash -c "nvidia-smi || rocm-smi"
+      - name: OpenCL info
+        if: ${{ env.with_gpu == 'true' }}
+        run: docker run --rm --gpus all ${image_id} clinfo
+      - name: Package paths
+        run: docker run --rm --gpus all ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+      - name: List dependencies
+        run: docker run --rm --gpus all ${image_id} pip freeze
+      - name: Save docker image as Artifact
+        run: |
+          docker save ${{ env.image_id }} | gzip > image_${{ github.sha }}.tar.gz
+  
+  upload-image: 
+      runs-on: ubuntu-latest
+      needs: image-sanity-checks-and-save
+      steps: 
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: image_${{ github.sha }}.tar.gz
