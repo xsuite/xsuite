@@ -33,15 +33,16 @@ jobs:
           echo "image_id=@IMAGE_ID" >>GITHHUB
 
   run-tests-cron-gpu:
-    - name: Run pytest
-      env:
-        image_id: ${{ env.IMAGE_ID  }}
-        test_contexts: ${ test_contexts }
-      run: |
-          docker run --rm --gpus all \
-            --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-            ${image_id} \
-            /opt/run_tests.sh 
+    steps:
+      - name: Run pytest
+        env:
+          image_id: ${{ env.IMAGE_ID  }}
+          test_contexts: ${ test_contexts }
+        run: |
+            docker run --rm --gpus all \
+              --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+              ${image_id} \
+              /opt/run_tests.sh 
   wait:
       runs-on: [self-hosted, "alma" ]
       needs: [download-and-test, run-tests-cron-gpu]
