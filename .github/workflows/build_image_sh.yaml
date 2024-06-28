@@ -1,9 +1,9 @@
 #This is a workflow to build a docker image for self-host
 name: Build Docker Image 
 
-# on: 
-#   schedule:
-#     - cron: '55 9 * * *' 
+on: 
+  schedule:
+    - cron: '55 9 * * *' 
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}

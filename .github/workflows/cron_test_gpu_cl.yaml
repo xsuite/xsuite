@@ -25,12 +25,12 @@ jobs:
           name: docker-image
           path: docker -image 
       
-      name: Load docker Image from Artifact 
-      run: |
-        gunzip -c docker-iamge/iamge_${{ github.sha }}.tar.gz | docker load
-        image_id=$(docker image --format "{{.Repository}}:{{.Tag}}" | head -n 1 )
-        echo "LOAD image: $IMAGE_ID"
-        echo "image_id=@IMAGE_ID" >>GITHHUB
+      - name: Load docker Image from Artifact 
+        run: |
+          gunzip -c docker-iamge/iamge_${{ github.sha }}.tar.gz | docker load
+          image_id=$(docker image --format "{{.Repository}}:{{.Tag}}" | head -n 1 )
+          echo "LOAD image: $IMAGE_ID"
+          echo "image_id=@IMAGE_ID" >>GITHHUB
 
   run-tests-cron-gpu:
     - name: Run pytest
