@@ -42,8 +42,8 @@ env:
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
 jobs:
-  build-test-image:
-    uses: ./.github/workflows/build_image_sh.yaml
+  load-image:
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
     steps:
       - name: Download Docker image artifact
         uses: actions/upload-artifact@v4
@@ -53,7 +53,8 @@ jobs:
           
       - name: Load Docker image
         run: |
-          gzip -dc docker-image/*.tar.gz | docker load    
+          IMAGE_ID=$(gzip -dc docker-image/*.tar.gz | docker load | cut -d ' ' -f 3)
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV   
       
   # Print out some stuff about the test environment
   image-sanity-checks:
