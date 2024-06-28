@@ -87,3 +87,4 @@ jobs:
           name: docker-image
           path: "${{ env.image_id }}.tar.gz"
           if-no-files-found: error
+          retention-days: 1
