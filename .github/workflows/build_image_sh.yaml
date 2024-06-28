@@ -34,7 +34,16 @@ jobs:
       - id: build-image
         name: Build the test image
         run: |
-          echo '${{ inputs.locations }}' | jq '.' > locations.json
+        locations='{
+            "xobjects_location":"xsuite:main",
+            "xdeps_location":"xsuite:main",
+            "xpart_location":"xsuite:main",
+            "xtrack_location":"xsuite:main",
+            "xfields_location":"xsuite:main",
+            "xmask_location":"xsuite:main",
+            "xcoll_location":"xsuite:main"
+          }'
+          echo $locations | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
