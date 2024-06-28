@@ -43,7 +43,7 @@ env:
 # for each of the test suites specified in the matrix below.
 jobs:
   load-image:
-    uses: ./.github/workflows/build_image_sh.yaml
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
     needs: build-and-upload 
     steps:
       - name: Download Docker image artifact
