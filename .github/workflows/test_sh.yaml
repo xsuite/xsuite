@@ -43,39 +43,20 @@ env:
 # for each of the test suites specified in the matrix below.
 jobs:
   build-test-image:
-    runs-on: [self-hosted, "${{ inputs.platform }}"]
-    outputs:
-      image_id: ${{ steps.build-image.outputs.image_id }}
+    uses: ./.github/workflows/build_image_sh.yaml
+    with:
+      platform: ${{ inputs.platform }}
     steps:
-      - name: Install jq
+      - name: Download Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: docker-image
+          
+      - name: Load Docker image
         run: |
-          if command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y jq
-          else command -v yum &> /dev/null; 
-            sudo yum install -y jq
-          fi
-      - id: checkout-repo
-        name: Checkout the repo
-        uses: actions/checkout@v3
-      - id: build-image
-        name: Build the test image
-        run: |
-          echo '${{ inputs.locations }}' | jq '.' > locations.json
-          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
-          echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
-          docker build \
-            --network=host \
-            --no-cache=true \
-            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
-            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
-            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
-            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
-            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
-            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
-            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
-            --build-arg with_gpu=${with_gpu} \
-            -t $IMAGE .
-
+          gzip -dc docker-image/*.tar.gz | docker load    
+      
   # Print out some stuff about the test environment
   image-sanity-checks:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
