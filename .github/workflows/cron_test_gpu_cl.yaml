@@ -4,7 +4,7 @@ name: Daily test (self-hosted, OpenCL)
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '20 10 * * *'  # run at 19:00 UTC daily
+    - cron: '15 9 * * *'  # run at 19:00 UTC daily
 
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
@@ -31,7 +31,7 @@ jobs:
           image_id=$(docker image --format "{{.Repository}}:{{.Tag}}" | head -n 1 )
           echo "LOAD image: $IMAGE_ID"
           echo "image_id=@IMAGE_ID" >>GITHHUB
-          
+
       - name: Run pytest
         env:
           image_id: ${{ env.IMAGE_ID  }}
