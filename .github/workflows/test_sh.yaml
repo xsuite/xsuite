@@ -44,8 +44,6 @@ env:
 jobs:
   build-test-image:
     uses: ./.github/workflows/build_image_sh.yaml
-    with:
-      platform: ${{ inputs.platform }}
     steps:
       - name: Download Docker image artifact
         uses: actions/upload-artifact@v4
