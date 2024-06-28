@@ -74,9 +74,16 @@ jobs:
           docker save $IMAGE | gzip > $IMAGE.tar.gz
           ls -la
 
+      - id: debug-info
+        name: Debug Info
+        run: |
+          echo "image_id: ${{ env.image_id }}"
+          ls -la
+
       - id: Upload-image
         name: Upload Docker image as artifact
         uses: actions/upload-artifact@v4
         with: 
           name: docker-image
-          path: "${{ env.IMAGE }}.tar.gz"
+          path: "${{ env.image_id }}.tar.gz"
+          if-no-files-found: error
