@@ -71,6 +71,7 @@ jobs:
             --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
+          docker save $IMAGE | gzip > $IMAGE.tar.gz
 
       - id: Upload-image
         name: Upload Docker image as artifact
