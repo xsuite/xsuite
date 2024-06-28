@@ -28,25 +28,24 @@ jobs:
       - name: Load Docker Image from Artifact
         run: |
           gunzip -c docker-image/image_${{ github.sha }}.tar.gz | docker load
-          image_id=$(docker images --format "{{.Repository}}:{{.Tag}}" | head -n 1)
+          IMAGE_ID=$(docker images --format "{{.Repository}}:{{.Tag}}" | head -n 1)
           echo "Loaded image: $IMAGE_ID"
-          echo "image_id=$IMAGE_ID" >> $GITHUB_ENV
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
 
       - name: Run pytest
         env:
-          image_id: ${{ env.IMAGE_ID  }}
-          test_contexts: ${ test_contexts }
+          IMAGE_ID: ${{ env.IMAGE_ID }}
+          TEST_CONTEXTS: ${{ env.test_contexts }}
         run: |
             docker run --rm --gpus all \
-              --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-              ${image_id} \
+              --env TEST_CONTEXTS="${TEST_CONTEXTS}" \
+              ${IMAGE_ID} \
               /opt/run_tests.sh 
 
       - name: Cleanup Docker
         if: always()
         run: |
           docker image rm ${{ env.IMAGE_ID }}
-
 
   run-tests-cron-sh-cpu-no-xmask-openmp:
     if: github.repository == 'xsuite/xsuite'
@@ -56,36 +55,36 @@ jobs:
       suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
 
       steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v3
+        - name: Checkout the repo
+          uses: actions/checkout@v3
 
-      - name: Download Docker Image Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: docker-image
-          path: docker-image
-      
-      - name: Load Docker Image from Artifact
-        run: |
-          gunzip -c docker-image/image_${{ github.sha }}.tar.gz | docker load
-          image_id=$(docker images --format "{{.Repository}}:{{.Tag}}" | head -n 1)
-          echo "Loaded image: $IMAGE_ID"
-          echo "image_id=$IMAGE_ID" >> $GITHUB_ENV
+        - name: Download Docker Image Artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: docker-image
+            path: docker-image
+        
+        - name: Load Docker Image from Artifact
+          run: |
+            gunzip -c docker-image/image_${{ github.sha }}.tar.gz | docker load
+            IMAGE_ID=$(docker images --format "{{.Repository}}:{{.Tag}}" | head -n 1)
+            echo "Loaded image: $IMAGE_ID"
+            echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
 
-      - name: Run pytest
-        env:
-          image_id: ${{ env.IMAGE_ID  }}
-          test_contexts: ${ test_contexts }
-        run: |
-            docker run --rm --gpus all \
-              --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-              ${image_id} \
-              /opt/run_tests.sh 
+        - name: Run pytest
+          env:
+            IMAGE_ID: ${{ env.IMAGE_ID }}
+            TEST_CONTEXTS: ${{ env.test_contexts }}
+          run: |
+              docker run --rm --gpus all \
+                --env TEST_CONTEXTS="${TEST_CONTEXTS}" \
+                ${IMAGE_ID} \
+                /opt/run_tests.sh 
 
-      - name: Cleanup Docker
-        if: always()
-        run: |
-          docker image rm ${{ env.IMAGE_ID }}
+        - name: Cleanup Docker
+          if: always()
+          run: |
+            docker image rm ${{ env.IMAGE_ID }}
     
   run-tests-cron-sh-cpu-xmask:
     if: github.repository == 'xsuite/xsuite'
@@ -98,34 +97,34 @@ jobs:
       suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
 
       steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v3
+        - name: Checkout the repo
+          uses: actions/checkout@v3
 
-      - name: Download Docker Image Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: docker-image
-          path: docker-image
-      
-      - name: Load Docker Image from Artifact
-        run: |
-          gunzip -c docker-image/image_${{ github.sha }}.tar.gz | docker load
-          image_id=$(docker images --format "{{.Repository}}:{{.Tag}}" | head -n 1)
-          echo "Loaded image: $IMAGE_ID"
-          echo "image_id=$IMAGE_ID" >> $GITHUB_ENV
+        - name: Download Docker Image Artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: docker-image
+            path: docker-image
+        
+        - name: Load Docker Image from Artifact
+          run: |
+            gunzip -c docker-image/image_${{ github.sha }}.tar.gz | docker load
+            image_id=$(docker images --format "{{.Repository}}:{{.Tag}}" | head -n 1)
+            echo "Loaded image: $IMAGE_ID"
+            echo "image_id=$IMAGE_ID" >> $GITHUB_ENV
 
-      - name: Run pytest
-        env:
-          image_id: ${{ env.IMAGE_ID  }}
-          test_contexts: ${ test_contexts }
-        run: |
-            docker run --rm --gpus all \
-              --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-              ${image_id} \
-              /opt/run_tests.sh 
+        - name: Run pytest
+          env:
+            image_id: ${{ env.IMAGE_ID  }}
+            test_contexts: ${ test_contexts }
+          run: |
+              docker run --rm --gpus all \
+                --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+                ${image_id} \
+                /opt/run_tests.sh 
 
-      - name: Cleanup Docker
-        if: always()
-        run: |
-          docker image rm ${{ env.IMAGE_ID }}
+        - name: Cleanup Docker
+          if: always()
+          run: |
+            docker image rm ${{ env.IMAGE_ID }}
 
