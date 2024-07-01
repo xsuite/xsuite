@@ -25,7 +25,6 @@ ABBRV = {
     'xf': 'xfields',
     'xm': 'xmask',
     'xc': 'xcoll',
-    'xb': 'xboinc',
 }
 
 def make_flag(pkg):
@@ -46,7 +45,6 @@ def make_flag(pkg):
 @make_flag('xf')
 @make_flag('xm')
 @make_flag('xc')
-@make_flag('xb')
 @click.option(
     '--platform',
     default='self-hosted',
@@ -66,7 +64,7 @@ def make_flag(pkg):
 )
 @click.option(
     '--suites',
-    default='xo,xd,xp,xt,xf,xc,xb',
+    default='xo,xd,xp,xt,xf,xc',
     help='Test suites to run.',
     show_default=True,
 )
@@ -82,7 +80,7 @@ def make_flag(pkg):
     help='The branch of the workflow.',
     show_default=True,
 )
-def run(xo, xd, xp, xt, xf, xm, xc, xb, platform, ctx, suites, wf, branch):
+def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf, branch):
     """Schedule a test run of Xsuite on a self-hosted runner.
 
     Example:
@@ -105,14 +103,13 @@ def run(xo, xd, xp, xt, xf, xm, xc, xb, platform, ctx, suites, wf, branch):
 
     parameters = { 
         'locations' :json.dumps({
-        'xobjects_location': xo,
-        'xdeps_location': xd,
-        'xpart_location': xp,
-        'xtrack_location': xt,
-        'xfields_location': xf,
-        'xmask_location': xm,
-        'xcoll_location': xc,
-        'xboinc_location': xb
+            'xobjects_location': xo,
+            'xdeps_location': xd,
+            'xpart_location': xp,
+            'xtrack_location': xt,
+            'xfields_location': xf,
+            'xmask_location': xm,
+            'xcoll_location': xc,
         }) ,
         'test_contexts': ';'.join(fmt_contexts),
         'platform': platform,

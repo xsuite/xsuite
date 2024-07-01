@@ -15,14 +15,14 @@ jobs:
     with:
       test_contexts: 'ContextCpu'
       platform: 'alma-cpu-1'
-      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
+      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
   run-tests-cron-sh-cpu-no-xmask-openmp:
     if: github.repository == 'xsuite/xsuite'
     uses: ./.github/workflows/test_sh.yaml
     with:
       test_contexts: 'ContextCpu:auto'
       platform: 'alma-cpu-2'
-      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll","xboinc"]'
+      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
   run-tests-cron-sh-cpu-xmask:
     if: github.repository == 'xsuite/xsuite'
     uses: ./.github/workflows/test_sh.yaml
