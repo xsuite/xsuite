@@ -4,7 +4,7 @@ name: Daily test (self-hosted, CPU)
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+    - cron: '30 7 * * *'  # run at 19:00 UTC daily
 
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
