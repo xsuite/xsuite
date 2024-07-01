@@ -5,34 +5,22 @@ name: Test workflow (self-hosted)
 on:
   workflow_call:
     # Inputs the workflow accepts.
+    # Specify branches using the refspec-like syntax: <user>:<branch>
     inputs:
-      xobjects_location:
+      locations:
+        description: 'Branch locations (JSON array string)'
+        default: '{ "xobjects_location":"xsuite:main" ,
+        "xdeps_location":"xsuite:main",
+        "xpart_location":"xsuite:main",
+        "xtrack_location":"xsuite:main",
+        "xfields_location":"xsuite:main",
+        "xmask_location":"xsuite:main",
+        "xcoll_location":"xsuite:main"}'
         required: false
-        default: "xsuite:main"
         type: string
-      xdeps_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xpart_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xtrack_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xfields_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xmask_location:
-        required: false
-        default: "xsuite:main"
-        type: string
-      xcoll_location:
-        required: false
-        default: "xsuite:main"
+      pytest_options:
+        description: Additional pytest options
+        required: true
         type: string
       test_contexts:
         required: false
@@ -54,38 +42,37 @@ env:
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
 jobs:
-  # First, we build our test image
   build-test-image:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
+      - name: Install jq
+        run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          else command -v yum &> /dev/null; 
+            sudo yum install -y jq
+          fi
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
-        env:
-          xobjects_branch: ${{ inputs.xobjects_location }}
-          xdeps_branch: ${{ inputs.xdeps_location }}
-          xpart_branch: ${{ inputs.xpart_location }}
-          xtrack_branch: ${{ inputs.xtrack_location }}
-          xfields_branch: ${{ inputs.xfields_location }}
-          xmask_branch: ${{ inputs.xmask_location }}
-          xcoll_branch: ${{ inputs.xcoll_location }}
         run: |
+          echo '${{ inputs.locations }}' | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=${xobjects_branch} \
-            --build-arg xdeps_branch=${xdeps_branch} \
-            --build-arg xpart_branch=${xpart_branch} \
-            --build-arg xtrack_branch=${xtrack_branch} \
-            --build-arg xfields_branch=${xfields_branch} \
-            --build-arg xmask_branch=${xmask_branch} \
-            --build-arg xcoll_branch=${xcoll_branch} \
+            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
+            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
+            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
+            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
+            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
+            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
+            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
@@ -122,13 +109,15 @@ jobs:
       env:
         image_id: ${{ needs.build-test-image.outputs.image_id }}
         test_contexts: ${{ inputs.test_contexts }}
+        pytest_options: ${{ inputs.pytest_options }}
       run: |
-        mkdir -p reports/${{ matrix.test-suite }}
-        docker run --rm --gpus all \
-          --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-          -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
-          ${image_id} \
-          /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
+          mkdir -p reports/${{ matrix.test-suite }}
+          docker run --rm --gpus all \
+            --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+            --env PYTEST_ADDOPTS="${pytest_options}" \
+            -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
+            ${image_id} \
+            /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
