@@ -19,7 +19,7 @@ on:
         required: false
         type: string
       pytest_options:
-        description: Command to run tests
+        description: Additional pytest options
         required: true
         type: string
       test_contexts:
