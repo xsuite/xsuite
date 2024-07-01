@@ -15,6 +15,7 @@ ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
 ARG xsuite_branch=xsuite:main
+ARG xboinc_branch=xsuite:main 
 ARG with_gpu
 
 # Use bash as the default shell
@@ -78,7 +79,8 @@ RUN if [[ "$with_gpu" == true ]]; then \
 # Install all the Xsuite packages in the required versions
 WORKDIR /opt/xsuite
 COPY ./ /opt/xsuite/xsuite/
-RUN bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
+
+RUN chmod +x /opt/xsuite/xsuite/.github/scripts/install_branches.sh && bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
 
 # Copy the test runner script into the image
 WORKDIR /opt
