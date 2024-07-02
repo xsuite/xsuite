@@ -107,7 +107,7 @@ def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf, branch, pytest_op
 
     fmt_suites = [ABBRV[x.strip()] for x in suites.split(',')]
 
-    parameters = { 
+    parameters = {
         'locations' :json.dumps({
             'xobjects_location': xo,
             'xdeps_location': xd,
