@@ -20,8 +20,9 @@ on:
         type: string
       pytest_options:
         description: Additional pytest options
-        required: true
+        required: false
         type: string
+        default: ''
       test_contexts:
         required: false
         type: string
