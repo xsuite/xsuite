@@ -12,6 +12,12 @@ REPORTS_DIR="/opt/reports"
 # Keep track of failures
 STATUS=0
 
+# A temporary workaround for pyopencl not supporting numpy 2 in wheels
+# TODO: Remove once pyopencl gets updated wheels
+if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]]; then
+  pip install 'numpy<2.0'
+fi
+
 # If xtrack on Pyopencl context, run tests one by one, otherwise run normally
 if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]] && [[ $* =~ xsuite/(xtrack|xpart|xfields) ]]; then
   # Run tests one by one
