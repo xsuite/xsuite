@@ -24,18 +24,28 @@ if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]] && [[ $* =~ xsuite/(xtrack
         --color=yes \
         --verbose \
         --html="$REPORTS_DIR/report-$TEST_NAME.html" --self-contained-html \
-        "$test_file" || STATUS=1
+        "$test_file"
+      PYTEST_STATUS=$?
+      # If the tests failed, set the status to 1 (5 is for no tests collected)
+      if [ $PYTEST_STATUS -ne 0 ] && [ $PYTEST_STATUS -ne 5 ]; then
+        STATUS=1
+      fi
   done
 
   echo "Generating report..."
   pytest_html_merger -i "$REPORTS_DIR" -o "$REPORTS_DIR/report.html"
 else
-   # Run tests normally if no Pyopencl context
+  # Run tests normally if no Pyopencl context
   pytest \
     --color=yes \
     --verbose \
     --html="$REPORTS_DIR/report.html" --self-contained-html \
-    "$@" || STATUS=1
+    "$@"
+    PYTEST_STATUS=$?
+    # 5 is exit code for no tests collected, which is not an error for us
+    if [ $PYTEST_STATUS -ne 0 ] && [ $PYTEST_STATUS -ne 5 ]; then
+        STATUS=1
+    fi
 fi
 
 exit $STATUS
