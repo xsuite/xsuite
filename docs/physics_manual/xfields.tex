@@ -2044,101 +2044,172 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \end{equation}
 
 \section{Wakefields}
+
 We treat separately transverse and longitudinal wakefields.
 \subsection{Transverse Wakefields}
-The wakefield function is typically expanded in a Taylor series with respect
-to the position of the test and source particles:
+The wake function expressed as a function of time can be computed from the beam-coupling
+impedance $Z_{x,y}(\omega)$ as (see \cite[Eq. 1.216]{Mounet:Thesis}):
+\begin{equation}
+    \widehat{W}_{x,y}(t) = -\frac{j}{2\pi}\int_{-\infty}^{+\infty} d\omega \ e^{j\omega t} Z_{x,y}(\omega).
+\end{equation}
+To obtain the formula of the impedance evaluated at a frequency $\omega'$ from
+$\widehat{W}_{x,y}(t)$ we multiply both sides by $e^{-j\omega t}$ and integrate
+over $t$:
+\begin{align}
+    \int_{-\infty}^{\infty}dt \ e^{-j\omega' t}\widehat{W}_{x,y}(t) &= -\frac{j}{2\pi}\int_{-\infty}^{\infty}dt \ \int_{-\infty}^{+\infty} d\omega Z_{x,y}(\omega)e^{j(\omega-\omega') t}\\
+    &= -\frac{j}{2\pi} \int_{-\infty}^{+\infty} d\omega \ Z_{x,y}(\omega) \int_{-\infty}^{\infty}dt \ e^{j(\omega-\omega') t}.
+\end{align}
+We now apply the definition of Dirac $\delta$ function
+\begin{equation}
+    \delta(\omega-\omega') =  \frac{j}{2\pi} \int_{-\infty}^{\infty} dt \ e^{j(\omega-\omega') t},
+\end{equation}
+and we find
+\begin{equation}
+    \int_{-\infty}^{\infty}dt \ e^{-j\omega' t}\widehat{W}_{x,y}(t) = -j \int_{-\infty}^{+\infty} d\omega \ Z_{x,y}(\omega) \delta(\omega-\omega') = -j Z_{x, y}(\omega').
+\end{equation}
+Rearranging we find the following formula for the impedance from $\widehat{W}_{x,y}(t)$:
+\begin{equation}\label{eq:impedance_from_wake_tilde}
+    Z_{x,y}(\omega) = j\int_{-\infty}^{+\infty} dt \ e^{-j\omega t} \widehat{W}_{x,y}(t).
+\end{equation}
+Here $t$ represents the delay between the source and test particles therefore it
+is positive for a particle that arrives at a given location after the source particle and
+$\widehat{W}_{x,y}(t)$ is non-zero for $t>0$.\\
 
+Now we would like to write the same formula expressing the wakefield as a function of $z$, the
+distance between the source and test particles. To do so we express the distance $z$ as a function of $t$:
+\begin{equation}\label{eq:z}
+    z = -\beta_0 c t,
+\end{equation}
+and we define
+\begin{equation}
+    W_{x,y}(z) = \widehat{W}_{x,y}(t) = \widehat{W}_{x,y}(-\frac{z}{\beta_0 c}).
+\end{equation}
+Here $W_{x, y}(z)$ is non-zero for $z<0$ due to the minus sign in \ref{eq:z}.
+To express the impedance as a function of $W_x(z)$ we change the variable of integration
+from $t$ to $z=-\beta_0 c t$ in \ref{eq:impedance_from_wake_tilde}:
+\begin{equation}
+    Z_{x,y}(\omega) = j \int_{-\infty}^{+\infty} dt \ e^{-j\omega t} \widehat{W}_{x,y}(t) = j \int_{+\infty}^{-\infty} \frac{dz}{-\beta_0 c} e^{j\omega \frac{z}{-\beta_0 c}} W_{x,y}(z) = \frac{j}{\beta_0 c} \int_{-\infty}^{+\infty} dz e^{-j\omega \frac{z}{\beta_0 c}} W_{x,y}(z),
+\end{equation}
+and we find
+\begin{equation}
+    Z_{x,y}(\omega) = \frac{j}{\beta c} \int_{-\infty}^{+\infty} dz e^{j \omega \frac{z}{\beta c}} W_{x,y}(z).
+\end{equation}
+Using the new definition of wake as a function of $z$ we can rewrite the wake from the impedance as
+\begin{equation}
+    W_{x,y}(z) = \widehat{W}_{x,y}(-\frac{z}{\beta_0 c}) = \frac{-j}{2\pi}\int_{-\infty}^{+\infty} d\omega \ e^{j\omega \frac{z}{\beta_0 c}} Z_{x,y}(\omega).
+\end{equation}
+Now, we would like to express the kick induced by the wakefield on a test particle at position $z$.
+To avoid confusion in the following we focus on the x-plane, the same reasoning can be applied to the y-plane.
+In order to find the correct constants we write the kick from the applied force $F_{x, y}$
+\begin{equation}
+    \frac{d P_{x}}{d t} = F_x,
+\end{equation}
+then at the discrete level we can write
+\begin{equation}
+    \Delta P_{x} = F_{x} \Delta t,
+\end{equation}
+and substituting the $P_{x}$ with the normalized one $p_{x} = \frac{P_{x}}{P_0}$ we find
+\begin{equation}
+    \Delta p_{x} = \frac{F_{x}}{P_0} \Delta t = \frac{F_{x}}{P_0}\frac{\Delta s }{\beta_0 c},
+\end{equation}
+hence substituting $P_0 = m_0 \gamma \beta_0 c$ we find
+\begin{equation}
+    \Delta p_{x} = \frac{F_{x}}{m_0 \gamma \beta_0^2 c^2} \Delta s.
+\end{equation}
+Therefore, applying the definition of wake we find that the kick on a test particle
+at distance $z$ is
+\begin{equation}
+    \Delta p_x = \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} W_x(z).
+\end{equation}
+In reality the transverse wake depends also on the transverse offses offsets of the test and source particles,
+therefore we write
+\begin{equation}
+    \Delta p_x(x_s, y_s, x_t, y_t) = \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} W_x(z, x_s, y_s, x_t, y_t).
+\end{equation}
+If we want to compute the kick on a test particle at position $z$ with offsets $x$ and $y$ due to all the other
+particles in a bunch we need to compute the following convolution
+\begin{equation}
+    \Delta p_x = \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} \int_{-\infty}^{+\infty} dz' \lambda(z') W_x(z-z', \bar{x}(z'), \bar{y}(z'), x(z), y(z)),
+\end{equation}
+where $\lambda(z)$ is the beam density and $\bar{x}(z')$ and $\bar{y}(z')$ are the average offsets of the beam at $z'$.
+
+For small beam offsets the wake can be expanded in a Taylor series as follows:
 \begin{align*}
-    W_x(z, x_s, y_s, x_t, y_t) =& W^{const}_x(z) + W_x^{dip}(z) x_s + W_x^{quad}(z) x_t +\\
-    &W_{xy}^{dip}(z) y_s + W_{xy}^{quad}(z) y_t + h.o.t. \\
-    W_y(z, x_s, y_s, x_t, y_t) =& W^{const}_y(z) + W_y^{dip}(z) y_s + W_y^{quad}(z) y_t +\\
-    &W_{yx}^{dip}(z) x_s + W_{yx}^{quad}(z) x_t + h.o.t.
+    W_x(z, x_s, y_s, x_t, y_t) &= W_x^{0,0} + \sum_{i>0} \sum_{j>0} W^{i,j}_{x}(z) x_s^i x_t^j + \sum_{i>0} \sum_{j>0} W^{i,j}_{xy}(z) y_s^i y_t^j,\\
+    W_y(z, x_s, y_s, x_t, y_t) &= W_y^{0,0} + \sum_{i>0} \sum_{j>0} W^{i,j}_{y}(z) y_s^i y_t^j + \sum_{i>0} \sum_{j>0} W^{i,j}_{yx}(z) x_s^i x_t^j,
 \end{align*}
-
-The kick of each of these terms induced on a particle at position $z$ is computed differently:
-
-\begin{itemize}
-    \item For the constant wakes:
-        \begin{align*}
-            \Delta p_x(z) &= -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty  \lambda(z')W^{const}_x(z - z') dz',\\
-            \Delta p_y(z) &= -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty  \lambda(z')W^{const}_y(z - z') dz',\\
-        \end{align*}
-    \item For the dipolar components:
-        \begin{align*}
-            \Delta p_x(z) =& -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty
-                \bar{x}(z')\lambda(z')W^{dip}_{x}(z-z') \, dz' +\\
-             & -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
-                \bar{y}(z')\lambda(z')W^{dip}_{xy}(z-z') \, dz',\\
-            \Delta p_y(z) =& -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
-                \bar{y}(z')\lambda(z')W^{dip}_{y}(z-z') \, dz' +\\
-            & -\frac{q^2 e^2}{p_0c}\int_{-\infty}^\infty 
-                \bar{x}(z')\lambda(z')W^{dip}_{yx}(z-z') \, dz',
-        \end{align*}
-    \item For the quadrupolar components:
-        \begin{align*}
-            \Delta p_x(z) =& -\frac{q^2 e^2}{p_0c}x(z)\int_{-\infty}^\infty 
-                \lambda(z')W^{quad}_{x}(z-z') \, dz'+\\
-            & -\frac{q^2 e^2}{p_0c}y(z)\int_{-\infty}^\infty 
-                \lambda(z')W^{quad}_{xy}(z-z') \, dz',\\
-            \Delta p_y(z) =& -\frac{q^2 e^2}{p_0c}y(z)\int_{-\infty}^\infty 
-                \lambda(z')W^{quad}_{y}(z-z') \, dz'+\\
-            & -\frac{q^2 e^2}{p_0c}x(z)\int_{-\infty}^\infty 
-                \lambda(z')W^{quad}_{yx}(z-z') \, dz',
-        \end{align*}
-\end{itemize}
-where $q$ is the particle charge in number of elementary charges, $e$ is the elementary charge in Coulomb, $\bar{x}(z)$ and $\bar{y}(z)$ 
-the average beam offsets, $\lambda(z)$ is the longitudinal beam density $dN/dz$ in number of particles per meter.
-\newline
-The previous integrals can be approximated using the method of Section \ref*{sec:fftconv1d}, where the 
-Green function is replaced by the wakefield function and the source density is replaced by the beam density possibly multiplied by the average beam position.
-\newline
-\newline
-In general, including an arbitrary number of terms in the wakefield expansion, the wakefield functions can be written as:
+In this expansion the terms $W^{1,0}$ are referred to as the dipolar terms, the
+terms $W^{0,1}$ as the quadrupolar terms.
+Therefore, kick on a test particle at position $z$ due to all the other particles in a bunch can the be expressed as
 \begin{align*}
-    W_x(z, x_s, y_s, x_t, y_t) &= \sum_{i} \sum_{j} W^{i,j}_{x}(z) x_s^i x_t^j + \sum_{i} \sum_{j} W^{i,j}_{xy}(z) y_s^i y_t^j,\\
-    W_y(z, x_s, y_s, x_t, y_t) &= \sum_{i} \sum_{j} W^{i,j}_{y}(z) y_s^i y_t^j + \sum_{i} \sum_{j} W^{i,j}_{yx}(z) x_s^i x_t^j,
-\end{align*}
-
-and the corresponding kicks are computed as
-
-\begin{align*}
-    \Delta p_x(z) =& -\frac{q^2 e^2}{p_0c} \sum_{i} \sum_{j}  x(z)^j \int_{-\infty}^\infty 
+    \Delta p_x =& \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} \int_{-\infty}^\infty
+    \lambda(z')W^{0,0}_{x}(z - z') \, dz'+\\
+     & +\frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} \sum_{i} \sum_{j}  x(z)^j \int_{-\infty}^\infty
         \bar{x}(z')^i\lambda(z')W^{i,j}_{x}(z - z') \, dz'+\\
-     & -\frac{q^2 e^2}{p_0c}\sum_{i} \sum_{j} y(z)^j \int_{-\infty}^\infty 
+     & +\frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2}\sum_{i} \sum_{j} y(z)^j \int_{-\infty}^\infty
         \bar{y}(z')^i \lambda(z')W^{i,j}_{xy}(z- z') \, dz',\\
-    \Delta p_y(z) =& -\frac{q^2 e^2}{p_0c}\sum_{i} \sum_{j} y(z)^j \int_{-\infty}^\infty 
+    \Delta p_y =& \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} \int_{-\infty}^\infty
+    \lambda(z')W^{0,0}_{y}(z - z') \, dz'+\\
+     & +\frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2}\sum_{i} \sum_{j} y(z)^j \int_{-\infty}^\infty
         \bar{y}(z')^i \lambda(z')W^{i,j}_{y}(z- z') \, dz'+\\
-     & -\frac{q^2 e^2}{p_0c}\sum_{i} \sum_{j} x(z)^j \int_{-\infty}^\infty 
+     & +\frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2}\sum_{i} \sum_{j} x(z)^j \int_{-\infty}^\infty
         \bar{x}(z')^i \lambda(z') W^{i,j}_{yx}(z- z') \, dz',
 \end{align*}
+In the previous formaulas we replaced the offsets of the source particle $x_s$ and
+$y_s$ with the average offsets of the beam $\bar{x}(z)$ and $\bar{y}(z)$.
+The integrals can be approximated using the method of Section \ref{sec:fftconv1d}, where the
+Green function is replaced by the wakefield function and the source density is replaced by the
+beam density possibly multiplied by the average beam offset (if $i \neq 0$).
 
-%\subsection{Longitudinal Wakefields}
+\subsection{Longitudinal Wakefields}
+Now we repeat the provious calculations for the longitudinal wake.
+The definition of longitudinal wake is not the same as for the transverse one,
+therefore the formula to obtain the wake from the impedance is the following:
+\begin{equation}
+    \widehat{W_s}(t) = \frac{1}{2\pi}\int_{-\infty}^{+\infty} d\omega \ e^{j\omega t} Z_s(\omega),
+\end{equation}
+In order to fine the formula of the impedance from the wake we repeat the same
+steps as in the previous section. To begin with we multiply both sides by $e^{-j\omega t}$
+and integrate over $t$:
 
-%Discretization:
-%\begin{equation}
-%\Delta p_x(z_i) = -\frac{q^2 e^2}{p_0c}
-%    \sum_j
-%    \bar{x}(z_j)\lambda(z_j)W^D_{x}(z_i-z_j) \, \Delta z
-%\end{equation}
-%where:
-%\begin{equation}
-%z_i = z_a + i\Delta z
-%\end{equation}
-%\begin{equation}
-%z_j = z_b + j\Delta z
-%\end{equation}
-%
-%We replace in the wake term:
-%
-%
-%\begin{equation}
-% W^D_{x}(z_i-z_j)  = 
-%  W^D_{x}(z_a + i\Delta z-z_b - j\Delta z)
-% = W^D_{x}(z_a -z_b + (i - j) \Delta z)
-%\end{equation}
-%
-%We define
-%\begin{equation}
-%W_{l} = W^D_{x}(z_a -z_b + l \Delta z) 
-%\end{equation}
+\begin{align}
+    \int_{-\infty}^{\infty}dt \ e^{-j\omega' t}\widehat{W}_s(t) &= \frac{1}{2\pi}\int_{-\infty}^{\infty} dt \ \int_{-\infty}^{+\infty} d\omega Z_s(\omega)e^{j(\omega-\omega') t}\\
+    &= \frac{1}{2\pi} \int_{-\infty}^{+\infty} d\omega \ Z_s(\omega) \int_{-\infty}^{\infty}dt \ e^{j(\omega-\omega') t}\\
+    &= \int_{-\infty}^{+\infty} d\omega \ Z_s(\omega) \delta(\omega-\omega')\\
+    &= Z_s(\omega'),
+\end{align}
+where we used again the definition of the Dirac's $\delta$ function.\\
+The longitudinal impedance is thus obtained from the wake as
+\begin{equation}
+    Z_s(\omega) = \int_{-\infty}^{+\infty} dt \ e^{-j\omega t} \widehat{W}_s(t).
+\end{equation}
+With our definitions again the wake is non-zero for $t>0$. Now we want to express
+the wake as a function of the distance between the source and test particles
+$z=-\beta_0 c t$, thus we define
+\begin{equation}
+    W_s(z) = \widehat{W}_s(t) = \widehat{W}_s(-\frac{z}{\beta_0 c}).
+\end{equation}
+Then we perform the change of variable
+\begin{equation}
+    Z_s(\omega) = \int_{-\infty}^{+\infty} dt \ e^{-j\omega t} \widehat{W}_s(t) = \int_{+\infty}^{-\infty} \frac{dz}{-\beta_0 c} e^{-j\omega \frac{z}{-\beta_0 c}} W_s(z) = \frac{1}{\beta_0 c} \int_{-\infty}^{+\infty} dz e^{j\omega \frac{z}{\beta_0 c}} W_s(z),
+\end{equation}
+and finally we have
+\begin{equation}
+    Z_s(\omega) = \frac{1}{\beta c} \int_{-\infty}^{+\infty} dz e^{j \omega \frac{z}{\beta c}} W_s(z).
+\end{equation}
+
+The longitudinal wakefeld of a source particles induces an energy loss on a test
+particle at distance $z$ which can be computed as
+\begin{equation}
+    \Delta \delta(z) = -\frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} W_s(z).
+\end{equation}
+The minus sign in this formula is due to the fact that the test particle loses
+enerhy when the wake is positive.
+In order to evaluate the energy loss on a test particle at position $z$ due to all the other
+particles in a bunch the following convolution has to be computed
+\begin{equation}
+    \Delta \delta = -\frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2} \int_{-\infty}^{+\infty} dz' \lambda(z') W_s(z-z').
+\end{equation}
+The longitudinal wake depends only weakly on the source and test particle transverse
+offsets, therefore here the wake can be expressed as a function of $z$ only and the
+convolution can be computed directly using the method of Section \ref{sec:fftconv1d}.
