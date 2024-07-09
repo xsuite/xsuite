@@ -2088,7 +2088,7 @@ The $z$ variable can be written as a function of time in the lab frame as:
 
 We call $\widehat{W}_{x,y}$ the wakefield defined as a function of time $t$:
 \begin{align}
-    &\widehat{W}_{x,y}(t) = {W}_{x,y}\left(\beta_0 c t\right) \label{eq:wake_vs_t}\\
+    &\widehat{W}_{x,y}(t) = {W}_{x,y}\left(-\beta_0 c t\right) \label{eq:wake_vs_t}\\
     &W_{x,y}(z) = \widehat{W}_{x,y}\left(-\frac{z}{\beta_0 c}\right) \label{eq:wake_vs_z}
 \end{align}
 
@@ -2136,9 +2136,18 @@ and we find
 We can write the impedances also in terms of the wakefield expressed as a function of $z= -\beta_0 c t$ (using Eqs.\,\ref{eq:wake_vs_t} and\,\ref{eq:wake_vs_t}):
 \begin{align}
     &W_{x,y}(z) = -\frac{j}{2\pi}\int_{-\infty}^{+\infty} d\omega \ e^{-j\omega \frac{z}{\beta_0 c}} Z_{x,y}(\omega)\, ,\\
-    &Z_{x,y}(\omega) = \frac{j}{\beta_0 c} \int_{-\infty}^{+\infty} dz e^{j \omega \frac{z}{\beta_0 c}} W_{x,y}(z)\, .
+    &Z_{x,y}(\omega) = \frac{j}{\beta_0 c} \int_{-\infty}^{+\infty} \ dz e^{j \omega \frac{z}{\beta_0 c}} W_{x,y}(z)\, .
 \end{align}
 
+As the transverse wakes are real functions, the impedances satisfy the following symmetry properties:
+\begin{align}
+&\operatorname{Re}\left\{ Z_{x,y}( - \omega) \right\}
+=
+-\operatorname{Re}\left\{ Z_{x,y}( \omega) \right\}\\
+&\operatorname{Im}\left\{ Z_{x,y}( -\omega) \right\}
+=
+\operatorname{Im}\left\{ Z_{x,y}( \omega) \right\}
+\end{align}
 
 
 \subsection{Longitudinal wakefield}
@@ -2155,7 +2164,7 @@ Also in this case, we call $\widehat{W}_{s}$ the wakefield defined as a function
     &W_s(z) = \widehat{W}_{s}\left(-\frac{z}{\beta_0 c}\right) \label{eq:wake_vs_z}
 \end{align}
 
-\section{Longitudinal impedance}
+\subsection{Longitudinal impedance}
 
 The longitudinal beam coupling impedances $Z_{s}(\omega)$ are related to the wakefields through a Fourier transform (see \cite[Eq. 1.216]{Mounet:Thesis}):
 \begin{align}
@@ -2169,3 +2178,50 @@ We can write the impedances also in terms of the wakefield expressed as a functi
     &Z_{s}(\omega) = \frac{1}{\beta_0 c} \int_{-\infty}^{+\infty} dz e^{j \omega \frac{z}{\beta_0 c}} W_{s}(z)\, .
 \end{align}
 
+As the longitudinal wake is a real function, the conrresponding impedance satisfies the following symmetry properties:
+\begin{align}
+&\operatorname{Re}\left\{ Z_{s}( - \omega) \right\}
+=
+\operatorname{Re}\left\{ Z_s( \omega) \right\}\\
+&\operatorname{Im}\left\{ Z_{s}( -\omega) \right\}
+=
+-\operatorname{Im}\left\{ Z_{s}( \omega) \right\}
+\end{align}
+
+\subsection{Wakes}
+\subsubsection*{Resonator}
+Ultra-relativistic resonator with shunt impedance $R$, quality factor $Q>1$ and resonant frequency $f_r$
+\begin{itemize}
+    \item Longitudinal:
+    \begin{align}
+        W_{s}(t) &= \frac{\omega_r R}{Q} e^{-\alpha t} \left(
+                   \cos(\widehat{\omega}_r t) -
+                   \frac{\alpha}{\widehat{\omega}_r} \sin(\widehat{\omega}_r t)\right)~,\\
+        Z_{s}(\omega) &= \dfrac{R}{1 - jQ\left(\frac{\omega_r}{\omega} - \frac{\omega}{\omega_r}\right)}~.
+    \end{align}
+    \item Transverse:
+    \begin{align}
+        W_{x,y}(t) &= -\frac{\omega_r^2 R }{Q \widehat{\omega}_r} e^{-\alpha t}\sin(\widehat{\omega}_r t)~,\\
+        Z_{x,y}(\omega) &= \frac{\omega_r}{\omega} \dfrac{R}{1 - jQ\left(\frac{\omega_r}{\omega} - \frac{\omega}{\omega_r}\right)}~.
+    \end{align}
+\end{itemize}
+where $\omega_r = 2\pi f_r$, $\widehat{\omega}_r = \omega_r \sqrt{1-\frac{1}{4Q^2}}$, $\alpha=\frac{\omega_r}{2Q}$. Ref: \cite[Section 2.2]{Mounet:Thesis}
+
+\subsubsection*{Cylindrical thick wall}
+Cylindrical resistive wall wake, based on the "classic thick wall formula" (see e.g. \cite[Chapter 2]{Chao:CollectiveInst}) with resistivity $\rho$, permeability $\mu$ and radius r:
+\begin{itemize}
+    \item Longitudinal: {\color{red} check length!} {\color{red} check minus sign in wake!}
+    \begin{align}
+        W_{s}(t) &= -L \frac{c}{2\pi r}
+                    \sqrt{\frac{Z_0 \rho}{\pi}}
+                    \frac{1}{\sqrt{t}}~,\\
+        Z_{s}(\omega) &= L \left(1 + j~\text{sign}(\omega) \right) \frac{\rho}{2\pi r} \frac{1}{\delta_s}~.
+    \end{align}
+    \item Transverse: {\color{red} check length!} {\color{red} check minus sign in wake!} {\color{red} bug in xwakes!}
+    \begin{align}
+        W_{x,y}(t) &= ~,\\
+        Z_{x,y}(\omega) &= (1+j~\text{sign}(\omega))
+                    \frac{\rho}{2\pi r^3}
+                    \frac{1}{\delta_s}~.
+    \end{align}    
+\end{itemize}
