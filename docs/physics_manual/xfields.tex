@@ -2063,6 +2063,8 @@ Transverse wakefields are defined such that the corresponding transverse kicks c
         \bar{x}^i(z')\bar{y}^j(z')\lambda(z')W^{i,j, k, l}_{y}(z - z') \, dz'
         \label{eq:wake_kick_y}
 \end{align}
+where $\bar{x}(z)$ and $\bar{y}(z)$ are the transverse centroid positions along the beam.
+
 The convolution can be obtained numerically using the method of Section \ref{sec:fftconv1d}.
 
 
@@ -2201,7 +2203,7 @@ Ultra-relativistic resonator with shunt impedance $R$, quality factor $Q>1$ and 
     \end{align}
     \item Transverse:
     \begin{align}
-        W_{x,y}(t) &= -\frac{\omega_r^2 R }{Q \widehat{\omega}_r} e^{-\alpha t}\sin(\widehat{\omega}_r t)~,\\
+        W_{x,y}(t) &= \frac{\omega_r^2 R }{Q \widehat{\omega}_r} e^{-\alpha t}\sin(\widehat{\omega}_r t)~,\\
         Z_{x,y}(\omega) &= \frac{\omega_r}{\omega} \dfrac{R}{1 - jQ\left(\frac{\omega_r}{\omega} - \frac{\omega}{\omega_r}\right)}~.
     \end{align}
 \end{itemize}
@@ -2215,14 +2217,15 @@ Cylindrical resistive wall wake, based on the "classic thick wall formula" (see 
         W_{s}(t) &= -L \frac{1}{4\pi r}
                     \sqrt{\frac{Z_0 \rho}{\pi c}}
                     t^{-\frac{3}{2}}~,\\
-        Z_{s}(\omega) &= L \left(1 + j~\text{sign}(\omega) \right) \frac{\rho}{2\pi r} \frac{1}{\delta_s}~.
+        Z_{s}(\omega) &= L \left(1 + j~\text{sign}(\omega) \right) \frac{\rho}{2\pi r} \frac{1}{\delta_s(\omega)}~,
     \end{align}
-    Note: the longitudinal resistive wall wake is negative for any value of $t$, while, with the adopted sign convention, longitudinal wakes should be positive for $t \rightarrow 0+$. This happens because the thick wall approximation is not valid for small $t$. Computing the wake numerically with IW2D shows that the resistive wall wake is actually positive close to zero and performs a few oscillations after which it agrees very well with the above formula. For applications where short range effects are relevant this model should not be used.
+    where $\delta_s(\omega) = \sqrt{\frac{2 \rho}{|\omega|}}$ is the frequency-dependent skin depth.\\
+    Note: the longitudinal resistive wall wake is negative for any value of $t$, while, with the adopted sign convention, longitudinal wakes should be positive for $t \rightarrow 0+$. This happens because the thick wall approximation is not valid for small $t$. Computing the wake numerically with IW2D shows that the resistive wall wake is actually positive close to zero and performs a few oscillations after which it agrees very well with the formula above. For applications where short range effects are relevant this model should not be used.
     \item Transverse:
     \begin{align}
         W_{x,y}(t) &= L \frac{1}{\pi r^3} \sqrt{\frac{c Z_0 \rho}{\pi}} t^{-\frac{1}{2}} ~,\\
         Z_{x,y}(\omega) &= L (1+j~\text{sign}(\omega))
                     \frac{\rho}{\pi r^3} \frac{1}{\omega \sqrt{\varepsilon_0 \mu_0}}
-                    \frac{1}{\delta_s}~.
+                    \frac{1}{\delta_s(\omega)}~.
     \end{align}    
 \end{itemize}
