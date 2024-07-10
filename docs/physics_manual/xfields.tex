@@ -2188,7 +2188,7 @@ As the longitudinal wake is a real function, the conrresponding impedance satisf
 -\operatorname{Im}\left\{ Z_{s}( \omega) \right\}
 \end{align}
 
-\subsection{Wakes}
+\subsection{Analytical wakes}
 \subsubsection*{Resonator}
 Ultra-relativistic resonator with shunt impedance $R$, quality factor $Q>1$ and resonant frequency $f_r$
 \begin{itemize}
@@ -2208,20 +2208,21 @@ Ultra-relativistic resonator with shunt impedance $R$, quality factor $Q>1$ and 
 where $\omega_r = 2\pi f_r$, $\widehat{\omega}_r = \omega_r \sqrt{1-\frac{1}{4Q^2}}$, $\alpha=\frac{\omega_r}{2Q}$. Ref: \cite[Section 2.2]{Mounet:Thesis}
 
 \subsubsection*{Cylindrical thick wall}
-Cylindrical resistive wall wake, based on the "classic thick wall formula" (see e.g. \cite[Chapter 2]{Chao:CollectiveInst}) with resistivity $\rho$, permeability $\mu$ and radius r:
+Cylindrical resistive wall wake, based on the "classic thick wall formula" (see e.g. \cite[Chapter 2]{Chao:CollectiveInst}) with resistivity $\rho$, permeability $\mu$, radius r and length L:
 \begin{itemize}
-    \item Longitudinal: {\color{red} check length!} {\color{red} check minus sign in wake!}
+    \item Longitudinal:
     \begin{align}
-        W_{s}(t) &= -L \frac{c}{2\pi r}
-                    \sqrt{\frac{Z_0 \rho}{\pi}}
-                    \frac{1}{\sqrt{t}}~,\\
+        W_{s}(t) &= -L \frac{1}{4\pi r}
+                    \sqrt{\frac{Z_0 \rho}{\pi c}}
+                    t^{-\frac{3}{2}}~,\\
         Z_{s}(\omega) &= L \left(1 + j~\text{sign}(\omega) \right) \frac{\rho}{2\pi r} \frac{1}{\delta_s}~.
     \end{align}
-    \item Transverse: {\color{red} check length!} {\color{red} check minus sign in wake!} {\color{red} bug in xwakes!}
+    Note: the longitudinal resistive wall wake is negative for any value of $t$, while, with the adopted sign convention, longitudinal wakes should be positive for $t \rightarrow 0+$. This happens because the thick wall approximation is not valid for small $t$. Computing the wake numerically with IW2D shows that the resistive wall wake is actually positive close to zero and performs a few oscillations after which it agrees very well with the above formula. For applications where short range effects are relevant this model should not be used.
+    \item Transverse:
     \begin{align}
-        W_{x,y}(t) &= ~,\\
-        Z_{x,y}(\omega) &= (1+j~\text{sign}(\omega))
-                    \frac{\rho}{2\pi r^3}
+        W_{x,y}(t) &= L \frac{1}{\pi r^3} \sqrt{\frac{c Z_0 \rho}{\pi}} t^{-\frac{1}{2}} ~,\\
+        Z_{x,y}(\omega) &= L (1+j~\text{sign}(\omega))
+                    \frac{\rho}{\pi r^3} \frac{1}{\omega \sqrt{\varepsilon_0 \mu_0}}
                     \frac{1}{\delta_s}~.
     \end{align}    
 \end{itemize}
