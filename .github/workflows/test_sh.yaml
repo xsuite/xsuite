@@ -73,6 +73,10 @@ jobs:
         id: load-image
         run: |
           IMAGE=$(gzip -dc docker-image/*.tar.gz | docker load | cut -d ' ' -f 3)
+          if [[ $? -ne 0 ]]; then
+              echo "Failed to load Docker image"
+              exit 1
+          fi
           echo "Loaded Image: $IMAGE"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
       
