@@ -42,47 +42,46 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
+
+# This workflow calls build_image_sh.yaml workflow passing the specified
+# The Job Trigger and Download image from GitHub Artifact 
+# branches as inputs
 jobs:
-  build-test-image:
+  trigger-build-image:
+    uses: ./.github/workflows/build_image_sh.yaml
+    with:
+      locations: ${{ inputs.locations }}
+
+  download-image:
+    needs: trigger-build-image
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     outputs:
-      image_id: ${{ steps.build-image.outputs.image_id }}
+      image_id: ${{ steps.load-image.outputs.image_id }}
     steps:
-      - name: Install jq
-        run: |
-          if command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y jq
-          else command -v yum &> /dev/null; 
-            sudo yum install -y jq
-          fi
-      - id: checkout-repo
-        name: Checkout the repo
+      - name: Checkout the repo
+        id: checkout-repo
         uses: actions/checkout@v3
-      - id: build-image
-        name: Build the test image
-        run: |
-          echo '${{ inputs.locations }}' | jq '.' > locations.json
-          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
-          echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
-          docker build \
-            --network=host \
-            --no-cache=true \
-            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
-            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
-            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
-            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
-            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
-            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
-            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
-            --build-arg with_gpu=${with_gpu} \
-            -t $IMAGE .
 
+      - name: Download Docker image artifact
+        id: get-artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: docker-image
+
+      - name: Load Docker image
+        id: load-image
+        run: |
+          IMAGE=$(gzip -dc docker-image/*.tar.gz | docker load | cut -d ' ' -f 3)
+          echo "Loaded Image: $IMAGE"
+          echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
+      
   # Print out some stuff about the test environment
   image-sanity-checks:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
-    needs: build-test-image
-    env:
-      image_id: ${{ needs.build-test-image.outputs.image_id }}
+    needs: download-image
+    env: 
+      image_id: ${{ needs.download-image.outputs.image_id }}
     steps:
       - name: CUDA/ROCm info
         if: ${{ env.with_gpu == 'true' }}
@@ -98,17 +97,16 @@ jobs:
   # Run the tests for each repo in parallel in a test container
   run-tests:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
-    needs: [build-test-image, image-sanity-checks]
+    needs: [download-image, image-sanity-checks]
     timeout-minutes: 540
     strategy:
       fail-fast: false
       matrix:
         test-suite: ${{ fromJson(inputs.suites) }}
-
     steps:
     - name: Run pytest
       env:
-        image_id: ${{ needs.build-test-image.outputs.image_id }}
+        image_id: ${{ needs.download-image.outputs.image_id }}
         test_contexts: ${{ inputs.test_contexts }}
         pytest_options: ${{ inputs.pytest_options }}
       run: |
@@ -122,7 +120,7 @@ jobs:
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
-    needs: [build-test-image, run-tests]
+    needs: [download-image, run-tests]
     if: success() || failure()
     steps:
       - name: Wait
@@ -132,9 +130,9 @@ jobs:
   # no unused images and stopped containers
   teardown:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
-    needs: [build-test-image, wait]
-    env:
-      image_id: ${{ needs.build-test-image.outputs.image_id }}
+    needs: [download-image, wait]
+    env: 
+      image_id: ${{ needs.download-image.outputs.image_id }}
     if: always()
     steps:
       - name: Stop the containers and remove the image
@@ -142,5 +140,5 @@ jobs:
           docker container stop \
             $(docker ps -q --filter ancestor=${image_id}) || true
           docker container rm --volumes \
-            $(docker ps -qa --filter ancestor=${image_id}) || true
+            $(docker ps -qa --filter ancestor=${image_id}}) || true
           docker image rm ${image_id}
