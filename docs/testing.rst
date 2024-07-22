@@ -131,10 +131,10 @@ run our actions:
 
 We add the user to the sudoers file, by appending a line to
 ``/etc/sudoers``: ``echo 'xsuite  ALL=(ALL)   NOPASSWD:ALL' >> /etc/sudoers``.
-If necessary, copy the authorised SSH key from the root account
-to the new account:
+If necessary,make directory ``mkdir /home/xsuite/.ssh/`` and copy the 
+authorised SSH key from the root account to the new account:
 ``cp /root/.ssh/authorized_keys /home/xsuite/.ssh/``. Fix permissions
-with ``sudo chown -R xsuite:xsuite .ssh`` and ``chmod -R +rw .ssh``.
+with ``sudo chown -R xsuite:xsuite /home/xsuite/.ssh/`` and ``chmod -R +rw .ssh``.
 
 From now on we reconnect with SSH using the ``xsuite`` account or
 switch to it with ``su xsuite``.

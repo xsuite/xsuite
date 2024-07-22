@@ -108,16 +108,13 @@ def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf, branch, pytest_op
     fmt_suites = [ABBRV[x.strip()] for x in suites.split(',')]
 
     parameters = {
-        'locations' :json.dumps({
-            'xobjects_location': xo,
-            'xdeps_location': xd,
-            'xpart_location': xp,
-            'xtrack_location': xt,
-            'xfields_location': xf,
-            'xmask_location': xm,
-            'xcoll_location': xc,
-        }) ,
-        'pytest_options': pytest_opts,
+        'xobjects_location': xo,
+        'xdeps_location': xd,
+        'xpart_location': xp,
+        'xtrack_location': xt,
+        'xfields_location': xf,
+        'xmask_location': xm,
+        'xcoll_location': xc,
         'test_contexts': ';'.join(fmt_contexts),
         'platform': platform,
         'suites': json.dumps(fmt_suites),

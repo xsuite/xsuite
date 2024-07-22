@@ -1,0 +1,80 @@
+#This is a build image workflow for testing (self-hosted runner based) 
+name: Build Docker Image for Testing
+
+# Controls when the action will run. This is a reusable workflow.
+on:
+  workflow_call:
+    # Inputs the workflow accepts.
+    # Specify branches using the refspec-like syntax: <user>:<branch>
+    inputs:
+      locations:
+        description: 'Branch locations (JSON array string)'
+        default: '{ "xobjects_location":"xsuite:main" ,
+        "xdeps_location":"xsuite:main",
+        "xpart_location":"xsuite:main",
+        "xtrack_location":"xsuite:main",
+        "xfields_location":"xsuite:main",
+        "xmask_location":"xsuite:main",
+        "xcoll_location":"xsuite:main"}'
+        required: false
+        type: string
+
+env:
+  with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
+         
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# The jobs are all run in independent environments. Here we will run a separate job
+# The jobs upload image to GitHub Artifact 
+jobs:
+  build-and-upload:
+    runs-on: [self-hosted, "${{ inputs.platform }}"]
+    outputs:
+      image_id: ${{ steps.build-image.outputs.image_id }}
+    steps:
+      - id: checkout-repo
+        name: Checkout the repo
+        uses: actions/checkout@v3
+
+      - name: Install jq
+        run: |
+          if command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y jq
+          else command -v yum &> /dev/null; 
+            sudo yum install -y jq
+          fi
+
+      - id: build-image
+        name: Build the test image
+        run: |
+          echo '${{ inputs.locations }}' | jq '.' > locations.json
+          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          echo "image_id=$IMAGE" >> $GITHUB_ENV
+          docker build \
+            --network=host \
+            --no-cache=true \
+            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
+            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
+            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
+            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
+            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
+            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
+            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
+            --build-arg with_gpu=${with_gpu} \
+            -t $IMAGE .
+          docker save $IMAGE | gzip > $IMAGE.tar.gz
+          ls -la
+
+      - id: debug-info
+        name: Debug Info
+        run: |
+          echo "image_id: ${{ env.image_id }}"
+          ls -la
+          
+      - id: Upload-image
+        name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: docker-image
+          path: ./${{ env.image_id }}.tar.gz
+          if-no-files-found: error
+          retention-days: 1
