@@ -27,7 +27,7 @@ env:
 # The jobs upload image to GitHub Artifact 
 jobs:
   build-and-upload:
-    runs-on: [self-hosted, "${{ inputs.platform }}"]
+    runs-on: self-hosted
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
