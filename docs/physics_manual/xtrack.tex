@@ -2222,15 +2222,15 @@ We can prove the following propositions (see Sec.\,\ref{seq:coasting_proofs}):
 t_k(s_1) \in F_n(s_1) \Rightarrow t_k(s_2) \in F_n(s_2) \cup  F_{n+1}(s_2) \quad \text{for any } s_1 < s_2 
 \end{equation}
 ~\\
+\textbf{Proposition 3:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
+\begin{equation}
+t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
+\end{equation}
+~\\
 \textbf{Proposition 2:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval 
 $F_{n+1}(0)$. In symbols:
 \begin{equation}
 t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
-\end{equation}
-~\\
-\textbf{Proposition 3:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
-\begin{equation}
-t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
 \end{equation}
 
 \section{$\zeta$ definition and update}
@@ -2441,6 +2441,27 @@ which is what we wanted to prove.
 
 \subsubsection*{Proof of proposition 2}
 
+From the hypothesis:
+\begin{equation}
+t_{k}(s_2) > T_{n}(s_2) - \frac{\Delta T}{2}
+\end{equation}
+As $L>s_2$, using Proposition 1 we can write:
+\begin{equation}
+t_{k}(L) > T_{n}(L) - \frac{\Delta T}{2}
+\end{equation}
+Using Proposition 2 we can write:
+\begin{equation}
+t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
+\end{equation}
+Using the fact that $s1>0$, we can apply again Proposition 1, obtaining:
+\begin{equation}
+t_{k+1}(s1) > T_{n+1}(1) - \frac{\Delta T}{2}
+\end{equation}
+which is what we wanted to prove.
+
+
+\subsubsection*{Proof of proposition 3}
+
 By definition:
 \begin{equation}
 t_{k+1}(0) = t_{k}(L)
@@ -2463,23 +2484,4 @@ t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
 \end{equation}
 which is what we wanted to prove.
 
-\subsubsection*{Proof of proposition 3}
-
-From the hypothesis:
-\begin{equation}
-t_{k}(s_2) > T_{n}(s_2) - \frac{\Delta T}{2}
-\end{equation}
-As $L>s_2$, using Proposition 1 we can write:
-\begin{equation}
-t_{k}(L) > T_{n}(L) - \frac{\Delta T}{2}
-\end{equation}
-Using Proposition 2 we can write:
-\begin{equation}
-t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
-\end{equation}
-Using the fact that $s1>0$, we can apply again Proposition 1, obtaining:
-\begin{equation}
-t_{k+1}(s1) > T_{n+1}(1) - \frac{\Delta T}{2}
-\end{equation}
-which is what we wanted to prove.
 
