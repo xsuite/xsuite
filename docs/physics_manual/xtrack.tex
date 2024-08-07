@@ -2311,14 +2311,14 @@ t > T_n(s) + \frac{\Delta T}{2}
 ~
 \Leftrightarrow
 ~
-\zeta < \frac{\Delta \zeta}{2}
+\zeta < -\frac{\Delta \zeta}{2} + s\left(1-\frac{\beta_0}{\beta_{\text {sim }}}\right) 
  \end{equation}
  
 When this condition is met, the particle tracking needs to be paused for the remainder of the frame $n$ (based on Proposition~1 it cannot go back to frame $n$) and, based on Proposition~2, its tracking needs to be resumed from the same location where the tracking was paused when tracking the following frame.
 As the frame index is increased, $\zeta$ needs to be updated to preserve the time of arrival:
 \begin{align}
 \zeta_\text{before jump} &= s  - \beta_0 c \left( t - n\Delta T \right) \\
-\zeta_\text{after jump} &= s  - \beta_0 c \left( t - (n+1) \right)
+\zeta_\text{after jump} &= s  - \beta_0 c \left( t - (n+1) \Delta T \right)
 \end{align}
 from which we obtain:
 \begin{align}
