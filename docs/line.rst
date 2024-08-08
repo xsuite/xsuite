@@ -45,6 +45,12 @@ positions instead of explicit drifts, as show in the example below:
 .. literalinclude:: generated_code_snippets/sequence.py
    :language: python
 
+.. figure:: figures/sequence_example.png
+    :width: 80%
+    :align: center
+
+The floor plan plot is created with xplt, see https://xsuite.github.io/xplt for more details
+
 
 Line inspection, ``Line.get_table()``, ``Line.attr[...]``
 ========================================================
