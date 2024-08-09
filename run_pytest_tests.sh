@@ -11,22 +11,19 @@ XFIELDS="xsuite:main"
 XMASK="xsuite:main"
 XCOLL="xsuite:main"
 
-run_tests(){
-    local platform=$1
-    local context=$2
-    local options=$3
+pytest_opts="-k test_buffer.py"
 
-    echo "Running on $platform with $context and options: '$options'"
+# GPU tests
+python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform alma-tests --ctx cuda \
+    --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH --pytest-opts "$pytest_opts"
+# python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform ubuntu --ctx cl \
+#     --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH --pytest-opts "$pytest_opts"
 
-    python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform "$platform" --ctx "$context" \
-        --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH --pytest-opts $options
+# CPU tests
+python run_on_gh.py --suites xm --platform test1 --ctx cpu \
+    --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH --pytest-opts "$pytest_opts"
+python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform  test3 --ctx cpu:auto \
+    --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH --pytest-opts "$pytest_opts"
+# python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform alma-cpu-1 --ctx cpu \
+#     --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH --pytest-opts "$pytest_opts"
 
-    python run_on_gh.py --suites xm --platform pcbe-abp-gpu001 --ctx cpu \
-        --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH --pytest-opts $options
-}
-
-platform="$1"
-context="$2"
-pytest_opts="$3"
-
-run_tests "$platform" "$context" "$pytest_opts"
