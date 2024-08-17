@@ -2,11 +2,11 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 WF_BRANCH="main"
 
-XOBJECTS=xsuite:main
+XOBJECTS=xsuite:release/v0.4.4
    XPART=xsuite:main
-   XDEPS=xsuite:main
-  XTRACK=xsuite:feature/twiss_ergonomics
- XFIELDS=xsuite:main
+   XDEPS=xsuite:release/v0.6.3
+  XTRACK=xsuite:release/v0.65.5
+ XFIELDS=xsuite:release/v0.20.3
    XMASK=xsuite:main
    XCOLL=xsuite:main
 
@@ -17,7 +17,7 @@ python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform ubuntu --ctx cl \
    --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH
 
 # CPU tests
-python run_on_gh.py --suites xm --platform pcbe-abp-gpu001 --ctx cpu \
+python run_on_gh.py --suites xm --platform alma-cpu-2 --ctx cpu \
   --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH
 python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform  radeon --ctx cpu:auto \
   --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --branch $WF_BRANCH
