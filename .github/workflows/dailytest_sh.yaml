@@ -1,5 +1,5 @@
 # This is a test workflow the other (self-hosted runner based) workflows rely on
-name: Test workflow (self-hosted)
+name: Daily test workflow (self-hosted, downloads image)
 
 # Controls when the action will run. This is a reusable workflow.
 on:
@@ -7,17 +7,6 @@ on:
     # Inputs the workflow accepts.
     # Specify branches using the refspec-like syntax: <user>:<branch>
     inputs:
-      locations:
-        description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_location":"xsuite:main" ,
-        "xdeps_location":"xsuite:main",
-        "xpart_location":"xsuite:main",
-        "xtrack_location":"xsuite:main",
-        "xfields_location":"xsuite:main",
-        "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main"}'
-        required: false
-        type: string
       pytest_options:
         description: Command to run tests
         required: false

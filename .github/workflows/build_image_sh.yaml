@@ -9,22 +9,26 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_location":"xsuite:main" ,
-        "xdeps_location":"xsuite:main",
-        "xpart_location":"xsuite:main",
-        "xtrack_location":"xsuite:main",
-        "xfields_location":"xsuite:main",
-        "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main"}'
+        default: |
+          {
+            "xobjects_location":"xsuite:main",
+            "xdeps_location":"xsuite:main",
+            "xpart_location":"xsuite:main",
+            "xtrack_location":"xsuite:main",
+            "xfields_location":"xsuite:main",
+            "xmask_location":"xsuite:main",
+            "xcoll_location":"xsuite:main"
+          }
         required: false
         type: string
-
-env:
-  with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
+      with_gpu:
+        description: 'Build with GPU support'
+        default: true
+        type: boolean
          
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # The jobs are all run in independent environments. Here we will run a separate job
-# The jobs upload image to GitHub Artifact 
+# The jobs uploads image as GitHub Artifact
 jobs:
   build-and-upload:
     runs-on: self-hosted
@@ -35,7 +39,8 @@ jobs:
         name: Checkout the repo
         uses: actions/checkout@v3
 
-      - name: Install jq
+      - id: install-jq
+        name: Install jq
         run: |
           if command -v apt-get &> /dev/null; then
             sudo apt-get update && sudo apt-get install -y jq
@@ -59,18 +64,16 @@ jobs:
             --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
             --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
             --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
-            --build-arg with_gpu=${with_gpu} \
+            --build-arg with_gpu=${{ inputs.with_gpu && 'true' || 'false' }} \
             -t $IMAGE .
           docker save $IMAGE | gzip > $IMAGE.tar.gz
-          ls -la
 
       - id: debug-info
         name: Debug Info
         run: |
           echo "image_id: ${{ env.image_id }}"
-          ls -la
           
-      - id: Upload-image
+      - id: upload-image
         name: Upload Docker image as artifact
         uses: actions/upload-artifact@v4
         with: 
