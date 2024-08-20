@@ -6,6 +6,7 @@ on:
   schedule:
     - cron: '00 19 * * *'  # run at 19:00 UTC daily
   workflow_dispatch:  # allows manual execution for testing purposes
+  pull_request:
 
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
