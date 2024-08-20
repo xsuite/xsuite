@@ -17,27 +17,29 @@ ARG xcoll_branch=xsuite:main
 ARG xsuite_branch=xsuite:main
 ARG xboinc_branch=xsuite:main 
 ARG with_gpu=true
-RUN echo "with_gpu set to: $with_gpu"
 
 # Use bash as the default shell
 SHELL ["/usr/bin/bash", "-c"]
 
-# Install NVIDIA OpenCL ICD
-# to install drivers inside the container. Only the ICD file is needed.
-RUN mkdir -p /etc/OpenCL/vendors \
-    && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+# Add the NVIDIA OpenCL ICD to be able to use OpenCL inside the container. Only
+# this file is needed, the rest is provided by nvidia-container-toolkit.
+RUN if [[ "$with_gpu" == true ]]; then \
+      mkdir -p /etc/OpenCL/vendors \
+      && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd; \
+    fi
 
-# Install AMD GPU drivers
-# inside the container, including the right ICD profile. There is no counterpart
-# to nvidia-container-toolkit for AMD GPUs.
-RUN ROCM_VERSION=5.3 && AMDGPU_VERSION=5.3 \
-    && dnf install -y 'dnf-command(config-manager)' \
-    && dnf install -y epel-release \
-    && echo -e "[ROCm]\nname=ROCm\nbaseurl=https://repo.radeon.com/rocm/yum/$ROCM_VERSION/main\nenabled=1\ngpgcheck=0" >> /etc/yum.repos.d/rocm.repo \
-    && echo -e "[amdgpu]\nname=amdgpu\nbaseurl=https://repo.radeon.com/amdgpu/$AMDGPU_VERSION/rhel/8.7/main/x86_64\nenabled=1\ngpgcheck=0" >> /etc/yum.repos.d/amdgpu.repo \
-    && dnf install -y rocm-dev && dnf clean all && rm -rf /var/cache/yum \
-    && export PATH=/opt/rocm/hcc/bin:/opt/rocm/hip/bin:/opt/rocm/bin:${PATH:+:${PATH}} \
-    && export LD_LIBRARY_PATH=/opt/rocm/lib:/usr/local/lib; 
+# Install AMD GPU drivers inside the container, including the right ICD profile.
+# There is no counterpart to nvidia-container-toolkit for AMD GPUs for now.
+RUN if [[ "$with_gpu" == true ]]; then \
+        ROCM_VERSION=5.3 && AMDGPU_VERSION=5.3 \
+        && dnf install -y 'dnf-command(config-manager)' \
+        && dnf install -y epel-release \
+        && echo -e "[ROCm]\nname=ROCm\nbaseurl=https://repo.radeon.com/rocm/yum/$ROCM_VERSION/main\nenabled=1\ngpgcheck=0" >> /etc/yum.repos.d/rocm.repo \
+        && echo -e "[amdgpu]\nname=amdgpu\nbaseurl=https://repo.radeon.com/amdgpu/$AMDGPU_VERSION/rhel/8.7/main/x86_64\nenabled=1\ngpgcheck=0" >> /etc/yum.repos.d/amdgpu.repo \
+        && dnf install -y rocm-dev && dnf clean all && rm -rf /var/cache/yum \
+        && export PATH=/opt/rocm/hcc/bin:/opt/rocm/hip/bin:/opt/rocm/bin:${PATH:+:${PATH}} \
+        && export LD_LIBRARY_PATH=/opt/rocm/lib:/usr/local/lib; \
+    fi
 
 WORKDIR /opt
 
@@ -63,7 +65,6 @@ RUN pip install --no-cache-dir cython gitpython pytest-html \
     && rm -rf /var/cache/yum
 
 RUN if [[ "$with_gpu" == true ]]; then \
-        echo "Installing GPU-related packages..."; \
         mamba install cupy cudatoolkit ocl-icd-system clinfo clfft \
         && mamba clean -afy \
         && pip install --no-cache-dir pyopencl mako \
@@ -75,7 +76,9 @@ RUN if [[ "$with_gpu" == true ]]; then \
 WORKDIR /opt/xsuite
 COPY ./ /opt/xsuite/xsuite/
 
-RUN chmod +x /opt/xsuite/xsuite/.github/scripts/install_branches.sh && bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
+RUN chmod +x /opt/xsuite/xsuite/.github/scripts/install_branches.sh \
+    && bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh \
+    && pip cache purge
 
 # Copy the test runner script into the image
 WORKDIR /opt

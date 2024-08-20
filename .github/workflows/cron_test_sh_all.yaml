@@ -1,0 +1,58 @@
+# This is a workflow that should run daily
+name: Daily test (self-hosted, CPU & GPU)
+
+# Controls when the action will run.
+on:
+  schedule:
+    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+  workflow_dispatch:  # allows manual execution for testing purposes
+
+# This workflow calls the test_gpu.yaml workflow passing the default
+# branches as inputs. The cron workflow will not run on forks.
+jobs:
+  run-build-image:
+    if: github.repository == 'xsuite/xsuite'  # only run on the main repository
+    name: Build image
+    uses: ./.github/workflows/build_image_sh.yaml
+    with:
+      with_gpu: true
+
+  run-tests-cron-sh-cpu-no-xmask-serial:
+    uses: ./.github/workflows/dailytest_sh.yaml
+    needs: run-build-image
+    with:
+      platform: 'alma-cpu-1'
+      test_contexts: 'ContextCpu'
+      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
+
+  run-tests-cron-sh-cpu-no-xmask-openmp:
+    uses: ./.github/workflows/dailytest_sh.yaml
+    needs: run-build-image
+    with:
+      platform: 'alma-cpu-2'
+      test_contexts: 'ContextCpu:auto'
+      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
+
+  run-tests-cron-sh-cpu-xmask:
+    uses: ./.github/workflows/dailytest_sh.yaml
+    needs: run-build-image
+    with:
+      platform: 'alma-cpu-smaller'
+      test_contexts: 'ContextCpu;ContextCpu:auto'
+      suites: '["xmask"]'
+
+  run-tests-cron-cuda:
+    uses: ./.github/workflows/dailytest_sh.yaml
+    needs: run-build-image
+    with:
+      platform: 'ubuntu'
+      test_contexts: 'ContextCupy'
+      pytest_options: '-k ContextCupy'
+
+  run-tests-cron-opencl:
+    uses: ./.github/workflows/dailytest_sh.yaml
+    needs: run-build-image
+    with:
+      platform: 'alma'
+      test_contexts: 'ContextPyopencl'
+      pytest_options: '-k ContextPyopencl'
