@@ -19,3 +19,4 @@
    synchrotron_radiation
    footprint
    xsuite_data_management
+   dev_guide_xtbe_lost_part_codes
