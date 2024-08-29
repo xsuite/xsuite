@@ -43,39 +43,34 @@ env:
 # The jobs are all run in independent environments. Here we will run a separate job
 # for each of the test suites specified in the matrix below.
 jobs:
-  build-test-image:
+  trigger-build-image:
+    uses: ./.github/workflows/build_image_sh.yaml
+    with:
+      locations: ${{ inputs.locations }}
+
+  download-image:
+    needs: trigger-build-image
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     outputs:
-      image_id: ${{ steps.build-image.outputs.image_id }}
+      image_id: ${{ steps.load-image.outputs.image_id }}
     steps:
-      - name: Install jq
-        run: |
-          if command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y jq
-          else command -v yum &> /dev/null; 
-            sudo yum install -y jq
-          fi
-      - id: checkout-repo
-        name: Checkout the repo
+      - name: Checkout the repo
+        id: checkout-repo
         uses: actions/checkout@v3
-      - id: build-image
-        name: Build the test image
+
+      - name: Download Docker image artifact
+        id: get-artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: docker-image
+
+      - name: Load Docker image
+        id: load-image
         run: |
-          echo '${{ inputs.locations }}' | jq '.' > locations.json
-          IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          IMAGE=$(gzip -dc docker-image/*.tar.gz | docker load | cut -d ' ' -f 3)
+          echo "Loaded Image: $IMAGE"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
-          docker build \
-            --network=host \
-            --no-cache=true \
-            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
-            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
-            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
-            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
-            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
-            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
-            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
-            --build-arg with_gpu=${with_gpu} \
-            -t $IMAGE .
 
   # Print out some stuff about the test environment
   image-sanity-checks:
