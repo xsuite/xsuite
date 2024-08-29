@@ -100,7 +100,7 @@ jobs:
     steps:
       - name: Run pytest
         env:
-          image_id: ${{ needs.download-image.outputs.image_id }}
+          image_id: ${{ needs.download-image-schedule.outputs.image_id }}
           test_contexts: ${{ inputs.test_contexts }}
           pytest_options: ${{ inputs.pytest_options }}
         run: |
