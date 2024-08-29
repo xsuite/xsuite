@@ -111,68 +111,68 @@ jobs:
           test_contexts: ${{ inputs.test_contexts }}
           pytest_options: ${{ inputs.pytest_options }}
         run: |
-            mkdir -p reports/${{ matrix.test-suite }}
-            docker run --rm --gpus all \
-              --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-              --env PYTEST_ADDOPTS="${pytest_options}" \
-              -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
-              ${image_id} \
-              /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests | tee reports/${{ matrix.test-suite }}/results.txt
-      
+          mkdir -p reports/xfields
+          docker run --rm --gpus all \
+            --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+            --env PYTEST_ADDOPTS="${pytest_options}" \
+            -v $PWD/reports/xfields:/opt/reports:Z \
+            ${image_id} \
+            /opt/run_tests.sh /opt/xsuite/xfields/tests | tee reports/xfields/results.txt
+
       - name: List report files
         run: |
-            echo "Listing files in reports/${{ matrix.test-suite }}:"
-            ls -lah reports/${{ matrix.test-suite }}
+          echo "Listing files in reports/${{ matrix.test-suite }}:"
+          ls -lah reports/${{ matrix.test-suite }}
 
       - name: Extract Errors and Summarize in Markdown
         run: |
-            echo "## Test Summary" ${{ matrix.test-suite }}>> $GITHUB_STEP_SUMMARY
-            results_file="reports/${{ matrix.test-suite }}/results.txt"
-              if [ -f "$results_file" ]; then
-                echo "Results file found, processing..."
+          echo "## Test Summary" ${{ matrix.test-suite }}>> $GITHUB_STEP_SUMMARY
+          results_file="reports/${{ matrix.test-suite }}/results.txt"
+            if [ -f "$results_file" ]; then
+              echo "Results file found, processing..."
 
-                sed -i -e 's/\x1b\[[0-9;]*m//g' -e 's/^> /\\> /g' $results_file
+              sed -i -e 's/\x1b\[[0-9;]*m//g' -e 's/^> /\\> /g' $results_file
+            
+              passed=$(grep -c PASSED $results_file || true)
+              failed=$(grep "FAILED.*xsuite" $results_file | grep -P 'FAILED.* - ' | sed -E 's/.*\] (.*::[^ ]+).* - .*/\1/' | sort | uniq | wc -l)
+              skipped=$(grep -c SKIPPED $results_file || true)
               
-                passed=$(grep -c PASSED $results_file || true)
-                failed=$(grep "FAILED.*xsuite" $results_file | grep -P 'FAILED.* - ' | sed -E 's/.*\] (.*::[^ ]+).* - .*/\1/' | sort | uniq | wc -l)
-                skipped=$(grep -c SKIPPED $results_file || true)
-                
-                echo "| Result | Number |" >> $GITHUB_STEP_SUMMARY
-                echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-                echo "| Passed ✅| $passed |" >> $GITHUB_STEP_SUMMARY
-                echo "| Failed ❌| $failed |" >> $GITHUB_STEP_SUMMARY
-                echo "| Skipped ⏭️| $skipped |" >> $GITHUB_STEP_SUMMARY
+              echo "| Result | Number |" >> $GITHUB_STEP_SUMMARY
+              echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+              echo "| Passed ✅| $passed |" >> $GITHUB_STEP_SUMMARY
+              echo "| Failed ❌| $failed |" >> $GITHUB_STEP_SUMMARY
+              echo "| Skipped ⏭️| $skipped |" >> $GITHUB_STEP_SUMMARY
 
-                if [ $failed -ne 0 ]; then
-                  echo "### 🔴 Failed Tests" >> $GITHUB_STEP_SUMMARY
-                  grep "FAILED.*xsuite" $results_file | grep -P 'FAILED.* - ' | sed -E 's/.*\] (.*::[^ ]+).* - (.*)/\1 - \2/' | sort | uniq | while read -r failure; do
-                    echo "- $failure" >> $GITHUB_STEP_SUMMARY
-                    
-                    echo "<details><summary>Click here to view the error details</summary><p>" >> $GITHUB_STEP_SUMMARY
-                    echo '```'
+              if [ $failed -ne 0 ]; then
+                echo "### 🔴 Failed Tests" >> $GITHUB_STEP_SUMMARY
+                grep "FAILED.*xsuite" $results_file | grep -P 'FAILED.* - ' | sed -E 's/.*\] (.*::[^ ]+).* - (.*)/\1 - \2/' | sort | uniq | while read -r failure; do
+                  echo "- $failure" >> $GITHUB_STEP_SUMMARY
+                  
+                  echo "<details><summary>Click here to view the error details</summary><p>" >> $GITHUB_STEP_SUMMARY
+                  echo '```'
 
-                    echo "Debug: Failure detail extraction for $failure"
-                    test_name=$(echo "$failure" | sed -E 's/.*::([^\-]+).* - .*/\1/' | sed -E 's/\x1b\[[0-9;]*m//g' )
-                    test_name=$(echo "$test_name" | sed 's/[][]/\\&/g')
-                    echo "Debug: Looking for start of error details for $test_name"
-                    error_start_line=$(grep -n "____________________ ${test_name} ____________________" $results_file | cut -d: -f1)
-                    echo "Debug: Start line found at $error_start_line"
+                  echo "Debug: Failure detail extraction for $failure"
+                  test_name=$(echo "$failure" | sed -E 's/.*::([^\-]+).* - .*/\1/' | sed -E 's/\x1b\[[0-9;]*m//g' )
+                  test_name=$(echo "$test_name" | sed 's/[][]/\\&/g')
+                  echo "Debug: Looking for start of error details for $test_name"
+                  error_start_line=$(grep -n "____________________ ${test_name} ____________________" $results_file | cut -d: -f1)
+                  echo "Debug: Start line found at $error_start_line"
+                  error_end_line=$(tail -n +$((error_start_line + 1)) $results_file | grep -nm 1 "^-.*Captured stdout call.*-$" | cut -d: -f1)
+                  if [[ ! -z "$error_start_line" ]]; then
                     error_end_line=$(tail -n +$((error_start_line + 1)) $results_file | grep -nm 1 "^-.*Captured stdout call.*-$" | cut -d: -f1)
-                    if [[ ! -z "$error_start_line" ]]; then
-                      error_end_line=$(tail -n +$((error_start_line + 1)) $results_file | grep -nm 1 "^-.*Captured stdout call.*-$" | cut -d: -f1)
-                      if [[ ! -z "$error_end_line" ]]; then
-                          absolute_error_end_line=$((error_start_line + error_end_line - 1))
-                          echo "Debug: End line found at $absolute_error_end_line"
-                          sed -n "${error_start_line},${absolute_error_end_line}p" $results_file | sed 's/^>/\\>/' >> $GITHUB_STEP_SUMMARY
-                      fi
+                    if [[ ! -z "$error_end_line" ]]; then
+                        absolute_error_end_line=$((error_start_line + error_end_line - 1))
+                        echo "Debug: End line found at $absolute_error_end_line"
+                        sed -n "${error_start_line},${absolute_error_end_line}p" $results_file | sed 's/^>/\\>/' >> $GITHUB_STEP_SUMMARY
                     fi
-                    echo '```' 
-                    echo "</p></details>" >> $GITHUB_STEP_SUMMARY
-                  done
-                fi
-              else
-                echo "No test results found." >> $GITHUB_STEP_SUMMARY
+                  fi
+                  echo '```' 
+                  echo "</p></details>" >> $GITHUB_STEP_SUMMARY
+                done
               fi
+            else
+              echo "No test results found." >> $GITHUB_STEP_SUMMARY
+            fi
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
