@@ -173,6 +173,10 @@ kernel_definitions = [
         'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_BACKTRACK': True},
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
+    ('mirror_frozen_energy', {
+        'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_MIRROR': True},
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+    }),
     ('only_xtrack_taper', {
         'config': {
             **BASE_CONFIG,
