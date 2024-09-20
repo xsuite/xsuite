@@ -16,3 +16,5 @@ Collective effects
 .. include:: combined_cpu_gpu.rst
 
 .. include:: pipeline.rst
+
+.. include:: wakefields.rst

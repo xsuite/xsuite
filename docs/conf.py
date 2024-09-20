@@ -29,6 +29,7 @@ xtrack_branch = 'main'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
+xwakes_branch = 'main'
 
 os.system(
     f'git clone --single-branch --branch {xobjects_branch} '
@@ -48,6 +49,10 @@ os.system(
 os.system(
     f'git clone --single-branch --branch {xmask_branch} '
     'https://github.com/xsuite/xmask')
+os.system(
+    f'git clone --single-branch --branch {xwakes_branch} '
+    'https://github.com/xsuite/xwakes')
+
 
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
@@ -250,6 +255,12 @@ snippet_files = {
         'generated_code_snippets/closed_orbit_correction_thread.py',
     'xtrack/examples/orbit_and_tracjectory_correction/005_transfer_line_correction.py':
         'generated_code_snippets/transfer_line_correction.py',
+    'xwakes/examples/005_sps_tune_shift.py':
+        'generated_code_snippets/sps_wakefields_single_bunch.py',
+    'xwakes/examples/005_sps_tune_shift_multibunch.py':
+        'generated_code_snippets/sps_wakefields_multi_bunch.py',
+    'xwakes/examples/005_sps_tune_shift_multibunch_mpi.py':
+        'generated_code_snippets/sps_wakefields_multi_bunch_mpi.py',
 }
 
 for ss, tt in snippet_files.items():
