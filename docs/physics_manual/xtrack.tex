@@ -1,4 +1,4 @@
-\chapter{Xtrack}
+\chapter{Single-particle tracking}
 
 XTrack is a 6D single particle symplectic tracking code used to compute the
 trajectories of individual relativistic charged particles in circular
@@ -1310,7 +1310,7 @@ An additional effect is the rotation of the electron beam around the beam axis d
 The inclusion of this effect in the Xsuite electron cooler is optional and determined by the parameter "Neutralization rotation." A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
 
 
-\section{Linear optics calculations}
+\chapter{Linear optics calculations}
 \label{opt}
 Optics calculation are needed to study the motion around the closed orbit. By defining $z$ as the vector of $2 k$ coordinates,  
 \begin{align}\label{opt:eqn:1}
@@ -1322,7 +1322,7 @@ z(s_2)&= M_{1\to 2} z(s_1) & z(C+s_1) &= M_1 z(s_1).
 \end{align}
 In the following we will describe the optics calculation based on the Ripken formalism described in \cite{willeke88}. A good summary is also given in the MAD8 physics manual \cite{mad8phys}.
 
-\subsection{Diagonalisation of one-turn matrix}
+\section{Diagonalisation of one-turn matrix}
 \label{opt:sec:1}
 Since the matrices derive from symplectic maps, the eigenvalue spectrum of the one-turn map $M$ consists of 2$k$ distinct eigenvalues and linearly independent eigenvectors. In addition, for the motion to be stable the eigenvalues $\lambda_k^{\pm}$ with eigenvectors $v_k^{\pm}$ have to be complex \cite{willeke88}:
 \begin{align}
@@ -1383,7 +1383,7 @@ a_{1,6} & b_{1,6} & \cdots & a_{3,6} & b_{3,6} \\
 \right)
 \end{align}
 Usually $\mu_k$ is written as $\mu_k=2\pi Q_k$, where $Q_k$ is then the tune of the mode $k$.
-\subsection{Normalisation of eigenvectors}
+\section{Normalisation of eigenvectors}
 \label{opt:sec:2}
 By convention, the eigenvectors and values are normalized, sorted and rotated so that the following three conditions are fulfilled:
 \begin{enumerate}
@@ -1426,7 +1426,7 @@ a_k^T \cdot S \cdot a_l &=0, \quad b_k^T \cdot S \cdot b_l =0,  & k,l=1,\ldots,3
 \end{align}
 Eqn.~\ref{opt:eqn:2:3} yields that in phase space $a_k$ is thus obtained by an anticlockwise rotation of $b_k$ by $\pi/2$ and a scaling of its length with $|a_k|=\frac{1}{|b_k|}$.
 \end{enumerate}
-\subsection{Conversion to normalized coordinates}
+\section{Conversion to normalized coordinates}
 \label{opt:sec:3}
 We will show in the following that in the normalized phase space the propagation of particle coordinates $z(s)$ from $s_1$ to $s_2$ is just a rotation by an angle $\phi_k$ in the $k=1,\ldots,3$ planes, while the amplitude $I_k$ and initial phase $\phi_{k,0}$ stay constant, explicitly $z(s)$ is then given by:
 \begin{align}\label{opt:eqn:3:3}
@@ -1508,7 +1508,7 @@ An arbitrary vector $z(s)$ can thus be written in the following form:
 \end{align}
 \end{enumerate}
 
-\subsection{Twiss parameters}
+\section{Twiss parameters}
 \label{opt:sec:4}
 In the following the parameter $k$ will always be used for the mode $k$ and the parameter
 $j=1,2,3$ for the horizontal ($x,p_x$), vertical ($y,p_y$) and longitudinal plane
@@ -1585,7 +1585,7 @@ which simplifies in the 2D case to:
 \end{align}
 \end{enumerate}
 
-\subsection{Transformation to normalized coordinates}
+\section{Transformation to normalized coordinates}
 
 The $W$ matrix can be used to transform normalized coordinate into physical coordinates and viceversa:
 
@@ -1626,7 +1626,7 @@ where
 \end{equation}
 are normalized coordinates in sigmas and $\varepsilon_x$, $\varepsilon_y$ and $\varepsilon_\zeta$ are the geometric emittances.
 
-\subsection{Action, amplitude and emittance}
+\section{Action, amplitude and emittance}
 
 We define the action associated to the three modes:
 \begin{align}
@@ -1655,7 +1655,7 @@ where the emittance $\varepsilon_x$ can be written as:
 \end{equation}
 
 
-\subsection{Dispersion and crab dispersion}
+\section{Dispersion and crab dispersion}
 
 For a particle having no betatron amplitude ($\hat{x} = \hat{p}_x =\hat{y} =\hat{p}_y=0$) we can write:
 
@@ -1666,7 +1666,7 @@ p_\zeta &= W_{65}\hat{\zeta} + W_{66}\hat{p}_\zeta \label{eq:crab_pzeta}
 \end{align}
 
 
-\subsubsection{Dispersion}
+\subsection{Dispersion}
 The dispersion is:
 \begin{equation}
 D_{x}^{p_\zeta} = \frac{dx}{d \delta} \quad \text{for } \zeta=0
@@ -1715,7 +1715,7 @@ D_{y}^{p_\zeta} = \left(W_{36} -\frac{W_{35}W_{56}}{W_{55}}\right)\left( W_{66}\
 D_{py}^{p_\zeta} = \left(W_{46} -\frac{W_{45}W_{56}}{W_{55}}\right)\left( W_{66}\ -  \frac{W_{65}W_{56}}{W_{55}} \right)^{-1}
 \end{equation}
 
-\subsubsection{Crab dispersion}
+\subsection{Crab dispersion}
 
 The crab dispersion is:
 \begin{equation}
@@ -1762,7 +1762,7 @@ D_{y}^\zeta = \left(W_{35} -\frac{W_{36}W_{65}}{W_{66}}\right)\left( W_{55}\ -  
 D_{p_y}^\zeta = \left(W_{45} -\frac{W_{46}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
 
-\section{Synchrotron radiation}
+\chapter{Synchrotron radiation}
 
 We collect here some relevant properties of synchrotron radiation~\cite{hofmann_2004}:
 
@@ -1835,7 +1835,7 @@ The algorithm to generate photon energies with the appropriate distribution in d
 
 
 
-\subsection{Damping from synchrotron radiation}
+\section{Damping from synchrotron radiation}
 
 The damping constants from synchrotron radiation can be easily obtained from magnitude of the eigenvalues of the one-turn matrix:
 \begin{align}
@@ -1859,7 +1859,7 @@ By averaging over the beam distribution we obtain:
 \label{eq:grate_rad_damp}
 \end{equation}
 
-\subsection{Equilibrium emittance}
+\section{Equilibrium emittance}
 
 This section is based on the approach described in \cite{chao_eq_emit}.
 
@@ -1994,7 +1994,9 @@ In the ultra-relativistic approximation:
 \label{eq:equilemi2}
 \end{align}
 
-\section{Synchrotron motion}
+\chapter{Synchrotron motion}
+
+We collect here some relevant properties and quantities of the longitudinal particle motion.
 
 Definition of momentum compaction factor:
 \begin{equation}
@@ -2035,7 +2037,7 @@ from which:
 = \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF}\right)
 \end{align}
 
-\subsection{Linearized motion}
+\section{Linearized motion}
 
 We expand around the fixed point $\zeta_0$:
 \begin{align}
@@ -2062,7 +2064,7 @@ We assume that that the energy deviation of the stable fixed point is zero:
 \end{align}
 
 
-\subsection{Smooth approximation}
+\section{Smooth approximation}
 
 Assuming that the slippage and the energy kicks are uniformly distributed along the ring we have:
 \begin{align}
@@ -2150,7 +2152,7 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
 
-\section{Coasting beams}
+\chapter{Coasting beams}
 
 In coasting beams different particles have different revolution frequencies, depending on their momentum, particles perform a different number of turns in a given time. 
 
@@ -2158,10 +2160,8 @@ If in the line we have collective elements which need to measure the beam distri
 
 We define for each particle and for any couple of positions $s_1 < s_2$:
 \begin{equation}
-\hat{\beta}(s_1, s_2) = \frac{s_2-s_1}{t(s_2) - t(s_1)}
+\hat{\beta}(s_1, s_2) = \frac{1}{c}\frac{s_2-s_1}{t(s_2) - t(s_1)}
 \end{equation}
-
-[DEVELOP A BIT ON ITS MEANING]
 
 We choose an auxiliary value $\beta_\text{sim}$ such that at all times:
 \begin{equation}
@@ -2222,18 +2222,18 @@ We can prove the following propositions (see Sec.\,\ref{seq:coasting_proofs}):
 t_k(s_1) \in F_n(s_1) \Rightarrow t_k(s_2) \in F_n(s_2) \cup  F_{n+1}(s_2) \quad \text{for any } s_1 < s_2 
 \end{equation}
 ~\\
-\textbf{Proposition 2:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval 
+\textbf{Proposition 2:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
+\begin{equation}
+t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
+\end{equation}
+~\\
+\textbf{Proposition 3:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval 
 $F_{n+1}(0)$. In symbols:
 \begin{equation}
 t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
 \end{equation}
-~\\
-\textbf{Proposition 3:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
-\begin{equation}
-t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2 
-\end{equation}
 
-\subsection{$\zeta$ definition and update}
+\section{$\zeta$ definition and update}
 
 For the tracking of coasting beams we define the longitudinal coordinate $\zeta$ as:
 \begin{equation}
@@ -2301,7 +2301,7 @@ where we have defined:
 }
 \end{equation}
 
-\subsection{Handling particles jumping to the following frame}
+\section{Handling particles jumping to the following frame}
 
 From Proposition 1 we know that during tracking particles will either stay in the present frame or ``jump'' to the following one.
 
@@ -2311,14 +2311,14 @@ t > T_n(s) + \frac{\Delta T}{2}
 ~
 \Leftrightarrow
 ~
-\zeta < \frac{\Delta \zeta}{2}
+\zeta < -\frac{\Delta \zeta}{2} + s\left(1-\frac{\beta_0}{\beta_{\text {sim }}}\right) 
  \end{equation}
  
 When this condition is met, the particle tracking needs to be paused for the remainder of the frame $n$ (based on Proposition~1 it cannot go back to frame $n$) and, based on Proposition~2, its tracking needs to be resumed from the same location where the tracking was paused when tracking the following frame.
 As the frame index is increased, $\zeta$ needs to be updated to preserve the time of arrival:
 \begin{align}
 \zeta_\text{before jump} &= s  - \beta_0 c \left( t - n\Delta T \right) \\
-\zeta_\text{after jump} &= s  - \beta_0 c \left( t - (n+1) \right)
+\zeta_\text{after jump} &= s  - \beta_0 c \left( t - (n+1) \Delta T \right)
 \end{align}
 from which we obtain:
 \begin{align}
@@ -2330,7 +2330,7 @@ from which we obtain:
 
 
 
-\subsection{Proofs}
+\section{Proofs}
 \label{seq:coasting_proofs}
 
 
@@ -2347,7 +2347,7 @@ We notice that from Eqs.\,\ref{eq:betasim1} and~\ref{eq:betasim2} we can write
 \begin{equation}
 \hat{\beta} > \frac{\beta_\text{sim}}{2} 
 \quad \Rightarrow \quad
-\frac{1}{\hat{\beta}} > \frac{2}{\beta_\text{sim}}
+\frac{1}{\hat{\beta}} < \frac{2}{\beta_\text{sim}}
 \quad \Rightarrow \quad
 \left(
 \frac{1}{\hat{\beta}} - \frac{1}{\beta_\text{sim}}
@@ -2429,17 +2429,38 @@ t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \Delta T
 \end{equation}
 Using Eq.\,\ref{eq:tniter} we obtain:
 \begin{equation}
-t_k(s_2) < T_{n+1}(s_2) + T\frac{\Delta T}{2}
+t_k(s_2) < T_{n+1}(s_2) + \frac{\Delta T}{2}
 \label{tk_s2_left}
 \end{equation}
 Combining Eq.\,\ref{tk_s2_right} and~\ref{tk_s2_right} we obtain:
 \begin{equation}
-T_{n}(s_2) + \frac{\Delta T}{2} < t_k(s_2) < T_{n+1}(s_2) + \frac{\Delta T}{2}
+T_{n}(s_2) - \frac{\Delta T}{2} < t_k(s_2) < T_{n+1}(s_2) + \frac{\Delta T}{2}
 \label{tk_s2_left}
 \end{equation}
 which is what we wanted to prove.
 
 \subsubsection*{Proof of proposition 2}
+
+From the hypothesis:
+\begin{equation}
+t_{k}(s_2) > T_{n}(s_2) - \frac{\Delta T}{2}
+\end{equation}
+As $L>s_2$, using Proposition 1 we can write:
+\begin{equation}
+t_{k}(L) > T_{n}(L) - \frac{\Delta T}{2}
+\end{equation}
+Using Proposition 3 we can write:
+\begin{equation}
+t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
+\end{equation}
+Using the fact that $s1>0$, we can apply again Proposition 1, obtaining:
+\begin{equation}
+t_{k+1}(s1) > T_{n+1}(1) - \frac{\Delta T}{2}
+\end{equation}
+which is what we wanted to prove.
+
+
+\subsubsection*{Proof of proposition 3}
 
 By definition:
 \begin{equation}
@@ -2463,23 +2484,4 @@ t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
 \end{equation}
 which is what we wanted to prove.
 
-\subsubsection*{Proof of proposition 3}
-
-From the hypothesis:
-\begin{equation}
-t_{k}(s_2) > T_{n}(s_2) - \frac{\Delta T}{2}
-\end{equation}
-As $L>s_2$, using Proposition 1 we can write:
-\begin{equation}
-t_{k}(L) > T_{n}(L) - \frac{\Delta T}{2}
-\end{equation}
-Using Proposition 2 we can write:
-\begin{equation}
-t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
-\end{equation}
-Using the fact that $s1>0$, we can apply again Proposition 1, obtaining:
-\begin{equation}
-t_{k+1}(s1) > T_{n+1}(1) - \frac{\Delta T}{2}
-\end{equation}
-which is what we wanted to prove.
 
