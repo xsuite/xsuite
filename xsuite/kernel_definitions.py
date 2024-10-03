@@ -109,7 +109,9 @@ DEFAULT_XCOLL_ELEMENTS = [
     xc.BlackAbsorber,
     xc.EverestBlock,
     xc.EverestCollimator,
-    xc.EverestCrystal
+    xc.EverestCrystal,
+    xc.BlowUp,
+    xc.EmittanceMonitor
 ]
 
 NON_TRACKING_ELEMENTS = [
