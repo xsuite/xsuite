@@ -36,11 +36,12 @@ example:
 
 .. _seqdef:
 
-Define a line through a sequence
-================================
+Define a line specifying s positions
+====================================
 
-A line can also be defined through a "sequence", providing the element `s`
-positions instead of explicit drifts, as show in the example below:
+A line can also specifying the `s` positions of some elements. When the position
+are not specified the elements are placed right after the previous one. This is
+illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/sequence.py
    :language: python
