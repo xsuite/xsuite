@@ -78,6 +78,20 @@ how to inspect the dependency relations in a line imported from MAD-X:
 .. literalinclude:: generated_code_snippets/expressions_madx.py
    :language: python
 
+
+Repeated elements, replicas and clones
+======================================
+
+Xsuite supports the installation of the same element multiple times in the same
+line. Furthermore, It is also possible to create replicas and cloneds of an element
+Replicas behave in the same way as repeated elements, but have a user-defined name.
+Element clones, instead, are full copies of the original element and
+inherit all properties of the parent element at the moment of clone creation,
+including the controlling expressions. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/repeated_elements_clones_replicas.py
+   :language: python
+
 Save and reload lines
 =====================
 
