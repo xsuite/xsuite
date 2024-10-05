@@ -17,40 +17,10 @@ corresponding names, as illustrated in the following example:
    :language: python
 
 
-.. _madximport:
-
-Importing a line from MAD-X
-===========================
-
-An Xsuite Line object can be imported from an existing MAD-X model, through the
-`cpymad <http://hibtc.github.io/cpymad/>`_ interface of MAD-X, using the method
-:meth:`xtrack.Line.from_madx_sequence`. The import of certain features of the MAD-X
-model (dererred expressions, apertures, thick elements, alignment errors, field
-errors, etc.) can be controlled by the user. This is illustrated in the following
-example:
-
-.. literalinclude:: generated_code_snippets/madx_import_psb.py
-   :language: python
-
-
-
-.. _seqdef:
-
-Define a line specifying s positions
-====================================
-
-A line can also specifying the `s` positions of some elements. When the position
-are not specified the elements are placed right after the previous one. This is
-illustrated in the following example:
-
-.. literalinclude:: generated_code_snippets/sequence.py
-   :language: python
-
-
 Line inspection, ``Line.get_table()``, ``Line.attr[...]``
 ========================================================
 
-The following example illustrates how to inspect the properties of a line and 
+The following example illustrates how to inspect the properties of a line and
 its elements:
 
 .. literalinclude:: generated_code_snippets/line_inspect.py
@@ -78,9 +48,23 @@ how to inspect the dependency relations in a line imported from MAD-X:
 .. literalinclude:: generated_code_snippets/expressions_madx.py
    :language: python
 
+Lattice construction
+====================
+
+.. _seqdef:
+
+Define a line by specifying the s positions of the elements
+-----------------------------------------------------------
+
+A line can also specifying the `s` positions of some elements. When the position
+are not specified the elements are placed right after the previous one. This is
+illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/sequence.py
+   :language: python
 
 Repeated elements, replicas and clones
-======================================
+--------------------------------------
 
 Xsuite supports the installation of the same element multiple times in the same
 line. Furthermore, It is also possible to create replicas and cloneds of an element
@@ -92,8 +76,8 @@ including the controlling expressions. This is illustrated in the following exam
 .. literalinclude:: generated_code_snippets/repeated_elements_clones_replicas.py
    :language: python
 
-Line composition
-================
+Line mirroring and composition
+------------------------------
 
 Lines can be composed by concatenating other line. This can be simply done with
 the `+` operator. It is also possible, using the `-` operator to mirror a line
@@ -113,13 +97,28 @@ illustrated in the following example:
 .. literalinclude:: generated_code_snippets/composition_with_replicas.py
    :language: python
 
-Placing sublines at given s positions
--------------------------------------
+Placing sub-lines at given s positions
+--------------------------------------
 
 As for normal elements, it is possible to place sublines at given s positions
 within a longer line. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/place_line_at_s.py
+   :language: python
+
+.. _madximport:
+
+Importing a line from MAD-X
+===========================
+
+An Xsuite Line object can be imported from an existing MAD-X model, through the
+`cpymad <http://hibtc.github.io/cpymad/>`_ interface of MAD-X, using the method
+:meth:`xtrack.Line.from_madx_sequence`. The import of certain features of the MAD-X
+model (dererred expressions, apertures, thick elements, alignment errors, field
+errors, etc.) can be controlled by the user. This is illustrated in the following
+example:
+
+.. literalinclude:: generated_code_snippets/madx_import_psb.py
    :language: python
 
 Save and reload lines
