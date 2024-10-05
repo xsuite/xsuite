@@ -7,8 +7,8 @@ Line and environment
 
 .. _createline:
 
-Creating a Line object
-======================
+Creating a simple Line object
+=============================
 
 An Xsuite Line can be created by providing beam line element objects and the
 corresponding names, as illustrated in the following example:
@@ -48,17 +48,22 @@ how to inspect the dependency relations in a line imported from MAD-X:
 .. literalinclude:: generated_code_snippets/expressions_madx.py
    :language: python
 
-Lattice construction
-====================
+Lattice construction capabilities
+=================================
+
+Xsuite provides several features to build lattices for beam linesa nd rings, which
+are presented in the following sections.
 
 .. _seqdef:
 
 Define a line by specifying the s positions of the elements
 -----------------------------------------------------------
 
-A line can also specifying the `s` positions of some elements. When the position
-are not specified the elements are placed right after the previous one. This is
-illustrated in the following example:
+Instead of specifying explicit drift spaces between the elements, as shown in
+section :ref:`createline`, it is possible to define a line by specifying the `s`
+positions of the elements elements. When the position
+is not specified the element is simply placed right after the previous one.
+The following example illustrates this way of defining a line:
 
 .. literalinclude:: generated_code_snippets/sequence.py
    :language: python
