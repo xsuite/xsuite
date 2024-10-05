@@ -113,6 +113,14 @@ illustrated in the following example:
 .. literalinclude:: generated_code_snippets/composition_with_replicas.py
    :language: python
 
+Placing sublines at given s positions
+-------------------------------------
+
+As for normal elements, it is possible to place sublines at given s positions
+within a longer line. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/place_line_at_s.py
+   :language: python
 
 Save and reload lines
 =====================

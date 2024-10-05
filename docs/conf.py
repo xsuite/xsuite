@@ -258,6 +258,8 @@ snippet_files = {
         'generated_code_snippets/line_composition.py',
     'xtrack/examples/lattice_design/008b_composition_with_replicas.py':
         'generated_code_snippets/composition_with_replicas.py',
+    'xtrack/examples/lattice_design/008c_place_line_at_s.py':
+        'generated_code_snippets/place_line_at_s.py',
 }
 
 for ss, tt in snippet_files.items():
