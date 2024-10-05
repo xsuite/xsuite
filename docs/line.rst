@@ -1,6 +1,6 @@
-====
-Line
-====
+====================
+Line and environment
+====================
 
 .. contents:: Table of Contents
     :depth: 3
@@ -91,6 +91,28 @@ including the controlling expressions. This is illustrated in the following exam
 
 .. literalinclude:: generated_code_snippets/repeated_elements_clones_replicas.py
    :language: python
+
+Line composition
+================
+
+Lines can be composed by concatenating other line. This can be simply done with
+the `+` operator. It is also possible, using the `-` operator to mirror a line
+by reversing the order of its elements. This features are particularly useful
+when designing beam lines, as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/line_composition.py
+   :language: python
+
+Using line replicas instead of repeated elements
+------------------------------------------------
+
+It is also possible to use replicas to assemble the ring. This allows using
+different names for the different sections and for their elements. This is
+illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/composition_with_replicas.py
+   :language: python
+
 
 Save and reload lines
 =====================
