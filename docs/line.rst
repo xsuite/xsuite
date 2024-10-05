@@ -54,6 +54,15 @@ Lattice construction capabilities
 Xsuite provides several features to build lattices for beam lines and rings, which
 are presented in the following sections.
 
+Role of the environment
+-----------------------
+
+The Xsuite environment manages variables and elements that can be shared by different
+lines as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/environment.py
+   :language: python
+
 .. _seqdef:
 
 Define a line by specifying the s positions of the elements
