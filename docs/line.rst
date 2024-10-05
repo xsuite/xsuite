@@ -51,7 +51,7 @@ how to inspect the dependency relations in a line imported from MAD-X:
 Lattice construction capabilities
 =================================
 
-Xsuite provides several features to build lattices for beam linesa nd rings, which
+Xsuite provides several features to build lattices for beam lines and rings, which
 are presented in the following sections.
 
 .. _seqdef:
