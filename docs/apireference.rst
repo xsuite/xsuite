@@ -8,6 +8,9 @@ Reference manual
 xtrack.Environment class
 ========================
 
+The Xsuite environment manages variables and elements that can be shared by
+different lines and can be used to create elements and line objects.
+
 .. autoclass:: xtrack.Environment
     :members:
     :member-order: bysource
