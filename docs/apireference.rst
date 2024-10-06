@@ -5,6 +5,13 @@ Reference manual
 .. contents:: Table of Contents
     :depth: 3
 
+xtrack.Environment class
+========================
+
+.. autoclass:: xtrack.Environment
+    :members:
+    :member-order: bysource
+
 xtrack.Line class
 =================
 
