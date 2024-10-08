@@ -1762,6 +1762,70 @@ D_{y}^\zeta = \left(W_{35} -\frac{W_{36}W_{65}}{W_{66}}\right)\left( W_{55}\ -  
 D_{p_y}^\zeta = \left(W_{45} -\frac{W_{46}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
 
+\section{Linear betatron coupling}
+
+The following is based on \cite{luo2004phase} and \cite{Jones:2020hhl}.
+~\\~\\
+In the presence of betatron coupling the transverse on-momentum motion can be written as:
+\begin{equation}
+\left\{\begin{array}{l}
+x_n=A_{1, x} \cos \left[2 \pi Q_1(n-1)+\phi_{1, x}\right]+A_{2, x} \cos \left[2 \pi Q_2(n-1)+\phi_{2, x}\right] \\
+y_n=A_{1, y} \cos \left[2 \pi Q_1(n-1)+\phi_{1, y}\right]+A_{2, y} \cos \left[2 \pi Q_2(n-1)+\phi_{2, y}\right]
+\end{array}\right.
+\end{equation}
+
+We can define:
+\begin{equation}
+\left\{\begin{array}{l}
+r_1=\left|A_{1, y}\right| /\left|A_{1, x}\right| \\
+r_2=\left|A_{2, x}\right| /\left|A_{2, y}\right|
+\end{array}\right.
+\end{equation}
+
+\begin{equation}
+\left\{\begin{aligned}
+\Delta \phi_1 & =\phi_{1, y}-\phi_{1, x} \\
+\Delta \phi_2 & =\phi_{2, x}-\phi_{2, y}
+\end{aligned}\right.
+\end{equation}
+
+These quantities can be obtained from the normalized W matrix as:
+\begin{equation}
+\left\{\begin{array}{l}
+r_1=\sqrt{W_{31}^2+W_{32}^2} / W_{11} \\
+r_2=\sqrt{W_{13}^2+W_{14}^2} / W_{33}
+\end{array}\right.
+\end{equation}
+
+\begin{equation}
+\left\{\begin{array}{l}
+\Delta \phi_{1,0}=\arctan \left(W_{32} / W_{31}\right) \\
+\Delta \phi_{2,0}=\arctan \left(W_{14} / W_{13}\right)
+\end{array}\right.
+\end{equation}
+
+From these we can compute the following quantities as\,\cite{Jones:2020hhl}:
+\begin{equation}
+\left|C^{-}\right|=\frac{2 \sqrt{r_1 r_2}\left|Q_1-Q_2\right|}{\left(1+r_1 r_2\right)}
+\end{equation}
+\begin{equation}
+\chi(s) = \Delta \phi_{1,0}(s)
+\end{equation}
+\begin{equation}
+C^-(s) = \left|C^{-}\right|e^{i\chi(s)}
+\end{equation}
+where $Q_1$ and $Q_2$ are the tunes of the betatron eigenmodes. Note that only the phase of $C^-(s)$ is $s$ dependent.
+
+It is possible to prove that $C^-$ is related to the skew quadrupole strengths along the ring by the following relation:
+\begin{equation}
+C^{-}=\left|C^{-}\right| e^{i \chi}=\frac{1}{2 \pi} \int_0^L \sqrt{\beta_x \beta_y} k_s e^{i\left[\Phi_x-\Phi_y-2 \pi \Delta \cdot s / L\right]} d l .
+\end{equation}
+where $\Delta$ is the difference of the unperturbed fractional tunes.
+
+
+
+
+
 \chapter{Synchrotron radiation}
 
 We collect here some relevant properties of synchrotron radiation~\cite{hofmann_2004}:
