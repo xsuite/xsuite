@@ -48,34 +48,24 @@ jobs:
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
-      - name: Install jq
-        run: |
-          if command -v jq &> /dev/null; then
-            echo "jq is already installed"
-          elif command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y jq
-          else command -v yum &> /dev/null; 
-            sudo yum install -y jq
-          fi
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
         run: |
-          echo '${{ inputs.locations }}' | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
-            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
-            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
-            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
-            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
-            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
-            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
+            --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} \
+            --build-arg xdeps_branch=${{ fromJson(inputs.locations).xobjects_location }} \
+            --build-arg xpart_branch=${{ fromJson(inputs.locations).xpart_location }} \
+            --build-arg xtrack_branch=${{ fromJson(inputs.locations).xtrack_location }} \
+            --build-arg xfields_branch=${{ fromJson(inputs.locations).xfields_location }} \
+            --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_location }} \
+            --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_location }} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
