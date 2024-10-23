@@ -114,7 +114,7 @@ jobs:
             | tee reports/${{ matrix.test-suite }}/results.txt
 
     - name: Generate Summary Report
-      run: bash .github/scripts/generate_summary.sh ${{ matrix.test-suite }}
+      run: bash .github/scripts/generate_summary.sh ${{ matrix.test-suite }} >> $GITHUB_STEP_SUMMARY
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
