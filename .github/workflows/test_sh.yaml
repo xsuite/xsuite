@@ -112,7 +112,7 @@ jobs:
           ${image_id} \
           /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests \
             | tee reports/${{ matrix.test-suite }}/results.txt
-        return ${PIPESTATUS[0]}
+        exit ${PIPESTATUS[0]}
 
     - name: Generate Summary Report
       run: bash .github/scripts/generate_summary.sh ${{ matrix.test-suite }} >> $GITHUB_STEP_SUMMARY
