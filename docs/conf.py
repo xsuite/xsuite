@@ -262,6 +262,8 @@ snippet_files = {
         'generated_code_snippets/place_line_at_s.py',
     'xtrack/examples/lattice_design/008d_environment.py':
         'generated_code_snippets/environment.py',
+    'xmask/examples/hllhc15_collision/005_footprint.py':
+        'generated_code_snippets/footprint_with_bb.py',
 }
 
 for ss, tt in snippet_files.items():
