@@ -3,10 +3,10 @@ set -e # Exit immediately if a command exits with a non-zero status.
 WF_BRANCH="main"
 
 XOBJECTS=xsuite:main
-   XPART=xsuite:release/0.19.0
-   XDEPS=xsuite:release/0.6.5
-  XTRACK=xsuite:release/v0.67.0
- XFIELDS=xsuite:release/0.21.0
+   XPART=xsuite:fix/repeated_elements
+   XDEPS=xsuite:release/0.8.0
+  XTRACK=xsuite:release/0.70.0
+ XFIELDS=xsuite:main
    XMASK=xsuite:main
    XCOLL=xsuite:main
 
