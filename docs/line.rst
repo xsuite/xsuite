@@ -83,6 +83,7 @@ Repeated elements, replicas and clones
 Xsuite supports the installation of the same element multiple times in the same
 line. Furthermore, It is also possible to create replicas and cloneds of an element
 Replicas behave in the same way as repeated elements, but have a user-defined name.
+While it would be possible to assign the same element to another name in `elements_dict`, Replicas make sure that it is not possible to trim different the replicated element and that the relation is maintained in the `to_dict/from_dict` and `to_json/from_json` methods.
 Element clones, instead, are full copies of the original element and
 inherit all properties of the parent element at the moment of clone creation,
 including the controlling expressions. This is illustrated in the following example:
