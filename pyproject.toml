@@ -2,11 +2,11 @@
 requires = [
     'setuptools>=64',
     'setuptools-scm[toml]>=8',
-    "xtrack==0.70.0",
+    "xtrack==0.70.1",
     "xfields==0.21.2",
     "xcoll==0.5.10",
     "xobjects==0.4.5",
-    "xdeps==0.8.0",
+    "xdeps==0.8.1",
     "xpart==0.19.3",
     "numpy<2.0",
 ]
@@ -25,11 +25,11 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
 dependencies = [
-    "xtrack==0.70.0",
+    "xtrack==0.70.1",
     "xfields==0.21.2",
     "xcoll==0.5.10",
     "xobjects==0.4.5",
-    "xdeps==0.8.0",
+    "xdeps==0.8.1",
     "xpart==0.19.3",
 ]
 dynamic = ["version"]
