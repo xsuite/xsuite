@@ -1,14 +1,14 @@
-====
-Line
-====
+====================
+Line and environment
+====================
 
 .. contents:: Table of Contents
     :depth: 3
 
 .. _createline:
 
-Creating a Line object
-======================
+Creating a simple Line object
+=============================
 
 An Xsuite Line can be created by providing beam line element objects and the
 corresponding names, as illustrated in the following example:
@@ -17,39 +17,10 @@ corresponding names, as illustrated in the following example:
    :language: python
 
 
-.. _madximport:
-
-Importing a line from MAD-X
-===========================
-
-An Xsuite Line object can be imported from an existing MAD-X model, through the
-`cpymad <http://hibtc.github.io/cpymad/>`_ interface of MAD-X, using the method
-:meth:`xtrack.Line.from_madx_sequence`. The import of certain features of the MAD-X
-model (dererred expressions, apertures, thick elements, alignment errors, field
-errors, etc.) can be controlled by the user. This is illustrated in the following
-example:
-
-.. literalinclude:: generated_code_snippets/madx_import_psb.py
-   :language: python
-
-
-
-.. _seqdef:
-
-Define a line through a sequence
-================================
-
-A line can also be defined through a "sequence", providing the element `s`
-positions instead of explicit drifts, as show in the example below:
-
-.. literalinclude:: generated_code_snippets/sequence.py
-   :language: python
-
-
 Line inspection, ``Line.get_table()``, ``Line.attr[...]``
 ========================================================
 
-The following example illustrates how to inspect the properties of a line and 
+The following example illustrates how to inspect the properties of a line and
 its elements:
 
 .. literalinclude:: generated_code_snippets/line_inspect.py
@@ -75,6 +46,93 @@ expressions are automatically imported as well. The following example illustrate
 how to inspect the dependency relations in a line imported from MAD-X:
 
 .. literalinclude:: generated_code_snippets/expressions_madx.py
+   :language: python
+
+Lattice construction capabilities
+=================================
+
+Xsuite provides several features to build lattices for beam lines and rings, which
+are presented in the following sections.
+
+Role of the environment
+-----------------------
+
+The Xsuite environment manages variables and elements that can be shared by different
+lines as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/environment.py
+   :language: python
+
+.. _seqdef:
+
+Define a line by specifying the s positions of the elements
+-----------------------------------------------------------
+
+Instead of specifying explicit drift spaces between the elements, as shown in
+section :ref:`createline`, it is possible to define a line by specifying the `s`
+positions of the elements elements. When the position
+is not specified the element is simply placed right after the previous one.
+The following example illustrates this way of defining a line:
+
+.. literalinclude:: generated_code_snippets/sequence.py
+   :language: python
+
+Repeated elements, replicas and clones
+--------------------------------------
+
+Xsuite supports the installation of the same element multiple times in the same
+line. Furthermore, It is also possible to create replicas and cloneds of an element
+Replicas behave in the same way as repeated elements, but have a user-defined name.
+Element clones, instead, are full copies of the original element and
+inherit all properties of the parent element at the moment of clone creation,
+including the controlling expressions. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/repeated_elements_clones_replicas.py
+   :language: python
+
+Line mirroring and composition
+------------------------------
+
+Lines can be composed by concatenating other line. This can be simply done with
+the `+` operator. It is also possible, using the `-` operator to mirror a line
+by reversing the order of its elements. This features are particularly useful
+when designing beam lines, as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/line_composition.py
+   :language: python
+
+Using line replicas instead of repeated elements
+------------------------------------------------
+
+It is also possible to use replicas to assemble the ring. This allows using
+different names for the different sections and for their elements. This is
+illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/composition_with_replicas.py
+   :language: python
+
+Placing sub-lines at given s positions
+--------------------------------------
+
+As for normal elements, it is possible to place sublines at given s positions
+within a longer line. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/place_line_at_s.py
+   :language: python
+
+.. _madximport:
+
+Importing a line from MAD-X
+===========================
+
+An Xsuite Line object can be imported from an existing MAD-X model, through the
+`cpymad <http://hibtc.github.io/cpymad/>`_ interface of MAD-X, using the method
+:meth:`xtrack.Line.from_madx_sequence`. The import of certain features of the MAD-X
+model (dererred expressions, apertures, thick elements, alignment errors, field
+errors, etc.) can be controlled by the user. This is illustrated in the following
+example:
+
+.. literalinclude:: generated_code_snippets/madx_import_psb.py
    :language: python
 
 Save and reload lines

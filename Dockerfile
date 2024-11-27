@@ -47,11 +47,11 @@ RUN cat /sys/class/drm/card*/device/vendor | grep 0x1002; \
 WORKDIR /opt
 
 # Install mamba and set up an environment
-RUN curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
-RUN bash Mambaforge-Linux-x86_64.sh -b -p /opt/mambaforge
-RUN rm Mambaforge-Linux-x86_64.sh
+RUN curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+RUN bash Miniforge3-Linux-x86_64.sh -b -p /opt/miniforge
+RUN rm Miniforge3-Linux-x86_64.sh
 
-ENV PATH /opt/mambaforge/bin:$PATH
+ENV PATH /opt/miniforge/bin:$PATH
 RUN mamba init bash
 RUN mamba create --name xsuite python=3.11
 RUN echo "mamba activate xsuite" >> ~/.bashrc

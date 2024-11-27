@@ -65,5 +65,10 @@ setup(
     distclass=BinaryDistribution,
     cmdclass={
         'build_ext': CustomBuildExtCommand,
-    }
+    },
+    extras_require={
+        'notebooks': ['jupyter', 'ipympl', 'xplt'],
+        'full_env': ['cpymad', 'nafflib', 'pytest', 'pytest-mock',
+                     'jupyter', 'ipympl', 'xplt', 'ipython'],
+    },
 )

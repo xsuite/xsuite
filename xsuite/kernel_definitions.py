@@ -109,7 +109,9 @@ DEFAULT_XCOLL_ELEMENTS = [
     xc.BlackAbsorber,
     xc.EverestBlock,
     xc.EverestCollimator,
-    xc.EverestCrystal
+    xc.EverestCrystal,
+    xc.BlowUp,
+    xc.EmittanceMonitor
 ]
 
 NON_TRACKING_ELEMENTS = [
@@ -171,6 +173,10 @@ kernel_definitions = [
     }),
     ('backtrack_frozen_energy', {
         'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_BACKTRACK': True},
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+    }),
+    ('mirror_frozen_energy', {
+        'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_MIRROR': True},
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_taper', {

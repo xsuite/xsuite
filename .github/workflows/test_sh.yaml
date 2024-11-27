@@ -48,32 +48,25 @@ jobs:
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
-      - name: Install jq
-        run: |
-          if command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y jq
-          else command -v yum &> /dev/null; 
-            sudo yum install -y jq
-          fi
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
       - id: build-image
         name: Build the test image
         run: |
-          echo '${{ inputs.locations }}' | jq '.' > locations.json
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
+            --rm \
             --network=host \
             --no-cache=true \
-            --build-arg xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) \
-            --build-arg xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json) \
-            --build-arg xpart_branch=$(jq -r '.["xpart_location"]' locations.json) \
-            --build-arg xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json) \
-            --build-arg xfields_branch=$(jq -r '.["xfields_location"]' locations.json) \
-            --build-arg xmask_branch=$(jq -r '.["xmask_location"]' locations.json) \
-            --build-arg xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json) \
+            --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} \
+            --build-arg xdeps_branch=${{ fromJson(inputs.locations).xobjects_location }} \
+            --build-arg xpart_branch=${{ fromJson(inputs.locations).xpart_location }} \
+            --build-arg xtrack_branch=${{ fromJson(inputs.locations).xtrack_location }} \
+            --build-arg xfields_branch=${{ fromJson(inputs.locations).xfields_location }} \
+            --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_location }} \
+            --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_location }} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
@@ -112,13 +105,18 @@ jobs:
         test_contexts: ${{ inputs.test_contexts }}
         pytest_options: ${{ inputs.pytest_options }}
       run: |
-          mkdir -p reports/${{ matrix.test-suite }}
-          docker run --rm --gpus all \
-            --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-            --env PYTEST_ADDOPTS="${pytest_options}" \
-            -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
-            ${image_id} \
-            /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
+        mkdir -p reports/${{ matrix.test-suite }}
+        docker run --rm --gpus all \
+          --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
+          --env PYTEST_ADDOPTS="${pytest_options}" \
+          -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
+          ${image_id} \
+          /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests \
+            | tee reports/${{ matrix.test-suite }}/results.txt
+        exit ${PIPESTATUS[0]}
+
+    - name: Generate Summary Report
+      run: bash .github/scripts/generate_summary.sh ${{ matrix.test-suite }} >> $GITHUB_STEP_SUMMARY
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
