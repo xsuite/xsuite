@@ -57,6 +57,7 @@ jobs:
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
+            --rm \
             --network=host \
             --no-cache=true \
             --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} \
