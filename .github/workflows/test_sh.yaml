@@ -116,6 +116,7 @@ jobs:
         exit ${PIPESTATUS[0]}
 
     - name: Generate Summary Report
+      if: always()
       run: bash .github/scripts/generate_summary.sh ${{ matrix.test-suite }} >> $GITHUB_STEP_SUMMARY
 
   wait:
