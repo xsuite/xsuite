@@ -57,6 +57,7 @@ jobs:
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
+            --rm \
             --network=host \
             --no-cache=true \
             --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} \
@@ -115,6 +116,7 @@ jobs:
         exit ${PIPESTATUS[0]}
 
     - name: Generate Summary Report
+      if: always()
       run: bash .github/scripts/generate_summary.sh ${{ matrix.test-suite }} >> $GITHUB_STEP_SUMMARY
 
   wait:
