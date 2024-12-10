@@ -61,7 +61,7 @@ jobs:
             --network=host \
             --no-cache=true \
             --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} \
-            --build-arg xdeps_branch=${{ fromJson(inputs.locations).xobjects_location }} \
+            --build-arg xdeps_branch=${{ fromJson(inputs.locations).xdeps_location }} \
             --build-arg xpart_branch=${{ fromJson(inputs.locations).xpart_location }} \
             --build-arg xtrack_branch=${{ fromJson(inputs.locations).xtrack_location }} \
             --build-arg xfields_branch=${{ fromJson(inputs.locations).xfields_location }} \
