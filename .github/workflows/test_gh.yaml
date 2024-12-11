@@ -79,7 +79,7 @@ jobs:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
         export xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} 
-        export xdeps_branch=${{ fromJson(inputs.locations).xobjects_location }}
+        export xdeps_branch=${{ fromJson(inputs.locations).xdeps_location }}
         export xpart_branch=${{ fromJson(inputs.locations).xpart_location }} 
         export xtrack_branch=${{ fromJson(inputs.locations).xtrack_location }}
         export xfields_branch=${{ fromJson(inputs.locations).xfields_location }} 
