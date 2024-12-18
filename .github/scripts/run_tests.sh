@@ -11,6 +11,14 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+# We want the tests to be terminated (quickly!) when this script is terminated
+# GitHub gives us 7.5s before sending a SIGKILL to all child processes
+_term() {
+  echo "Received a SIGINT/SIGKILL signal. Terminating."
+  kill -TERM "$PYTEST_PID"
+}
+trap _term SIGINT SIGTERM
+
 # Set the path to the reports folder
 REPORTS_DIR="/opt/reports"
 
@@ -24,13 +32,19 @@ STATUS=0
 pip install pytest-github-actions-annotate-failures
 export GITHUB_ACTIONS=true
 
+run_pytest() {
+    pytest $PYTEST_OPTS "$1" &
+    PYTEST_PID=$!
+    wait $PYTEST_PID
+    PYTEST_STATUS=$?
+}
+
 # If xtrack on Pyopencl context, run tests one by one, otherwise run normally
 if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]] && [[ $* =~ xsuite/(xtrack|xpart|xfields) ]]; then
   # Run tests one by one
   for test_file in "$@"/test_*; do
-      TEST_NAME=$(basename "$test_file" .py)  # strip path and extension
-      pytest $PYTEST_OPTS "$test_file"
-      PYTEST_STATUS=$?
+      run_pytest "$test_file"
+
       # If the tests failed, set the status to 1 (5 is for no tests collected)
       if [ $PYTEST_STATUS -ne 0 ] && [ $PYTEST_STATUS -ne 5 ]; then
         STATUS=1
@@ -42,8 +56,8 @@ else  # Run tests normally if no Pyopencl context
     PYTEST_OPTS="$PYTEST_OPTS -nauto"
   fi
 
-  pytest $PYTEST_OPTS "$@"
-  PYTEST_STATUS=$?
+  run_pytest "$@"
+
   # If the tests failed, set the status to 1 (5 is for no tests collected)
   if [ $PYTEST_STATUS -ne 0 ] && [ $PYTEST_STATUS -ne 5 ]; then
     STATUS=1
