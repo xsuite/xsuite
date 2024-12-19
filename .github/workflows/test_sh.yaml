@@ -119,7 +119,7 @@ jobs:
     if: success() || failure()
     steps:
       - name: Wait
-        run: sleep 300
+        run: sleep 60
 
   # Cleanup after the tests by removing the image and making sure there are
   # no unused images and stopped containers
