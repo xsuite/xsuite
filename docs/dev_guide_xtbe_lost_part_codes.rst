@@ -18,13 +18,20 @@ State C   flag                        Information
 -30       XT_FULL_BEND_BACKTR         Backtracking in full bend non implemented yet.
 -31       XT_MULTIP_IN_BEND_BACKTR    Backtracking in multipolar kick for bend non implemented yet.
 -32       XT_DIP_EDGE_FULL_BACKTR     Backtracking in full dipole edge non implemented yet.
--333      XC_LOST_ON_EVEREST          Lost in Everest collimator.
--334      XC_LOST_ON_EVEREST_CRYSTAL  Lost in Everest crystal.
--335      XC_LOST_ON_FLUKA            Lost in FLUKA collimator.
--336      XC_LOST_ON_GEANT4           Lost in Geant4 collimator.
--340      XC_LOST_ON_ABSORBER         Lost in black absorber.
+-330      XC_LOST_ON_EVEREST_BLOCK    Lost in an Everest block.
+-331      XC_LOST_ON_EVEREST_COLL     Lost in an Everest collimator.
+-332      XC_LOST_ON_EVEREST_CRYSTAL  Lost in an Everest crystal.
+-333      XC_LOST_ON_FLUKA_BLOCK      Lost in a FLUKA insertion (not yet implemented).
+-334      XC_LOST_ON_FLUKA_COLL       Lost in a FLUKA collimator.
+-335      XC_LOST_ON_FLUKA_CRYSTAL    Lost in a FLUKA crystal (not yet implemented).
+-336      XC_LOST_ON_GEANT4_BLOCK     Lost in a Geant4 insertion (not yet implemented).
+-337      XC_LOST_ON_GEANT4_COLL      Lost in a Geant4 collimator.
+-338      XC_LOST_ON_GEANT4_CRYSTAL   Lost in a Geant4 crystal (not yet implemented).
+-340      XC_LOST_ON_ABSORBER         Lost in a black absorber.
 -390      XC_ERR_INVALID_TRACK        Invalid tracking in collimator (e.g. backtracking, during twiss).
--399      XC_ERR                      General collimator error.
+-391      XC_ERR_NOT_IMPLEMENTED      The particle went to a part of the code that is not supported.
+-392      XC_ERR_INVALID_XOFIELD      At least one collimator has unsupported values for its parameters.
+-399      XC_ERR                      General Xcoll error.
 -400      XT_LOST_IN_RF_TRACK         Lost in RF-Track
 -100XXXX                              Used to handle coasting
 ========= ==========================  ====================================================================
