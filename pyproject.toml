@@ -9,11 +9,11 @@ requires = [
     "xobjects==0.4.6",
     "xdeps==0.8.4",
 =======
-    "xtrack==0.72.1",
+    "xtrack==0.72.2",
     "xfields==0.21.5",
     "xcoll==0.5.11",
     "xobjects==0.4.6",
-    "xdeps==0.8.3",
+    "xdeps==0.8.4",
 >>>>>>> 9bf0e6ca0efe2f6d24e22a2b36840d9a8ca2b59b
     "xpart==0.19.3",
     "numpy<2.0",
@@ -40,11 +40,11 @@ dependencies = [
     "xobjects==0.4.6",
     "xdeps==0.8.4",
 =======
-    "xtrack==0.72.1",
+    "xtrack==0.72.2",
     "xfields==0.21.5",
     "xcoll==0.5.11",
     "xobjects==0.4.6",
-    "xdeps==0.8.3",
+    "xdeps==0.8.4",
 >>>>>>> 9bf0e6ca0efe2f6d24e22a2b36840d9a8ca2b59b
     "xpart==0.19.3",
 ]
