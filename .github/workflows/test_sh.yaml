@@ -84,9 +84,9 @@ jobs:
         if: ${{ env.with_gpu == 'true' }}
         run: docker run --rm --gpus all ${image_id} clinfo
       - name: Package paths
-        run: docker run --rm --gpus all ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+        run: docker run --rm ${{ env.with_gpu == 'true' && '--gpus all' || '' }} ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
       - name: List dependencies
-        run: docker run --rm --gpus all ${image_id} pip freeze
+        run: docker run --rm ${{ env.with_gpu == 'true' && '--gpus all' || '' }} ${image_id} pip freeze
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
@@ -106,7 +106,8 @@ jobs:
         pytest_options: ${{ inputs.pytest_options }}
       run: |
         mkdir -p reports/${{ matrix.test-suite }}
-        exec docker run --rm --gpus all \
+        exec docker run --rm \
+          ${{ env.with_gpu == 'true' && '--gpus all' || '' }} \
           --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
           --env PYTEST_ADDOPTS="${pytest_options}" \
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
