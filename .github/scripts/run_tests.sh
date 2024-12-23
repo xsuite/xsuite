@@ -52,7 +52,7 @@ if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]] && [[ $* =~ xsuite/(xtrack
   done
 else  # Run tests normally if no Pyopencl context
   # Use multithreading if on cpu context and not xmask
-  if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextCpu" ]] && [[ ! $* =~ xsuite/xmask ]]; then
+  if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextCpu" ]] && [[ ! $* =~ xsuite/(xmask|xcoll) ]]; then
     pip install pytest-xdist
     PYTEST_OPTS="$PYTEST_OPTS -nauto"
   fi
