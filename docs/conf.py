@@ -206,7 +206,7 @@ snippet_files = {
         'generated_code_snippets/twiss_reverse.py',
     'xtrack/examples/twiss/000f_twiss_default.py':
         'generated_code_snippets/twiss_default.py',
-    'xtrack/examples/toy_ring/000a_toy_ring_specify_s.py':
+    'xtrack/examples/lattice_design/007a_element_creation_and_placing.py':
         'generated_code_snippets/sequence.py',
     'xtrack/examples/toy_ring/006a_dynamic_bump_sin.py':
         'generated_code_snippets/dynamic_bump_sin.py',
