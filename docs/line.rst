@@ -126,13 +126,6 @@ when designing beam lines, as illustrated in the following example:
 .. literalinclude:: generated_code_snippets/line_composition.py
    :language: python
 
-
-
-
-
-
-
-
 Insert elements
 ===============
 
