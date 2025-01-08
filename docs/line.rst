@@ -16,6 +16,14 @@ corresponding names, as illustrated in the following example:
 .. literalinclude:: generated_code_snippets/toy_ring.py
    :language: python
 
+Save and reload lines
+=====================
+
+An Xtrack Line object can be transformed into a dictionary or saved to a json
+file, as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/tojson.py
+   :language: python
 
 Line inspection, ``Line.get_table()``, ``Line.attr[...]``
 ========================================================
@@ -135,14 +143,7 @@ example:
 .. literalinclude:: generated_code_snippets/madx_import_psb.py
    :language: python
 
-Save and reload lines
-=====================
 
-An Xtrack Line object can be transformed into a dictionary or saved to a json
-file, as illustrated in the following example:
-
-.. literalinclude:: generated_code_snippets/tojson.py
-   :language: python
 
 Insert elements
 ===============
@@ -185,6 +186,14 @@ are replaced by drift spaces, so that the position of all other elements is
 preserved. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/remove_elements.py
+   :language: python
+
+Replace elements
+================
+Elements in a line can be replaced with elements having the same length, as
+illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/replace_elements.py
    :language: python
 
 Slice elements
