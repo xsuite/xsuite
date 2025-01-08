@@ -154,6 +154,11 @@ This is illustrated in the following example:
 .. literalinclude:: generated_code_snippets/insert_element.py
    :language: python
 
+It is also possible to insert entire lines, as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/insert_line.py
+   :language: python
+
 Simplified syntax for single insertion
 --------------------------------------
 
