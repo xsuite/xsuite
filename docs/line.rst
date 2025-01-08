@@ -147,9 +147,9 @@ file, as illustrated in the following example:
 Insert elements
 ===============
 
-It is possible to insert elements in a line. The position of the new elements
-can be specified as absolut s position or as relative to an existing element.
-This is illustrated in the following example:
+It is possible to insert elements in a line also after its creation. The position
+of the new elements can be specified as absolut s position or as relative to
+an existing element. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/insert_element.py
    :language: python
@@ -168,6 +168,23 @@ all the elements at once, as shown in the previous example. The compact syntax
 for single insertion is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/insert_element_single.py
+   :language: python
+
+Append elements
+===============
+New elements can also be installed at the end of a line, as illustrated in the
+following example:
+
+.. literalinclude:: generated_code_snippets/append_elements.py
+   :language: python
+
+Remove elements
+===============
+Elements can be removed from a line using the `Line.remove` method. Thick elements
+are replaced by drift spaces, so that the position of all other elements is
+preserved. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/remove_elements.py
    :language: python
 
 Slice elements

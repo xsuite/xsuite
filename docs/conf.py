@@ -194,6 +194,10 @@ snippet_files = {
         'generated_code_snippets/insert_element_single.py',
     'xtrack/examples/lattice_design/007d_insert_line.py':
         'generated_code_snippets/insert_line.py',
+    'xtrack/examples/lattice_design/007e_append_elements.py':
+        'generated_code_snippets/append_elements.py',
+    'xtrack/examples/lattice_design/007f_remove_elements.py':
+        'generated_code_snippets/remove_elements.py',
     'xtrack/examples/psb/000a_all_xsuite_import_model.py':
         'generated_code_snippets/madx_import_psb.py',
     'xtrack/examples/toy_ring/008_repeated_elements_clones_replicas.py':
