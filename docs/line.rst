@@ -26,7 +26,7 @@ file, as illustrated in the following example:
    :language: python
 
 Line inspection, ``Line.get_table()``, ``Line.attr[...]``
-========================================================
+=========================================================
 
 The following example illustrates how to inspect the properties of a line and
 its elements:
