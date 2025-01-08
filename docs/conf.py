@@ -188,8 +188,10 @@ snippet_files = {
         'generated_code_snippets/line_inspect.py',
     'xtrack/examples/toy_ring/000_toy_ring.py':
         'generated_code_snippets/toy_ring.py',
-    'xtrack/examples/toy_ring/005_insert_element.py':
+    'xtrack/examples/lattice_design/007b_insert_elements.py':
         'generated_code_snippets/insert_element.py',
+    'xtrack/examples/lattice_design/007c_insert_individual.py':
+        'generated_code_snippets/insert_element_single.py',
     'xtrack/examples/psb/000a_all_xsuite_import_model.py':
         'generated_code_snippets/madx_import_psb.py',
     'xtrack/examples/toy_ring/008_repeated_elements_clones_replicas.py':

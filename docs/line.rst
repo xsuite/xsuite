@@ -147,7 +147,22 @@ file, as illustrated in the following example:
 Element insertion
 =================
 
+It is possible to insert elements in a line. The position of the new elements
+can be specified as absolut s position or as relative to an existing element.
+This is illustrated in the following example:
+
 .. literalinclude:: generated_code_snippets/insert_element.py
+   :language: python
+
+Simplified syntax for single insertion
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A compact syntax is available to perform a single insertion in a line. Note that
+when multiple insertions need to be made, it is significantly faster to install
+all the elements at once, as shown in the previous example. The compact syntax
+for single insertion is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/insert_element_single.py
    :language: python
 
 Element slicing
