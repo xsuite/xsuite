@@ -144,8 +144,8 @@ file, as illustrated in the following example:
 .. literalinclude:: generated_code_snippets/tojson.py
    :language: python
 
-Element insertion
-=================
+Insert elements
+===============
 
 It is possible to insert elements in a line. The position of the new elements
 can be specified as absolut s position or as relative to an existing element.
@@ -155,7 +155,7 @@ This is illustrated in the following example:
    :language: python
 
 Simplified syntax for single insertion
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 A compact syntax is available to perform a single insertion in a line. Note that
 when multiple insertions need to be made, it is significantly faster to install
@@ -165,53 +165,14 @@ for single insertion is illustrated in the following example:
 .. literalinclude:: generated_code_snippets/insert_element_single.py
    :language: python
 
-Element slicing
-===============
+Slice elements
+==============
 
 It is possible to slice thick element with thin or thick slices, using the Uniform
 or the `Teapot <https://cds.cern.ch/record/165372>`_ scheme. This is illustrated
 in the following example:
 
 .. literalinclude:: generated_code_snippets/slicing.py
-   :language: python
-
-Simulation of small rings: drifts, bends, fringe fields
-=======================================================
-
-The modeling of the body of bending magnets in automatically adapted depending
-on the bending radius, hence no special setting is required for this purpose
-when simulating small rings with large bending angles.
-
-However, the modeling of the fringe fields and the drifts is not automatically
-adapted and appropriate settings need to be provided by the user.
-
-The following example illustrates how to switch to the full model for the fringe
-fields and the drifts and compares the effect of different models on the optics
-functions and the chromatic properties of the CERN ELENA ring:
-
-.. literalinclude:: generated_code_snippets/elena_chromatic_functions.py
-   :language: python
-
-.. figure:: figures/elena_w_chrom.png
-    :width: 80%
-    :align: center
-
-    Comparison of the simplified and full model for the CERN ELENA ring (the six
-    bends of the ring are highlighted in blue). While
-    the linear optics is well reproduced by the simplified model, the chromatic
-    properties differ significantly (in particular, note the effect of the dipole
-    edges).
-
-Extraction of second order transfer maps
-========================================
-
-The method :meth:`xtrack.Line.get_line_with_second_order_maps` allows modeling portions
-of a beam line with second order transfer maps. This is illustrated in the
-following example.
-
-See also :meth:`xtrack.SecondOrderTaylorMap.from_line`.
-
-.. literalinclude:: generated_code_snippets/line_with_maps.py
    :language: python
 
 Apply transformations (tilt, shift) to elements
@@ -255,3 +216,43 @@ in the :ref:`earlier example<createline>` and we cut it into 100 equal length sl
 
 .. literalinclude:: generated_code_snippets/cut_at_s.py
    :language: python
+
+Simulation of small rings: drifts, bends, fringe fields
+=======================================================
+
+The modeling of the body of bending magnets in automatically adapted depending
+on the bending radius, hence no special setting is required for this purpose
+when simulating small rings with large bending angles.
+
+However, the modeling of the fringe fields and the drifts is not automatically
+adapted and appropriate settings need to be provided by the user.
+
+The following example illustrates how to switch to the full model for the fringe
+fields and the drifts and compares the effect of different models on the optics
+functions and the chromatic properties of the CERN ELENA ring:
+
+.. literalinclude:: generated_code_snippets/elena_chromatic_functions.py
+   :language: python
+
+.. figure:: figures/elena_w_chrom.png
+    :width: 80%
+    :align: center
+
+    Comparison of the simplified and full model for the CERN ELENA ring (the six
+    bends of the ring are highlighted in blue). While
+    the linear optics is well reproduced by the simplified model, the chromatic
+    properties differ significantly (in particular, note the effect of the dipole
+    edges).
+
+Extraction of second order transfer maps
+========================================
+
+The method :meth:`xtrack.Line.get_line_with_second_order_maps` allows modeling portions
+of a beam line with second order transfer maps. This is illustrated in the
+following example.
+
+See also :meth:`xtrack.SecondOrderTaylorMap.from_line`.
+
+.. literalinclude:: generated_code_snippets/line_with_maps.py
+   :language: python
+
