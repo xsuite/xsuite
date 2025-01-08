@@ -136,6 +136,20 @@ an existing element. This is illustrated in the following example:
 .. literalinclude:: generated_code_snippets/insert_element.py
    :language: python
 
+Insert elements instantiated by the user
+----------------------------------------
+
+It is possible to insert elements that are created by the user using the class
+directly instead of using the `Environment.new` method. This can be done in a single
+step or alternatively by first adding the element to the environment and then
+inserting it in the line. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/insert_element_instantiated_by_user.py
+   :language: python
+
+Insert a line into another line
+-------------------------------
+
 It is also possible to insert entire lines, as illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/insert_line.py

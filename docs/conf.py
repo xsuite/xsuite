@@ -200,6 +200,8 @@ snippet_files = {
         'generated_code_snippets/remove_elements.py',
     'xtrack/examples/lattice_design/007g_replace_elements.py':
         'generated_code_snippets/replace_elements.py',
+    'xtrack/examples/lattice_design/007h_insert_element_instantiated_by_user.py':
+        'generated_code_snippets/insert_element_instantiated_by_user.py',
     'xtrack/examples/psb/000a_all_xsuite_import_model.py':
         'generated_code_snippets/madx_import_psb.py',
     'xtrack/examples/toy_ring/008_repeated_elements_clones_replicas.py':
