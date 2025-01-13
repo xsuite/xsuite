@@ -108,4 +108,43 @@ Particle-in-cell simulations using a Poisson solver for the beam-beam interactio
 Beam-beam in a real lattice
 ---------------------------
 
-Identically to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup of beam-beam interactions in a collider lattice: :doc:`xmask`
+Identically to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup of beam-beam interactions in a collider lattice: :doc:`xmask`.
+An example snippet is shown below where an xtrack lattice in json format is loaded and a weakstrong beam-beam element is inserted at the marker "ip.1". 
+
+.. code-block:: python
+   path     = "/path/to/lattice
+   seq_name = "lattice.json"
+   seq_path = os.path.join(path, seq_name)
+
+    with open(seq_path, 'r') as f:
+        line = xt.Line.from_dict(json.load(f))
+
+   # define slicer
+   slicer = xf.TempSlicer(n_slices=n_slices, sigma_z=sigma_z, mode=binning_mode)
+
+   # define weakstrong beambeam element (n*[x] yields a list with n elements each of which is x, e.g. 3*[5]=[5,5,5])
+   el_beambeam = xf.BeamBeamBiGaussian3D(
+            _context=context,
+            config_for_update = None,
+            other_beam_q0=other_beam_q0,
+            phi=phi, # half-crossing angle in radians
+            alpha=alpha, # crossing plane in radians
+            # slice intensity [num. real particles] number of slices inferred from the length of this list
+            slices_other_beam_num_particles = slicer.bin_weights * nb,
+            # unboosted opposing (strong) beam moments
+            slices_other_beam_zeta_center = slicer.bin_centers,
+            slices_other_beam_Sigma_11    = n_slices*[ sigma_x**2], # Beam sizes for the other beam, assuming the same value for all slices
+            slices_other_beam_Sigma_22    = n_slices*[sigma_px**2],
+            slices_other_beam_Sigma_33    = n_slices*[ sigma_y**2],
+            slices_other_beam_Sigma_44    = n_slices*[sigma_py**2],
+            # only if beamstrahlung on
+            slices_other_beam_zeta_bin_width_star_beamstrahlung = None if not beamstrahlung_on else slicer.bin_widths_beamstrahlung / np.cos(phi),  # boosted dz
+            # has to be set (0 in most cases) if config_for_update = None
+            slices_other_beam_Sigma_12     = n_slices*[0],
+            slices_other_beam_Sigma_34     = n_slices*[0],
+            slices_other_beam_pzeta_center = n_slices*[pzeta], # important when tapering (FCC-ee specific)
+        )
+
+   element_name = "ip.1"  # this is the marker name of an IP in the lattice where the beam-beam element will be inserted
+   element_line_index = line.element_names.index(element_name)  # get the array index of the element "ip.1"
+   line.insert_element(index=element_line_index, element=el_beambeam, name='beambeam')
