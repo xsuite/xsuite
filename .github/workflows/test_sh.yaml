@@ -9,13 +9,16 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_location":"xsuite:main" ,
-        "xdeps_location":"xsuite:main",
-        "xpart_location":"xsuite:main",
-        "xtrack_location":"xsuite:main",
-        "xfields_location":"xsuite:main",
-        "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main"}'
+        default: '{
+          "xobjects_location":"xsuite:main",
+          "xdeps_location":"xsuite:main",
+          "xpart_location":"xsuite:main",
+          "xtrack_location":"xsuite:main",
+          "xfields_location":"xsuite:main",
+          "xmask_location":"xsuite:main",
+          "xcoll_location":"xsuite:main",
+          "xwakes_location":"xsuite:main"
+        }'
         required: false
         type: string
       pytest_options:
@@ -34,7 +37,12 @@ on:
         description: a list of the suites to run as a JSON string
         required: false
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll", "xwakes"]'
+      with_mpi:
+        description: install and run with MPI?
+        required: false
+        type: boolean
+        default: false
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -67,6 +75,8 @@ jobs:
             --build-arg xfields_branch=${{ fromJson(inputs.locations).xfields_location }} \
             --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_location }} \
             --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_location }} \
+            --build-arg xwakes_branch=${{ fromJson(inputs.locations).xwakes_location }} \
+            --build-arg install_mpi=${{ inputs.with_mpi }} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
@@ -100,19 +110,29 @@ jobs:
 
     steps:
     - name: Run pytest
-      env:
-        image_id: ${{ needs.build-test-image.outputs.image_id }}
-        test_contexts: ${{ inputs.test_contexts }}
-        pytest_options: ${{ inputs.pytest_options }}
+      if: ${{ !inputs.with_mpi }}
       run: |
         mkdir -p reports/${{ matrix.test-suite }}
         exec docker run --rm \
           ${{ env.with_gpu == 'true' && '--gpus all' || '' }} \
-          --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-          --env PYTEST_ADDOPTS="${pytest_options}" \
+          --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
+          --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
-          ${image_id} \
+          ${{ needs.build-test-image.outputs.image_id }} \
           /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
+
+    - name: Run pytest (MPI)
+      if: ${{ inputs.with_mpi }}
+      run: |
+        exec docker run --rm \
+          ${{ env.with_gpu == 'true' && '--gpus all' || '' }} \
+          --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
+          --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
+          ${{ needs.build-test-image.outputs.image_id }} \
+          mpiexec \
+            --allow-run-as-root \
+            -n 3 \
+            pytest -v /opt/xsuite/${{ matrix.test-suite }}/tests_mpi
 
   wait:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
