@@ -38,8 +38,8 @@ on:
         required: false
         type: string
         default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll", "xwakes"]'
-      install_mpi:
-        description: install MPI?
+      with_mpi:
+        description: install and run with MPI?
         required: false
         type: boolean
         default: false
@@ -76,7 +76,7 @@ jobs:
             --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_location }} \
             --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_location }} \
             --build-arg xwakes_branch=${{ fromJson(inputs.locations).xwakes_location }} \
-            --build-arg install_mpi=${install_mpi} \
+            --build-arg install_mpi=${{ inputs.with_mpi }} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 
@@ -110,18 +110,15 @@ jobs:
 
     steps:
     - name: Run pytest
-      env:
-        image_id: ${{ needs.build-test-image.outputs.image_id }}
-        test_contexts: ${{ inputs.test_contexts }}
-        pytest_options: ${{ inputs.pytest_options }}
       run: |
         mkdir -p reports/${{ matrix.test-suite }}
         exec docker run --rm \
           ${{ env.with_gpu == 'true' && '--gpus all' || '' }} \
-          --env XOBJECTS_TEST_CONTEXTS="${test_contexts}" \
-          --env PYTEST_ADDOPTS="${pytest_options}" \
+          --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
+          --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
+          --env WITH_MPI="${{ inputs.with_mpi }}" \
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
-          ${image_id} \
+          ${{ needs.build-test-image.outputs.image_id }} \
           /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
 
   wait:

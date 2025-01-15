@@ -1,10 +1,11 @@
 # This is a workflow that should run daily
-name: Daily test (self-hosted, CPU)
+name: Daily test (Xwakes, MPI)
 
 # Controls when the action will run.
 on:
   schedule:
     - cron: '00 19 * * *'  # run at 19:00 UTC daily
+  workflow_dispatch:
 
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
@@ -14,6 +15,6 @@ jobs:
     uses: ./.github/workflows/test_sh.yaml
     with:
       test_contexts: 'ContextCpu'
-      install_mpi: 'true'
+      with_mpi: 'true'
       platform: 'alma-cpu-small-1'
       suites: '["xwakes"]'
