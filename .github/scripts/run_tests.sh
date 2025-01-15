@@ -25,6 +25,13 @@ REPORTS_DIR="/opt/reports"
 # Pytest options
 PYTEST_OPTS="--color=yes --verbose"
 
+# Pytest command (might be different if we use MPI)
+if [ "${WITH_MPI:-false}" == "true" ]; then
+    PYTEST_COMMAND="mpirun -n 3 pytest"
+else
+    PYTEST_COMMAND="pytest"
+fi
+
 # Keep track of failures
 STATUS=0
 
@@ -33,7 +40,7 @@ pip install pytest-github-actions-annotate-failures
 export GITHUB_ACTIONS=true
 
 run_pytest() {
-    pytest $PYTEST_OPTS "$1" &
+    $PYTEST_COMMAND $PYTEST_OPTS "$1" &
     PYTEST_PID=$!
     wait $PYTEST_PID
     PYTEST_STATUS=$?

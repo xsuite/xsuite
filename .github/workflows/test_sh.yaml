@@ -38,6 +38,11 @@ on:
         required: false
         type: string
         default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll", "xwakes"]'
+      install_mpi:
+        description: install MPI?
+        required: false
+        type: boolean
+        default: false
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -71,6 +76,7 @@ jobs:
             --build-arg xmask_branch=${{ fromJson(inputs.locations).xmask_location }} \
             --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_location }} \
             --build-arg xwakes_branch=${{ fromJson(inputs.locations).xwakes_location }} \
+            --build-arg install_mpi=${install_mpi} \
             --build-arg with_gpu=${with_gpu} \
             -t $IMAGE .
 

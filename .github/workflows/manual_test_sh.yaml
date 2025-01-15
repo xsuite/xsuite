@@ -19,7 +19,7 @@ on:
           "xfields_location":"xsuite:main",
           "xmask_location":"xsuite:main",
           "xcoll_location":"xsuite:main",
-          "xwakes_location":"xsuite:main",
+          "xwakes_location":"xsuite:main"
         }'
         required: true
         type: string
