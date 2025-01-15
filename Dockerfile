@@ -14,7 +14,9 @@ ARG xtrack_branch=xsuite:main
 ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
+ARG xwakes_branch=xsuite:main
 ARG xsuite_branch=xsuite:main
+ARG install_mpi=false
 ARG with_gpu
 
 # Use bash as the default shell
