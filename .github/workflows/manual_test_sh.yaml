@@ -11,13 +11,16 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_location":"xsuite:main" ,
-        "xdeps_location":"xsuite:main",
-        "xpart_location":"xsuite:main",
-        "xtrack_location":"xsuite:main",
-        "xfields_location":"xsuite:main",
-        "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main"}'
+        default: '{
+          "xobjects_location":"xsuite:main",
+          "xdeps_location":"xsuite:main",
+          "xpart_location":"xsuite:main",
+          "xtrack_location":"xsuite:main",
+          "xfields_location":"xsuite:main",
+          "xmask_location":"xsuite:main",
+          "xcoll_location":"xsuite:main",
+          "xwakes_location":"xsuite:main",
+        }'
         required: true
         type: string
       pytest_options:
@@ -36,7 +39,7 @@ on:
         description: test suites (JSON array string)
         required: true
         type: string
-        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll"]'
+        default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll", "xwakes"]'
 
 # This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
