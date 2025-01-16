@@ -15,3 +15,4 @@ jobs:
     with:
       test_contexts: 'ContextPyopencl'
       platform: 'alma'
+      suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
