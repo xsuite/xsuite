@@ -261,7 +261,7 @@ example:
 Simulation of small rings: drifts, bends, fringe fields
 =======================================================
 
-The modeling of the body of bending magnets in automatically adapted depending
+The modeling of the body of bending magnets is automatically adapted depending
 on the bending radius, hence no special setting is required for this purpose
 when simulating small rings with large bending angles.
 
