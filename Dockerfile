@@ -1,6 +1,6 @@
 # This is a test runner Dockerfile. The branches used to
 # build our image can be specified using the --build-arg's below.
-FROM cern/alma8-base:latest
+FROM gitlab-registry.cern.ch/linuxsupport/alma9-base:latest
 LABEL author="Szymon Lopaciuk <szymon@lopaciuk.eu>"
 ENV PIP_ROOT_USER_ACTION=ignore
 ENV NVIDIA_VISIBLE_DEVICES=all
@@ -14,7 +14,9 @@ ARG xtrack_branch=xsuite:main
 ARG xfields_branch=xsuite:main
 ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
+ARG xwakes_branch=xsuite:main
 ARG xsuite_branch=xsuite:main
+ARG install_mpi=false
 ARG with_gpu
 
 # Use bash as the default shell

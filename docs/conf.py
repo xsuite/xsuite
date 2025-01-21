@@ -188,8 +188,20 @@ snippet_files = {
         'generated_code_snippets/line_inspect.py',
     'xtrack/examples/toy_ring/000_toy_ring.py':
         'generated_code_snippets/toy_ring.py',
-    'xtrack/examples/toy_ring/005_insert_element.py':
+    'xtrack/examples/lattice_design/007b_insert_elements.py':
         'generated_code_snippets/insert_element.py',
+    'xtrack/examples/lattice_design/007c_insert_individual.py':
+        'generated_code_snippets/insert_element_single.py',
+    'xtrack/examples/lattice_design/007d_insert_line.py':
+        'generated_code_snippets/insert_line.py',
+    'xtrack/examples/lattice_design/007e_append_elements.py':
+        'generated_code_snippets/append_elements.py',
+    'xtrack/examples/lattice_design/007f_remove_elements.py':
+        'generated_code_snippets/remove_elements.py',
+    'xtrack/examples/lattice_design/007g_replace_elements.py':
+        'generated_code_snippets/replace_elements.py',
+    'xtrack/examples/lattice_design/007h_insert_element_instantiated_by_user.py':
+        'generated_code_snippets/insert_element_instantiated_by_user.py',
     'xtrack/examples/psb/000a_all_xsuite_import_model.py':
         'generated_code_snippets/madx_import_psb.py',
     'xtrack/examples/toy_ring/008_repeated_elements_clones_replicas.py':
@@ -206,7 +218,7 @@ snippet_files = {
         'generated_code_snippets/twiss_reverse.py',
     'xtrack/examples/twiss/000f_twiss_default.py':
         'generated_code_snippets/twiss_default.py',
-    'xtrack/examples/toy_ring/000a_toy_ring_specify_s.py':
+    'xtrack/examples/lattice_design/007a_element_creation_and_placing.py':
         'generated_code_snippets/sequence.py',
     'xtrack/examples/toy_ring/006a_dynamic_bump_sin.py':
         'generated_code_snippets/dynamic_bump_sin.py',
@@ -262,6 +274,8 @@ snippet_files = {
         'generated_code_snippets/place_line_at_s.py',
     'xtrack/examples/lattice_design/008d_environment.py':
         'generated_code_snippets/environment.py',
+    'xmask/examples/hllhc15_collision/005_footprint.py':
+        'generated_code_snippets/footprint_with_bb.py',
 }
 
 for ss, tt in snippet_files.items():

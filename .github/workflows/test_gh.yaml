@@ -8,13 +8,16 @@ on:
     inputs:
       locations:
         description: 'Branch locations (JSON array string)'
-        default: '{ "xobjects_location":"xsuite:main" ,
-        "xdeps_location":"xsuite:main",
-        "xpart_location":"xsuite:main",
-        "xtrack_location":"xsuite:main",
-        "xfields_location":"xsuite:main",
-        "xmask_location":"xsuite:main",
-        "xcoll_location":"xsuite:main"}'
+        default: '{
+          "xobjects_location":"xsuite:main",
+          "xdeps_location":"xsuite:main",
+          "xpart_location":"xsuite:main",
+          "xtrack_location":"xsuite:main",
+          "xfields_location":"xsuite:main",
+          "xmask_location":"xsuite:main",
+          "xcoll_location":"xsuite:main",
+          "xwakes_location":"xsuite:main"
+        }'
         required: false
         type: string
       precompile_kernels:
@@ -46,7 +49,7 @@ jobs:
           - xfields
           - xmask
           - xcoll
-   
+          - xwakes
     
     # Make the default shell a login shell, so that conda is initialised properly
     defaults:
@@ -70,8 +73,6 @@ jobs:
       run: |
         conda install openmp
         pip install cython
-    - name: Install jq
-      run: sudo apt-get install -y jq
     - name: Checkout xsuite
       uses: actions/checkout@v4
       with:
@@ -80,14 +81,14 @@ jobs:
       env:
         precompile_kernels: ${{ inputs.precompile_kernels }}
       run: |
-        echo '${{ inputs.locations }}' | jq '.' > locations.json
-        export xobjects_branch=$(jq -r '.["xobjects_location"]' locations.json) 
-        export xdeps_branch=$(jq -r '.["xdeps_location"]' locations.json)
-        export xpart_branch=$(jq -r '.["xpart_location"]' locations.json) 
-        export xtrack_branch=$(jq -r '.["xtrack_location"]' locations.json)
-        export xfields_branch=$(jq -r '.["xfields_location"]' locations.json) 
-        export xmask_branch=$(jq -r '.["xmask_location"]' locations.json)
-        export xcoll_branch=$(jq -r '.["xcoll_location"]' locations.json)
+        export xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} 
+        export xdeps_branch=${{ fromJson(inputs.locations).xdeps_location }}
+        export xpart_branch=${{ fromJson(inputs.locations).xpart_location }} 
+        export xtrack_branch=${{ fromJson(inputs.locations).xtrack_location }}
+        export xfields_branch=${{ fromJson(inputs.locations).xfields_location }} 
+        export xmask_branch=${{ fromJson(inputs.locations).xmask_location }}
+        export xcoll_branch=${{ fromJson(inputs.locations).xcoll_location }}
+        export xwakes_branch=${{ fromJson(inputs.locations).xwakes_location }}
         export xsuite_prefix="$GITHUB_WORKSPACE" 
         bash $GITHUB_WORKSPACE/xsuite/.github/scripts/install_branches.sh
     - name: Precompile kernels
