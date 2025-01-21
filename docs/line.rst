@@ -103,6 +103,11 @@ including the controlling expressions. This is illustrated in the following exam
 
 .. literalinclude:: generated_code_snippets/repeated_elements_clones_replicas.py
    :language: python
+   
+Note that while it would be possible to assign the same element to another name in `elements_dict`,
+Replicas make sure that it is impossible to trim different the replicated element
+and that the relation is maintained in the `to_dict/from_dict` and `to_json/from_json` methods.
+
 
 Using line replicas instead of repeated elements
 ------------------------------------------------
