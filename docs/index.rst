@@ -43,12 +43,28 @@ The source code is available in these `GitHub repositories <https://github.com/x
    jupyter_tutorials
    citing
 
+Community
+---------
+
+The Xsuite community is open to feedback and contributions.
+In case of any questions, suggestions or issues feel free to open an
+`issue on the Xsuite GitHub page <https://github.com/xsuite/xsuite>`_. We also
+host the Xsuite community on `CERN Mattermost <https://mattermost.web.cern.ch/xsuite>`_,
+where you can ask questions and discuss with the developers and other users.
+The Mattermost community is accessible to anyone with a CERN account, and a guest
+account can easily be created for those unaffiliated with CERN, by simply
+following the above link, clicking 'Login with CERN SSO', then choosing
+'External email – Guest access' or 'Sign in with a social account'.
+
 Citing Xsuite
 -------------
 
 If you wish to cite Xsuite in your article, please refer to the following publication (`INSPIRE entry <https://inspirehep.net/literature/2705250>`_):
 
    G. Iadarola, R. De Maria, S. Łopaciuk, A. Abramov, X. Buffat, D. Demetriadou, L. Deniau, P. Hermes, P. Kicsiny, P. Kruyt, A. Latina, L. Mether, K. Paraschou, G. Sterbini, F. F. Van Der Veken, P. Belanger, P. Niedermayer, D. Di Croce, T. Pieloni, L. Van Riesen-Haupt, M. Seidel. `“Xsuite: An Integrated Beam Physics Simulation Framework,” <https://inspirehep.net/literature/2705250>`_ JACoW HB2023 (2024), TUA2I1.
+
+Additionally, if you would like to include the Xsuite logo in your publications,
+you can find the relevant SVG and PNG files `here <https://github.com/xsuite/xsuite/tree/main/logos>`_.
 
 Indices and tables
 ------------------
