@@ -25,6 +25,7 @@ ABBRV = {
     'xf': 'xfields',
     'xm': 'xmask',
     'xc': 'xcoll',
+    'xw': 'xwakes',
 }
 
 def make_flag(pkg):
@@ -45,6 +46,7 @@ def make_flag(pkg):
 @make_flag('xf')
 @make_flag('xm')
 @make_flag('xc')
+@make_flag('xw')
 @click.option(
     '--platform',
     default='self-hosted',
@@ -64,7 +66,7 @@ def make_flag(pkg):
 )
 @click.option(
     '--suites',
-    default='xo,xd,xp,xt,xf,xc',
+    default='xo,xd,xp,xt,xf,xc,xw',
     help='Test suites to run.',
     show_default=True,
 )
@@ -86,7 +88,7 @@ def make_flag(pkg):
     help='Commandline options to pass to pytest.',
     show_default=True,
 )
-def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf, branch, pytest_opts):
+def run(xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch, pytest_opts):
     """Schedule a test run of Xsuite on a self-hosted runner.
 
     Example:
@@ -116,6 +118,7 @@ def run(xo, xd, xp, xt, xf, xm, xc, platform, ctx, suites, wf, branch, pytest_op
             'xfields_location': xf,
             'xmask_location': xm,
             'xcoll_location': xc,
+            'xwakes_location': xw,
         }) ,
         'pytest_options': pytest_opts,
         'test_contexts': ';'.join(fmt_contexts),
