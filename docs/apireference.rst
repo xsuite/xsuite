@@ -277,6 +277,13 @@ Bend
     :members:
     :member-order: bysource
 
+RBend
+----
+
+.. autoclass:: xtrack.RBend
+    :members:
+    :member-order: bysource
+
 Quadrupole
 ----------
 
