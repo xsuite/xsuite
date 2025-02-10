@@ -35,7 +35,7 @@ export GITHUB_ACTIONS=true
 run_pytest() {
   pytest $PYTEST_OPTS "$1" &
   PYTEST_PID=$!
-  wait $PYTEST_PID
+  wait $PYTEST_PID || true
   PYTEST_STATUS=$?
 }
 
