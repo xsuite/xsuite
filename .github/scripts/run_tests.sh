@@ -35,8 +35,7 @@ export GITHUB_ACTIONS=true
 run_pytest() {
   pytest $PYTEST_OPTS "$1" &
   PYTEST_PID=$!
-  wait $PYTEST_PID
-  PYTEST_STATUS=$?
+  wait $PYTEST_PID || PYTEST_STATUS=$?
 }
 
 # If xtrack on Pyopencl context, run tests one by one, otherwise run normally
