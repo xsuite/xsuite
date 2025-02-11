@@ -52,10 +52,12 @@ ONLY_XTRACK_ELEMENTS = [
     # Slices
     DriftSlice,
     DriftSliceBend,
+    DriftSliceRBend,
     DriftSliceOctupole,
     DriftSliceQuadrupole,
     DriftSliceSextupole,
     ThickSliceBend,
+    DriftSliceRBend,
     ThickSliceOctupole,
     ThickSliceQuadrupole,
     ThickSliceSextupole,
@@ -63,6 +65,9 @@ ONLY_XTRACK_ELEMENTS = [
     ThinSliceBend,
     ThinSliceBendEntry,
     ThinSliceBendExit,
+    ThinSliceRBend,
+    ThinSliceRBendEntry,
+    ThinSliceRBendExit,
     ThinSliceOctupole,
     ThinSliceQuadrupole,
     ThinSliceSextupole,
@@ -89,6 +94,7 @@ ONLY_XTRACK_ELEMENTS = [
 
 NO_SYNRAD_ELEMENTS = [
     Bend,
+    RBend,
     Quadrupole,
     Sextupole,
     Octupole,
