@@ -2321,23 +2321,24 @@ It leads to a redistribution of the particle momenta in six-dimentional phase sp
 \section{Analytical Growth Rates}
 \label{subsection:ibs_growth_rates}
 
-Theoretical models commonly characterize the effect of IBS through growth rates, or growth times.
-In Xsuite the emittance growth rates are computed, which govern the evolution of the rms emittances of the beam.
-The horizontal (\(T_x\)), vertical (\(T_y\)) and longitudinal (\(T_z\)) emittance growth rates are defined as:
+Theoretical models commonly characterize the effect of IBS through growth rates (in \(\left[s^{-1}\right]\)), or growth times (in \(\left[s\right]\)).
+In Xsuite, for consistency with synchrotron radiation damping times, the IBS \textit{amplitude growth rates} are computed, which govern the evolution of the rms beam sizes in each beam dimension.
+The horizontal (\(A_x\)), vertical (\(A_y\)) and longitudinal (\(A_z\)) amplitude growth rates are defined as:
 
 \begin{equation}
     \begin{aligned}
-        T_x = \frac{1}{\tau_x} &= \frac{1}{\varepsilon_x} \frac{d \varepsilon_x}{dt} \text{,  } \\
-        T_y = \frac{1}{\tau_y} &= \frac{1}{\varepsilon_y} \frac{d \varepsilon_y}{dt} \text{,  } \\
-        T_z = \frac{1}{\tau_z} &= \frac{1}{\varepsilon_z} \frac{d \varepsilon_z}{dt} \text{, }
+        A_x = \frac{1}{\tau_x} &= \frac{1}{\varepsilon^{1/2}_x} \frac{d \varepsilon^{1/2}_x}{dt} \text{,  } \\
+        A_y = \frac{1}{\tau_y} &= \frac{1}{\varepsilon^{1/2}_y} \frac{d \varepsilon^{1/2}_y}{dt} \text{,  } \\
+        A_z = \frac{1}{\tau_z} &= \frac{1}{\varepsilon^{1/2}_z} \frac{d \varepsilon^{1/2}_z}{dt} \text{, }
     \end{aligned}
     \label{equation:ibs_rms_emittances_evolutions}
 \end{equation}
-where (\(\tau_x\)), (\(\tau_y\)) and (\(\tau_z\)) are the emittance growth times.
-The computed growth rate \(T_u = 1 / \tau_u\) for plane \(u\) is given in \(\left[s^{-1}\right]\). 
+where (\(\tau_x\)), (\(\tau_y\)) and (\(\tau_z\)) are the amplitude growth times.
+% The computed growth rate \(A_u = 1 / \tau_u\) for plane \(u\) is given in \(\left[s^{-1}\right]\). 
 The growth rates themselves are expressed from the lattice optics and the beam properties.
+\newline
 
-In xfields two different formalism are available to compute these growth rates, which both assume transverse and longitudinal Gaussian bunch profiles.
+In \textit{xfields} two different formalism are available to compute these growth rates, which both assume transverse and longitudinal Gaussian bunch profiles.
 Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{xfields} is computed as in MAD-X, according to the expression in the Physics Vade Mecum~\cite{AIP:Anderson:Physics_Vade_Mecum}:
 
 \begin{equation}
