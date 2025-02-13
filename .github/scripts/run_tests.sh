@@ -23,7 +23,7 @@ trap _term SIGINT SIGTERM
 REPORTS_DIR="/opt/reports"
 
 # Pytest options
-PYTEST_OPTS="--color=yes --verbose"
+PYTEST_OPTS="--color=yes --verbose $PYTEST_ADDOPTS"
 
 # Keep track of failures
 STATUS=0
