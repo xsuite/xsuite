@@ -2319,7 +2319,7 @@ Intra-beam scattering (IBS) is the process of small angle, multiple Coulomb scat
 It leads to a redistribution of the particle momenta in six-dimentional phase space.
 
 \section{Analytical Growth Rates}
-\label{subsection:ibs_growth_rates}
+\label{section:ibs_growth_rates}
 
 Theoretical models commonly characterize the effect of IBS through growth rates (in \(\left[s^{-1}\right]\)), or growth times (in \(\left[s\right]\)).
 In Xsuite, for consistency with synchrotron radiation damping times, the IBS \textit{amplitude growth rates} are computed, which govern the evolution of the rms beam sizes in each beam dimension.
@@ -2347,7 +2347,8 @@ Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{
 \end{equation}
 where \(r_{max}\) is taken as the smaller of \(\sigma_x\) and the Debye length, while \(r_{min}\) is taken as the larger of the classical distance of closest approach and the quantum diffraction limit from the nuclear radius.
 
-\subsection{Nagaitsev Formalism}  
+\subsection{Nagaitsev Formalism}
+\label{subsection:nagaitsev_formalism}
 
 One available formalism follows the approach introduced by S.~Nagaitsev in~\cite{PRAB:Nagaitsev:IBS_formulas_fast_numerical_evaluation}.
 It provides a fast computation method through symmetric elliptic integrals of the second kind, \(R_D(x,y,z)\):
@@ -2460,6 +2461,7 @@ Importantly, this formalism does not take into account vertical dispersion, and 
 For machines with vertical dispersion, the Bjorken-Mtingwa formalism presented below is recommended.
 
 \subsection{Bjorken-Mtingwa Formalism}
+\label{subsection:bjorken_mtingwa_formalism}
 
 The IBS growth rates can also be computed according to the theory by Bjorken and Mtingwa~\cite{CERN:Bjorken_Mtingwa:Intrabeam_Scattering}.
 The specific implementation follows that of the MAD-X code, for which modifications to the terms of B\&M's theory have been made by Antoniou and Zimmermann to account for vertical dispersion non-ultrarelativistic beams~\cite{CERN:Antoniou:Revision_IBS_MADX}.
