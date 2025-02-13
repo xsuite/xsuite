@@ -2432,7 +2432,7 @@ From these, one computes the integrals - called the \textit{Nagaitsev integrals}
     \label{equation:nagaitsev_integrals}
 \end{equation}
 with \(C\) the circumference (or length) of the machine.
-Finally, the growth rates are computed as:
+Finally, the \textit{emittance growth rates} in the horizontal (\(T_x\)), vertical (\(T_y\)) and longitudinal (\(T_z\)) planes are computed as:
 
 \begin{equation}
     \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_x}
@@ -2452,7 +2452,11 @@ Finally, the growth rates are computed as:
 In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
 \newline
 
-One should note, however, that this formalism does not take into account vertical dispersion, and in the presence of \(D_y\) will yield an erroneous vertical growth rate.
+\textbf{Please note}: Nagaitsev's computations yields emittance growth rates.
+In Xsuite these are computed and converted to amplitude growth rates before being returned to the user, according to \(A_u = T_u / 2\) for plane \(u\).
+\newline
+
+Importantly, this formalism does not take into account vertical dispersion, and in the presence of \(D_y\) will yield an erroneous vertical growth rate.
 For machines with vertical dispersion, the Bjorken-Mtingwa formalism presented below is recommended.
 
 \subsection{Bjorken-Mtingwa Formalism}
