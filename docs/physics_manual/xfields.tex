@@ -2462,14 +2462,14 @@ For machines with vertical dispersion, the Bjorken-Mtingwa formalism presented b
 \subsection{Bjorken-Mtingwa Formalism}
 
 The IBS growth rates can also be computed according to the theory by Bjorken and Mtingwa~\cite{CERN:Bjorken_Mtingwa:Intrabeam_Scattering}.
-The specific implementation follows that of the MAD-X code, for which modifications to the terms of B\&M's theory have been made to account for vertical dispersion non-ultrarelativistic beams~\cite{CERN:Antoniou:Revision_IBS_MADX}.
+The specific implementation follows that of the MAD-X code, for which modifications to the terms of B\&M's theory have been made by Antoniou and Zimmermann to account for vertical dispersion non-ultrarelativistic beams~\cite{CERN:Antoniou:Revision_IBS_MADX}.
 \newline
 
-In the Bjorken-Mtingwa formalism, the growth rates are computed at every element in the lattice and averaged over the machine to yield final values.
-For a given plane \(d\) (horizontal, vertical or longitudinal), the growth rate is computed as:
+In this formalism, growth rates are computed at every element in the lattice and averaged over the machine.
+For a given plane \(u\) (horizontal, vertical or longitudinal), the \textit{emittance growth rate} is computed as:
 
 \begin{equation}
-    \frac{1}{\tau_d} = \frac{N r_0^{2} c m^3 L_C \pi^{2}}{\gamma \Gamma} \left\langle \int_0^{\infty} \frac{d \lambda \lambda^{1 / 2}}{\left[\operatorname{det}(L + \lambda I)\right]^{1/2}} \left\{\operatorname{Tr} L^d \operatorname{Tr}\left(\frac{1}{L + \lambda I}\right) - 3 \operatorname{Tr} L^d \left(\frac{1}{L + \lambda I}\right)\right\}\right\rangle
+    T_u = \frac{N r_0^{2} c m^3 L_C \pi^{2}}{\gamma \Gamma} \left\langle \int_0^{\infty} \frac{d \lambda \lambda^{1 / 2}}{\left[\operatorname{det}(L + \lambda I)\right]^{1/2}} \left\{\operatorname{Tr} L^{(u)} \operatorname{Tr}\left(\frac{1}{L + \lambda I}\right) - 3 \operatorname{Tr} L^{(u)} \left(\frac{1}{L + \lambda I}\right)\right\}\right\rangle
     \label{equation:bjorken_mtingwa_original}
 \end{equation}
 in which \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(m\) the mass of the considered particle, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\gamma\) the relativistic parameter of the beam, and \(\Gamma\) the six-dimensional phase space volume of the beam, defined as:
@@ -2478,7 +2478,7 @@ in which \(N\) is the total beam intensity, \(r_0\) the classical particle radiu
     \Gamma = \left( 2 \pi \right)^3 \left( \beta \gamma \right)^3 m^3 \varepsilon_x \varepsilon_y \sigma_{\delta} \sigma_z
 \end{equation}
 with \(\sigma_{\delta}\) the relative momentum spread and \(\sigma_z\) the bunch length.
-One should not this expression is corrected by a factor \(\sqrt{2}\) for coasting beams.
+One should note the expression for \(\Gamma\) is corrected by a factor \(\sqrt{2}\) for coasting beams.
 
 In Eq~\eqref{equation:bjorken_mtingwa_original} \(\lambda\) is simply the integration variable, \(I\) is the 3x3 identity matrix, and \(L\) is the 3x3 matrix and the matrix \(L\) is defined as:
 
@@ -2590,7 +2590,7 @@ First the \(a, b, c, a_x, b_x, a_y, b_y, a_z\) and \(b_z\) terms are computed as
     \label{equation:bm_bz}
 \end{equation}
 
-From these, one can compute the growth rates as:
+From these, one can compute the \textit{emittance growth rates} as:
 
 \begin{equation}
     \boxed{T_x = \frac{1}{\tau_x} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2 H_x}{\varepsilon_x}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_x \lambda + b_x\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
@@ -2607,6 +2607,10 @@ From these, one can compute the growth rates as:
     \label{equation:bm_tz}
 \end{equation}
 where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signify the averaging over the lattice, given the terms contained inside are arrays with one value per element.
+\newline
+
+\textbf{Please note}: Bjorken and Mtingwa's computations yields emittance growth rates.
+In Xsuite these are computed and converted to amplitude growth rates before being returned to the user, according to \(A_u = T_u / 2\) for plane \(u\).
 
 \section{IBS Kicks}
 \label{subsection:ibs_kicks}
