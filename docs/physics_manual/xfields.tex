@@ -2623,19 +2623,23 @@ In \textit{xfields} two elements are available to model IBS effects in tracking 
 
 A first element is available to provide momenta kicks based on analytical growth rates, according to the approach introduced by R. Bruce~\cite{PRAB:Bruce:IBSAnalyticalKick}.
 In \textit{xfields} the computation of the kick is done as follows.
-First, the beam intensity \(N\), bunch length \(\sigma_z\), momentum deviation \(\sigma_{\delta}\), and geometric emittances \(\varepsilon_{x,y}\) are inferred from the tracked particles object.
-These are used to compute the growth rates \(T_x, T_y\) and \(T_z\) according to the desired formalism, as presented in~\ref{subsection:ibs_growth_rates}.
+\newline
 
-From these growth rates, each particle is given a momentum kick in each dimension (transverse, longitudinal) according to:
+First, the beam intensity \(N\), bunch length \(\sigma_z\), momentum deviation \(\sigma_{\delta}\), and geometric emittances \(\varepsilon_{x,y}\) are inferred from the tracked particles object.
+These are used to compute the analytical IBS growth rates.
+
+From these, each particle is given a momentum kick in each dimension according to:
 
 \begin{equation}
     \boxed{\Delta p_u = R \sigma_{p_u} \sqrt{ 2 T_{IBS,u} T_{rev} \sigma_z \sqrt{\pi} \rho(z)} \text{ ;   } u=x,y,z}
     \label{equation:momentum_kick_analytical}
 \end{equation}
 
-Here \(R\) is a random number from the standard normal distribution; \(\sigma_{p_u}\) is the standard deviation of the momentum in plane \(u\); \(T_{IBS,u}\) is the growth rate for plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density.
+Here \(R\) is a random number from the standard normal distribution; \(\sigma_{p_u}\) is the standard deviation of the momentum in plane \(u\); \(T_{IBS,u}\) is the \textit{emittance growth rate} for plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density.
+\newline
 
-It is worth noting that due to the form of Eq~\eqref{equation:momentum_kick_analytical} only zero or strictly positive growth rates are valid, and as such this formalism is traditionally available above transition energy.
+Note from the form of Eq~\eqref{equation:momentum_kick_analytical} that only zero or strictly positive growth rates are valid, and as such this formalism is traditionally available above transition energy.
+\newline
 
 The longitudinal line density \(\rho(z)\) is used as a weighting factor to provide a stronger kick to particles in the denser regions of the bunch.
 It is obtained by binning the longitudinal plane of the particle distribution and normalizing the values.
