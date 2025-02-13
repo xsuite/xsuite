@@ -2615,13 +2615,14 @@ where the constants in the common fraction term are the same as for Eq~\eqref{eq
 In Xsuite these are computed and converted to amplitude growth rates before being returned to the user, according to \(A_u = T_u / 2\) for plane \(u\).
 
 \section{IBS Kicks}
-\label{subsection:ibs_kicks}
+\label{section:ibs_kicks}
 
 The approach of using analytical growth rates does not provide a way to study the interplay of IBS with arbitrary effects, such as space charge, electrong clouds, beam-beam etc.
 To do so, it is necessary to include IBS effects in tracking simulations together with other desired effects.
 In \textit{xfields} two elements are available to model IBS effects in tracking simulations, both providing momenta kicks to tracked particles according to a specific formalism.
 
 \subsection{Analytical Kicks}
+\label{subsection:analytical_kicks}
 
 A first element is available to provide momenta kicks based on analytical growth rates, according to the approach introduced by R. Bruce~\cite{PRAB:Bruce:IBSAnalyticalKick}.
 In \textit{xfields} the computation of the kick is done as follows.
@@ -2647,6 +2648,7 @@ The longitudinal line density \(\rho(z)\) is used as a weighting factor to provi
 It is obtained by binning the longitudinal plane of the particle distribution and normalizing the values.
 
 \subsection{Kinetic Kicks}
+\label{subsection:kinetic_kicks}
 
 A second element is available to provide momenta kicks based on diffusion and friction terms from the kinetic theory of gases, as introduced by P. Zenkevich~\cite{NuclInstr:Zenkevich:IBSKineticKick}.
 The momentum kick has a form similar to the Langevin equation:
@@ -2658,29 +2660,30 @@ The momentum kick has a form similar to the Langevin equation:
 where \(K_u\) and \(C_u\) are functions of the friction and diffusion terms, respectively.
 \newline
 
-In \textit{xfields} the exact implementation makes use of terms from the Nagaitsev formalism (see previous section) as derived by M. Zampetakis~\cite{arXiv:Zampetakis:Interplay_SC_IBS_LHC_Chain}.
-The following steps are taken.
+In \textit{xfields} the exact implementation makes use of terms from the Nagaitsev formalism (see \ref{subsection:nagaitsev_formalism}) as derived by M. Zampetakis~\cite{arXiv:Zampetakis:Interplay_SC_IBS_LHC_Chain}.
 First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed according to Eq~\eqref{equation:nagaitsev_step1}.
 Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed according to Eq~\eqref{equation:nagaitsev_lambdas}, to obtain the \(R_1, R_2\) and \(R_3\) elliptic integrals according to Eq~\eqref{equation:nagaitsev_r1r2r3}.
+\newline
 
-New forms equivalent to the original diffusion and friction terms of the Approximate Model can be expressed from the terms above.
+New forms equivalent to the original diffusion and friction terms of the Approximate Model can be expressed from these.
 By first defining
 
 \begin{equation}
     q = \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ ,}
 \end{equation}
-they are expressed and computed as:
+one can first compute:
 
 \begin{equation}
     \begin{aligned}
         D_{x,x} &= \frac{1}{2} \left[ 2 R_1 + R2 \left(1 - \frac{a_2}{q}\right) + R_3 \left(1 + \frac{a_2}{q}\right) \right] \text{,  } \\
         D_{x,z} &= \frac{3 \gamma^2 \Phi_x^2 a_x}{q} \left(R_3 - R_2\right) \text{,  }  \\
         D_{y,y} &= R_2 + R_3 \text{,  }  \\
-        D_{z,z} &= \frac{\gamma^2}{2} \left[ 2 R_1 +  R_2 \left(1 + \frac{a_2}{q}\right) + R_3 \left(1 - \frac{a_2}{q}\right) \right] \text{ .}
+        D_{z,z} &= \frac{\gamma^2}{2} \left[ 2 R_1 +  R_2 \left(1 + \frac{a_2}{q}\right) + R_3 \left(1 - \frac{a_2}{q}\right) \right] \text{, }
     \end{aligned}
     \label{equation:kinetic_AM_diffusion_terms}
 \end{equation}
 
+and then:
 \begin{equation}
     \begin{aligned}
         K_x &= R_2 \left(1 + \frac{a_2}{q}\right) + R_3 \left(1 - \frac{a_2}{q}\right) \text{,  } \\
@@ -2709,8 +2712,8 @@ The following integrals are computed from the above:
     \end{aligned}
     \label{equation:kinetic_friction_integrals}
 \end{equation}
-with \(C\) the circumference of the machine.
 
+with \(C\) the circumference of the machine.
 Finally, the new diffusion coefficients are computed according to:
 
 \begin{equation}
@@ -2744,17 +2747,18 @@ and the friction coefficients according to:
     \label{equation:kinetic_longitudinal_friction_coefficient}
 \end{equation}
 
-In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
+In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}.
+\(\beta\) and \(\gamma\) are the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
 \newline
 
-From these coefficients, each particle is given a momentum kick in each dimension (transverse, longitudinal) according to:
+From these coefficients, each particle is given a momentum kick in each dimension according to:
 
 \begin{equation}
     \boxed{\Delta p_u = - F_u p_u T_{rev} 2 \sqrt{\pi} \sigma_z \rho(z) + R \sigma_{p_u} \sqrt{T_{rev} G_u 2 \sqrt{\pi} \sigma_z \rho(z)} \text{ ;   } u=x,y,z}
     \label{equation:momentum_kick_kinetic}
 \end{equation}
 
-Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density, as defined and used in the analytical kicks (see previous subsection).
+Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density as defined previously (see \ref{subsection:analytical_kicks}).
 
 
 \chapter{FFT solvers and convolutions}
