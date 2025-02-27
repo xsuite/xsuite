@@ -2347,6 +2347,41 @@ Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{
 \end{equation}
 where \(r_{max}\) is taken as the smaller of \(\sigma_x\) and the Debye length, while \(r_{min}\) is taken as the larger of the classical distance of closest approach and the quantum diffraction limit from the nuclear radius.
 
+\subsection{Amplitude and Emittance Conventions}
+
+It is possible to get growth rates (and growth times) in either amplitude or emittance convention.
+In practice these only differ by a factor 2 but it matters to know which one is in use.
+
+In \textit{Xfields} we provide the growth rates in amplitude convention, for consistency with synchrotron radiation damping times which are also given in amplitude convention.
+Change through is done as:
+
+\begin{figure}[!htb]
+    \centering
+    \begin{tikzpicture}
+        \matrix (m) [matrix of math nodes,row sep=8em,column sep=6em,minimum width=2em]{
+            \textrm{Emit. Times}  &  \textrm{Amp. Times}  \\
+            \textrm{Emit. Rates}  &  \textrm{Amp. Rates}  \\
+        };
+        \path[-stealth]
+        % These two go between emit. times and amp. times (top nodes)
+        (m-1-2) edge[bend right=10] node [above] {\( \times 2 \)} (m-1-1)
+        (m-1-1) edge[bend right=10] node [below] {\( \div 2 \)} (m-1-2)
+        % These two go between emit. rates and amp. rates (bottom nodes)
+        (m-2-2) edge [bend right=10] node [above] {\( \times 2 \)} (m-2-1)
+        (m-2-1) edge [bend right=10] node [below] {\( \div 2 \)} (m-2-2)
+        % These two go between emit. times and emit. rates (left nodes)
+        (m-1-1) edge[bend left=15] node [left, rotate=90, anchor=center, yshift=-8pt] {\( inverse \)} (m-2-1)
+        (m-2-1) edge[bend left=15] node [right, rotate=90, anchor=center, yshift=8pt] {\( inverse \)} (m-1-1)
+        % These two go between amp. times and amp. rates (right nodes)
+        (m-2-2) edge[bend left=15] node [right, rotate=90, anchor=center, yshift=8pt] {\( inverse \)} (m-1-2)
+        (m-1-2) edge[bend left=15] node [left, rotate=90, anchor=center, yshift=-8pt] {\( inverse \)} (m-2-2);
+    \end{tikzpicture}
+    \caption{Illustration of the conversions between IBS growth rates and times, across emittance and amplitude conventions.}
+    \label{figure:ibs_convention_conversion}
+\end{figure}
+
+
+
 \subsection{Nagaitsev Formalism}
 \label{subsection:nagaitsev_formalism}
 
