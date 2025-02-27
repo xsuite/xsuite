@@ -2074,6 +2074,7 @@ In the ultra-relativistic approximation:
 \end{align}
 
 \chapter{Synchrotron motion}
+\label{ch:synchmon}
 
 We collect here some relevant properties and quantities of the longitudinal particle motion.
 
@@ -2143,6 +2144,9 @@ We assume that that the energy deviation of the stable fixed point is zero:
 \end{align}
 
 
+
+
+
 \section{Smooth approximation}
 
 Assuming that the slippage and the energy kicks are uniformly distributed along the ring we have:
@@ -2156,7 +2160,7 @@ Assuming that the slippage and the energy kicks are uniformly distributed along 
 
 where we have used the approximation:
 \begin{align}
-\beta \simeq \beta_0  \Rightarrow \delta \simeq p_\zeta
+\delta \ll 1  \Rightarrow \delta \simeq p_\zeta
 \end{align}
 
 We derive the second equation and replace the first:
@@ -2230,6 +2234,43 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \begin{align}
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
+
+\subsection{Hamiltonian of the synchrotron motion}
+
+In this section we use the time in the laboratory frame as independent variable as done in the PyHEADTAIL longitudinal treatment.
+
+We assume small energy deviations, hence we can consider the coordinates $(\zeta, \delta)$ to be canonically conjugate ($\delta \ll 1 \Rightarrow \delta \simeq p_\zeta$).
+
+The longitudinal motion can be described by the following Hamiltonian:
+\begin{equation}
+H(\zeta, \delta) = -\frac{1}{2} \eta \beta_0 c \delta^2
+                   + \frac{\beta_0 c}{C}\frac{\Delta P_0}{P_0} \zeta
+                   - \frac{q_0}{P_0}\sum_i \frac{1}{2\pi h_i}V_i \cos\left(
+                   		-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
+\end{equation}
+
+This can be proven using Hamilton's equations:
+\begin{align}
+&\frac{d\zeta}{dt} = \frac{\partial H}{\partial \delta} = -\eta \beta_0 c \delta\\
+&\frac{d\delta}{dt} = -\frac{\partial H}{\partial \zeta} = 
+	- \frac{\beta_0 c}{C}\frac{\Delta P_0}{P_0}
+                   + \frac{q_0}{P_0 C} \sum_i 
+                   V_i \sin\left(
+                   	-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
+\end{align}
+
+The coordinate change over one revolution is:
+\begin{align}
+&\Delta \zeta = \frac{d\zeta}{dt}\frac{C}{\beta_0 c} 
+	= -\eta C \delta\\
+&\Delta \delta =\frac{d\delta}{dt} \frac{C}{\beta_0 c}= 
+	- \frac{\Delta P_0}{P_0}
+                   + \frac{q_0}{\beta_0 c P_0} \sum_i 
+                   V_i \sin\left(
+                   	-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
+\end{align}
+which are consistent with those found in Sec.\,\ref{ch:synchmon}.
+
 
 \chapter{Coasting beams}
 
