@@ -2376,23 +2376,25 @@ Both assume transverse and longitudinal Gaussian bunch profiles.
 Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{xfields} is computed (as in MAD-X) according to the expression in the Physics Vade Mecum~\cite{AIP:Anderson:Physics_Vade_Mecum}:
 
 \begin{equation}
-    L_C = \ln \left( \frac{r_{max}}{r_{min}} \right) \text{ ,}
+    L_C = \ln \left( \frac{r_{max}}{r_{min}} \right) \text{ .}
     \label{equation:coulomb_logarithm}
 \end{equation}
-where \(r_{max}\) is taken as the smaller of \(\sigma_x\) and the Debye length, while \(r_{min}\) is taken as the larger of the classical distance of closest approach and the quantum diffraction limit from the nuclear radius.
+
+In Eq~\eqref{equation:coulomb_logarithm} \(r_{max}\) is taken as the smaller of \(\sigma_x\) and the Debye length, while \(r_{min}\) is taken as the larger of the classical distance of closest approach and the quantum diffraction limit from the nuclear radius.
 
 \subsection{Nagaitsev Formalism}
 \label{subsection:nagaitsev_formalism}
 
 One available formalism follows the approach introduced by S.~Nagaitsev in~\cite{PRAB:Nagaitsev:IBS_formulas_fast_numerical_evaluation}.
-It provides a fast computation method through symmetric elliptic integrals of the second kind, \(R_D(x,y,z)\):
+It provides a fast computation method through symmetric elliptic integrals of the second kind, \(R_D(x,y,z)\), defined as:
 
 \begin{equation}
     R_D(x, y, z) = \frac{3}{2} \int_{0}^{\infty} \frac{dt}{\sqrt{(t + x)(t + y)(t + z)^3}} \text{ .}
     \label{equation:elliptic_integrals}
 \end{equation}
+\newline
 
-Interestingly, this integral has the following special properties:
+Interestingly, this elliptic integral has the following special properties:
 
 \begin{equation}
     R_D(x, x, x) = x^{-3/2} \text{,  }
@@ -2404,10 +2406,10 @@ Interestingly, this integral has the following special properties:
     \label{equation:RD_property2}
 \end{equation}
 
-This method is particularly efficient, as thanks to Eq~\eqref{equation:RD_property2} only two evaluations of this integral (which does not scale with the size of the lattice) are needed to obtain various simple terms from which one can compute the growth rates.
+Thanks to Eq~\eqref{equation:RD_property2} only two evaluations of this integral are needed to obtain various simple terms from which one can compute the growth rates.
+Importantly, the computation time of this integral in Nagaitsev's approach does not scale with the size of the lattice.
 \newline
 
-In \textit{xfields}, the following steps are taken.
 First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed:
 
 \begin{equation}
@@ -2416,7 +2418,7 @@ First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed:
         a_y = \frac{\beta_y}{\varepsilon_y} \text{,  }
         a_s = a_x \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi_x^2 \right) + \frac{1}{\sigma_p^{2}} \text{,  } \\
         a_1 &= \frac{1}{2} (a_x + \gamma^2 a_s) \text{,  }
-        a_2 = \frac{1}{2} (a_x - \gamma^2 a_s) \text{ .}
+        a_2 = \frac{1}{2} (a_x - \gamma^2 a_s) \text{ ,}
     \end{aligned}
     \label{equation:nagaitsev_step1}
 \end{equation}
@@ -2434,7 +2436,7 @@ Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed:
     \lambda_3 = a_1 - \sqrt{a_2^{2} + \gamma^2 a_x^{2} \Phi_x^2} \text{ .}
     \label{equation:nagaitsev_lambdas}
 \end{equation}
-and used to compute three integrals \(R_1, R_2\) and \(R_3\) (through with Eq~\eqref{equation:RD_property2} only two need to be computed):
+and used to compute three integrals \(R_1, R_2\) and \(R_3\) (though with Eq~\eqref{equation:RD_property2} only two need to be computed):
 
 \begin{equation}
     \begin{aligned}
@@ -2487,8 +2489,8 @@ Finally, the \textit{emittance growth rates} in the horizontal (\(T_x\)), vertic
 In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
 \newline
 
-\textbf{Please note}: Nagaitsev's computations yields emittance growth rates.
-In Xsuite these are computed and converted to amplitude growth rates before being returned to the user, according to \(A_u = T_u / 2\) for plane \(u\).
+\textbf{Please note}: Nagaitsev's computations yield emittance growth rates.
+In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, according Fig.~\ref{figure:ibs_convention_conversion} .
 \newline
 
 Importantly, this formalism does not take into account vertical dispersion, and in the presence of \(D_y\) will yield an erroneous vertical growth rate.
