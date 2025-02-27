@@ -2339,17 +2339,17 @@ The two conventions are equivalent by a factor \(2\) and conversion can be done 
         };
         \path[-stealth]
         % These two go between emit. times and amp. times (top nodes)
-        (m-1-2) edge[bend right=10] node [above] {\( \times 2 \)} (m-1-1)
-        (m-1-1) edge[bend right=10] node [below] {\( \div 2 \)} (m-1-2)
+        (m-1-2) edge[bend right=10] node [above] {\( \div 2 \)} (m-1-1)  % amp. times to emit. times
+        (m-1-1) edge[bend right=10] node [below] {\( \times 2 \)} (m-1-2)  % emit. times to amp. times
         % These two go between emit. rates and amp. rates (bottom nodes)
-        (m-2-2) edge [bend right=10] node [above] {\( \times 2 \)} (m-2-1)
-        (m-2-1) edge [bend right=10] node [below] {\( \div 2 \)} (m-2-2)
+        (m-2-2) edge [bend right=10] node [above] {\( \times 2 \)} (m-2-1)  % amp. rates to emit. rates
+        (m-2-1) edge [bend right=10] node [below] {\( \div 2 \)} (m-2-2)  % emit. rates to amp. rates
         % These two go between emit. times and emit. rates (left nodes)
-        (m-1-1) edge[bend left=15] node [left, rotate=-90, anchor=center, yshift=8pt] {\( inverse \)} (m-2-1)
-        (m-2-1) edge[bend left=15] node [right, rotate=90, anchor=center, yshift=8pt] {\( inverse \)} (m-1-1)
+        (m-1-1) edge[bend left=15] node [left, rotate=-90, anchor=center, yshift=8pt] {\( inverse \)} (m-2-1)  % emit. times to emit. rates
+        (m-2-1) edge[bend left=15] node [right, rotate=90, anchor=center, yshift=8pt] {\( inverse \)} (m-1-1)  % emit. rates to emit. times
         % These two go between amp. times and amp. rates (right nodes)
-        (m-1-2) edge[bend left=15] node [left, rotate=-90, anchor=center, yshift=8pt] {\( inverse \)} (m-2-2)
-        (m-2-2) edge[bend left=15] node [right, rotate=90, anchor=center, yshift=8pt] {\( inverse \)} (m-1-2);
+        (m-1-2) edge[bend left=15] node [left, rotate=-90, anchor=center, yshift=8pt] {\( inverse \)} (m-2-2)  % amp. times to amp. rates
+        (m-2-2) edge[bend left=15] node [right, rotate=90, anchor=center, yshift=8pt] {\( inverse \)} (m-1-2);  % amp. rates to amp. times
     \end{tikzpicture}
     \caption{Illustration of the conversions between IBS growth rates and times, across emittance and amplitude conventions.}
     \label{figure:ibs_convention_conversion}
