@@ -2490,7 +2490,7 @@ In the above \(N\) is the total beam intensity, \(r_0\) the classical particle r
 \newline
 
 \textbf{Please note}: Nagaitsev's computations yield emittance growth rates.
-In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, according Fig.~\ref{figure:ibs_convention_conversion} .
+In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, as shown in Fig.~\ref{figure:ibs_convention_conversion}.
 \newline
 
 Importantly, this formalism does not take into account vertical dispersion, and in the presence of \(D_y\) will yield an erroneous vertical growth rate.
@@ -2647,8 +2647,8 @@ From these, one can compute the \textit{emittance growth rates} as:
 where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signify the averaging over the lattice, given the terms contained inside are arrays with one value per element.
 \newline
 
-\textbf{Please note}: Bjorken and Mtingwa's computations yields emittance growth rates.
-In Xsuite these are computed and converted to amplitude growth rates before being returned to the user, according to \(A_u = T_u / 2\) for plane \(u\).
+\textbf{Please note}: Nagaitsev's computations yield emittance growth rates.
+In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, as shown in Fig.~\ref{figure:ibs_convention_conversion}.
 
 \section{IBS Kicks}
 \label{section:ibs_kicks}
@@ -2666,7 +2666,6 @@ In \textit{xfields} the computation of the kick is done as follows.
 
 First, the beam intensity \(N\), bunch length \(\sigma_z\), momentum deviation \(\sigma_{\delta}\), and geometric emittances \(\varepsilon_{x,y}\) are inferred from the tracked particles object.
 These are used to compute the analytical IBS growth rates.
-
 From these, each particle is given a momentum kick in each dimension according to:
 
 \begin{equation}
