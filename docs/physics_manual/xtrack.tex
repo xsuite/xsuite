@@ -2235,9 +2235,9 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
 \end{align}
 
-\subsection{Hamiltonian of the synchrotron motion}
+\section{Hamiltonian of the synchrotron motion}
 
-In this section we use the time in the laboratory frame as independent variable as done in the PyHEADTAIL longitudinal treatment.
+In this section we use the time in the laboratory frame as independent variable as done in the PyHEADTAIL longitudinal treatment. In this section we also include the effect of a reference momentum change of $\Delta P_0$ per turn.
 
 We assume small energy deviations, hence we can consider the coordinates $(\zeta, \delta)$ to be canonically conjugate ($\delta \ll 1 \Rightarrow \delta \simeq p_\zeta$).
 
@@ -2271,6 +2271,53 @@ The coordinate change over one revolution is:
 \end{align}
 which are consistent with those found in Sec.\,\ref{ch:synchmon}.
 
+\subsection{Fixed points}
+
+The fixed points can be found by imposing $\Delta\zeta = 0$ and $\Delta\delta = 0$.
+If only a single harmonic is present a closed solution can be found:
+
+\begin{equation}
+- \frac{\Delta P_0}{P_0}
++ \frac{q_0}{\beta_0 c P_0} 
+V_\text{RF} \sin\left(
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_i \right) = 0
+\end{equation}
+
+We want to get an explicit expression for $\zeta$:
+\begin{equation}
+ \frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} 
+ = 
+\sin\left(
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_i \right)
+\end{equation}
+There are two families of solutions:
+\begin{align}
+ &\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ + 2 n \pi
+ = 
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_\text{RF} \\
+ &\pi - \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ + 2 n \pi
+ = 
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_\text{RF}
+\end{align}
+where $n$ is an integer number. Depending on the sign of $\eta$ Only one family of fixed points is stable.
+
+We solve for $\zeta$:
+\begin{align}
+&\zeta =
+ \frac{C}{2 \pi h_\text{RF}} \left(
+ \phi_\text{RF}
+ -\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ +2 n \pi
+ \right)\\
+ &\zeta =
+ \frac{C}{2 \pi h_\text{RF}} \left(
+ \phi_\text{RF} + \pi
+ +\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ +2 n \pi
+ \right)
+\end{align}
 
 \chapter{Coasting beams}
 
