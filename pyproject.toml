@@ -25,11 +25,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
 dependencies = [
-<<<<<<< HEAD
     "xtrack==0.77.1",
-=======
-    "xtrack==0.77.1",
->>>>>>> d5ee39636f7d4679b64c9a3c4d9ba46a8fe17987
     "xfields==0.22.2",
     "xcoll==0.5.12",
     "xobjects==0.4.6",
