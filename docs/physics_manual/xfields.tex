@@ -2358,13 +2358,13 @@ The two conventions are equivalent by a factor \(2\) and conversion can be done 
 The growth rates themselves are expressed from the lattice optics as well as the beam properties.
 
 \textbf{In Xsuite}, for consistency with synchrotron radiation damping times (see section ~\ref{section:sr_damping_times}), \textbf{the amplitude growth rates are computed}.
-The horizontal (\(A_x\)), vertical (\(A_y\)) and longitudinal (\(A_z\)) amplitude growth rates are defined as:
+The horizontal (\(K_x\)), vertical (\(K_y\)) and longitudinal (\(K_z\)) amplitude growth rates are defined as:
 
 \begin{equation}
     \begin{aligned}
-        A_x = \frac{1}{\tau_x} &= \frac{1}{\varepsilon^{1/2}_x} \frac{d \varepsilon^{1/2}_x}{dt} \text{,  } \\
-        A_y = \frac{1}{\tau_y} &= \frac{1}{\varepsilon^{1/2}_y} \frac{d \varepsilon^{1/2}_y}{dt} \text{,  } \\
-        A_z = \frac{1}{\tau_z} &= \frac{1}{\varepsilon^{1/2}_z} \frac{d \varepsilon^{1/2}_z}{dt} \text{, }
+        K_x = \frac{1}{\tau_x} &= \frac{1}{\varepsilon^{1/2}_x} \frac{d \varepsilon^{1/2}_x}{dt} \text{,  } \\
+        K_y = \frac{1}{\tau_y} &= \frac{1}{\varepsilon^{1/2}_y} \frac{d \varepsilon^{1/2}_y}{dt} \text{,  } \\
+        K_z = \frac{1}{\tau_z} &= \frac{1}{\varepsilon^{1/2}_z} \frac{d \varepsilon^{1/2}_z}{dt} \text{, }
     \end{aligned}
     \label{equation:ibs_rms_emittances_evolutions}
 \end{equation}
@@ -2373,7 +2373,7 @@ where (\(\tau_x\)), (\(\tau_y\)) and (\(\tau_z\)) are the amplitude growth times
 
 Currently two different formalism are available to compute these growth rates.
 Both assume transverse and longitudinal Gaussian bunch profiles.
-Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{xfields} is computed (as in MAD-X) according to the expression in the Physics Vade Mecum~\cite{AIP:Anderson:Physics_Vade_Mecum}:
+Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{xfields} is computed according to the expression in the Physics Vade Mecum~\cite{AIP:Anderson:Physics_Vade_Mecum}:
 
 \begin{equation}
     L_C = \ln \left( \frac{r_{max}}{r_{min}} \right) \text{ .}
@@ -2469,27 +2469,27 @@ From these, one computes the integrals - called the \textit{Nagaitsev integrals}
     \label{equation:nagaitsev_integrals}
 \end{equation}
 with \(C\) the circumference (or length) of the machine.
-Finally, the \textit{emittance growth rates} in the horizontal (\(T_x\)), vertical (\(T_y\)) and longitudinal (\(T_z\)) planes are computed as:
+Finally, the \textit{emittance growth rates} in the horizontal, vertical and longitudinal planes are computed as:
 
 \begin{equation}
-    \boxed{T_x = \frac{1}{\tau_x} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_x}
+    \boxed{\frac{1}{\varepsilon_x} \frac{d \varepsilon_x}{dt} = \frac{1}{\varepsilon_x} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_x}
     \label{equation:nagaitsev_tx}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_y = \frac{1}{\tau_y} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_y}
+    \boxed{\frac{1}{\varepsilon_y} \frac{d \varepsilon_y}{dt} = \frac{1}{\varepsilon_y} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_y}
     \label{equation:nagaitsev_ty}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_z = \frac{1}{\tau_z} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_z}
+    \boxed{\frac{1}{\varepsilon_z} \frac{d \varepsilon_z}{dt} = \frac{1}{\sigma_p^{2}} \frac{N r_0^{2} c L_C}{12 \pi \beta^3 \gamma^5 \sigma_z} I_z}
     \label{equation:nagaitsev_tz}
 \end{equation}
 
 In the above \(N\) is the total beam intensity, \(r_0\) the classical particle radius, \(c\) the speed of light in vacuum, \(L_C\) the Coulomb logarithm from Eq~\eqref{equation:coulomb_logarithm}, \(\beta\) and \(\gamma\) the relativistic parameters of the beam and \(\sigma_z\) the bunch length.
 \newline
 
-\textbf{Please note}: Nagaitsev's computations yield emittance growth rates.
+\textbf{Please note: Nagaitsev's computations yield emittance growth rates}.
 In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, as shown in Fig.~\ref{figure:ibs_convention_conversion}.
 \newline
 
@@ -2628,26 +2628,26 @@ First the \(a, b, c, a_x, b_x, a_y, b_y, a_z\) and \(b_z\) terms are computed as
     \label{equation:bm_bz}
 \end{equation}
 
-From these, one can compute the \textit{emittance growth rates} as:
+Finally, the \textit{emittance growth rates} in the horizontal, vertical and longitudinal planes are computed as:
 
 \begin{equation}
-    \boxed{T_x = \frac{1}{\tau_x} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2 H_x}{\varepsilon_x}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_x \lambda + b_x\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
+    \boxed{\frac{1}{\varepsilon_x} \frac{d \varepsilon_x}{dt} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2 H_x}{\varepsilon_x}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_x \lambda + b_x\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
     \label{equation:bm_tx}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_y = \frac{1}{\tau_y} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\beta_y}{\varepsilon_y}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_y \lambda + b_y\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
+    \boxed{\frac{1}{\varepsilon_y} \frac{d \varepsilon_y}{dt} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\beta_y}{\varepsilon_y}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_y \lambda + b_y\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
     \label{equation:bm_ty}
 \end{equation}
 
 \begin{equation}
-    \boxed{T_z = \frac{1}{\tau_z} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2}{\sigma_{\delta}^{2}}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_z \lambda + b_z\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
+    \boxed{\frac{1}{\varepsilon_z} \frac{d \varepsilon_z}{dt} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2}{\sigma_{\delta}^{2}}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_z \lambda + b_z\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
     \label{equation:bm_tz}
 \end{equation}
 where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signify the averaging over the lattice, given the terms contained inside are arrays with one value per element.
 \newline
 
-\textbf{Please note}: Nagaitsev's computations yield emittance growth rates.
+\textbf{Please note: Bjorken and Mtingwa's computations yield emittance growth rates}.
 In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, as shown in Fig.~\ref{figure:ibs_convention_conversion}.
 
 \section{IBS Kicks}
