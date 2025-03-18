@@ -100,12 +100,6 @@ ONLY_XTRACK_ELEMENTS = [
 ]
 
 NO_SYNRAD_ELEMENTS = [
-    Bend,
-    RBend,
-    Quadrupole,
-    Sextupole,
-    Octupole,
-    SecondOrderTaylorMap,
     Exciter,
 ]
 
