@@ -36,6 +36,12 @@ FREEZE_LONGITUDINAL = {
 ONLY_XTRACK_ELEMENTS = [
     Drift,
     Multipole,
+    Bend,
+    RBend,
+    Quadrupole,
+    Sextupole,
+    Octupole,
+    SecondOrderTaylorMap,
     Marker,
     ReferenceEnergyIncrease,
     Cavity,
