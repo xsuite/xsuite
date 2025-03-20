@@ -280,9 +280,12 @@ And install gpyfft locally.
 Installation of OpenMP
 ----------------------
 
-If using a Mac (and/or the Clang compiler), inside of your conda environment run
-``conda install llvm-openmp``. On Linux, the same functionality (for GCC) is
-provided by ``conda install libgomp``.
+On Linux and on Apple Silicon Macs OpenMP support should automatically be
+provided with the conda-forge's ``compilers`` package. However, on Intel Macs
+it may be necessary to separately install the ``llvm-openmp`` package with
+``conda install llvm-openmp``. Similarly, should a manual installation on Linux
+be needed, the same functionality (for GCC) is provided by the ``libgomp``
+package for GCC.
 
 
 .. _miniforge:
