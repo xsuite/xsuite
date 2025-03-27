@@ -267,7 +267,8 @@ The following identities are useful to derive the equations of motion:
 
 \section{Symplectic integrators}
 
-Xsuite supports different Hamiltonian splittings for symplectic integration.
+\subsection{Hamiltonians of the implemented maps}
+Xsuite provides maps for the following Hamiltonians
 
 We call $\sqrt{...} = \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$:
 
@@ -311,87 +312,20 @@ $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{k_s}{2}
 \bottomrule
 \end{tabular}
 
-\section*{Splitting schemes}
-
-\begin{tabular}{llll}
-\toprule
-\textbf{Model} & \textbf{Splitting} & $h=0, ks=0$ & $h\neq0, ks=0$ \\
-\midrule
-3 & rot-kick-rot & D(1/2) K D(1/2) & R(1/2) K Ch1 Ch2 Chn R(1/2) \\
-2 & bend-kick-bend & Br(1/2) K Br(1/2) & B(1/2) K Ch2 B(1/2) \\
-4 & matrix-kick-matrix & M(1/2) K Cd M(1/2) & M(1/2) K Ch2 Cd Chn M(1/2) \\
-5 & drift-kick-drift-exact & D(1/2) K D(1/2) & D(1/2) K Ch0 Ch1 Ch2 Chn D(1/2) \\
-6 & drift-kick-drift-expanded & De(1/2) K De(1/2) & De(1/2) K Ch0 Ch1 Ch2 Chn De(1/2) \\
-\bottomrule
-\end{tabular}
-
-\vspace{1em}
-
-\begin{tabular}{llll}
-\toprule
-\textbf{Model} & $h=0, ks=0$ & $h\neq0, ks=0$ & $h=0, k_s \neq 0$ \\
-\midrule
-rot-kick-rot & D(1/2) K D(1/2) & R(1/2) K Ch1 Ch2 R(1/2) & S(1/2) K S(1/2) \\
-bend-kick-bend & Br(1/2) K Br(1/2) & B(1/2) K Ch2 B(1/2) & not available \\
-matrix-kick-matrix & M(1/2) K M(1/2) & M(1/2) K Ch2 M(1/2) & not available \\
-drift-kick-drift-exact & D(1/2) K D(1/2) & D(1/2) K Ch0 Ch1 Ch2 D(1/2) & not available \\
-drift-kick-drift-expanded & De(1/2) K De(1/2) & De(1/2) K Ch0 Ch1 Ch2 De(1/2) & not available \\
-\bottomrule
-\end{tabular}
-
-\vspace{1em}
+\subsection{Magnet models}
+The maps are combined to obtain the following models of magnetic elements:\\
 
 \begin{tabular}{lll}
 \toprule
 \textbf{Model} & $h=0, ks=0$ & $h\neq0, ks=0$ \\
 \midrule
-rot-kick-rot & D, K0 K1 Kn & R, K0 K0h K1 K1h Kn Knh \\
-bend-kick-bend & Br, K1 Kn & B, K1 K1h Kn Knh \\
-matrix-kick-matrix & M, Kn Dc & M, K1h Kn Knh Dc \\
-drift-kick-drift-exact & D, K0 K1 Kn & D, Kh K0 K0h K1 K1h Kn Knh \\
-drift-kick-drift-expanded & De, K0 K1 Kn & De, Kh K0 K0h K1 K1h Kn Knh \\
+rot-kick-rot & [D], [K0 K1 Kn] & [R], [K0 K0h K1 K1h Kn Knh] \\
+bend-kick-bend & [Br],  [K1 Kn] & [B], [K1 K1h Kn Knh] \\
+matrix-kick-matrix & [M], [Kn Dc] & [M], [K1h Kn Knh Dc] \\
+drift-kick-drift-exact & [D], [K0 K1 Kn] & [D], [Kh K0 K0h K1 K1h Kn Knh] \\
+drift-kick-drift-expanded & [De], [K0 K1 Kn] & [De], [Kh K0 K0h K1 K1h Kn Knh] \\
 \bottomrule
 \end{tabular}
-
-\section*{Hamiltonians}
-
-\begin{align*}
-B   &= \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -k_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) \\
-Br  &= \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -b_1 x \\
-Kn  &= -\Re\left(\hat k_0 y +i\hat k_1\frac{(x+iy)^2}{2}+ \sum_{n=2}^N (k_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right) \\
-R   &= \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}\right) \\
-D   &= \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \\
-De  &= \frac{p_\tau}{\beta_0}-\frac{p_x^2+p_y^2}{2(1+\delta)} \\
-Cd  &= D - De \\
-Ch0 &= (h-k_0) x \\
-Ch1 &= -k_0 h \frac{x^2}{2} \\
-Ch2 &= -k_1 h \frac{2 x^3 + 3 xy^2}{6} \\
-M   &= \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2} + k_0\left(x-\frac{hx^2}{2(1+hx)}\right) + k_1 \frac{x^2-y^2}{2} \\
-S   &= \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{k_s}{2} y\right)^2 - \left(p_y+\frac{k_s}{2}\right)^2}
-\end{align*}
-
-\section*{Multipole definitions}
-
-\begin{align*}
-k_n(s) &= \frac{q}{p_0} \frac{\partial^n }{\partial x^n} B_y(x,0,s) \\
-\hat{k}_n(s) &= \frac{q}{p_0} \frac{\partial^n }{\partial x^n} B_x(x,0,s) \\
-k_s(s) &= \frac{q}{p_0} B_s(0,0,s)
-\end{align*}
-
-\section*{TODO}
-Fringes
-
-\section*{References}
-\vspace{1em}
-
-\section*{General Hamiltonian}
-
-\begin{equation}
-H = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - (p_x - a_x(x,y,h))^2 - (p_y - a_y(x,y,h))^2} + a_s(x,y,h) \right)
-\end{equation}
-
-\end{document}
-
 
 
 
