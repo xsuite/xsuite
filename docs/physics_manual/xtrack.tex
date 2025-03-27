@@ -298,14 +298,14 @@ $H_{K0} = k_0 x$\\
 K1  & k1, l       & Quadrupole kick & 
 $H_{K1} = k_1\frac{x^2 - y^2}{2}$\\
 K1h & k1, h, l      & Quad correction & 
-$H_{K1h} = -k_1 h \frac{2 x^3 + 3 xy^2}{6}$\\
+$H_{K1h} = k_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
 Kn  & kn, ks, l     & Multipole & 
 $H_{Kn} = -\Re\left( \sum_{n=0}^N (k_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
 \\
 Knh & kn, ks, h  & Curved Multipoles & 
 Not yet available\\
 M   & k0, k1, l, h & 2nd order Hamiltonian & 
-$H_{Kn} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2} + k_0\left(x-\frac{hx^2}{2(1+hx)}\right) + k_1 \frac{x^2-y^2}{2} $\\
+$H_{Kn} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (k_0 -h)x + \frac{k0hx^2}{2}\right) + k_1 \frac{x^2-y^2}{2} $\\
 S   & ks,l          & Solenoid & 
 $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{k_s}{2} y\right)^2 - \left(p_y+\frac{k_s}{2}\right)^2}$
 \\
