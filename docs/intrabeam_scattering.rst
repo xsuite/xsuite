@@ -9,7 +9,7 @@ Intra-Beam Scattering
 Analytical Growth Rates
 =======================
 
-The following example illustrates how to obtain growth rates from Intra-Beam Scattering  in Xsuite.
+The following example illustrates how to obtain growth rates from Intra-Beam Scattering in Xsuite.
 The functionality is exposed through the `TwissTable` and can make use of two different formalism, ``Nagaitsev`` and ``Bjorken-Mtingwa``.
 The former provides a computationally efficient approach but does not account for vertical dispersion, while the latter accounts for it but is slower.
 
@@ -35,4 +35,17 @@ Refer to the :doc:`Reference manual<apireference>` for the full list of paramete
 See also: :meth:`xtrack.Line.configure_intrabeam_scattering`
 
 .. literalinclude:: generated_code_snippets/ibs_kicks_tracking.py
+   :language: python
+
+Steady State Emittances in the Presence of Synchrotron Radiation, Quantum Excitation and Intra-Beam Scattering 
+==============================================================================================================
+
+The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where the combined effect of these three phenomena balances each other out.
+These emittances can be calculated in Xsuite by solving numerically a system of ordinary differential equations while enforcing constraints on the transverse emittances.
+In the following example, steady state emittances are calculated using the default and the explicit behaviors of the function.
+The ODE solved by the function are detailed in the :doc:`Physics guide<physicsguide>`.
+
+See also: :meth:`xtrack.twiss.TwissTable.compute_equilibrium_emittances_from_sr_and_ibs`
+
+.. literalinclude:: generated_code_snippets/ibs_steady_state_emittances.py
    :language: python
