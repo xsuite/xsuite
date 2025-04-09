@@ -1347,23 +1347,95 @@ y'&=y'-\theta_{\rm max}\cdot\frac{r_2}{\tilde r^2}\cdot f(\tilde r)\cdot \tilde 
 
 \subsection{Electron Cooler}
 
-Electron cooling is a process used to reduce the momentum spread of charged particles such as ions or protons. This process involves passing the particles through a cloud of electrons that are cooler than the particles themselves. The particles lose energy as they collide with the electrons, causing them to slow down and reduce their temperature. The Parkhomchuk model is a mathematical model that describes the force acting on a particle as it passes through the electron cooler. This force is given by the equation \cite{parkhomchuk2000electron}:
+The Parkhomchuk electron cooler in Xsuite applies a kick to the circulating ion based on the following equation:
+%
 \begin{equation}
-\vec{F}= -\frac{4 e^4 n_{\mathrm{e}}}{m_e} \frac{\vec{V}}{\left(\sqrt{\vec{V}^2+V_{\mathrm{eff}}^2}\right)^3} \ln \left(\frac{\rho_{\min }+\rho_{\max }+\rho_{\mathrm{L}}}{\rho_{\min }+\rho_{\mathrm{L}}}\right)
-\label{Eq:Parkhomchuk}
+\vec{F} = -\frac{n_e q^2 e^4}{4 \pi^2 \epsilon_0^2 m_e} \cdot \frac{d\vec{V}}{V^3_\text{tot}} \ln\left(\frac{\rho_{\max} + \rho_{\min} + \rho_{\mathrm{L}}}{\rho_{\min} + \rho_{\mathrm{L}}}\right),
+\label{eq: parkhomchuk}
 \end{equation}
+%
+Where \( \vec{F} \) is the friction force acting on the circulating particle, \( n_{e} \) is the electron density (per unit volume), \( q \) is the charge of the circulating particle, \( e \) is the elementary charge, \( m_e \) is the electron mass, \( d\vec{V} \) is the velocity difference between the circulating particle and the local electron velocity. \( \rho_{\max} \) and \( \rho_{\min} \) are the maximum and minimum impact parameters, respectively, and \( \rho_{\mathrm{L}} \) is Larmor radius of the electrons (also known as the radius of gyration). $V_{\text{tot}}$ represents the total velocity difference between the electrons and ion, which is given by:
+%
+\begin{equation}
+V_{\text{tot}} = \sqrt{dV^2 + \Delta_{\parallel}^2 + \Delta_\text{magnet}^2}, 
+\label{eq: total_velocity_difference}
+\end{equation}
+%
+Where \( dV^2 = dV_x^2 + dV_y^2 + dV_z^2 \) is the squared norm of the relative velocity difference between the ion and electron. To prevent the cooling force from diverging as \( dV \to 0 \), regularization terms are added. The most logical approach is to add the temperatures as regularization terms because they provide the RMS velocity difference when \( dV = 0 \). This is why \( \Delta_{\parallel} \) the longitudinal electron velocity spread associated with their temperature is added to Equation~\eqref{eq: total_velocity_difference}. Lastly, \( \Delta_\text{magnet} \) is the additional velocity spread induced by imperfections in the magnetic field of the electron cooler solenoid, which is given by:
+\begin{equation}
+\Delta_\text{magnet} = c \gamma \frac{B_\perp}{B_\parallel}
+\end{equation}
+Where \( \frac{B_\perp}{B_\parallel} \) is the ratio of the transverse component of the magnetic field with respect to the longitudinal component. The transverse temperature is not included in Eqaution~\eqref{eq: total_velocity_difference} because it is suppressed due to the gyration motion of the electrons in the magnetic field. The transverse temperature indirectly plays a role in the Parkhomchuk model via the Larmor radius \( \rho_\text{L} \), which is given by:
+%
+\begin{equation}
+\rho_{\text{L}} = \frac{m_e \Delta_{\perp}}{e B}
+\label{eq: larmor_radius}
+\end{equation}
+%
+Where \(\Delta_{\perp}\) is the transverse velocity due to the transverse electron temperature and \(B\) is the magnetic field. 
+%
+The minimum impact parameter \( \rho_{\text{min}} \) is given by:
+\begin{equation}
+\rho_{\text{min}} = \frac{Z e^2}{4 \pi \varepsilon_0 m_e \vec{V}^2}
+\label{eq: minimum_impact_parameter}
+\end{equation}
+%
+The maximum impact parameter determines the maximum length scale at which a Coulomb interaction takes place, which can be limited by various physical effects, such as the Debye length and it is given by:
+%
+\begin{equation}
+    \rho_d = \frac{\Delta_{\parallel}}{\omega_p},
+\end{equation}
+%
+Where the longitudinal velocity spread of the electrons \( \Delta_{\parallel}  \) is given by:
+%
+\begin{equation}
+   \Delta_{\parallel} = \sqrt{\frac{k_B T}{m_e}}
+\end{equation}
+%
+The plasma frequency \( \omega_\text{p} \)  represents the natural oscillation frequency of the electron due to a perturbation in its charge distribution, which is given by:
+%
+\begin{equation}
+\omega_\text{p} = \sqrt{\frac{n_e e^2}{m_e \epsilon_0}}.
+\end{equation}
+%
+The Debye radius is not the only limitation for the maximum interaction length. In the case where the velocity difference between the ion and electron \( d\vec{V} \) is sufficiently larger than the velocity spread of the electron \( \Delta_{\parallel} \), then the maximum shielding radius \( \rho_\text{s} \) is given by:
+%
+\begin{equation}
+    \rho_\text{s} = \frac{d\vec{V}}{\omega_p}.
+\end{equation}
+%
+In principle, it is necessary to compute both \( \rho_\text{d} \) and \( \rho_\text{s} \) and compare them to see which one is the bottleneck and use that as the maximum impact parameter, which is given by:
+%
+\[
+\rho_\text{max} = \text{min}(\rho_\text{d},\rho_\text{s})
+\]
+%
+However, in the code, the two shielding impact parameters are merged into a single effective impact parameter, given by:
+%
+\begin{equation}
+\rho_\text{shield} = \frac{V_{\text{tot}}}{\omega_p}.
+\label{eq: rho_shield_combined}
+\end{equation}
+%
+Here, \( V_{\text{tot}} \) is the total velocity difference between the electron and ion from Equation~\ref{eq: total_velocity_difference}. Combining these effects in one term ensures that the shielding parameter reflects the combined influence of the ion’s motion and the internal velocity distribution of the electron beam, which is affected by the temperature of the electrons as well as the imperfections in the magnetic field. 
+%
+An advantage of this formulation is that it ensures that the impact parameter varies smoothly as a function of the relative ion velocity \( d\vec{V} \), which changes continuously throughout the cooling process. By using the combined expression for \( \rho_{\text{shield}} \) from Equation~\eqref{eq: rho_shield_combined}, the code avoids any abrupt changes in the friction force that could arise from sharp transitions in the shielding distance.
 
-Where $\vec{F}$ is the force acting on the ion when the ion is within the radius of the electron beam, $e$ is the elementary charge, $n_\mathrm{e}$ is the density of the electrons, $m_e$ is the electron mass, and $\vec{V}$ is the velocity difference between the ion and the electron. $V_\mathrm{eff}$ is the effective root-mean-square velocity of motion of Larmor circles, which is influenced by both the longitudinal root-mean-square electron velocity, $\mathrm{V}_\mathrm{l}$, and transverse drift motions, which arise due to imperfections in the magnetic field. In particular, the transverse motion is described by $\mathrm{V}_\mathrm{magnet}$, which shows how the root-mean-square electron velocity is affected by the quality of the magnetic field. The magnetic field quality is given by the ratio of the perpendicular and longitudinal components of the magnetic field, where 0 indicates an ideal magnetic field quality. The expression for $\mathrm{V}_\mathrm{magnet}$ depends on the magnetic field quality in the following way: $\mathrm{V}_\mathrm{magnet} = \beta_0 \gamma_0  c B_{ratio}$, where $B_{ratio}$ is the magnetic field quality. Where $c$ is the speed of light, $\beta_0$ is the velocity of the electrons, $\gamma_0$ is the relativistic factor, and $B_\mathrm{ratio}$ is the magnetic field quality. These two parameters combine in the following way to produce the effective electron velocity:
-
-$$\mathrm{V}_{\mathrm{eff}} = \sqrt{\mathrm{Ve}_\mathrm{l}^2 + \mathrm{Ve}_\mathrm{magnet}^2}$$
-The variables $\rho_{\min}$ and $\rho_{\max}$ are the minimum and maximum impact parameters and are defined as:
-$$\rho_{min} = \frac{Z r_e}{(V/c)^2}$$
-where $Z$ is the charge of the particle, $r_e$ is the classical electron radius.
-$$\rho_{max} = \frac{V}{\omega_{plasma}+\frac{1}{\tau}}$$
-Where $\omega_{\mathrm{plasma}}$ is the plasma frequency, which is given by $c \sqrt{4  \pi  n_e  r_e}$ and $\tau$ is the time that the ion spends in the cooler. Finally, $\rho_{\mathrm{L}}$ is the Larmor radius of the electrons, which is given by:
-$$\rho_{\mathrm{L}}=\frac{m_e \cdot Ve_{\perp}}{e \cdot B}$$
-Where $m_e$ is the mass of the electron, $B$ is the magnetic field strength, and $Ve_{\perp}$ is the perpendicular component of the electron velocity.
-
+In addition to \( \rho_{\text{shield}} \), the maximum impact parameter can also be limited by the distance an ion travels inside the electron cooler. This distance-based limit is expressed as:
+%
+\begin{equation}
+\rho_{\text{interaction}} = V_{\text{tot}} \tau
+\end{equation}
+%
+Where \( \tau \) is \( \frac{L}{\beta_0 c \gamma_0} \), which is the time it takes for the ion to pass through the electron cooler.
+%
+Finally, the maximum impact parameter in the Xsuite implementation is the minimum of \( \rho_{\text{interaction}} \) and \( \rho_{\text{shield}} \), which is given by:
+%
+\begin{equation}
+\rho_\text{max} = \text{min}(\rho_{\text{shield}}, \rho_{\text{interaction}})
+\label{eq: max_impact_parameter}
+\end{equation}
+%
 \subsubsection{Electron beam space charge}
 
 An additional effect of electron cooling that needs to be taken into consideration is the space charge of the electron beam. Moreover, the electron beam will assume a parabolic profile with respect to the radius, which is given by \cite{poth1990electron}:
@@ -1375,11 +1447,9 @@ An additional effect of electron cooling that needs to be taken into considerati
 \end{equation}
 Equation \ref{Eq:space_charge_electron_beam} says that the electrons at the edge electron beam have a larger momentum than the electrons at the center. This means that the ions at the edge of the beam pipe will reach a larger equilibrium momentum than the ions at the core because the ions will assume the momentum of the electrons. 
 
-The Xsuite electron cooler allows for the inclusion of an optional effect called "space charge neutralization," which is determined by the parameter "Neutralization space charge." A value of 0 for this parameter indicates that there is no space charge in the electron beam, while a value of 1 indicates that the electron beam will follow a parabolic profile as described in Equation \ref{Eq:space_charge_electron_beam}.
+The Xsuite electron cooler allows for the inclusion of an optional effect called "space charge neutralization," which is determined by the parameter "space charge factor." A value of 0 for this parameter indicates that there is no space charge in the electron beam, while a value of 1 indicates that the electron beam will follow a parabolic profile as described in Equation \ref{Eq:space_charge_electron_beam}.
 
-\subsubsection{Electron beam rotation}
-
-An additional effect is the rotation of the electron beam around the beam axis due to the magnetic field of the electron cooler. The angular velocity of the rotation is given by \cite{poth1990electron}:
+An additional effect due to space charge is the rotation of the electron beam around the beam axis due to the magnetic field of the electron cooler. The angular velocity of the rotation is given by \cite{poth1990electron}:
 \begin{equation}
 \omega
 =\frac{\vec{F} \times \vec{B}}{e r|B|^2}
@@ -1387,7 +1457,7 @@ An additional effect is the rotation of the electron beam around the beam axis d
 \approx 60 \frac{I}{r_{\mathrm{e} \text {-beam }}^2 \beta \gamma^2 B_{\|}}
 \label{Eq:rotation_electron_beam}
 \end{equation}
-The inclusion of this effect in the Xsuite electron cooler is optional and determined by the parameter "Neutralization rotation." A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
+This effect can also be disabled by setting "space charge factor" to zero. A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
 
 
 \chapter{Linear optics calculations}
