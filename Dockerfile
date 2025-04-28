@@ -54,9 +54,8 @@ RUN bash Miniforge3-Linux-x86_64.sh -b -p /opt/miniforge
 RUN rm Miniforge3-Linux-x86_64.sh
 
 ENV PATH /opt/miniforge/bin:$PATH
-RUN mamba init bash
-RUN mamba create --name xsuite python=3.11
-RUN echo "mamba activate xsuite" >> ~/.bashrc
+RUN mamba create --name xsuite python=3.12 && mamba shell init -s bash
+SHELL ["mamba", "run", "-n", "xsuite", "/bin/bash", "-c"]
 
 # Install dependencies (compilers, OpenCL and CUDA packages, test requirements)
 # - mako is an optional requirement of pyopencl that we need
