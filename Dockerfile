@@ -54,8 +54,8 @@ RUN bash Miniforge3-Linux-x86_64.sh -b -p /opt/miniforge
 RUN rm Miniforge3-Linux-x86_64.sh
 
 ENV PATH /opt/miniforge/bin:$PATH
-RUN mamba create --name xsuite python=3.12 && mamba shell init -s bash
-SHELL ["mamba", "run", "-n", "xsuite", "/bin/bash", "-c"]
+RUN mamba install python=3.12 && mamba shell init -s bash && echo "mamba activate base" >> ~/.bashrc
+SHELL ["mamba", "run", "/bin/bash", "-c"]
 
 # Install dependencies (compilers, OpenCL and CUDA packages, test requirements)
 # - mako is an optional requirement of pyopencl that we need
@@ -82,9 +82,7 @@ COPY ./ /opt/xsuite/xsuite/
 
 RUN chmod +x /opt/xsuite/xsuite/.github/scripts/install_branches.sh && bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
 
-# Copy the test runner script into the image
 WORKDIR /opt
-RUN ln -s /opt/xsuite/xsuite/.github/scripts/run_tests.sh /opt/
-RUN chmod +x run_tests.sh
+RUN ln -s /opt/xsuite/xsuite/.github/scripts/run_tests.sh /opt/ && chmod +x run_tests.sh
 
 CMD python /opt/xsuite/xtrack/examples/print_package_paths.py
