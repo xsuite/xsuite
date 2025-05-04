@@ -2397,6 +2397,215 @@ It is possible to set $\phi_\text{RF}$ to place a fixed point of either family i
 \end{align}
 It can be shown that, to have a stable fixed point in $\zeta=0$ one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (below transition).
 
+\chapter{Spin tracking and polarization}
+
+\section{Spin tracking}
+
+This section is based on \cite{hoffstaetter2006high, Sagan:BmadManual}.
+
+The spin precession for a particle traveling in a magnetic field $\bm{B}$ can be written in term of the precession angular velocity:
+\begin{equation}
+\bm{\Omega}_{\text{BMT}} = -\frac{1}{B\rho_{\text{part}}} \left[ (1 + a \gamma)\bm{B}_{\perp} + (1 + a) \bm{B}_{\parallel} \right]
+\end{equation}
+where $a$ is the anomalous magnetic moment and $\bm{B}_{\parallel}$ and $\bm{B}_{\perp}$ are referred to the velocity of the particle.
+
+The precession angle for a particle traveling a path length $\ell$ is given by:
+\begin{equation}
+\phi = |\bm\Omega| \ell
+\end{equation}
+
+We call:
+\begin{equation}
+\bm\omega = \frac{\bm\Omega}{|\bm\Omega|}
+\end{equation}
+and we define:
+\begin{align}
+t_0 = \cos\left(\frac{\phi}{2}\right)\\
+t_x = \omega_x \sin\left(\frac{\phi}{2}\right)\\
+t_y = \omega_y \sin\left(\frac{\phi}{2}\right)\\
+t_s = \omega_z \sin\left(\frac{\phi}{2}\right)
+\end{align}
+The spin vector of the particle is transformed by the following rotation matrix:
+\begin{equation}
+M =
+\begin{bmatrix}
+(t_0^2 + t_x^2) - (t_s^2 + t_y^2) & 2(t_x t_y - t_0 t_s) & 2(t_x t_s + t_0 t_y) \\
+2(t_x t_y + t_0 t_s) & (t_0^2 + t_y^2) - (t_x^2 + t_s^2) & 2(t_s t_y - t_0 t_x) \\
+2(t_x t_s - t_0 t_y) & 2(t_s t_y + t_0 t_x) & (t_0^2 + t_s^2) - (t_x^2 + t_y^2)
+\end{bmatrix}
+\end{equation}
+
+
+\section{Linear transport matrix including spin}
+
+The coordinate vector including the spin is defined as:
+\begin{equation}
+\bm{z} = 
+\begin{pmatrix}
+x \\
+p_x \\
+y \\
+p_y \\
+\zeta \\
+\delta \\
+s_x \\
+s_y \\
+s_z
+\end{pmatrix}
+\quad \text{We call } 
+\bm{z}_{\text{orb}} = 
+\begin{pmatrix}
+x \\
+p_x \\
+y \\
+p_y \\
+\zeta \\
+\delta
+\end{pmatrix},
+\quad
+\bm{z}_{\text{spin}} = 
+\begin{pmatrix}
+s_x \\
+s_y \\
+s_z
+\end{pmatrix}
+\end{equation}
+
+The corresponding 9D transport matrix can be written as
+\begin{equation}
+\mathbf{R} = 
+\begin{pmatrix}
+\mathbf{R}_{\text{orb}} & 0 \\
+\mathbf{D} & \mathbf{A}
+\end{pmatrix}
+\end{equation}
+
+We call $\bm{e}_1, \ldots, \bm{e}_8$ the eigenvectors and $\lambda_1, \ldots, \lambda_8$ the eigenvalues so that
+\begin{equation}
+\mathbf{R} \bm{e}_i = \lambda_i \bm{e}_i
+\end{equation}
+
+From the definition of eigenvectors (doing the matrix product in blocks), we can write:
+\begin{equation}
+\mathbf{R}_{\text{orb}} \, \bm{e}_{i, \text{orb}} = \lambda_i \bm{e}_{i, \text{orb}}
+\label{eq:eispin_from_eiorb}
+\end{equation}
+\begin{equation}
+\mathbf{D} \, \bm{e}_{i, \text{orb}} + \mathbf{A} \, \bm{e}_{i, \text{spin}} = \lambda_i \bm{e}_{i, \text{spin}}
+\end{equation}
+
+From this:
+\begin{equation}
+\mathbf{D} \, \bm{e}_{i, \text{orb}}  = \left(\lambda_i \bm{I} - \mathbf{A} \right) \bm{e}_{i, \text{spin}}
+\end{equation}
+\begin{equation}
+\bm{e}_{i, \text{spin}} = \left(\lambda_i \bm{I} - \mathbf{A} \right)^{-1}\mathbf{D} \, \bm{e}_{i, \text{orb}} 
+\end{equation}
+
+\section{Invariant Spin Field - first order computation}
+
+This section is based on \cite{Chao:1980fz}.
+
+We expand the Invariant Spin Field \cite{hoffstaetter2006high} function to first order
+\begin{equation}
+\bm{n}(\bm{z}_{\text{orb}}) = \bm{n}_0 
++ \mathbf{N} \bm{z}_{\text{orb}}
+\end{equation}
+
+In the following the constant term will be omitted.
+
+We now call $\bm{z}_1^{\text{spin}}$ the ISF at $\bm{z}_1^{\text{orb}}$, i.e.
+\begin{equation}
+\bm{z}_1^{\text{spin}} = \mathbf{N} \bm{z}_1^{\text{orb}}
+\end{equation}
+
+We call $\bm{z}_2$ the coordinate after one revolution. By definition of the ISF, the spin part of $\bm{z}_2$ is the ISF at $\bm{z}_2^{\text{orb}}$, i.e.
+\begin{equation}
+\bm{z}_2^{\text{spin}} = \mathbf{N} \bm{z}_2^{\text{orb}}
+\label{eq:z2_isf}
+\end{equation}
+
+We know from the structure of the one-turn matrix:
+\begin{equation}
+\bm{z}_2^{\text{orb}}  = \mathbf{R}_{\text{orb}} \bm{z}_1^{\text{orb}}
+\label{eq:z2_orb}
+\end{equation}
+\begin{equation}
+\bm{z}_2^{\text{spin}} = \mathbf{D} \bm{z}_1^{\text{orb}} + \mathbf{A} \bm{z}_1^{\text{spin}}
+\label{eq:z2_mat}
+\end{equation}
+
+Combining, Eqs.\,\ref{eq:z2_isf}, \ref{eq:z2_orb} and~\ref{eq:z2_mat}, we obtain:
+% \begin{equation}
+% \mathbf{N} \bm{z}_2^{\text{orb}} = \mathbf{D} \bm{z}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{z}_1^{\text{orb}}
+% \end{equation}
+% and then
+\begin{equation}
+\mathbf{N} \mathbf{R}_{\text{orb}} \bm{z}_1^{\text{orb}} = \mathbf{D} \bm{z}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{z}_1^{\text{orb}}
+\end{equation}
+
+We specialize it for the case $\bm{z}_1^{\text{orb}} = \bm{e}_1^{\text{orb}}$ obtaining:
+\begin{equation}
+\mathbf{A} \bm{e}_1^{\text{orb}} = \mathbf{D} \bm{e}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{e}_1^{\text{orb}}
+\label{eq:isf_e1}
+\end{equation}
+
+From Eq.\,\ref{eq:eispin_from_eiorb}, we botain:
+\begin{equation}
+\mathbf{D} \bm{e}_1^{\text{orb}} = \lambda_1 \bm{e}_1^{\text{spin}} - \mathbf{A} \bm{e}_1^{\text{spin}}
+\end{equation}
+
+Replacing into Eq.\,\ref{eq:eispin_from_eiorb}, we obtain:
+\begin{equation}
+(\lambda_1 \mathbf{I} - \mathbf{A}) \mathbf{N} \bm{e}_1^{\text{orb}} = (\lambda_1 \mathbf{I} - \mathbf{A}) \bm{e}_1^{\text{spin}}
+\end{equation}
+
+If $(\lambda_1 \mathbf{I} - \mathbf{A})$ is not singular:
+\begin{equation}
+\mathbf{N} \bm{e}_1^{\text{orb}} = \bm{e}_1^{\text{spin}}
+\end{equation}
+
+Combining this result for the three orbital eigenvectors:
+\begin{equation}
+\left( \mathbf{N} \bm{e}_1^{\text{orb}} \quad \mathbf{N} \bm{e}_2^{\text{orb}} \quad \mathbf{N} \bm{e}_3^{\text{orb}} \right)
+= 
+\left( \bm{e}_1^{\text{spin}} \quad \bm{e}_2^{\text{spin}} \quad \bm{e}_3^{\text{spin}} \right)
+\end{equation}
+
+In matrix form:
+\begin{equation}
+\mathbf{N} \mathbf{E}^{\text{orb}} = \mathbf{E}^{\text{spin}} 
+\quad \Rightarrow \quad 
+\mathbf{N} = \mathbf{E}^{\text{spin}} \left( \mathbf{E}^{\text{orb}} \right)^{-1}
+\end{equation}
+
+We note that the last column of the matrix $\bm{N}$ provides the derivative $\frac{d \bm{n}}{d \delta}$ which is relevant for the computation of equilibrium polarization.
+
+\section{Equilibrium polarization and polarization time}
+
+This section is based on \cite{Chao:1980fz, Derbenev:1973ia, Boge:1994we}.
+
+The equilibrium polarization and the polarization time can be computed as:
+
+\begin{equation}
+P_\text{eq} = \frac{8}{5\sqrt{3}} \frac{\alpha_{-}}{\alpha_{+}}
+\end{equation}
+
+\begin{equation}
+\tau_\text{pol}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e} \cdot \alpha_+
+\end{equation}
+
+where:
+\begin{align}
+&\alpha_+ \simeq \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3} 
+\left[
+1 - \frac{2}{9} (\bm{n} \cdot \hat{\bm{i}}_v)^2 + \frac{11}{18} \left|  \frac{\partial \bm{n}}{\partial \delta} \right|^2
+\right]_s\\
+&\alpha_- \simeq  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3} 
+\left[\hat{\bm{i}}_B \cdot
+(\bm{n} - \frac{\partial \bm{n}}{\partial \gamma})
+\right]_s
+\end{align}
 
 \chapter{Coasting beams}
 
