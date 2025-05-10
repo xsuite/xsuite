@@ -2586,27 +2586,33 @@ We note that the last column of the matrix $\bm{N}$ provides the derivative $\fr
 
 \section{Equilibrium polarization and polarization time}
 
-This section is based on \cite{Chao:1980fz, Derbenev:1973ia, Boge:1994we}.
+This section is based on \cite{Chao:1980fz, Derbenev:1973ia, Boge:1994we, Sagan:BmadManual, Mane:1986qy, Barber:1999xm}.
 
-The equilibrium polarization and the polarization time can be computed as:
+In the presence of photon emission, the polarization of the beam evolves following
+the equation:
+\begin{equation}
+P(t) = P(0) e^{-\frac{t}{\tau_\text{tot}}} + P_\text{eq} \left(1 - e^{-\frac{t}{\tau_\text{tot}}}\right)
+\end{equation}
+
+The equilibrium polarization and the buildup time can be computed as:
 
 \begin{equation}
 P_\text{eq} = \frac{8}{5\sqrt{3}} \frac{\alpha_{-}}{\alpha_{+}}
 \end{equation}
 
 \begin{equation}
-\tau_\text{pol}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e} \cdot \alpha_+
+\tau_\text{tot}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e} \cdot \alpha_+
 \end{equation}
 
 where:
 \begin{align}
 &\alpha_+ \simeq \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3} 
 \left[
-1 - \frac{2}{9} (\bm{n} \cdot \hat{\bm{i}}_v)^2 + \frac{11}{18} \left|  \frac{\partial \bm{n}}{\partial \delta} \right|^2
+1 - \frac{2}{9} (\bm{n_0} \cdot \hat{\bm{i}}_v)^2 + \frac{11}{18} \left|  \frac{\partial \bm{n}}{\partial \delta} \right|^2
 \right]_s\\
 &\alpha_- \simeq  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3} 
 \left[\hat{\bm{i}}_B \cdot
-(\bm{n} - \frac{\partial \bm{n}}{\partial \gamma})
+(\bm{n}_0 - \frac{\partial \bm{n}}{\partial \gamma})
 \right]_s
 \end{align}
 
