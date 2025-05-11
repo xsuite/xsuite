@@ -2603,18 +2603,71 @@ P_\text{eq} = \frac{8}{5\sqrt{3}} \frac{\alpha_{-}}{\alpha_{+}}
 \begin{equation}
 \tau_\text{tot}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e} \cdot \alpha_+
 \end{equation}
-
-where:
+where, truncating to the first order the dependece of the ISF on the phase space coordinates, we have:
 \begin{align}
-&\alpha_+ \simeq \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3} 
+&\alpha_+ \simeq \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
 \left[
 1 - \frac{2}{9} (\bm{n_0} \cdot \hat{\bm{i}}_v)^2 + \frac{11}{18} \left|  \frac{\partial \bm{n}}{\partial \delta} \right|^2
 \right]_s\\
-&\alpha_- \simeq  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3} 
+&\alpha_- \simeq  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
 \left[\hat{\bm{i}}_B \cdot
 (\bm{n}_0 - \frac{\partial \bm{n}}{\partial \gamma})
 \right]_s
 \end{align}
+
+The buildup time can be decompoesed in two terms:
+\begin{equation}
+\tau_\text{tot}^{-1} = \tau_\text{pol}^{-1} + \tau_\text{depol}^{-1}
+\end{equation}
+where:
+\begin{align}
+  &\tau_\text{pol}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e}
+  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
+  \left[
+  1 - \frac{2}{9} (\bm{n_0} \cdot \hat{\bm{i}}_v)^2
+  \right]_s\\
+  &\tau_\text{depol}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e}
+  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
+  \left[
+    \frac{11}{18} \left|  \frac{\partial \bm{n}}{\partial \delta} \right|^2
+  \right]_s
+\end{align}
+
+\section{Monte Carlo method for equlibrium polarization}
+This section is based on \cite{Boge:1994we, DUAN201581}.
+
+We can define:
+\begin{equation}
+  P_{\infty} = \frac{8}{5\sqrt{3}}
+  \frac
+  {
+   \oint \frac{ds}{|\rho(s)|^3}
+    \left[\hat{\bm{i}}_B \cdot
+    (\bm{n}_0)
+    \right]_s
+}
+{
+  \oint \frac{ds}{|\rho(s)|^3}
+  \left[
+    1 - \frac{2}{9} (\bm{n_0} \cdot \hat{\bm{i}}_v)^2
+    \right]_s
+}
+\end{equation}
+
+The equilibrium polarization and the buildup rate can be written as follows:
+\begin{align}
+  &P_\text{eq} = P_{\infty} \frac{1}{1 + \frac{\tau_\text{pol}}{\tau_\text{depol}}}
+  \label{eq:p_eq_sitros}\\
+  &\tau_\text{tot}^{-1} = \tau_\text{pol}^{-1} + \tau_\text{depol}^{-1}
+  \label{eq:tau_tot_sitros}
+\end{align}
+
+The term $\tau_\text{depol}$ can be evalated using particle tracking, accounting for
+quantum excitation from synchrotron radiation. Unlike the approach used in the previous
+section, this method accounts for the non-linear dependence of the ISF on the phase space coordinates.
+Using $\tau_\text{depol}$ we can get from Eqs.\,\ref{eq:p_eq_sitros} and \ref{eq:tau_tot_sitros}
+estimates for $P_\text{eq}$ and $\tau_\text{tot}$ that include non linear effects.
+
 
 \chapter{Coasting beams}
 
