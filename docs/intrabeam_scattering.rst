@@ -61,7 +61,15 @@ In the following example, steady state emittances are calculated in the presence
 .. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_coupling.py
    :language: python
 
+.. figure:: figures/ibs_sr_steadystate_coupling.png
+    :width: 80%
+    :align: center
+
 This example, quite similar, shows how to do the same but with an excitation constraint between the transvserse planes.
 
 .. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_excitation.py
    :language: python
+
+.. figure:: figures/ibs_sr_steadystate_excitation.png
+    :width: 80%
+    :align: center
