@@ -2649,11 +2649,91 @@ where the constants in the common fraction term are the same as for Eq~\eqref{eq
 
 \textbf{Please note: Bjorken and Mtingwa's computations yield emittance growth rates}.
 In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, as shown in Fig.~\ref{figure:ibs_convention_conversion}.
+where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signifies the averaging over the lattice, given the terms contained inside are arrays with one value per element.
+
+\section{Steady-state emittances}
+\label{subsection:steady-state_emittances}
+
+The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where the combined effect of these three phenomena balances each other out. More specifically, the QE and SR are accounted for through the natural emittances and SR damping constants, the IBS is described by its growth rates.
+Each of these effects depends on the optical functions along the storage ring.
+All the following equations remain valid independently of which formalism (Nagaitsev or Bjorken-Mtingwa) is used when computing the IBS growth rates. In addition, the SR damping constants and IBS growth rates follow the amplitude convention as defined in Eq.~\eqref{eq:grate_rad_damp}.
+
+\subsection{Steady-state emittances with QE, SR, and IBS}
+
+The steady-state emittances are solutions to a system of three ordinary differential equations describing the dynamic interplay of the QE, SR, and IBS. The system of differential equations can be solved numerically by computing the emittance evolution for a succession of infinitesimal time steps. The equations are as follows:
+
+%Final equilibrium emittance depends on the quantum excitation, synchrotron damping constants ($\alpha^{SR}_x, \alpha^{SR}_y, \alpha^{SR}_z$), and IBS growth rates ($\alpha^{IBS}_x(\varepsilon_{x}, \varepsilon_{y}, \varepsilon_{z}), \alpha^{IBS}_y(\varepsilon_{x}, \varepsilon_{y}, \varepsilon_{z}), \alpha^{IBS}_z(\varepsilon_{x}, \varepsilon_{y}, \varepsilon_{z})$)
+
+\begin{equation}
+    \frac{d\varepsilon_u}{dt} = -2 \alpha^{SR}_u \left(\varepsilon_u - \varepsilon_{u,0} \right) + 2\alpha^{IBS}_u \varepsilon_{u}, \quad u = x,y,z
+\label{eq:emit_evol}
+\end{equation}
+
+$\varepsilon_{u,0}$ is the natural emittance, $\varepsilon_u$ the emittance, $\alpha^{SR}_u$ the SR damping constant and $\alpha^{IBS}_u$ the IBS growth rate.
+It can be noted that the IBS growth rates are a function of all three emittances ($\alpha^{IBS}_u(\varepsilon_{x}, \varepsilon_{y}, \varepsilon_{z})$).
+
+The steady-state emittance is reached when the emittance evolution reaches zero and leads to:
+\begin{equation}
+    \varepsilon_u = \frac{\varepsilon_{u,0}}{1 - \alpha^{IBS}_u / \alpha^{SR}_u}, \quad u = x,y,z
+\label{eq:emit_final}
+\end{equation}
+
+Although mathematically correct, the equation assumes a finite vertical emittance. In the case of lepton storage rings, the vertical emittance is often negligible in the absence of vertical dispersion or betatron coupling. As a result, the IBS growth rates would reach extremely large values when a near zero vertical emittance is considered. A finite vertical emittance is introduced through betatron coupling or an external excitation to overcome this limitation.
+
+\subsection{Steady-state emittances due to betatron coupling}
+
+In the presence of betatron coupling, emittance sharing occurs between the two transverse planes. The treatment of betatron coupling can be simplified by expressing it through the emittance coupling factor $\kappa = \Tilde{\varepsilon}_y/\Tilde{\varepsilon}_x$, the ratio of the perturbed vertical emittance to the horizontal one.
+
+Based on the natural emittance, defined in Eq.~\eqref{eq:equilemi1} but written in a form~\cite{Lee:2018fhc} so that the horizontal damping partition number $j_x$ appears:
+\begin{equation*}
+    \varepsilon_0 = C_q \frac{\gamma^2}{j_x} \frac{I_5}{I_2},
+\end{equation*}
+where $C_q = \frac{55}{32 \sqrt{3}} \frac{\hbar}{m_e c} \approx 3.84 \times 10^{-13}$ m for electrons, $\gamma$ the relativistic gamma and $I_2,I_5$ respectively the second and fifth radiation integrals.
+
+\begin{equation}
+    \Tilde{\varepsilon_0} = C_q \frac{\gamma^2}{\Tilde{j_x}} \frac{\langle K^3 \mathcal{H} \rangle}{K^2}, \qquad \mathrm{where} \quad \Tilde{j_x} = \frac{j_x}{1 + \kappa} + \frac{\kappa j_y}{1 + \kappa}
+\label{eq:j_kappa}
+\end{equation}
+
+Here, $j_y$ represents the vertical damping partition number.
+After some simplifications and remembering $\Tilde{\varepsilon}_0 = \Tilde{\varepsilon}_x + \Tilde{\varepsilon}_y$ we finally obtain:
+\begin{equation}
+    \Tilde{\varepsilon}_{x,0} = \frac{\Tilde{\varepsilon}_0}{1 + \kappa} = \frac{\Tilde{\varepsilon}_0}{1 + \kappa \frac{j_y}{j_x}}, \qquad \Tilde{\varepsilon}_{y,0} = \frac{\kappa \Tilde{\varepsilon}_0}{1 + \kappa} = \frac{\kappa \Tilde{\varepsilon}_0}{1 + \kappa \frac{j_y}{j_x}}
+\label{eq:eps_kappa}
+\end{equation}
+
+%The betatron coupling leaves the longitudinal plane unaffected, the Eqs.~\eqref{eq:emit_evol},\eqref{eq:emit_final} remain valid in the following.
+Furthermore, the perturbed horizontal and vertical emittances can be expressed as a function of the ones without betatron coupling:
+\begin{equation*}
+    \Tilde{\varepsilon}_x = \frac{\varepsilon}{1 + \kappa \frac{j_y}{j_x}}, \quad \Tilde{\varepsilon}_y = \frac{\kappa \varepsilon}{1 + \kappa \frac{j_y}{j_x}}
+\end{equation*}
+
+It can be noted that total transverse emittance conservation occurs solely if $j_x = j_y$.
+
+As a result, the transverse emittance evolution can be rewritten as:
+\begin{equation}
+\frac{d\Tilde{\varepsilon}_u}{dt} = -2 \alpha^{SR}_u \left(\Tilde{\varepsilon}_u - \Tilde{\varepsilon}_{u,0}\right) + 2 \alpha^{IBS}_u \Tilde{\varepsilon}_u, \quad u = x,y
+\label{eq:emit_evol_coupling}
+\end{equation}
+
+And the steady-state transverse emittances become:
+\begin{equation}
+    \Tilde{\varepsilon}_u = \frac{\Tilde{\varepsilon}_{u,0}}{1 - \frac{\alpha^{IBS}_u}{\alpha^{SR}_u \left(1 + \kappa j_y / j_x \right)}}, \quad u = x,y
+\label{eq:emit_final_coupling}
+\end{equation}
+
+%The main drawback 
+
+\subsection{Steady-state emittances due to an external excitation}
+
+Alternatively, a finite vertical emittance can also be obtained by exciting the beam using the Pulse-Picking by Resonant Excitation (PPRE) method~\cite{Hwang2019AnalyticalAN} in the vertical plane.
+In this situation, the horizontal and vertical planes are left uncoupled while the vertical emittance can be controlled. Nonetheless, the emittance coupling factor can still be employed. 
+In this scenario, the emittance evolution follows Eq.~\eqref{eq:emit_evol_coupling} and the final emittance Eq.~\eqref{eq:emit_final}. Compared to the previous case, the total transverse emittance is not conserved even if $j_x = j_y$.
 
 \section{IBS Kicks}
 \label{section:ibs_kicks}
 
-The approach of using analytical growth rates does not provide a way to study the interplay of IBS with arbitrary effects, such as space charge, electrong clouds, beam-beam etc.
+The approach of using analytical growth rates does not provide a way to study the interplay of IBS with arbitrary effects, such as space charge, electron clouds, beam-beam, etc.
 To do so, it is necessary to include IBS effects in tracking simulations together with other desired effects.
 In \textit{xfields} two elements are available to model IBS effects in tracking simulations, both providing momenta kicks to tracked particles according to a specific formalism.
 
@@ -3978,3 +4058,4 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \phi^\text{aux}\left(c +CL_\text{aux} + mh_x\right) 
 \text{~~ for}~0 \leq m <N_T N_\text{aux}\\
 \end{equation}
+
