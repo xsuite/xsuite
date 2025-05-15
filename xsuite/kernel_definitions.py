@@ -36,6 +36,13 @@ FREEZE_LONGITUDINAL = {
 ONLY_XTRACK_ELEMENTS = [
     Drift,
     Multipole,
+    Bend,
+    RBend,
+    Quadrupole,
+    Sextupole,
+    Octupole,
+    Magnet,
+    SecondOrderTaylorMap,
     Marker,
     ReferenceEnergyIncrease,
     Cavity,
@@ -44,6 +51,7 @@ ONLY_XTRACK_ELEMENTS = [
     Solenoid,
     RFMultipole,
     DipoleEdge,
+    MultipoleEdge,
     SimpleThinBend,
     SimpleThinQuadrupole,
     LineSegmentMap,
@@ -57,17 +65,23 @@ ONLY_XTRACK_ELEMENTS = [
     DriftSliceQuadrupole,
     DriftSliceSextupole,
     ThickSliceBend,
-    DriftSliceRBend,
+    ThickSliceRBend,
     ThickSliceOctupole,
     ThickSliceQuadrupole,
     ThickSliceSextupole,
     ThickSliceSolenoid,
     ThinSliceBend,
+    ThinSliceRBend,
     ThinSliceBendEntry,
     ThinSliceBendExit,
-    ThinSliceRBend,
     ThinSliceRBendEntry,
     ThinSliceRBendExit,
+    ThinSliceQuadrupoleEntry,
+    ThinSliceQuadrupoleExit,
+    ThinSliceSextupoleEntry,
+    ThinSliceSextupoleExit,
+    ThinSliceOctupoleEntry,
+    ThinSliceOctupoleExit,
     ThinSliceOctupole,
     ThinSliceQuadrupole,
     ThinSliceSextupole,
@@ -93,12 +107,6 @@ ONLY_XTRACK_ELEMENTS = [
 ]
 
 NO_SYNRAD_ELEMENTS = [
-    Bend,
-    RBend,
-    Quadrupole,
-    Sextupole,
-    Octupole,
-    SecondOrderTaylorMap,
     Exciter,
 ]
 
@@ -204,5 +212,9 @@ kernel_definitions = [
             'XTRACK_SYNRAD_KICK_SAME_AS_FIRST': True
         },
         'classes': ONLY_XTRACK_ELEMENTS,
+    }),
+    ('only_xtrack_with_synrad_frozen_energy', { # for spin twiss
+        'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XTRACK_MULTIPOLE_NO_SYNRAD': False,},
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
 ]

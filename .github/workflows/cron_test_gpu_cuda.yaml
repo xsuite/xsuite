@@ -16,3 +16,4 @@ jobs:
       test_contexts: 'ContextCupy'
       platform: 'ubuntu'
       suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
+      pytest_options: '-m context_dependent'

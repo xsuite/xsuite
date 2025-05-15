@@ -250,8 +250,10 @@ snippet_files = {
         'generated_code_snippets/multipolar_components_sliced.py',
     'xtrack/examples/toy_ring/007_cut_at_s.py':
         'generated_code_snippets/cut_at_s.py',
-    'xfields/examples/005_ibs/001_growth_rates_from_parameters_with_vdisp.py':
+    'xfields/examples/005_ibs/001_growth_rates_with_vdisp.py':
         'generated_code_snippets/ibs_rates_with_vdisp.py',
+    'xfields/examples/005_ibs/002_growth_rates_conventions.py':
+        'generated_code_snippets/ibs_rates_conventions_switch.py',
     'xfields/examples/005_ibs/003_tracking_with_kicks.py':
         'generated_code_snippets/ibs_kicks_tracking.py',
     'xfields/examples/005_ibs/005_steady_state_emittances_coupling.py':

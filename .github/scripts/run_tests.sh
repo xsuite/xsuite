@@ -19,11 +19,8 @@ _term() {
 }
 trap _term SIGINT SIGTERM
 
-# Set the path to the reports folder
-REPORTS_DIR="/opt/reports"
-
 # Pytest options
-PYTEST_OPTS="--color=yes --verbose $PYTEST_ADDOPTS"
+PYTEST_OPTS="--durations=0 --durations-min=1 --color=yes --verbose $PYTEST_ADDOPTS"
 
 # Keep track of failures
 STATUS=0
