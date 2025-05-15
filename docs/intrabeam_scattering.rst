@@ -41,11 +41,17 @@ Steady State Emittances in the Presence of Synchrotron Radiation, Quantum Excita
 ==============================================================================================================
 
 The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where the combined effect of these three phenomena balances each other out.
-These emittances can be calculated in Xsuite by solving numerically a system of ordinary differential equations while enforcing constraints on the transverse emittances.
-In the following example, steady state emittances are calculated using the default and the explicit behaviors of the function.
+These emittances can be calculated in `Xsuite` by numerically solving a system of ordinary differential equations while enforcing constraints on the transverse emittances.
 The ODE solved by the function are detailed in the :doc:`Physics guide<physicsguide>`.
 
 See also: :meth:`xtrack.twiss.TwissTable.compute_equilibrium_emittances_from_sr_and_ibs`
 
-.. literalinclude:: generated_code_snippets/ibs_steady_state_emittances.py
+In the following example, steady state emittances are calculated in the presence of a coupling constraint between transverse planes.
+
+.. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_coupling.py
+   :language: python
+
+This example, quite similar, shows how to do the same but with an excitation constraint between the transvserse planes.
+
+.. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_excitation.py
    :language: python
