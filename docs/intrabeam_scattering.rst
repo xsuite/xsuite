@@ -57,6 +57,7 @@ The ODE solved by the function are detailed in the :doc:`Physics guide<physicsgu
 See also: :meth:`xtrack.twiss.TwissTable.compute_equilibrium_emittances_from_sr_and_ibs`
 
 In the following example, steady state emittances are calculated in the presence of a coupling constraint between transverse planes.
+Notice how the coupling constraint of round beams (coupling factor = 1) is respected through the evolution of the emittances to the steady-state.
 
 .. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_coupling.py
    :language: python
@@ -66,6 +67,7 @@ In the following example, steady state emittances are calculated in the presence
     :align: center
 
 This example, quite similar, shows how to do the same but with an excitation constraint between the transvserse planes.
+Notice how this time a specific factor between transverse emittances is respected through their evolution to the steady-state.
 
 .. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_excitation.py
    :language: python
