@@ -2483,7 +2483,7 @@ The corresponding 9D transport matrix can be written as
 \end{pmatrix}
 \end{equation}
 
-We call $\bm{e}_1, \ldots, \bm{e}_8$ the eigenvectors and $\lambda_1, \ldots, \lambda_8$ the eigenvalues so that
+We call $\bm{e}_1, \ldots, \bm{e}_9$ the eigenvectors and $\lambda_1, \ldots, \lambda_9$ the eigenvalues so that
 \begin{equation}
 \mathbf{R} \bm{e}_i = \lambda_i \bm{e}_i
 \end{equation}
@@ -2511,11 +2511,12 @@ This section is based on \cite{Chao:1980fz}.
 
 We expand the Invariant Spin Field \cite{hoffstaetter2006high} function to first order
 \begin{equation}
-\bm{n}(\bm{z}_{\text{orb}}) = \bm{n}_0 
-+ \mathbf{N} \bm{z}_{\text{orb}}
+\bm{n}(\bm{z}_{\text{orb}}) = \bm{n}_0
++ \mathbf{N} \left(\bm{z}_{\text{orb}} - \bm{z}_{\text{orb}}^\text{CO} \right)
 \end{equation}
 
-In the following the constant term will be omitted.
+In the following we drop all the constant terms so we simply write
+$\bm{n}(\bm{z}_{\text{orb}}) = \mathbf{N} \bm{z}_{\text{orb}}$.
 
 We now call $\bm{z}_1^{\text{spin}}$ the ISF at $\bm{z}_1^{\text{orb}}$, i.e.
 \begin{equation}
@@ -2549,7 +2550,7 @@ Combining, Eqs.\,\ref{eq:z2_isf}, \ref{eq:z2_orb} and~\ref{eq:z2_mat}, we obtain
 
 We specialize it for the case $\bm{z}_1^{\text{orb}} = \bm{e}_1^{\text{orb}}$ obtaining:
 \begin{equation}
-\mathbf{A} \bm{e}_1^{\text{orb}} = \mathbf{D} \bm{e}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{e}_1^{\text{orb}}
+\lambda_1 \mathbf{N} \bm{e}_1^{\text{orb}} = \mathbf{D} \bm{e}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{e}_1^{\text{orb}}
 \label{eq:isf_e1}
 \end{equation}
 
