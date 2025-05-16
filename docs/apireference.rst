@@ -284,17 +284,10 @@ RBend
     :members:
     :member-order: bysource
 
-Quadrupole
-----------
+SimpleThinBend
+----
 
-.. autoclass:: xtrack.Quadrupole
-    :members:
-    :member-order: bysource
-
-CombinedFunctionMagnet
-----------------------
-
-.. autoclass:: xtrack.CombinedFunctionMagnet
+.. autoclass:: xtrack.SimpleThinBend
     :members:
     :member-order: bysource
 
@@ -305,10 +298,45 @@ DipoleEdge
     :members:
     :member-order: bysource
 
+DipoleFringe
+----------
+
+.. autoclass:: xtrack.DipoleFringe
+    :members:
+    :member-order: bysource
+
+Wedge
+----------
+
+.. autoclass:: xtrack.Wedge
+    :members:
+    :member-order: bysource
+
+Quadrupole
+----------
+
+.. autoclass:: xtrack.Quadrupole
+    :members:
+    :member-order: bysource
+
+SimpleThinQuadrupole
+----
+
+.. autoclass:: xtrack.SimpleThinQuadrupole
+    :members:
+    :member-order: bysource
+
 Sextupole
 ---------
 
 .. autoclass:: xtrack.Sextupole
+    :members:
+    :member-order: bysource
+
+Octupole
+---------
+
+.. autoclass:: xtrack.Octupole
     :members:
     :member-order: bysource
 
@@ -319,24 +347,24 @@ Multipole
     :members:
     :member-order: bysource
 
+MultipoleEdge
+---------
+
+.. autoclass:: xtrack.MultipoleEdge
+    :members:
+    :member-order: bysource
+
+CombinedFunctionMagnet
+----------------------
+
+.. autoclass:: xtrack.CombinedFunctionMagnet
+    :members:
+    :member-order: bysource
+
 Solenoid
 --------
 
 .. autoclass:: xtrack.Solenoid
-    :members:
-    :member-order: bysource
-
-NonLinearLens
--------------
-
-.. autoclass:: xtrack.NonLinearLens
-    :members:
-    :member-order: bysource
-
-Cavity
-------
-
-.. autoclass:: xtrack.Cavity
     :members:
     :member-order: bysource
 
@@ -347,7 +375,19 @@ RFMultipole
     :members:
     :member-order: bysource
 
+Exciter
+-------
 
+.. autoclass:: xtrack.Exciter
+    :members:
+    :member-order: bysource
+
+Cavity
+------
+
+.. autoclass:: xtrack.Cavity
+    :members:
+    :member-order: bysource
 
 ReferenceEnergyIncrease
 -----------------------
@@ -363,10 +403,17 @@ Elens
     :members:
     :member-order: bysource
 
-Exciter
--------
+NonLinearLens
+-----
 
-.. autoclass:: xtrack.Exciter
+.. autoclass:: xtrack.NonLinearLens
+    :members:
+    :member-order: bysource
+
+ElectronCooler
+-----
+
+.. autoclass:: xtrack.ElectronCooler
     :members:
     :member-order: bysource
 
@@ -404,13 +451,6 @@ LinearTransferMatrix
 N.B. This element is deprecated. Use LineSegmentMap instead.
 
 .. autoclass:: xtrack.LinearTransferMatrix
-    :members:
-    :member-order: bysource
-
-LongitudinalLimitRect
----------------------
-
-.. autoclass:: xtrack.LongitudinalLimitRect
     :members:
     :member-order: bysource
 
@@ -485,6 +525,15 @@ LimitPolygon
     :members:
     :member-order: bysource
 
+LongitudinalLimitRect
+---------------------
+
+.. autoclass:: xtrack.LongitudinalLimitRect
+    :members:
+    :member-order: bysource
+
+Monitors (xtrack)
+======================
 
 ParticlesMonitor
 ----------------
@@ -497,6 +546,27 @@ LastTurnsMonitor
 ----------------
 
 .. autoclass:: xtrack.LastTurnsMonitor
+    :members:
+    :member-order: bysource
+
+BeamPositionMonitor
+----------------
+
+.. autoclass:: xtrack.BeamPositionMonitor
+    :members:
+    :member-order: bysource
+
+BeamProfileMonitor
+----------------
+
+.. autoclass:: xtrack.BeamProfileMonitor
+    :members:
+    :member-order: bysource
+
+BeamSizeMonitor
+----------------
+
+.. autoclass:: xtrack.BeamSizeMonitor
     :members:
     :member-order: bysource
 
