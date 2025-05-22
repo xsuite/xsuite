@@ -213,4 +213,8 @@ kernel_definitions = [
         },
         'classes': ONLY_XTRACK_ELEMENTS,
     }),
+    ('only_xtrack_with_synrad_frozen_energy', { # for spin twiss
+        'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XTRACK_MULTIPOLE_NO_SYNRAD': False,},
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+    }),
 ]
