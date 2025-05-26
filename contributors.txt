@@ -18,3 +18,4 @@ CERN contributors:
 External contributors:
  - P. Belanger (TRIUMF, Canada) - Development of wire beam element
  - M. Boucard (EPFL, Switzerland) - Development of the electron lens beam element
+ - S. Joly (Helmholtz-Zentrum, Berlin) - Development of IBS + SR equilibrium calculation
