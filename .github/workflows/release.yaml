@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-13, macos-14]
-        pyver: [cp38, cp39, cp310, cp311, cp312]
+        pyver: [cp310, cp311, cp312]
         exclude:
           - os: macos-14
             pyver: cp38
