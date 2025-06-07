@@ -328,6 +328,19 @@ drift-kick-drift-expanded & [De], [K0 K1 Kn] & [De], [Kh K0 K0h K1 K1h Kn Knh] \
 \bottomrule
 \end{tabular}
 
+\subsubsection{Map for the exact bend}
+
+\begin{align}
+x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
+p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
+y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(s) &= p_y \\
+\delta(s) &= \delta \\
+\zeta(s) &= \zeta -\frac{\beta_0}{\beta}
+  \left[
+  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+  \right]
+\end{align}
 
 
 \section{Cavity time, energy errors and acceleration}
