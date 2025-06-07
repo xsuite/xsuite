@@ -330,6 +330,8 @@ drift-kick-drift-expanded & [De], [K0 K1 Kn] & [De], [Kh K0 K0h K1 K1h Kn Knh] \
 
 \subsubsection{Map for the exact bend}
 
+This map is adapted from \cite{forest99}.
+
 \begin{align}
 x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
 p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
@@ -340,6 +342,22 @@ p_y(s) &= p_y \\
   \left[
   \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
   \right]
+\end{align}
+
+\subsubsection{Map for the straight bend}
+
+This map is adapted from \cite{forest99}.
+
+\begin{align}
+x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) \\
+p_x(L) &= p_x - k_0 \chi L \\
+y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(L) &= p_y \\
+\delta(L) &= \delta \\
+\zeta(L) &= \zeta - \frac{\beta_0}{\beta}
+\left[
+\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\right]
 \end{align}
 
 
