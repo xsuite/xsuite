@@ -2361,7 +2361,7 @@ Hence we can write:
 The longitudinal damping rate is obtained by substituting this expression in Eq.\,\eqref{eq:alphadamp}:
 \begin{equation}
     \alpha_\epsilon =
-      \frac{1}{3} \frac{c r_0 \gamma^3}{T_\text{rev}} (2I_2 + I_4 )
+      \frac{1}{3} \frac{r_0 \gamma^3}{T_\text{rev}} (2I_2 + I_4 )
     \label{eq:alphadampfinal}
 \end{equation}
 
@@ -2369,7 +2369,7 @@ The longitudinal damping rate is obtained by substituting this expression in Eq.
 \subsection{Energy Spread and Third Radiation Integral}
 \label{sec:enespreadandi3}
 
-From Hofmann, the variance the amplitude of a damped oscillator that is excited by a short pulse $a\delta(t)$ is given by\cite{hofmann2009}
+From Hofmann, the variance in the amplitude of a damped oscillator that is excited by a short pulse $a\delta(t)$ is given by \cite{hofmann_2004}:
 \begin{equation}
     \mean{x^2} = \frac{\dot{n} \mean{a^2}}{4\alpha}
 \end{equation}
@@ -2389,11 +2389,7 @@ The variance in the photon energy is given by:
 \begin{equation}
     \mean{E_\gamma^2} = \frac{11}{12} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2}
 \end{equation}
-and the longitudinal damping rate is given by {\color{red} LATER JUST REFER TO THE EQUATION THAT CONTAINS THIS!!}
-\begin{equation}
-    \alpha_\epsilon = \frac{1}{3} \frac{c r_0 \gamma^3}{C_0} \left( 2I_2 + I_4 \right)
-\end{equation}
-
+and the longitudinal damping rate is given by Eq.\,\eqref{eq:alphadampfinal}:
 Combining all these terms leads to
 \begin{equation}
     \frac{\mean{\dee E^2}}{E_0^2} = \frac{60 \sqrt{3}}{72} \frac{11}{12} \frac{3}{4} \frac{r_0 c Q B}{\hbar} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2} \frac{C_0}{c r_0 \gamma^3} \frac{1}{2I_2 + I_4}
@@ -2412,7 +2408,7 @@ The curvature $h$ can be substituted for $B$, which gives
 
 Now averaging over the entire circumference of the ring gives
 \begin{equation}
-    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_z = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 C_0 \frac{\frac{1}{C_0}\oint h^3 \ \dee s'}{2I_2 + I_4} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{\oint h^3 \ \dee s'}{2I_2 + I_4}
+    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 C_0 \frac{\frac{1}{C_0}\oint h^3 \ \dee s'}{2I_2 + I_4} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{\oint h^3 \ \dee s'}{2I_2 + I_4}
 \end{equation}
 
 The integral in the numerator can be defined as
@@ -2422,7 +2418,7 @@ The integral in the numerator can be defined as
 
 This is the third radiation integral. This way, the energy spread becomes
 \begin{equation}
-    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_z = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{I_3}{2I_2 + I_4}
+    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{I_3}{2I_2 + I_4}
 \end{equation}
 
 \subsection{Transverse Damping Rates}
