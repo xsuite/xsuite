@@ -2266,61 +2266,51 @@ I_2     = \oint |h|^2 \ \dee s\\
 \subsection{Longitudinal Damping Rate and Fourth Radiation Integral}
 \label{sec:longdampandi4}
 
-Following Hofmann's analysis, the longitudinal damping rate is\cite{hofmann2009}
-
+Following Hofmann's analysis, the longitudinal damping rate can be written as \cite{hofmann_2004}:
 \begin{equation}
     \alpha_\epsilon = \frac{1}{2} \frac{1}{T_\text{rev}} \totder{U_s}{E}
 \end{equation}
 
-We calculate
-
+We calculate:
 \begin{equation}
-    \totder{U_s}{E} = \frac{1}{c} \totder{}{E} \oint P_s(s') \ \dee s' = \frac{1}{c} \totder{}{E} \oint P_s \ (1 + h_{0x}x + h_{0y}y)\ \dee s
+    \totder{U_s}{E} = \frac{1}{c} \totder{}{E} \oint P_s(s') \ \dee s' = \frac{1}{c} \totder{}{E} \oint P_s \ (1 + h_{0x}x(E) + h_{0y}y(E))\ \dee s
     \label{eq:dUdEoint}
 \end{equation}
 
-Using the dispersion for the path-length becomes
-
+Using the dispersion to express $x(E)$ and $y(E)$:
 \begin{equation}
     \totder{U_s}{E} = \totder{}{E} \frac{1}{c} \oint P_s \ (1 + h_{0x}D_x \delta + h_{0y} D_y \delta)\ \dee s
 \end{equation}
 
-The derivative w.r.t. $E$ is related to the derivative w.r.t. $\delta$ by
-
+The derivative w.r.t. $E$ is related to the derivative w.r.t. $\delta$ by:
 \begin{equation}
     \totder{}{E} = \totder{\delta}{E} \totder{}{\delta} = \totder{}{E} \left( \frac{E - E_0}{E_0} \right) \totder{}{\delta} = \frac{1}{E_0} \totder{}{\delta}
     \label{eq:ddEtodddelta}
 \end{equation}
 
-Writing out the derivative then gives
-
+Writing out the derivative then gives:
 \begin{align}
-    \totder{U_s}{E} &= \frac{1}{c} \oint \totder{P_s}{E} (1 + h_{0x}D_x \delta + h_{0y} D_y \delta) + \frac{P_s}{E_0} \totder{}{\delta}(1 + h_{0x}D_x \delta + h_{0y} D_y \delta)\ \dee s\\
+    \totder{U_s}{E} &= \frac{1}{c} \oint \totder{P_s}{E} (1 + h_{0x}D_x \delta + h_{0y} D_y \delta) + \frac{P_s}{E_0} \totder{}{\delta}(1 + h_{0x}D_x \delta + h_{0y} D_y \delta)\ \dee s \notag \\
                     &= \frac{1}{c} \oint \totder{P_s}{E} (1 + h_{0x}D_x \delta + h_{0y} D_y \delta) + \frac{P_s}{E_0} (h_{0x}D_x + h_{0y} D_y)\ \dee s
 \end{align}
 
-The derivative of $P_s$ w.r.t. $E$ can be rewritten as
-
+The derivative of $P_s$ w.r.t. $E$ can be rewritten as:
 \begin{equation}
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{B} \left( \partder{B}{x} \totder{x}{E} + \partder{B}{y} \totder{y}{E} \right) \right]
 \end{equation}
 
 The derivatives of the positions w.r.t. $E$ are related to the dispersions through Equation \eqref{eq:ddEtodddelta}
-
 \begin{align}
     \totder{x}{E} &= \frac{1}{E_0} \totder{x}{\delta} = \frac{1}{E_0} D_x\\
     \totder{y}{E} &= \frac{1}{E_0} \totder{y}{\delta} = \frac{1}{E_0} D_y
 \end{align}
 
-The derivatives of $B$ w.r.t. $x$ and $y$ are
-
+Using the fact that $B \sqrt{B_x^2 + B_y^2}$, the derivatives of $B$ w.r.t. $x$ and $y$ are:
 \begin{align}
     \partder{B}{x} &= \frac{B_x}{B} \partder{B_x}{x} + \frac{B_y}{B} \partder{B_y}{x}\\
     \partder{B}{y} &= \frac{B_x}{B} \partder{B_x}{y} + \frac{B_y}{B} \partder{B_y}{y}
 \end{align}
-
-Here, the magnetic field gradients are given by
-
+The magnetic field gradients are defined as:
 \begin{align}
     &\partder{B_y}{x} = \partder{B_x}{y}  = G       = \frac{\gamma m_0 c}{Q} k_1\\
     &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma m_0 c}{Q} \bar{k}_1
@@ -2331,42 +2321,36 @@ Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the 
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
 
-The curvatures in Equations \eqref{eq:bytocurvx}, \eqref{eq:bxtocurvy} and \eqref{eq:btocurv} can be substituded, which gives
-
+The curvatures in Equations \eqref{eq:bytocurvx}, \eqref{eq:bxtocurvy} and \eqref{eq:btocurv} can be substituded, which gives:
 \begin{equation}
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0}\frac{\gamma m_0 c}{Q} \frac{Q^2}{(\gamma m_0 c)^2} \frac{k_1}{h^2} \frac{\gamma m_0 c}{Q} \left( h_x D_x - h_y D_y \right) \right] = 2 \frac{P_s}{E} \left[ \frac{1}{E} + \frac{1}{E_0} \frac{k_1}{h^2} \left( h_x D_x - h_y D_y \right) \right]
     \label{eq:dPdE}
 \end{equation}
 
-Substituting Equation \eqref{eq:instpower} gives
-
+Substituting Equation \eqref{eq:instpower} gives:
 \begin{equation}
     \totder{P_s}{E} = \frac{4}{3} c r_0 E \gamma^3 |h|^2 \left[ \frac{1}{E} + \frac{1}{E_0} \frac{k_1}{h^2} \left( h_x D_x - h_y D_y \right) \right] = \frac{4}{3} c r_0 E \gamma^3  \left[ \frac{|h|^2}{E} + \frac{1}{E_0} k_1 \left( h_x D_x - h_y D_y \right) \right]
 \end{equation}
 
-Substituting this expression back in Equation \eqref{eq:dUdEoint} gives
-
+Substituting this expression back in Equation \eqref{eq:dUdEoint} gives:
 \begin{align}
     \totder{U_s}{E} = \frac{2}{3} \frac{c r_0 E \gamma^3}{c} \oint \bigg[ &2\frac{|h|^2}{E}(1 + h_{0x}x + h_{0y}y) +
     2\frac{k_1}{E_0} \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) +\\ &\frac{|h|^2}{E_0} (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
 \end{align}
 
-The $c$ in the numerator and denominator cancel. The first term can be identified as $I_2$, such that
-
+The $c$ in the numerator and denominator cancel. The first term can be identified as $I_2$, such that:
 \begin{align}
     \totder{U_s}{E} = &\frac{2}{3} r_0 \gamma^3 \bigg\{ 2I_2 + \dots\\
     + &\frac{E}{E_0} \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s \bigg\}
 \end{align}
 
 In most practical cases, $E/E_0 \approx 1$. Furthermore, the $h_xh_{0x}x \ll h_x$, so the above may be written as
-
 \begin{align}
     \totder{U_s}{E} = &\frac{2}{3} r_0 \gamma^3 \bigg\{ 2I_2 + \dots\\
     + & \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s \bigg\}
 \end{align}
 
-The last integral is identified as the fourth radiation integral, $I_4$, given by
-
+The last integral is identified as the fourth radiation integral, $I_4$, given by:
 \begin{equation}
     I_4 = \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
 \end{equation}
@@ -2377,69 +2361,57 @@ The last integral is identified as the fourth radiation integral, $I_4$, given b
 \label{sec:enespreadandi3}
 
 From Hofmann, the variance the amplitude of a damped oscillator that is excited by a short pulse $a\delta(t)$ is given by\cite{hofmann2009}
-
 \begin{equation}
     \mean{x^2} = \frac{\dot{n} \mean{a^2}}{4\alpha}
 \end{equation}
 
-Here, $x$ is the deflection of the oscillator, $\dot{n}$ is the average rate at which excitation occurs, $a$ is the amplitude of the excitation and $\alpha$ is the damping rate of the oscillator. For quantum excitation of the longitudinal emittance, we identify $x$ as the RMS energy $\dee E$, $\dot{n}$ as the average rate of photon emission, $a$ as the photon energy and $\alpha$ as $\alpha_\epsilon$, the longitudinal damping rate. The normalised variance is then
-
+Here, $x$ is the deflection of the oscillator, $\dot{n}$ is the average rate at which excitation occurs, $a$ is the amplitude of the excitation and $\alpha$ is the damping rate of the oscillator. For quantum excitation of the longitudinal emittance, we identify $x$ as the RMS energy $\dee E$, $\dot{n}$ as the average rate of photon emission, $a$ as the photon energy and $\alpha$ as $\alpha_\epsilon$, the longitudinal damping rate. The normalised variance is then:
 \begin{equation}
     \frac{\mean{\dee E^2}}{E_0^2} = \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_\epsilon}
     \label{eq:notreallycampbell}
 \end{equation}
 
-The rate of photon emission is given by
-
+The rate of photon emission is given by:
 \begin{equation}
     \dot{n} = \frac{60 \sqrt{3}}{72} \frac{r_0 c Q B}{\hbar}
 \end{equation}
 
-The variance in the photon energy is given by
-
+The variance in the photon energy is given by:
 \begin{equation}
     \mean{E_\gamma^2} = \frac{11}{12} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2}
 \end{equation}
-
 and the longitudinal damping rate is given by {\color{red} LATER JUST REFER TO THE EQUATION THAT CONTAINS THIS!!}
-
 \begin{equation}
     \alpha_\epsilon = \frac{1}{3} \frac{c r_0 \gamma^3}{C_0} \left( 2I_2 + I_4 \right)
 \end{equation}
 
 Combining all these terms leads to
-
 \begin{equation}
     \frac{\mean{\dee E^2}}{E_0^2} = \frac{60 \sqrt{3}}{72} \frac{11}{12} \frac{3}{4} \frac{r_0 c Q B}{\hbar} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2} \frac{C_0}{c r_0 \gamma^3} \frac{1}{2I_2 + I_4}
 \end{equation}
 
 This simplifies to
-
 \begin{equation}
     \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{1}{2I_2 + I_4}
 \end{equation}
 
 The curvature $h$ can be substituted for $B$, which gives
-
 \begin{equation}
     \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 C_0 \frac{h^3}{2I_2 + I_4}
     \label{eq:meanenergydeviation}
 \end{equation}
 
 Now averaging over the entire circumference of the ring gives
-
 \begin{equation}
     \mean{\frac{\mean{\dee E^2}}{E_0^2}}_z = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 C_0 \frac{\frac{1}{C_0}\oint h^3 \ \dee s'}{2I_2 + I_4} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{\oint h^3 \ \dee s'}{2I_2 + I_4}
 \end{equation}
 
 The integral in the numerator can be defined as
-
 \begin{equation}
     I_3 = \oint |h|^3 \ \dee s' = \oint |h|^3 (1 + h_{0x} x + h_{0y}y) \ \dee s
 \end{equation}
 
 This is the third radiation integral. This way, the energy spread becomes
-
 \begin{equation}
     \mean{\frac{\mean{\dee E^2}}{E_0^2}}_z = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{I_3}{2I_2 + I_4}
 \end{equation}
