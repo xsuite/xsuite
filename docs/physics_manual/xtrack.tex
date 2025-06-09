@@ -2321,30 +2321,32 @@ Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the 
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
 
-The curvatures in Equations \eqref{eq:bytocurvx}, \eqref{eq:bxtocurvy} and \eqref{eq:btocurv} can be substituded, which gives:
+The curvatures in Eqs.\,\eqref{eq:bytocurvx}, \eqref{eq:bxtocurvy} and \eqref{eq:btocurv} can be substituded, which gives:
 \begin{equation}
-    \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0}\frac{\gamma m_0 c}{Q} \frac{Q^2}{(\gamma m_0 c)^2} \frac{k_1}{h^2} \frac{\gamma m_0 c}{Q} \left( h_x D_x - h_y D_y \right) \right] = 2 \frac{P_s}{E} \left[ \frac{1}{E} + \frac{1}{E_0} \frac{k_1}{h^2} \left( h_x D_x - h_y D_y \right) \right]
+    \totder{P_s}{E}
+    %= 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0}\frac{\gamma m_0 c}{Q} \frac{Q^2}{(\gamma m_0 c)^2} \frac{k_1}{h^2} \frac{\gamma m_0 c}{Q} \left( h_x D_x - h_y D_y \right) \right] 
+    = 2 \frac{P_s}{E} \left[ \frac{1}{E} + \frac{1}{E_0} \frac{k_1}{h^2} \left( h_x D_x - h_y D_y \right) \right]
     \label{eq:dPdE}
 \end{equation}
 
-Substituting Equation \eqref{eq:instpower} gives:
+Substituting Eq.\,\eqref{eq:instpower} gives:
 \begin{equation}
     \totder{P_s}{E} = \frac{4}{3} c r_0 E \gamma^3 |h|^2 \left[ \frac{1}{E} + \frac{1}{E_0} \frac{k_1}{h^2} \left( h_x D_x - h_y D_y \right) \right] = \frac{4}{3} c r_0 E \gamma^3  \left[ \frac{|h|^2}{E} + \frac{1}{E_0} k_1 \left( h_x D_x - h_y D_y \right) \right]
 \end{equation}
 
-Substituting this expression back in Equation \eqref{eq:dUdEoint} gives:
+Substituting this expression back in Eq.\,\eqref{eq:dUdEoint} gives:
 \begin{align}
     \totder{U_s}{E} = \frac{2}{3} \frac{c r_0 E \gamma^3}{c} \oint \bigg[ &2\frac{|h|^2}{E}(1 + h_{0x}x + h_{0y}y) +
     2\frac{k_1}{E_0} \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) +\\ &\frac{|h|^2}{E_0} (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
 \end{align}
 
-The $c$ in the numerator and denominator cancel. The first term can be identified as $I_2$, such that:
+The first term can be identified as $I_2$, such that:
 \begin{align}
     \totder{U_s}{E} = &\frac{2}{3} r_0 \gamma^3 \bigg\{ 2I_2 + \dots\\
     + &\frac{E}{E_0} \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s \bigg\}
 \end{align}
 
-In most practical cases, $E/E_0 \approx 1$. Furthermore, the $h_xh_{0x}x \ll h_x$, so the above may be written as
+As stated above on the closed orbit we assume $E/E_0 \approx 1$. Furthermore, the $h_xh_{0x}x \ll h_x$, so the above may be written as
 \begin{align}
     \totder{U_s}{E} = &\frac{2}{3} r_0 \gamma^3 \bigg\{ 2I_2 + \dots\\
     + & \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s \bigg\}
