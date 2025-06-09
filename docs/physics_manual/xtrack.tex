@@ -2305,20 +2305,20 @@ The derivatives of the positions w.r.t. $E$ are related to the dispersions throu
     \totder{y}{E} &= \frac{1}{E_0} \totder{y}{\delta} = \frac{1}{E_0} D_y
 \end{align}
 
-Using the fact that $B \sqrt{B_x^2 + B_y^2}$, the derivatives of $B$ w.r.t. $x$ and $y$ are:
+Using the fact that $B = \sqrt{B_x^2 + B_y^2}$, the derivatives of $B$ w.r.t. $x$ and $y$ are:
 \begin{align}
     \partder{B}{x} &= \frac{B_x}{B} \partder{B_x}{x} + \frac{B_y}{B} \partder{B_y}{x}\\
     \partder{B}{y} &= \frac{B_x}{B} \partder{B_x}{y} + \frac{B_y}{B} \partder{B_y}{y}
 \end{align}
 The magnetic field gradients are defined as:
 \begin{align}
-    &\partder{B_y}{x} = \partder{B_x}{y}  = G       = \frac{\gamma m_0 c}{Q} k_1\\
-    &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma m_0 c}{Q} \bar{k}_1
+    &\partder{B_y}{x} = \partder{B_x}{y}  = G       = \frac{\gamma_0 m_0 c}{Q_0} k_1\\
+    &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma_0 m_0 c}{Q_0} \bar{k}_1
 \end{align}
 
-Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component, obtaining:
+Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit we can assume $\gamma\simeq\gamma_0$, obtaining:
 \begin{equation}
-    \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
+    \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
 
 The curvatures in Equations \eqref{eq:bytocurvx}, \eqref{eq:bxtocurvy} and \eqref{eq:btocurv} can be substituded, which gives:
