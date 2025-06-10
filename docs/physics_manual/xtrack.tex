@@ -1153,6 +1153,164 @@ We have the following map (note the change in $\zeta$ is analogous to the drift)
 where $p_z :=  \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y}\right)}^{2} - {\left(\frac{b_{z}}{2} y + p_{x}\right)}^{2}}$, $\theta := \frac{b_{z} L}{2 p_z} $, and $L$ is the length of the thick solenoid.
 
 
+\subsection{Henon map}
+
+The Henon map is a one-turn map representing a circular accelerator with a single sextupolar element. The implementation in xtrack allows for not only sextupolar, but any higher order multipolar element or a combination of many. If many multipoles are used, they are assumed to be at the same phase advance. The implementation also includes first order chromaticity and dispersion in the horizontal plane.
+
+The 4D linear one-turn map of an accelerator in the presence of first order chromaticity and horizontal dispersion can be written as
+\begin{align}
+  \left(\begin{matrix}
+  x \\
+  p_x \\
+  y \\
+  p_y
+  \end{matrix}\right)'=
+  \mathsf{T}\mathsf{R}(\omega_x,\omega_y)\mathsf{T}^{-1}
+  \left(\begin{matrix}
+  x-D\delta p \\
+  p_x-\dot{D}\delta p \\
+  y \\
+  p_y
+  \end{matrix}\right)+
+  \delta p
+  \left(\begin{matrix}
+  D \\
+  \dot{D} \\
+  0 \\
+  0
+  \end{matrix}\right)
+\end{align}
+where $\delta p=\Delta p /p_0$ and the transverse angular frequencies are $\omega_i=\omega_{0,i}+2\pi Q_i'\delta p$ with $i=x,y$ and $Q_i'$ being the first order chromaticities. The linear angular frequencies are denoted by $\omega_{0,i}$. The horizontal dispersion and its derivative are denoted by $D$ and $\dot{D}$, respectively. The matrix $\mathsf{R}(\omega_x,\omega_y)$ is a 4x4 rotation
+\begin{align}
+  \mathsf{R}(\omega_x,\omega_y)=
+  \left(\begin{matrix}
+  \mathsf{R}(\omega_x) & 0 \\
+  0 & \mathsf{R}(\omega_y)
+  \end{matrix}\right)=
+  \left(\begin{matrix}
+  \cos\omega_x & \sin\omega_x & 0 & 0 \\
+  -\sin\omega_x & \cos\omega_x & 0 & 0 \\
+  0 & 0 & \cos\omega_y & \sin\omega_y \\
+  0 & 0 & -\sin\omega_y & \cos\omega_y
+  \end{matrix}\right)
+\end{align}
+The matrix $\mathsf{T}$ represents the transformation into normalized Courant-Snyder coordinates $\mathbf{\hat{x}}=\mathsf{T}^{-1}\mathbf{x}$ and is given by
+\begin{align}
+  \mathsf{T}=
+  \left(\begin{matrix}
+  \mathsf{T}_x & 0 \\
+  0 & \mathsf{T}_y
+  \end{matrix}\right)=
+  \left(\begin{matrix}
+  \beta_x^{1/2} & 0 & 0 & 0 \\
+  -\alpha_x\beta_x^{-1/2} & \beta_x^{-1/2} & 0 & 0 \\
+  0 & 0 & \beta_y^{1/2} & 0 \\
+  0 & 0 & -\alpha_y\beta_y^{-1/2} & \beta_y^{-1/2}
+  \end{matrix}\right)
+\end{align}
+
+The fixed point of this map is $\mathbf{x}_f=(D\delta p,\dot{D}\delta p,0,0)$, and the same in normalized Courant-Snyder coordinates is denoted $\mathbf{\hat{x}}_f$.
+
+The effect of a non-linear multipole kick in the single-kick approximation can be represented by
+\begin{align}
+  \mathsf{K}
+  \left(\begin{matrix}
+  x \\
+  p_x \\
+  y \\
+  p_y
+  \end{matrix}\right)=
+  \left(\begin{matrix}
+  x \\
+  p_x + f_x(x,y) \\
+  y \\
+  p_y + f_y(x,y)
+  \end{matrix}\right)
+\end{align}
+with
+\begin{align}
+  f_x(x,y)&= \mathcal{R}\left[\sum_{n=2}^m\frac{K_n+iJ_n}{n!}(x+iy)^n\right] \\
+  f_y(x,y)&= -\mathcal{I}\left[\sum_{n=2}^m\frac{K_n+iJ_n}{n!}(x+iy)^n\right]
+\end{align}
+where the normal and skew integrated multiple strength are given by
+\begin{align}
+  K_n=\frac{1}{B_0\rho}\frac{\partial^nB_y}{\partial x^n}l\frac{1}{1+\delta p} \quad J_n=\frac{1}{B_0\rho}\frac{\partial^nB_x}{\partial x^n}l\frac{1}{1+\delta p}
+\end{align}
+Note the rescaling with the off-momentum.
+
+In presence of higher order multipoles, the one-turn map becomes
+\begin{align}
+  \left(\begin{matrix}
+  x \\
+  p_x \\
+  y \\
+  p_y
+  \end{matrix}\right)'=
+  \mathsf{T}\mathsf{R}(\omega_x,\omega_y)\mathsf{T}^{-1}
+  \left(\begin{matrix}
+  x-D\delta p \\
+  p_x+f_x(x,y)-\dot{D}\delta p \\
+  y \\
+  p_y+f_y(x,y)
+  \end{matrix}\right)+
+  \delta p
+  \left(\begin{matrix}
+  D \\
+  \dot{D} \\
+  0 \\
+  0
+  \end{matrix}\right)
+\end{align}
+
+Evaluating the matrix product
+\begin{align}
+  \mathsf{T}^{-1}
+  \left(\begin{matrix}
+  x-D\delta p \\
+  p_x+f_x(x,y)-\dot{D}\delta p \\
+  y \\
+  p_y+f_y(x,y)
+  \end{matrix}\right)&=
+  \left(\begin{matrix}
+  \beta_x^{-1/2}x-\beta_x^{-1/2}D\delta p \\
+  \alpha_x\beta_x^{-1/2}x-\alpha_x\beta_x^{-1/2}D\delta p+\beta_x^{1/2}p_x-\beta_x^{1/2}\dot{D}\delta p+\beta_x^{1/2}f_x(x,y)-\dot{D}\delta p \\
+  \beta_y^{-1/2}y \\
+  \alpha_y\beta_y^{-1/2}y+\beta_y^{1/2}p_y+\beta_y^{1/2}f_y(x,y)
+  \end{matrix}\right)= \\
+  &=
+  \left(\begin{matrix}
+  \hat{x}-\hat{x}_f \\
+  \hat{p}_x-\hat{p}_{x,f}+\beta_x^{1/2}f_x(\beta_x^{1/2}\hat{x},\beta_y^{1/2}\hat{y}) \\
+  \hat{y} \\
+  \hat{p}_y+\beta_y^{1/2}f_y(\beta_x^{1/2}\hat{x},\beta_y^{1/2}\hat{y})
+  \end{matrix}\right)
+\end{align}
+gives the representation of the map in normalized Courant-Snyder coordinates as
+\begin{align}
+  \left(\begin{matrix}
+  \hat{x} \\
+  \hat{p}_x \\
+  \hat{y} \\
+  \hat{p}_y
+  \end{matrix}\right)'=
+  \mathsf{R}(\omega_x,\omega_y)
+  \left(\begin{matrix}
+  \hat{x}-\hat{x}_f \\
+  \hat{p}_x-\hat{p}_{x,f}+\beta_x^{1/2}f_x(\beta_x^{1/2}\hat{x},\beta_y^{1/2}\hat{y}) \\
+  \hat{y} \\
+  \hat{p}_y+\beta_y^{1/2}f_y(\beta_x^{1/2}\hat{x},\beta_y^{1/2}\hat{y})
+  \end{matrix}\right)+
+  \left(\begin{matrix}
+  \hat{x}_f \\
+  \hat{p}_{x,f} \\
+  0 \\
+  0
+  \end{matrix}\right)
+\end{align}
+
+Note that the implementation only handles normal multipole elements, not skew ones.
+
+
 %\section{Beam-Beam}
 %
 %The closed expression of an integrated kick experienced by a test particle of charge  $q=Z e$ due to a 2D uncoupled Gaussian charge distribution of total charge $q_b=N_b e$ defined by $\sigma_x, \sigma_y$ and located at $\Delta x, \Delta y$ from the test particle and moving at $v_z=\beta_b c$ from the test particle can be obtained through the use of complex the function \cite{bassetti-erskine}:
