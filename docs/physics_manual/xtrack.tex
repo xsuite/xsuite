@@ -2264,13 +2264,13 @@ The radiation integrals can be used to compute the following quantities
 
     \item Energy spread (unitless):
     \begin{equation}
-        \sigma_\delta^2 = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{I_3}{2I_2 + I_4}
+        \sigma_\delta^2 = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_3}{2I_2 + I_4}
     \end{equation}
 
     \item Transverse equilibrium emittances in [m rad]:
     \begin{align}
-        {\epsilon_x} &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{I_{5x}}{I_2 - I_{4x}}\\
-        {\epsilon_y} &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{I_{5y}}{I_2 - I_{4y}}
+        {\epsilon_x} &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_{5x}}{I_2 - I_{4x}}\\
+        {\epsilon_y} &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_{5y}}{I_2 - I_{4y}}
     \end{align}
 
 
@@ -2689,19 +2689,20 @@ Thus, the expectation on the change in emittance is
 
 Now, Eq.\,\ref{eq:notreallycampbell} can be used, on the transverse coordinate\,\cite{hofmann_2004}:
 \begin{equation}
-    \mean{\dee \epsilon_u} = \curlyH_u \frac{\mean{\dee E^2}}{E_0^2} = \curlyH_u \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_u}
+    \mean{\dee \epsilon_u} = \curlyH_u \frac{\mean{\dee E^2}}{E_0^2}
+    = \curlyH_u \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_u E_0^2}
 \end{equation}
 
 This gives a result, very similar to Eq.\,\ref{eq:meanenergydeviation}
 \begin{equation}
-    \mean{\dee \epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{h^3 \curlyH_u}{I_2 - I_{4u}}
+\mean{\dee \epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{h^3 \curlyH_u}{I_2 - I_{4u}}
 \end{equation}
 
 Integrating over the entire ring gives
 \begin{align}
-    \mean{\epsilon_u} &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2}
+    \mean{\epsilon_u} &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c}
     \frac{1}{I_2 - I_{4u}}\oint h^3 \curlyH_u\ \dee s'\notag\\
-    &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2}
+    &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c}
     \frac{1}{I_2 - I_{4u}}\oint h^3 \curlyH_u\ (1 + h_{0u}u)\ \dee s
 \end{align}
 
@@ -2712,7 +2713,7 @@ Again we assume $h_{0u} u \ll 1$. We can then define the fifth radiation integra
 
 The expectation value of the emittance can be written as:
 \begin{equation}
-    \mean{\epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{I_{5u}}{I_2 - I_{4u}}
+    \mean{\epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_{5u}}{I_2 - I_{4u}}
 \end{equation}
 
 
