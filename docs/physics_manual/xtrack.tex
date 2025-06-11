@@ -2187,58 +2187,45 @@ Xsuite can compute the following radiation integrals:
     &I_{5y} = \oint h^3 \curlyH_y\ \dee s
 \end{align}
 
-
-
-\subsection{Curvatures and path lengths}
-Horizontal curvature of the particle trajectory and relation to the local magnetic field:
-
-\begin{equation}
-    h_x = \frac{B_y Q}{m_0 c \gamma}
-    \label{eq:curvx}
-\end{equation}
-
-\begin{equation}
-    B_y = h_x \frac{m_0 c \gamma}{Q}
-    \label{eq:bytocurvx}
-\end{equation}
-
-Similarly for the vertical curvature:
-
-\begin{equation}
-    h_y = -\frac{B_x Q}{m_0 c \gamma}
-    \label{eq:curvy}
-\end{equation}
-
-\begin{equation}
-    B_x = -h_y \frac{m_0 c \gamma}{Q}
-    \label{eq:bxtocurvy}
-\end{equation}
-
-Total transverse curvature and relation to the transverse magnetic field:
-
+The following quantities are used in the calculation.
+\begin{itemize}
+\item Horizontal and curvature of the particle trajectory:
+\begin{align}
+    &h_x = \frac{B_y Q}{m_0 c \gamma}    \label{eq:curvx}\\
+    &h_y = -\frac{B_x Q}{m_0 c \gamma}   \label{eq:curvy}
+\end{align}
+\item Total transverse curvature and relation to the transverse magnetic field:
 \begin{equation}
     h = \sqrt{h_x^2 + h_y^2}
 \end{equation}
-
+which is related to the transverse magnetic field by:
 \begin{equation}
-    B = \sqrt{B_x^2 + B_y^2}
-\end{equation}
-
-\begin{equation}
-    B = h  \frac{m_0 \beta c \gamma}{Q}
+    B = \sqrt{B_x^2 + B_y^2}  = h  \frac{m_0 \beta c \gamma}{Q}
     \label{eq:btocurv}
 \end{equation}
-
-Relation between particle path length $ds'$ and reference path length $ds$
-reference trajectory curvatures $h_{0x}$ and $h_{0y}$:
-
+\item ``Curly H'' functions:
+\begin{align}
+    \curlyH_x = \gamma_x D_x^2 + 2 \alpha_x D_x D_x' + \beta_x D_x'^2\\
+    \curlyH_y = \gamma_y D_y^2 + 2 \alpha_y D_y D_y' + \beta_y D_y'^2
+\end{align}
+\item The derivative of the dispersion $D'_{x,y}$ can be obtained from the transverse
+momentum dispersion $D_{p_{x,y}}$ using the relation:
+\begin{equation}
+    D'_{x,y} = \totder{D_{x,y}}{s} = \totder{x'}{\delta} =
+      \totder{~}{\delta} \frac{p_{x,y}}{1+\delta} = (1 - \delta)D_{p_{x,y}} - p_{x,y}
+    \label{eq:ddispder}
+\end{equation}
+\item $h_{0x}$ and $h_{0y}$ are the curvatures of the reference trajectory. The path
+length on the particle trajectory is related to the path length on the reference trajectory by:
 \begin{equation}
     \dee s' = (1 + h_{0x}x + h_{0y}y)\ \dee s
     \label{eq:pathlength}
 \end{equation}
+\end{itemize}
 
 
-\subsection{Energy Loss and Second Radiation Integral}
+\subsection{Derivations}
+\subsubsection{Energy Loss and Second Radiation Integral}
 \label{sec:enelossandi2}
 
 From the instantaneous radiated power,
@@ -2263,7 +2250,7 @@ where we have defined the second radiation integral:
 I_2     = \oint |h|^2 \ \dee s
 \end{equation}
 
-\subsection{Longitudinal Damping Rate and Fourth Radiation Integral}
+\subsubsection{Longitudinal Damping Rate and Fourth Radiation Integral}
 \label{sec:longdampandi4}
 
 Following Hofmann's analysis, the longitudinal damping rate can be written as \cite{hofmann_2004}:
@@ -2366,7 +2353,7 @@ The longitudinal damping rate is obtained by substituting this expression in Eq.
 \end{equation}
 
 
-\subsection{Energy Spread and Third Radiation Integral}
+\subsubsection{Energy Spread and Third Radiation Integral}
 \label{sec:enespreadandi3}
 
 From Hofmann, the variance in the amplitude of a damped oscillator that is excited by a short pulse $a\delta(t)$ is given by \cite{hofmann_2004}:
@@ -2421,7 +2408,7 @@ This is the third radiation integral. This way, the energy spread becomes
     \mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{I_3}{2I_2 + I_4}
 \end{equation}
 
-\subsection{Transverse Damping Rates}
+\subsubsection{Transverse Damping Rates}
 \label{sec:transversedamping}
 
 The derivation in this section is valid for either $x$ or $y$. To this end, $u$ will be used as a substitute for either $x$ or $y$. The goal is to find the rate at which the transverse emittance, $\epsilon_u$, decreases. The emittance is given by
@@ -2598,7 +2585,7 @@ Since the betatron amplitude is proportional to $\sqrt{\epsilon_u}$, the 2 in th
     \alpha_u = \frac{c r_0 \gamma^3}{3C_0} (I_2 - I_{4u})
 \end{equation}
 
-\subsection{Transverse Equilibrium Emittances and the Fifth Radiation Integral}
+\subsubsection{Transverse Equilibrium Emittances and the Fifth Radiation Integral}
 \label{sec:transverseeqemiti5}
 
 The derivation in this section is valid for either $x$ or $y$. To this end, $u$ will be used as a substitute for either $x$ or $y$. The change in betatron position and angle when a photon is emitted, denoted by $u_\beta$ and $u_\beta'$ respectively, are given by
