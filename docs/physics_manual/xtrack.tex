@@ -2415,7 +2415,7 @@ From Hofmann, the variance in the amplitude of a damped oscillator that is excit
 
 Here, $x$ is the deflection of the oscillator, $\dot{n}$ is the average rate at which excitation occurs, $a$ is the amplitude of the excitation and $\alpha$ is the damping rate of the oscillator. For quantum excitation of the longitudinal emittance, we identify $x$ as the RMS energy $\dee E$, $\dot{n}$ as the average rate of photon emission, $a$ as the photon energy and $\alpha$ as $\alpha_\epsilon$, the longitudinal damping rate. The normalised variance is then:
 \begin{equation}
-    \frac{\mean{\dee E^2}}{E_0^2} = \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_\epsilon}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_\epsilon E_0^2}
     \label{eq:notreallycampbell}
 \end{equation}
 
@@ -2431,23 +2431,24 @@ The variance in the photon energy is given by:
 and the longitudinal damping rate is given by Eq.\,\eqref{eq:alphadampfinal}:
 Combining all these terms leads to
 \begin{equation}
-    \frac{\mean{\dee E^2}}{E_0^2} = \frac{60 \sqrt{3}}{72} \frac{11}{12} \frac{3}{4} \frac{r_0 c Q B}{\hbar} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2} \frac{C_0}{c r_0 \gamma^3} \frac{1}{2I_2 + I_4}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{60 \sqrt{3}}{72} \frac{11}{12} \frac{3}{4} \frac{r_0 c Q B}{\hbar} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2 E_0^2} \frac{C_0}{c r_0 \gamma^3} \frac{1}{2I_2 + I_4}
 \end{equation}
 
 This simplifies to
 \begin{equation}
-    \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{1}{2I_2 + I_4}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2 E_0^2} \frac{1}{2I_2 + I_4}
 \end{equation}
 
 The curvature $h$ can be substituted for $B$, which gives
 \begin{equation}
-    \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 C_0 \frac{h^3}{2I_2 + I_4}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96}
+    \frac{\hbar m_0 \gamma^4 c^3 C_0}{E_0^2} \frac{h^3}{2I_2 + I_4}
     \label{eq:meanenergydeviation}
 \end{equation}
 
 Now averaging over the entire circumference of the ring gives
 \begin{equation}
-    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 C_0 \frac{\frac{1}{C_0}\oint h^3 \ \dee s'}{2I_2 + I_4} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{\oint h^3 \ \dee s'}{2I_2 + I_4}
+    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2 C_0}{m_0 c} \frac{\frac{1}{C_0}\oint h^3 \ \dee s'}{2I_2 + I_4} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{\oint h^3 \ \dee s'}{2I_2 + I_4}
 \end{equation}
 
 The integral in the numerator can be defined as
@@ -2457,7 +2458,7 @@ The integral in the numerator can be defined as
 
 This is the third radiation integral. This way, the energy spread becomes
 \begin{equation}
-    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{I_3}{2I_2 + I_4}
+\mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_3}{2I_2 + I_4}
 \end{equation}
 
 \subsubsection{Transverse Damping Rates}
