@@ -2175,9 +2175,21 @@ In the ultra-relativistic approximation:
 
 \section{Radiation integrals}
 
+Xsuite can compute the following radiation integrals:
+\begin{align}
+    &I_1 = \oint \left( h_{0x} D_x + h_{0y} D_y \right)\ \dee s\\
+    &I_2 = \oint |h|^2 \ \dee s\\
+    &I_3 = \oint |h|^3 \ \dee s\\
+    &I_{4x} = \oint \left( |h|^2 h_{0x} + 2 h_x k_1 \right) D_x\ \dee s\\
+    &I_{4y} = \oint \left( |h|^2 h_{0y} - 2 h_y k_1 \right) D_y\ \dee s\\
+    &I_4 = I_{4x} + I_{4y} = \oint \left[ 2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y) \right] \ \dee s\\
+    &I_{5x} = \oint h^3 \curlyH_x\ \dee s\\
+    &I_{5y} = \oint h^3 \curlyH_y\ \dee s
+\end{align}
+
+
+
 \subsection{Curvatures and path lengths}
-
-
 Horizontal curvature of the particle trajectory and relation to the local magnetic field:
 
 \begin{equation}
