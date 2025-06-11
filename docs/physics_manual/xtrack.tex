@@ -2223,6 +2223,53 @@ length on the particle trajectory is related to the path length on the reference
 \end{equation}
 \end{itemize}
 
+The radiation integrals can be used to compute the following quantities:
+\begin{itemize}
+    \item Momentum compaction factor (unitless):
+    \begin{equation}
+        \alpha_c = \frac{I_1}{C_0}
+    \end{equation}
+
+    \item Energy loss per turn [Js$^{-1}$]:
+    \begin{equation}
+        U_s = \frac{2}{3} c r_0 E_0 \gamma^3 I_2
+    \end{equation}
+
+    \item Damping partition numbers:
+    \begin{align}
+        J_x &= 1 - \frac{I_{4x}}{I_2}\\
+        J_y &= 1 - \frac{I_{4y}}{I_2}\\
+        J_z &= 2 + \frac{I_4}{I_2}
+    \end{align}
+    which satisfy Robinson's theorem:
+    \begin{equation}
+        J_x + J_y + J_z = 4
+    \end{equation}
+
+    \item Longitudinal damping rate in [s$^{-1}$]:
+    \begin{equation}
+        \alpha_\epsilon = \frac{c r_0 \gamma^3}{3 C_0} (2I_2 + I_4)
+    \end{equation}
+
+    \item Transverse damping rates in [s$^{-1}$]:
+    \begin{align}
+        \alpha_x &= \frac{c r_0 \gamma^3}{3C_0} (I_2 - I_{4x})\\
+        \alpha_y &= \frac{c r_0 \gamma^3}{3C_0} (I_2 - I_{4y})
+    \end{align}
+
+    \item Energy spread (unitless):
+    \begin{equation}
+        \sigma_\delta^2 = \frac{55 \sqrt{3}}{96} \hbar m_0 \gamma^4 c^3 \frac{I_3}{2I_2 + I_4}
+    \end{equation}
+
+    \item Transverse equilibrium emittances in [m rad]:
+    \begin{align}
+        {\epsilon_x} &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{I_{5x}}{I_2 - I_{4x}}\\
+        {\epsilon_y} &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{I_{5y}}{I_2 - I_{4y}}
+    \end{align}
+
+
+\end{itemize}
 
 \subsection{Derivations}
 \subsubsection{Energy Loss and Second Radiation Integral}
@@ -2309,7 +2356,7 @@ Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the 
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
 
-The curvatures in Eqs.\,\eqref{eq:bytocurvx}, \eqref{eq:bxtocurvy} and \eqref{eq:btocurv} can be substituded, which gives:
+The curvatures in Eqs.\,\eqref{eq:curvx}, \eqref{eq:curvy} and \eqref{eq:btocurv} can be substituded, which gives:
 \begin{equation}
     \totder{P_s}{E}
     %= 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0}\frac{\gamma m_0 c}{Q} \frac{Q^2}{(\gamma m_0 c)^2} \frac{k_1}{h^2} \frac{\gamma m_0 c}{Q} \left( h_x D_x - h_y D_y \right) \right]
@@ -2327,7 +2374,7 @@ Substituting Eq.\,\eqref{eq:instpower} gives:
 Substituting this expression back in Eq.\,\eqref{eq:dUdEoint} gives:
 \begin{align}
     \totder{U_s}{E} = \frac{2}{3} \frac{c r_0 E \gamma^3}{c} \oint \bigg[ &2\frac{|h|^2}{E}(1 + h_{0x}x + h_{0y}y) +
-    2\frac{k_1}{E_0} \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) +\\ &\frac{|h|^2}{E_0} (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
+    2\frac{k_1}{E_0} \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) \notag\\ &+ \frac{|h|^2}{E_0} (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
 \end{align}
 
 The first term can be identified as $I_2$, again we assume that $h_{0x}x + h_{0y}y \ll 1$ and, as stated above on the closed orbit we assume $E/E_0 \approx 1$. Hence, we can write:
@@ -2510,20 +2557,20 @@ The radiated power then becomes
 
 The energy radiated in a time interval $\dee s' / c$ is then given by
 \begin{align}
-    \dee E_\gamma = P_{s'} \frac{\dee s'}{c} &= \frac{P_s}{c} \left[ 1 + 2 \frac{h_u}{h^2} k_1 u_\beta \right]\ \dee s'\\
-                                             &= \frac{P_s}{c} \left[ 1 + 2 \frac{h_u}{h^2} k_1 u_\beta \right]\ (1 + h_{0u} u_\beta)\ \dee s\\
+    \dee E_\gamma = P_{s'} \frac{\dee s'}{c} &= \frac{P_s}{c} \left[ 1 + 2 \frac{h_u}{h^2} k_1 u_\beta \right]\ \dee s' \notag\\
+                                             &= \frac{P_s}{c} \left[ 1 + 2 \frac{h_u}{h^2} k_1 u_\beta \right]\ (1 + h_{0u} u_\beta)\ \dee s \notag\\
                                              &= \frac{P_s}{c} \left[ 1 + \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) u_\beta \right]\ \dee s
 \end{align}
 
 Here, only the $u$-component of $h_0$ was used, because we study betatron oscillations only in the selected place. Furthermore, terms of second order in $u_\beta$ were neglected. This result can be substituted back in Eq.\,\ref{eq:changeinemittance}, which gives
 \begin{align}
-    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\left[ 1 + \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) u_\beta \right] \times \dots \\
-                    & \left[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right)  - \left( \gamma_u D_u u_\beta + \alpha_x (D_u u_\beta' + D_u' u_\beta) + \beta_u D_u' u_\beta' \right)\right] \ \dee s
+    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\left[ 1 + \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) u_\beta \right]  \notag \\
+                    & \times \left[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right)  - \left( \gamma_u D_u u_\beta + \alpha_x (D_u u_\beta' + D_u' u_\beta) + \beta_u D_u' u_\beta' \right)\right] \ \dee s
 \end{align}
 
 Using the same reasoning as before, the odd terms average to zero. This means only the even terms need to be kept. This results in
 \begin{align}
-    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\bigg[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right) \\
+    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\bigg[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right) \notag\\
     &- \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) \left( \gamma_u D_u u_\beta^2 + \alpha_x (D_u u_\beta u_\beta' + D_u' u_\beta^2) + \beta_u D_u' u_\beta u_\beta' \right) \bigg]\ \dee s
 \end{align}
 
@@ -2536,7 +2583,7 @@ The averages of the squared terms are
 
 Substituting these averages gives
 \begin{align}
-    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\bigg[ \left( - \frac{1}{2} \alpha_u^2 \epsilon_u + \frac{1}{2} \beta_u \gamma_u \epsilon_u \right) \\
+    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\bigg[ \left( - \frac{1}{2} \alpha_u^2 \epsilon_u + \frac{1}{2} \beta_u \gamma_u \epsilon_u \right) \notag \\
     &- \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) \left( \frac{1}{2} \gamma_u \beta_u \epsilon_u D_u  + \alpha_x \left(-\frac{1}{2} \alpha_u \epsilon_u D_u + \frac{1}{2} \beta_u \epsilon_u D_u' \right) - \frac{1}{2} \alpha_u \beta_u \epsilon_u D_u' \right) \bigg]\ \dee s
 \end{align}
 
@@ -2562,7 +2609,6 @@ Finally, Eq.\,\ref{eq:instpower} may be substituted, which results in
 \end{equation}
 
 Here, the second radiation integral is identified. Furthermore, the $u$-component of the fourth radiation integral is found to be
-
 \begin{equation}
     I_{4u} = \oint \left( h^2 h_{0u} + 2 h_u k_1 \right) D_u\ \dee s
 \end{equation}
@@ -2603,20 +2649,20 @@ Here, $\delta E$ is the energy carried away by the photon. The emittance before 
 
 After the emission of the photon, the emittance has increased. The resulting emittance, $\epsilon_{u2}$ is
 \begin{align}
-    \epsilon_{u2}   &= \gamma_u (u_\beta + \delta u_\beta)^2 + 2 \alpha_u (u_\beta + \delta u_\beta)(u_\beta' + \delta u_\beta') + \beta_u (u_\beta' + \delta u_\beta')^2\\
-                    &= \epsilon_{u1} + 2 \left( \gamma_u u_\beta \delta u_\beta + \alpha_u (u_\beta \delta u_\beta' + u_\beta' \delta u_\beta) + \beta_u u_\beta' \delta u_\beta' \right)\\
+    \epsilon_{u2}   &= \gamma_u (u_\beta + \delta u_\beta)^2 + 2 \alpha_u (u_\beta + \delta u_\beta)(u_\beta' + \delta u_\beta') + \beta_u (u_\beta' + \delta u_\beta')^2 \notag\\
+                    &= \epsilon_{u1} + 2 \left( \gamma_u u_\beta \delta u_\beta + \alpha_u (u_\beta \delta u_\beta' + u_\beta' \delta u_\beta) + \beta_u u_\beta' \delta u_\beta' \right)\notag \\
                     &+ \gamma_u \delta u_\beta^2 + 2 \alpha_u \delta u_\beta \delta u_\beta' + \beta_u \delta u_\beta^2
 \end{align}
 
 The change in the emittance is then
 \begin{align}
-    \dee \epsilon_u = \epsilon_{u2} - \epsilon_{u1} &= 2 \left( \gamma_u u_\beta \dee u_\beta + \alpha_u (u_\beta \dee u_\beta' + u_\beta' \dee u_\beta) + \beta_u u_\beta' \dee u_\beta' \right)\\
+    \dee \epsilon_u = \epsilon_{u2} - \epsilon_{u1} &= 2 \left( \gamma_u u_\beta \dee u_\beta + \alpha_u (u_\beta \dee u_\beta' + u_\beta' \dee u_\beta) + \beta_u u_\beta' \dee u_\beta' \right)\notag\\
                     &+ \gamma_u \dee u_\beta^2 + 2 \alpha_u \dee u_\beta \dee u_\beta' + \beta_u \dee u_\beta'^2
 \end{align}
 
 Equations \eqref{eq:deltaubeta} and \eqref{eq:deltaubetaprime} can now be substituted. which results in
 \begin{align}
-    \dee \epsilon_u &= \left( \gamma_u D_u^2 + 2 \alpha_u D_u D_u' + \beta_u D_u'^2 \right) \left( \frac{\dee E_\gamma}{E_0} \right)^2 +\\
+    \dee \epsilon_u &= \left( \gamma_u D_u^2 + 2 \alpha_u D_u D_u' + \beta_u D_u'^2 \right) \left( \frac{\dee E_\gamma}{E_0} \right)^2 \notag\\
                     &+ 2 \left( \gamma_u u_\beta D_x + \alpha_u \left( u_\beta D_x' + u_\beta' D_x \right) + \beta_u u_\beta'D_x' \right) \frac{\dee E\gamma}{E_0}
 \end{align}
 
