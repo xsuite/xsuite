@@ -2647,16 +2647,19 @@ This gives a result, very similar to Eq.\,\ref{eq:meanenergydeviation}
 \end{equation}
 
 Integrating over the entire ring gives
+\begin{align}
+    \mean{\epsilon_u} &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2}
+    \frac{1}{I_2 - I_{4u}}\oint h^3 \curlyH_u\ \dee s'\notag\\
+    &= \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2}
+    \frac{1}{I_2 - I_{4u}}\oint h^3 \curlyH_u\ (1 + h_{0u}u)\ \dee s
+\end{align}
+
+Again we assume $h_{0u} u \ll 1$. We can then define the fifth radiation integral, $I_{5u}$, as follows:
 \begin{equation}
-    \mean{\epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{\oint h^3 \curlyH_u\ \dee s'}{I_2 - I_{4u}}
+    I_{5u} = \oint h^3 \curlyH_u\ \dee s
 \end{equation}
 
-We define the fifth radiation integral, $I_{5u}$, as followes:
-\begin{equation}
-    I_{5u} = \oint h^3 \curlyH_u\ \dee s' = \oint h^3 \curlyH_u\ (1 + h_{0u})\ \dee s
-\end{equation}
-
-The expectation value of the emittance then becomes
+The expectation value of the emittance can be written as:
 \begin{equation}
     \mean{\epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2} \frac{I_{5u}}{I_2 - I_{4u}}
 \end{equation}
