@@ -1152,6 +1152,40 @@ We have the following map (note the change in $\zeta$ is analogous to the drift)
 \end{align*}
 where $p_z :=  \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y}\right)}^{2} - {\left(\frac{b_{z}}{2} y + p_{x}\right)}^{2}}$, $\theta := \frac{b_{z} L}{2 p_z} $, and $L$ is the length of the thick solenoid.
 
+\subsection{Tilted solenoid}
+
+From solenoid frame (x'-z') to beam frame (x-z) we have the following transformation:
+\begin{align}
+x &= x' \cos\theta - z' \sin\theta \\
+z &= x' \sin\theta + z' \cos\theta
+\end{align}
+
+The inverse transformation is:
+\begin{align}
+x' &= x \cos\theta + z \sin\theta \\
+z' &= -x \sin\theta + z \cos\theta
+\end{align}
+
+We write the potential for solenoid with longitudinal field dependent on $z$:
+\begin{align}
+A_{x'} &= -\frac{B_A(z')}{2} \, y' \\
+A_{y'} &= \frac{B_A(z')}{2} \, x' \\
+A_{z'} &= 0
+\end{align}
+
+We compute the components in the beam frame:
+\begin{align}
+A_x &= \cos\theta \cdot A_{x'} - \sin\theta \cdot A_{z'} 
+    %= \cos\theta \left(-\frac{B_A(z')}{2} y \right) - \sin\theta \cdot 0 
+    = -\frac{B_A(z')}{2} \, y \cos\theta \\
+A_y &= A_{y'}
+    %= \frac{B_A(z')}{2} x' 
+    = \frac{B_A(z')}{2} (x \cos\theta + z \sin\theta) \\
+A_z &= \sin\theta \cdot A_{x'} + \cos\theta \cdot A_{z'} 
+    %= \sin\theta \left(-\frac{B_A(z')}{2} y \right) + \cos\theta \cdot 0 
+    = -\frac{B_A(z')}{2} \, y \sin\theta
+\end{align}
+
 
 %\section{Beam-Beam}
 %
