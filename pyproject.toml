@@ -22,7 +22,7 @@ authors = [
 ]
 description = "Integrated suite for particle accelerator simulations."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {file = "LICENSE"}
 dependencies = [
     "xtrack==0.84.6",
