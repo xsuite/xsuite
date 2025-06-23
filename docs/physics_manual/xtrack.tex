@@ -1175,16 +1175,20 @@ A_{z'} &= 0
 
 We compute the components in the beam frame:
 \begin{align}
-A_x &= \cos\theta \cdot A_{x'} - \sin\theta \cdot A_{z'} 
-    %= \cos\theta \left(-\frac{B_A(z')}{2} y \right) - \sin\theta \cdot 0 
-    = -\frac{B_A(z')}{2} \, y \cos\theta \\
-A_y &= A_{y'}
-    %= \frac{B_A(z')}{2} x' 
-    = \frac{B_A(z')}{2} (x \cos\theta + z \sin\theta) \\
-A_z &= \sin\theta \cdot A_{x'} + \cos\theta \cdot A_{z'} 
-    %= \sin\theta \left(-\frac{B_A(z')}{2} y \right) + \cos\theta \cdot 0 
-    = -\frac{B_A(z')}{2} \, y \sin\theta
+&A_x = \cos\theta \cdot A_{x'} - \sin\theta \cdot A_{z'} \\
+&A_y = A_{y'} \\
+&A_z = \sin\theta \cdot A_{x'} + \cos\theta \cdot A_{z'}
 \end{align}
+
+Replacing the coordinates $x', y', z'$ and using the notation abuse
+$B_A(z) = B_A(z\,/\cos \theta)$, we obtain:
+\begin{align}
+&A_x = -\frac{B_A(z)}{2} \, y \cos\theta \\
+&A_y = \frac{B_A(z)}{2} x \cos\theta + \frac{B_A(z)}{2} z \sin\theta \\
+&A_z = -\frac{B_A(z)}{2} \, y \sin\theta
+\end{align}
+
+
 
 
 %\section{Beam-Beam}
