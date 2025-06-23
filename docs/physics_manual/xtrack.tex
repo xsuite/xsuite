@@ -1205,15 +1205,45 @@ A_z &= -B_A(z) \, y \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z y \sin\theta
 
 From this we compute the field $\mathbf{B} = \nabla \times \mathbf{A}$:
 \begin{align}
-B_x &= - \frac{1}{2} \frac{dB_A}{dz} \, x \cos\theta - B_A(z) \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z \sin\theta  \\
-B_y &= -\frac{1}{2} \frac{dB_A}{dz} \, y \cos\theta \\
-B_z &= B_A(z) \cos\theta
+B_x(x,y,z) &= -\frac{1}{2} \frac{dB_A}{dz} \, x \cos\theta - B_A(z) \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z \sin\theta  \\
+B_y(x,y,z) &= -\frac{1}{2} \frac{dB_A}{dz} \, y \cos\theta \\
+B_z(x,y,z) &= B_A(z) \cos\theta
 \end{align}
 
+We call
+\begin{align}
+&\boxed{B_{x0}(z) = B_x(0,0,z) = -B_A(z) \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z \sin\theta }\\
+&\boxed{B_{z0}(z) = B_z(0,0,z) = B_A(z) \cos\theta}
+\end{align}
 
+We can use the above to express the field:
+\begin{align}
+&\boxed{B_x(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, x  + B_{x0}(z)} \\
+&\boxed{B_y(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, y} \\
+&\boxed{B_z(x,y,z) = B_{z0}(z)}
+\end{align}
+and to expres the vector potential:
+\begin{align}
+&\boxed{A_x = -\frac{B_{z0}(z)}{2} \, y}\\
+&\boxed{A_y = \frac{B_{z0}(z)}{2} \, x}\\
+&\boxed{A_z = B_{x0}(z) y}
+\end{align}
 
+\subsubsection{Generalization to arbitrary tilt and dipolar components}
 
-
+If the tilt is not in the $x-z$ plane, and if additional dipolar components are present,
+we can generalize the above obtaining the following vector potential:
+\begin{align}
+&\boxed{A_x = -\frac{B_{z0}(z)}{2} \, y}\\
+&\boxed{A_y = \frac{B_{z0}(z)}{2} \, x}\\
+&\boxed{A_z = B_{x0}(z) y - B_{y0}(z) x}
+\end{align}
+The corresponding magnetic field is:
+\begin{align}
+&\boxed{B_x(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, x  + B_{x0}(z)} \\
+&\boxed{B_y(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, y + B_{y0}(z)} \\
+&\boxed{B_z(x,y,z) = B_{z0}(z)}
+\end{align}
 %\section{Beam-Beam}
 %
 %The closed expression of an integrated kick experienced by a test particle of charge  $q=Z e$ due to a 2D uncoupled Gaussian charge distribution of total charge $q_b=N_b e$ defined by $\sigma_x, \sigma_y$ and located at $\Delta x, \Delta y$ from the test particle and moving at $v_z=\beta_b c$ from the test particle can be obtained through the use of complex the function \cite{bassetti-erskine}:
