@@ -75,3 +75,6 @@ These include:
 - PyPIC
 - PySSD
 - PTC
+
+References to literature used in the development of the code can be found in
+bibliography of the :doc:`Xsuite Physics Guide <physicsguide>`.
