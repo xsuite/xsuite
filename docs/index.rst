@@ -43,6 +43,7 @@ The source code is available in these `GitHub repositories <https://github.com/x
    jupyter_tutorials
    community
    citing
+   contributors_acknowledgements
 
 Citing Xsuite
 -------------
