@@ -1,6 +1,16 @@
 Contributors and acknowledgements
 =================================
 
+Xsuite is developed primarily at CERN with the support of the Swiss Accelerator
+Research and Technology (CHART) program.
+
+.. figure:: figures/cern_and_chart.png
+    :width: 60%
+    :align: center
+
+Contributors
+------------
+
 The following people contributed to the development of this package:
 
 From CERN:
@@ -43,3 +53,22 @@ From other institutes:
    implement `BeamSizeMonitor`, implement `BeamProfileMonitor`,
    implement `BeamPositionMonitor`,
  - Leon Van Riesen-Haupt (EPFL, Switzwerland) checks on synchrotron radiation spectrum.
+
+Accelerator physics software
+----------------------------
+
+Xsuite is built on the experience of several pre-existing software packages
+(through their documentation, examples and source code). These include:
+- BMAD
+- COMBI
+- GUINEA-PIG
+- HEADTAIL
+- MAD-NG
+- MAD-X
+- Sixtrack
+- Sixtracklib
+- PyHEADTAIL
+- PyWIT
+- PyPIC
+- PySSD
+- PTC
