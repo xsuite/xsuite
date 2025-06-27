@@ -58,7 +58,9 @@ Accelerator physics software
 ----------------------------
 
 Xsuite is built on the experience of several pre-existing software packages
-(through their documentation, examples and source code). These include:
+(a great deal could be learnt from  documentation, examples and source code).
+These include:
+
 - BMAD
 - COMBI
 - GUINEA-PIG
@@ -67,6 +69,7 @@ Xsuite is built on the experience of several pre-existing software packages
 - MAD-X
 - Sixtrack
 - Sixtracklib
+- PLACET
 - PyHEADTAIL
 - PyWIT
 - PyPIC
