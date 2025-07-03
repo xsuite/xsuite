@@ -48,7 +48,7 @@ ONLY_XTRACK_ELEMENTS = [
     Cavity,
     Elens,
     Wire,
-    LegacySolenoid,
+    Solenoid,
     VariableSolenoid,
     UniformSolenoid,
     RFMultipole,
