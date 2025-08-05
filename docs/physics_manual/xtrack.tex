@@ -607,58 +607,8 @@ The map for a thin dipole kick (horizontal or vertical) from the expanded Hamilt
  %         ((one + bet0*track(6,jtrk))/ttt) * bet0i
 
 
-\subsection{Dipole fringe field}
 
-The dipole fringe field implementation is based on \cite{forest-fringe-1}.
-Additional information can be found in \cite{silke_cap}.
 
-\begin{align*}
-x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
-p_{x,f} &= p_x \\
-y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
-p_{y,f} &= p_y - \psi y_f - \frac{b_0^2}{9 K g (1 + \delta)} y_f^3 \\
-\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
-\delta_f &= \delta
-\end{align*}
-
-with:
-\begin{equation}
-\psi = b_0 \tan \left[ 
-\arctan \left( \frac{x'}{1 + y'^2} \right) 
-- g b_0 K \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
-\right]
-\end{equation}
-where $b_0$ is the normalized magnetic field, $g$ is the magnet gap and $K$ is
-the fringe field integral:
-\begin{equation}
-K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(b_0 - b(s)\bigr)}{g b_0^{2}} \, ds
-\end{equation}
-
-\subsection{Combined dipole quadrupole}
-
-The following vector potential in curvilinear coordinates
-\begin{align}
-A_s= -\frac{g}{1+h x}
-    \left(\frac{x^2}{2} - \frac{y^2}{2} +
-          \frac{h x^3}{3} \right)
-\end{align}
-produce a field 
-\begin{align}
-B_x&= g \left(y + \frac{h x y}{1+h x} \right) &
-B_y&= g x 
-\end{align}
-
-The following vector potential in curvilinear coordinates
-\begin{align}
-A_s= -\frac{g}{1+h x}
-    \left(\frac{x^2}{2} - \frac{y^2}{2} +
-          \frac{h x^3}{3} -   \frac{h x y^2}{2} \right)
-\end{align}
-produce a field 
-\begin{align}
-B_x&= g y &
-B_y&= g \left(x + \frac{h y^2}{2+2 h x} \right) 
-\end{align}
 
 
 \subsection{Thin Multipole}
@@ -1191,18 +1141,6 @@ Step 8. Negative drift of length $L=\frac{embl}{2}$.
 \end{align*}
 
 
-\subsection{Misalignment}
-
-Misalignments of elements affects the coordinates at the entrance of an
-element as follows
-\begin{align*}
-    x &\to (x-x_s)\cdot t_c + (y-y_s)\cdot t_s \\
-    y &\to -(x-x_s)\cdot t_s + (y-y_s)\cdot t_c,
-\end{align*}
-where $x_s$ and $y_s$ are the displacements in the horizontal and vertical
-directions, respectively. $t_c$ and $t_s$ are the cosine and sine of the tilt
-angle for the element.
-
 \subsection{Electron Lens}
 \label{elense}
 \subsubsection{Hollow electron lens - uniform annular profile}
@@ -1360,6 +1298,63 @@ An additional effect due to space charge is the rotation of the electron beam ar
 \end{equation}
 This effect can also be disabled by setting "space charge factor" to zero. A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
 
+\subsection{Dipole fringe field}
+
+The dipole fringe field implementation is based on \cite{forest-fringe-1}.
+Additional information can be found in \cite{silke_cap}.
+
+\begin{align*}
+x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
+p_{x,f} &= p_x \\
+y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
+p_{y,f} &= p_y - \psi y_f - \frac{b_0^2}{9 K g (1 + \delta)} y_f^3 \\
+\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
+\delta_f &= \delta
+\end{align*}
+
+with:
+\begin{equation}
+\psi = b_0 \tan \left[
+\arctan \left( \frac{x'}{1 + y'^2} \right)
+- g b_0 K \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
+\right]
+\end{equation}
+where $b_0$ is the normalized magnetic field, $g$ is the magnet gap and $K$ is
+the fringe field integral:
+\begin{equation}
+K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(b_0 - b(s)\bigr)}{g b_0^{2}} \, ds
+\end{equation}
+
+\section{Dipole wedge}
+
+The following map can be used to move the observation plane by an angle $\theta$
+in a uniform dipole field~\cite{forest99}.
+
+\begin{align}
+x(\theta) &= x \cos\theta 
++ \frac{ x p_x \sin(2\theta) + \sin^2\theta \left( 2x \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - b_0 x^2 \right) }
+{\sqrt{(1+\delta)^2 - p_x(\theta)^2 - p_y^2} + \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} \cos\theta - p_x \sin\theta} 
+\\[1ex]
+p_x(\theta) &= p_x \cos\theta + \left( \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - b_0 x \right) \sin\theta
+\\[1ex]
+y(\theta) &= y + \frac{p_y}{b_0} \theta 
++ \frac{p_y}{b_0} \left( 
+\sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
+- \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
+\right)
+\\[1ex]
+p_y(\theta) &= p_y
+\\[1ex]
+\delta(\theta) &= \delta
+\\[1ex]
+\ell(\theta) &= \ell + \frac{(1+\delta)}{b_0} \theta
++ \frac{(1+\delta)}{b_0} \left(
+\sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
+- \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
+\right)
+\end{align}
+
+where $b_0$ is the normalized magnetic field.
 
 \chapter{Linear optics calculations}
 \label{opt}
