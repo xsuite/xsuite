@@ -1381,7 +1381,7 @@ where
 p_z = \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}.
 \end{equation}
 
-\subsection{Multipole fringe}
+\subsection{Multipole fringe field}
 
 The fringe field effect for multipole magnets is implemented as described in 
 \cite{forest99}.
@@ -1415,6 +1415,63 @@ p_y &= p_y^f - \frac{p_x^f (\partial_y f^x) + p_y^f (\partial_y f^y)}{1+\delta} 
 \end{subequations}
 It is solved by inverting Eqs.~\eqref{eq:fringe_px} and \eqref{eq:fringe_py}
 simultaneously for the final transverse momenta.
+
+\subsection{Quadrupolar correction for wedge and Y rotation}
+
+If the wedge or Y rotation take place in the presence of a quadrupole field,
+the following correction is applied to the transverse momenta:
+\begin{align}
+p_x^f &= p_x - b_2 x^2 \theta + b_2 \frac{y^2}{2} \theta 
+\label{eq:pxf}
+\\
+p_y^f &= p_y + b_2 x y \theta
+\label{eq:pyf}
+\end{align}
+
+\subsubsection*{Derivation}
+(by S. Van der Schueren)
+
+In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
+\begin{equation}
+H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x) 
+\left( 
+\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} 
+- \frac{x + \frac{h}{2} x^2}{1 + h x} b_1 + b_2 \frac{y^2}{2} - \frac{b_2 h x^3}{3} + \frac{b_2 x^2}{2(hx+1)}
+\right)
+\label{eq:Htau}
+\end{equation}
+which we can split in perturbation theory into:
+\begin{align}
+H_1 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_1 
+\label{eq:H1}
+\\
+H_2 &= -(1 + h x) b_2 \frac{y^2}{2} + \left( b_2 h \frac{x^3}{3} + b_2 \frac{x^2}{2} \right)
+\label{eq:H2}
+\end{align}
+
+The Hamiltonian $H_1$ leads to the dipole wedge (or a dynamical rotation if $b_1 = 0$). 
+The Hamiltonian $H_2$ has equations of motion:
+\begin{align}
+p_x' &= -\frac{\partial H_2}{\partial x} 
+= h b_2 \frac{y^2}{2} - h b_2 x^2 - b_2 x 
+\label{eq:pxprime}
+\\
+p_y' &= -\frac{\partial H_2}{\partial y} 
+= (1 + h x) b_2 y 
+\label{eq:pyprime}
+\end{align}
+which gives integrated equations:
+\begin{align}
+p_x(s) &= p_x + h b_2 \frac{y^2}{2} s - h b_2 x^2 s - b_2 x s 
+\label{eq:pxs}
+\\
+p_y(s) &= p_y + (1 + h x) b_2 y s 
+\label{eq:pys}
+\end{align}
+Taking the limit to $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
+
+
+
 
 
 \chapter{Linear optics calculations}
