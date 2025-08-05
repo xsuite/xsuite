@@ -1325,10 +1325,10 @@ the fringe field integral:
 K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(b_0 - b(s)\bigr)}{g b_0^{2}} \, ds
 \end{equation}
 
-\section{Dipole wedge}
+\subsection{Dipole wedge}
 
 The following map can be used to move the observation plane by an angle $\theta$
-in a uniform dipole field~\cite{forest99}.
+around the $y$ axis in a uniform dipole field~\cite{forest99}.
 
 \begin{align}
 x(\theta) &= x \cos\theta 
@@ -1355,6 +1355,31 @@ p_y(\theta) &= p_y
 \end{align}
 
 where $b_0$ is the normalized magnetic field.
+
+\subsection{Y rotation}
+
+The following map can be used to move the observation plane by an angle $\theta$
+around the $y$ axis in the absence of a magnetic field~\cite{forest99}.
+
+\begin{align}
+x^{\mathrm{new}} &=
+\frac{x}{\cos\theta \left( 1 - \frac{p_x \tan\theta}{p_z} \right)}
+\\[1ex]
+p_x^{\mathrm{new}} &=
+p_x \cos\theta + p_z \sin\theta
+\\[1ex]
+y^{\mathrm{new}} &=
+y + \frac{p_y x \tan\theta}{p_z \left( 1 - \frac{p_x \tan\theta}{p_z} \right)}
+\\[1ex]
+p_y^{\mathrm{new}} &= p_y
+\\[1ex]
+\ell^{\mathrm{new}} &=
+\ell + \frac{(1+\delta) x \tan\theta}{p_z \left( 1 - \frac{p_x \tan\theta}{p_z} \right)}
+\end{align}
+where
+\begin{equation}
+p_z = \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}.
+\end{equation}
 
 \chapter{Linear optics calculations}
 \label{opt}
