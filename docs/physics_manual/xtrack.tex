@@ -135,13 +135,16 @@ Different sets of longitudinal coordinates can be used:
 \begin{align}
 \xi &= s \frac{\beta}{\beta_0} - \beta c t &
 \tau &= \frac{s}{\beta_0} - ct &
-\zeta &= s - \beta_0 ct \label{eq:coord1}\\
+\zeta &= s - \beta_0 ct \label{eq:coord1}&
+\delta &=
+  \frac{P \frac{m_0}{m} -P_0}{P_0} \\
 \delta &=
   \frac{P \frac{m_0}{m} -P_0}{P_0} &
 p_\tau &=
   \frac{1}{\beta_0} \frac{E \frac{m_0}{m} -E_0}{E_0} &
 p_\zeta &=
-  \frac{1}{\beta_0^2}\frac{E \frac{m_0}{m} -E_0}{E_0}
+  \frac{1}{\beta_0^2}\frac{E \frac{m_0}{m} -E_0}{E_0}&
+\ell &= \beta c t
   \label{eq:coord2}
 \end{align}
 where variables in the same columns are canonically conjugate.
@@ -158,7 +161,7 @@ where variables in the same columns are canonically conjugate.
 
 The different longitudinal variables can be easily related to each other:
 \begin{align}
-  &\xi=
+  &\xi= s \frac{\beta}{\beta_0} - \ell = 
       \beta\tau =
       \frac{\beta}{\beta_0}\zeta \\
   &p_\tau = \beta_0 p_\zeta\\
