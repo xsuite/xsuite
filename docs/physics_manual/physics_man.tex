@@ -14,6 +14,7 @@
 \usepackage{booktabs}
 \usepackage{stfloats}
 \usepackage[T1]{fontenc}
+\usepackage{bm}
 
 \usepackage[titletoc,title]{appendix}
 
@@ -38,6 +39,12 @@
 \setlength\parindent{0pt}
 
 \newcommand{\HRule}[1]{\hfill \rule{0.2\linewidth}{#1}}
+\newcommand{\dee}[0]{\text{d}}
+\newcommand{\totder}[2]{\frac{\dee  {#1}}{\dee  {#2}}}
+\newcommand{\partder}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\mean}[1]{\left\langle {#1} \right\rangle}
+\newcommand{\curlyH}[0]{\mathcal{H}}
+
 
 \makeatletter
 \newcommand\primitiveinput[1]

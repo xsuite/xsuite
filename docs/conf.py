@@ -256,6 +256,10 @@ snippet_files = {
         'generated_code_snippets/ibs_rates_conventions_switch.py',
     'xfields/examples/005_ibs/003_tracking_with_kicks.py':
         'generated_code_snippets/ibs_kicks_tracking.py',
+    'xfields/examples/005_ibs/005_steady_state_emittances_coupling.py':
+        'generated_code_snippets/ibs_steady_state_emittances_coupling.py',
+    'xfields/examples/005_ibs/006_steady_state_emittances_excitation.py':
+        'generated_code_snippets/ibs_steady_state_emittances_excitation.py',
     'xtrack/examples/orbit_and_tracjectory_correction/000_closed_orbit_correction_basic.py':
         'generated_code_snippets/closed_orbit_correction_basic.py',
     'xtrack/examples/orbit_and_tracjectory_correction/001_closed_orbit_correction_micado.py':

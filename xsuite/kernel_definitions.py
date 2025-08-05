@@ -49,6 +49,8 @@ ONLY_XTRACK_ELEMENTS = [
     Elens,
     Wire,
     Solenoid,
+    VariableSolenoid,
+    UniformSolenoid,
     RFMultipole,
     DipoleEdge,
     MultipoleEdge,
@@ -69,7 +71,7 @@ ONLY_XTRACK_ELEMENTS = [
     ThickSliceOctupole,
     ThickSliceQuadrupole,
     ThickSliceSextupole,
-    ThickSliceSolenoid,
+    ThickSliceUniformSolenoid,
     ThinSliceBend,
     ThinSliceRBend,
     ThinSliceBendEntry,
@@ -80,6 +82,8 @@ ONLY_XTRACK_ELEMENTS = [
     ThinSliceQuadrupoleExit,
     ThinSliceSextupoleEntry,
     ThinSliceSextupoleExit,
+    ThinSliceUniformSolenoidEntry,
+    ThinSliceUniformSolenoidExit,
     ThinSliceOctupoleEntry,
     ThinSliceOctupoleExit,
     ThinSliceOctupole,
@@ -212,5 +216,9 @@ kernel_definitions = [
             'XTRACK_SYNRAD_KICK_SAME_AS_FIRST': True
         },
         'classes': ONLY_XTRACK_ELEMENTS,
+    }),
+    ('only_xtrack_with_synrad_frozen_energy', { # for spin twiss
+        'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XTRACK_MULTIPOLE_NO_SYNRAD': False,},
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
 ]

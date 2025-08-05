@@ -55,9 +55,9 @@ In this reference frame the canonical momenta are:
 \end{align}
 and the energy of a particle and the field is
 \begin{align}
-E=qV + c \sqrt{(mc)^2
+E=q\phi + c \sqrt{(mc)^2
               +\frac{(P_s- q A_s(1+hx))^2}{(1+hx)^2}
-              +(P_x-q A_x)^2 + (P_x-q A_x)^2}.
+              +(P_x-q A_x)^2 + (P_y-q A_y)^2}.
 \end{align}
 
 
@@ -328,6 +328,37 @@ drift-kick-drift-expanded & [De], [K0 K1 Kn] & [De], [Kh K0 K0h K1 K1h Kn Knh] \
 \bottomrule
 \end{tabular}
 
+\subsubsection{Map for the exact bend}
+
+This map is adapted from \cite{forest99}.
+
+\begin{align}
+x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
+p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
+y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(s) &= p_y \\
+\delta(s) &= \delta \\
+\zeta(s) &= \zeta -\frac{\beta_0}{\beta}
+  \left[
+  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+  \right]
+\end{align}
+
+\subsubsection{Map for the straight bend}
+
+This map is adapted from \cite{forest99}.
+
+\begin{align}
+x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) \\
+p_x(L) &= p_x - k_0 \chi L \\
+y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(L) &= p_y \\
+\delta(L) &= \delta \\
+\zeta(L) &= \zeta - \frac{\beta_0}{\beta}
+\left[
+\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\right]
+\end{align}
 
 
 \section{Cavity time, energy errors and acceleration}
@@ -871,7 +902,7 @@ The kick $\Delta \vec P  = q_0 v_z \hat z \times (B_x \hat x + B_y \hat y)$ tran
 A thin multiple idealizes the effect of the field by taking the limit of the integration 
 length going to zero while keeping constant the integrated strength. The Hamiltonian is:
 \begin{align}
-  H= \delta(s) \chi L \Re\left[\sum_{n=0} (k_n + i\hat k_n) (x+iy)^{n+1} \right].
+  H= \delta(s) \chi L \Re\left[\sum_{n=0} \frac{1}{(n+1)!}(k_n + i\hat k_n) (x+iy)^{n+1} \right].
 \end{align}
 where
 \begin{align}
@@ -904,7 +935,7 @@ a_s(x,y)&=\frac{c_1}{1 + h x} + f(x,y) -
 
 \subsection{Accelerating Cavity}
 
-The approximated energy gain of a particle passing through an electric field of frequency $f=\frac{k}{2\pi c}$ for which:
+The approximated energy gain of a particle passing through an electric field of frequency $f=\frac{kc}{2\pi}$ for which:
 \begin{align}
 V \sin(\phi - k \tau) = \int_{-l/2}^{l/2} E_s(0,0,t,s)  {\rm \,d}s.
 \end{align}
@@ -989,7 +1020,7 @@ we can extract the magnetic field potential and convince ourselves that $H$ desc
   \mathbf{B} = \nabla \times \mathbf{A}
   = \begin{bmatrix}
     \frac{\partial A_z}{\partial y} - \frac{\partial A_y}{\partial z}\\
-    \frac{\partial A_z}{\partial x} - \frac{\partial A_x}{\partial z}\\
+    \frac{\partial A_x}{\partial z} - \frac{\partial A_z}{\partial x}\\
     \frac{\partial A_y}{\partial x} - \frac{\partial A_x}{\partial y}\\
   \end{bmatrix}
   = \begin{bmatrix}
@@ -1121,7 +1152,98 @@ We have the following map (note the change in $\zeta$ is analogous to the drift)
 \end{align*}
 where $p_z :=  \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y}\right)}^{2} - {\left(\frac{b_{z}}{2} y + p_{x}\right)}^{2}}$, $\theta := \frac{b_{z} L}{2 p_z} $, and $L$ is the length of the thick solenoid.
 
+\subsection{Tilted solenoid}
 
+From solenoid frame (x'-z') to beam frame (x-z) we have the following transformation:
+\begin{align}
+x &= x' \cos\theta - z' \sin\theta \\
+z &= x' \sin\theta + z' \cos\theta
+\end{align}
+
+The inverse transformation is:
+\begin{align}
+x' &= x \cos\theta + z \sin\theta \\
+z' &= -x \sin\theta + z \cos\theta
+\end{align}
+
+We write the potential for solenoid with longitudinal field dependent on $z$:
+\begin{align}
+A_{x'} &= -\frac{B_A(z')}{2} \, y' \\
+A_{y'} &= \frac{B_A(z')}{2} \, x' \\
+A_{z'} &= 0
+\end{align}
+
+We compute the components in the beam frame:
+\begin{align}
+&A_x = \cos\theta \cdot A_{x'} - \sin\theta \cdot A_{z'} \\
+&A_y = A_{y'} \\
+&A_z = \sin\theta \cdot A_{x'} + \cos\theta \cdot A_{z'}
+\end{align}
+
+Replacing the coordinates $x', y', z'$ and using the notation abuse
+$B_A(z) = B_A(z\,/\cos \theta)$, we obtain:
+\begin{align}
+&A_x = -\frac{B_A(z)}{2} \, y \cos\theta \\
+&A_y = \frac{B_A(z)}{2} x \cos\theta + \frac{B_A(z)}{2} z \sin\theta \\
+&A_z = -\frac{B_A(z)}{2} \, y \sin\theta
+\end{align}
+
+I do a change of gauge:
+\begin{equation}
+\mathbf{A}_\text{new} = \mathbf{A} + \nabla f
+\end{equation}
+with:
+\begin{equation}
+f = -\frac{B_A(z)}{2} \, y z \sin\theta
+\end{equation}
+obtaining:
+\begin{align}
+A_x &= -\frac{B_A(z)}{2} \, y \cos\theta \\
+A_y &= \frac{B_A(z)}{2} \, x \cos\theta \\
+A_z &= -B_A(z) \, y \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z y \sin\theta
+\end{align}
+
+From this we compute the field $\mathbf{B} = \nabla \times \mathbf{A}$:
+\begin{align}
+B_x(x,y,z) &= -\frac{1}{2} \frac{dB_A}{dz} \, x \cos\theta - B_A(z) \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z \sin\theta  \\
+B_y(x,y,z) &= -\frac{1}{2} \frac{dB_A}{dz} \, y \cos\theta \\
+B_z(x,y,z) &= B_A(z) \cos\theta
+\end{align}
+
+We call
+\begin{align}
+&\boxed{B_{x0}(z) = B_x(0,0,z) = -B_A(z) \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z \sin\theta }\\
+&\boxed{B_{z0}(z) = B_z(0,0,z) = B_A(z) \cos\theta}
+\end{align}
+
+We can use the above to express the field:
+\begin{align}
+&\boxed{B_x(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, x  + B_{x0}(z)} \\
+&\boxed{B_y(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, y} \\
+&\boxed{B_z(x,y,z) = B_{z0}(z)}
+\end{align}
+and to expres the vector potential:
+\begin{align}
+&\boxed{A_x = -\frac{B_{z0}(z)}{2} \, y}\\
+&\boxed{A_y = \frac{B_{z0}(z)}{2} \, x}\\
+&\boxed{A_z = B_{x0}(z) y}
+\end{align}
+
+\subsubsection{Generalization to arbitrary tilt and dipolar components}
+
+If the tilt is not in the $x-z$ plane, and if additional dipolar components are present,
+we can generalize the above obtaining the following vector potential:
+\begin{align}
+&\boxed{A_x = -\frac{B_{z0}(z)}{2} \, y}\\
+&\boxed{A_y = \frac{B_{z0}(z)}{2} \, x}\\
+&\boxed{A_z = B_{x0}(z) y - B_{y0}(z) x}
+\end{align}
+The corresponding magnetic field is:
+\begin{align}
+&\boxed{B_x(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, x  + B_{x0}(z)} \\
+&\boxed{B_y(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, y + B_{y0}(z)} \\
+&\boxed{B_z(x,y,z) = B_{z0}(z)}
+\end{align}
 %\section{Beam-Beam}
 %
 %The closed expression of an integrated kick experienced by a test particle of charge  $q=Z e$ due to a 2D uncoupled Gaussian charge distribution of total charge $q_b=N_b e$ defined by $\sigma_x, \sigma_y$ and located at $\Delta x, \Delta y$ from the test particle and moving at $v_z=\beta_b c$ from the test particle can be obtained through the use of complex the function \cite{bassetti-erskine}:
@@ -1957,6 +2079,7 @@ r_2=\sqrt{W_{13}^2+W_{14}^2} / W_{33}
 From these we can compute the following quantities as\,\cite{Jones:2020hhl}:
 \begin{equation}
 \left|C^{-}\right|=\frac{2 \sqrt{r_1 r_2}\left|Q_1-Q_2\right|}{\left(1+r_1 r_2\right)}
+\label{eq:cmin}
 \end{equation}
 \begin{equation}
 \chi(s) = \Delta \phi_{1,0}(s)
@@ -1972,6 +2095,8 @@ C^{-}=\left|C^{-}\right| e^{i \chi}=\frac{1}{2 \pi} \int_0^L \sqrt{\beta_x \beta
 \end{equation}
 where $\Delta$ is the difference of the unperturbed fractional tunes.
 
+To have a more robust estimate, Eq.\,\ref{eq:cmin} is evaluated at all $s$ positions
+and averaged over the ring, as suggested in \cite{tobias_coupling_note}.
 
 
 
@@ -2208,6 +2333,550 @@ In the ultra-relativistic approximation:
 \frac{<\dot{N} (\Delta E)^2>}{E_0^2}
 \label{eq:equilemi2}
 \end{align}
+
+\section{Radiation integrals}
+
+Xsuite can compute the following radiation integrals:
+\begin{align}
+    &I_1 = \oint \left( h_{0x} D_x + h_{0y} D_y \right)\ \dee s\\
+    &I_2 = \oint |h|^2 \ \dee s\\
+    &I_3 = \oint |h|^3 \ \dee s\\
+    &I_{4x} = \oint \left( |h|^2 h_{0x} + 2 h_x k_1 \right) D_x\ \dee s\\
+    &I_{4y} = \oint \left( |h|^2 h_{0y} - 2 h_y k_1 \right) D_y\ \dee s\\
+    &I_4 = I_{4x} + I_{4y} = \oint \left[ 2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y) \right] \ \dee s\\
+    &I_{5x} = \oint h^3 \curlyH_x\ \dee s\\
+    &I_{5y} = \oint h^3 \curlyH_y\ \dee s
+\end{align}
+
+The following quantities are used in the calculation.
+\begin{itemize}
+\item Horizontal and curvature of the particle trajectory:
+\begin{align}
+    &h_x = \frac{B_y Q}{m_0 c \gamma}    \label{eq:curvx}\\
+    &h_y = -\frac{B_x Q}{m_0 c \gamma}   \label{eq:curvy}
+\end{align}
+\item Total transverse curvature and relation to the transverse magnetic field:
+\begin{equation}
+    h = \sqrt{h_x^2 + h_y^2}
+\end{equation}
+which is related to the transverse magnetic field by:
+\begin{equation}
+    B = \sqrt{B_x^2 + B_y^2}  = h  \frac{m_0 \beta c \gamma}{Q}
+    \label{eq:btocurv}
+\end{equation}
+\item ``Curly H'' functions:
+\begin{align}
+    \curlyH_x = \gamma_x D_x^2 + 2 \alpha_x D_x D_x' + \beta_x D_x'^2\\
+    \curlyH_y = \gamma_y D_y^2 + 2 \alpha_y D_y D_y' + \beta_y D_y'^2
+\end{align}
+\item The derivative of the dispersion $D'_{x,y}$ can be obtained from the transverse
+momentum dispersion $D_{p_{x,y}}$ using the relation:
+\begin{equation}
+    D'_{x,y} = \totder{D_{x,y}}{s} = \totder{x'}{\delta} =
+      \totder{~}{\delta} \frac{p_{x,y}}{1+\delta} = (1 - \delta)D_{p_{x,y}} - p_{x,y}
+    \label{eq:ddispder}
+\end{equation}
+\item $h_{0x}$ and $h_{0y}$ are the curvatures of the reference trajectory. The path
+length on the particle trajectory is related to the path length on the reference trajectory by:
+\begin{equation}
+    \dee s' = (1 + h_{0x}x + h_{0y}y)\ \dee s
+    \label{eq:pathlength}
+\end{equation}
+\end{itemize}
+
+The radiation integrals can be used to compute the following quantities
+  (where
+   %$m_0$ is the particle rest mass, $Q$ is the charge of the particle, , $E_0$ is the reference energy, $\gamma$ is the relativistic gamma factor, $\delta$ is the relative deviation from the reference energy, 
+   $C_0$ is the ring circumference, $r_0$ is the classical particle radius, $\hbar$ is the reduced Planck's constant)
+  %  $s'$ is the arclength along the particle orbit, $s$ is the arclength along the reference orbit, $x$ ($y$) is the horizontal (vertical) coordinate, $D_x$ ($D_y$) is the dispersion in the horizontal (vertical) plane, $D_x'$ ($D_y'$) is its derivative, $h_{0x}$ ($h_{0y}$) is the curvature of the reference orbit in the horizontal (vertical) plane, $h_x$ ($h_y$) is the curvature of the particle orbit in the horizontal (vertical) plane, $k_1$ is the normalised normal quadrupole strength, $\alpha_x$, $\beta_x$ and $\gamma_x$ ($\alpha_y$, $\beta_y$ and $\gamma_y$) are the betatron functions in the horizontal (vertical) plane, $c$ is the speed of light and )
+:
+\begin{itemize}
+    \item Momentum compaction factor (unitless):
+    \begin{equation}
+        \alpha_c = \frac{I_1}{C_0}
+    \end{equation}
+
+    \item Energy loss per turn [Js$^{-1}$]:
+    \begin{equation}
+        U_s = \frac{2}{3} c r_0 E_0 \gamma^3 I_2
+    \end{equation}
+
+    \item Damping partition numbers:
+    \begin{align}
+        J_x &= 1 - \frac{I_{4x}}{I_2}\\
+        J_y &= 1 - \frac{I_{4y}}{I_2}\\
+        J_z &= 2 + \frac{I_4}{I_2}
+    \end{align}
+    which satisfy Robinson's theorem:
+    \begin{equation}
+        J_x + J_y + J_z = 4
+    \end{equation}
+
+    \item Longitudinal damping rate in [s$^{-1}$]:
+    \begin{equation}
+        \alpha_\epsilon = \frac{c r_0 \gamma^3}{3 C_0} (2I_2 + I_4)
+    \end{equation}
+
+    \item Transverse damping rates in [s$^{-1}$]:
+    \begin{align}
+        \alpha_x &= \frac{c r_0 \gamma^3}{3C_0} (I_2 - I_{4x})\\
+        \alpha_y &= \frac{c r_0 \gamma^3}{3C_0} (I_2 - I_{4y})
+    \end{align}
+
+    \item Energy spread (unitless):
+    \begin{equation}
+        \sigma_\delta^2 = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_3}{2I_2 + I_4}
+    \end{equation}
+
+    \item Transverse equilibrium emittances in [m rad]:
+    \begin{align}
+        {\epsilon_x} &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_{5x}}{I_2 - I_{4x}}\\
+        {\epsilon_y} &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_{5y}}{I_2 - I_{4y}}
+    \end{align}
+
+
+\end{itemize}
+
+\subsection{Derivations}
+\subsubsection{Energy Loss and Second Radiation Integral}
+\label{sec:enelossandi2}
+
+From the instantaneous radiated power,
+
+\begin{equation}
+    P_s = \frac{2}{3}\frac{c^3 r_0 Q^2 E^2 B^2}{(m_0 c^2)^3} = \frac{2}{3} c r_0 E \gamma^3 |h|^2
+    \label{eq:instpower}
+\end{equation}
+
+The energy loss per turn is obtained by integration around one turn.
+\begin{equation}
+U_s = \int P_s(t) \ \dee t \approx \frac{1}{c} \oint P_s(s') \ \dee s'
+= \frac{2}{3} c r_0 E \gamma^3 \oint |h|^2 \ \dee s'
+\end{equation}
+We can assume $(h_{0x}x + h_{0y}y) \ll 1$, obtaining:
+\begin{equation}
+\label{eq:enelossturn}
+U_s =\frac{2}{3} c r_0 E \gamma^3 I_{2}
+\end{equation}
+where we have defined the second radiation integral:
+\begin{equation}
+I_2     = \oint |h|^2 \ \dee s
+\end{equation}
+
+\subsubsection{Longitudinal Damping Rate and Fourth Radiation Integral}
+\label{sec:longdampandi4}
+
+Following Hofmann's analysis, the longitudinal damping rate can be written as \cite{hofmann_2004}:
+\begin{equation}
+    \alpha_\epsilon = \frac{1}{2} \frac{1}{T_\text{rev}} \totder{U_s}{E}
+    \label{eq:alphadamp}
+\end{equation}
+
+We calculate:
+\begin{equation}
+    \totder{U_s}{E} = \frac{1}{c} \totder{}{E} \oint P_s(s') \ \dee s' = \frac{1}{c} \totder{}{E} \oint P_s \ (1 + h_{0x}x(E) + h_{0y}y(E))\ \dee s
+    \label{eq:dUdEoint}
+\end{equation}
+
+Using the dispersion to express $x(E)$ and $y(E)$:
+\begin{equation}
+    \totder{U_s}{E} = \totder{}{E} \frac{1}{c} \oint P_s \ (1 + h_{0x}D_x \delta + h_{0y} D_y \delta)\ \dee s
+\end{equation}
+
+The derivative w.r.t. $E$ is related to the derivative w.r.t. $\delta$ by:
+\begin{equation}
+    \totder{}{E} = \totder{\delta}{E} \totder{}{\delta} = \totder{}{E} \left( \frac{E - E_0}{E_0} \right) \totder{}{\delta} = \frac{1}{E_0} \totder{}{\delta}
+    \label{eq:ddEtodddelta}
+\end{equation}
+
+Writing out the derivative then gives:
+\begin{align}
+    \totder{U_s}{E} &= \frac{1}{c} \oint \totder{P_s}{E} (1 + h_{0x}D_x \delta + h_{0y} D_y \delta) + \frac{P_s}{E_0} \totder{}{\delta}(1 + h_{0x}D_x \delta + h_{0y} D_y \delta)\ \dee s \notag \\
+                    &= \frac{1}{c} \oint \totder{P_s}{E} (1 + h_{0x}D_x \delta + h_{0y} D_y \delta) + \frac{P_s}{E_0} (h_{0x}D_x + h_{0y} D_y)\ \dee s
+\end{align}
+
+The derivative of $P_s$ w.r.t. $E$ can be rewritten as:
+\begin{equation}
+    \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{B} \left( \partder{B}{x} \totder{x}{E} + \partder{B}{y} \totder{y}{E} \right) \right]
+\end{equation}
+
+The derivatives of the positions w.r.t. $E$ are related to the dispersions through Eq.\,\ref{eq:ddEtodddelta}
+\begin{align}
+    \totder{x}{E} &= \frac{1}{E_0} \totder{x}{\delta} = \frac{1}{E_0} D_x\\
+    \totder{y}{E} &= \frac{1}{E_0} \totder{y}{\delta} = \frac{1}{E_0} D_y
+\end{align}
+
+Using the fact that $B = \sqrt{B_x^2 + B_y^2}$, the derivatives of $B$ w.r.t. $x$ and $y$ are:
+\begin{align}
+    \partder{B}{x} &= \frac{B_x}{B} \partder{B_x}{x} + \frac{B_y}{B} \partder{B_y}{x}\\
+    \partder{B}{y} &= \frac{B_x}{B} \partder{B_x}{y} + \frac{B_y}{B} \partder{B_y}{y}
+\end{align}
+The magnetic field gradients are defined as:
+\begin{align}
+    &\partder{B_y}{x} = \partder{B_x}{y}  = G       = \frac{\gamma_0 m_0 c}{Q_0} k_1\\
+    &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma_0 m_0 c}{Q_0} \bar{k}_1
+\end{align}
+
+Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit we can assume $\gamma\simeq\gamma_0$, obtaining:
+\begin{equation}
+    \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
+\end{equation}
+
+The curvatures in Eqs.\,\eqref{eq:curvx}, \eqref{eq:curvy} and \eqref{eq:btocurv} can be substituded, which gives:
+\begin{equation}
+    \totder{P_s}{E}
+    %= 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0}\frac{\gamma m_0 c}{Q} \frac{Q^2}{(\gamma m_0 c)^2} \frac{k_1}{h^2} \frac{\gamma m_0 c}{Q} \left( h_x D_x - h_y D_y \right) \right]
+    = 2 \frac{P_s}{E} \left[ \frac{1}{E} + \frac{1}{E_0} \frac{k_1}{h^2} \left( h_x D_x - h_y D_y \right) \right]
+    \label{eq:dPdE}
+\end{equation}
+
+Substituting Eq.\,\eqref{eq:instpower} gives:
+\begin{equation}
+    \totder{P_s}{E}
+    % = \frac{4}{3} c r_0 E \gamma^3 |h|^2 \left[ \frac{1}{E} + \frac{1}{E_0} \frac{k_1}{h^2} \left( h_x D_x - h_y D_y \right) \right]
+    = \frac{4}{3} c r_0 E \gamma^3  \left[ \frac{|h|^2}{E} + \frac{1}{E_0} k_1 \left( h_x D_x - h_y D_y \right) \right]
+\end{equation}
+
+Substituting this expression back in Eq.\,\eqref{eq:dUdEoint} gives:
+\begin{align}
+    \totder{U_s}{E} = \frac{2}{3} \frac{c r_0 E \gamma^3}{c} \oint \bigg[ &2\frac{|h|^2}{E}(1 + h_{0x}x + h_{0y}y) +
+    2\frac{k_1}{E_0} \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) \notag\\ &+ \frac{|h|^2}{E_0} (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
+\end{align}
+
+The first term can be identified as $I_2$, again we assume that $h_{0x}x + h_{0y}y \ll 1$ and, as stated above on the closed orbit we assume $E/E_0 \approx 1$. Hence, we can write:
+\begin{align}
+    \totder{U_s}{E} = &\frac{2}{3} r_0 \gamma^3 \bigg[2I_2
+    + \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s \bigg]
+\end{align}
+
+The last integral is identified as the fourth radiation integral, $I_4$, given by:
+\begin{equation}
+    I_4 = \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
+\end{equation}
+Hence we can write:
+\begin{align}
+    \totder{U_s}{E} = &\frac{2}{3} r_0 \gamma^3 (2I_2 + I_4 )
+\end{align}
+
+The longitudinal damping rate is obtained by substituting this expression in Eq.\,\eqref{eq:alphadamp}:
+\begin{equation}
+    \alpha_\epsilon =
+      \frac{1}{3} \frac{r_0 \gamma^3}{T_\text{rev}} (2I_2 + I_4 )
+    \label{eq:alphadampfinal}
+\end{equation}
+
+
+\subsubsection{Energy Spread and Third Radiation Integral}
+\label{sec:enespreadandi3}
+
+From Hofmann, the variance in the amplitude of a damped oscillator that is excited by a short pulse $a\delta(t)$ is given by \cite{hofmann_2004}:
+\begin{equation}
+    \mean{x^2} = \frac{\dot{n} \mean{a^2}}{4\alpha}
+\end{equation}
+
+Here, $x$ is the deflection of the oscillator, $\dot{n}$ is the average rate at which excitation occurs, $a$ is the amplitude of the excitation and $\alpha$ is the damping rate of the oscillator. For quantum excitation of the longitudinal emittance, we identify $x$ as the RMS energy $\dee E$, $\dot{n}$ as the average rate of photon emission, $a$ as the photon energy and $\alpha$ as $\alpha_\epsilon$, the longitudinal damping rate. The normalised variance is then:
+\begin{equation}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_\epsilon E_0^2}
+    \label{eq:notreallycampbell}
+\end{equation}
+
+The rate of photon emission is given by:
+\begin{equation}
+    \dot{n} = \frac{60 \sqrt{3}}{72} \frac{r_0 c Q B}{\hbar}
+\end{equation}
+
+The variance in the photon energy is given by:
+\begin{equation}
+    \mean{E_\gamma^2} = \frac{11}{12} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2}
+\end{equation}
+and the longitudinal damping rate is given by Eq.\,\eqref{eq:alphadampfinal}:
+Combining all these terms leads to
+\begin{equation}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{60 \sqrt{3}}{72} \frac{11}{12} \frac{3}{4} \frac{r_0 c Q B}{\hbar} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2 E_0^2} \frac{C_0}{c r_0 \gamma^3} \frac{1}{2I_2 + I_4}
+\end{equation}
+
+This simplifies to
+\begin{equation}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96} \frac{Q^3 \hbar \gamma B^3 C_0}{m_0^2 E_0^2} \frac{1}{2I_2 + I_4}
+\end{equation}
+
+The curvature $h$ can be substituted for $B$, which gives
+\begin{equation}
+    \frac{\mean{\dee E^2}}{E_0^2} = \frac{55 \sqrt{3}}{96}
+    \frac{\hbar m_0 \gamma^4 c^3 C_0}{E_0^2} \frac{h^3}{2I_2 + I_4}
+    \label{eq:meanenergydeviation}
+\end{equation}
+
+Now averaging over the entire circumference of the ring gives
+\begin{equation}
+    \mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2 C_0}{m_0 c} \frac{\frac{1}{C_0}\oint h^3 \ \dee s'}{2I_2 + I_4} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{\oint h^3 \ \dee s'}{2I_2 + I_4}
+\end{equation}
+
+The integral in the numerator can be defined as
+\begin{equation}
+    I_3 = \oint |h|^3 \ \dee s' = \oint |h|^3 (1 + h_{0x} x + h_{0y}y) \ \dee s
+\end{equation}
+
+This is the third radiation integral. This way, the energy spread becomes
+\begin{equation}
+\mean{\frac{\mean{\dee E^2}}{E_0^2}}_\text{ring} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_3}{2I_2 + I_4}
+\end{equation}
+
+\subsubsection{Transverse Damping Rates}
+\label{sec:transversedamping}
+
+The derivation in this section is valid for either $x$ or $y$. To this end, $u$ will be used as a substitute for either $x$ or $y$. The goal is to find the rate at which the transverse emittance, $\epsilon_u$, decreases. The emittance is given by
+\begin{equation}
+    \epsilon_u = \gamma_u u_\beta^2 + 2 \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2
+    \label{eq:emittanceu}
+\end{equation}
+
+Here, subscript $\beta$ indicates that the betatron component of the coordinate value. The total coordinates, $u$ and $u'$ are a combination of the to betatron and an energy deviation $\delta$ parts, that is
+\begin{align}
+    u  &= u_\beta  + u_\delta\\
+    u' &= u_\beta' + u_\delta'
+\end{align}
+
+When a photon is emitted, the coordinate does not change. This means that
+\begin{equation}
+    \dee u = \dee u_\beta + \dee u_\delta = 0
+\end{equation}
+
+The change in position due to an energy deviation is related to the dispersion through
+\begin{equation}
+    \dee u_\delta = D_u \dee \delta = D_u \frac{\dee E}{E_0} = - D_u \frac{\dee E_\gamma}{E_0}
+\end{equation}
+
+Therefore
+\begin{equation}
+    \dee u_\beta = - \dee u_\delta = D_u \frac{\dee E_\gamma}{E_0}
+    \label{eq:deeubeta}
+\end{equation}
+
+where $\dee E_\gamma$ is the energy of the emitted photon. The angle is allowed to change due to the photon emission, that is
+\begin{equation}
+    \dee u' = \dee u_\beta' + \dee u_\delta'
+\end{equation}
+
+We want to express $\dee u'$ in terms of the photon energy. To this end, assume that the particle before photon emission is on-momentum, such that
+\begin{equation}
+    u_1' = u_\beta'
+\end{equation}
+
+% The photons are, with good approximation, emitted in the direction of motion of the particle. The momentum after the emission is:
+% \begin{equation}
+%     p_{u2} = p_{u1} - \frac{\dee E_\gamma}{E_0}u'_1
+%            = u'_{1\beta} - \frac{\dee E_\gamma}{E_0}u'_{1\beta}
+% \end{equation}
+% where we have used the fact that $\delta_1 = 0 \Rightarrow p_{u1} = u_1' = u'_{1\beta}$.
+
+% The cavity will restore the energy of the particle, acting only on the longitudinal component of the momentum. Hence $\delta_2 = 0$ while $p_{u2}$ is not affected by the cavity.
+% Hence we obtain:
+% \begin{equation}
+%     u_2' = \frac{p_{u2}}{1+\delta_2} = u_{1 \beta}' \left( 1 - \frac{\dee E_\gamma}{E_0} \right)
+% \end{equation}
+
+% This can also be written as
+% \begin{equation}
+%     u_{2 \beta}' + u_{2 \delta}' = u_{2 \beta}' + D_u' \delta_2 = u_{2 \beta}' - D_u' \frac{\dee E_\gamma}{E_0} = u_{1 \beta}' \left( 1 - \frac{\dee E_\gamma}{E_0} \right)
+% \end{equation}
+
+% Finally, this can be written as
+Following Hoffman we can write \cite{hofmann_2004}:
+\begin{equation}
+    u_{2\beta}' - u_{1\beta}' = \dee u_\beta = - \left( u_{1\beta}' - D' \right) \frac{\dee E_\gamma}{E_0}
+    \label{eq:deeubetaprime}
+\end{equation}
+
+Note that the emittance only depends on $u_\beta$ and $u_\beta'$. The change in emittance is:
+\begin{equation}
+    \dee \epsilon_u = 2 \left( \gamma_u u_\beta\ \dee u_\beta + \alpha_u (u_\beta\ \dee u_\beta' + u_\beta'\ \dee u_\beta) + \gamma_u u_\beta'\ \dee u_\beta' \right)
+\end{equation}
+
+Substituting Equations \eqref{eq:deeubeta} and \eqref{eq:deeubetaprime} gives
+
+\begin{align}
+    \dee \epsilon_u &= 2 \left[ \gamma_u u_\beta\ D_u \frac{\dee E_\gamma}{E_0} + \alpha_u \left(- u_\beta\ \left( u_\beta' - D' \right) \frac{\dee E_\gamma}{E_0} + u_\beta'\ D_u \frac{\dee E_\gamma}{E_0} \right) - \beta_u u_\beta'\ \left( u_\beta' - D' \right) \frac{\dee E_\gamma}{E_0} \right]\\
+                    &= -2 \frac{\dee E_\gamma}{E_0} \left[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right)  - \left( \gamma_u D_u u_\beta + \alpha_x (D_u u_\beta' + D_u' u_\beta) + \beta_u D_u' u_\beta' \right)\right]
+    \label{eq:changeinemittance}
+\end{align}
+
+% The goal is to integrate this expression around the ring. To this end, an expression for $\dee E_\gamma$ is needed. This can be found by using $P_{s'}$, the power radiated by an off-orbit particle. This power can be expressed as
+The instantaneous power radiated by a particle undergoing betatron oscillations can be expressed as:
+\begin{equation}
+    P_{s'} = P_s + \totder{P_s}{u} u_\beta
+\end{equation}
+
+Using the chain rule for the derivative gives:
+\begin{equation}
+    \totder{P_s}{u} = \totder{P_s}{B} \totder{B}{u} = 2\frac{P_s}{B} \left( \totder{B}{B_w} \partder{B_w}{u} + \totder{B}{B_u} \partder{B_u}{u} \right) = 2 \frac{P_s}{B^2} \left( B_w \partder{B_w}{u} + B_u \partder{B_u}{u} \right)
+\end{equation}
+
+Here, $w$ denotes the other component from $u$. That is, if $u$ is chosen to be $x$, then $w = y$ and vice versa. As has been done in Section \ref{sec:longdampandi4}, $\partder{B_u}{u}$ represents the skew quadrupole gradients, whereas $\partder{B_w}{u}$ represents the normal quadrupole gradients. The following step is similar as deriving Eq.\,\ref{eq:dPdE}, which results in
+\begin{equation}
+    \totder{P_s}{u} = 2 \frac{P_s}{B^2} B_w \partder{B_w}{u} = 2 P_s \frac{h_u}{h^2} k_1
+\end{equation}
+
+The radiated power then becomes
+\begin{equation}
+    P_{s'} = P_s \left[ 1 + 2 \frac{h_u}{h^2} k_1 u_\beta \right]
+\end{equation}
+
+The energy radiated in a time interval $\dee s' / c$ is then given by
+\begin{align}
+    \dee E_\gamma = P_{s'} \frac{\dee s'}{c} &= \frac{P_s}{c} \left[ 1 + 2 \frac{h_u}{h^2} k_1 u_\beta \right]\ \dee s' \notag\\
+                                             &= \frac{P_s}{c} \left[ 1 + 2 \frac{h_u}{h^2} k_1 u_\beta \right]\ (1 + h_{0u} u_\beta)\ \dee s \notag\\
+                                             &= \frac{P_s}{c} \left[ 1 + \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) u_\beta \right]\ \dee s
+\end{align}
+
+Here, only the $u$-component of $h_0$ was used, because we study betatron oscillations only in the selected place. Furthermore, terms of second order in $u_\beta$ were neglected. This result can be substituted back in Eq.\,\ref{eq:changeinemittance}, which gives
+\begin{align}
+    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\left[ 1 + \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) u_\beta \right]  \notag \\
+                    & \times \left[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right)  - \left( \gamma_u D_u u_\beta + \alpha_x (D_u u_\beta' + D_u' u_\beta) + \beta_u D_u' u_\beta' \right)\right] \ \dee s
+\end{align}
+
+Using the same reasoning as before, the odd terms average to zero. This means only the even terms need to be kept. This results in
+\begin{align}
+    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\bigg[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right) \notag\\
+    &- \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) \left( \gamma_u D_u u_\beta^2 + \alpha_x (D_u u_\beta u_\beta' + D_u' u_\beta^2) + \beta_u D_u' u_\beta u_\beta' \right) \bigg]\ \dee s
+\end{align}
+
+The averages of the squared terms are
+\begin{align}
+    \mean{u_\beta^2}        &=   \frac{1}{2} \epsilon_u \beta_u\\
+    \mean{u_\beta u_\beta'} &= - \frac{1}{2} \epsilon_u \alpha_u\\
+    \mean{u_\beta'^2}       &=   \frac{1}{2} \epsilon_u \gamma_u
+\end{align}
+
+Substituting these averages gives
+\begin{align}
+    \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\bigg[ \left( - \frac{1}{2} \alpha_u^2 \epsilon_u + \frac{1}{2} \beta_u \gamma_u \epsilon_u \right) \notag \\
+    &- \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) \left( \frac{1}{2} \gamma_u \beta_u \epsilon_u D_u  + \alpha_x \left(-\frac{1}{2} \alpha_u \epsilon_u D_u + \frac{1}{2} \beta_u \epsilon_u D_u' \right) - \frac{1}{2} \alpha_u \beta_u \epsilon_u D_u' \right) \bigg]\ \dee s
+\end{align}
+
+Note that $\beta_u \gamma_u - \alpha_u^2 = 1$ and that the cross terms between $\alpha_u\beta_u$ cancel. This way, the expression simplifies to
+\begin{align}
+    \dee \epsilon_u = - \epsilon_u \frac{P_s}{E_0} \bigg[ 1 - \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) D_u \bigg]\ \dee s
+\end{align}
+
+To arrive at the change in emittance per unit time, we divide by $T_\text{rev}$
+% \begin{align}
+%     \frac{\dee \epsilon_u}{T_\text{rev}} = - \epsilon_u \oint \frac{P_s}{cE_0 T_\text{rev}} \bigg[ 1 - \left( 1 + 2 \frac{h_u}{h^2} k_1 \right) D_u \bigg]\ \dee s
+% \end{align}
+%
+% If $\dee \epsilon_u$ is small over one revolution, this can be approximated by
+%
+\begin{equation}
+    \frac{\dee \epsilon_u}{dt} = - \epsilon_u \oint \frac{P_s}{C_0 E_0} \bigg[ 1 - \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) D_u \bigg]\ \dee s
+\end{equation}
+
+Finally, Eq.\,\ref{eq:instpower} may be substituted, which results in
+\begin{equation}
+    \frac{\dee \epsilon_u}{dt} = - \epsilon_u \frac{2}{3} \frac{c r_0 \gamma^3}{C_0} \oint \bigg[ h^2 - \left( h^2 h_{0u} + 2 h_u k_1 \right) D_u \bigg]\ \dee s
+\end{equation}
+
+Here, the second radiation integral is identified. Furthermore, the $u$-component of the fourth radiation integral is found to be
+\begin{equation}
+    I_{4u} = \oint \left( h^2 h_{0u} + 2 h_u k_1 \right) D_u\ \dee s
+\end{equation}
+
+Thus,
+
+\begin{equation}
+    \frac{\dee \epsilon_u}{dt} = - \epsilon_u \frac{2}{3} \frac{c r_0 \gamma^3}{C_0} (I_2 - I_{4u})
+\end{equation}
+
+This is a first-order ODE, with a damping rate given by
+
+\begin{equation}
+    \frac{2}{3} \frac{c r_0 \gamma^3}{C_0} (I_2 - I_{4u})
+\end{equation}
+
+Since the betatron amplitude is proportional to $\sqrt{\epsilon_u}$, the 2 in the numerator disappears. This leads to the damping constant
+
+\begin{equation}
+    \alpha_u = \frac{c r_0 \gamma^3}{3C_0} (I_2 - I_{4u})
+\end{equation}
+
+\subsubsection{Transverse Equilibrium Emittances and the Fifth Radiation Integral}
+\label{sec:transverseeqemiti5}
+
+The derivation in this section is valid for either $x$ or $y$. To this end, $u$ will be used as a substitute for either $x$ or $y$. The change in betatron position and angle when a photon is emitted, denoted by $u_\beta$ and $u_\beta'$ respectively, are given by
+\begin{align}
+    \delta u_\beta  &= D_u  \frac{\delta E\gamma}{E_0}
+    \label{eq:deltaubeta}\\
+    \delta u_\beta' &= D_u' \frac{\delta E\gamma}{E_0}
+    \label{eq:deltaubetaprime}
+\end{align}
+
+Here, $\delta E$ is the energy carried away by the photon. The emittance before the emission of the photon, $\epsilon_{u1}$, is given by
+\begin{equation}
+    \epsilon_{u1} = \gamma_u u_\beta^2 + 2 \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2
+\end{equation}
+
+After the emission of the photon, the emittance has increased. The resulting emittance, $\epsilon_{u2}$ is
+\begin{align}
+    \epsilon_{u2}   &= \gamma_u (u_\beta + \delta u_\beta)^2 + 2 \alpha_u (u_\beta + \delta u_\beta)(u_\beta' + \delta u_\beta') + \beta_u (u_\beta' + \delta u_\beta')^2 \notag\\
+                    &= \epsilon_{u1} + 2 \left( \gamma_u u_\beta \delta u_\beta + \alpha_u (u_\beta \delta u_\beta' + u_\beta' \delta u_\beta) + \beta_u u_\beta' \delta u_\beta' \right)\notag \\
+                    &+ \gamma_u \delta u_\beta^2 + 2 \alpha_u \delta u_\beta \delta u_\beta' + \beta_u \delta u_\beta^2
+\end{align}
+
+The change in the emittance is then
+\begin{align}
+    \dee \epsilon_u = \epsilon_{u2} - \epsilon_{u1} &= 2 \left( \gamma_u u_\beta \dee u_\beta + \alpha_u (u_\beta \dee u_\beta' + u_\beta' \dee u_\beta) + \beta_u u_\beta' \dee u_\beta' \right)\notag\\
+                    &+ \gamma_u \dee u_\beta^2 + 2 \alpha_u \dee u_\beta \dee u_\beta' + \beta_u \dee u_\beta'^2
+\end{align}
+
+Equations \eqref{eq:deltaubeta} and \eqref{eq:deltaubetaprime} can now be substituted. which results in
+\begin{align}
+    \dee \epsilon_u &= \left( \gamma_u D_u^2 + 2 \alpha_u D_u D_u' + \beta_u D_u'^2 \right) \left( \frac{\dee E_\gamma}{E_0} \right)^2 \notag\\
+                    &+ 2 \left( \gamma_u u_\beta D_x + \alpha_u \left( u_\beta D_x' + u_\beta' D_x \right) + \beta_u u_\beta'D_x' \right) \frac{\dee E\gamma}{E_0}
+\end{align}
+
+The terms that are linear in $u_\beta$ and $u_\beta'$ will average to zero over many photon emissions. Hence:
+\begin{equation}
+    \mean{\dee \epsilon_u} = \left( \gamma_u D_u^2 + 2 \alpha_u D_u D_u' + \beta_u D_u'^2 \right) \frac{\mean{\dee E_\gamma^2}}{E_0^2}
+\end{equation}
+
+To this end, we define $\curlyH_u$ as
+\begin{equation}
+    \curlyH_u = \gamma_u D_u^2 + 2 \alpha_u D_u D_u' + \beta_u D_u'^2
+\end{equation}
+
+Thus, the expectation on the change in emittance is
+\begin{equation}
+    \mean{\dee \epsilon_u} = \curlyH_u \frac{\mean{\dee E_\gamma^2}}{E_0^2}
+\end{equation}
+
+Now, Eq.\,\ref{eq:notreallycampbell} can be used, on the transverse coordinate\,\cite{hofmann_2004}:
+\begin{equation}
+    \mean{\dee \epsilon_u} = \curlyH_u \frac{\mean{\dee E^2}}{E_0^2}
+    = \curlyH_u \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_u E_0^2}
+\end{equation}
+
+This gives a result, very similar to Eq.\,\ref{eq:meanenergydeviation}
+\begin{equation}
+\mean{\dee \epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{h^3 \curlyH_u}{I_2 - I_{4u}}
+\end{equation}
+
+Integrating over the entire ring gives
+\begin{align}
+    \mean{\epsilon_u} &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c}
+    \frac{1}{I_2 - I_{4u}}\oint h^3 \curlyH_u\ \dee s'\notag\\
+    &= \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c}
+    \frac{1}{I_2 - I_{4u}}\oint h^3 \curlyH_u\ (1 + h_{0u}u)\ \dee s
+\end{align}
+
+Again we assume $h_{0u} u \ll 1$. We can then define the fifth radiation integral, $I_{5u}$, as follows:
+\begin{equation}
+    I_{5u} = \oint h^3 \curlyH_u\ \dee s
+\end{equation}
+
+The expectation value of the emittance can be written as:
+\begin{equation}
+    \mean{\epsilon_u} = \frac{55 \sqrt{3}}{96} \frac{\hbar \gamma^2}{m_0 c} \frac{I_{5u}}{I_2 - I_{4u}}
+\end{equation}
+
 
 \chapter{Synchrotron motion}
 \label{ch:synchmon}
@@ -2466,6 +3135,275 @@ It is possible to set $\phi_\text{RF}$ to place a fixed point of either family i
   \label{eq:phiabovetr}
 \end{align}
 It can be shown that, to have a stable fixed point in $\zeta=0$ one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (below transition).
+
+\chapter{Spin tracking and polarization}
+
+\section{Spin tracking}
+
+This section is based on \cite{hoffstaetter2006high, Sagan:BmadManual}.
+
+The spin precession for a particle traveling in a magnetic field $\bm{B}$ can be written in term of the precession angular velocity:
+\begin{equation}
+\bm{\Omega}_{\text{BMT}} = -\frac{1}{B\rho_{\text{part}}} \left[ (1 + a \gamma)\bm{B}_{\perp} + (1 + a) \bm{B}_{\parallel} \right]
+\end{equation}
+where $a$ is the anomalous magnetic moment and $\bm{B}_{\parallel}$ and $\bm{B}_{\perp}$ are referred to the velocity of the particle.
+
+The precession angle for a particle traveling a path length $\ell$ is given by:
+\begin{equation}
+\phi = |\bm\Omega| \ell
+\end{equation}
+
+We call:
+\begin{equation}
+\bm\omega = \frac{\bm\Omega}{|\bm\Omega|}
+\end{equation}
+and we define:
+\begin{align}
+t_0 = \cos\left(\frac{\phi}{2}\right)\\
+t_x = \omega_x \sin\left(\frac{\phi}{2}\right)\\
+t_y = \omega_y \sin\left(\frac{\phi}{2}\right)\\
+t_s = \omega_z \sin\left(\frac{\phi}{2}\right)
+\end{align}
+The spin vector of the particle is transformed by the following rotation matrix:
+\begin{equation}
+M =
+\begin{bmatrix}
+(t_0^2 + t_x^2) - (t_s^2 + t_y^2) & 2(t_x t_y - t_0 t_s) & 2(t_x t_s + t_0 t_y) \\
+2(t_x t_y + t_0 t_s) & (t_0^2 + t_y^2) - (t_x^2 + t_s^2) & 2(t_s t_y - t_0 t_x) \\
+2(t_x t_s - t_0 t_y) & 2(t_s t_y + t_0 t_x) & (t_0^2 + t_s^2) - (t_x^2 + t_y^2)
+\end{bmatrix}
+\end{equation}
+
+
+\section{Linear transport matrix including spin}
+
+The coordinate vector including the spin is defined as:
+\begin{equation}
+\bm{z} = 
+\begin{pmatrix}
+x \\
+p_x \\
+y \\
+p_y \\
+\zeta \\
+\delta \\
+s_x \\
+s_y \\
+s_z
+\end{pmatrix}
+\quad \text{We call } 
+\bm{z}_{\text{orb}} = 
+\begin{pmatrix}
+x \\
+p_x \\
+y \\
+p_y \\
+\zeta \\
+\delta
+\end{pmatrix},
+\quad
+\bm{z}_{\text{spin}} = 
+\begin{pmatrix}
+s_x \\
+s_y \\
+s_z
+\end{pmatrix}
+\end{equation}
+
+The corresponding 9D transport matrix can be written as
+\begin{equation}
+\mathbf{R} = 
+\begin{pmatrix}
+\mathbf{R}_{\text{orb}} & 0 \\
+\mathbf{D} & \mathbf{A}
+\end{pmatrix}
+\end{equation}
+
+We call $\bm{e}_1, \ldots, \bm{e}_9$ the eigenvectors and $\lambda_1, \ldots, \lambda_9$ the eigenvalues so that
+\begin{equation}
+\mathbf{R} \bm{e}_i = \lambda_i \bm{e}_i
+\end{equation}
+
+From the definition of eigenvectors (doing the matrix product in blocks), we can write:
+\begin{equation}
+\mathbf{R}_{\text{orb}} \, \bm{e}_{i, \text{orb}} = \lambda_i \bm{e}_{i, \text{orb}}
+\label{eq:eispin_from_eiorb}
+\end{equation}
+\begin{equation}
+\mathbf{D} \, \bm{e}_{i, \text{orb}} + \mathbf{A} \, \bm{e}_{i, \text{spin}} = \lambda_i \bm{e}_{i, \text{spin}}
+\end{equation}
+
+From this:
+\begin{equation}
+\mathbf{D} \, \bm{e}_{i, \text{orb}}  = \left(\lambda_i \bm{I} - \mathbf{A} \right) \bm{e}_{i, \text{spin}}
+\end{equation}
+\begin{equation}
+\bm{e}_{i, \text{spin}} = \left(\lambda_i \bm{I} - \mathbf{A} \right)^{-1}\mathbf{D} \, \bm{e}_{i, \text{orb}} 
+\end{equation}
+
+\section{Invariant Spin Field - first order computation}
+
+This section is based on \cite{Chao:1980fz}.
+
+We expand the Invariant Spin Field \cite{hoffstaetter2006high} function to first order
+\begin{equation}
+\bm{n}(\bm{z}_{\text{orb}}) = \bm{n}_0
++ \mathbf{N} \left(\bm{z}_{\text{orb}} - \bm{z}_{\text{orb}}^\text{CO} \right)
+\end{equation}
+
+In the following we drop all the constant terms so we simply write
+$\bm{n}(\bm{z}_{\text{orb}}) = \mathbf{N} \bm{z}_{\text{orb}}$.
+
+We now call $\bm{z}_1^{\text{spin}}$ the ISF at $\bm{z}_1^{\text{orb}}$, i.e.
+\begin{equation}
+\bm{z}_1^{\text{spin}} = \mathbf{N} \bm{z}_1^{\text{orb}}
+\end{equation}
+
+We call $\bm{z}_2$ the coordinate after one revolution. By definition of the ISF, the spin part of $\bm{z}_2$ is the ISF at $\bm{z}_2^{\text{orb}}$, i.e.
+\begin{equation}
+\bm{z}_2^{\text{spin}} = \mathbf{N} \bm{z}_2^{\text{orb}}
+\label{eq:z2_isf}
+\end{equation}
+
+We know from the structure of the one-turn matrix:
+\begin{equation}
+\bm{z}_2^{\text{orb}}  = \mathbf{R}_{\text{orb}} \bm{z}_1^{\text{orb}}
+\label{eq:z2_orb}
+\end{equation}
+\begin{equation}
+\bm{z}_2^{\text{spin}} = \mathbf{D} \bm{z}_1^{\text{orb}} + \mathbf{A} \bm{z}_1^{\text{spin}}
+\label{eq:z2_mat}
+\end{equation}
+
+Combining, Eqs.\,\ref{eq:z2_isf}, \ref{eq:z2_orb} and~\ref{eq:z2_mat}, we obtain:
+% \begin{equation}
+% \mathbf{N} \bm{z}_2^{\text{orb}} = \mathbf{D} \bm{z}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{z}_1^{\text{orb}}
+% \end{equation}
+% and then
+\begin{equation}
+\mathbf{N} \mathbf{R}_{\text{orb}} \bm{z}_1^{\text{orb}} = \mathbf{D} \bm{z}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{z}_1^{\text{orb}}
+\end{equation}
+
+We specialize it for the case $\bm{z}_1^{\text{orb}} = \bm{e}_1^{\text{orb}}$ obtaining:
+\begin{equation}
+\lambda_1 \mathbf{N} \bm{e}_1^{\text{orb}} = \mathbf{D} \bm{e}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{e}_1^{\text{orb}}
+\label{eq:isf_e1}
+\end{equation}
+
+From Eq.\,\ref{eq:eispin_from_eiorb}, we botain:
+\begin{equation}
+\mathbf{D} \bm{e}_1^{\text{orb}} = \lambda_1 \bm{e}_1^{\text{spin}} - \mathbf{A} \bm{e}_1^{\text{spin}}
+\end{equation}
+
+Replacing into Eq.\,\ref{eq:eispin_from_eiorb}, we obtain:
+\begin{equation}
+(\lambda_1 \mathbf{I} - \mathbf{A}) \mathbf{N} \bm{e}_1^{\text{orb}} = (\lambda_1 \mathbf{I} - \mathbf{A}) \bm{e}_1^{\text{spin}}
+\end{equation}
+
+If $(\lambda_1 \mathbf{I} - \mathbf{A})$ is not singular:
+\begin{equation}
+\mathbf{N} \bm{e}_1^{\text{orb}} = \bm{e}_1^{\text{spin}}
+\end{equation}
+
+Combining this result for the six orbital eigenvectors:
+\begin{equation}
+\left( \mathbf{N} \bm{e}_1^{\text{orb}} \quad \cdots \quad \mathbf{N} \bm{e}_6^{\text{orb}} \right)
+= 
+\left( \bm{e}_1^{\text{spin}} \quad \cdots \quad \bm{e}_6^{\text{spin}} \right)
+\end{equation}
+
+In matrix form:
+\begin{equation}
+\mathbf{N} \mathbf{E}^{\text{orb}} = \mathbf{E}^{\text{spin}} 
+\quad \Rightarrow \quad 
+\mathbf{N} = \mathbf{E}^{\text{spin}} \left( \mathbf{E}^{\text{orb}} \right)^{-1}
+\end{equation}
+
+We note that the last column of the matrix $\bm{N}$ provides the derivative $\frac{d \bm{n}}{d \delta}$ which is relevant for the computation of equilibrium polarization.
+
+\section{Equilibrium polarization and polarization time}
+
+This section is based on \cite{Chao:1980fz, Derbenev:1973ia, Boge:1994we, Sagan:BmadManual, Mane:1986qy, Barber:1999xm}.
+
+In the presence of photon emission, the polarization of the beam evolves following
+the equation:
+\begin{equation}
+P(t) = P(0) e^{-\frac{t}{\tau_\text{tot}}} + P_\text{eq} \left(1 - e^{-\frac{t}{\tau_\text{tot}}}\right)
+\end{equation}
+
+The equilibrium polarization and the buildup time can be computed as:
+
+\begin{equation}
+P_\text{eq} = \frac{8}{5\sqrt{3}} \frac{\alpha_{-}}{\alpha_{+}}
+\end{equation}
+
+\begin{equation}
+\tau_\text{tot}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e} \cdot \alpha_+
+\end{equation}
+where, truncating to the first order the dependece of the ISF on the phase space coordinates, we have:
+\begin{align}
+&\alpha_+ \simeq \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
+\left[
+1 - \frac{2}{9} (\bm{n_0} \cdot \hat{\bm{i}}_v)^2 + \frac{11}{18} \left|  \frac{\partial \bm{n}}{\partial \delta} \right|^2
+\right]_s\\
+&\alpha_- \simeq  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
+\left[\hat{\bm{i}}_B \cdot
+(\bm{n}_0 - \frac{\partial \bm{n}}{\partial \gamma})
+\right]_s
+\end{align}
+
+The buildup time can be decompoesed in two terms:
+\begin{equation}
+\tau_\text{tot}^{-1} = \tau_\text{pol}^{-1} + \tau_\text{depol}^{-1}
+\end{equation}
+where:
+\begin{align}
+  &\tau_\text{pol}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e}
+  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
+  \left[
+  1 - \frac{2}{9} (\bm{n_0} \cdot \hat{\bm{i}}_v)^2
+  \right]_s\\
+  &\tau_\text{depol}^{-1} = \frac{5\sqrt{3}}{8} \frac{r_e \hbar \gamma^5}{m_e}
+  \frac{1}{C} \oint \frac{ds}{|\rho(s)|^3}
+  \left[
+    \frac{11}{18} \left|  \frac{\partial \bm{n}}{\partial \delta} \right|^2
+  \right]_s
+\end{align}
+
+\section{Monte Carlo method for equilibrium polarization}
+This section is based on \cite{Boge:1994we, DUAN201581}.
+
+We can define:
+\begin{equation}
+  P_{\infty} = \frac{8}{5\sqrt{3}}
+  \frac
+  {
+   \oint \frac{ds}{|\rho(s)|^3}
+    \left[\hat{\bm{i}}_B \cdot
+    (\bm{n}_0)
+    \right]_s
+}
+{
+  \oint \frac{ds}{|\rho(s)|^3}
+  \left[
+    1 - \frac{2}{9} (\bm{n_0} \cdot \hat{\bm{i}}_v)^2
+    \right]_s
+}
+\end{equation}
+
+The equilibrium polarization and the buildup rate can be written as follows:
+\begin{align}
+  &P_\text{eq} = P_{\infty} \frac{1}{1 + \frac{\tau_\text{pol}}{\tau_\text{depol}}}
+  \label{eq:p_eq_sitros}\\
+  &\tau_\text{tot}^{-1} = \tau_\text{pol}^{-1} + \tau_\text{depol}^{-1}
+  \label{eq:tau_tot_sitros}
+\end{align}
+
+The term $\tau_\text{depol}$ can be evalated using particle tracking, accounting for
+quantum excitation from synchrotron radiation. Unlike the approach used in the previous
+section, this method accounts for the non-linear dependence of the ISF on the phase space coordinates.
+Using $\tau_\text{depol}$ we can get from Eqs.\,\ref{eq:p_eq_sitros} and \ref{eq:tau_tot_sitros}
+estimates for $P_\text{eq}$ and $\tau_\text{tot}$ that include non linear effects.
 
 
 \chapter{Coasting beams}

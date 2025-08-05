@@ -28,6 +28,36 @@ The following short example shows how to switch between the amplitude and emitta
    :language: python
 
 
+Steady State Emittances in the Presence of Synchrotron Radiation, Quantum Excitation and Intra-Beam Scattering
+==============================================================================================================
+
+The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where the combined effect of these three phenomena balances each other out.
+These emittances can be calculated in `Xsuite` by numerically solving a system of ordinary differential equations while enforcing constraints on the transverse emittances.
+The ODE solved by the function are detailed in the :doc:`Physics guide<physicsguide>`.
+
+See also: :meth:`xtrack.twiss.TwissTable.get_ibs_and_synrad_emittance_evolution`
+
+In the following example, steady state emittances are calculated in the presence of a coupling constraint between transverse planes.
+Notice how the coupling constraint of round beams (coupling factor = 1) is respected through the evolution of the emittances to the steady-state.
+
+.. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_coupling.py
+   :language: python
+
+.. figure:: figures/ibs_sr_steadystate_coupling.png
+    :width: 80%
+    :align: center
+
+This example, quite similar, shows how to do the same but with an excitation constraint between the transvserse planes.
+Notice how this time a specific factor between transverse emittances is respected through their evolution to the steady-state.
+
+.. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_excitation.py
+   :language: python
+
+.. figure:: figures/ibs_sr_steadystate_excitation.png
+    :width: 80%
+    :align: center
+
+
 IBS Kicks for Tracking
 ======================
 

@@ -56,19 +56,22 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
 .. code-block:: bash
 
     git clone https://github.com/xsuite/xobjects
-    pip install -e xobjects
-
     git clone https://github.com/xsuite/xdeps
-    pip install -e xdeps
-
     git clone https://github.com/xsuite/xpart
-    pip install -e xpart
-
     git clone https://github.com/xsuite/xtrack
-    pip install -e xtrack
-
     git clone https://github.com/xsuite/xfields
+    git clone https://github.com/xsuite/xwakes
+    git clone https://github.com/xsuite/xcoll
+    git clone https://github.com/xsuite/xsuite
+
+    pip install -e xobjects
+    pip install -e xdeps
+    pip install -e xpart
+    pip install -e xtrack
     pip install -e xfields
+    pip install -e xwakes
+    pip install -e xcoll
+    pip install -e xsuite
 
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
