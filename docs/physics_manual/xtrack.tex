@@ -1381,6 +1381,42 @@ where
 p_z = \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}.
 \end{equation}
 
+\subsection{Multipole fringe}
+
+The fringe field effect for multipole magnets is implemented as described in 
+\cite{forest99}.
+
+\begin{align}
+f_\pm &\approx 
+\mp \Re \frac{c_n (x + i y)^n}{4 (n+1)(1+\delta)} 
+\left\{ x p_x + y p_y + i \frac{n+2}{n} (x p_y - y p_x) \right\} 
+\label{eq:fpm}
+\\[1ex]
+&= \frac{p_x f^x + p_y f^y}{1+\delta}.
+\nonumber
+\end{align}
+The functions $f^x$ and $f^y$ depend on position only. 
+The characteristic function is chosen so as to depend on the final momenta:
+\begin{equation}
+S(\vec{x}, \vec{p}^f) = \vec{x} \cdot \vec{p}^f - \frac{p_x^f f^x + p_y^f f^y}{1+\delta}.
+\label{eq:characteristic}
+\end{equation}
+The resulting system is:
+\begin{subequations}
+\label{eq:system}
+\begin{align}
+x^f &= x - \frac{f^x}{1+\delta} \label{eq:xf} \\[0.5ex]
+p_x &= p_x^f - \frac{p_x^f (\partial_x f^x) + p_y^f (\partial_x f^y)}{1+\delta} \label{eq:fringe_px} \\[0.5ex]
+y^f &= y - \frac{f^y}{1+\delta} \label{eq:yf} \\[0.5ex]
+p_y &= p_y^f - \frac{p_x^f (\partial_y f^x) + p_y^f (\partial_y f^y)}{1+\delta} \label{eq:fringe_py} \\[0.5ex]
+\delta^f &= \delta \label{eq:deltaf} \\[0.5ex]
+\ell &= \ell^f + \frac{p_x^f f^x + p_y^f f^y}{(1+\delta)^2}. \label{eq:l}
+\end{align}
+\end{subequations}
+It is solved by inverting Eqs.~\eqref{eq:fringe_px} and \eqref{eq:fringe_py}
+simultaneously for the final transverse momenta.
+
+
 \chapter{Linear optics calculations}
 \label{opt}
 Optics calculation are needed to study the motion around the closed orbit. By defining $z$ as the vector of $2 k$ coordinates,  
