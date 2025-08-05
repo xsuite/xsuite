@@ -39,6 +39,7 @@ From CERN:
  - Martin Schwinzerl
  - Felix Soubelet
  - Guido Sterbini
+ - Silke Van Der Schueren
  - Frederik Van Der Veken
  - Eskil Vik
  - Elias Waagaard
