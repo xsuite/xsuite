@@ -635,225 +635,45 @@ the map relative to the expanded Hamiltonian is (eq. 4.11 in \cite{barber87})
   -\left(y-\frac{\delta}{h_y}\right)\frac{2S_y^2}{1+\delta} \cdot p_y \Bigg].
 \end{align}
 
-\subsubsection{Dipole Edge effects}
-Considering the dipole edge effects from a dipole of length $L$ and bending angle $\theta$, 
-the map is
+% \subsubsection{Dipole Edge effects}
+% Considering the dipole edge effects from a dipole of length $L$ and bending angle $\theta$, 
+% the map is
+% \begin{align*}
+%     p_x &\to p_x + \frac{1+\delta}{\rho} \tan(\alpha) \cdot x \\
+%     p_y &\to p_y - \frac{1+\delta}{\rho} \tan(\alpha) \cdot y,
+% \end{align*}
+% where the bending radius $\rho$ and $\alpha$ are defined as
+% \begin{align*}
+%     \rho^{-1}   &= \frac{h_x}{\sqrt{1+\delta}} &
+%     \alpha &= \frac{1}{2} \frac{L}{\rho} = \frac{\theta}{2}.
+% \end{align*}
+
+\subsubsection{Dipole fringe field}
+
+The dipole fringe field implementation is based on \cite{forest-fringe-1}.
+Additional information can be found in \cite{silke_cap}.
+
 \begin{align*}
-    p_x &\to p_x + \frac{1+\delta}{\rho} \tan(\alpha) \cdot x \\
-    p_y &\to p_y - \frac{1+\delta}{\rho} \tan(\alpha) \cdot y,
+x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
+p_{x,f} &= p_x \\
+y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
+p_{y,f} &= p_y - \psi y_f - \frac{b_0^2}{9 K g (1 + \delta)} y_f^3 \\
+\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
+\delta_f &= \delta
 \end{align*}
-where the bending radius $\rho$ and $\alpha$ are defined as
-\begin{align*}
-    \rho^{-1}   &= \frac{h_x}{\sqrt{1+\delta}} &
-    \alpha &= \frac{1}{2} \frac{L}{\rho} = \frac{\theta}{2}.
-\end{align*}
 
-\subsubsection{Fringe field}
-
-Based on: \url{https://cds.cern.ch/record/2857004}
-
-The map of the fringe field of a bending magnet can be written as:
-\begin{align} 
-y^f & =\frac{2 y}{1+\sqrt{1-2 \frac{\partial \Phi}{\partial p_y} y}} \\ 
-x^f & =x+\frac{1}{2} \frac{\partial \Phi}{\partial p_x} y^{f^2} \\
-p_y^f & =p_y-\Phi y^f \\ 
-\zeta^f & =\zeta+\frac{\beta_0}{\beta}\frac{1}{2} \frac{\partial \Phi}{\partial \delta} y^{f^2}
-\end{align}
-
-
-where:
+with:
 \begin{equation}
-\Phi\left(p_x, p_y, \delta\right)=\frac{k_0 x^{\prime}}{1+y^{\prime 2}}
--g k_0^2 f_\text{int}
-\left(\frac{(1+\delta)^2-p_y^2}{p_z^3}
-+x^{\prime 2}
-\frac{(1+\delta)^2-p_x^2}{p_z^3}\right)
+\psi = b_0 \tan \left[ 
+\arctan \left( \frac{x'}{1 + y'^2} \right) 
+- g b_0 K \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
+\right]
 \end{equation}
-
-We define:
-\begin{align}
-\phi_0(x', y') &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
-\phi_x(p_x, p_y, \delta) &= \frac{(1+\delta)^2-p_x^2}{p_z^3}\\
-\phi_y(p_x, p_y, \delta) &= \frac{(1+\delta)^2-p_y^2}{p_z^3}
-\end{align}
-
-So we can rewrite:
+where $b_0$ is the normalized magnetic field, $g$ is the magnet gap and $K$ is
+the fringe field integral:
 \begin{equation}
-\Phi\left(p_x, p_y, \delta\right)=\frac{k_0 x^{\prime}}{1+y^{\prime 2}}
--g k_0^2 f_\text{int}
-\left(\frac{(1+\delta)^2-p_y^2}{p_z^3}
-+x^{\prime 2}
-\frac{(1+\delta)^2-p_x^2}{p_z^3}\right)
+K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(b_0 - b(s)\bigr)}{g b_0^{2}} \, ds
 \end{equation}
-
-so we can rewrite:
-\begin{equation}
-\Phi\left(p_x, p_y, \delta\right)=
-k_0 \phi_0(x', y')
--g k_0^2 f_\text{int} \left(
-\phi_y(p_x, p_y, \delta) +x^{\prime 2} \phi_x(p_x, p_y, \delta)
-\right)
-\end{equation}
-
-The derivatives can be written as:
-
-\begin{align}
-\frac{\partial \Phi}{\partial p_x} &= 
-k_0 \left( \frac{\partial \phi_0}{\partial x'}\frac{\partial x'}{\partial p_x} + \frac{\partial \phi_0}{\partial y'}\frac{\partial y'}{\partial p_x} \right)
--g k_0^2 f_\text{int} \left(
-\frac{\partial \phi_y}{\partial p_x}
-+ 2x'\frac{\partial x'}{\partial p_x}\phi_x
-+x'^2 
-\frac{\partial \phi_x}{\partial p_x}
-\right)\\
-%
-\frac{\partial \Phi}{\partial p_y} &= 
-k_0 \left( \frac{\partial \phi_0}{\partial x'}\frac{\partial x'}{\partial p_y} + \frac{\partial \phi_0}{\partial y'}\frac{\partial y'}{\partial p_y} \right)
--g k_0^2 f_\text{int} \left(
-\frac{\partial \phi_y}{\partial p_y}
-+ 2x'\frac{\partial x'}{\partial p_y}\phi_x
-+x'^2 
-\frac{\partial \phi_x}{\partial p_y}
-\right)\\
-%
-\frac{\partial \Phi}{\partial \delta} &= 
-k_0 \left( \frac{\partial \phi_0}{\partial x'}\frac{\partial x'}{\partial \delta} + \frac{\partial \phi_0}{\partial y'}\frac{\partial y'}{\partial \delta} \right)
--g k_0^2 f_\text{int} \left(
-\frac{\partial \phi_y}{\partial \delta} 
-+ 2x'\frac{\partial x'}{\partial \delta}\phi_x
-+x'^2 
-\frac{\partial \phi_x}{\partial \delta} 
-\right)
-\end{align}
-
-Expression of all other quantities needed for the calculation:
-
-
-\begin{align}
-x' &= \frac{p_x}{p_z}\\
-\frac{\partial x'}{\partial p_x} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial p_x} + \frac{1}{p_z} \\
-\frac{\partial x'}{\partial p_y} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial p_x}\\
-\frac{\partial x'}{\partial \delta} &= - \frac{p_x}{p_z^2}\frac{\partial p_z}{\partial \delta}
-\end{align}
-
-\begin{align}
-y' &= \frac{p_y}{p_z}\\
-\frac{\partial y'}{\partial p_y} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial p_y}  \\
-\frac{\partial y'}{\partial p_y} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial p_y} + \frac{1}{p_z}\\
-\frac{\partial y'}{\partial \delta} &= - \frac{p_y}{p_z^2}\frac{\partial p_z}{\partial \delta}
-\end{align}
-
-
-\begin{align}
-p_z &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
-\frac{\partial p_z}{\partial p_x} &= -\frac{p_x}{p_z} = -x'\\
-\frac{\partial p_z}{\partial p_y} &= -\frac{p_y}{p_z} = -y'\\
-\frac{\partial p_z}{\partial \delta} &= \frac{1+\delta}{p_z}
-\end{align}
-
-
-\begin{align}
-\phi_x &= \frac{(1+\delta)^2-p_x^2}{p_z^3}\\
-\frac{\partial \phi_x}{\partial p_x} &=  -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_x} \left((1+\delta)^2-p_x^2 \right)
-- 2 \frac{p_x}{p_z^3}\\
-\frac{\partial \phi_x}{\partial p_y} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_y} \left((1+\delta)^2-p_x^2 \right)\\
-\frac{\partial \phi_x}{\partial \delta} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial \delta} \left((1+\delta)^2-p_x^2 \right)
-+ 2 \frac{(1+\delta)}{p_z^3}
-\end{align}
-
-\begin{align}
-\phi_y &= \frac{(1+\delta)^2-p_y^2}{p_z^3}\\
-\frac{\partial \phi_y}{\partial p_x} &=  -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_x} \left((1+\delta)^2-p_y^2 \right)\\
-\frac{\partial \phi_y}{\partial p_y} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial p_y} \left((1+\delta)^2-p_y^2 \right)
-- 2 \frac{p_y}{p_z^3}\\
-\frac{\partial \phi_x}{\partial \delta} &= -\frac{3}{p_z^4}\frac{\partial p_z}{\partial \delta} \left((1+\delta)^2-p_x^2 \right)
-+ 2 \frac{(1+\delta)}{p_z^3}
-\end{align}
-
-\begin{align}
-\phi_0 &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
-\frac{\partial \phi_0}{\partial x'} &= \frac{1}{1+y^{\prime 2}}\\
-\frac{\partial \phi_0}{\partial y'} &= - \frac{2x'y'}{(1+y^{\prime 2})^2}
-\end{align}
-
-\subsubsection{MAD8 fringe}
-
-Again nased on: \url{https://cds.cern.ch/record/2857004} (eq. 37)
-
-The map of the fringe field of a bending magnet can be written as:
-\begin{align} 
-y^f & =\frac{2 y}{1+\sqrt{1-2 \frac{\partial \Psi}{\partial p_y} y}} \\ 
-x^f & =x+\frac{1}{2} \frac{\partial \Psi}{\partial p_x} y^{f^2} \\
-p_y^f & =p_y-\Psi y^f \\ 
-\zeta^f & =\zeta+\frac{\beta_0}{\beta}\frac{1}{2} \frac{\partial \Psi}{\partial \delta} y^{f^2}
-\end{align}
-where:
-\begin{equation}
-\Psi\left(p_x, p_y, \delta\right)=k_0\tan ^{-1}\left(\frac{x^{\prime}}{1+y^{\prime 2}}\right)-g k_0^2 f_\text{int} p_z \left(1+x^{\prime 2}\left(2+y^{\prime 2}\right)\right) 
-\end{equation}
-
-We define:
-\begin{align}
-\phi_0(x', y') &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
-\phi_1(x', y') &= 1+2x^{\prime 2}+x^{\prime 2}y^{\prime 2} 
-\end{align}
-
-so we can write
-\begin{equation}
-\Psi=k_0\tan^{-1}\left(\phi_0 \right)
--g k_0^2 f_\text{int} 
-p_z \phi_1
-\end{equation}
-
-from which:
-\begin{align}
-\frac{\partial\Psi}{\partial p_x} &= 
-k_0 \frac{1}{1 + \phi_0^2}\frac{\partial\phi_0}{\partial p_x}
--gk_0^2 f_\text{int}
-\left(\phi_1 \frac{\partial p_z}{\partial p_x}
- + p_z \frac{\phi_1}{\partial p_x}
-\right)\\
-\frac{\partial\Psi}{\partial p_y} &= 
-k_0 \frac{1}{1 + \phi_0^2}\frac{\partial\phi_0}{\partial p_y}
--gk_0^2 f_\text{int}
-\left(\phi_1 \frac{\partial p_z}{\partial p_y}
- + p_z \frac{\phi_1}{\partial p_y}
-\right)\\
-\frac{\partial\Psi}{\partial \delta} &= 
-k_0 \frac{1}{1 + \phi_0^2}\frac{\partial\phi_0}{\partial \delta }
--gk_0^2 f_\text{int}
-\left(\phi_1 \frac{\partial p_z}{\partial p_y}
- + p_z \frac{\phi_1}{\partial \delta}
-\right)\\
-\end{align}
-
-\begin{align}
-\frac{\partial \phi_{0,1}}{\partial p_x} &= 
-\frac{\partial \phi_{0,1}}{\partial x'} \frac{\partial x'}{\partial p_x}
-+\frac{\partial \phi_{0,1}}{\partial y'} \frac{\partial y'}{\partial p_x}
-\\
-\frac{\partial \phi_{0,1}}{\partial p_y} &= 
-\frac{\partial \phi_{0,1}}{\partial x'} \frac{\partial x'}{\partial p_y}
-+\frac{\partial\phi_{0,1}}{\partial y'} \frac{\partial y'}{\partial p_y}
-\\
-\frac{\partial \phi_{0,1}}{\partial \delta} &= 
-\frac{\partial \phi_{0,1}}{\partial x'} \frac{\partial x'}{\partial \delta}
-+\frac{\partial\phi_{0,1}}{\partial y'} \frac{\partial y'}{\partial \delta}
-\end{align}
-
-
-\begin{align}
-\phi_0 &= \frac{x^{\prime}}{1+y^{\prime 2}}\\
-\frac{\partial \phi_0}{\partial x'} &= \frac{1}{1+y^{\prime 2}}\\
-\frac{\partial \phi_0}{\partial y'} &= - \frac{2x'y'}{(1+y^{\prime 2})^2}
-\end{align}
-
-\begin{align}
-\phi_1 &= 1+2x^{\prime 2}+x^{\prime 2}y^{\prime 2} \\
-\frac{\partial \phi_1}{\partial x'} &= 4x' + 2x'y'^2\\
-\frac{\partial \phi_1}{\partial y'} &= 2x'^2y'
-\end{align}
-
 
 \subsection{Combined dipole quadrupole}
 
