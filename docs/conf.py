@@ -248,6 +248,8 @@ snippet_files = {
         'generated_code_snippets/multipolar_components.py',
     'xtrack/examples/element_transformations/001a_sliced_multipolar_components.py':
         'generated_code_snippets/multipolar_components_sliced.py',
+    'xtrack/examples/lattice_design/016_extend_multipoles.py':
+        'generated_code_snippets/extend_multipoles.py',
     'xtrack/examples/toy_ring/007_cut_at_s.py':
         'generated_code_snippets/cut_at_s.py',
     'xfields/examples/005_ibs/001_growth_rates_with_vdisp.py':

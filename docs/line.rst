@@ -225,7 +225,7 @@ in the following example:
 .. literalinclude:: generated_code_snippets/compound_transform.py
    :language: python
 
-Tranfromations are propagated when the elements are sliced and can be updated
+Transformations are propagated when the elements are sliced and can be updated
 also after the slicing by acting on the parent element. This is illustrated in
 the following example:
 
@@ -240,6 +240,20 @@ following example:
 
 .. literalinclude:: generated_code_snippets/multipolar_components.py
    :language: python
+
+Extend multipolar component order
+---------------------------------
+
+By default, the multipolar component order is limited to a given default (typically
+dodecapole). However, it is possible to extend the multipolar component order
+by using the method :meth:`xtrack.Line.extend_knl_ksl` as illustrated in the following
+example:
+
+.. literalinclude:: generated_code_snippets/extend_multipoles.py
+   :language: python
+
+Propagation of multipolar components to sliced elements
+-------------------------------------------------------
 
 Multipolar components are propagated when the elements are sliced and can be updated
 also after the slicing by acting on the parent element. This is illustrated in
