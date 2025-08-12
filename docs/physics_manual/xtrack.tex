@@ -1045,6 +1045,109 @@ The corresponding magnetic field is:
 %p_t & \leftarrow p_t  + \frac{\beta_0}{\beta-\beta_b}\left(\ldots\right)
 %\end{align}.
 
+\subsection{Rotations}
+
+We assume the conventions for the directions of rotation for compatibility with \mbox{MAD-X}, as visualised in Fig.~\ref{fig:beam-rotations}.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,232); %set diagram left start at 0, and has height of 232
+		
+		%Straight Lines [id:da20170232008889133] 
+		\draw    (30.75,200.25) -- (30.75,93.5) ;
+		\draw [shift={(30.75,90.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da7586738429193832] 
+		\draw    (30.75,200.25) -- (137,200.25) ;
+		\draw [shift={(140,200.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8289354712219019] 
+		\draw    (30.75,200.25) -- (113.33,157.87) ;
+		\draw [shift={(116,156.5)}, rotate = 152.83] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da8619095365842171] 
+		\draw    (107.75,195) .. controls (111.49,187.52) and (112.39,180.04) .. (102.07,171.95) ;
+		\draw [shift={(99.75,170.25)}, rotate = 34.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da14562765286410684] 
+		\draw    (93.75,162.5) .. controls (86.83,136.71) and (58.01,132.59) .. (39.76,141.42) ;
+		\draw [shift={(37.25,142.75)}, rotate = 329.74] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da5921182448586806] 
+		\draw    (75.01,192.73) .. controls (71.13,171.98) and (58.98,163.96) .. (36.25,159.95) ;
+		\draw [shift={(75.5,195.75)}, rotate = 261.96] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (113.25,177.15) node [anchor=north west][inner sep=0.75pt]    {$\theta $};
+		% Text Node
+		\draw (25.5,75.65) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (118.75,150.15) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (144.5,197.15) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (69.5,123.19) node [anchor=north west][inner sep=0.75pt]    {$\psi $};
+		% Text Node
+		\draw (63.48,154.9) node [anchor=north west][inner sep=0.75pt]    {$\phi $};
+	\end{tikzpicture}
+	\caption{Rotation directions in the beam coordinate system (right-handed system).}\label{fig:beam-rotations}
+\end{figure}
+
+The longitudinal momentum is
+\[
+	p_z \;=\; \sqrt{\,1 + \frac{2\,p_\tau}{\beta_0} + p_\tau^2 - p_x^2 - p_y^2 \,}.
+\]
+
+\subsubsection{XRotation}
+
+We define a scaling factor $\kappa$ arising from the coordinate system being tilted by $\phi$ about the $x$-axis:
+\[
+\kappa := 1 - \frac{\tan\phi \; p_y}{p_z}.
+\]
+The coordinate updates can be described as follows
+\[
+y \leftarrow \frac{y}{\kappa \cos\phi}, \quad p_y \leftarrow p_y \cos\phi + p_z \sin\phi,
+\]
+
+\[
+x \leftarrow x + \frac{y p_x \tan\phi}{\kappa p_z}, \quad \zeta \leftarrow \zeta - \frac{y \tan\phi \left(1 + \beta_0 p_t \right)}{\kappa p_z}.
+\]
+
+\subsubsection{YRotation}
+
+We define a scaling factor $\kappa$ arising from the coordinate system being tilted by $\theta$ about the $y$-axis:
+
+\[
+\kappa := 1 + \frac{\tan\theta \; p_x}{p_z}.
+\]
+
+The coordinate updates can be described as follows:
+
+\[
+x \leftarrow \frac{x}{\kappa \cos\theta}, 
+\quad 
+p_x \leftarrow p_x \cos\theta - p_z \sin\theta,
+\]
+
+\[
+y \leftarrow y - \frac{x\,p_y\,\tan\theta}{\kappa\,p_z}, 
+\quad 
+\zeta \leftarrow \zeta + \frac{x\,\tan\theta\,(1 + \beta_0 p_t)}{\kappa\,p_z}.
+\]
+
+\subsubsection{SRotation}
+
+We perform a rotation in the $x$-$y$ plane by an angle $\psi$:
+
+\[
+x \leftarrow x \cos\psi + y \sin\psi,
+\quad
+y \leftarrow -x \sin\psi + y \cos\psi,
+\]
+
+\[
+p_x \leftarrow p_x \cos\psi + p_y \sin\psi,
+\quad
+p_y \leftarrow -p_x \sin\psi + p_y \cos\psi.
+\]
+
+
 \subsection{AC-dipole}
 The excitation amplitude of the AC-dipole is denoted by $A$ [Tm], the excitation frequency by $q_d$ [$2\pi$] and the phase of the excitation by $\phi$. The map
 presented here is for a purely horizontal dipole, the map for a vertical dipole is obtained by replacing $p_x\to p_y$.
@@ -4201,3 +4304,8 @@ However, as we have already established for our correction of $s$, we expect the
 \[
 	\text{SShift}(\Delta s) := \{ \text{DriftExact}(\Delta s),\;\; s \leftarrow s - \Delta s,\;\; \zeta \leftarrow \zeta - \Delta s \}.
 \]
+
+
+\section{Other notes}
+
+The rotation direction conventions differ between the MAD-X survey coordinate system and the beam coordinate system, in that the $y$-rotation of the beam is opposite to the one described by YRot in the tracking procedures above. This sign difference is taken into account in the Xsuite implementation.
