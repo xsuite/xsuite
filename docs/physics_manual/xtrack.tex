@@ -1328,7 +1328,7 @@ the fringe field integral:
 K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(b_0 - b(s)\bigr)}{g b_0^{2}} \, ds
 \end{equation}
 
-\subsection{Dipole wedge}
+\subsection{Dipole wedge} \label{sec:DipoleWedge}
 
 The following map can be used to move the observation plane by an angle $\theta$
 around the $y$ axis in a uniform dipole field~\cite{forest99}.
@@ -1359,7 +1359,7 @@ p_y(\theta) &= p_y
 
 where $b_0$ is the normalized magnetic field.
 
-\subsection{Y rotation}
+\subsection{Y rotation} \label{sec:Yrotation}
 
 The following map can be used to move the observation plane by an angle $\theta$
 around the $y$ axis in the absence of a magnetic field~\cite{forest99}.
@@ -1424,51 +1424,52 @@ simultaneously for the final transverse momenta.
 If the wedge or Y rotation take place in the presence of a quadrupole field,
 the following correction is applied to the transverse momenta:
 \begin{align}
-p_x^f &= p_x - b_2 x^2 \theta + b_2 \frac{y^2}{2} \theta 
+p_x^f &= p_x - b_1 x^2 \theta + b_1 \frac{y^2}{2} \theta 
 \label{eq:pxf}
 \\
-p_y^f &= p_y + b_2 x y \theta
+p_y^f &= p_y + b_1 x y \theta
 \label{eq:pyf}
 \end{align}
+This correction is a perturbation of the wedge or Y rotation, and can in theory be applied using any integration scheme. It is currently implemented as a kick-drift approximation.
 
 \subsubsection*{Derivation}
-(by S. Van der Schueren)
+(derived by S. Van der Schueren based on the MAD-X/PTC \cite{madsite} source code)
 
 In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
 \begin{equation}
 H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x) 
 \left( 
 \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} 
-- \frac{x + \frac{h}{2} x^2}{1 + h x} b_1 + b_2 \frac{y^2}{2} - \frac{b_2 h x^3}{3} + \frac{b_2 x^2}{2(hx+1)}
+- \frac{x + \frac{h}{2} x^2}{1 + h x} b_0 + b_1 \frac{y^2}{2} - \frac{b_1 h x^3}{3} + \frac{b_1 x^2}{2(hx+1)}
 \right)
 \label{eq:Htau}
 \end{equation}
-which we can split in perturbation theory into:
+which we can split in perturbation theory in a drift-like part $H_0$ and a kick-like part $H_1$:
 \begin{align}
-H_1 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_1 
+H_0 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_0 
 \label{eq:H1}
 \\
-H_2 &= -(1 + h x) b_2 \frac{y^2}{2} + \left( b_2 h \frac{x^3}{3} + b_2 \frac{x^2}{2} \right)
+H_1 &= -(1 + h x) b_1 \frac{y^2}{2} + \left( b_1 h \frac{x^3}{3} + b_1 \frac{x^2}{2} \right)
 \label{eq:H2}
 \end{align}
 
-The Hamiltonian $H_1$ leads to the dipole wedge (or a dynamical rotation if $b_1 = 0$). 
-The Hamiltonian $H_2$ has equations of motion:
+The Hamiltonian $H_0$ leads to the dipole wedge \ref{sec:DipoleWedge} (or a dynamical rotation \ref{sec:Yrotation} if $b_0 = 0$) when taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ . 
+The Hamiltonian $H_1$ has equations of motion:
 \begin{align}
-p_x' &= -\frac{\partial H_2}{\partial x} 
-= h b_2 \frac{y^2}{2} - h b_2 x^2 - b_2 x 
+p_x' &= -\frac{\partial H_1}{\partial x} 
+= h b_1 \frac{y^2}{2} - h b_1 x^2 - b_1 x 
 \label{eq:pxprime}
 \\
-p_y' &= -\frac{\partial H_2}{\partial y} 
-= (1 + h x) b_2 y 
+p_y' &= -\frac{\partial H_1}{\partial y} 
+= (1 + h x) b_1 y 
 \label{eq:pyprime}
 \end{align}
 which gives integrated equations:
 \begin{align}
-p_x(s) &= p_x + h b_2 \frac{y^2}{2} s - h b_2 x^2 s - b_2 x s 
+p_x(s) &= p_x + h b_1 \frac{y^2}{2} s - h b_1 x^2 s - b_1 x s 
 \label{eq:pxs}
 \\
-p_y(s) &= p_y + (1 + h x) b_2 y s 
+p_y(s) &= p_y + (1 + h x) b_1 y s 
 \label{eq:pys}
 \end{align}
 Taking the limit to $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
