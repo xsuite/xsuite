@@ -240,7 +240,6 @@ Lossmaps are created as instances of :class:`xcoll.LossMap`. The lossmap itself 
 .. literalinclude:: generated_code_snippets/lhc_run3_lossmap.py
    :language: python
 
-========================
 Loss location refinement
 ========================
 
