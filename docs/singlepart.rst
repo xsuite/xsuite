@@ -142,7 +142,7 @@ of hardware (CPUs and GPUs). The user selects the hardware to be used by
 creating a :doc:`context object <contexts>`, that is then passed to all other
 Xsuite components.
 
-To run on conventional CPUs you need the context is created with the following instructions:
+To run on conventional CPUs the context is created with the following instructions:
 
 .. code-block:: python
 

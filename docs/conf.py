@@ -29,6 +29,7 @@ xtrack_branch = 'main'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
+xcoll_branch = 'main'
 
 os.system(
     f'git clone --single-branch --branch {xobjects_branch} '
@@ -48,6 +49,9 @@ os.system(
 os.system(
     f'git clone --single-branch --branch {xmask_branch} '
     'https://github.com/xsuite/xmask')
+os.system(
+    f'git clone --single-branch --branch {xcoll_branch} '
+    'https://github.com/xsuite/xcoll')
 
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
@@ -284,6 +288,8 @@ snippet_files = {
         'generated_code_snippets/environment.py',
     'xmask/examples/hllhc15_collision/005_footprint.py':
         'generated_code_snippets/footprint_with_bb.py',
+    'xcoll/examples/lhc_run3_lossmap.py':
+        'generated_code_snippets/lhc_run3_lossmap.py',
 }
 
 for ss, tt in snippet_files.items():
