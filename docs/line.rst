@@ -89,8 +89,6 @@ within a longer line. This is illustrated in the following example:
 .. literalinclude:: generated_code_snippets/place_line_at_s.py
    :language: python
 
-.. _madximport:
-
 Repeated elements, replicas and clones
 ======================================
 
@@ -262,7 +260,7 @@ the following example:
 .. literalinclude:: generated_code_snippets/multipolar_components_sliced.py
    :language: python
 
-
+.. _madximport:
 
 Importing a line from MAD-X
 ===========================
