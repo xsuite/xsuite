@@ -59,21 +59,30 @@ ONLY_XTRACK_ELEMENTS = [
     LineSegmentMap,
     FirstOrderTaylorMap,
     NonLinearLens,
-    # Slices
+    # Drift Slices
     DriftSlice,
     DriftSliceBend,
     DriftSliceRBend,
     DriftSliceOctupole,
     DriftSliceQuadrupole,
     DriftSliceSextupole,
+    DriftSliceCavity,
+    # Thick slices
     ThickSliceBend,
     ThickSliceRBend,
     ThickSliceOctupole,
     ThickSliceQuadrupole,
     ThickSliceSextupole,
     ThickSliceUniformSolenoid,
+    ThickSliceCavity,
+    # Thin slices
     ThinSliceBend,
     ThinSliceRBend,
+    ThinSliceOctupole,
+    ThinSliceQuadrupole,
+    ThinSliceSextupole,
+    ThinSliceCavity,
+    # Edge slices
     ThinSliceBendEntry,
     ThinSliceBendExit,
     ThinSliceRBendEntry,
@@ -86,9 +95,7 @@ ONLY_XTRACK_ELEMENTS = [
     ThinSliceUniformSolenoidExit,
     ThinSliceOctupoleEntry,
     ThinSliceOctupoleExit,
-    ThinSliceOctupole,
-    ThinSliceQuadrupole,
-    ThinSliceSextupole,
+
     # Transformations
     XYShift,
     ZetaShift,
