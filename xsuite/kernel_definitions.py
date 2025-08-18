@@ -46,6 +46,7 @@ ONLY_XTRACK_ELEMENTS = [
     Marker,
     ReferenceEnergyIncrease,
     Cavity,
+    CrabCavity,
     Elens,
     Wire,
     Solenoid,
@@ -67,6 +68,7 @@ ONLY_XTRACK_ELEMENTS = [
     DriftSliceQuadrupole,
     DriftSliceSextupole,
     DriftSliceCavity,
+    DriftSliceCrabCavity,
     # Thick slices
     ThickSliceBend,
     ThickSliceRBend,
@@ -75,6 +77,7 @@ ONLY_XTRACK_ELEMENTS = [
     ThickSliceSextupole,
     ThickSliceUniformSolenoid,
     ThickSliceCavity,
+    ThickSliceCrabCavity,
     # Thin slices
     ThinSliceBend,
     ThinSliceRBend,
@@ -82,6 +85,7 @@ ONLY_XTRACK_ELEMENTS = [
     ThinSliceQuadrupole,
     ThinSliceSextupole,
     ThinSliceCavity,
+    ThinSliceCrabCavity,
     # Edge slices
     ThinSliceBendEntry,
     ThinSliceBendExit,
