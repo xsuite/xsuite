@@ -1310,22 +1310,22 @@ Additional information can be found in \cite{silke_cap, silke_fringe}.
 x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
 p_{x,f} &= p_x \\
 y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
-p_{y,f} &= p_y - \psi y_f - \frac{b_0^2}{9 K g (1 + \delta)} y_f^3 \\
+p_{y,f} &= p_y - \psi y_f - \frac{k_0^2}{9 K g (1 + \delta)} y_f^3 \\
 \ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
 \delta_f &= \delta
 \end{align*}
 
 with:
 \begin{equation}
-\psi = b_0 \tan \left[
+\psi = k_0 \tan \left[
 \arctan \left( \frac{x'}{1 + y'^2} \right)
-- g b_0 K \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
+- g k_0 K \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
 \right]
 \end{equation}
-where $b_0$ is the normalized magnetic field, $g$ is the magnet gap and $K$ is
+where $k_0$ is the normalized magnetic field, $g$ is the magnet gap and $K$ is
 the fringe field integral:
 \begin{equation}
-K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(b_0 - b(s)\bigr)}{g b_0^{2}} \, ds
+K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(k_0 - b(s)\bigr)}{g k_0^{2}} \, ds
 \end{equation}
 
 \subsection{Dipole wedge}
@@ -1335,13 +1335,13 @@ around the $y$ axis in a uniform dipole field~\cite{forest99}.
 
 \begin{align}
 x(\theta) &= x \cos\theta 
-+ \frac{ x p_x \sin(2\theta) + \sin^2\theta \left( 2x \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - b_0 x^2 \right) }
++ \frac{ x p_x \sin(2\theta) + \sin^2\theta \left( 2x \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - k_0 x^2 \right) }
 {\sqrt{(1+\delta)^2 - p_x(\theta)^2 - p_y^2} + \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} \cos\theta - p_x \sin\theta} 
 \\[1ex]
-p_x(\theta) &= p_x \cos\theta + \left( \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - b_0 x \right) \sin\theta
+p_x(\theta) &= p_x \cos\theta + \left( \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - k_0 x \right) \sin\theta
 \\[1ex]
-y(\theta) &= y + \frac{p_y}{b_0} \theta 
-+ \frac{p_y}{b_0} \left( 
+y(\theta) &= y + \frac{p_y}{k_0} \theta 
++ \frac{p_y}{k_0} \left( 
 \sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
 - \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
 \right)
@@ -1350,14 +1350,14 @@ p_y(\theta) &= p_y
 \\[1ex]
 \delta(\theta) &= \delta
 \\[1ex]
-\ell(\theta) &= \ell + \frac{(1+\delta)}{b_0} \theta
-+ \frac{(1+\delta)}{b_0} \left(
+\ell(\theta) &= \ell + \frac{(1+\delta)}{k_0} \theta
++ \frac{(1+\delta)}{k_0} \left(
 \sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
 - \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
 \right)
 \end{align}
 
-where $b_0$ is the normalized magnetic field.
+where $k_0$ is the normalized magnetic field.
 
 \subsection{Y rotation}
 
@@ -1424,10 +1424,10 @@ simultaneously for the final transverse momenta.
 If the wedge or Y rotation take place in the presence of a quadrupole field,
 the following correction is applied to the transverse momenta:
 \begin{align}
-p_x^f &= p_x - b_2 x^2 \theta + b_2 \frac{y^2}{2} \theta 
+p_x^f &= p_x - k_1 x^2 \theta + k_1 \frac{y^2}{2} \theta 
 \label{eq:pxf}
 \\
-p_y^f &= p_y + b_2 x y \theta
+p_y^f &= p_y + k_1 x y \theta
 \label{eq:pyf}
 \end{align}
 
@@ -1439,7 +1439,7 @@ In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
 H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x) 
 \left( 
 \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} 
-- \frac{x + \frac{h}{2} x^2}{1 + h x} b_1 + b_2 \frac{y^2}{2} - \frac{b_2 h x^3}{3} + \frac{b_2 x^2}{2(hx+1)}
+- \frac{x + \frac{h}{2} x^2}{1 + h x} b_1 + k_1 \frac{y^2}{2} - \frac{k_1 h x^3}{3} + \frac{k_1 x^2}{2(hx+1)}
 \right)
 \label{eq:Htau}
 \end{equation}
@@ -1448,7 +1448,7 @@ which we can split in perturbation theory into:
 H_1 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_1 
 \label{eq:H1}
 \\
-H_2 &= -(1 + h x) b_2 \frac{y^2}{2} + \left( b_2 h \frac{x^3}{3} + b_2 \frac{x^2}{2} \right)
+H_2 &= -(1 + h x) k_1 \frac{y^2}{2} + \left( k_1 h \frac{x^3}{3} + k_1 \frac{x^2}{2} \right)
 \label{eq:H2}
 \end{align}
 
@@ -1456,19 +1456,19 @@ The Hamiltonian $H_1$ leads to the dipole wedge (or a dynamical rotation if $b_1
 The Hamiltonian $H_2$ has equations of motion:
 \begin{align}
 p_x' &= -\frac{\partial H_2}{\partial x} 
-= h b_2 \frac{y^2}{2} - h b_2 x^2 - b_2 x 
+= h k_1 \frac{y^2}{2} - h k_1 x^2 - k_1 x 
 \label{eq:pxprime}
 \\
 p_y' &= -\frac{\partial H_2}{\partial y} 
-= (1 + h x) b_2 y 
+= (1 + h x) k_1 y 
 \label{eq:pyprime}
 \end{align}
 which gives integrated equations:
 \begin{align}
-p_x(s) &= p_x + h b_2 \frac{y^2}{2} s - h b_2 x^2 s - b_2 x s 
+p_x(s) &= p_x + h k_1 \frac{y^2}{2} s - h k_1 x^2 s - k_1 x s 
 \label{eq:pxs}
 \\
-p_y(s) &= p_y + (1 + h x) b_2 y s 
+p_y(s) &= p_y + (1 + h x) k_1 y s 
 \label{eq:pys}
 \end{align}
 Taking the limit to $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
