@@ -1993,6 +1993,146 @@ where $\Delta$ is the difference of the unperturbed fractional tunes.
 To have a more robust estimate, Eq.\,\ref{eq:cmin} is evaluated at all $s$ positions
 and averaged over the ring, as suggested in \cite{tobias_coupling_note}.
 
+\chapter{Counter-rotating beams}
+
+In machines having counter-rotating beams, such as the LHC, it is useful to be able
+to express beam coordinates for one of the beams in the reference frame of the other.
+Furthermore it is also useful to be able to define the two sequences using the same
+orientation. For the LHC, for example, the sequence of the LHC beam 2 is defined
+following the orientation of the LHC beam 1. In this case the properties of the
+elements are specified in such a way that the built sequence is able to backtrack
+the physical beam and the sequence required to track the physical beam (usually called
+Beam 4 sequence) can be obtained with suitable transformations.
+
+\section{Reversed reference frame}
+The reference frames for beam 4 and beam 2 are related by the following transformations:
+\begin{align}
+&\tilde{x} = -x \label{eq:rev_x}\\
+&\tilde{y} = y \label{eq:rev_y}\\
+&\tilde{s} = -s \label{eq:rev_s}\\
+&\tilde{t} = -t \label{eq:rev_t}\\
+&\tilde{\zeta} = -\zeta \label{eq:rev_zeta}\\
+&\tilde{p_x} = p_x \label{eq:rev_px}\\
+&\tilde{p_y} = -p_y \label{eq:rev_py}\\
+&\tilde{p_\zeta} = p_\zeta \label{eq:rev_pzeta}\\
+&\tilde{\delta} = \delta \label{eq:rev_delta}
+\end{align}
+where the tilde indicates the coordinates in the reversed reference frame.
+
+\section{Transformation of beam elements}
+
+The elements are tranformed in such a way that the map implements the backtrack of
+the physical beam as seen in the reversed reference frame.
+
+\subsection{Horizontal deflecting cavity}
+
+In the case of a horizontal deflecting cavity we can proceed as follows.
+
+For Beam 4 we can write:
+\begin{equation}
+\Delta p_x = V_x \sin(\phi - \omega t)
+\end{equation}
+and for Beam 2 we can write:
+\begin{equation}
+\Delta\tilde{p}_x = \tilde{V}_x \sin(\tilde{\phi} - \omega \tilde{t}),\\[4pt]
+\end{equation}
+Since we define the element as backtracking we can write:
+\begin{equation}
+\Delta \tilde{p}_x = -\,\Delta p_x
+\end{equation}
+where the minus sign comes from the backtracking and no additional sign change
+comes from the reference frame transformation (see Eq.\,\ref{eq:rev_px}).
+
+Combining the equations above we obtain:
+\begin{equation}
+\tilde{V}_x \sin(\tilde{\phi} - \omega \tilde{t}) = -\,V_x \sin(\phi - \omega t)
+\end{equation}
+Using Eq.\,\ref{eq:rev_t} we can write:
+\begin{equation}
+\tilde{V}_x \sin(\tilde{\phi} + \omega t) = -\,V_x \sin(\phi - \omega t)
+\end{equation}
+We choose to reverse the voltage definition since also the electric field is
+expressed in the reversed reference frame:
+\begin{equation}
+\boxed{
+\tilde{V}_x = -\,V_x
+}
+\end{equation}
+obtaining:
+\begin{equation}
+\sin(\tilde{\phi} + \omega t) = \sin(\phi - \omega t)
+\end{equation}
+Using trigonometric properties we can write:
+\begin{equation}
+-\sin(-\tilde{\phi} - \omega t) = \sin(\phi - \omega t)
+\end{equation}
+and then:
+\begin{equation}
+\sin(\pi - \tilde{\phi} - \omega t) = \sin(\phi - \omega t)
+\end{equation}
+From this we obtain:
+\begin{equation}
+\boxed{
+\tilde{\phi} = \pi - \phi
+}
+\end{equation}
+
+\section{Vertical deflecting cavity}
+
+The case of a vertical deflecting cavity is similar but not identical.
+
+For Beam 4 we can write:
+\begin{equation}
+\Delta p_y = V_y \sin(\phi - \omega t)
+\end{equation}
+and for Beam 2 we can write:
+\begin{equation}
+\Delta\tilde{p}_y = \tilde{V}_y \sin(\tilde{\phi} - \omega \tilde{t}),\\[4pt]
+\end{equation}
+Since we define the element as backtracking we can write:
+\begin{equation}
+\Delta \tilde{p}_y = -(-\Delta p_y)
+\end{equation}
+where one minus sign comes from the backtracking and an additional sign change
+comes from the reference frame transformation (see Eq.\,\ref{eq:rev_py}).
+
+Combining the equations above we obtain:
+\begin{equation}
+\tilde{V}_y \sin(\tilde{\phi} - \omega \tilde{t}) = V_y \sin(\phi - \omega t)
+\end{equation}
+Using Eq.\,\ref{eq:rev_t} we can write:
+\begin{equation}
+\tilde{V}_y \sin(\tilde{\phi} + \omega t) = -V_y \sin(\phi - \omega t)
+\end{equation}
+We do not reverse the voltage definition as the vertical component of the electric
+field does not change sign due to the reference frame transformation:
+\begin{equation}
+\boxed{
+\tilde{V}_y = \,V_y
+}
+\end{equation}
+Hence we obtain:
+\begin{equation}
+\sin(\tilde{\phi} + \omega t) = \sin(\phi - \omega t)
+\end{equation}
+Using trigonometric properties we can write:
+\begin{equation}
+-\sin(-\tilde{\phi} - \omega t) = \sin(\phi - \omega t)
+\end{equation}
+and then:
+\begin{equation}
+\sin(\pi - \tilde{\phi} - \omega t) = \sin(\phi - \omega t)
+\end{equation}
+From this we obtain:
+\begin{equation}
+\boxed{
+\tilde{\phi} = \pi - \phi
+}
+\end{equation}
+
+
+
+
 
 
 
