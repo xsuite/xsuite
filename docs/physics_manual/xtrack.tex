@@ -1328,7 +1328,7 @@ the fringe field integral:
 K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(k_0 - b(s)\bigr)}{g k_0^{2}} \, ds
 \end{equation}
 
-\subsection{Dipole wedge}
+\subsection{Dipole wedge} \label{sec:DipoleWedge}
 
 The following map can be used to move the observation plane by an angle $\theta$
 around the $y$ axis in a uniform dipole field~\cite{forest99}.
@@ -1359,7 +1359,7 @@ p_y(\theta) &= p_y
 
 where $k_0$ is the normalized magnetic field.
 
-\subsection{Y rotation}
+\subsection{Y rotation} \label{sec:Yrotation}
 
 The following map can be used to move the observation plane by an angle $\theta$
 around the $y$ axis in the absence of a magnetic field~\cite{forest99}.
@@ -1430,9 +1430,10 @@ p_x^f &= p_x - k_1 x^2 \theta + k_1 \frac{y^2}{2} \theta
 p_y^f &= p_y + k_1 x y \theta
 \label{eq:pyf}
 \end{align}
+This correction is a perturbation of the wedge or Y rotation, and can in theory be applied using any integration scheme. It is currently implemented as a kick-drift approximation.
 
 \subsubsection*{Derivation}
-(by S. Van der Schueren)
+(derived by S. Van der Schueren based on the MAD-X/PTC \cite{madsite} source code)
 
 In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
 \begin{equation}
@@ -1443,17 +1444,17 @@ H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x)
 \right)
 \label{eq:Htau}
 \end{equation}
-which we can split in perturbation theory into:
+which we can split in perturbation theory in a drift-like part $H_0$ and a kick-like part $H_1$:
 \begin{align}
-H_1 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_1 
+H_0 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_0 
 \label{eq:H1}
 \\
 H_2 &= -(1 + h x) k_1 \frac{y^2}{2} + \left( k_1 h \frac{x^3}{3} + k_1 \frac{x^2}{2} \right)
 \label{eq:H2}
 \end{align}
 
-The Hamiltonian $H_1$ leads to the dipole wedge (or a dynamical rotation if $b_1 = 0$). 
-The Hamiltonian $H_2$ has equations of motion:
+The Hamiltonian $H_0$ leads to the dipole wedge \ref{sec:DipoleWedge} (or a dynamical rotation \ref{sec:Yrotation} if $b_0 = 0$) when taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ . 
+The Hamiltonian $H_1$ has equations of motion:
 \begin{align}
 p_x' &= -\frac{\partial H_2}{\partial x} 
 = h k_1 \frac{y^2}{2} - h k_1 x^2 - k_1 x 
