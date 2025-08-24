@@ -13,6 +13,7 @@ import numpy as np
 
 import xsuite as xs
 import xcoll as xc
+from xcoll.prebuild_kernels import XCOLL_ELEMENTS_INIT_DEFAULTS
 import xfields as xf
 import xobjects as xo
 import xtrack as xt
@@ -76,17 +77,8 @@ BEAM_ELEMENTS_INIT_DEFAULTS = {
             'number_of_particles': 1,
             'sigma_z': 0,
         }
-    },
-    'EverestBlock': {
-        'material': xc.materials.Silicon,
-    },
-    'EverestCollimator': {
-        'material': xc.materials.Silicon,
-    },
-    'EverestCrystal': {
-        'material': xc.materials.SiliconCrystal,
     }
-}
+} | XCOLL_ELEMENTS_INIT_DEFAULTS
 
 # SpaceChargeBiGaussian is not included for now (different issues -
 # circular import, incompatible compilation flags)

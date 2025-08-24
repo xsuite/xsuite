@@ -4,8 +4,8 @@
 # ######################################### #
 import logging
 
-import xcoll as xc
 import xfields as xf
+from xcoll.prebuild_kernels import DEFAULT_XCOLL_ELEMENTS
 
 from xtrack.beam_elements import *
 from xtrack.monitors import *
@@ -119,17 +119,6 @@ DEFAULT_XF_ELEMENTS = [
     xf.BeamBeamBiGaussian2D,
     xf.BeamBeamBiGaussian3D,
     xf.SpaceChargeBiGaussian,
-]
-
-# Xcoll elements
-DEFAULT_XCOLL_ELEMENTS = [
-    ZetaShift,
-    xc.BlackAbsorber,
-    xc.EverestBlock,
-    xc.EverestCollimator,
-    xc.EverestCrystal,
-    xc.BlowUp,
-    xc.EmittanceMonitor
 ]
 
 NON_TRACKING_ELEMENTS = [
