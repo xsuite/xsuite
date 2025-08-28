@@ -13,9 +13,12 @@ XOBJECTS=xsuite:main
 
 # GPU tests
 python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform alma --ctx cuda \
-  --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --xw $XWAKES --branch $WF_BRANCH
+  --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --xw $XWAKES --branch $WF_BRANCH \
+  --pytest-opts "-m context_dependent"
+
 python run_on_gh.py --suites xo,xp,xd,xt,xf,xc --platform ubuntu --ctx cl \
-   --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --xw $XWAKES --branch $WF_BRANCH
+   --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --xw $XWAKES --branch $WF_BRANCH \
+   --pytest-opts "-m context_dependent"
 
 # # CPU tests
 # python run_on_gh.py --suites xm --platform alma-cpu-smaller --ctx cpu \
