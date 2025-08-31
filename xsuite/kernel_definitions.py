@@ -187,11 +187,4 @@ kernel_definitions = [
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
         'classes': ONLY_XTRACK_ELEMENTS,
     }),
-    ('only_xtrack_with_synrad_kick_as_co', {
-        'config': {
-            **BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False,
-            'XTRACK_SYNRAD_KICK_SAME_AS_FIRST': True
-        },
-        'classes': ONLY_XTRACK_ELEMENTS,
-    }),
 ]
