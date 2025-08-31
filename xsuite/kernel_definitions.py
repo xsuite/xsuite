@@ -183,15 +183,6 @@ kernel_definitions = [
         },
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('only_xtrack_taper', {
-        'config': {
-            **BASE_CONFIG,
-            'XTRACK_MULTIPOLE_NO_SYNRAD': False,
-            'XTRACK_MULTIPOLE_TAPER': True,
-            'XTRACK_DIPOLEEDGE_TAPER': True,
-        },
-        'classes': ONLY_XTRACK_ELEMENTS,
-    }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
         'classes': ONLY_XTRACK_ELEMENTS,
