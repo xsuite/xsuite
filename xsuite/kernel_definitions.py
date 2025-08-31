@@ -1,147 +1,18 @@
 # copyright ############################### #
 # This file is part of the Xsuite project.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 import logging
 
-import xfields as xf
+from xtrack.prebuild_kernels import BASE_CONFIG, FREEZE_ENERGY, FREEZE_LONGITUDINAL, \
+                                    ONLY_XTRACK_ELEMENTS, NO_SYNRAD_ELEMENTS, \
+                                    NON_TRACKING_ELEMENTS
 from xcoll.prebuild_kernels import DEFAULT_XCOLL_ELEMENTS
+from xfields.prebuild_kernels import DEFAULT_XFIELDS_ELEMENTS
 
-from xtrack.beam_elements import *
-from xtrack.monitors import *
-from xtrack.random import *
-from xtrack.multisetter import MultiSetter
 
 LOGGER = logging.getLogger(__name__)
 
-BASE_CONFIG = {
-    'XTRACK_MULTIPOLE_NO_SYNRAD': True,
-    'XFIELDS_BB3D_NO_BEAMSTR': True,
-    'XFIELDS_BB3D_NO_BHABHA': True,
-    'XTRACK_GLOBAL_XY_LIMIT': 1.0,
-}
-
-FREEZE_ENERGY = {
-    'FREEZE_VAR_delta': True,
-    'FREEZE_VAR_ptau': True,
-    'FREEZE_VAR_rpp': True,
-    'FREEZE_VAR_rvv': True,
-}
-
-FREEZE_LONGITUDINAL = {
-    **FREEZE_ENERGY,
-    'FREEZE_VAR_zeta': True,
-}
-
-ONLY_XTRACK_ELEMENTS = [
-    Drift,
-    Multipole,
-    Bend,
-    RBend,
-    Quadrupole,
-    Sextupole,
-    Octupole,
-    Magnet,
-    SecondOrderTaylorMap,
-    Marker,
-    ReferenceEnergyIncrease,
-    Cavity,
-    CrabCavity,
-    Elens,
-    Wire,
-    Solenoid,
-    VariableSolenoid,
-    UniformSolenoid,
-    RFMultipole,
-    DipoleEdge,
-    MultipoleEdge,
-    SimpleThinBend,
-    SimpleThinQuadrupole,
-    LineSegmentMap,
-    FirstOrderTaylorMap,
-    NonLinearLens,
-    # Drift Slices
-    DriftSlice,
-    DriftSliceBend,
-    DriftSliceRBend,
-    DriftSliceOctupole,
-    DriftSliceQuadrupole,
-    DriftSliceSextupole,
-    DriftSliceCavity,
-    DriftSliceCrabCavity,
-    DriftSliceMultipole,
-    # Thick slices
-    ThickSliceBend,
-    ThickSliceRBend,
-    ThickSliceOctupole,
-    ThickSliceQuadrupole,
-    ThickSliceSextupole,
-    ThickSliceUniformSolenoid,
-    ThickSliceCavity,
-    ThickSliceCrabCavity,
-    ThickSliceMultipole,
-    # Thin slices
-    ThinSliceBend,
-    ThinSliceRBend,
-    ThinSliceOctupole,
-    ThinSliceQuadrupole,
-    ThinSliceSextupole,
-    ThinSliceCavity,
-    ThinSliceCrabCavity,
-    ThinSliceMultipole,
-    # Edge slices
-    ThinSliceBendEntry,
-    ThinSliceBendExit,
-    ThinSliceRBendEntry,
-    ThinSliceRBendExit,
-    ThinSliceQuadrupoleEntry,
-    ThinSliceQuadrupoleExit,
-    ThinSliceSextupoleEntry,
-    ThinSliceSextupoleExit,
-    ThinSliceUniformSolenoidEntry,
-    ThinSliceUniformSolenoidExit,
-    ThinSliceOctupoleEntry,
-    ThinSliceOctupoleExit,
-
-    # Transformations
-    XYShift,
-    ZetaShift,
-    XRotation,
-    SRotation,
-    YRotation,
-    # Apertures
-    LimitEllipse,
-    LimitRectEllipse,
-    LimitRect,
-    LimitRacetrack,
-    LimitPolygon,
-    LongitudinalLimitRect,
-    # Monitors
-    BeamPositionMonitor,
-    BeamSizeMonitor,
-    BeamProfileMonitor,
-    LastTurnsMonitor,
-    ParticlesMonitor,
-]
-
-NO_SYNRAD_ELEMENTS = [
-    Exciter,
-]
-
-# Xfields elements
-DEFAULT_XF_ELEMENTS = [
-    xf.BeamBeamBiGaussian2D,
-    xf.BeamBeamBiGaussian3D,
-    xf.SpaceChargeBiGaussian,
-]
-
-NON_TRACKING_ELEMENTS = [
-    RandomUniform,
-    RandomExponential,
-    RandomNormal,
-    RandomRutherford,
-    MultiSetter,
-]
 
 # These are enumerated in order specified below: the highest priority at the top
 kernel_definitions = [
@@ -152,29 +23,29 @@ kernel_definitions = [
     }),
     ('default_no_config', {
         'config': {},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {
         'config': BASE_CONFIG,
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('exact_drifts', {
         'config': {
             **BASE_CONFIG,
             'XTRACK_USE_EXACT_DRIFTS': True,
         },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('default_no_limit', {
         'config': {
             **{k: v for k, v in BASE_CONFIG.items()
                 if k != 'XTRACK_GLOBAL_XY_LIMIT'}
         },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('default_backtrack', {
         'config': {**BASE_CONFIG, 'XSUITE_BACKTRACK': True},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_backtrack_no_limit', {
         'config': {
@@ -182,23 +53,23 @@ kernel_definitions = [
             'XSUITE_BACKTRACK': True,
             'XTRACK_GLOBAL_XY_LIMIT': False,
         },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('frozen_longitudinal', {
         'config': {**BASE_CONFIG, **FREEZE_LONGITUDINAL},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('frozen_energy', {
         'config': {**BASE_CONFIG, **FREEZE_ENERGY},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('backtrack_frozen_energy', {
         'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_BACKTRACK': True},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('mirror_frozen_energy', {
         'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XSUITE_MIRROR': True},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_taper', {
         'config': {
@@ -222,6 +93,6 @@ kernel_definitions = [
     }),
     ('only_xtrack_with_synrad_frozen_energy', { # for spin twiss
         'config': {**BASE_CONFIG, **FREEZE_ENERGY, 'XTRACK_MULTIPOLE_NO_SYNRAD': False,},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
 ]

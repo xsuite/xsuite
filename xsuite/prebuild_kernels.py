@@ -1,7 +1,8 @@
 # copyright ############################### #
 # This file is part of the Xsuite project.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
+
 import json
 import os
 from multiprocessing import Pool
@@ -9,10 +10,10 @@ from pathlib import Path
 from pprint import pformat
 from typing import Iterator, Optional, Tuple
 
-import numpy as np
-
 import xsuite as xs
 import xcoll as xc
+from xtrack.prebuild_kernels import XTRACK_ELEMENTS_INIT_DEFAULTS
+from xfields.prebuild_kernels import XFIELDS_ELEMENTS_INIT_DEFAULTS
 from xcoll.prebuild_kernels import XCOLL_ELEMENTS_INIT_DEFAULTS
 import xfields as xf
 import xobjects as xo
@@ -22,63 +23,8 @@ from xtrack.general import _print
 
 XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 
-BEAM_ELEMENTS_INIT_DEFAULTS = {
-    'Bend': {
-        'length': 1.,
-    },
-    'Quadrupole': {
-        'length': 1.,
-    },
-    'Solenoid': {
-        'length': 1.,
-    },
-    'BeamBeamBiGaussian2D': {
-        'other_beam_Sigma_11': 1.,
-        'other_beam_Sigma_33': 1.,
-        'other_beam_num_particles': 0.,
-        'other_beam_q0': 1.,
-        'other_beam_beta0': 1.,
-    },
-    'BeamBeamBiGaussian3D': {
-        'slices_other_beam_zeta_center': np.array([0]),
-        'slices_other_beam_num_particles': np.array([0]),
-        'phi': 0.,
-        'alpha': 0,
-        'other_beam_q0': 1.,
-        'slices_other_beam_Sigma_11': np.array([1]),
-        'slices_other_beam_Sigma_12': np.array([0]),
-        'slices_other_beam_Sigma_22': np.array([0]),
-        'slices_other_beam_Sigma_33': np.array([1]),
-        'slices_other_beam_Sigma_34': np.array([0]),
-        'slices_other_beam_Sigma_44': np.array([0]),
-    },
-    'LimitPolygon': {
-        'x_vertices': np.array([0, 1, 1, 0]),
-        'y_vertices': np.array([0, 0, 1, 1]),
-    },
-    'BeamProfileMonitor': {
-        'range': 1,
-    },
-    'LastTurnsMonitor': {
-        'n_last_turns': 1,
-        'num_particles': 1,
-    },
-    'ParticlesMonitor': {
-        'num_particles': 1,
-        'start_at_turn': 0,
-        'stop_at_turn': 1,
-    },
-    'Exciter': {
-        'samples': [0],
-    },
-    'SpaceChargeBiGaussian': {
-        'longitudinal_profile': {
-            '__class__': 'LongitudinalProfileQGaussian',
-            'number_of_particles': 1,
-            'sigma_z': 0,
-        }
-    }
-} | XCOLL_ELEMENTS_INIT_DEFAULTS
+BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_INIT_DEFAULTS \
+                            | XCOLL_ELEMENTS_INIT_DEFAULTS
 
 # SpaceChargeBiGaussian is not included for now (different issues -
 # circular import, incompatible compilation flags)
