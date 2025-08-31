@@ -21,18 +21,6 @@ BASE_CONFIG = {
     'XTRACK_GLOBAL_XY_LIMIT': 1.0,
 }
 
-FREEZE_ENERGY = {
-    'FREEZE_VAR_delta': True,
-    'FREEZE_VAR_ptau': True,
-    'FREEZE_VAR_rpp': True,
-    'FREEZE_VAR_rvv': True,
-}
-
-FREEZE_LONGITUDINAL = {
-    **FREEZE_ENERGY,
-    'FREEZE_VAR_zeta': True,
-}
-
 ONLY_XTRACK_ELEMENTS = [
     Drift,
     Multipole,
@@ -193,10 +181,6 @@ kernel_definitions = [
             'XSUITE_BACKTRACK': True,
             'XTRACK_GLOBAL_XY_LIMIT': False,
         },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('frozen_longitudinal', {
-        'config': {**BASE_CONFIG, **FREEZE_LONGITUDINAL},
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_taper', {
