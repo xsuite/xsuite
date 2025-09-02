@@ -171,18 +171,6 @@ kernel_definitions = [
         },
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('default_backtrack', {
-        'config': {**BASE_CONFIG, 'XSUITE_BACKTRACK': True},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('only_xtrack_backtrack_no_limit', {
-        'config': {
-            **BASE_CONFIG,
-            'XSUITE_BACKTRACK': True,
-            'XTRACK_GLOBAL_XY_LIMIT': False,
-        },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-    }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
         'classes': ONLY_XTRACK_ELEMENTS,
