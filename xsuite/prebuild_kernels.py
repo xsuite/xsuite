@@ -26,9 +26,6 @@ XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_INIT_DEFAULTS \
                             | XCOLL_ELEMENTS_INIT_DEFAULTS
 
-# SpaceChargeBiGaussian is not included for now (different issues -
-# circular import, incompatible compilation flags)
-
 
 def get_element_class_by_name(name: str) -> type:
     extra_classes = (xt.MultiSetter, )

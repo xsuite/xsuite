@@ -4,8 +4,7 @@
 # ######################################### #
 import logging
 
-from xtrack.prebuild_kernels import BASE_CONFIG, FREEZE_ENERGY, FREEZE_LONGITUDINAL, \
-                                    ONLY_XTRACK_ELEMENTS, NO_SYNRAD_ELEMENTS, \
+from xtrack.prebuild_kernels import BASE_CONFIG, ONLY_XTRACK_ELEMENTS, NO_SYNRAD_ELEMENTS, \
                                     NON_TRACKING_ELEMENTS
 from xcoll.prebuild_kernels import DEFAULT_XCOLL_ELEMENTS
 from xfields.prebuild_kernels import DEFAULT_XFIELDS_ELEMENTS
