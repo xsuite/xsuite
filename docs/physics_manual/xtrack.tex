@@ -2071,6 +2071,116 @@ where $\Delta$ is the difference of the unperturbed fractional tunes.
 To have a more robust estimate, Eq.\,\ref{eq:cmin} is evaluated at all $s$ positions
 and averaged over the ring, as suggested in \cite{tobias_coupling_note}.
 
+\subsection{Edwards-Teng formalism}
+
+This section is based on \cite{mad8phys}. The full derivation can be found in
+\cite{laurent_coupling_1} and \cite{laurent_coupling_2}.
+
+Consider the linear transfer map $R$ in two degrees of freedom, partitioned into four $2\times2$ blocks:
+\begin{equation}
+R=
+\begin{pmatrix}
+A & B\\
+C & D
+\end{pmatrix}.
+\end{equation}
+
+The 4\,-dimensional phase space vector shall also be partitioned according
+to the horizontal and vertical planes. Edwards and Teng introduce a
+``symplectic rotation'':
+\begin{equation}
+T_\text{ET}=
+\begin{pmatrix}
+I\cos\phi & \overline{R}_\text{ET}\,\sin\phi\\
+-\,R_\text{ET}\sin\phi & I\cos\phi
+\end{pmatrix}.
+\end{equation}
+
+Here $R_\text{ET}$ is a $2 \times 2$ matrix with unit determinant,
+and $\overline{R}_\text{ET}$ denotes its symplectic conjugate:
+\begin{equation}
+R_\text{ET}=
+\begin{pmatrix}
+a & b\\
+c & d
+\end{pmatrix},
+\qquad
+|R_\text{ET}|=
+\left|
+\begin{matrix}
+a & b\\
+c & d
+\end{matrix}
+\right|
+=1,
+\qquad
+\overline{R}_\text{ET}=
+\begin{pmatrix}
+d & -b\\
+-c & a
+\end{pmatrix}.
+\end{equation}
+
+This leaves three free parameters for the elements of $R_\text{ET}$, and a fourth parameter $\phi$.
+Edwards and Teng then determine $R_\text{ET}$ such that $R$ conjugated with $T_\text{ET}$ becomes block diagonal:
+\begin{equation}
+T_\text{ET}MT_\text{ET}^{-1}=
+\begin{pmatrix}
+E & 0\\
+0 & F
+\end{pmatrix}.
+\end{equation}
+
+If $\,|B+\overline{C}|<0\,$ both $\phi$ and all elements of $R_\text{ET}$ become imaginary. This may be avoided by redefining
+\begin{equation}
+T_\text{ET}=\frac{1}{\sqrt{\,1+|R_\text{ET}|\,}}
+\begin{pmatrix}
+I & \overline{R}_\text{ET}\\
+-\,R_\text{ET} & I
+\end{pmatrix},
+\end{equation}
+where all four elements of $R_\text{ET}$ are free parameters.
+
+The solution is
+\begin{equation}
+R_\text{ET}=\Bigg(
+\frac{1}{2}\big(\operatorname{Tr}A-\operatorname{Tr}D\big)
++\operatorname{sign}\!\big(|C+\overline{B}|\big)\,
+\sqrt{|C+\overline{B}|+\frac{1}{4}\big(\operatorname{Tr}A-\operatorname{Tr}D\big)^2}
+\Bigg)^{-1}\,(C+\overline{B}),
+\end{equation}
+and
+\begin{align}
+E=A-BR_\text{ET}\\
+F=D+R_\text{ET}B
+\end{align}
+
+Twiss parameters of $E$ (and $F$) can be found by:
+\begin{equation}
+E=
+\begin{pmatrix}
+E_{1,1} & E_{1,2}\\
+E_{2,1} & E_{2,2}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\cos\mu_A + \alpha_A \sin\mu_A & \beta_A \sin\mu_A\\
+-\gamma_A \sin\mu_A & \cos\mu_A - \alpha_A \sin\mu_A
+\end{pmatrix}
+\end{equation}
+
+\begin{align}
+&\cos\mu_A=\tfrac12\,\operatorname{tr}E, \\
+&\sin\mu_A=\operatorname{sign}(E_{1,2})
+\sqrt{-\,E_{1,2}E_{2,1}-\left(\frac{E_{1,1}-E_{2,2}}{2}\right)^{\!2}}\\
+&\beta_A=\frac{E_{1,2}}{\sin\mu_A}\\
+&\gamma_A=-\,\frac{E_{2,1}}{\sin\mu_A}\\
+&\alpha_A=\frac{E_{1,1}-E_{2,2}}{2\sin\mu_A}.
+\end{align}
+
+
+
+
 \chapter{Counter-rotating beams}
 
 In machines having counter-rotating beams, such as the LHC, it is useful to be able
