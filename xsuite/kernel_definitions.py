@@ -159,20 +159,6 @@ kernel_definitions = [
         'config': BASE_CONFIG,
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
-    ('exact_drifts', {
-        'config': {
-            **BASE_CONFIG,
-            'XTRACK_USE_EXACT_DRIFTS': True,
-        },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-    }),
-    ('default_no_limit', {
-        'config': {
-            **{k: v for k, v in BASE_CONFIG.items()
-                if k != 'XTRACK_GLOBAL_XY_LIMIT'}
-        },
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-    }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
         'classes': ONLY_XTRACK_ELEMENTS,
