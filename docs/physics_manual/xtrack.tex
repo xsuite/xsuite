@@ -276,7 +276,8 @@ in a `propagation' part and a `kick' part.
 Hamiltonians for the maps implemented in Xsuite are reported in Table~\ref{tab:maps}.
 
 Different magnet models are available in Xsuite, which correspond to different splittings of
-the Hamiltonian. The available models are reported in Table~\ref{tab:models}.
+the Hamiltonian. The available models are reported in Table~\ref{tab:models} and
+the available integration schemes are reported in Table~\ref{tab:integrators}.
 
 \begin{table}[h]
 \centering
@@ -342,6 +343,21 @@ drift-kick-drift-expanded & [De] & [Kh K0 K0h K1 K1h Kn] \\
 \bottomrule
 \end{tabular}
 \caption{Available magnet models. \label{tab:models}}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Integrator} & \textbf{Description}\\
+\midrule
+uniform & Kicks uniformly distributed along the length of the element \\
+teapot & TEAPOT integration scheme \cite{Talman:533900, Burkhardt:2013eua}\\
+yoshida4 & Fourth order Yoshida integrator \cite{yoshida90} \\
+\bottomrule
+\end{tabular}
+\caption{Available integration schemes. \label{tab:integrators}}
 \end{table}
 \clearpage
 
@@ -538,7 +554,7 @@ p_y(s) &= p_y \\
   \right]
 \end{align}
 
-\section{Straight exact bend}
+\subsection{Straight exact bend}
 
 This map is adapted from \cite{forest99}.
 
