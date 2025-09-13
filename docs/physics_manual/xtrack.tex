@@ -270,11 +270,17 @@ The following identities are useful to derive the equations of motion:
 
 \section{Symplectic integrators}
 
-\subsection{Hamiltonians of the implemented maps}
-Xsuite provides maps for the following Hamiltonians
 
-We call $\sqrt{...} = \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$:
+Magnets are modeled using symplectic integrators, splitting the Hamiltonian
+in a `propagation' part and a `kick' part.
+Hamiltonians for the maps implemented in Xsuite are reported in Table~\ref{tab:maps}.
 
+Different magnet models are available in Xsuite, which correspond to different splittings of
+the Hamiltonian. The available models are reported in Table~\ref{tab:models}.
+
+\begin{table}[h]
+\centering
+{\small
 \begin{tabular}{llll}
 \toprule
 \textbf{Map} & \textbf{Parameters} & \textbf{Description} \\
@@ -283,8 +289,8 @@ D   & l            & Drift exact   &
 $H_D = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$ \\
 De  & l            & Drift expanded & 
 $H_{De} = \frac{p_\tau}{\beta_0}-\frac{p_x^2+p_y^2}{2(1+\delta)}$\\
-Dc  & l            & Correction drift exact & 
-$H_{Dc} = H_D - H_{De}$\\
+% Dc  & l            & Correction drift exact & 
+% $H_{Dc} = H_D - H_{De}$\\
 R   & h, l         & Curved drift& 
 $H_R = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...}\right)$\\
 Br  & k0, l        & Rectangular bend & 
@@ -305,63 +311,40 @@ $H_{K1h} = k_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
 Kn  & kn, ks, l     & Multipole & 
 $H_{Kn} = -\Re\left( \sum_{n=0}^N (k_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
 \\
-Knh & kn, ks, h  & Curved Multipoles & 
-Not yet available\\
+% Knh & kn, ks, h  & Curved Multipoles & 
+% Not yet available\\
 M   & k0, k1, l, h & 2nd order Hamiltonian & 
 $H_{Kn} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (k_0 -h)x + \frac{k_0hx^2}{2} + k_1 \frac{x^2-y^2}{2} $
 \\
-S   & ks,l          & Solenoid & 
+S   & ksol, l          & Solenoid & 
 $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{k_s}{2} y\right)^2 - \left(p_y+\frac{k_s}{2}\right)^2}$
 \\
 \bottomrule
 \end{tabular}
+}
+\caption{Hamiltonians of the implemented maps. Here we have
+        called $\sqrt{...} = \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$.
+        \label{tab:maps}}
+\end{table}
 
-\subsection{Magnet models}
-The maps are combined to obtain the following models of magnetic elements:\\
 
+\begin{table}[h]
+\centering
 \begin{tabular}{lll}
 \toprule
-\textbf{Model} & $h=0, ks=0$ & $h\neq0, ks=0$ \\
+\textbf{Model} & \textbf{Propagation part} & \textbf{Kick part} \\
 \midrule
-rot-kick-rot & [D], [K0 K1 Kn] & [R], [K0 K0h K1 K1h Kn Knh] \\
-bend-kick-bend & [Br],  [K1 Kn] & [B], [K1 K1h Kn Knh] \\
-matrix-kick-matrix & [M], [Kn Dc] & [M], [K1h Kn Knh Dc] \\
-drift-kick-drift-exact & [D], [K0 K1 Kn] & [D], [Kh K0 K0h K1 K1h Kn Knh] \\
-drift-kick-drift-expanded & [De], [K0 K1 Kn] & [De], [Kh K0 K0h K1 K1h Kn Knh] \\
+rot-kick-rot & [R] & [K0 K0h K1 K1h Kn] \\
+bend-kick-bend & [B] & [K1 K1h Kn Knh] \\
+matrix-kick-matrix & [M] & [K1h Kn] \\
+drift-kick-drift-exact & [D] & [Kh K0 K0h K1 K1h Kn] \\
+drift-kick-drift-expanded & [De] & [Kh K0 K0h K1 K1h Kn] \\
 \bottomrule
 \end{tabular}
+\caption{Available magnet models. \label{tab:models}}
+\end{table}
+\clearpage
 
-\subsubsection{Map for the exact bend}
-
-This map is adapted from \cite{forest99}.
-
-\begin{align}
-x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
-p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
-y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
-p_y(s) &= p_y \\
-\delta(s) &= \delta \\
-\zeta(s) &= \zeta -\frac{\beta_0}{\beta}
-  \left[
-  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
-  \right]
-\end{align}
-
-\subsubsection{Map for the straight bend}
-
-This map is adapted from \cite{forest99}.
-
-\begin{align}
-x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) \\
-p_x(L) &= p_x - k_0 \chi L \\
-y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
-p_y(L) &= p_y \\
-\delta(L) &= \delta \\
-\zeta(L) &= \zeta - \frac{\beta_0}{\beta}
-\left[
-\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
-\right]
-\end{align}
 
 
 \section{Cavity time, energy errors and acceleration}
@@ -451,7 +434,7 @@ p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - 
 
 
 
-\section{Beam elements}
+\section{Beam element maps}
 
 \subsection{Drift}
 A drift is a straight, field-free region ($h(x,y)=0$, $V=0$ and
@@ -539,6 +522,39 @@ The map relative to the exact Hamiltonian is then
 \end{align}
 
 
+\subsection{Curved exact bend}
+
+This map is adapted from \cite{forest99}.
+
+\begin{align}
+x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
+p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
+y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(s) &= p_y \\
+\delta(s) &= \delta \\
+\zeta(s) &= \zeta -\frac{\beta_0}{\beta}
+  \left[
+  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+  \right]
+\end{align}
+
+\section{Straight exact bend}
+
+This map is adapted from \cite{forest99}.
+
+\begin{align}
+x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) \\
+p_x(L) &= p_x - k_0 \chi L \\
+y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(L) &= p_y \\
+\delta(L) &= \delta \\
+\zeta(L) &= \zeta - \frac{\beta_0}{\beta}
+\left[
+\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\right]
+\end{align}
+
+
 
 
 % \subsubsection{Polar Drift}
@@ -557,7 +573,7 @@ The map relative to the exact Hamiltonian is then
 % \sin(\theta)$-length drift. In case of an $\hat x$ rotation the role of $x$ and $y$ are interchanged. 
 
 
-\subsection{Thin dipole}
+\subsection{Thin bend}
 
 In a curvilinear reference system with a constant curvature $h$ in the
 horizontal plane a uniform magnetic field can be derived by the vector potential:
