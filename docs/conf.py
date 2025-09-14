@@ -294,6 +294,8 @@ snippet_files = {
         'generated_code_snippets/models_integrators.py',
     'xtrack/examples/spin_lep/001_n0_and_eq_polarization.py':
         'generated_code_snippets/n0_and_eq_polarization.py',
+    'xtrack/examples/spin_lep/002a_monte_carlo_polarization.py':
+        'generated_code_snippets/monte_carlo_polarization.py',
 }
 
 for ss, tt in snippet_files.items():
