@@ -292,6 +292,8 @@ snippet_files = {
         'generated_code_snippets/lhc_run3_lossmap.py',
     'xtrack/examples/magnet_models_and_integrators/000_models_integrators.py':
         'generated_code_snippets/models_integrators.py',
+    'xtrack/examples/spin_lep/001_n0_and_eq_polarization.py':
+        'generated_code_snippets/n0_and_eq_polarization.py',
 }
 
 for ss, tt in snippet_files.items():
