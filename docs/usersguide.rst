@@ -13,6 +13,7 @@
    track
    particlesmanip
    trajectory_correction
+   spin_polarization
    collective
    collimation
    synchrotron_radiation
