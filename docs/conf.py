@@ -290,6 +290,8 @@ snippet_files = {
         'generated_code_snippets/footprint_with_bb.py',
     'xcoll/examples/lhc_run3_lossmap.py':
         'generated_code_snippets/lhc_run3_lossmap.py',
+    'xtrack/examples/magnet_models_and_integrators/000_models_integrators.py':
+        'generated_code_snippets/models_integrators.py',
 }
 
 for ss, tt in snippet_files.items():
