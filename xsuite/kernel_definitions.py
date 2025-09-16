@@ -1,148 +1,17 @@
 # copyright ############################### #
 # This file is part of the Xsuite project.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 import logging
 
-import xcoll as xc
-import xfields as xf
+from xtrack.prebuild_kernels import BASE_CONFIG, ONLY_XTRACK_ELEMENTS, NO_SYNRAD_ELEMENTS, \
+                                    NON_TRACKING_ELEMENTS
+from xcoll.prebuild_kernels import DEFAULT_XCOLL_ELEMENTS
+from xfields.prebuild_kernels import DEFAULT_XFIELDS_ELEMENTS
 
-from xtrack.beam_elements import *
-from xtrack.monitors import *
-from xtrack.random import *
-from xtrack.multisetter import MultiSetter
 
 LOGGER = logging.getLogger(__name__)
 
-BASE_CONFIG = {
-    'XTRACK_MULTIPOLE_NO_SYNRAD': True,
-    'XFIELDS_BB3D_NO_BEAMSTR': True,
-    'XFIELDS_BB3D_NO_BHABHA': True,
-    'XTRACK_GLOBAL_XY_LIMIT': 1.0,
-}
-
-ONLY_XTRACK_ELEMENTS = [
-    Drift,
-    Multipole,
-    Bend,
-    RBend,
-    Quadrupole,
-    Sextupole,
-    Octupole,
-    Magnet,
-    SecondOrderTaylorMap,
-    Marker,
-    ReferenceEnergyIncrease,
-    Cavity,
-    CrabCavity,
-    Elens,
-    Wire,
-    Solenoid,
-    VariableSolenoid,
-    UniformSolenoid,
-    RFMultipole,
-    DipoleEdge,
-    MultipoleEdge,
-    SimpleThinBend,
-    SimpleThinQuadrupole,
-    LineSegmentMap,
-    FirstOrderTaylorMap,
-    NonLinearLens,
-    DriftExact,
-    # Drift Slices
-    DriftSlice,
-    DriftExactSlice,
-    DriftSliceBend,
-    DriftSliceRBend,
-    DriftSliceOctupole,
-    DriftSliceQuadrupole,
-    DriftSliceSextupole,
-    DriftSliceCavity,
-    DriftSliceCrabCavity,
-    DriftSliceMultipole,
-    # Thick slices
-    ThickSliceBend,
-    ThickSliceRBend,
-    ThickSliceOctupole,
-    ThickSliceQuadrupole,
-    ThickSliceSextupole,
-    ThickSliceUniformSolenoid,
-    ThickSliceCavity,
-    ThickSliceCrabCavity,
-    ThickSliceMultipole,
-    # Thin slices
-    ThinSliceBend,
-    ThinSliceRBend,
-    ThinSliceOctupole,
-    ThinSliceQuadrupole,
-    ThinSliceSextupole,
-    ThinSliceCavity,
-    ThinSliceCrabCavity,
-    ThinSliceMultipole,
-    # Edge slices
-    ThinSliceBendEntry,
-    ThinSliceBendExit,
-    ThinSliceRBendEntry,
-    ThinSliceRBendExit,
-    ThinSliceQuadrupoleEntry,
-    ThinSliceQuadrupoleExit,
-    ThinSliceSextupoleEntry,
-    ThinSliceSextupoleExit,
-    ThinSliceUniformSolenoidEntry,
-    ThinSliceUniformSolenoidExit,
-    ThinSliceOctupoleEntry,
-    ThinSliceOctupoleExit,
-
-    # Transformations
-    XYShift,
-    ZetaShift,
-    XRotation,
-    SRotation,
-    YRotation,
-    # Apertures
-    LimitEllipse,
-    LimitRectEllipse,
-    LimitRect,
-    LimitRacetrack,
-    LimitPolygon,
-    LongitudinalLimitRect,
-    # Monitors
-    BeamPositionMonitor,
-    BeamSizeMonitor,
-    BeamProfileMonitor,
-    LastTurnsMonitor,
-    ParticlesMonitor,
-]
-
-NO_SYNRAD_ELEMENTS = [
-    Exciter,
-]
-
-# Xfields elements
-DEFAULT_XF_ELEMENTS = [
-    xf.BeamBeamBiGaussian2D,
-    xf.BeamBeamBiGaussian3D,
-    xf.SpaceChargeBiGaussian,
-]
-
-# Xcoll elements
-DEFAULT_XCOLL_ELEMENTS = [
-    ZetaShift,
-    xc.BlackAbsorber,
-    xc.EverestBlock,
-    xc.EverestCollimator,
-    xc.EverestCrystal,
-    xc.BlowUp,
-    xc.EmittanceMonitor
-]
-
-NON_TRACKING_ELEMENTS = [
-    RandomUniform,
-    RandomExponential,
-    RandomNormal,
-    RandomRutherford,
-    MultiSetter,
-]
 
 # These are enumerated in order specified below: the highest priority at the top
 kernel_definitions = [
@@ -153,11 +22,11 @@ kernel_definitions = [
     }),
     ('default_no_config', {
         'config': {},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {
         'config': BASE_CONFIG,
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XF_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
