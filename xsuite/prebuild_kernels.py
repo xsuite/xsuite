@@ -12,9 +12,9 @@ from typing import Iterator, Optional, Tuple
 
 import xsuite as xs
 import xcoll as xc
-from xtrack.prebuild_kernels import XTRACK_ELEMENTS_INIT_DEFAULTS
-from xfields.prebuild_kernels import XFIELDS_ELEMENTS_INIT_DEFAULTS
-from xcoll.prebuild_kernels import XCOLL_ELEMENTS_INIT_DEFAULTS
+from xtrack.prebuilt_kernel_definitions import XTRACK_ELEMENTS_INIT_DEFAULTS
+from xfields.prebuilt_kernel_definitions import XFIELDS_ELEMENTS_INIT_DEFAULTS
+from xcoll.prebuilt_kernel_definitions import XCOLL_ELEMENTS_INIT_DEFAULTS
 import xfields as xf
 import xobjects as xo
 import xtrack as xt
