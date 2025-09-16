@@ -4,14 +4,20 @@
 # ######################################### #
 import logging
 
-from xtrack.prebuild_kernels import BASE_CONFIG, ONLY_XTRACK_ELEMENTS, NO_SYNRAD_ELEMENTS, \
-                                    NON_TRACKING_ELEMENTS
-from xcoll.prebuild_kernels import DEFAULT_XCOLL_ELEMENTS
-from xfields.prebuild_kernels import DEFAULT_XFIELDS_ELEMENTS
+from xtrack.prebuilt_kernel_definitions import (ONLY_XTRACK_ELEMENTS,
+                                    NO_SYNRAD_ELEMENTS, NON_TRACKING_ELEMENTS)
+from xcoll.prebuilt_kernel_definitions import DEFAULT_XCOLL_ELEMENTS
+from xfields.prebuilt_kernel_definitions import DEFAULT_XFIELDS_ELEMENTS
 
 
 LOGGER = logging.getLogger(__name__)
 
+BASE_CONFIG = {
+    'XTRACK_MULTIPOLE_NO_SYNRAD': True,
+    'XFIELDS_BB3D_NO_BEAMSTR': True,
+    'XFIELDS_BB3D_NO_BHABHA': True,
+    'XTRACK_GLOBAL_XY_LIMIT': 1.0,
+}
 
 # These are enumerated in order specified below: the highest priority at the top
 kernel_definitions = [
