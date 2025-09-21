@@ -19,6 +19,8 @@ State C   flag                        Information
 -31       XT_MULTIP_IN_BEND_BACKTR    Backtracking in multipolar kick for bend non implemented yet.
 -32       XT_DIP_EDGE_FULL_BACKTR     Backtracking in full dipole edge non implemented yet.
 -33       XT_SPIN_BACKTRACK           Backtracking with spin on.
+-40       XT_INVALID_SLICE_TRANSFORM   Invalid slice transform.
+-41       XT_INVALID_CURVED_SLICE_TRANSFORM   Invalid curved slice transform.
 -330      XC_LOST_ON_EVEREST_BLOCK    Lost in an Everest block.
 -331      XC_LOST_ON_EVEREST_COLL     Lost in an Everest collimator.
 -332      XC_LOST_ON_EVEREST_CRYSTAL  Lost in an Everest crystal.
