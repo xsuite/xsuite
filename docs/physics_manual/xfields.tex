@@ -1458,7 +1458,7 @@ Similarly as done in Sec.\,\ref{sec:prop_bb_pic}, we can write the $s$ position 
 \label{eq:sprop_b2}
 \end{align}
 
-To find particles that are at the same $s$ at time $t_i$ we replace Eqs.\,\ref{eq:sprop_b1}-\ref{eq:sprop_b2} in \label{eq:sb1b2} we obtain:
+To find particles that are at the same $s$ at time $t_i$ we replace Eqs.\,\ref{eq:sprop_b1}-\ref{eq:sprop_b2} in \ref{eq:sb1b2} we obtain:
 
 \begin{equation}
 \zeta^\text{B2}_\text{IP}
@@ -2885,7 +2885,7 @@ We will use the following notation for the Discrete Fourier Transform of a seque
 \end{equation}
 The corresponding inverse transform is defined as:
 \begin{equation}
-{a}_n = \text{DFT}^{-1}_M(\hat{a}_k) =  \frac{1}{M}\sum_{k=0}^{M-1} \hat{a}_k\, e^{j2\pi  \frac{km}{M}}  \quad \text{for } m \in 0, ..., M
+{a}_m = \text{DFT}^{-1}_M(\hat{a}_k) =  \frac{1}{M}\sum_{k=0}^{M-1} \hat{a}_k\, e^{j2\pi  \frac{km}{M}}  \quad \text{for } m \in 0, ..., M
 \end{equation}
 
 Multidimensional Discrete Fourier Transforms are obtained by applying sequentially 1D DFTs.. For example, in two dimensions:
@@ -2900,7 +2900,7 @@ Multidimensional Discrete Fourier Transforms are obtained by applying sequential
 \end{equation}
 \begin{equation}
 \begin{split}
-{a}_{n_xn_y} &= \text{DFT}^{-1}_{M_xM_y}\left\{a_{k_x k_y}\right\}  
+{a}_{m_xm_y} &= \text{DFT}^{-1}_{M_xM_y}\left\{a_{k_x k_y}\right\}  
 = \text{DFT}^{-1}_{M_y} \left\{\text{DFT}^{-1}_{M_x}\left\{\hat{a}_{k_x k_y}\right\}\right\}\\  
 &=\frac{1}{M_x M_y}\sum_{k_x=0}^{M_x-1} e^{j 2\pi  \frac{k_x m_x}{M_x}} 
 \sum_{k_y=0}^{M_y-1} e^{j 2\pi  \frac{k_y m_y}{M_y}} \hat{a}_{k_xk_y}
