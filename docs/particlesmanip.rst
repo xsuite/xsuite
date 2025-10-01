@@ -171,6 +171,32 @@ the non-linead RF bucket, as illustrated by the following example:
     <https://github.com/xsuite/xpart/blob/main/examples/
     particles_generation/004_generate_gaussian.py>`_
 
+Example: q-Gaussian bunch
+-----------------------
+
+The function :meth:`xpart.generate_round_4D_q_gaussian_normalised` can be used to
+generate a bunch having q-Gaussian distribution in the transvserse phase space coordinates
+and matched. The constraint is that `1 < q < 5/3`, and that the transverse planes have the same `q`.
+The sampling method is inverse sampling of a hypersphere, adapted from [Batygin]_.
+
+Illustrated by the following example:
+
+.. literalinclude:: generated_code_snippets/qgaussian.py
+   :language: python
+
+.. figure:: figures/transverse_q_gaussian.png
+    :width: 75%
+    :align: center
+
+    `See the full code generating the image.
+    <https://github.com/xsuite/xpart/blob/main/examples/
+    particles_generation/008_generate_q_gaussian.py>`_
+
+.. _Batygin: https://doi.org/10.1016/j.nima.2004.10.029
+
+
+
+
 Matching distribution at custom location in the ring
 ----------------------------------------------------
 

@@ -42,7 +42,7 @@ os.system(
     'https://github.com/xsuite/xtrack')
 os.system(
     f'git clone --single-branch --branch {xpart_branch} '
-    'https://github.com/xsuite/xpart')
+    'https://github.com/elleanor-lamb/xpart')
 os.system(
     f'git clone --single-branch --branch {xdeps_branch} '
     'https://github.com/xsuite/xdeps')
@@ -84,6 +84,8 @@ snippet_files = {
         'generated_code_snippets/pencil.py',
     'xpart/examples/particles_generation/004_generate_gaussian.py':
         'generated_code_snippets/gaussian.py',
+    'xpart/examples/particles_generation/008_generate_q_gaussian.py':
+        'generated_code_snippets/qgaussian.py',
     'xpart/examples/particles_generation/002_halo.py':
         'generated_code_snippets/halo.py',
     'xpart/examples/save_and_load/000_to_from_dict.py':
