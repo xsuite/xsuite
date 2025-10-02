@@ -175,9 +175,12 @@ Example: q-Gaussian bunch
 -----------------------
 
 The function :meth:`xpart.generate_round_4D_q_gaussian_normalised` can be used to
-generate a bunch having q-Gaussian distribution in the transvserse phase space coordinates
-and matched. The constraint is that `1 < q < 5/3`, and that the transverse planes have the same `q`.
-The sampling method is inverse sampling of a hypersphere, adapted from [Batygin]_.
+generate 4D normalised phase space coordinates with a q-Gaussian distribution following the non-factorizable `equations`_
+for a q-Gaussian.
+The constraints are that `1 < q < 5/3`, and that the transverse planes have the same `q` and `beta`.
+The sampling method is inverse sampling of a hypersphere, adapted from `Batygin`_.
+
+For large q and beta, the `sample_space` parameter can be adjusted.
 
 Illustrated by the following example:
 
@@ -192,9 +195,9 @@ Illustrated by the following example:
     <https://github.com/xsuite/xpart/blob/main/examples/
     particles_generation/008_generate_q_gaussian.py>`_
 
+
+.. _equations: https://doi.org/10.18429/JACoW-IPAC2024-MOPC09
 .. _Batygin: https://doi.org/10.1016/j.nima.2004.10.029
-
-
 
 
 Matching distribution at custom location in the ring
