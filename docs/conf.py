@@ -42,7 +42,7 @@ os.system(
     'https://github.com/xsuite/xtrack')
 os.system(
     f'git clone --single-branch --branch {xpart_branch} '
-    'https://github.com/elleanor-lamb/xpart')
+    'https://github.com/xsuite/xpart')
 os.system(
     f'git clone --single-branch --branch {xdeps_branch} '
     'https://github.com/xsuite/xdeps')
