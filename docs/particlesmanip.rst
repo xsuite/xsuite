@@ -178,7 +178,7 @@ The function :meth:`xpart.generate_round_4D_q_gaussian_normalised` can be used t
 generate 4D normalised phase space coordinates with a q-Gaussian distribution following the non-factorizable `equations`_
 for a q-Gaussian.
 The constraints are that `1 < q < 5/3`, and that the transverse planes have the same `q` and `beta`.
-The sampling method is inverse sampling of a hypersphere, adapted from `Batygin`_.
+The sampling method is inverse sampling, adapted from `Batygin`_.
 
 For large q and beta, the `sample_space` parameter can be adjusted.
 
