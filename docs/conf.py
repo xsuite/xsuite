@@ -276,8 +276,6 @@ snippet_files = {
         'generated_code_snippets/closed_orbit_correction_thread.py',
     'xtrack/examples/orbit_and_tracjectory_correction/005_transfer_line_correction.py':
         'generated_code_snippets/transfer_line_correction.py',
-    'xtrack/examples/symm_twiss_and_match/000_symm_twiss_and_match.py':
-        'generated_code_snippets/symm_twiss_and_match.py',
     'xtrack/examples/lattice_design/008a_line_composition.py':
         'generated_code_snippets/line_composition.py',
     'xtrack/examples/lattice_design/008b_composition_with_replicas.py':

@@ -157,21 +157,3 @@ lines, as illustrated in the following example.
 .. literalinclude:: generated_code_snippets/match_targets_from_vars_or_line.py
    :language: python
 
-Match and twiss with symmetry constraints on one boundary
----------------------------------------------------------
-
-In some cases, it is useful to twiss or match a line with periodicity constraints
-on one of the boundary and symmetry constraints on the other boundary, for example
-to design a symmetric cell in a periodic lattice.
-This can be achived by building only one half of the period and passing
-`init="periodic_symmetric"` to the `match` and `twiss` methods,
-as illustrated in the following example.
-
-.. literalinclude:: generated_code_snippets/symm_twiss_and_match.py
-   :language: python
-
-.. figure:: figures/halfcell.png
-   :width: 85%
-   :align: center
-
-   Half lattice cell matched with periodic boundary conditions on the left side and symmetry boundary conditions on the right side.
