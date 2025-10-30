@@ -2,10 +2,10 @@
 requires = [
     'setuptools>=64',
     'setuptools-scm[toml]>=8',
-    "xtrack==0.94.0",
-    "xfields==0.25.3",
+    "xtrack==0.94.1",
+    "xfields==0.25.4",
     "xcoll==0.6.8",
-    "xobjects==0.5.4",
+    "xobjects==0.5.5",
     "xdeps==0.10.8",
     "xpart==0.23.1",
     "numpy<2.0",
@@ -25,10 +25,10 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
 dependencies = [
-    "xtrack==0.94.0",
-    "xfields==0.25.3",
+    "xtrack==0.94.1",
+    "xfields==0.25.4",
     "xcoll==0.6.8",
-    "xobjects==0.5.4",
+    "xobjects==0.5.5",
     "xdeps==0.10.8",
     "xpart==0.23.1",
 ]
