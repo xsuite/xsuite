@@ -2,12 +2,12 @@
 requires = [
     'setuptools>=64',
     'setuptools-scm[toml]>=8',
-    "xtrack==0.94.2",
-    "xfields==0.25.4",
+    "xtrack==0.95.0",
+    "xfields==0.25.5",
     "xcoll==0.6.8",
-    "xobjects==0.5.5",
+    "xobjects==0.5.6",
     "xdeps==0.10.8",
-    "xpart==0.23.1",
+    "xpart==0.23.2",
     "numpy<2.0",
 ]
 build-backend = 'setuptools.build_meta'
@@ -25,12 +25,12 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
 dependencies = [
-    "xtrack==0.94.2",
-    "xfields==0.25.4",
+    "xtrack==0.95.0",
+    "xfields==0.25.5",
     "xcoll==0.6.8",
-    "xobjects==0.5.5",
+    "xobjects==0.5.6",
     "xdeps==0.10.8",
-    "xpart==0.23.1",
+    "xpart==0.23.2",
 ]
 dynamic = ["version"]
 
