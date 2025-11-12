@@ -6,7 +6,7 @@ import logging
 
 from xtrack.prebuilt_kernel_definitions import (ONLY_XTRACK_ELEMENTS,
                                     NO_SYNRAD_ELEMENTS, NON_TRACKING_ELEMENTS)
-from xcoll.prebuilt_kernel_definitions import DEFAULT_XCOLL_ELEMENTS
+from xcoll.prebuilt_kernel_definitions import DEFAULT_XCOLL_ELEMENTS, EXTRA_XCOLL_ELEMENTS
 from xfields.prebuilt_kernel_definitions import DEFAULT_XFIELDS_ELEMENTS
 
 
@@ -22,17 +22,19 @@ BASE_CONFIG = {
 # These are enumerated in order specified below: the highest priority at the top
 kernel_definitions = [
     ('non_tracking_kernels', {
-        'config': BASE_CONFIG,
+        'config': {},
         'classes': [],
         'extra_classes': NON_TRACKING_ELEMENTS
     }),
     ('default_no_config', {
         'config': {},
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'extra_classes': EXTRA_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {
         'config': BASE_CONFIG,
         'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'extra_classes': EXTRA_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
