@@ -234,6 +234,9 @@ def build_single_kernel(idx, total, location, metadata, module_name):
     tracker = xt.Tracker(line=line, compile=False, _prebuilding_kernels=True)
     tracker.config.clear()
     tracker.config.update(config)
+    tracker_classes = tracker._tracker_data_base.kernel_element_classes
+    expected_classes = [getattr(el, '_XoStruct', el) for el in element_classes]
+    extra_classes.extend(ee for ee in expected_classes if ee not in tracker_classes)
 
     # Get all kernels in the elements
     extra_kernels = {}
