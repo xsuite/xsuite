@@ -382,6 +382,12 @@ Exciter
     :members:
     :member-order: bysource
 
+AC-Dipole
+---------
+.. autoclass:: xtrack.ACDipole
+    :members:
+    :member-order: bysource
+
 Cavity
 ------
 
