@@ -4,7 +4,16 @@ Time dependent knobs
 To simulate the effect of time-changing properties of the beam-line it is possible
 to control any lattice element attribute with a time-dependent function.
 For this purpose, the variable ``t_turn_s`` provides the time in seconds since
-the start of the simulation and is updated automatically during tracking.
+the start of the simulation and is updated automatically every turn during tracking:
+
+.. math::
+    \verb|t_turn_s| = \verb|at_turn| \times \frac{L_0}{\beta_0  c_0}
+
+where ``at_turn`` is the turn numer of the reference particle,
+:math:`L_0` is the line length (design circumference), 
+:math:`\beta_0` is the relativistic beta factor of the particle tracked first
+and :math:`c_0` is the speed of light.
+
 The simulation of an orbit bump driven by a sinusoidal
 function is shown in the following example.
 

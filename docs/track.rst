@@ -43,6 +43,16 @@ illustrates how backtrack for a full turn or between specified elements:
 Time-dependent line properties
 ==============================
 
+Time-dependent elements whose properties change slowly (compared to the revolution period)
+such as Bumpers or Tune-Ramps can be modelled using :doc:`time_dependent_knobs`
+or :doc:`fast_lattice_changes` (the latter being more performant when a large 
+number of elements is affected). For some specific use cases there exist also 
+specialized elements, such as the :class:`xtrack.ACDipole`.
+
+If the time-dependent change is in the order of the revolution period or faster,
+specialized elements such as an :doc:`exciter` (time-dependent thin multipole)
+or :class:`xtrack.RFMultipole` have to be used.
+
 .. include:: time_dependent_knobs.rst
 
 .. include:: fast_lattice_changes.rst
