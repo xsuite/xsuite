@@ -559,8 +559,9 @@ p_y(s) &= p_y \\
 This map is adapted from \cite{forest99}.
 
 \begin{align}
-x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) \\
-p_x(L) &= p_x - k_0 \chi L \\
+x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
+\label{eq:eq:straight_bend_x}\\
+p_x(L) &= p_x - k_0 \chi L \label{eq:straight_bend_px}\\
 y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
 p_y(L) &= p_y \\
 \delta(L) &= \delta \\
@@ -568,6 +569,45 @@ p_y(L) &= p_y \\
 \left[
 \frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
 \right]
+\end{align}
+
+\subsection{Rectangular bend - straight body}
+
+[NEED drawing]
+
+\begin{align}
+&\alpha = \alpha_\text{in} + \alpha_\text{out} \\
+&\alpha_\text{diff} = \alpha_\text{out} - \alpha_\text{in}
+\end{align}
+from which:
+\begin{align}
+&\alpha_\text{in} = \frac{\alpha - \alpha_\text{diff}}{2} \\
+&\alpha_\text{out} = \frac{\alpha + \alpha_\text{diff}}{2}
+\end{align}
+
+In the reference frame of the magnet body, for an on-momentum particle on the
+reference trajectory we can write:
+\begin{align}
+&p_{x, \text{in}} = \sin(\alpha_\text{in}) \\
+&p_{x, \text{out}} = -\sin(\alpha_\text{out})
+\end{align}
+
+Using Eq.~\eqref{eq:straight_bend_px} we can write:
+\begin{equation}
+  -\sin(\alpha_\text{out}) = \sin(\alpha_\text{in}) - h L_\text{straight}
+\end{equation}
+from which:
+\begin{equation}
+  h = \frac{\sin(\alpha_\text{in}) + \sin(\alpha_\text{out})}{L_\text{straight}}
+\end{equation}
+
+Using Eq.~\eqref{eq:eq:straight_bend_x} we can write:
+\begin{align}
+  &p_{x,\text{mid}} = p_{x,\text{in}} - h L_\text{straight}/2 \\
+  &x_\text{in} = x_\text{mid} - \frac{1}{h} \left(
+    \sqrt{1 - p_{x,\text{mid}}^2} - \sqrt{1 - p_{x,\text{in}}^2} \right) \\
+  &x_\text{out} = x_\text{mid} + \frac{1}{h} \left(
+    \sqrt{1 - p_{x,\text{out}}^2} - \sqrt{1 - p_{x,\text{mid}}^2} \right)
 \end{align}
 
 
