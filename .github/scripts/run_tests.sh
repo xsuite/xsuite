@@ -35,30 +35,17 @@ run_pytest() {
   wait $PYTEST_PID || PYTEST_STATUS=$?
 }
 
-# If xtrack on Pyopencl context, run tests one by one, otherwise run normally
-if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextPyopencl" ]] && [[ $* =~ xsuite/(xtrack|xpart|xfields) ]]; then
-  # Run tests one by one
-  for test_file in "$@"/test_*; do
-      run_pytest "$test_file"
+# Use multithreading if on cpu context and not xmask
+if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextCpu" ]] && [[ ! $* =~ xsuite/(xmask|xcoll) ]]; then
+  pip install pytest-xdist
+  PYTEST_OPTS="$PYTEST_OPTS -nauto"
+fi
 
-      # If the tests failed, set the status to 1 (5 is for no tests collected)
-      if [ $PYTEST_STATUS -ne 0 ] && [ $PYTEST_STATUS -ne 5 ]; then
-        STATUS=1
-      fi
-  done
-else  # Run tests normally if no Pyopencl context
-  # Use multithreading if on cpu context and not xmask
-  if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextCpu" ]] && [[ ! $* =~ xsuite/(xmask|xcoll) ]]; then
-    pip install pytest-xdist
-    PYTEST_OPTS="$PYTEST_OPTS -nauto"
-  fi
+run_pytest "$@"
 
-  run_pytest "$@"
-
-  # If the tests failed, set the status to 1 (5 is for no tests collected)
-  if [ $PYTEST_STATUS -ne 0 ] && [ $PYTEST_STATUS -ne 5 ]; then
-    STATUS=1
-  fi
+# If the tests failed, set the status to 1 (5 is for no tests collected)
+if [ $PYTEST_STATUS -ne 0 ] && [ $PYTEST_STATUS -ne 5 ]; then
+  STATUS=1
 fi
 
 exit $STATUS
