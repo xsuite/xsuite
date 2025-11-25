@@ -565,6 +565,7 @@ p_y(L) &= p_y \\
 \delta(L) &= \delta \\
 \ell(L) &= \ell +
 \frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\label{eq:straight_bend_ell}
 \end{align}
 
 \subsection{Rectangular bend - straight body}
@@ -599,12 +600,37 @@ from which:
 
 Using Eq.~\eqref{eq:eq:straight_bend_x} we can write:
 \begin{align}
-  &p_{x,\text{mid}} = p_{x,\text{in}} - h L_\text{straight}/2 \\
+  &p_{x,\text{mid}} = p_{x,\text{in}} - h L_\text{straight}/2 \label{eq:px_mid_in}\\
+  &p_{x,\text{mid}} = p_{x,\text{out}} + h L_\text{straight}/2 \label{eq:px_mid_out}\\
   &x_\text{in} = x_\text{mid} - \frac{1}{h} \left(
     \sqrt{1 - p_{x,\text{mid}}^2} - \sqrt{1 - p_{x,\text{in}}^2} \right) \\
   &x_\text{out} = x_\text{mid} + \frac{1}{h} \left(
     \sqrt{1 - p_{x,\text{out}}^2} - \sqrt{1 - p_{x,\text{mid}}^2} \right)
 \end{align}
+
+Using Eq.~\eqref{eq:straight_bend_ell} we can write:
+\begin{equation}
+  L_\text{curv} = \frac{1}{h} \left(
+    \sin^{-1} (p_{x,\text{out}}) - \sin^{-1} (p_{x,\text{in}}) \right)
+    = \frac{\alpha_\text{in} + \alpha_\text{out}}{h}
+    = \frac{\alpha}{h}
+\end{equation}
+
+In the special case of a sector bend ($\alpha_\text{diff} = 0$) we have, summing
+Eqs.~\eqref{eq:px_mid_in} and \eqref{eq:px_mid_out}:
+\begin{align}
+&\alpha_\text{in} = \alpha_\text{out} = \frac{\alpha}{2} \\
+&p_{x, \text{in}} = -p_{x, \text{out}} = \sin(\alpha/2) \\
+&p_{x,\text{mid}} = 0 \\
+&h = \frac{2 \sin(\alpha/2)}{L_\text{straight}} \\
+&L_\text{curv} = \frac{\alpha}{h} = \frac{L_\text{straight}}{\text{sinc}(\alpha/2)}\\
+&x_\text{in} = x_\text{out} = x_\text{mid} - \frac{1}{h} \left(
+    1 - \cos(\alpha/2) \right)
+\end{align}
+The last gives the usual equation for the sagitta of a sector bend.
+
+
+
 
 
 
