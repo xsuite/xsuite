@@ -23,6 +23,7 @@ trap _term SIGINT SIGTERM
 PYTEST_OPTS="--durations=0 --durations-min=1 --color=yes --verbose $PYTEST_ADDOPTS"
 
 # Keep track of failures
+PYTEST_STATUS=0
 STATUS=0
 
 # Make nice annotations in the GitHub Actions logs
