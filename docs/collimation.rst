@@ -1,6 +1,6 @@
-===========
-Collimation
-===========
+============================================
+Particle-matter interaction and collimation
+============================================
 
 .. contents:: Table of Contents
     :depth: 3
