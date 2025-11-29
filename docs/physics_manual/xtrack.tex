@@ -558,7 +558,7 @@ This map is adapted from \cite{forest99}.
 
 \begin{align}
 x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
-\label{eq:eq:straight_bend_x}\\
+\label{eq:straight_bend_x}\\
 p_x(L) &= p_x - k_0 \chi L \label{eq:straight_bend_px}\\
 y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
 p_y(L) &= p_y \\
@@ -570,8 +570,18 @@ p_y(L) &= p_y \\
 
 \subsection{Rectangular bend - straight body}
 
-[NEED drawing]
+Xsuite supports rectangular bends with generic shifts and angles at the
+entrance and exit faces as shown in Fig.~\ref{fig:rbend}. The following relations
+among the involved quantities can be derived.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[height=0.40\textheight]{figures/rbend.png}
+  \caption{Normalized phase space.\label{fig:rbend}}
+\end{figure}
+
+The code takes as input the total bending angle $\alpha$ and the difference
+in angle between the exit and entrance faces $\alpha_\text{diff}$:
 \begin{align}
 &\alpha = \alpha_\text{in} + \alpha_\text{out} \\
 &\alpha_\text{diff} = \alpha_\text{out} - \alpha_\text{in}
@@ -593,12 +603,12 @@ Using Eq.~\eqref{eq:straight_bend_px} we can write:
 \begin{equation}
   -\sin(\alpha_\text{out}) = \sin(\alpha_\text{in}) - h L_\text{straight}
 \end{equation}
-from which:
+from which we can obtain the curvature of the reference trajectory:
 \begin{equation}
   h = \frac{\sin(\alpha_\text{in}) + \sin(\alpha_\text{out})}{L_\text{straight}}
 \end{equation}
 
-Using Eq.~\eqref{eq:eq:straight_bend_x} we can write:
+Using Eqs.~\eqref{eq:straight_bend_x} and~\eqref{eq:straight_bend_px} we can write:
 \begin{align}
   &p_{x,\text{mid}} = p_{x,\text{in}} - h L_\text{straight}/2 \label{eq:px_mid_in}\\
   &p_{x,\text{mid}} = p_{x,\text{out}} + h L_\text{straight}/2 \label{eq:px_mid_out}\\
