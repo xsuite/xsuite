@@ -12,15 +12,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-13, macos-14]
-        pyver: [cp310, cp311, cp312, cp313]
-        # exclude:
-        #   - os: macos-14
-        #     pyver: cp38
-        #   - os: macos-13
-        #     pyver: cp38
-        #   - os: ubuntu-latest
-        #     pyver: cp38
+        os: [
+          ubuntu-latest,
+          macos-13,  # x86_64 runners (deprecated) for building x86 wheels
+          macos-14,  # arm64 runners
+        ]
+        pyver: [cp310, cp311, cp312, cp313, cp314]
     steps:
       - uses: actions/checkout@v4
 

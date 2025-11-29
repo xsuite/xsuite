@@ -112,7 +112,8 @@ Identically to the examples above, beam-beam elements can be introduced into the
 An example snippet is shown below where an xtrack lattice in json format is loaded and a weakstrong beam-beam element is inserted at the marker "ip.1". 
 
 .. code-block:: python
-   path     = "/path/to/lattice
+
+   path     = "/path/to/lattice"
    seq_name = "lattice.json"
    seq_path = os.path.join(path, seq_name)
 

@@ -13,7 +13,7 @@ The collimators themselves are created as instances of :class:`xcoll.EverestColl
 Loss maps are created after the simulations to assess the performance of the LHC collimation system. They give information about where the beam losses are located in the LHC. The loss map, after one simulation, is created as an instance of :class:`xcoll.LossMap`. 
 
 Collimator objects
-===================
+==================
 
 BaseCollimator
 --------------
@@ -154,13 +154,15 @@ BaseBlock and EverestBlock
         '_tracking':        xo.Int8,
         '_only_mcs':        xo.Int8
     }
+
 Furthermore, :class:`xcoll.EverestBlock` needs a material, which is an instance of :class:`xcoll.materials.Material`, and that can be accessed through 
 
 .. code-block:: python
+
    EverestBlock.material
 
 Creating a Collimator or Block object
-============================
+=====================================
 A collimator (or block) object can be created in two different ways; either directly with the class or by loading from file. 
 For example:
 
@@ -185,7 +187,7 @@ Or, by using the CollimationManager to load from file:
    coll_manager.install_everest_collimators(verbose=True)
 
 
-Generating particles on a collimator 
+Generating particles on a collimator
 ====================================
 For some collimation studies it is convenient to generate a initial pencil distribution on a collimator. Xcoll has its own function for this :meth:`xcoll.generate_pencil_on_collimator`. An example is shown below.
 
@@ -266,6 +268,139 @@ See also: :class:`xtrack.LossLocationRefinement`
     <https://github.com/xsuite/xtrack/blob/main/examples/collimation/
     001_loss_location_refinement.py>`_
 
+Material definitions
+====================
+
+Materials database
+------------------
+Xcoll ships with a built-in database of materials (which cannot be modified at runtime):
+
+.. code-block:: python
+
+    import xcoll as xc
+    xc.materials.show(full=True)
+
+Materials can be accessed from the module by their full name only:
+
+.. code-block:: python
+
+    print(xc.materials.Aluminium)
+
+or from the database using their name or aliases:
+
+.. code-block:: python
+
+    mat1 = xc.materials.db['Aluminium']
+    mat2 = xc.materials.db['Aluminum']
+    mat3 = xc.materials.db['Al']
+    print(mat1)
+    print(mat2)
+    print(mat3)
+    print(mat1 == mat2)
+    print(mat1 == mat3)
+
+When a material is known to FLUKA or Geant4, it has a ``fluka_name`` resp ``geant4_name`` attribute:
+
+.. code-block:: python
+
+    print(f"Copper-Diamond in FLUKA is called: {xc.materials.CopperDiamond.fluka_name}")
+    print(f"Aluminium in Geant4 is called: {mat1.geant4_name}")
+
+Defining New Materials
+----------------------
+All elements in the periodic table are predefined in the database.
+When defining a new elemental material (i.e. an allotrope), the fields
+``'Z'``, ``'A'``, and ``'density'`` are required:
+
+.. code-block:: python
+    WhitePhosphorus = xc.Material(Z=15, A=123.895/4, density=1.823, name='WhitePhosphorus',
+                                  state='solid', info="P4, but defined as element instead of compound.")
+
+It is not possible to redefine existing elements in the database, but it
+is possible to adapt them with the `adapt` method.
+
+.. code-block:: python
+
+    Ozone = xc.materials.Oxygen.adapt(density=2.144e-3, name='Ozone',
+                                      info="O3, but defined as element instead of compound.")
+
+When adapting a material, unspecified fields are taken from the original material,
+like the state, and temperature and pressure at which the density applies:
+
+.. code-block:: python
+
+    print(xc.materials.Oxygen)
+    print(Ozone)
+    print(xc.materials.Oxygen.to_dict())
+    print(Ozone.to_dict())
+    # But names and info are not copied:
+    print(f"Original name: {xc.materials.Oxygen.name}, adapted name: {Ozone.name}")
+    print(f"Original short name: {xc.materials.Oxygen.short_name}, adapted short name: {Ozone.short_name}")
+    print(f"Original FLUKA name: {xc.materials.Oxygen.fluka_name}, adapted FLUKA name: {Ozone.fluka_name}")
+    print(f"Original Geant4 name: {xc.materials.Oxygen.geant4_name}, adapted Geant4 name: {Ozone.geant4_name}")
+    print(f"Original info: `{xc.materials.Oxygen.info}`")
+    print(f"Adapted info: `{Ozone.info}`")
+
+Defining New Compounds and Mixtures
+-----------------------------------
+Compounds are defined by specifying their components as a chemical formula,
+and hence the fields ``components`` and ``n_atoms``:
+
+.. code-block:: python
+
+    Ethanol = xc.Material(components=['C', 'H', 'O'], n_atoms=[2, 6, 1], density=0.78945, name='Ethanol',
+                          state='liquid', temperature=293.15)
+    print(Ethanol)
+    print(Ethanol.composition)
+    # Any doubled components are automatically combined:
+    EthanolBis = xc.Material(components=['C', 'H', 'C', 'H', 'O', 'H'], n_atoms=[1, 3, 1, 2, 1, 1], density=0.78945,
+                    name='EthanolBis', state='liquid', temperature=293.15)
+    print(f"{Ethanol == EthanolBis=}")
+
+
+Mixtures are not a chemical formula, but a physical mixture of different materials.
+They are defined by specifying their components and either their mass fractions,
+volume fractions, or molar fractions:
+
+.. code-block:: python
+
+    Concrete = xc.Material(components=['H', 'C', 'O', 'Na', 'Mg', 'Al', 'Si', 'K', 'Ca', 'Fe'],
+                           mass_fractions=[0.01, 0.001, 0.529107, 0.016, 0.002, 0.033872, 0.337021, 0.013, 0.044, 0.014],
+                           name='Concrete', density=2.35, state='solid')
+    print(Concrete)
+    print(Concrete.composition)
+    print(Concrete.to_dict())
+
+It is possible to combine any previously defined material as components of a mixture
+(even mixtures themselves). The code will recursively resolve the elemental composition:
+
+.. code-block:: python
+
+    Glucose      = xc.Material(components=['C', 'H', 'O'], n_atoms=[6, 12, 6], density=1.54, name='Glucose')
+    Anethole     = xc.Material(components=['C', 'H', 'O'], n_atoms=[10, 12, 1], density=1.05, name='Anethole',
+                            info="Main flavor component (anise) of absinthe.")
+    components=[Ethanol, xc.materials.Water, Glucose, Anethole]
+    volume_fractions=[0.7, 0.25, 0.045, 0.005]
+    FakeAbsinthe = xc.Material(components=components, volume_fractions=volume_fractions,
+                            density = sum([vf * el.density for el, vf in zip(components, volume_fractions)]),
+                            name='FakeAbsinthe', state='liquid')
+    print(FakeAbsinthe)
+    print(FakeAbsinthe.composition)
+    print(FakeAbsinthe.to_dict())
+
+
+Everest Compatibility
+---------------------
+Not all materials are 100% compatible with Everest. Multiple Coulomb scattering and ionisation loss are
+always supported, but nuclear interactions are only supported for materials known to Everest.
+This can be checeked with the ``full_everest_supported`` attribute:
+
+.. code-block:: python
+
+    print(f"CFC full Everest compatibility: {xc.materials.CarbonFibreCarbon.full_everest_supported}")
+    print(f"Ethanol full Everest compatibility: {Ethanol.full_everest_supported}")
+    print(f"FakeAbsinthe full Everest compatibility: {FakeAbsinthe.full_everest_supported}")
+
 Beam interaction (generation of secondary particles)
 ====================================================
 
@@ -274,7 +409,9 @@ Xtrack includes an interface to ease the modeling of beam-matter interaction
 including the loss of the impacting particles and the production of secondary
 particles, which need to be tracked together with the surviving beam.
 Such interface can be used to create a link with other programs for the modeling
-of these effects,  e.g. GEANT, FLUKA, K2, GuineaPig.
+of these effects,  e.g. GuineaPig. Note that although this approach was originally
+used to link Xcoll to Geant4 and FLUKA, these codes are currently linked
+more directly with dedicated beam elements (see :ref:`external_material_codes`).
 
 The interaction is defined as an object that provides a ``.interact(particles)``
 method, which sets to zero or negative the ``state`` flag for the particles that are lost and
