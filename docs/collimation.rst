@@ -13,7 +13,7 @@ The collimators themselves are created as instances of :class:`xcoll.EverestColl
 Loss maps are created after the simulations to assess the performance of the LHC collimation system. They give information about where the beam losses are located in the LHC. The loss map, after one simulation, is created as an instance of :class:`xcoll.LossMap`. 
 
 Collimator objects
-===================
+==================
 
 BaseCollimator
 --------------
@@ -154,13 +154,15 @@ BaseBlock and EverestBlock
         '_tracking':        xo.Int8,
         '_only_mcs':        xo.Int8
     }
+
 Furthermore, :class:`xcoll.EverestBlock` needs a material, which is an instance of :class:`xcoll.materials.Material`, and that can be accessed through 
 
 .. code-block:: python
+
    EverestBlock.material
 
 Creating a Collimator or Block object
-============================
+=====================================
 A collimator (or block) object can be created in two different ways; either directly with the class or by loading from file. 
 For example:
 
@@ -185,7 +187,7 @@ Or, by using the CollimationManager to load from file:
    coll_manager.install_everest_collimators(verbose=True)
 
 
-Generating particles on a collimator 
+Generating particles on a collimator
 ====================================
 For some collimation studies it is convenient to generate a initial pencil distribution on a collimator. Xcoll has its own function for this :meth:`xcoll.generate_pencil_on_collimator`. An example is shown below.
 
@@ -274,7 +276,9 @@ Xtrack includes an interface to ease the modeling of beam-matter interaction
 including the loss of the impacting particles and the production of secondary
 particles, which need to be tracked together with the surviving beam.
 Such interface can be used to create a link with other programs for the modeling
-of these effects,  e.g. GEANT, FLUKA, K2, GuineaPig.
+of these effects,  e.g. GuineaPig. Note that although this approach was originally
+used to link Xcoll to Geant4 and FLUKA, these codes are currently linked
+more directly with dedicated beam elements (see :ref:`external_material_codes`).
 
 The interaction is defined as an object that provides a ``.interact(particles)``
 method, which sets to zero or negative the ``state`` flag for the particles that are lost and

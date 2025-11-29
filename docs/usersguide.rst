@@ -16,6 +16,7 @@
    spin_polarization
    collective
    collimation
+   external_material_codes
    synchrotron_radiation
    intrabeam_scattering
    footprint
