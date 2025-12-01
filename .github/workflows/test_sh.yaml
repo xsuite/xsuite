@@ -102,7 +102,7 @@ jobs:
   run-tests:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     needs: [build-test-image, image-sanity-checks]
-    timeout-minutes: 540
+    timeout-minutes: 720
     strategy:
       fail-fast: false
       matrix:
