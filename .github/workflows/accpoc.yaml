@@ -5,7 +5,7 @@ on:
 
 jobs:
   gpu-h100:
-    runs-on: accpoc-xsuite-h100 
+    runs-on: accpoc-xsuite-h100-j4h5z-runner-zjq5r
     container: registry.cern.ch/accpoc/lxplus-like:9 
     steps:
       - name: nvidia-smi
