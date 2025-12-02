@@ -1,0 +1,12 @@
+name: accpoc-test
+on:
+  workflow_dispatch:
+
+jobs:
+  gpu-h100:
+    runs-on: accpoc-xsuite-h100 
+    container: registry.cern.ch/accpoc/lxplus-like:9 
+    steps:
+      - name: nvidia-smi
+        run: |
+          nvidia-smi
