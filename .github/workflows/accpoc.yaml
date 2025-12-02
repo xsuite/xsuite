@@ -1,5 +1,6 @@
 name: accpoc-test
 on:
+  pull_request:
   workflow_dispatch:
 
 jobs:
