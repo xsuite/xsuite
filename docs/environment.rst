@@ -195,8 +195,10 @@ attributes), use ``env.elements.get_table(attr=True)``:
 
    tt = env.elements.get_table(attr=True)
    tt.cols['name element_type length k1l']
-   # Table: 5 rows, 4 cols
+   # Table: 7 rows, 4 cols
    # name  element_type        length           k1l
+   # dr0   Drift                  0.4             0
+   # dr1   Drift                  0.2             0
    # mq0   Quadrupole               3           0.3
    # mq1   Quadrupole             1.2         0.192
    # mq2   Quadrupole             1.2         0.192
