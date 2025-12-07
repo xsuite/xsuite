@@ -157,12 +157,21 @@ for the new one:
 Inspecting deferred attributes
 ------------------------------
 
-Use references to look at expressions stored on element attributes:
+You can inspect deferred attributes the same way as variables:
 
 .. code-block:: python
 
-   env.ref['mq2'].k1._expr          # expression object
-   str(env.ref['mq2'].k1._expr)     # "(vars['kq.total'])"
+   env.ref['mq0'].k1._info()
+   #  element_refs['mq0'].k1._get_value()
+   #    element_refs['mq0'].k1 = 0.084
+   #
+   #  element_refs['mq0'].k1._expr
+   #    element_refs['mq0'].k1 = (0.5 * vars['kq.total'])
+   #
+   #  element_refs['mq0'].k1._expr._get_dependencies()
+   #    vars['kq.total'] = 0.168
+   #
+   #  element_refs['mq0'].k1 does not influence any target
 
 Setting element properties
 --------------------------
