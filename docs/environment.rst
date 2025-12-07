@@ -186,8 +186,10 @@ attributes), use ``env.elements.get_table(attr=True)``:
    env['kq'] = 0.08
    env['kq.total'] = '2 * kq'
    env.elements['mq0'] = xt.Quadrupole(length=3.0, k1=0.1)
+   env.elements['dr0'] = xt.Drift(length=0.4)
    env.new('mq1', xt.Quadrupole, length='l_q', k1='kq.total')
    env.new('ms1', xt.Sextupole, length=0.3, k2='-0.5*kq.total')
+   env.new('dr1', xt.Drift, length=0.2)
    env.new('mq2', xt.Quadrupole, length='l_q', k1='kq.total')
    env.new('mq2.d', 'mq2', k1='-kq.total')
 
