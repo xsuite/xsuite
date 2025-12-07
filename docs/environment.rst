@@ -121,29 +121,38 @@ Elements can be added directly to ``env.elements`` or created with
 
 .. code-block:: python
 
-   env.elements['myquad'] = xt.Quadrupole(length=3.0, k1=0.1)
-   env['myquad'].k1 = '0.5 * kq.total'   # attach a deferred expression
+   import xtrack as xt
+
+   env = xt.Environment()
+   env['kq'] = 0.08
+   env['kq.trim'] = '1.1 * kq'
+   env['kq.total'] = 'kq + kq.trim'
+
+   env.elements['mq0'] = xt.Quadrupole(length=3.0, k1=0.1)
+   env['mq0'].k1 = '0.5 * kq.total'   # attach a deferred expression
 
 Elements can also be created using ``Environment.new``. Deferred expressions can
 be specified directly in the constructor:
 
 .. code-block:: python
 
-   env.new('mq', xt.Quadrupole, length='l_q', k1='kq.total')
-   env.new('ms', xt.Sextupole, length=0.3, k2='-0.5*kq.total')
+   env['l_q'] = 1.2
+   env['kq'] = 0.08
+   env['kq.total'] = '2 * kq'
+
+   env.new('mq1', xt.Quadrupole, length='l_q', k1='kq.total')
+   env.new('ms1', xt.Sextupole, length=0.3, k2='-0.5*kq.total')
 
 ``env.new`` can also clone an existing element; the parent becomes the prototype
 for the new one:
 
 .. code-block:: python
 
-   env.new('mq.d', 'mq', k1='-kq.total')       # clone 'mq' and override k1
+   env.new('mq2', xt.Quadrupole, length='l_q', k1='kq.total')
+   env.new('mq2.d', 'mq2', k1='-kq.total')     # clone 'mq2' and override k1
 
-   env['mq.d'].length       # -> expression 'l_q', inherited from 'mq'
-   env['mq.d'].k1           # -> expression '-kq.total' (override)
-
-``env.new`` also accepts ``at``/``from_`` arguments and returns a ``Place`` when
-positions are provided, so it can be used directly inside ``env.new_line``.
+   env['mq2.d'].length      # -> expression 'l_q', inherited from 'mq2'
+   env['mq2.d'].k1          # -> expression '-kq.total' (override)
 
 Inspecting deferred attributes
 ------------------------------
@@ -152,8 +161,8 @@ Use references to look at expressions stored on element attributes:
 
 .. code-block:: python
 
-   env.ref['mq'].k1._expr           # expression object
-   str(env.ref['mq'].k1._expr)      # "(vars['kq.total'])"
+   env.ref['mq2'].k1._expr          # expression object
+   str(env.ref['mq2'].k1._expr)     # "(vars['kq.total'])"
 
 Setting element properties
 --------------------------
@@ -163,8 +172,8 @@ string is passed, it is treated as a deferred expression.
 
 .. code-block:: python
 
-   env.set('mq', k1='1.05 * kq.total')
-   env.set(['mq', 'mq.d'], k2='0.5 * k1')     # broadcast over a list
+   env.set('mq2', k1='1.05 * kq.total')
+   env.set(['mq2', 'mq2.d'], k2='0.5 * k1')     # broadcast over a list
 
 Removal
 -------
@@ -173,7 +182,7 @@ Elements can be deleted from the environment:
 
 .. code-block:: python
 
-   del env.elements['mq.d']         # or env.elements.remove('mq.d')
+   del env.elements['mq2.d']        # or env.elements.remove('mq2.d')
 
 Lines
 =====
@@ -188,15 +197,15 @@ given a ``name``.
 .. code-block:: python
 
    cell = env.new_line(name='cell', components=[
-       env.place('mq', at=0.0),
-       env.place('mq.d', at='l_q + 0.5', from_='mq'),
+       env.place('mq2', at=0.0),
+       env.place('mq2.d', at='l_q + 0.5', from_='mq2'),
    ])
 
 You can also create an unnamed line inline:
 
 .. code-block:: python
 
-   arc = env.new_line(['mq', 'mq.d', 'mq'])
+   arc = env.new_line(['mq2', 'mq2.d', 'mq2'])
 
 Placing with positions and anchors
 ----------------------------------
@@ -218,7 +227,7 @@ Lines support algebraic composition (concatenation, repetition, mirroring):
 
 .. code-block:: python
 
-   half_cell = env.new_line([env.place('mq'), env.place('mq.d', at='5', from_='mq')])
+   half_cell = env.new_line([env.place('mq2'), env.place('mq2.d', at='5', from_='mq2')])
    full_cell = -half_cell + half_cell
    ring = 6 * full_cell
 
