@@ -8,6 +8,7 @@
    installation
    singlepart
    line
+   environment
    twiss
    match
    track
