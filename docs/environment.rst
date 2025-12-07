@@ -117,14 +117,31 @@ Creating elements
 -----------------
 
 Elements can be added directly to ``env.elements`` or created with
-``env.new(...)``. You can start from a class, clone an existing element, or
-replicate it.
+``env.new(...)``. The most direct way is to instantiate an element and store it:
+
+.. code-block:: python
+
+   env.elements['myquad'] = xt.Quadrupole(length=3.0, k1=0.1)
+   env['myquad'].k1 = '0.5 * kq.total'   # attach a deferred expression
+
+Elements can also be created using ``Environment.new``. Deferred expressions can
+be specified directly in the constructor:
 
 .. code-block:: python
 
    env.new('mq', xt.Quadrupole, length='l_q', k1='kq.total')
-   env.new('mq.d', 'mq', k1='-kq.total')       # clone with new attributes
-   env.new('mq.rep', 'mq', mode='replica')     # replica shares the prototype
+   env.new('ms', xt.Sextupole, length=0.3, k2='-0.5*kq.total')
+
+``env.new`` can also clone an existing element; the parent becomes the prototype
+for the new one:
+
+.. code-block:: python
+
+   env.new('mq.d', 'mq', k1='-kq.total')       # clone 'mq' and override k1
+
+   env['mq'].length         # -> expression 'l_q'
+   env['mq.d'].length       # -> expression 'l_q', inherited from 'mq'
+   env['mq.d'].k1           # -> expression '-kq.total' (override)
 
 ``env.new`` also accepts ``at``/``from_`` arguments and returns a ``Place`` when
 positions are provided, so it can be used directly inside ``env.new_line``.
