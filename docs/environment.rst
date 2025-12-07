@@ -139,7 +139,6 @@ for the new one:
 
    env.new('mq.d', 'mq', k1='-kq.total')       # clone 'mq' and override k1
 
-   env['mq'].length         # -> expression 'l_q'
    env['mq.d'].length       # -> expression 'l_q', inherited from 'mq'
    env['mq.d'].k1           # -> expression '-kq.total' (override)
 
