@@ -48,6 +48,14 @@ expressions and can mix Python, NumPy, and other variables in the environment.
 
    env['kq.total']                      # -> 0.168
 
+Expressions provided as strings stay deferred: changing an upstream variable
+updates all dependents automatically.
+
+.. code-block:: python
+
+   env['kq'] = 0.2
+   env['kq.trim']                      # -> 0.22 (recomputed)
+
 ``env.eval(expr)`` evaluates an arbitrary expression in the environment
 context, and ``env.vars.new_expr(expr)`` returns the expression object itself.
 
@@ -69,7 +77,31 @@ To understand dependencies, fetch the reference and ask for its info:
 
 .. code-block:: python
 
-   env.ref['kq.total']._info(limit=5)
+   env.ref['kq.total']._info()
+   # prints:
+   # #  vars['kq.total']._get_value()
+   #    vars['kq.total'] = 0.168
+   #
+   # #  vars['kq.total']._expr
+   #    vars['kq.total'] = (vars['kq'] + vars['kq.trim'])
+   #
+   # #  vars['kq.total']._expr._get_dependencies()
+   #    vars['kq.trim'] = 0.08800000000000001
+   #    vars['kq'] = 0.08
+   #
+   # #  vars['kq.total'] does not influence any target
+
+
+   env.ref['kq']._info()
+   # prints:
+   # #  vars['kq']._get_value()
+   #    vars['kq'] = 0.08
+   #
+   # #  vars['kq']._expr is None
+   #
+   # #  vars['kq']._find_dependant_targets()
+   #    vars['kq.trim']
+   #    vars['kq.total']
 
 Deleting and renaming variables
 -------------------------------
