@@ -173,7 +173,11 @@ You can inspect deferred attributes the same way as variables:
    #
    #  element_refs['mq0'].k1 does not influence any target
 
-List the elements stored in the environment with ``env.elements.get_table()``:
+Listing elements
+----------------
+
+To get a table with all the elements stored in the environment (including
+attributes), use ``env.elements.get_table(attr=True)``:
 
 .. code-block:: python
 
@@ -187,14 +191,15 @@ List the elements stored in the environment with ``env.elements.get_table()``:
    env.new('mq2', xt.Quadrupole, length='l_q', k1='kq.total')
    env.new('mq2.d', 'mq2', k1='-kq.total')
 
-   env.elements.get_table()
-   # Table: 5 rows, 6 cols
-   # name   element_type isthick isreplica parent_name length
-   # mq0    Quadrupole       True     False       None    3.0
-   # mq1    Quadrupole       True     False       None    1.2
-   # mq2    Quadrupole       True     False       None    1.2
-   # mq2.d  Quadrupole       True     False       None    1.2
-   # ms1    Sextupole        True     False       None    0.3
+   tt = env.elements.get_table(attr=True)
+   tt.cols['name element_type length k1l']
+   # Table: 5 rows, 4 cols
+   # name  element_type        length           k1l
+   # mq0   Quadrupole               3           0.3
+   # mq1   Quadrupole             1.2         0.192
+   # mq2   Quadrupole             1.2         0.192
+   # mq2.d Quadrupole             1.2        -0.192
+   # ms1   Sextupole              0.3             0
 
 Setting element properties
 --------------------------
