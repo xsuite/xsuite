@@ -56,9 +56,6 @@ updates all dependents automatically.
    env['kq'] = 0.2
    env['kq.trim']                      # -> 0.22 (recomputed)
 
-``env.eval(expr)`` evaluates an arbitrary expression in the environment
-context, and ``env.vars.new_expr(expr)`` returns the expression object itself.
-
 Inspecting variables
 --------------------
 
@@ -112,8 +109,6 @@ Variables can be removed or renamed without recreating the environment:
 
    del env.vars['kq.trim']          # or env.vars.remove('kq.trim')
    env.vars.rename('kq', 'kq.main') # updates expressions automatically
-
-Use ``env.set('name', value_or_expr)`` as a concise way to overwrite a variable.
 
 Elements
 ========
