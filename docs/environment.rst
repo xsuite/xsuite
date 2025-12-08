@@ -205,6 +205,34 @@ attributes), use ``env.elements.get_table(attr=True)``:
    # mq2.d Quadrupole             1.2        -0.192
    # ms1   Sextupole              0.3             0
 
+Tables support convenient filtering and regex matching:
+
+.. code-block:: python
+
+   tt.rows['mq.*']
+   # Table: 4 rows, 124 cols
+   # name  element_type isthick isreplica parent_name ...
+   # mq0   Quadrupole      True     False None
+   # mq1   Quadrupole      True     False None
+   # mq2   Quadrupole      True     False None
+   # mq2.d Quadrupole      True     False None
+
+   tt.rows.match(element_type='Dr.*|Sext.*')
+   # Table: 3 rows, 124 cols
+   # name element_type isthick isreplica parent_name ...
+   # dr0  Drift           True     False None
+   # dr1  Drift           True     False None
+   # ms1  Sextupole       True     False None
+
+   tt.rows.match_not(element_type='Dr.*')
+   # Table: 5 rows, 124 cols
+   # name  element_type isthick isreplica parent_name ...
+   # mq0   Quadrupole      True     False None
+   # mq1   Quadrupole      True     False None
+   # mq2   Quadrupole      True     False None
+   # mq2.d Quadrupole      True     False None
+   # ms1   Sextupole       True     False None
+
 Setting element properties
 --------------------------
 
