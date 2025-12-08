@@ -571,3 +571,91 @@ and multiplication:
    # ||drift_3::3          40.7 Drift           True     False None
    # mqd.r::1                41 Quadrupole      True      True mqd
    # _end_point              42                False     False None
+
+Insert elements
+---------------
+
+It is possible to insert elements in a line also after its creation. The position
+of the new elements can be specified as absolut s position or as relative to
+an existing element. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/insert_element.py
+   :language: python
+
+Insert custom elements and elements instantiated by the user
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is possible to insert elements that are created by the user using the class
+directly instead of using the `Environment.new` method. This can be done in a single
+step or alternatively by first adding the element to the environment and then
+inserting it in the line. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/insert_element_instantiated_by_user.py
+   :language: python
+
+Insert a line into another line
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It is also possible to insert entire lines, as illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/insert_line.py
+   :language: python
+
+Simplified syntax for single insertion
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A compact syntax is available to perform a single insertion in a line. Note that
+when multiple insertions need to be made, it is significantly faster to install
+all the elements at once, as shown in the previous example. The compact syntax
+for single insertion is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/insert_element_single.py
+   :language: python
+
+Append elements
+---------------
+
+New elements can also be installed at the end of a line, as illustrated in the
+following example:
+
+.. literalinclude:: generated_code_snippets/append_elements.py
+   :language: python
+
+Remove elements from a line
+---------------------------
+
+Elements can be removed from a line using the `Line.remove` method. Thick elements
+are replaced by drift spaces, so that the position of all other elements is
+preserved. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/remove_elements.py
+   :language: python
+
+Replace elements
+----------------
+
+Elements in a line can be replaced with elements having the same length, as
+illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/replace_elements.py
+   :language: python
+
+Slice elements
+--------------
+
+It is possible to slice thick element with thin or thick slices, using the Uniform
+or the `Teapot <https://cds.cern.ch/record/165372>`_ scheme. This is illustrated
+in the following example:
+
+.. literalinclude:: generated_code_snippets/slicing.py
+   :language: python
+
+Cut line elements at given s positions
+--------------------------------------
+
+The method :meth:`xtrack.Line.cut_at_s` allows for cutting the line elements at the
+specified s positions. In the example before we take the same toy ring introduced
+in the :ref:`earlier example<createline>` and we cut it into 100 equal length slices:
+
+.. literalinclude:: generated_code_snippets/cut_at_s.py
+   :language: python
