@@ -272,12 +272,53 @@ Elements can be deleted from the environment when they are not used in any line:
 Lines
 =====
 
-Creating lines
---------------
+Create line as list of existing elements
+----------------------------------------
 
-Lines are assembled from environment elements, other lines, or ``Place`` objects
-returned by ``env.new``. They are automatically registered in ``env.lines`` when
-given a ``name``.
+The simplest way to create a line is to define it as a sequence of existing
+elements:
+
+.. code-block:: python
+
+   env = xt.Environment()
+   env.new('qf', xt.Quadrupole, length=1.0, k1=0.1)
+   env.new('qd', xt.Quadrupole, length=1.0, k1=-0.1)
+   env.new('dr', xt.Drift, length=5.0)
+
+   myline = env.new_line(components=['qf', 'dr', 'qd', 'dr'])
+
+In this case, the line is created but not stored in ``env.lines``. Storing it
+ensures it is saved with the environment:
+
+.. code-block:: python
+
+   env.lines['fodo'] = myline
+
+Alternatively, pass a name to store it automatically:
+
+.. code-block:: python
+
+   env.new_line(name='fodo', components=['qf', 'dr', 'qd', 'dr'])
+
+Once stored, it is accessible as ``env['fodo']`` or ``env.fodo``. You can inspect
+it like any line:
+
+.. code-block:: python
+
+   env['fodo'].get_table()
+   # Table: 5 rows, 11 cols
+   # name                   s element_type isthick isreplica ...
+   # qf                     0 Quadrupole      True     False
+   # dr::0                  1 Drift           True     False
+   # qd                     6 Quadrupole      True     False
+   # dr::1                  7 Drift           True     False
+   # _end_point            12                False     False
+
+Create line by placing elements
+-------------------------------
+
+Lines can also be assembled by placing elements (or other lines) at positions.
+They are automatically stored in ``env.lines`` when a ``name`` is provided.
 
 .. code-block:: python
 
@@ -285,15 +326,6 @@ given a ``name``.
        env.place('mq2', at=0.0),
        env.place('mq2.d', at='l_q + 0.5', from_='mq2'),
    ])
-
-You can also create an unnamed line inline:
-
-.. code-block:: python
-
-   arc = env.new_line(['mq2', 'mq2.d', 'mq2'])
-
-Placing with positions and anchors
-----------------------------------
 
 Positions accept numbers or expressions. ``from_`` selects the reference
 element, and ``anchor``/``from_anchor`` choose whether the start, center
