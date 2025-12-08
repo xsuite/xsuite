@@ -323,6 +323,9 @@ relative to other elements:
 .. code-block:: python
 
    env = xt.Environment()
+   env['s.q1'] = 3.0
+   env['s.q2'] = 5.0
+   env['ds.q4'] = 5.0
    env['kquad'] = 0.1
    env.new('q1', xt.Quadrupole, length=1.0, k1='kquad')
    env.new('q2', xt.Quadrupole, length=1.0, k1='-kquad')
@@ -331,10 +334,10 @@ relative to other elements:
    env.new('s4', xt.Sextupole, length=0.1)
 
    myline = env.new_line(name='myline', components=[
-       env.place('q1', at=3.0),                          # center at s=3.0
+       env.place('q1', at='s.q1'),                       # center at s=3.0
        env.place('q2', anchor='start', at=5.0),          # start at s=5.0
        env.place('q3', anchor='start', at='q2@end'),     # start at end of q2
-       env.place('q4', anchor='center', at=5.0,
+       env.place('q4', anchor='center', at='ds.q4',
                  from_='q3@start'),                      # center 5 m from q3 start
        env.place('s4'),                                  # right after previous
    ])
@@ -357,13 +360,13 @@ Elements can also be created inline while placing them:
 .. code-block:: python
 
    myline2 = env.new_line(name='myline2', components=[
-       env.new('q10', xt.Quadrupole, length=1.0, k1='kquad', at=3.0),
+       env.new('q10', xt.Quadrupole, length=1.0, k1='kquad', at='s.q1'),
        env.new('q20', xt.Quadrupole, length=1.0, k1='-kquad',
                anchor='start', at=5.0),
        env.new('q30', xt.Quadrupole, length=1.0, k1='kquad',
                anchor='start', at='q20@end'),
        env.new('q40', xt.Quadrupole, length=1.0, k1='-kquad',
-               anchor='center', at=5.0, from_='q30@start'),
+               anchor='center', at='ds.q4', from_='q30@start'),
        env.new('s40', xt.Sextupole, length=0.1),  # placed after previous
    ])
 
