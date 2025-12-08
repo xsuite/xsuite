@@ -244,6 +244,22 @@ string is passed, it is treated as a deferred expression.
    env.set('mq2', k1='1.05 * kq.total')
    env.set(['mq2', 'mq2.d'], k2='0.5 * k1')     # broadcast over a list
 
+You can also target groups via table filters:
+
+.. code-block:: python
+
+   tt = env.elements.get_table(attr=True)
+   tt_quad = tt.rows.match(element_type='Quadrupole')
+   tt_quad
+   # Table: 4 rows, 124 cols
+   # name  element_type isthick isreplica parent_name ...
+   # mq0   Quadrupole      True     False None
+   # mq1   Quadrupole      True     False None
+   # mq2   Quadrupole      True     False None
+   # mq2.d Quadrupole      True     False None
+
+   env.set(tt_quad, integrator='yoshida4')  # applies to all quads above
+
 Removal
 -------
 
