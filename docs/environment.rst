@@ -260,8 +260,8 @@ You can also target groups via table filters:
 
    env.set(tt_quad, integrator='yoshida4')  # applies to all quads above
 
-Removal
--------
+Remove elements
+---------------
 
 Elements can be deleted from the environment when they are not used in any line:
 
@@ -386,28 +386,101 @@ Elements can also be created inline while placing them:
    # ||drift_7           11.6          11.8            12
    # _end_point            12            12            12
 
-Composing and reusing lines
----------------------------
+Line mirroring and composition
+------------------------------
 
-Lines support algebraic composition (concatenation, repetition, mirroring):
-
-.. code-block:: python
-
-   half_cell = env.new_line([env.place('mq2'), env.place('mq2.d', at='5', from_='mq2')])
-   full_cell = -half_cell + half_cell
-   ring = 6 * full_cell
-
-In ``compose=True`` mode, the line keeps a composer that can be regenerated when
-variables change:
+Lines can be mirrored with the unary minus operator and combined with addition
+and multiplication:
 
 .. code-block:: python
 
-   l = env.new_line(name='l1', compose=True)
-   l.new('q1', 'Quadrupole', at='0.5*l_q')
-   l.new('q2', 'q1', at='4*l_q', from_='q1@center')
+   env = xt.Environment()
+   env.particle_ref = xt.Particles(p0c=2e9, mass0=xt.PROTON_MASS_EV)
+   env['pi'] = np.pi
+   env['l_bend'] = 3.5
+   env['l_quad'] = 1.0
+   env['l_cell'] = 20.0
+   env['n_bends'] = 24
+   env['angle_bend'] = 'pi / n_bends'
 
-   env['l_q'] = 1.8
-   l.regenerate_from_composer()   # rebuilds placements with updated variables
+   env.new('mq', xt.Quadrupole, length='l_quad')
+   env.new('mb', xt.Bend, length='l_bend', angle='angle_bend')
+   env.new('mqf', 'mq', k1=0.1)
+   env.new('mqd', 'mq', k1=-0.1)
+
+   arc_half_cell = env.new_line(components=[
+       env.place('mqf'),
+       env.place('mb', at='l_cell/4 - (l_bend/2 + 0.2)', from_='mqf'),
+       env.place('mb', at='l_cell/4 + (l_bend/2 + 0.2)', from_='mqf'),
+       env.place('mqd', at='l_cell/2 - l_quad/2', from_='mqf'),
+   ])
+
+   mirror_arc_half_cell = -arc_half_cell
+   mirror_arc_half_cell.get_table()
+   # Table: 8 rows, 11 cols
+   # name                   s element_type isthick isreplica parent_name ...
+   # mqd                    0 Quadrupole      True     False None
+   # ||drift_3              1 Drift           True     False None
+   # mb::0                1.3 Bend            True     False None
+   # ||drift_2            4.8 Drift           True     False None
+   # mb::1                5.2 Bend            True     False None
+   # ||drift_1            8.7 Drift           True     False None
+   # mqf                  9.5 Quadrupole      True     False None
+   # _end_point          10.5                False     False None
+
+   arc_cell = -arc_half_cell + arc_half_cell   # mirror then concatenate
+   arc_cell.get_table()
+   # Table: 15 rows, 11 cols
+   # name                     s element_type isthick isreplica parent_name ...
+   # mqd::0                   0 Quadrupole      True     False None
+   # ||drift_3::0             1 Drift           True     False None
+   # mb::0                  1.3 Bend            True     False None
+   # ||drift_2::0           4.8 Drift           True     False None
+   # mb::1                  5.2 Bend            True     False None
+   # ||drift_1::0           8.7 Drift           True     False None
+   # mqf::0                 9.5 Quadrupole      True     False None
+   # mqf::1                10.5 Quadrupole      True     False None
+   # ||drift_1::1          11.5 Drift           True     False None
+   # mb::2                 12.3 Bend            True     False None
+   # ||drift_2::1          15.8 Drift           True     False None
+   # mb::3                 16.2 Bend            True     False None
+   # ||drift_3::1          19.7 Drift           True     False None
+   # mqd::1                  20 Quadrupole      True     False None
+   # _end_point              21                False     False None
+   
+   arc = 2 * arc_cell
+   arc.get_table()
+   # Table: 29 rows, 11 cols
+   # name                     s element_type isthick isreplica parent_name ...
+   # mqd.l::0                 0 Quadrupole      True      True mqd
+   # ||drift_3::0             1 Drift           True     False None
+   # mb2.l::0               1.3 Bend            True      True mb2
+   # ||drift_2::0           4.8 Drift           True     False None
+   # mb1.l::0               5.2 Bend            True      True mb1
+   # ||drift_1::0           8.7 Drift           True     False None
+   # mqf.l::0               9.5 Quadrupole      True      True mqf
+   # mqf.r::0              10.5 Quadrupole      True      True mqf
+   # ||drift_1::1          11.5 Drift           True     False None
+   # mb1.r::0              12.3 Bend            True      True mb1
+   # ||drift_2::1          15.8 Drift           True     False None
+   # mb2.r::0              16.2 Bend            True      True mb2
+   # ||drift_3::1          19.7 Drift           True     False None
+   # mqd.r::0                20 Quadrupole      True      True mqd
+   # mqd.l::1                21 Quadrupole      True      True mqd
+   # ||drift_3::2            22 Drift           True     False None
+   # mb2.l::1              22.3 Bend            True      True mb2
+   # ||drift_2::2          25.8 Drift           True     False None
+   # mb1.l::1              26.2 Bend            True      True mb1
+   # ||drift_1::2          29.7 Drift           True     False None
+   # mqf.l::1              30.5 Quadrupole      True      True mqf
+   # mqf.r::1              31.5 Quadrupole      True      True mqf
+   # ||drift_1::3          32.5 Drift           True     False None
+   # mb1.r::1              33.3 Bend            True      True mb1
+   # ||drift_2::3          36.8 Drift           True     False None
+   # mb2.r::1              37.2 Bend            True      True mb2
+   # ||drift_3::3          40.7 Drift           True     False None
+   # mqd.r::1                41 Quadrupole      True      True mqd
+   # _end_point              42                False     False None
 
 Line inspection
 ---------------
