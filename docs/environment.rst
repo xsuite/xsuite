@@ -386,6 +386,16 @@ Elements can also be created inline while placing them:
    # ||drift_7           11.6          11.8            12
    # _end_point            12            12            12
 
+Placing sub-lines at given s positions
+--------------------------------------
+
+As for normal elements, it is possible to place sublines at given s positions
+within a longer line. This is illustrated in the following example:
+
+.. literalinclude:: generated_code_snippets/place_line_at_s.py
+   :language: python
+
+
 Line mirroring and composition
 ------------------------------
 
