@@ -263,7 +263,7 @@ You can also target groups via table filters:
 Removal
 -------
 
-Elements can be deleted from the environment:
+Elements can be deleted from the environment when they are not used in any line:
 
 .. code-block:: python
 
