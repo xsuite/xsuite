@@ -25,8 +25,8 @@ or a line. Accessing ``env.ref['name']`` returns a reference object that keeps
 track of expressions; use references whenever you want to build expressions or
 inspect dependencies.
 
-Working with variables
-======================
+Variables
+=========
 
 Defining variables and deferred expressions
 -------------------------------------------
@@ -481,10 +481,3 @@ and multiplication:
    # ||drift_3::3          40.7 Drift           True     False None
    # mqd.r::1                41 Quadrupole      True      True mqd
    # _end_point              42                False     False None
-
-Line inspection
----------------
-
-Use ``line.get_table(attr=True)`` for placement and attribute information, and
-``env.lines.get_table()`` for an overview of the lines stored in the
-environment.
