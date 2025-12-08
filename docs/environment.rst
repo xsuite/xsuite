@@ -242,7 +242,7 @@ string is passed, it is treated as a deferred expression.
 .. code-block:: python
 
    env.set('mq2', k1='1.05 * kq.total')
-   env.set(['mq2', 'mq2.d'], k2='0.5 * k1')     # broadcast over a list
+   env.set(['mq2', 'mq2.d'], k1='0.5 * kq.total')     # broadcast over a list
 
 You can also target groups via table filters:
 
@@ -317,25 +317,68 @@ it like any line:
 Create line by placing elements
 -------------------------------
 
-Lines can also be assembled by placing elements (or other lines) at positions.
-They are automatically stored in ``env.lines`` when a ``name`` is provided.
+Lines can also be defined by specifying element positions, either absolute or
+relative to other elements:
 
 .. code-block:: python
 
-   cell = env.new_line(name='cell', components=[
-       env.place('mq2', at=0.0),
-       env.place('mq2.d', at='l_q + 0.5', from_='mq2'),
+   env = xt.Environment()
+   env['kquad'] = 0.1
+   env.new('q1', xt.Quadrupole, length=1.0, k1='kquad')
+   env.new('q2', xt.Quadrupole, length=1.0, k1='-kquad')
+   env.new('q3', xt.Quadrupole, length=1.0, k1='kquad')
+   env.new('q4', xt.Quadrupole, length=1.0, k1='-kquad')
+   env.new('s4', xt.Sextupole, length=0.1)
+
+   myline = env.new_line(name='myline', components=[
+       env.place('q1', at=3.0),                          # center at s=3.0
+       env.place('q2', anchor='start', at=5.0),          # start at s=5.0
+       env.place('q3', anchor='start', at='q2@end'),     # start at end of q2
+       env.place('q4', anchor='center', at=5.0,
+                 from_='q3@start'),                      # center 5 m from q3 start
+       env.place('s4'),                                  # right after previous
    ])
 
-Positions accept numbers or expressions. ``from_`` selects the reference
-element, and ``anchor``/``from_anchor`` choose whether the start, center
-(``'center'``/``'centre'``), or end is used.
+   tt = myline.get_table()
+   tt.show(cols=['s_start', 's_center', 's_end'])
+   # name             s_start      s_center         s_end
+   # drift_1                0          1.25           2.5
+   # q1                   2.5             3           3.5
+   # drift_2              3.5          4.25             5
+   # q2                     5           5.5             6
+   # q3                     6           6.5             7
+   # drift_3                7          8.75          10.5
+   # q4                  10.5            11          11.5
+   # s4                  11.5         11.55          11.6
+   # _end_point          11.6          11.6          11.6
+
+Elements can also be created inline while placing them:
 
 .. code-block:: python
 
-   env.new('ip', xt.Marker, at=50)
-   env.new('ms', xt.Sextupole, length=0.3,
-           at='5', from_='ip', anchor='end', from_anchor='start')
+   myline2 = env.new_line(name='myline2', components=[
+       env.new('q10', xt.Quadrupole, length=1.0, k1='kquad', at=3.0),
+       env.new('q20', xt.Quadrupole, length=1.0, k1='-kquad',
+               anchor='start', at=5.0),
+       env.new('q30', xt.Quadrupole, length=1.0, k1='kquad',
+               anchor='start', at='q20@end'),
+       env.new('q40', xt.Quadrupole, length=1.0, k1='-kquad',
+               anchor='center', at=5.0, from_='q30@start'),
+       env.new('s40', xt.Sextupole, length=0.1),  # placed after previous
+   ])
+
+   tt = myline2.get_table()
+   tt.show(cols=['s_start', 's_center', 's_end'])
+   # name             s_start      s_center         s_end
+   # drift_4                0          1.25           2.5
+   # q10                  2.5             3           3.5
+   # drift_5              3.5          4.25             5
+   # q20                    5           5.5             6
+   # q30                    6           6.5             7
+   # drift_6                7          8.75          10.5
+   # q40                 10.5            11          11.5
+   # s40                 11.5         11.55          11.6
+   # _end_point          11.6          11.6          11.6
 
 Composing and reusing lines
 ---------------------------
