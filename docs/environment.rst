@@ -1,6 +1,6 @@
-======================
-The Xsuite environment
-======================
+==================
+Xsuite environment
+==================
 
 .. contents:: Table of Contents
     :depth: 3
