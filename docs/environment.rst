@@ -661,6 +661,15 @@ in the :ref:`earlier example<createline>` and we cut it into 100 equal length sl
 .. literalinclude:: generated_code_snippets/cut_at_s.py
    :language: python
 
+Remove lines
+------------
+
+Lines stored in the environment can be removed with ``del``:
+
+.. code-block:: python
+
+   del env.lines['fodo']
+
 Saving and loading environment or individual lines
 ==================================================
 
@@ -691,14 +700,7 @@ loaded back, and individual lines can be saved and loaded separately.
    line_loaded = xt.load('line_a.json')
    env3 = line_loaded.env # get the environment from the line
 
-Remove lines
-------------
 
-Lines stored in the environment can be removed with ``del``:
-
-.. code-block:: python
-
-   del env.lines['fodo']
 
 Loading MAD-X lattices
 ======================
@@ -870,15 +872,6 @@ driven by variables.
    #
    # #  particles['my_ref_part'].energy0 does not influence any target
 
-Remove particles
-----------------
-
-Particles stored in the environment can be removed with ``del``:
-
-.. code-block:: python
-
-   # Remove a stored particle
-   del env.particles['my_ref_part']
 
 Link lattice properties to reference particle parameters
 --------------------------------------------------------
@@ -909,3 +902,13 @@ strength corresponding to a fixed magnetic field, independent of the reference m
    env['spectrometer.b1'].k0        # -> ~0.899 for p0c_optics_gev = 1
    line.particle_ref.p0c = 450e9    # change reference momentum
    env['spectrometer.b1'].k0        # -> ~0.002; field stays 3 T
+
+Remove reference particles
+--------------------------
+
+Particles stored in the environment can be removed with ``del``:
+
+.. code-block:: python
+
+   # Remove a stored particle
+   del env.particles['my_ref_part']
