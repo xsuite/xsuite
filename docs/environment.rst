@@ -659,3 +659,33 @@ in the :ref:`earlier example<createline>` and we cut it into 100 equal length sl
 
 .. literalinclude:: generated_code_snippets/cut_at_s.py
    :language: python
+
+Saving and loading environment or individual lines
+==================================================
+
+Environments (including all elements and lines) can be serialized to JSON and
+loaded back, and individual lines can be saved and loaded separately.
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   env = xt.Environment()
+   env['k1'] = 0.1
+   env.new('qf', xt.Quadrupole, length=1.0, k1='k1')
+   env.new('qd', xt.Quadrupole, length=1.0, k1='-k1')
+   env.new_line(name='line_a', components=['qf', 'qd'])
+   env.new_line(name='line_b', components=['qd', 'qf'])
+
+   # Save whole environment (variables, elements, lines)
+   env.to_json('env.json')
+
+   # Reload environment
+   env2 = xt.load('env.json')
+
+   # Save a single line (variables and elements are included automatically)
+   env['line_a'].to_json('line_a.json')
+
+   # Reload the line
+   line_loaded = xt.load('line_a.json')
+   env3 = line_loaded.env # get the environment from the line
