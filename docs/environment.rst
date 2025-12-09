@@ -5,8 +5,6 @@ The Xsuite environment
 .. contents:: Table of Contents
     :depth: 3
 
-What an Environment stores
-==========================
 
 An ``xt.Environment`` is the shared container that keeps together:
 
@@ -16,14 +14,15 @@ An ``xt.Environment`` is the shared container that keeps together:
   be reused across multiple lines.
 - **Lines** in ``env.lines``: ordered sequences of elements assembled from the
   environment.
-- **Reference particles** in ``env.particle_ref`` (and ``env.particles`` for
-  additional species): used whenever optics, tracking or conversion to tracks
-  requires beam energy or mass information.
+- **Additional data** including reference particles and user-defined functions.
 
 Accessing ``env['name']`` returns the *value* of a variable, an element object,
 or a line. Accessing ``env.ref['name']`` returns a reference object that keeps
 track of expressions; use references whenever you want to build expressions or
 inspect dependencies.
+The contents of all these containers can be inspected with the ``.get_table()``
+method, and a list of all names in each container is available with the ``.keys()``
+method.
 
 Variables
 =========
