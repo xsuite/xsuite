@@ -854,7 +854,7 @@ strength corresponding to a fixed magnetic field, independent of the reference m
    env['p0c_optics_gev'] = 1.0  # momentum used for optics (GeV)
 
    env.new_particle('particle/b1', mass0=xt.PROTON_MASS_EV,
-                    q0=1, p0c=['p0c_optics_gev * 1e9'])
+                    q0=1, p0c='p0c_optics_gev * 1e9')
 
    env['spectrometer_b_tesla'] = 3.0
    env['l.spectrometer'] = 2.0
