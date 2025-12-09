@@ -2,8 +2,8 @@
 Getting started
 ===============
 
-This page describes the basic usage of Xsuite to perform tracking simulations.
-Instructions on how to install Xsuite are provided in the dedicated
+This page describes the basic usage of Xsuite to perform optics calculations and
+tracking simulations. Instructions on how to install Xsuite are provided in the dedicated
 :doc:`installation page <installation>`.
 
 .. contents:: Table of Contents
@@ -12,8 +12,9 @@ Instructions on how to install Xsuite are provided in the dedicated
 A simple example
 ================
 
-A simple tracking simulation can be configured and executed with the following
-python code. More details on the different steps will be discussed in the following section.
+A simple simulation can be configured and executed with the following
+python code. More details on the different steps will be discussed in 
+the following section.
 
 .. code-block:: python
 
@@ -22,13 +23,17 @@ python code. More details on the different steps will be discussed in the follow
     import xobjects as xo
     import xtrack as xt
 
-    ## Generate a simple line
-    line = xt.Line(
-        elements=[xt.Drift(length=2.),
-                  xt.Multipole(knl=[0, 0.5], ksl=[0,0]),
-                  xt.Drift(length=1.),
-                  xt.Multipole(knl=[0, -0.5], ksl=[0,0])],
-        element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
+    ## Build a simple FODO line from an Environment (thick quadrupoles)
+    env = xt.Environment()
+    env['l_q'] = 1.0
+    env['l_dr'] = 6.0
+    env['kq'] = 0.12
+    env['kq.trim'] = '0.05 * kq'
+    env['kq.total'] = 'kq + kq.trim'
+    env.new('qf', xt.Quadrupole, length='l_q', k1='kq.total')
+    env.new('qd', xt.Quadrupole, length='l_q', k1='-kq.total')
+    env.new('dr', xt.Drift, length='l_dr')
+    line = env.new_line(name='fodo', components=['qf', 'dr', 'qd', 'dr'])
 
     ## Attach a reference particle to the line (optional)
     ## (defines the reference mass, charge and energy)
