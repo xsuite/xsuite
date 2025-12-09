@@ -707,7 +707,10 @@ and lines. Files containing MAD-X computations (``twiss``, ``survey``,
    import xtrack as xt
 
    # The order of files matters if later files depend on earlier definitions
-   env = xt.load(['machine.seq', 'optics.madx'])
+   env = xt.load([
+       'ps_sftpro/ps.seq',
+       'ps_sftpro/ps_hs_sftpro.str',
+   ])
 
    # Access lines or variables defined in the MAD-X files
    line = env.lines['ring']
@@ -729,11 +732,12 @@ plans.
    import xtrack as xt
 
    mad = Madx()
-   mad.call('machine.seq')     # .madx, .seq, .str all work here
-   mad.call('optics.madx')
-   mad.use(sequence='ring')
+   # example files from xtrack/test_data/ps_sftpro/
+   mad.call('ps_sftpro/ps.seq')
+   mad.call('ps_sftpro/ps_hs_sftpro.str')
+   mad.use(sequence='ps')
 
-   line = xt.Line.from_madx_sequence(mad.sequence.ring,
+   line = xt.Line.from_madx_sequence(mad.sequence.ps,
                                      deferred_expressions=True)
 
 Choose this approach only when you explicitly need to run MAD-X calculations
