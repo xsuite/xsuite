@@ -825,6 +825,14 @@ driven by variables.
                     q0=1,
                     energy0='energy_gev * 1e9')  # deferred expression
 
+   # Inspect particles in the environment
+   env.particles.get_table()
+   # is:
+   # Table: 1 row, 7 cols
+   # name                mass0       charge0       energy0           p0c ...
+   # my_ref_part   9.38272e+08             1      5.25e+09   5.16548e+09
+
+
    # Any line built from this environment can reuse the same particle definition
    line = env.new_line(name='ring', components=[
          env.new('qf', xt.Quadrupole, length=1.0, k1=0.1),
@@ -838,6 +846,20 @@ driven by variables.
 
    env['energy_gev'] = 5.25            # updates reference energy automatically
    tw = line.twiss4d()                 # Twiss now uses the updated reference
+
+   # Inspect the deferred expression on the particle
+   env.ref['my_ref_part'].energy0._info()
+
+   #  particles['my_ref_part'].energy0._get_value()
+   particles['my_ref_part'].energy0 = [5.25e+09]
+   # prints:
+   # #  particles['my_ref_part'].energy0._expr
+   #    particles['my_ref_part'].energy0 = (vars['energy_gev'] * 1000000000.0)
+   #
+   # #  particles['my_ref_part'].energy0._expr._get_dependencies()
+   #    vars['energy_gev'] = 5.25
+   #
+   # #  particles['my_ref_part'].energy0 does not influence any target
 
 Link lattice properties to reference particle parameters
 --------------------------------------------------------
