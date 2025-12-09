@@ -670,116 +670,6 @@ Lines stored in the environment can be removed with ``del``:
 
    del env.lines['fodo']
 
-Saving and loading environment or individual lines
-==================================================
-
-Environments (including all elements and lines) can be serialized to JSON and
-loaded back, and individual lines can be saved and loaded separately.
-
-.. code-block:: python
-
-   import xtrack as xt
-
-   env = xt.Environment()
-   env['k1'] = 0.1
-   env.new('qf', xt.Quadrupole, length=1.0, k1='k1')
-   env.new('qd', xt.Quadrupole, length=1.0, k1='-k1')
-   env.new_line(name='line_a', components=['qf', 'qd'])
-   env.new_line(name='line_b', components=['qd', 'qf'])
-
-   # Save whole environment (variables, elements, lines)
-   env.to_json('env.json')
-
-   # Reload environment
-   env2 = xt.load('env.json')
-
-   # Save a single line (variables and elements are included automatically)
-   env['line_a'].to_json('line_a.json')
-
-   # Reload the line
-   line_loaded = xt.load('line_a.json')
-   env3 = line_loaded.env # get the environment from the line
-
-
-
-Loading MAD-X lattices
-======================
-
-Native MAD-X parser (recommended)
----------------------------------
-
-Xsuite can read MAD-X lattice files directly without launching MAD-X. Provide
-one or more files (any mix of ``.madx``, ``.seq``, or ``.str``) to
-``xt.load``; the parser understands definitions such as variables, sequences,
-and lines. Files containing MAD-X computations (``twiss``, ``survey``,
-``match``, etc.) are not supported and will raise an error.
-
-.. code-block:: python
-
-   import xtrack as xt
-
-   # The order of files matters if later files depend on earlier definitions
-   env = xt.load([
-       'ps_sftpro/ps.seq',
-       'ps_sftpro/ps_hs_sftpro.str',
-   ])
-
-   # Access lines or variables defined in the MAD-X files
-   line = env.lines['ring']
-   kq = env['kqf1']
-
-You can also pass MAD-X source code directly as a string by specifying the
-format explicitly:
-
-.. code-block:: python
-
-   mad_src = '''
-   ! Define variables and elements up-front (deferred expressions are supported)
-   l_q := 1.0;
-   l_cell := 12.0;
-   kq  := 0.12;
-   kq_f :=  kq;
-   kq_d := -kq;
-
-   qf: quadrupole, l:=l_q, k1:=kq_f;
-   qd: quadrupole, l:=l_q, k1:=kq_d;
-
-   fodo: sequence, l=l_cell;
-     qf, at=0.5 * l_q;                        ! center at s=0.5 * l_q
-     qd, at=l_cell/2 + 0.5 * l_q;             ! placed using deferred expressions
-   endsequence;
-   '''
-
-   env = xt.load(string=mad_src, format='madx')
-   line = env['fodo']
-
-This path is the long-term supported way to import MAD-X lattices into Xsuite.
-
-Import via cpymad (legacy)
---------------------------
-
-You can also import a MAD-X sequence using ``cpymad`` by first running MAD-X and
-then converting the in-memory sequence to an Xsuite line. This route depends on
-MAD-X being available and will be discontinued alongside MAD-X end-of-support
-plans.
-
-.. code-block:: python
-
-   from cpymad.madx import Madx
-   import xtrack as xt
-
-   mad = Madx()
-   # example files from xtrack/test_data/ps_sftpro/
-   mad.call('ps_sftpro/ps.seq')
-   mad.call('ps_sftpro/ps_hs_sftpro.str')
-   mad.use(sequence='ps')
-
-   line = xt.Line.from_madx_sequence(mad.sequence.ps,
-                                     deferred_expressions=True)
-
-Choose this approach only when you explicitly need to run MAD-X calculations
-before importing; otherwise prefer the native ``xt.load`` parser above.
-
 Reference particles
 ===================
 
@@ -912,3 +802,112 @@ Particles stored in the environment can be removed with ``del``:
 
    # Remove a stored particle
    del env.particles['my_ref_part']
+
+
+Saving and loading environment or individual lines
+==================================================
+
+Environments (including all elements and lines) can be serialized to JSON and
+loaded back, and individual lines can be saved and loaded separately.
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   env = xt.Environment()
+   env['k1'] = 0.1
+   env.new('qf', xt.Quadrupole, length=1.0, k1='k1')
+   env.new('qd', xt.Quadrupole, length=1.0, k1='-k1')
+   env.new_line(name='line_a', components=['qf', 'qd'])
+   env.new_line(name='line_b', components=['qd', 'qf'])
+
+   # Save whole environment (variables, elements, lines)
+   env.to_json('env.json')
+
+   # Reload environment
+   env2 = xt.load('env.json')
+
+   # Save a single line (variables and elements are included automatically)
+   env['line_a'].to_json('line_a.json')
+
+   # Reload the line
+   line_loaded = xt.load('line_a.json')
+   env3 = line_loaded.env # get the environment from the line
+
+Loading MAD-X lattices
+======================
+
+Native MAD-X parser (recommended)
+---------------------------------
+
+Xsuite can read MAD-X lattice files directly without launching MAD-X. Provide
+one or more files (any mix of ``.madx``, ``.seq``, or ``.str``) to
+``xt.load``; the parser understands definitions such as variables, sequences,
+and lines. Files containing MAD-X computations (``twiss``, ``survey``,
+``match``, etc.) are not supported and will raise an error.
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   # The order of files matters if later files depend on earlier definitions
+   env = xt.load([
+       'ps_sftpro/ps.seq',
+       'ps_sftpro/ps_hs_sftpro.str',
+   ])
+
+   # Access lines or variables defined in the MAD-X files
+   line = env.lines['ring']
+   kq = env['kqf1']
+
+You can also pass MAD-X source code directly as a string by specifying the
+format explicitly:
+
+.. code-block:: python
+
+   mad_src = '''
+   ! Define variables and elements up-front (deferred expressions are supported)
+   l_q := 1.0;
+   l_cell := 12.0;
+   kq  := 0.12;
+   kq_f :=  kq;
+   kq_d := -kq;
+
+   qf: quadrupole, l:=l_q, k1:=kq_f;
+   qd: quadrupole, l:=l_q, k1:=kq_d;
+
+   fodo: sequence, l=l_cell;
+     qf, at=0.5 * l_q;                        ! center at s=0.5 * l_q
+     qd, at=l_cell/2 + 0.5 * l_q;             ! placed using deferred expressions
+   endsequence;
+   '''
+
+   env = xt.load(string=mad_src, format='madx')
+   line = env['fodo']
+
+This path is the long-term supported way to import MAD-X lattices into Xsuite.
+
+Import via cpymad (legacy)
+--------------------------
+
+You can also import a MAD-X sequence using ``cpymad`` by first running MAD-X and
+then converting the in-memory sequence to an Xsuite line. This route depends on
+MAD-X being available and will be discontinued alongside MAD-X end-of-support
+plans.
+
+.. code-block:: python
+
+   from cpymad.madx import Madx
+   import xtrack as xt
+
+   mad = Madx()
+   # example files from xtrack/test_data/ps_sftpro/
+   mad.call('ps_sftpro/ps.seq')
+   mad.call('ps_sftpro/ps_hs_sftpro.str')
+   mad.use(sequence='ps')
+
+   line = xt.Line.from_madx_sequence(mad.sequence.ps,
+                                     deferred_expressions=True)
+
+Choose this approach only when you explicitly need to run MAD-X calculations
+before importing; otherwise prefer the native ``xt.load`` parser above.
