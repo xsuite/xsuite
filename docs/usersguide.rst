@@ -9,7 +9,6 @@
    singlepart
    environment
    lattice_model
-   line
    twiss
    match
    track
