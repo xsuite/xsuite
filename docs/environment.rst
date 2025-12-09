@@ -838,3 +838,33 @@ driven by variables.
 
    env['energy_gev'] = 5.25            # updates reference energy automatically
    tw = line.twiss4d()                 # Twiss now uses the updated reference
+
+Link lattice properties to reference particle parameters
+--------------------------------------------------------
+
+Lattice parameters can depend on reference particle quantities. For example, you
+can tie element strengths to the reference particle rigidity to obtain a normalized
+strength corresponding to a fixed magnetic field, independent of the reference momentum.
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   env = xt.Environment()
+   env['p0c_optics_gev'] = 1.0  # momentum used for optics (GeV)
+
+   env.new_particle('particle/b1', mass0=xt.PROTON_MASS_EV,
+                    q0=1, p0c=['p0c_optics_gev * 1e9'])
+
+   env['spectrometer_b_tesla'] = 3.0
+   env['l.spectrometer'] = 2.0
+
+   env.new('spectrometer.b1', 'Bend', angle=0, length='l.spectrometer',
+           k0=env.ref['spectrometer_b_tesla'] / env.ref['particle/b1'].rigidity0[0])
+
+   line = env.new_line(components=['spectrometer.b1'])
+   line.particle_ref = 'particle/b1'
+
+   env['spectrometer.b1'].k0        # -> ~0.899 for p0c_optics_gev = 1
+   line.particle_ref.p0c = 450e9    # change reference momentum
+   env['spectrometer.b1'].k0        # -> ~0.002; field stays 3 T
