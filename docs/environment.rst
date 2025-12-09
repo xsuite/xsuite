@@ -100,14 +100,13 @@ To understand dependencies, fetch the reference and ask for its info:
    #    vars['kq.trim']
    #    vars['kq.total']
 
-Deleting and renaming variables
--------------------------------
+Renaming variables
+------------------
 
-Variables can be removed or renamed without recreating the environment:
+Variables can renamed as follows
 
 .. code-block:: python
 
-   del env.vars['kq.trim']          # or env.vars.remove('kq.trim')
    env.vars.rename('kq', 'kq.main') # updates expressions automatically
 
 Elements
@@ -612,8 +611,8 @@ for single insertion is illustrated in the following example:
 .. literalinclude:: generated_code_snippets/insert_element_single.py
    :language: python
 
-Append elements
----------------
+Append elements to a line
+-------------------------
 
 New elements can also be installed at the end of a line, as illustrated in the
 following example:
@@ -631,8 +630,8 @@ preserved. This is illustrated in the following example:
 .. literalinclude:: generated_code_snippets/remove_elements.py
    :language: python
 
-Replace elements
-----------------
+Replace elements in a line
+--------------------------
 
 Elements in a line can be replaced with elements having the same length, as
 illustrated in the following example:
@@ -640,8 +639,8 @@ illustrated in the following example:
 .. literalinclude:: generated_code_snippets/replace_elements.py
    :language: python
 
-Slice elements
---------------
+Slice elements in a line
+------------------------
 
 It is possible to slice thick element with thin or thick slices, using the Uniform
 or the `Teapot <https://cds.cern.ch/record/165372>`_ scheme. This is illustrated
