@@ -13,7 +13,7 @@ A simple example
 ================
 
 A simple simulation can be configured and executed with the following
-python code. More details on the different steps will be discussed in 
+python code. More details on the different steps will be discussed in
 the following section.
 
 .. code-block:: python
@@ -23,30 +23,20 @@ the following section.
     import xobjects as xo
     import xtrack as xt
 
-    ## Build a simple FODO line from an Environment (thick quadrupoles)
+    # Create an environment
     env = xt.Environment()
-    env['l_q'] = 1.0
-    env['l_dr'] = 6.0
-    env['kq'] = 0.12
-    env['kq.trim'] = '0.05 * kq'
-    env['kq.total'] = 'kq + kq.trim'
-    env.new('qf', xt.Quadrupole, length='l_q', k1='kq.total')
-    env.new('qd', xt.Quadrupole, length='l_q', k1='-kq.total')
-    env.new('dr', xt.Drift, length='l_dr')
-    line = env.new_line(name='fodo', components=['qf', 'dr', 'qd', 'dr'])
 
-    ## Attach a reference particle to the line (optional)
+    # Define lattice elements
+    env.elements['qf'] = xt.Quadrupole(length=1.0, k1=0.12)
+    env.elements['qd'] = xt.Quadrupole(length=1.0, k1=-0.12)
+    env.elements['dr'] = xt.Drift(length=2.0)
+
+    # Define a line (list of elements)
+    line = env.new_line(['qf', 'dr', 'qd', 'dr'])
+
+    ## Define a reference particle to the line (optional)
     ## (defines the reference mass, charge and energy)
-    line.particle_ref = xt.Particles(p0c=6500e9, #eV
-                                     q0=1, mass0=xt.PROTON_MASS_EV)
-
-    ## Choose a context
-    context = xo.ContextCpu()         # For CPU
-    # context = xo.ContextCupy()      # For CUDA GPUs
-    # context = xo.ContextPyopencl()  # For OpenCL GPUs
-
-    ## Transfer lattice on context and compile tracking code
-    line.build_tracker(_context=context)
+    line.set_particle_ref('proton', p0c=3e9)  # eV
 
     ## Compute lattice functions
     tw = line.twiss(method='4d')
@@ -59,6 +49,15 @@ the following section.
     # drift_1    2 6.04743 3.02372
     # quad_1     3 3.02372 6.04743
     # _end_point 3 3.02372 6.04743
+
+    ## Choose a context for tracking
+    context = xo.ContextCpu()                     # For CPU (single thread)
+    # context = xo.ContextCpu(omp_num_threads=4)  # For CPU (multi thread)
+    # context = xo.ContextCupy()                  # For CUDA GPUs
+    # context = xo.ContextPyopencl()              # For OpenCL GPUs
+
+    ## Transfer lattice on context and compile tracking code
+    line.build_tracker(_context=context)
 
     ## Build particle object on context
     n_part = 200
