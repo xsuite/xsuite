@@ -5,6 +5,8 @@ The Xsuite environment
 .. contents:: Table of Contents
     :depth: 3
 
+Overview
+========
 
 An ``xt.Environment`` is the shared container that keeps together:
 
