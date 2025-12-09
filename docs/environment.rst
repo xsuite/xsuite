@@ -716,6 +716,31 @@ and lines. Files containing MAD-X computations (``twiss``, ``survey``,
    line = env.lines['ring']
    kq = env['kqf1']
 
+You can also pass MAD-X source code directly as a string by specifying the
+format explicitly:
+
+.. code-block:: python
+
+   mad_src = '''
+   ! Define variables and elements up-front (deferred expressions are supported)
+   l_q := 1.0;
+   l_cell := 12.0;
+   kq  := 0.12;
+   kq_f :=  kq;
+   kq_d := -kq;
+
+   qf: quadrupole, l:=l_q, k1:=kq_f;
+   qd: quadrupole, l:=l_q, k1:=kq_d;
+
+   fodo: sequence, l=l_cell;
+     qf, at=0.5 * l_q;                        ! center at s=0.5 * l_q
+     qd, at=l_cell/2 + 0.5 * l_q;             ! placed using deferred expressions
+   endsequence;
+   '''
+
+   env = xt.load(string=mad_src, format='madx')
+   line = env['fodo']
+
 This path is the long-term supported way to import MAD-X lattices into Xsuite.
 
 Import via cpymad (legacy)
