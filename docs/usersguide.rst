@@ -6,7 +6,7 @@
    :maxdepth: 2
 
    installation
-   singlepart
+   gettingstarted
    environment
    lattice_model
    twiss
