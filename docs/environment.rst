@@ -302,6 +302,8 @@ Alternatively, pass a name to store it automatically:
 Once stored, it is accessible as ``env['fodo']`` or ``env.fodo``. 
 
 
+
+
 Line inspection
 ---------------
 
@@ -689,6 +691,15 @@ loaded back, and individual lines can be saved and loaded separately.
    line_loaded = xt.load('line_a.json')
    env3 = line_loaded.env # get the environment from the line
 
+Remove lines
+------------
+
+Lines stored in the environment can be removed with ``del``:
+
+.. code-block:: python
+
+   del env.lines['fodo']
+
 Loading MAD-X lattices
 ======================
 
@@ -858,6 +869,16 @@ driven by variables.
    #    vars['energy_gev'] = 5.25
    #
    # #  particles['my_ref_part'].energy0 does not influence any target
+
+Remove particles
+----------------
+
+Particles stored in the environment can be removed with ``del``:
+
+.. code-block:: python
+
+   # Remove a stored particle
+   del env.particles['my_ref_part']
 
 Link lattice properties to reference particle parameters
 --------------------------------------------------------
