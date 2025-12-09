@@ -115,12 +115,11 @@ change the strength of the first quadrupole as follows:
 
     env['qf'].k1 = 0.15
 
-It is also possible to import a lattice from a MAD-X file using the Environment
-loader; see :ref:`Loading MAD-X lattices <env_loading_madx_lattices>` in
-:doc:`Environment <environment>`.
+It is also possible to import a lattice from a MAD-X as discussed in the section
+:ref:`Loading MAD-X lattices <env_loading_madx_lattices>`.
 
-More information on how to import and manipulate lattices with environments can
-be found in :doc:`Environment <environment>`.
+More information on how to import and manipulate lattices can be found in the
+:doc:`Environment section <environment>`.
 
 
 Define reference particle
@@ -134,49 +133,8 @@ energy loss, etc.). The reference particle can be defined as follows:
 .. code-block:: python
 
     line.set_particle_ref('proton', p0c=3e9)  # eV
-    # equivalently:
-    # line.particle_ref = xt.Particles(p0c=3e9, q0=1, mass0=xt.PROTON_MASS_EV)
 
 
-Create a Context (CPU or GPU)
------------------------------
-
-To run tracking simulations with the created lattice, we need to choose the
-hardware on which the simulation will run as xsuite can run on different kinds
-of hardware (CPUs and GPUs). The user selects the hardware to be used by
-creating a :doc:`context object <contexts>`, that is then passed to all other
-Xsuite components.
-
-To run on conventional CPUs the context is created with the following instructions:
-
-.. code-block:: python
-
-    import xobjects as xo
-    context = xo.ContextCpu()
-
-Similarly to run on GPUs using cupy or pyopenl you can use one of the following:
-
-.. code-block:: python
-
-    context = xo.ContextCupy()
-
-.. code-block:: python
-
-    context = xo.ContextPyopencl()
-
-
-Build tracker
--------------
-
-An Xtrack tracker object needs to be associated to the line in order to track
-particles on the chosen computing platform (defined by the context):
-
-.. code-block:: python
-
-    line.build_tracker(_context=context)
-
-This step transfers the machine model to the required platform and compiles
-the required tracking code.
 
 Twiss
 -----
@@ -200,6 +158,56 @@ line object:
 
 All capabilities and options of the twiss method are discussed in the
 :doc:`Twiss section <twiss>`.
+
+
+Create a Context (CPU or GPU)
+-----------------------------
+
+To run tracking simulations with the created lattice, we can first choose the
+hardware on which the simulation will run as xsuite can run on different kinds
+of hardware (CPUs and GPUs). The user selects the hardware to be used by
+creating a :doc:`context object <contexts>`, that is then passed to all other
+Xsuite components.
+
+To run on conventional CPUs using a single thread the context is created with
+the following instructions:
+
+.. code-block:: python
+
+    import xobjects as xo
+    context = xo.ContextCpu()
+
+This is the default context if none is specified.
+
+Similarly to run on CPU using multiple threads od on GPUs using cupy or pyopencl
+you can use one of the following:
+
+.. code-block:: python
+
+    context = xo.ContextCpu(omp_num_threads=4)  # For CPU (multi thread)
+
+.. code-block:: python
+
+    context = xo.ContextCupy()
+
+.. code-block:: python
+
+    context = xo.ContextPyopencl()
+
+
+Build tracker
+-------------
+
+An Xtrack tracker object needs to be associated to the line in order to track
+particles on the chosen computing platform (defined by the context):
+
+.. code-block:: python
+
+    line.build_tracker(_context=context)
+
+This step transfers the machine model to the required platform and compiles
+the required tracking code.
+
 
 Generate particles to be tracked
 --------------------------------
