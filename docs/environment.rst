@@ -689,3 +689,52 @@ loaded back, and individual lines can be saved and loaded separately.
    # Reload the line
    line_loaded = xt.load('line_a.json')
    env3 = line_loaded.env # get the environment from the line
+
+Loading MAD-X lattices
+======================
+
+Native MAD-X parser (recommended)
+---------------------------------
+
+Xsuite can read MAD-X lattice files directly without launching MAD-X. Provide
+one or more files (any mix of ``.madx``, ``.seq``, or ``.str``) to
+``xt.load``; the parser understands definitions such as variables, sequences,
+and lines. Files containing MAD-X computations (``twiss``, ``survey``,
+``match``, etc.) are not supported and will raise an error.
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   # The order of files matters if later files depend on earlier definitions
+   env = xt.load(['machine.seq', 'optics.madx'])
+
+   # Access lines or variables defined in the MAD-X files
+   line = env.lines['ring']
+   kq = env['kqf1']
+
+This path is the long-term supported way to import MAD-X lattices into Xsuite.
+
+Import via cpymad (legacy)
+--------------------------
+
+You can also import a MAD-X sequence using ``cpymad`` by first running MAD-X and
+then converting the in-memory sequence to an Xsuite line. This route depends on
+MAD-X being available and will be discontinued alongside MAD-X end-of-support
+plans.
+
+.. code-block:: python
+
+   from cpymad.madx import Madx
+   import xtrack as xt
+
+   mad = Madx()
+   mad.call('machine.seq')     # .madx, .seq, .str all work here
+   mad.call('optics.madx')
+   mad.use(sequence='ring')
+
+   line = xt.Line.from_madx_sequence(mad.sequence.ring,
+                                     deferred_expressions=True)
+
+Choose this approach only when you explicitly need to run MAD-X calculations
+before importing; otherwise prefer the native ``xt.load`` parser above.
