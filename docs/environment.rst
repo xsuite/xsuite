@@ -767,3 +767,74 @@ plans.
 
 Choose this approach only when you explicitly need to run MAD-X calculations
 before importing; otherwise prefer the native ``xt.load`` parser above.
+
+Reference particles
+===================
+
+Reference particles define the beam mass, energy, and charge used by optics
+tools such as ``Line.twiss``. A reference particle must be set before running
+Twiss.
+
+Set directly on a line
+----------------------
+
+Assign a built-in species with the desired energy (total energy in eV):
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   env = xt.Environment()
+
+   env['l_quad'] = 1.0
+   env['k_quad'] = 0.1
+   env.new('qf', xt.Quadrupole, length='l_quad', k1='k_quad')
+   env.new('qd', xt.Quadrupole, length='l_quad', k1='-k_quad')
+   env.new('dr', xt.Drift, length=5.0)
+
+   line = env.new_line(components=['qf', 'dr', 'qd', 'dr'])
+
+   line.set_particle_ref('proton', energy0=2e9)  # 2 GeV total energy
+
+   # alternative set the momentum, kinetic energy, or gamma
+   # line.set_particle_ref('proton', p0c=2e9)
+   # line.set_particle_ref('proton', kinetic_energy0=200e6)
+   # line.set_particle_ref('proton', gamma0=10.5)
+
+   # set mass0, charge0 instead of particle type
+   # line.set_particle_ref(mass0=xt.PROTON_MASS_EV, charge0=1, p0c=2e9)
+
+   tw = line.twiss4d()  # uses the reference particle above
+
+Reuse particles stored in the environment
+-----------------------------------------
+
+You can define reusable particles (optionally with deferred expressions) and
+attach them as the line reference. Particles can live in the environment and be
+driven by variables.
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   env = xt.Environment()
+   env['energy_gev'] = 5.0
+
+   env.new_particle(name='my_ref_part',
+                    mass0=xt.PROTON_MASS_EV,
+                    q0=1,
+                    energy0='energy_gev * 1e9')  # deferred expression
+
+   # Any line built from this environment can reuse the same particle definition
+   line = env.new_line(name='ring', components=[
+         env.new('qf', xt.Quadrupole, length=1.0, k1=0.1),
+         env.new('dr', xt.Drift, length=5.0),
+         env.new('qd', xt.Quadrupole, length=1.0, k1=-0.1),
+         env.new('dr2', xt.Drift, length=5.0),
+      ])
+
+   # Set reference particle for the line
+   line.particle_ref = 'my_ref_part'
+
+   env['energy_gev'] = 5.25            # updates reference energy automatically
+   tw = line.twiss4d()                 # Twiss now uses the updated reference
