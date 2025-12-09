@@ -39,16 +39,16 @@ the following section.
     line.set_particle_ref('proton', p0c=3e9)  # eV
 
     ## Compute lattice functions
-    tw = line.twiss(method='4d')
+    tw = line.twiss4d()
     tw.cols['s betx bety'].show()
     # prints:
     #
     # name       s    betx    bety
-    # drift_0    0 3.02372 6.04743
-    # quad_0     2 6.04743 3.02372
-    # drift_1    2 6.04743 3.02372
-    # quad_1     3 3.02372 6.04743
-    # _end_point 3 3.02372 6.04743
+    # qf         0 21.3434 16.7511
+    # dr::0      1 21.3434 16.7511
+    # qd         3 16.7511 21.3434
+    # dr::1      4 16.7511 21.3434
+    # _end_point 6 21.3434 16.7511
 
     ## Choose a context for tracking
     context = xo.ContextCpu()                     # For CPU (single thread)
@@ -94,33 +94,33 @@ Getting the machine model
 The first step to perform a tracking simulation consists in creating or importing
 the lattice description of a ring or a beam line.
 
-The lattice can be created from a list of elements:
+The lattice can be created with an :class:`Environment<xtrack.Environment>`
+and a list of elements:
 
 .. code-block:: python
 
     import xtrack as xt
 
-    # From a list of elements:
-    line = xt.Line(
-        elements=[xt.Drift(length=2.),
-                  xt.Multipole(knl=[0, 1.], ksl=[0,0]),
-                  xt.Drift(length=1.),
-                  xt.Multipole(knl=[0, -1.], ksl=[0,0])],
-        element_names=['drift_0', 'quad_0', 'drift_1', 'quad_1'])
+    env = xt.Environment()
+    env.elements['qf'] = xt.Quadrupole(length=1.0, k1=0.12)
+    env.elements['qd'] = xt.Quadrupole(length=1.0, k1=-0.12)
+    env.elements['dr'] = xt.Drift(length=2.0)
+
+    line = env.new_line(components=['qf', 'dr', 'qd', 'dr'])
 
 The lattice can be manipulated in python after its creation. For example we can
 change the strength of the first quadrupole as follows:
 
 .. code-block:: python
 
-    line['quad_0'].knl[1] = 2.
+    env['qf'].k1 = 0.15
 
-It is also possible to import a lattice from a MAD-X file, as discussed
-:ref:`here <madximport>` or to define it as a sequence as discussed
-:ref:`here <seqdef>`.
+It is also possible to import a lattice from a MAD-X file using the Environment
+loader; see :ref:`Loading MAD-X lattices <env_loading_madx_lattices>` in
+:doc:`Environment <environment>`.
 
-More information on how to import and manipulate lattices can be found in the
-dedicated :doc:`Line section<line>`.
+More information on how to import and manipulate lattices with environments can
+be found in :doc:`Environment <environment>`.
 
 
 Define reference particle
@@ -133,8 +133,9 @@ energy loss, etc.). The reference particle can be defined as follows:
 
 .. code-block:: python
 
-    line.particle_ref = xt.Particles(p0c=6500e9, #eV
-                                     q0=1, mass0=xt.PROTON_MASS_EV)
+    line.set_particle_ref('proton', p0c=3e9)  # eV
+    # equivalently:
+    # line.particle_ref = xt.Particles(p0c=3e9, q0=1, mass0=xt.PROTON_MASS_EV)
 
 
 Create a Context (CPU or GPU)
@@ -191,11 +192,11 @@ line object:
     # prints:
     #
     # name       s    betx    bety
-    # drift_0    0 3.02372 6.04743
-    # quad_0     2 6.04743 3.02372
-    # drift_1    2 6.04743 3.02372
-    # quad_1     3 3.02372 6.04743
-    # _end_point 3 3.02372 6.04743
+    # qf         0 21.3434 16.7511
+    # dr::0      1 21.3434 16.7511
+    # qd         3 16.7511 21.3434
+    # dr::1      4 16.7511 21.3434
+    # _end_point 6 21.3434 16.7511
 
 All capabilities and options of the twiss method are discussed in the
 :doc:`Twiss section <twiss>`.

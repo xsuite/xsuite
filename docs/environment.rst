@@ -913,6 +913,8 @@ loaded back, and individual lines can be saved and loaded separately.
    line_loaded = xt.load('line_a.json')
    env3 = line_loaded.env # get the environment from the line
 
+.. _env_loading_madx_lattices:
+
 Loading MAD-X lattices
 ======================
 
