@@ -24,6 +24,86 @@ The contents of all these containers can be inspected with the ``.get_table()``
 method, and a list of all names in each container is available with the ``.keys()``
 method.
 
+A simple example illustrating the creation of an environment with variables,
+elements, and lines is shown below:
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   # Create an environment
+   env = xt.Environment()
+
+   # Define variables
+   env['t_turn_s'] = 0.0
+   env['l_q'] = 1.0
+   env['kq'] = 0.12
+   env['kq.trim'] = '0.05 * kq' # deferred expression (is updated when kq changes)
+   env['kq.total'] = 'kq + kq.trim' # deferred expression
+
+   # Create elements reusing the variables
+   env.new('qf', xt.Quadrupole, length='l_q', k1='kq.total')
+   env.new('qd', xt.Quadrupole, length='l_q', k1='-kq.total')
+   env.new('dr', xt.Drift, length=6.0)
+
+   # Define two lines from the same elements
+   env.new_line(name='fodo', components=['qf', 'dr', 'qd', 'dr'])
+   env.new_line(name='half_fodo', components=['qf', 'dr'])
+
+   # Inspect containers
+   env.vars.get_table()
+   # VarsTable: 5 rows, 3 cols
+   # name             value expr
+   # t_turn_s             0 None
+   # l_q                  1 None
+   # kq                0.12 None
+   # kq.trim          0.006 (0.05 * kq)
+   # kq.total         0.126 (kq + kq.trim)
+   env.elements.get_table()
+   # Table: 3 rows, 7 cols
+   # name element_type isthick isreplica parent_name iscollective ...
+   # dr   Drift           True     False None               False
+   # qd   Quadrupole      True     False None               False
+   # qf   Quadrupole      True     False None               False
+   env.lines.get_table()
+   # Table: 2 rows, 3 cols
+   # name      num_elements mode
+   # fodo                 4 normal
+   # half_fodo            2 normal
+
+   # Quick name listings
+   env.vars.keys()      # is: ['t_turn_s', 'l_q', 'kq', 'kq.trim', 'kq.total']
+   env.elements.keys()  # is: ['dr', 'qd', 'qf']
+   env.lines.keys()     # is: ['fodo', 'half_fodo']
+
+   # Inspect a deferred expression with references
+   env.ref['qf'].k1._info()
+   #  element_refs['qf'].k1._get_value()
+   #    element_refs['qf'].k1 = 0.126
+   #
+   #  element_refs['qf'].k1._expr
+   #    element_refs['qf'].k1 = vars['kq.total']
+   #
+   #  element_refs['qf'].k1._expr._get_dependencies()
+   #    vars['kq.total'] = 0.126
+   #
+   #  element_refs['qf'].k1 does not influence any target
+   env.ref['kq.total']._info()
+   #  vars['kq.total']._get_value()
+   #    vars['kq.total'] = 0.126
+   #
+   #  vars['kq.total']._expr
+   #    vars['kq.total'] = (vars['kq'] + vars['kq.trim'])
+   #
+   #  vars['kq.total']._expr._get_dependencies()
+   #    vars['kq.trim'] = 0.006
+   #    vars['kq'] = 0.12
+   #
+   #  vars['kq.total']._find_dependant_targets()
+   #    element_refs['qd'].k1
+   #    element_refs['qf'].k1
+
+
 Variables
 =========
 
