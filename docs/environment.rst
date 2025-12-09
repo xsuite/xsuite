@@ -825,13 +825,12 @@ driven by variables.
                     q0=1,
                     energy0='energy_gev * 1e9')  # deferred expression
 
-   # Inspect particles in the environment
+   # Inspect stored particles in the environment
    env.particles.get_table()
    # is:
    # Table: 1 row, 7 cols
    # name                mass0       charge0       energy0           p0c ...
    # my_ref_part   9.38272e+08             1      5.25e+09   5.16548e+09
-
 
    # Any line built from this environment can reuse the same particle definition
    line = env.new_line(name='ring', components=[
