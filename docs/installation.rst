@@ -197,7 +197,7 @@ this can be done as follows:
     pip install cupy-cuda11x
     mamba install cudatoolkit=11.8.0
 
-CuPy setup on ROCm
+Installation of CuPy on ROCm
 ------------------
 
 In order to use the :doc:`cupy context<contexts>` on AMD GPUs the installation procedure for the cupy package changes.
@@ -302,8 +302,23 @@ environment:
 
 .. tip::
 
-   Depending on the ROCm version, some paths above may differ. If installation fails, check that the environment variables reference correct paths for your ROCm installation.
+   Depending on the ROCm version, some paths above may differ. 
+   If installation fails, check that the environment variables reference correct paths for your ROCm installation.
 
+Installing AMD-CuPy
+~~~~~~~~~~~~~~~~~~~
+
+If you have a GPU that is officially supported ROCm 7+, it is recommended to install that version of ROCm 
+and use AMD's prebuilt CuPy wheel available from AMD's PyPI index:
+
+.. code-block:: bash
+
+    pip install amd-cupy --extra-index-url https://pypi.amd.com/rocm-7.0.2/simple
+
+.. warning::
+
+   If your GPU is not officially supported by ROCm 7+, the driver and cupy will often install. 
+   However, a big part of the functionality will be unavailable and will result in errors.
 
 Installation of PyOpenCL
 ------------------------
