@@ -14,8 +14,8 @@ jobs:
       matrix:
         os: [
           ubuntu-latest,
-          macos-13,  # x86_64 runners (deprecated) for building x86 wheels
-          macos-14,  # arm64 runners
+          macos-15-intel,  # x86_64 runners for building x86 wheels
+          macos-latest,  # arm64 runners
         ]
         pyver: [cp310, cp311, cp312, cp313, cp314]
     steps:
