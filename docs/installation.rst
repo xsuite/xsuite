@@ -197,6 +197,112 @@ this can be done as follows:
     pip install cupy-cuda11x
     mamba install cudatoolkit=11.8.0
 
+CuPy setup on ROCm
+------------------
+
+In order to use the :doc:`cupy context<contexts>` on AMD GPUs the installation procedure for the cupy package changes.
+
+The following configuration has been tested and confirmed to work as expected:
+
+- ROCm 6.2.2
+- Python 3.11
+- CuPy 13.6.0 compiled from source on a HIP backend
+- Ubuntu 22.04
+- Radeon VII GPU (gfx906)
+
+.. note::
+
+   Compiling CuPy from source on ROCm can be non-trivial.  
+   Using configurations different from those listed above may lead to compatibility issues.
+
+Installing ROCm on Debian
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On Debian-based distributions, the ROCm stack can be installed using:
+
+.. code-block:: bash
+
+    sudo apt install rocm-hip-sdk rocm-dev rocm-opencl-runtime rocm-smi-lib
+
+The command above will typically install the latest available version.  
+To install a specific (or older) version, add the AMD ROCm repo.
+
+For ROCm 6.2.2:
+
+- Add AMD driver key:
+
+  .. code-block:: bash
+
+      wget https://repo.radeon.com/rocm/rocm.gpg.key
+      sudo mv rocm.gpg.key /usr/share/keyrings/rocm.gpg
+
+- Add ROCm 6.2.2 repo:
+
+  .. code-block:: bash
+
+      echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/6.2.2 jammy main' | \
+      sudo tee /etc/apt/sources.list.d/rocm.list
+      sudo apt update
+
+- Then install using the usual command.
+
+Driver Installation Paths
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After installation, the ROCm stack should exist in one of the following paths:
+
+.. code-block:: text
+
+    /opt/rocm
+    /opt/rocm-v.v.v/   # v.v.v represents the version number
+
+.. warning::
+
+   Only one ROCm version should exist under ``/opt``.  
+   If multiple versions are present, a clean installation is recommended.
+
+Identifying the GPU
+~~~~~~~~~~~~~~~~~~~
+
+Find the GPU architecture using:
+
+.. code-block:: bash
+
+    rocminfo | grep Name
+
+Example output:
+
+.. code-block:: text
+
+    Name:                    gfx906    <- This is the desired name
+    Marketing Name:          AMD Radeon VII
+    Vendor Name:             AMD
+        Name:                    amdgcn-amd-amdhsa--gfx906:sramecc+:xnack-
+
+The architecture name will be of the form ``gfx...``.
+
+Installing CuPy from Source (HIP backend)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once the correct ROCm paths and GPU architecture are confirmed, install CuPy inside your Python
+environment:
+
+.. code-block:: bash
+
+    export ROCM_HOME=/opt/rocm  # Generally safe, but verify on your system
+    export HIPCC="$ROCM_HOME/bin/hipcc"
+    export CXX="$HIPCC"
+    export PATH="$ROCM_HOME/bin:$PATH"
+    export LD_LIBRARY_PATH="$ROCM_HOME/lib:$ROCM_HOME/lib64:${LD_LIBRARY_PATH}"
+
+    export HCC_AMDGPU_TARGET=gfx906  # Replace with your GPU architecture
+    export CUPY_INSTALL_USE_HIP=1
+
+    python -m pip install --no-cache-dir --force-reinstall "cupy==13.6.0"
+
+.. tip::
+
+   Depending on the ROCm version, some paths above may differ. If installation fails, check that the environment variables reference correct paths for your ROCm installation.
 
 
 Installation of PyOpenCL
