@@ -2,12 +2,12 @@
 requires = [
     'setuptools>=77',
     'setuptools-scm[toml]>=8',
-    "xtrack==0.98.6",
+    "xtrack==0.98.7",
     "xfields==0.25.7",
     "xcoll==0.8.0",
-    "xobjects==0.5.11",
+    "xobjects==0.5.12",
     "xdeps==0.10.10",
-    "xpart==0.23.3",
+    "xpart==0.23.4",
     "numpy<2.0",
 ]
 build-backend = 'setuptools.build_meta'
@@ -26,12 +26,12 @@ requires-python = ">=3.10"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 dependencies = [
-    "xtrack==0.98.6",
+    "xtrack==0.98.7",
     "xfields==0.25.7",
     "xcoll==0.8.0",
-    "xobjects==0.5.11",
+    "xobjects==0.5.12",
     "xdeps==0.10.10",
-    "xpart==0.23.3",
+    "xpart==0.23.4",
 ]
 dynamic = ["version"]
 
