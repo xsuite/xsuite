@@ -11,6 +11,6 @@ lectures and tutorials based on Xsuite:
 - `Slow extraction <https://github.com/xsuite/slow_extraction_tutorial>`_
 - `PSB multiturn injection <https://github.com/xsuite/tutorial_psb_injection_chicane>`_
 - `Spin tracking and polarization <https://github.com/xsuite/tutorial_spin>`_
-- `Basic beam dynamics and lattice design <https://github.com/xsuite/tutorial_introduction_rome2025>`_
 - `LHC twiss and optics matching <https://github.com/xsuite/tutorial_twiss_and_match>`_
+- `Basic beam dynamics and lattice design <https://github.com/xsuite/tutorial_introduction_rome2025>`_
 - `Clic damping ring <https://github.com/xsuite/tutorial_clic_damping_ring>`_
