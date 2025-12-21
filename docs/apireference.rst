@@ -82,10 +82,10 @@ UniformSolenoid
     :members:
     :member-order: bysource
 
-UniformSolenoid
----------------
+VariableSolenoid
+----------------
 
-.. autoclass:: xtrack.UniformSolenoid
+.. autoclass:: xtrack.VariableSolenoid
     :members:
     :member-order: bysource
 
