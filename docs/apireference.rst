@@ -15,243 +15,6 @@ different lines and can be used to create elements and line objects.
     :members:
     :member-order: bysource
 
-xtrack.Line class
-=================
-
-The Xsuite Line class is the main class to build beam lines. Its interface is
-described in the following (more info on how to build and use beam lines for
-different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
-
-.. autoclass:: xtrack.Line
-    :members:
-    :member-order: bysource
-
-.. List of all methods
-.. -------------------
-
-.. .. autoautosummary:: xtrack.Line
-..     :methods:
-
-.. _track_method_label:
-
-Track
-=====
-See also: :doc:`Single particle tracking <singlepart>`,
-:doc:`Tracking with collective elements <collective>`.
-
-.. automethod:: xtrack.Line.track
-
-
-.. _twiss_method_label:
-
-Twiss
-=====
-
-See also: :doc:`Twiss <twiss>`.
-
-.. automethod:: xtrack.Line.twiss
-
-Match
-=====
-
-See also: :doc:`Match<match>`.
-
-.. automethod:: xtrack.Line.match
-
-.. autoclass:: xdeps.Optimize
-    :members:
-    :member-order: bysource
-
-
-.. _vary_target_label:
-
-Vary and Target
----------------
-
-.. autoclass:: xtrack.Vary
-    :members:
-    :member-order: bysource
-
-.. autoclass:: xtrack.VaryList
-    :members:
-    :member-order: bysource
-
-.. autoclass:: xtrack.Target
-    :members:
-    :member-order: bysource
-
-.. autoclass:: xtrack.TargetSet
-    :members:
-    :member-order: bysource
-
-.. autoclass:: xtrack.TargetRelPhaseAdvance
-    :members:
-    :member-order: bysource
-
-
-Trajectory correction
-=====================
-
-.. autoclass:: xtrack.TrajectoryCorrection
-    :members:
-    :member-order: bysource
-
-
-.. _build_particles_method_label:
-
-Build particles
-===============
-
-See also: :doc:`Working with Particles objects <particlesmanip>`.
-
-.. automethod:: xtrack.Line.build_particles
-
-
-Particles class
-===============
-
-Xsuite Particles classes, including the default xtrack.Particles class, expose
-the API described in the following (for more info on how to manipulate Particles
-objects, see the :doc:`Particles section in the user's guide <particlesmanip>`).
-
-
-.. autoclass:: xtrack.Particles
-    :members:
-    :inherited-members:
-    :member-order: bysource
-
-
-Generation of particles distributions
-=====================================
-
-See also :doc:`Particles section in the user's guide <particlesmanip>`.
-
-Gaussian bunch generation (6D)
-------------------------------
-
-.. autofunction:: xpart.generate_matched_gaussian_bunch
-
-Longitudinal coordinates generation
------------------------------------
-
-.. autofunction:: xpart.generate_longitudinal_coordinates
-
-Normalized transverse coordinates generation
---------------------------------------------
-
-Gaussian
-~~~~~~~~
-
-.. autofunction:: xpart.generate_2D_gaussian
-
-Polar grid
-~~~~~~~~~~
-
-.. autofunction:: xpart.generate_2D_polar_grid
-
-Uniform circular sector
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. autofunction:: xpart.generate_2D_uniform_circular_sector
-
-Pencil
-~~~~~~
-
-.. autofunction:: xpart.generate_2D_pencil
-
-.. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
-
-CPU and GPU contexts
-====================
-
-See also :doc:`Getting Started Guide <singlepart>`
-
-Xsuite supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
-A context is initialized by instanciating objects from one of the context classes available Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
-Contexts are interchangeable as they expose the same API.
-Custom kernel functions can be added to the contexts. General source code with annotations can be provided to define the kernels, which is then automatically specialized for the chosen platform (see :doc:`dedicated section <autogeneration>`).
-
-Three contexts are presently available:
-
- - The :ref:`Cupy context<cupy_context>`, based on `cupy`_-`cuda`_ to run on NVidia GPUs
- - The :ref:`Pyopencl context<pyopencl_context>`, bases on `PyOpenCL`_, to run on CPUs or GPUs throught PyOPENCL library.
- - The :ref:`CPU context<cpu_context>`, to use conventional CPUs
-
-The corresponfig API is described in the following subsections.
-
-.. _cupy: https://cupy.dev
-.. _cuda: https://developer.nvidia.com/cuda-zone
-.. _PyOpenCL: https://documen.tician.de/pyopencl/
-
-
-.. _cupy_context:
-
-Cupy context
--------------
-
-.. autoclass:: xobjects.ContextCupy
-    :members:
-    :member-order: bysource
-    :inherited-members:
-
-.. _pyopencl_context:
-
-PyOpenCL context
-----------------
-.. autoclass:: xobjects.ContextPyopencl
-    :members:
-    :member-order: bysource
-    :inherited-members:
-
-
-.. _cpu_context:
-
-CPU context
------------
-
-.. autoclass:: xobjects.ContextCpu
-    :members:
-    :member-order: bysource
-    :inherited-members:
-
-Configuration tools
-===================
-
-xtrack.Multiline class
-----------------------
-
-.. autoclass:: xtrack.Multiline
-    :members:
-    :member-order: bysource
-
-xtrack.Multisetter class
-------------------------
-
-See also: :doc:`Fast lattice changes<fast_lattice_changes>`
-
-.. autoclass:: xtrack.MultiSetter
-    :members:
-    :member-order: bysource
-
-Space charge configuration
---------------------------
-
-See also: :doc:`Space charge <spacechargeauto>`
-
-.. autofunction:: xfields.install_spacecharge_frozen
-
-.. autofunction:: xfields.replace_spacecharge_with_quasi_frozen
-
-.. autofunction:: xfields.replace_spacecharge_with_PIC
-
-Loss location refinement
-------------------------
-
-See also: :doc:`Loss location refinement <collimation>`
-
-.. autoclass:: xtrack.LossLocationRefinement
-    :members:
-    :member-order: bysource
 
 Beam elements (xtrack)
 ======================
@@ -278,9 +41,51 @@ Bend
     :member-order: bysource
 
 RBend
-----
+-----
 
 .. autoclass:: xtrack.RBend
+    :members:
+    :member-order: bysource
+
+Quadrupole
+----------
+
+.. autoclass:: xtrack.Quadrupole
+    :members:
+    :member-order: bysource
+
+Sextupole
+---------
+
+.. autoclass:: xtrack.Sextupole
+    :members:
+    :member-order: bysource
+
+Octupole
+---------
+
+.. autoclass:: xtrack.Octupole
+    :members:
+    :member-order: bysource
+
+Multipole
+---------
+
+.. autoclass:: xtrack.Multipole
+    :members:
+    :member-order: bysource
+
+UniformSolenoid
+---------------
+
+.. autoclass:: xtrack.UniformSolenoid
+    :members:
+    :member-order: bysource
+
+UniformSolenoid
+---------------
+
+.. autoclass:: xtrack.UniformSolenoid
     :members:
     :member-order: bysource
 
@@ -312,12 +117,7 @@ Wedge
     :members:
     :member-order: bysource
 
-Quadrupole
-----------
 
-.. autoclass:: xtrack.Quadrupole
-    :members:
-    :member-order: bysource
 
 SimpleThinQuadrupole
 ----
@@ -326,26 +126,6 @@ SimpleThinQuadrupole
     :members:
     :member-order: bysource
 
-Sextupole
----------
-
-.. autoclass:: xtrack.Sextupole
-    :members:
-    :member-order: bysource
-
-Octupole
----------
-
-.. autoclass:: xtrack.Octupole
-    :members:
-    :member-order: bysource
-
-Multipole
----------
-
-.. autoclass:: xtrack.Multipole
-    :members:
-    :member-order: bysource
 
 MultipoleEdge
 ---------
@@ -361,12 +141,7 @@ CombinedFunctionMagnet
     :members:
     :member-order: bysource
 
-Solenoid
---------
 
-.. autoclass:: xtrack.Solenoid
-    :members:
-    :member-order: bysource
 
 RFMultipole
 -----------
@@ -618,3 +393,236 @@ Intra-Beam Scattering Kicks
 .. autoclass:: xfields.IBSKineticKick
     :members:
     :member-order: bysource
+
+xtrack.Line class
+=================
+
+The Xsuite Line class is the main class to build beam lines. Its interface is
+described in the following (more info on how to build and use beam lines for
+different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
+
+.. autoclass:: xtrack.Line
+    :members:
+    :member-order: bysource
+
+.. List of all methods
+.. -------------------
+
+.. .. autoautosummary:: xtrack.Line
+..     :methods:
+
+.. _track_method_label:
+
+Track
+=====
+See also: :doc:`Single particle tracking <singlepart>`,
+:doc:`Tracking with collective elements <collective>`.
+
+.. automethod:: xtrack.Line.track
+
+
+.. _twiss_method_label:
+
+Twiss
+=====
+
+See also: :doc:`Twiss <twiss>`.
+
+.. automethod:: xtrack.Line.twiss
+
+Match
+=====
+
+See also: :doc:`Match<match>`.
+
+.. automethod:: xtrack.Line.match
+
+.. autoclass:: xdeps.Optimize
+    :members:
+    :member-order: bysource
+
+
+.. _vary_target_label:
+
+Vary and Target
+---------------
+
+.. autoclass:: xtrack.Vary
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.VaryList
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.Target
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.TargetSet
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.TargetRelPhaseAdvance
+    :members:
+    :member-order: bysource
+
+
+Trajectory correction
+=====================
+
+.. autoclass:: xtrack.TrajectoryCorrection
+    :members:
+    :member-order: bysource
+
+
+.. _build_particles_method_label:
+
+Build particles
+===============
+
+See also: :doc:`Working with Particles objects <particlesmanip>`.
+
+.. automethod:: xtrack.Line.build_particles
+
+
+Particles class
+===============
+
+Xsuite Particles classes, including the default xtrack.Particles class, expose
+the API described in the following (for more info on how to manipulate Particles
+objects, see the :doc:`Particles section in the user's guide <particlesmanip>`).
+
+
+.. autoclass:: xtrack.Particles
+    :members:
+    :inherited-members:
+    :member-order: bysource
+
+
+Generation of particles distributions
+=====================================
+
+See also :doc:`Particles section in the user's guide <particlesmanip>`.
+
+Gaussian bunch generation (6D)
+------------------------------
+
+.. autofunction:: xpart.generate_matched_gaussian_bunch
+
+Longitudinal coordinates generation
+-----------------------------------
+
+.. autofunction:: xpart.generate_longitudinal_coordinates
+
+Normalized transverse coordinates generation
+--------------------------------------------
+
+Gaussian
+~~~~~~~~
+
+.. autofunction:: xpart.generate_2D_gaussian
+
+Polar grid
+~~~~~~~~~~
+
+.. autofunction:: xpart.generate_2D_polar_grid
+
+Uniform circular sector
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: xpart.generate_2D_uniform_circular_sector
+
+Pencil
+~~~~~~
+
+.. autofunction:: xpart.generate_2D_pencil
+
+.. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
+
+CPU and GPU contexts
+====================
+
+See also :doc:`Getting Started Guide <singlepart>`
+
+Xsuite supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
+A context is initialized by instanciating objects from one of the context classes available Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
+Contexts are interchangeable as they expose the same API.
+Custom kernel functions can be added to the contexts. General source code with annotations can be provided to define the kernels, which is then automatically specialized for the chosen platform (see :doc:`dedicated section <autogeneration>`).
+
+Three contexts are presently available:
+
+ - The :ref:`Cupy context<cupy_context>`, based on `cupy`_-`cuda`_ to run on NVidia GPUs
+ - The :ref:`Pyopencl context<pyopencl_context>`, bases on `PyOpenCL`_, to run on CPUs or GPUs throught PyOPENCL library.
+ - The :ref:`CPU context<cpu_context>`, to use conventional CPUs
+
+The corresponfig API is described in the following subsections.
+
+.. _cupy: https://cupy.dev
+.. _cuda: https://developer.nvidia.com/cuda-zone
+.. _PyOpenCL: https://documen.tician.de/pyopencl/
+
+
+.. _cupy_context:
+
+Cupy context
+-------------
+
+.. autoclass:: xobjects.ContextCupy
+    :members:
+    :member-order: bysource
+    :inherited-members:
+
+.. _pyopencl_context:
+
+PyOpenCL context
+----------------
+.. autoclass:: xobjects.ContextPyopencl
+    :members:
+    :member-order: bysource
+    :inherited-members:
+
+
+.. _cpu_context:
+
+CPU context
+-----------
+
+.. autoclass:: xobjects.ContextCpu
+    :members:
+    :member-order: bysource
+    :inherited-members:
+
+Configuration tools
+===================
+
+xtrack.Multisetter class
+------------------------
+
+See also: :doc:`Fast lattice changes<fast_lattice_changes>`
+
+.. autoclass:: xtrack.MultiSetter
+    :members:
+    :member-order: bysource
+
+Space charge configuration
+--------------------------
+
+See also: :doc:`Space charge <spacechargeauto>`
+
+.. autofunction:: xfields.install_spacecharge_frozen
+
+.. autofunction:: xfields.replace_spacecharge_with_quasi_frozen
+
+.. autofunction:: xfields.replace_spacecharge_with_PIC
+
+Loss location refinement
+------------------------
+
+See also: :doc:`Loss location refinement <collimation>`
+
+.. autoclass:: xtrack.LossLocationRefinement
+    :members:
+    :member-order: bysource
+
+
