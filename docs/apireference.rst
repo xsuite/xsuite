@@ -1,6 +1,6 @@
-================
-Reference manual
-================
+===============
+Reference guide
+===============
 
 .. contents:: Table of Contents
     :depth: 3
