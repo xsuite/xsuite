@@ -40,16 +40,11 @@ Bend
     :members:
     :member-order: bysource
 
-
-
-
 .. figure:: ./physics_manual/figures/sbend_edge_definition.png
     :align: center
     :width: 70%
 
     Sector bend (figure from MAD-X manual).
-
-
 
 .. list-table:: Naming convention
    :header-rows: 1
@@ -74,6 +69,42 @@ RBend
 .. autoclass:: xtrack.RBend
     :members:
     :member-order: bysource
+
+.. figure:: ./physics_manual/figures/rbend.png
+    :align: center
+    :width: 70%
+
+    Rectangular with no face angles and arbitrary placement with respect to
+    the reference trajectory.
+
+.. figure:: ./physics_manual/figures/rbend_edge_definition.png
+    :align: center
+    :width: 70%
+
+    Rectangular bend with face angles (figure from MAD-X manual).
+
+.. list-table:: Naming convention
+   :header-rows: 1
+   :align: center
+
+   * - Symbol
+     - Xsuite attribute name
+   * - :math:`L` or :math:`L_\text{straight}`
+     - ``length_straight``
+   * - :math: `\L_\text{curv}`
+      - ``length`` (read-only, computed internally)
+   * - :math:`\alpha = \alpha_\text{in} + \alpha_\text{out}`
+     - ``angle``
+   * - :math:`\alpha_\text{diff} = \alpha_\text{in} - \alpha_\text{out}`
+     - ``rbend_angle_diff``
+   * - :math:`x_\text{mid}`
+     - ``rbend_shift`` (to which half of the sagitta is added if ``rbend_compensate_sagitta`` is True)
+   * - :math:`h = 1/\rho`
+     - ``angle / length``
+   * - :math:`e_1`
+     - ``edge_entry_angle``
+   * - :math:`e_2`
+     - ``edge_exit_angle``
 
 Quadrupole
 ----------
