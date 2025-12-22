@@ -91,14 +91,14 @@ RBend
      - Xsuite attribute name
    * - :math:`L` or :math:`L_\text{straight}`
      - ``length_straight``
-   * - :math: `\L_\text{curv}`
-      - ``length`` (read-only, computed internally)
+   * - :math:`L_\text{curv}`
+     - ``length`` (read-only, computed internally)
    * - :math:`\alpha = \alpha_\text{in} + \alpha_\text{out}`
      - ``angle``
    * - :math:`\alpha_\text{diff} = \alpha_\text{in} - \alpha_\text{out}`
      - ``rbend_angle_diff``
    * - :math:`x_\text{mid}`
-     - ``rbend_shift`` (to which half of the sagitta is added if ``rbend_compensate_sagitta`` is True)
+     - ``rbend_shift`` (+ half of the sagitta if ``rbend_compensate_sagitta`` is ``True``)
    * - :math:`h = 1/\rho`
      - ``angle / length``
    * - :math:`e_1`
