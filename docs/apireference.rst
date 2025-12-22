@@ -5,16 +5,6 @@ Reference guide
 .. contents:: Table of Contents
     :depth: 3
 
-xtrack.Environment class
-========================
-
-The Xsuite environment manages variables and elements that can be shared by
-different lines and can be used to create elements and line objects.
-
-.. autoclass:: xtrack.Environment
-    :members:
-    :member-order: bysource
-
 
 Beam elements (xtrack)
 ======================
@@ -148,58 +138,19 @@ VariableSolenoid
     :members:
     :member-order: bysource
 
-SimpleThinBend
-----
+Cavity
+------
 
-.. autoclass:: xtrack.SimpleThinBend
+.. autoclass:: xtrack.Cavity
     :members:
     :member-order: bysource
 
-DipoleEdge
-----------
+ReferenceEnergyIncrease
+-----------------------
 
-.. autoclass:: xtrack.DipoleEdge
+.. autoclass:: xtrack.ReferenceEnergyIncrease
     :members:
     :member-order: bysource
-
-DipoleFringe
-----------
-
-.. autoclass:: xtrack.DipoleFringe
-    :members:
-    :member-order: bysource
-
-Wedge
-----------
-
-.. autoclass:: xtrack.Wedge
-    :members:
-    :member-order: bysource
-
-
-
-SimpleThinQuadrupole
-----
-
-.. autoclass:: xtrack.SimpleThinQuadrupole
-    :members:
-    :member-order: bysource
-
-
-MultipoleEdge
----------
-
-.. autoclass:: xtrack.MultipoleEdge
-    :members:
-    :member-order: bysource
-
-CombinedFunctionMagnet
-----------------------
-
-.. autoclass:: xtrack.CombinedFunctionMagnet
-    :members:
-    :member-order: bysource
-
 
 
 RFMultipole
@@ -222,20 +173,6 @@ AC-Dipole
     :members:
     :member-order: bysource
 
-Cavity
-------
-
-.. autoclass:: xtrack.Cavity
-    :members:
-    :member-order: bysource
-
-ReferenceEnergyIncrease
------------------------
-
-.. autoclass:: xtrack.ReferenceEnergyIncrease
-    :members:
-    :member-order: bysource
-
 Elens
 -----
 
@@ -244,14 +181,14 @@ Elens
     :member-order: bysource
 
 NonLinearLens
------
+-------------
 
 .. autoclass:: xtrack.NonLinearLens
     :members:
     :member-order: bysource
 
 ElectronCooler
------
+--------------
 
 .. autoclass:: xtrack.ElectronCooler
     :members:
@@ -282,15 +219,6 @@ LineSegmentMap
 --------------
 
 .. autoclass:: xtrack.LineSegmentMap
-    :members:
-    :member-order: bysource
-
-LinearTransferMatrix
---------------------
-
-N.B. This element is deprecated. Use LineSegmentMap instead.
-
-.. autoclass:: xtrack.LinearTransferMatrix
     :members:
     :member-order: bysource
 
@@ -372,9 +300,6 @@ LongitudinalLimitRect
     :members:
     :member-order: bysource
 
-Monitors (xtrack)
-======================
-
 ParticlesMonitor
 ----------------
 
@@ -450,6 +375,16 @@ Intra-Beam Scattering Kicks
     :member-order: bysource
 
 .. autoclass:: xfields.IBSKineticKick
+    :members:
+    :member-order: bysource
+
+xtrack.Environment class
+========================
+
+The Xsuite environment manages variables and elements that can be shared by
+different lines and can be used to create elements and line objects.
+
+.. autoclass:: xtrack.Environment
     :members:
     :member-order: bysource
 
