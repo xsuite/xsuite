@@ -40,6 +40,34 @@ Bend
     :members:
     :member-order: bysource
 
+
+
+
+.. figure:: ./physics_manual/figures/sbend_edge_definition.png
+    :align: center
+    :width: 70%
+
+    Sector bend (figure from MAD-X manual).
+
+
+
+.. list-table:: Naming convention
+   :header-rows: 1
+   :align: center
+
+   * - Symbol
+     - Xsuite attribute name
+   * - :math:`L`
+     - ``length``
+   * - :math:`\alpha`
+     - ``angle``
+   * - :math:`h = 1/\rho`
+     - ``angle / length``
+   * - :math:`e_1`
+     - ``edge_entry_angle``
+   * - :math:`e_2`
+     - ``edge_exit_angle``
+
 RBend
 -----
 
