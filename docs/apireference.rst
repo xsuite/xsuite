@@ -437,6 +437,8 @@ Element misalignment
 Most Xsuite beam elements support misalignments. The different misalignment
 parameters are defined as illustrated in the following table and figures.
 
+See also the :ref:`misalignment section <misalignment_example_label>` in User's guide.
+
 .. list-table:: Naming convention
    :header-rows: 1
    :align: center

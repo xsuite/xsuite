@@ -28,11 +28,19 @@ These features are illustrated in the following example:
 .. literalinclude:: generated_code_snippets/models_integrators.py
    :language: python
 
-Apply transformations (tilt, shift) to elements
------------------------------------------------
+.. _misalignment_example_label:
 
-Tilt and shifts transformations can be applied to beam elements, as illustrated
-in the following example:
+Apply misalignments (tilt, shift) to elements
+---------------------------------------------
+
+Tilt and shifts misalignments can be applied to beam elements.
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>` of
+the reference guide.
+
+The following example illustrates how to apply and inspect misalignments on elements:
 
 .. literalinclude:: generated_code_snippets/compound_transform.py
    :language: python
