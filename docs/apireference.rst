@@ -379,11 +379,58 @@ Intra-Beam Scattering Kicks
 
 .. autoclass:: xfields.IBSAnalyticalKick
     :members:
-    :member-order: bysource
+    :member-order: bysourcef
 
 .. autoclass:: xfields.IBSKineticKick
     :members:
     :member-order: bysource
+
+Element misalignments
+=====================
+
+Most Xsuite beam elements support misalignments. The different misalignment
+parameters are defined as illustrated in the following table and figures.
+
+.. list-table:: Naming convention
+   :header-rows: 1
+   :align: center
+
+   * - Symbol
+     - Xsuite attribute name
+   * - :math:`\Delta s_\text{anchor}`
+     - ``rot_shift_anchor``
+   * - :math:`\Delta \psi`
+     - ``rot_s_rad`` or ``rot_s_rad_no_frame``
+   * - :math:`\Delta \theta`
+     - ``rot_x_rad``
+   * - :math:`\Delta \phi`
+     - ``rot_y_rad``
+   * - :math:`\Delta x`
+     - ``shift_x``
+   * - :math:`\Delta y`
+     - ``shift_y``
+   * - :math:`\Delta s`
+     - ``shift_s``
+
+
+.. figure:: ./physics_manual/figures/align_roll.png
+    :align: center
+    :width: 50%
+
+    Misalignment in the the x-y plane.
+
+.. figure:: ./physics_manual/figures/align_yaw.png
+    :align: center
+    :width: 70%
+
+    Misalignment in the the s-x plane.
+
+.. figure:: ./physics_manual/figures/align_pitch.png
+    :align: center
+    :width: 70%
+
+    Misalignment in the the s-y plane.
+
 
 xtrack.Environment class
 ========================
