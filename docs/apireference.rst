@@ -30,6 +30,10 @@ Bend
     :members:
     :member-order: bysource
 
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
 .. figure:: ./physics_manual/figures/sbend_edge_definition.png
     :align: center
     :width: 70%
@@ -385,8 +389,10 @@ Intra-Beam Scattering Kicks
     :members:
     :member-order: bysource
 
-Element misalignments
-=====================
+.. _misalignment_label:
+
+Element misalignment
+====================
 
 Most Xsuite beam elements support misalignments. The different misalignment
 parameters are defined as illustrated in the following table and figures.
