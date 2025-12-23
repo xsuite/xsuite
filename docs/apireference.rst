@@ -145,13 +145,12 @@ Cavity
     :members:
     :member-order: bysource
 
-ReferenceEnergyIncrease
------------------------
+CrabCavity
+----------
 
-.. autoclass:: xtrack.ReferenceEnergyIncrease
+.. autoclass:: xtrack.CrabCavity
     :members:
     :member-order: bysource
-
 
 RFMultipole
 -----------
@@ -159,6 +158,14 @@ RFMultipole
 .. autoclass:: xtrack.RFMultipole
     :members:
     :member-order: bysource
+
+ReferenceEnergyIncrease
+-----------------------
+
+.. autoclass:: xtrack.ReferenceEnergyIncrease
+    :members:
+    :member-order: bysource
+
 
 Exciter
 -------
