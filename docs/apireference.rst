@@ -64,6 +64,10 @@ RBend
     :members:
     :member-order: bysource
 
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
 .. figure:: ./physics_manual/figures/rbend.png
     :align: center
     :width: 70%
@@ -107,12 +111,20 @@ Quadrupole
     :members:
     :member-order: bysource
 
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
 Sextupole
 ---------
 
 .. autoclass:: xtrack.Sextupole
     :members:
     :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
 
 Octupole
 ---------
@@ -121,12 +133,20 @@ Octupole
     :members:
     :member-order: bysource
 
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
 Multipole
 ---------
 
 .. autoclass:: xtrack.Multipole
     :members:
     :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
 
 UniformSolenoid
 ---------------
@@ -135,12 +155,20 @@ UniformSolenoid
     :members:
     :member-order: bysource
 
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
 VariableSolenoid
 ----------------
 
 .. autoclass:: xtrack.VariableSolenoid
     :members:
     :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
 
 Cavity
 ------
@@ -149,6 +177,10 @@ Cavity
     :members:
     :member-order: bysource
 
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
 CrabCavity
 ----------
 
@@ -156,12 +188,20 @@ CrabCavity
     :members:
     :member-order: bysource
 
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
 RFMultipole
 -----------
 
 .. autoclass:: xtrack.RFMultipole
     :members:
     :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
 
 ReferenceEnergyIncrease
 -----------------------
