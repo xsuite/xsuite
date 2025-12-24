@@ -70,16 +70,11 @@ can be found in the :ref:`element misalignment section <misalignment_label>`.
 
 .. figure:: ./physics_manual/figures/rbend.png
     :align: center
-    :width: 70%
+    :width: 80%
 
-    Rectangular with no face angles and arbitrary placement with respect to
+    Rectangular with arbitrary face angles and arbitrary placement with respect to
     the reference trajectory.
 
-.. figure:: ./physics_manual/figures/rbend_edge_definition.png
-    :align: center
-    :width: 70%
-
-    Rectangular bend with face angles (figure from MAD-X manual).
 
 .. list-table:: Naming convention
    :header-rows: 1
@@ -87,7 +82,7 @@ can be found in the :ref:`element misalignment section <misalignment_label>`.
 
    * - Symbol
      - Xsuite attribute name
-   * - :math:`L` or :math:`L_\text{straight}`
+   * - :math:`L_\text{straight}`
      - ``length_straight``
    * - :math:`L_\text{curv}`
      - ``length`` (read-only, computed internally)
@@ -97,8 +92,6 @@ can be found in the :ref:`element misalignment section <misalignment_label>`.
      - ``rbend_angle_diff``
    * - :math:`x_\text{mid}`
      - ``rbend_shift`` (+ half of the sagitta if ``rbend_compensate_sagitta`` is ``True``)
-   * - :math:`h = 1/\rho`
-     - ``angle / length``
    * - :math:`e_1`
      - ``edge_entry_angle``
    * - :math:`e_2`
