@@ -362,88 +362,6 @@ yoshida4 & Fourth order Yoshida integrator \cite{yoshida90} \\
 
 
 
-\section{Cavity time, energy errors and acceleration}
-
-A cavity kick depends on:
-
-\begin{equation}
-\sin(2 \pi f T + \phi)
-\end{equation}
-
-where T is laboratory time.
-
-
-For the most general case:
-
-\begin{equation}
-\sin(2 \pi f T + \phi) = \sin\left(2 \pi f \frac{s-\zeta}{\beta_0 c}  + \phi \right)
-\end{equation}
-
-Most codes drop the term $2 \pi f s / (\beta_0 c)$ that is
-
-\begin{equation}
-\sin(2 \pi f T + \phi) \to  \sin\left(- 2 \pi f \frac{\zeta}{\beta_0 c} + \phi\right)
-\end{equation}
-
-to make sure that a particle that is syncrhonous to the reference trajectory is in phase with the cavity.
-
-
-\subsection{Implementing energy errors}
-
-One can define
-
-\begin{equation}
-\begin{aligned}
-s &= s_0 + n (L_0-L) + n L\\
-f_{\rm rev} &= \beta_0 c / L\\ 
-f &= h f_{\rm rev}
-\end{aligned}
-\end{equation}
-
-where $s_0$ is the path length at the cavity turn at 0, $L_0$ is the design circumference, $n$ is the turn number, $h$ is the harmonic number, L is the new path length with an energy error. Indeed one could write $L=L_0(1 +\eta \delta_s$) where $\eta$ is a constant property of the lattice.
-
-Multiple cavities can have their own defined $L$.
-
-Using these definitions, then
-
-
-\begin{align}
-\sin(2 \pi f T + \phi) =
-&\sin\left(2 \pi h f_{\rm rev} \frac{s_0 + n(L_0-L) -\zeta}{\beta_0 c}  + \phi\right)\\
-=&\sin\left(2 \pi h f_{\rm rev} \frac{n(L_0-L) -\zeta}{\beta_0 c}  + \phi'\right)
-\end{align}
-
-
-where $\phi'=\frac{2\pi h s_0}{L} + \phi$.
-
-
-In MAD-X twiss and MAD8, indeed the longitudinal coordinates is directly $\zeta'=n(L_0-L) -\zeta$ and the term $n(L_0-L)$ is added smoothly in each thick element. This forces all the cavities to share the same $L$ or $f_{\rm rev}$.
-
-In SixTrack or MAD-X track, one could simply define a turn dependent phase
-\begin{equation}
-\phi=\phi_0 + 2 \pi h f_{\rm rev} n(L_0-L)
-\end{equation}
-which is very general or in alternative add a special element that perform at each turn the following transformation:
-
-\begin{equation}
-\zeta_{\rm new}=(L_0-L) -\zeta_{\rm old} 
-\end{equation}
-
-\subsection{Acceleration}
-
-Accelaration can be achieved by renormalized the relative variables using a new momentum reference. This has the side effect that the fields of the magnets (expressed in normalized strength) follow the energy ramp and that the cavity frequency (if expressed in terms of the harmonic number (NB we should perhaps change this in the Xtrack interface) is updated.
-
-The re-normalization if done once at each turn is:
-
-\begin{align}
-p_{x,\rm new} &= p_{x,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} &
-p_{y,\rm new} &= p_{y,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} \\
-\delta_{\rm new}&= (\delta_{\rm old}+1) \frac{P_{0,\rm old}}{P_{0,\rm new}} -1 &
-p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - E_{0,\rm new}}{P_{0,\rm new}c} \\
-\zeta_{\rm new} &= s\beta_0 \left(\frac{1}{\beta_{0,\rm new}} -
-\frac{1}{\beta_{0,\rm old}}\right) - \zeta_{\rm old} &
-\tau_{\rm new} &= s\left(\frac{1}{\beta_{0,\rm new}} -  \frac{1}{\beta_{0,\rm old}}\right) - \tau_{\rm old} \\
-\end{align}
 
 
 
@@ -659,6 +577,8 @@ The last gives the usual equation for the sagitta of a bending magnet.
 Used in the implementation of \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
 and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
 when model is ``rot-kick-rot''.
+~\\
+This map is ported from PTC and MAD-NG source codes.
 ~\\
 
 Let the initial particle coordinates be
@@ -1799,6 +1719,89 @@ p_x \leftarrow p_x \cos\psi + p_y \sin\psi,
 p_y \leftarrow -p_x \sin\psi + p_y \cos\psi.
 \]
 
+
+\section{Cavity time, energy errors and acceleration}
+
+A cavity kick depends on:
+
+\begin{equation}
+\sin(2 \pi f T + \phi)
+\end{equation}
+
+where T is laboratory time.
+
+
+For the most general case:
+
+\begin{equation}
+\sin(2 \pi f T + \phi) = \sin\left(2 \pi f \frac{s-\zeta}{\beta_0 c}  + \phi \right)
+\end{equation}
+
+Most codes drop the term $2 \pi f s / (\beta_0 c)$ that is
+
+\begin{equation}
+\sin(2 \pi f T + \phi) \to  \sin\left(- 2 \pi f \frac{\zeta}{\beta_0 c} + \phi\right)
+\end{equation}
+
+to make sure that a particle that is syncrhonous to the reference trajectory is in phase with the cavity.
+
+
+\subsection{Implementing energy errors}
+
+One can define
+
+\begin{equation}
+\begin{aligned}
+s &= s_0 + n (L_0-L) + n L\\
+f_{\rm rev} &= \beta_0 c / L\\ 
+f &= h f_{\rm rev}
+\end{aligned}
+\end{equation}
+
+where $s_0$ is the path length at the cavity turn at 0, $L_0$ is the design circumference, $n$ is the turn number, $h$ is the harmonic number, L is the new path length with an energy error. Indeed one could write $L=L_0(1 +\eta \delta_s$) where $\eta$ is a constant property of the lattice.
+
+Multiple cavities can have their own defined $L$.
+
+Using these definitions, then
+
+
+\begin{align}
+\sin(2 \pi f T + \phi) =
+&\sin\left(2 \pi h f_{\rm rev} \frac{s_0 + n(L_0-L) -\zeta}{\beta_0 c}  + \phi\right)\\
+=&\sin\left(2 \pi h f_{\rm rev} \frac{n(L_0-L) -\zeta}{\beta_0 c}  + \phi'\right)
+\end{align}
+
+
+where $\phi'=\frac{2\pi h s_0}{L} + \phi$.
+
+
+In MAD-X twiss and MAD8, indeed the longitudinal coordinates is directly $\zeta'=n(L_0-L) -\zeta$ and the term $n(L_0-L)$ is added smoothly in each thick element. This forces all the cavities to share the same $L$ or $f_{\rm rev}$.
+
+In SixTrack or MAD-X track, one could simply define a turn dependent phase
+\begin{equation}
+\phi=\phi_0 + 2 \pi h f_{\rm rev} n(L_0-L)
+\end{equation}
+which is very general or in alternative add a special element that perform at each turn the following transformation:
+
+\begin{equation}
+\zeta_{\rm new}=(L_0-L) -\zeta_{\rm old} 
+\end{equation}
+
+\subsection{Acceleration}
+
+Accelaration can be achieved by renormalized the relative variables using a new momentum reference. This has the side effect that the fields of the magnets (expressed in normalized strength) follow the energy ramp and that the cavity frequency (if expressed in terms of the harmonic number (NB we should perhaps change this in the Xtrack interface) is updated.
+
+The re-normalization if done once at each turn is:
+
+\begin{align}
+p_{x,\rm new} &= p_{x,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} &
+p_{y,\rm new} &= p_{y,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} \\
+\delta_{\rm new}&= (\delta_{\rm old}+1) \frac{P_{0,\rm old}}{P_{0,\rm new}} -1 &
+p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - E_{0,\rm new}}{P_{0,\rm new}c} \\
+\zeta_{\rm new} &= s\beta_0 \left(\frac{1}{\beta_{0,\rm new}} -
+\frac{1}{\beta_{0,\rm old}}\right) - \zeta_{\rm old} &
+\tau_{\rm new} &= s\left(\frac{1}{\beta_{0,\rm new}} -  \frac{1}{\beta_{0,\rm old}}\right) - \tau_{\rm old} \\
+\end{align}
 
 
 
