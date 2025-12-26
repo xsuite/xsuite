@@ -654,6 +654,85 @@ Eqs.~\eqref{eq:px_mid_in} and \eqref{eq:px_mid_out}:
 \end{align}
 The last gives the usual equation for the sagitta of a bending magnet.
 
+\subsection{Polar drift (sector curvature $h$)}
+
+Used in the implementation of \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
+and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
+when model is ``rot-kick-rot''.
+~\\
+
+Let the initial particle coordinates be
+\[
+(x,\,p_x,\,y,\,p_y,\,\zeta),
+\]
+with
+\[
+\delta_+ \equiv 1+\delta,\qquad \mathrm{rvv}=v/c,
+\qquad s \equiv L.
+\]
+
+Define the longitudinal momentum component
+\begin{equation}
+p_z \equiv \sqrt{\delta_+^{\,2}-p_x^{\,2}-p_y^{\,2}} .
+\end{equation}
+
+Define the curvature radius
+\begin{equation}
+\rho \equiv \frac{1}{h},
+\end{equation}
+and the trigonometric abbreviations
+\begin{equation}
+c \equiv \cos(hs),\qquad
+s_a \equiv \sin(hs),\qquad
+s_{a2}\equiv \sin\!\left(\frac{hs}{2}\right).
+\end{equation}
+
+Introduce
+\begin{equation}
+\frac{1}{p_z} \equiv p_z^{-1},\qquad
+p_{x,t} \equiv \frac{p_x}{p_z},
+\qquad
+\mathcal{D} \equiv c - s_a\, p_{x,t},
+\qquad
+\mathcal{D}^{-1} \equiv \frac{1}{\mathcal{D}}.
+\end{equation}
+
+Define also
+\begin{equation}
+p_s \equiv (x+\rho)\, s_a\, p_z^{-1}\, \mathcal{D}^{-1}.
+\end{equation}
+
+\paragraph{Transverse map}
+\begin{align}
+x_1 &=
+\left[
+x+\rho\left(2 s_{a2}^{\,2}+ s_a\, p_{x,t}\right)
+\right]\mathcal{D}^{-1},
+\\
+p_{x1} &= c\,p_x + s_a\, p_z,
+\\
+y_1 &= y + p_s\, p_y.
+\end{align}
+
+\paragraph{Path length / longitudinal map}
+
+The quantity \(\Delta \ell\) computed in the code is
+\begin{equation}
+\Delta \ell
+=
+\delta_+\,
+\frac{(x+\rho)\, s_a}{c\, p_z\left(1-\dfrac{p_x s_a}{c\,p_z}\right)} .
+\end{equation}
+
+The longitudinal coordinate is updated as
+\begin{equation}
+\zeta_1 = \zeta + \left( L - \frac{\Delta \ell}{\mathrm{rvv}} \right),
+\end{equation}
+and the reference longitudinal position as
+\begin{equation}
+s_{\text{ref},1} = s_{\text{ref}} + L.
+\end{equation}
+
 \subsection{Expanded Bend-Quadrupole (also used for Quadrupole)}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}},
