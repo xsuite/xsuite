@@ -458,128 +458,6 @@ The map relative to the exact Hamiltonian is then
           \right)
 \end{align}
 
-
-\subsection{Curved exact bend}
-
-Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend element}}.
-~\\
-
-The generating Hamiltonian is:
-\begin{equation}
-H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -k_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right)
-\end{equation}
-
-The corresponding map is adapted from \cite{forest99}:
-\begin{align}
-x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
-p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
-y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
-p_y(s) &= p_y \\
-\delta(s) &= \delta \\
-\ell(s) &= \ell +
-  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
-\end{align}
-
-\subsection{Straight exact bend}
-
-Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
-and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
-for specific configurations.
-~\\
-
-The generating Hamiltonian is:
-\begin{equation}
-H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -b_1 x
-\end{equation}
-
-The corresponding map is adapted from \cite{forest99}:
-\begin{align}
-x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
-\label{eq:straight_bend_x}\\
-p_x(L) &= p_x - k_0 \chi L \label{eq:straight_bend_px}\\
-y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
-p_y(L) &= p_y \\
-\delta(L) &= \delta \\
-\ell(L) &= \ell +
-\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
-\label{eq:straight_bend_ell}
-\end{align}
-
-\subsection{Rectangular bend - straight body}
-
-Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend element}}.
-~\\
-
-Xsuite supports rectangular bends with generic shifts and angles at the
-entrance and exit faces as shown in Fig.~\ref{fig:rbend}. The following relations
-among the involved quantities can be derived.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[height=0.40\textheight]{figures/rbend.png}
-  \caption{Rectangular bend.\label{fig:rbend}}
-\end{figure}
-
-The code takes as input the total bending angle $\alpha$ and the difference
-$\alpha_\text{diff}$ between the angles at entrance and exit of the reference
-trajectory with respect to the magnet axis:
-\begin{align}
-&\alpha = \alpha_\text{in} + \alpha_\text{out} \\
-&\alpha_\text{diff} = \alpha_\text{out} - \alpha_\text{in}
-\end{align}
-from which:
-\begin{align}
-&\alpha_\text{in} = \frac{\alpha - \alpha_\text{diff}}{2} \\
-&\alpha_\text{out} = \frac{\alpha + \alpha_\text{diff}}{2}
-\end{align}
-
-In the reference frame of the magnet body, for an on-momentum particle on the
-reference trajectory we can write:
-\begin{align}
-&p_{x, \text{in}} = \sin(\alpha_\text{in}) \\
-&p_{x, \text{out}} = -\sin(\alpha_\text{out})
-\end{align}
-
-Using Eq.~\eqref{eq:straight_bend_px} we can write:
-\begin{equation}
-  -\sin(\alpha_\text{out}) = \sin(\alpha_\text{in}) - h L_\text{straight}
-\end{equation}
-from which we can obtain the curvature of the reference trajectory:
-\begin{equation}
-  h = \frac{\sin(\alpha_\text{in}) + \sin(\alpha_\text{out})}{L_\text{straight}}
-\end{equation}
-
-Using Eqs.~\eqref{eq:straight_bend_x} and~\eqref{eq:straight_bend_px} we can write:
-\begin{align}
-  &p_{x,\text{mid}} = p_{x,\text{in}} - h L_\text{straight}/2 \label{eq:px_mid_in}\\
-  &p_{x,\text{mid}} = p_{x,\text{out}} + h L_\text{straight}/2 \label{eq:px_mid_out}\\
-  &x_\text{in} = x_\text{mid} - \frac{1}{h} \left(
-    \sqrt{1 - p_{x,\text{mid}}^2} - \sqrt{1 - p_{x,\text{in}}^2} \right) \\
-  &x_\text{out} = x_\text{mid} + \frac{1}{h} \left(
-    \sqrt{1 - p_{x,\text{out}}^2} - \sqrt{1 - p_{x,\text{mid}}^2} \right)
-\end{align}
-
-Using Eq.~\eqref{eq:straight_bend_ell} we can write:
-\begin{equation}
-  L_\text{curv} = \frac{1}{h} \left(
-    \sin^{-1} (p_{x,\text{out}}) - \sin^{-1} (p_{x,\text{in}}) \right)
-    = \frac{\alpha_\text{in} + \alpha_\text{out}}{h}
-    = \frac{\alpha}{h}
-\end{equation}
-
-In the special case of a sector bend ($\alpha_\text{diff} = 0$) we have, summing
-Eqs.~\eqref{eq:px_mid_in} and \eqref{eq:px_mid_out}:
-\begin{align}
-&\alpha_\text{in} = \alpha_\text{out} = \frac{\alpha}{2} \\
-&p_{x, \text{in}} = -p_{x, \text{out}} = \sin(\alpha/2) \\
-&p_{x,\text{mid}} = 0 \\
-&h = \frac{2 \sin(\alpha/2)}{L_\text{straight}} \\
-&L_\text{curv} = \frac{\alpha}{h} = \frac{L_\text{straight}}{\text{sinc}(\alpha/2)}\\
-&x_\text{in} = x_\text{out} = x_\text{mid} - \frac{1}{h} \left(
-    1 - \cos(\alpha/2) \right)
-\end{align}
-The last gives the usual equation for the sagitta of a bending magnet.
-
 \subsection{Polar drift (sector curvature $h$)}
 
 Used in the implementation of \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
@@ -665,6 +543,131 @@ and the reference longitudinal position as
 \begin{equation}
 s_{\text{ref},1} = s_{\text{ref}} + L.
 \end{equation}
+
+
+\subsection{Curved exact bend}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend element}}.
+~\\
+
+The generating Hamiltonian is:
+\begin{equation}
+H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -k_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right)
+\end{equation}
+
+The corresponding map is adapted from \cite{forest99}:
+\begin{align}
+x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
+p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
+y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(s) &= p_y \\
+\delta(s) &= \delta \\
+\ell(s) &= \ell +
+  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\end{align}
+
+\subsection{Straight exact bend}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
+and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
+for specific configurations.
+~\\
+
+The generating Hamiltonian is:
+\begin{equation}
+H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -b_1 x
+\end{equation}
+
+The corresponding map is adapted from \cite{forest99}:
+\begin{align}
+x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
+\label{eq:straight_bend_x}\\
+p_x(L) &= p_x - k_0 \chi L \label{eq:straight_bend_px}\\
+y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_y(L) &= p_y \\
+\delta(L) &= \delta \\
+\ell(L) &= \ell +
+\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\label{eq:straight_bend_ell}
+\end{align}
+
+\subsection{Rectangular bend - straight body}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend element}}.
+~\\
+
+Xsuite supports rectangular bends with generic shifts and angles at the
+entrance and exit faces as shown in Fig.~\ref{fig:rbend}. In this section we report
+relations among the quantities defining the geometry of the magnet with respect
+to the reference trajectory.
+
+The code takes as input the total bending angle $\alpha$ and the difference
+$\alpha_\text{diff}$ between the angles at entrance and exit of the reference
+trajectory with respect to the magnet axis:
+\begin{align}
+&\alpha = \alpha_\text{in} + \alpha_\text{out} \\
+&\alpha_\text{diff} = \alpha_\text{out} - \alpha_\text{in}
+\end{align}
+from which:
+\begin{align}
+&\alpha_\text{in} = \frac{\alpha - \alpha_\text{diff}}{2} \\
+&\alpha_\text{out} = \frac{\alpha + \alpha_\text{diff}}{2}
+\end{align}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[height=0.40\textheight]{figures/rbend.png}
+  \caption{Rectangular bend.\label{fig:rbend}}
+\end{figure}
+
+In the reference frame of the magnet body, for an on-momentum particle on the
+reference trajectory we can write:
+\begin{align}
+&p_{x, \text{in}} = \sin(\alpha_\text{in}) \\
+&p_{x, \text{out}} = -\sin(\alpha_\text{out})
+\end{align}
+
+Using Eq.~\eqref{eq:straight_bend_px} we can write:
+\begin{equation}
+  -\sin(\alpha_\text{out}) = \sin(\alpha_\text{in}) - h L_\text{straight}
+\end{equation}
+from which we can obtain the curvature of the reference trajectory:
+\begin{equation}
+  h = \frac{\sin(\alpha_\text{in}) + \sin(\alpha_\text{out})}{L_\text{straight}}
+\end{equation}
+
+Using Eqs.~\eqref{eq:straight_bend_x} and~\eqref{eq:straight_bend_px} we can write:
+\begin{align}
+  &p_{x,\text{mid}} = p_{x,\text{in}} - h L_\text{straight}/2 \label{eq:px_mid_in}\\
+  &p_{x,\text{mid}} = p_{x,\text{out}} + h L_\text{straight}/2 \label{eq:px_mid_out}\\
+  &x_\text{in} = x_\text{mid} - \frac{1}{h} \left(
+    \sqrt{1 - p_{x,\text{mid}}^2} - \sqrt{1 - p_{x,\text{in}}^2} \right) \\
+  &x_\text{out} = x_\text{mid} + \frac{1}{h} \left(
+    \sqrt{1 - p_{x,\text{out}}^2} - \sqrt{1 - p_{x,\text{mid}}^2} \right)
+\end{align}
+
+Using Eq.~\eqref{eq:straight_bend_ell} we can write:
+\begin{equation}
+  L_\text{curv} = \frac{1}{h} \left(
+    \sin^{-1} (p_{x,\text{out}}) - \sin^{-1} (p_{x,\text{in}}) \right)
+    = \frac{\alpha_\text{in} + \alpha_\text{out}}{h}
+    = \frac{\alpha}{h}
+\end{equation}
+
+In the special case of a sector bend ($\alpha_\text{diff} = 0$) we have, summing
+Eqs.~\eqref{eq:px_mid_in} and \eqref{eq:px_mid_out}:
+\begin{align}
+&\alpha_\text{in} = \alpha_\text{out} = \frac{\alpha}{2} \\
+&p_{x, \text{in}} = -p_{x, \text{out}} = \sin(\alpha/2) \\
+&p_{x,\text{mid}} = 0 \\
+&h = \frac{2 \sin(\alpha/2)}{L_\text{straight}} \\
+&L_\text{curv} = \frac{\alpha}{h} = \frac{L_\text{straight}}{\text{sinc}(\alpha/2)}\\
+&x_\text{in} = x_\text{out} = x_\text{mid} - \frac{1}{h} \left(
+    1 - \cos(\alpha/2) \right)
+\end{align}
+The last gives the usual equation for the sagitta of a bending magnet.
+
+
 
 \subsection{Expanded Bend-Quadrupole (also used for Quadrupole)}
 
