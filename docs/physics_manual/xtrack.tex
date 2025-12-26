@@ -1829,53 +1829,32 @@ p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - 
 
 \section{Definitions}\label{section:definitions}
 
-For defining the misalignments, we use the MAD-like coordinate system, where $s$ is the axis tangent to the reference trajectory at the entrance to the element, and $x$ and $y$ are the transverse beam coordinates; the rotations do not follow the classical right-handed approach: a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
+For defining the misalignments, we use the MAD-like coordinate system, where $s$ 
+is the axis tangent to the reference trajectory at the entrance to the element, 
+and $x$ and $y$ are the transverse beam coordinates; 
 
-A misalignment of an element is defined by:
+A misalignment of an element is defined by 7 quantities, defined as illustrated in
+Figs.~\ref{fig:misalignment_yaw}, \ref{fig:misalignment_pitch}, and \ref{fig:misalignment_roll}:
 \begin{itemize}
-	\item providing a reference point (anchor) along the element, specified as a number $f$, representing a fraction of the total element length, and 
-	\item 6 coordinates specifying the misaligned reference frame in the coordinate system described in Fig.~\ref{fig:mad-like-coordinates}, which will describe a transformation from the point described by $f$ in the normal frame, to the corresponding point in the misaligned frame (see the figures in subsequent sections for visualisation).
+	\item A reference point (anchor) along the reference trajestory throught the unperfurbed element;
+	\item 6 parameters specifying the shifts and rotations of the element with respect 
+        to the reference frame defined at the anchor point.
 \end{itemize}
 
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%uncomment if require: \path (0,232); %set diagram left start at 0, and has height of 232
-		
-		%Straight Lines [id:da20170232008889133] 
-		\draw    (30.75,200.25) -- (30.75,93.5) ;
-		\draw [shift={(30.75,90.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da7586738429193832] 
-		\draw    (30.75,200.25) -- (137,200.25) ;
-		\draw [shift={(140,200.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8289354712219019] 
-		\draw    (30.75,200.25) -- (113.33,157.87) ;
-		\draw [shift={(116,156.5)}, rotate = 152.83] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da8619095365842171] 
-		\draw    (107.75,195) .. controls (111.49,187.52) and (112.39,180.04) .. (102.07,171.95) ;
-		\draw [shift={(99.75,170.25)}, rotate = 34.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da14562765286410684] 
-		\draw    (93.75,162.5) .. controls (86.83,136.71) and (58.01,132.59) .. (39.76,141.42) ;
-		\draw [shift={(37.25,142.75)}, rotate = 329.74] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da5921182448586806] 
-		\draw    (75.5,195.75) .. controls (72.38,173.67) and (61.01,164.86) .. (39.05,160.48) ;
-		\draw [shift={(36.25,159.95)}, rotate = 10.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		
-		% Text Node
-		\draw (113.25,177.15) node [anchor=north west][inner sep=0.75pt]    {$\theta $};
-		% Text Node
-		\draw (25.5,75.65) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (118.75,150.15) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (144.5,197.15) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (69.5,123.19) node [anchor=north west][inner sep=0.75pt]    {$\psi $};
-		% Text Node
-		\draw (63.48,154.9) node [anchor=north west][inner sep=0.75pt]    {$\phi $};
-	\end{tikzpicture}
-	\caption{MAD-like coordinate system}\label{fig:mad-like-coordinates}
+Note that the rotation about the $y$ axis does not follow the classical right-handed approach:
+a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/align_yaw.png}
+  \caption{Misalignment in the the s-x plane. \label{fig:misalignment_yaw}}
+  \includegraphics[width=0.8\textwidth]{figures/align_pitch.png}
+  \caption{Misalignment in the the s-y plane. \label{fig:misalignment_pitch}}
+  \includegraphics[width=0.5\textwidth]{figures/align_roll.png}
+  \caption{Misalignment in the the x-y plane. \label{fig:misalignment_roll}}
 \end{figure}
+
+
 
 For our calculations, we will represent the reference frame transformations using $4 \times 4$ augmented matrices.
 We shall assume the following notation convention: each matrix $M$ consists of entries from $M_{00}$ (top left corner), through $M_{03}$ (top right corner), to $M_{33}$ (bottom right corner).
@@ -1918,6 +1897,46 @@ In particular, we distinguish 4 basic transformations:
 \]
 We allow the notation $T_x(\Delta x)$ to mean $T(\Delta x, 0, 0)$, and so on, for $T_y(\Delta y)$ and $T_s(\Delta s)$.
 
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,232); %set diagram left start at 0, and has height of 232
+		
+		%Straight Lines [id:da20170232008889133] 
+		\draw    (30.75,200.25) -- (30.75,93.5) ;
+		\draw [shift={(30.75,90.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da7586738429193832] 
+		\draw    (30.75,200.25) -- (137,200.25) ;
+		\draw [shift={(140,200.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8289354712219019] 
+		\draw    (30.75,200.25) -- (113.33,157.87) ;
+		\draw [shift={(116,156.5)}, rotate = 152.83] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da8619095365842171] 
+		\draw    (107.75,195) .. controls (111.49,187.52) and (112.39,180.04) .. (102.07,171.95) ;
+		\draw [shift={(99.75,170.25)}, rotate = 34.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da14562765286410684] 
+		\draw    (93.75,162.5) .. controls (86.83,136.71) and (58.01,132.59) .. (39.76,141.42) ;
+		\draw [shift={(37.25,142.75)}, rotate = 329.74] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da5921182448586806] 
+		\draw    (75.5,195.75) .. controls (72.38,173.67) and (61.01,164.86) .. (39.05,160.48) ;
+		\draw [shift={(36.25,159.95)}, rotate = 10.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (113.25,177.15) node [anchor=north west][inner sep=0.75pt]    {$\theta $};
+		% Text Node
+		\draw (25.5,75.65) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (118.75,150.15) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (144.5,197.15) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (69.5,123.19) node [anchor=north west][inner sep=0.75pt]    {$\psi $};
+		% Text Node
+		\draw (63.48,154.9) node [anchor=north west][inner sep=0.75pt]    {$\phi $};
+	\end{tikzpicture}
+	\caption{MAD-like coordinate system}\label{fig:mad-like-coordinates}
+\end{figure}
 
 \section{Misalignment at arbitrary $s$ without a tilt}\label{section:curved-no-roll}
 
@@ -2379,7 +2398,7 @@ We can presume the SShift to be a variant of DriftExact, however there are speci
 	\caption{Visualisation of the $s$-coordinate transformations without correction.}\label{fig:no-s-no-zeta-correction}
 \end{figure}
 
-In the visualisation in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle travelled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
+In the visualization in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle travelled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
 Clearly, $\Delta s_0 \neq -\Delta s_1$, and so the path length changes between the aligned and misaligned element.
 However, what we desire is the opposite, i.e.~that the path length does not change: it is inconvenient to have the length of our accelerator change due to a misalignment.
 Therefore, the simplest correction we can make in this instance is to disregard the update of the $s$ coordinate in our drift/$s$-shift.
@@ -2393,9 +2412,9 @@ However, as we have already established for our correction of $s$, we expect the
 \]
 
 
-\section{Other notes}
+% \section{Other notes}
 
-The rotation direction conventions differ between the MAD-X survey coordinate system and the beam coordinate system, in that the $y$-rotation of the beam is opposite to the one described by YRot in the tracking procedures above. This sign difference is taken into account in the Xsuite implementation.
+% The rotation direction conventions differ between the MAD-X survey coordinate system and the beam coordinate system, in that the $y$-rotation of the beam is opposite to the one described by YRot in the tracking procedures above. This sign difference is taken into account in the Xsuite implementation.
 
 
 
