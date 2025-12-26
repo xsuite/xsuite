@@ -1822,6 +1822,579 @@ p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - 
 \end{align}
 
 
+\chapter{Misalignments}
+
+\section{Definitions}\label{section:definitions}
+
+For defining the misalignments, we use the MAD-like coordinate system, where $s$ is the axis tangent to the reference trajectory at the entrance to the element, and $x$ and $y$ are the transverse beam coordinates; the rotations do not follow the classical right-handed approach: a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
+
+A misalignment of an element is defined by:
+\begin{itemize}
+	\item providing a reference point (anchor) along the element, specified as a number $f$, representing a fraction of the total element length, and 
+	\item 6 coordinates specifying the misaligned reference frame in the coordinate system described in Fig.~\ref{fig:mad-like-coordinates}, which will describe a transformation from the point described by $f$ in the normal frame, to the corresponding point in the misaligned frame (see the figures in subsequent sections for visualisation).
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,232); %set diagram left start at 0, and has height of 232
+		
+		%Straight Lines [id:da20170232008889133] 
+		\draw    (30.75,200.25) -- (30.75,93.5) ;
+		\draw [shift={(30.75,90.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da7586738429193832] 
+		\draw    (30.75,200.25) -- (137,200.25) ;
+		\draw [shift={(140,200.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8289354712219019] 
+		\draw    (30.75,200.25) -- (113.33,157.87) ;
+		\draw [shift={(116,156.5)}, rotate = 152.83] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da8619095365842171] 
+		\draw    (107.75,195) .. controls (111.49,187.52) and (112.39,180.04) .. (102.07,171.95) ;
+		\draw [shift={(99.75,170.25)}, rotate = 34.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da14562765286410684] 
+		\draw    (93.75,162.5) .. controls (86.83,136.71) and (58.01,132.59) .. (39.76,141.42) ;
+		\draw [shift={(37.25,142.75)}, rotate = 329.74] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da5921182448586806] 
+		\draw    (75.5,195.75) .. controls (72.38,173.67) and (61.01,164.86) .. (39.05,160.48) ;
+		\draw [shift={(36.25,159.95)}, rotate = 10.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (113.25,177.15) node [anchor=north west][inner sep=0.75pt]    {$\theta $};
+		% Text Node
+		\draw (25.5,75.65) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (118.75,150.15) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (144.5,197.15) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (69.5,123.19) node [anchor=north west][inner sep=0.75pt]    {$\psi $};
+		% Text Node
+		\draw (63.48,154.9) node [anchor=north west][inner sep=0.75pt]    {$\phi $};
+	\end{tikzpicture}
+	\caption{MAD-like coordinate system}\label{fig:mad-like-coordinates}
+\end{figure}
+
+For our calculations, we will represent the reference frame transformations using $4 \times 4$ augmented matrices.
+We shall assume the following notation convention: each matrix $M$ consists of entries from $M_{00}$ (top left corner), through $M_{03}$ (top right corner), to $M_{33}$ (bottom right corner).
+In particular, we distinguish 4 basic transformations:
+
+\[
+	\mathrm{T}(x, y, s) := \begin{bmatrix}
+		1 & 0 & 0 & x \\
+		0 & 1 & 0 & y \\
+		0 & 0 & 1 & s \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(translation)}
+\]
+
+\[
+	\mathrm{R}_x(\phi) := \begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & \cos(\phi) & \sin(\phi) & 0 \\
+		0 & -\sin(\phi) & \cos(\phi) & 0 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(rotation around the $x$ axis)}
+\]
+
+\[
+	\mathrm{R}_y(\theta) := \begin{bmatrix}
+		\cos(\theta) & 0 & \sin(\theta) & 0 \\
+		0 & 1 & 0 & 0 \\
+		-\sin(\theta) & 0 & \cos(\theta) & 0 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(rotation around the $y$ axis)}
+\]
+
+\[
+	\mathrm{R}_s(\psi) := \begin{bmatrix}
+		\cos(\psi) & -\sin(\psi) & 0 & 0 \\
+		\sin(\psi) & \cos(\psi) & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(rotation around the $s$ axis)}
+\]
+We allow the notation $T_x(\Delta x)$ to mean $T(\Delta x, 0, 0)$, and so on, for $T_y(\Delta y)$ and $T_s(\Delta s)$.
+
+
+\section{Misalignment at arbitrary $s$ without a tilt}\label{section:curved-no-roll}
+
+We consider a potentially curved element misaligned with respect to an arbitrary position along its length.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+		
+		%Straight Lines [id:da797458358196216] 
+		\draw    (121.25,70.82) -- (191.11,70.82) ;
+		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da5268015128426032] 
+		\draw    (24.11,180.32) -- (24.11,12.82) ;
+		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Ellipse [id:dp6042944787247156] 
+		\draw   (20.02,75.11) .. controls (17.78,72.86) and (17.8,69.22) .. (20.06,66.98) .. controls (22.32,64.75) and (25.96,64.77) .. (28.19,67.02) .. controls (30.43,69.28) and (30.41,72.92) .. (28.15,75.16) .. controls (25.89,77.39) and (22.25,77.37) .. (20.02,75.11) -- cycle ;
+		%Flowchart: Connector [id:dp3071692594828601] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,71.07) .. controls (21.61,69.69) and (22.72,68.57) .. (24.11,68.57) .. controls (25.49,68.57) and (26.61,69.69) .. (26.61,71.07) .. controls (26.61,72.45) and (25.49,73.57) .. (24.11,73.57) .. controls (22.72,73.57) and (21.61,72.45) .. (21.61,71.07) -- cycle ;
+		
+		%Shape: Block Arc [id:dp07942148731975829] 
+		\draw   (24.3,50.19) .. controls (24.5,50.19) and (24.69,50.19) .. (24.89,50.2) .. controls (63.78,50.3) and (100.48,59.73) .. (132.86,76.36) -- (114.62,111.95) .. controls (87.67,98.12) and (57.14,90.27) .. (24.77,90.18) .. controls (24.61,90.18) and (24.45,90.18) .. (24.29,90.18) -- cycle ;
+		%Flowchart: Connector [id:dp3735648309295102] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (121.04,94.28) .. controls (121.01,92.9) and (122.1,91.75) .. (123.48,91.72) .. controls (124.86,91.69) and (126.01,92.78) .. (126.04,94.16) .. controls (126.07,95.54) and (124.98,96.69) .. (123.6,96.72) .. controls (122.22,96.75) and (121.07,95.66) .. (121.04,94.28) -- cycle ;
+		%Straight Lines [id:da2366039478899269] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.28,71.06) -- (53.48,72.52) ;
+		\draw [shift={(56.48,72.67)}, rotate = 182.86] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp8051968426783745] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (53.98,72.73) .. controls (53.95,71.35) and (55.04,70.21) .. (56.42,70.18) .. controls (57.8,70.14) and (58.95,71.24) .. (58.98,72.62) .. controls (59.01,74) and (57.92,75.14) .. (56.54,75.17) .. controls (55.16,75.21) and (54.01,74.11) .. (53.98,72.73) -- cycle ;
+		%Straight Lines [id:da5904317932248363] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (120.68,93.3) ;
+		\draw [shift={(123.54,94.22)}, rotate = 197.81] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Block Arc [id:dp3422197187906486] 
+		\draw   (67.57,137.06) .. controls (67.76,137.01) and (67.94,136.96) .. (68.13,136.92) .. controls (105.89,127.58) and (143.78,127.83) .. (179.23,136.1) -- (170.17,175.06) .. controls (140.67,168.17) and (109.15,167.97) .. (77.73,175.74) .. controls (77.57,175.77) and (77.41,175.81) .. (77.26,175.85) -- cycle ;
+		%Flowchart: Connector [id:dp3058023403472935] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (172.11,156.36) .. controls (171.74,155.03) and (172.53,153.65) .. (173.86,153.28) .. controls (175.19,152.92) and (176.56,153.7) .. (176.93,155.03) .. controls (177.3,156.36) and (176.51,157.74) .. (175.18,158.11) .. controls (173.85,158.47) and (172.48,157.69) .. (172.11,156.36) -- cycle ;
+		%Straight Lines [id:da06890321170988856] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (72.6,157.31) -- (100.77,151.6) ;
+		\draw [shift={(103.71,151)}, rotate = 168.53] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp2878241642690408] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (101.3,151.66) .. controls (100.93,150.33) and (101.71,148.96) .. (103.04,148.59) .. controls (104.38,148.22) and (105.75,149.01) .. (106.12,150.34) .. controls (106.48,151.67) and (105.7,153.05) .. (104.37,153.41) .. controls (103.04,153.78) and (101.66,153) .. (101.3,151.66) -- cycle ;
+		%Straight Lines [id:da3521010885853867] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (103.71,151) -- (171.53,155.5) ;
+		\draw [shift={(174.52,155.69)}, rotate = 183.79] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp35613516370993914] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (70.1,157.37) .. controls (70.07,155.99) and (71.17,154.84) .. (72.55,154.81) .. controls (73.93,154.78) and (75.07,155.87) .. (75.1,157.25) .. controls (75.14,158.63) and (74.04,159.78) .. (72.66,159.81) .. controls (71.28,159.84) and (70.14,158.75) .. (70.1,157.37) -- cycle ;
+		%Straight Lines [id:da881388803539509] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (102.16,148.43) ;
+		\draw [shift={(103.71,151)}, rotate = 238.91] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da07326003199202691] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,71.07) -- (71.13,154.7) ;
+		\draw [shift={(72.6,157.31)}, rotate = 240.65] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da5449253722191645] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (174.52,155.69) -- (125.45,96.53) ;
+		\draw [shift={(123.54,94.22)}, rotate = 50.33] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da0006877697562143181] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (59.1,52.92) -- (53.85,92.42) ;
+		%Straight Lines [id:da06332771626503675] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (102.03,131.04) -- (105.38,170.96) ;
+		
+		% Text Node
+		\draw (33.61,10.47) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (197.86,65.97) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (29.75,57.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
+		% Text Node
+		\draw (72.75,65.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
+		% Text Node
+		\draw (74.75,140.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
+		% Text Node
+		\draw (117.75,135.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
+		% Text Node
+		\draw (86,112.9) node [anchor=north west][inner sep=0.75pt]    {$T$};
+		% Text Node
+		\draw (33.5,125.4) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
+		% Text Node
+		\draw (144.5,106.65) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
+	\end{tikzpicture}
+	\caption{Transformations for a curved element misaligned at an arbitrary $s$.}
+\end{figure}
+
+Assuming a curved element of length $L$ that bends the reference frame by $\alpha$ (and therefore a radius of curvature $\rho = L / \alpha$), we can represent $B$ as a combination of a translation and a rotation, $B := T(\Delta x, 0, \Delta s) R_y(-\alpha)$, where
+\begin{equation}\label{eq:curved-frame-change}
+	\begin{aligned}
+		\Delta x &= \rho (\cos(\alpha) - 1) = - L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2), \\
+		\Delta s &= \rho \sin(\alpha) = L \mathrm{sinc}(\alpha).
+	\end{aligned}
+\end{equation}
+Note, that the second formulations of $\Delta x$ and $\Delta s$ let us avoid division by zero if $\alpha = 0$, catering also to the case of a straight element for a truly general case.
+
+Let us say that our element is misaligned at position $\Delta L$ along its length $L$.
+Then we can decompose our reference-frame-bending transformation $B$ into parts $B_f$ and $B_{1-f}$ so that $B = B_f B_{1-f}$.
+The respective bending angles of the two parts are simply $f \alpha$ and $(1 - f) \alpha$, where $f := \Delta L/L = \Delta L / (\rho \alpha)$ and $\rho$ is the curvature.
+Knowing these parameters, it is trivial to construct $B_f$ and $B_{1 - f}$ analogously to $B$, as shown in eq.~\ref{eq:curved-frame-change}.
+
+Then, we compute the following transformation, which will take us from the normal to the misaligned element entry frame:
+\[
+	M_0 = B_f T B_f^{-1},
+\]
+whereas for returning to the normal frame from the exit
+\[
+	\begin{aligned}
+		B_f T B_{1 - f} M_1 &= B = B_f B_{1-f}, \\
+		M_1 &= (T B_{1 - f})^{-1} B_{1-f} = B_{1 - f}^{-1} T^{-1} B_{1-f}.
+	\end{aligned}
+\]
+
+When evaluated, the matrix for the curved element in the general case is
+\[
+	B_f := \begin{bmatrix}
+		\cos\left(\alpha f\right) & 0 & -\sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
+		0 & 1 & 0 & 0 \\
+		\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & \rho \sin(\alpha f) \\
+		0 & 0 & 0 & 1
+	\end{bmatrix},
+\]
+and so
+\[
+	B_f^{-1} := \begin{bmatrix}
+			\cos\left(\alpha f\right) & 0 & \sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
+		0 & 1 & 0 & 0 \\
+		-\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & - \rho \sin(\alpha f) \\
+		0 & 0 & 0 & 1
+		\end{bmatrix}.
+\]
+Note that $B_{f,03} = (B_f^{-1})_{03} = -L f \mathrm{sinc}(\alpha f / 2) \sin(\alpha f / 2)$ and $B_{f,23} = -(B_f^{-1})_{23} = L f \mathrm{sinc}(\alpha f)$.
+
+Meanwhile, the misalignment matrix is (let $s_\phi := \sin(\phi)$, $c_\psi := \cos(\psi)$, etc., for space-saving reasons)
+\[
+	T = \begin{bmatrix}
+		-s_\phi s_\psi s_\theta + c_\psi c_\theta & -c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi s_\theta & x \\
+		c_\phi s_\psi & c_\phi c_\psi & s_\phi & y \\
+		-c_\theta s_\phi s_\psi - c_\psi s_\theta & -c_\psi c_\theta s_\phi + s_\psi s_\theta & c_\phi c_\theta & s \\
+		0 & 0 & 0 & 1
+	\end{bmatrix}
+\]
+and its inverse, since $T$ is a rigid affine transformation, can be computed with
+\[
+	T^{-1} = \begin{bmatrix}
+			R^T & -R^T t \\
+			0 & 1
+		\end{bmatrix}, \text{ given } \begin{bmatrix}
+			R & t \\
+			0 & 1
+		\end{bmatrix} := T.
+\]
+%which expands into the matrix
+%\[
+%	\begin{bmatrix}
+%		-s_\phi s_\psi s_\theta + c_\psi c_\theta & c_\phi s_\psi & -c_\theta s_\phi s_\psi - c_\psi s_\theta & (s_\phi s_\psi s - c_\psi x) c_\theta + (s_\phi s_\psi x + c_\psi s) s_\theta - c_\phi s_\psi y \\
+%		-c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi c_\psi & -c_\psi c_\theta s_\phi + s_\psi s_\theta & (c_\psi s_\phi s + s_\psi x) c_\theta + (c_\psi s_\phi x - s_\psi s) s_\theta - c_\phi c_\psi y \\
+%		c_\phi s_\theta & s_\phi & c_\phi c_\theta & -c_\phi c_\theta s - c_\phi s_\theta x - s_\phi y \\
+%		0 & 0 & 0 & 1
+%	\end{bmatrix}.
+%\]
+
+For the conversion from $M_0$ and $M_1$ to the basic tracking transformations, we can use the decomposition, $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, for which the parameters are as follows
+\[
+	\begin{aligned}
+		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}), \\
+		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}), \\
+		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}), \\
+		x_0 &= M_{0,03}, \\
+		y_0 &= M_{0,13}, \\
+		s_0 &= M_{0,23},
+	\end{aligned}
+\]
+and for the exit, $M_1 = T(x_1, y_1, s_1) R_y(\theta_1) R_x(\phi_1) R_s(\psi_1)$,
+\[
+	\begin{aligned}
+		\theta_1 &= \arctan_2(M_{1,02}, M_{1,22}), \\
+		\phi_1 &= \arctan_2(M_{1,12}, \sqrt{M_{1,10}^2 + M_{1,11}^2}), \\
+		\psi_1 &= \arctan_2(M_{1,10}, M_{1,11}), \\
+		x_1 &= M_{1,03}, \\
+		y_1 &= M_{1,13}, \\
+		s_1 &= M_{1,23}.
+	\end{aligned}
+\]
+Note that many decompositions are possible, and their order can lead to more or less clean closed formulae for the parameters; in this case, however, we do not expect any `nice' closed-form solutions (as opposed to the case of the subsequent section!)
+The above decomposition corresponds to the following tracking sequence:
+\begin{itemize}
+	\item ($M_0$:) XYShift($x_0$, $y_0$), SShift($s_0$), YRot($\theta_0$), XRot($\phi_0$), SRot($\psi_0$),
+	\item ($B$:) Element($L$, $\alpha$),
+	\item ($M_1$:) XYShift($x_1$, $y_1$), SShift($s_1$), YRot($\theta_1$), XRot($\phi_1$), SRot($\psi_1$).
+\end{itemize}
+
+
+\section{Misalignment at arbitrary $s$ (the straight case)}\label{section:straight}
+
+Analogously to the previous section, we split $D$ into $D_f D_{1-f}$:
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+		
+		%Straight Lines [id:da35507818785418455] 
+		\draw    (127.5,70.82) -- (191.11,70.82) ;
+		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8526813980418886] 
+		\draw    (24.11,180.32) -- (24.11,12.82) ;
+		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp5359668052415314] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
+		%Straight Lines [id:da6177744279918915] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (164.61,169.34) -- (128.56,73.81) ;
+		\draw [shift={(127.5,71)}, rotate = 69.32] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp7969702218848098] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
+		%Flowchart: Connector [id:dp09475937969231463] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
+		%Shape: Ellipse [id:dp5244406786344289] 
+		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
+		%Flowchart: Connector [id:dp7900569932281408] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
+		
+		%Straight Lines [id:da20442801210117567] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (64.89,136.4) ;
+		\draw [shift={(66.47,138.95)}, rotate = 238.12] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da774139029064869] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (57.5,70.76) ;
+		\draw [shift={(60.5,70.75)}, rotate = 179.89] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp1702286240852332] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
+		%Straight Lines [id:da6390869763810431] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (124.5,70.75) ;
+		\draw [shift={(127.5,70.75)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Rectangle [id:dp5029720108971986] 
+		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
+		%Straight Lines [id:da5919731693823477] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
+		%Straight Lines [id:da7746066807011568] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.29,139.41) -- (98.28,148.98) ;
+		\draw [shift={(101.15,149.84)}, rotate = 196.65] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp7156618154401919] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
+		%Straight Lines [id:da69262585053882] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (101.15,149.84) -- (162.44,168.3) ;
+		\draw [shift={(165.31,169.16)}, rotate = 196.76] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Rectangle [id:dp06216288058859021] 
+		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
+		%Straight Lines [id:da15643091065704995] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
+		%Straight Lines [id:da3239479052474509] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
+		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (29.86,112.89) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
+		% Text Node
+		\draw (149.11,111.72) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
+		% Text Node
+		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]    {$T$};
+		% Text Node
+		\draw (30.61,54.72) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
+		% Text Node
+		\draw (68.11,145.22) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
+		% Text Node
+		\draw (75.11,53.97) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
+		% Text Node
+		\draw (112.86,160.22) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
+	\end{tikzpicture}
+	\caption{A straight element misaligned at an arbitrary location.}
+\end{figure}
+
+We simply have that $D_f := T(0, 0, fL)$ and $D_{1-f} := T(0, 0, (1-f)L)$.
+To get to the misaligned entry frame we have
+\[
+	M_0 := D_f T D_f^{-1} = T_s(fL) \; T \; T_s(-fL),
+\]
+whereas for returning to the normal frame from the exit
+\[
+	\begin{aligned}
+		M_1 := D_{1-f}^{-1} T^{-1} D_{1-f} = T_s((f-1)L) \; T^{-1} \; T_s((1-f)L).
+	\end{aligned}
+\]
+
+It is intuitively obvious, that due to lack of curvature, the entry and exit transformations should be possible to simplify.
+Specifically, we would want $M_0$ to involve some translation followed by rotations $R_y(\theta) R_x(\phi) R_s(\psi)$, and $M_1$, since it `undoes' the effect of $M_0$, into rotations $R_s(-\psi) R_x(-\phi) R_y(-\theta)$ followed by some other translation.
+
+First we decompose the entry matrix $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, i.e.~with the same method as in the previous section.
+After some algebra we observe that the angles and shifts indeed simplify:
+\[
+	\begin{aligned}
+		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}) = \theta, \\
+		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}) = \phi, \\
+		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}) = \psi, \\
+		x_0 &= T_{0,03} = x - L f \cos(\phi)\sin(\theta), \\
+		y_0 &= T_{0,13} = y - L f \sin(\phi), \\
+		s_0 &= T_{0,23} = s - L f (\cos(\phi)\cos(\theta) - 1).
+	\end{aligned}
+\]
+
+Let us now decompose the matrix $M_1$ into $R_s(\psi_1) R_x(\phi_1) R_y(\theta_1) T(x_1, y_1, s_1)$.
+To this end, let us write separately as $M_{rot}$ and $M_{tr}$ the rotation and translation part of the above decomposition, i.e.~let $M_{rot} = R_s(\psi_1) R_x(\phi_1) R_y(\theta_1)$ and let $M_{tr} := T(x_1, y_1, s_1)$.
+In such a decomposition, the rotation part of $M_{rot}$ is the same as that of $M_1$, and so we can simply extract it from there.
+Afterwards, knowing $M_{rot}$ we can compute $M_{tr} = M_{rot}^{-1} M_1$ to get the shifts.
+We indeed observe the angles and shifts simplifying:
+\[
+	\begin{aligned}
+		\theta_1 &= -\arctan_2(M_{1,20}, M_{1,22}) = -\theta, \\
+		\phi_1 &= -\arctan_2(M_{1,21}, \sqrt{M_{1,01}^2 + M_{1,11}^2}) = -\phi, \\
+		\psi_1 &= \arctan_2(M_{1,01}, M_{1,11}) = -\psi, \\
+		x_1 &= M_{tr,03} = (f - 1) L \cos(\phi) \sin(\theta) - x, \\
+		y_1 &= M_{tr,13} = (f - 1) L \sin(\phi) - y, \\
+		s_1 &= M_{tr,23} = (f - 1) L (\cos(\phi) \cos(\theta) - 1) - s.
+	\end{aligned}
+\]
+This way, our tracking procedure can be significantly less computationally expensive, compare to that of the preceding section, as no matrix operations are required:
+	\begin{itemize}
+	\item XYShift($x - L f \cos(\phi)\sin(\theta)$, $y - L f \sin(\phi)$)
+	\item SShift($s - L f (1 - \cos(\phi)\cos(\theta))$)
+	\item YRot($\theta$), XRot($\phi$), SRot($\psi$),
+	\item Element($L$),
+	\item SRot($-\psi$), XRot($-\phi$), YRot($-\theta$),
+	\item SShift($(f - 1) L (\cos(\phi) \cos(\theta) - 1) - s$),
+	\item XYShift($(f - 1) L \cos(\phi) \sin(\theta) - x$, $(f - 1) L \sin(\phi) - y$).
+\end{itemize}
+
+
+\section{Misalignment at arbitrary $s$ with a tilt}
+
+We consider a tilted curved element misaligned with respect to an arbitrary position along its length.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{figures/bend-roll.pdf}
+	\caption{A tilted curved element misaligned at an arbitrary location.}
+	\label{fig:bend-roll}
+\end{figure}
+
+Compared with the earlier discussion of misaligned curved elements (see Section~\ref{section:curved-no-roll}), when considering a tilted element, we need to include the tilting in our transformation $B$ (which, as before, is decomposed as $B_f B_{1-f}$ in Figure~\ref{fig:bend-roll}).
+
+In order to include this effect we need to realise that in the previous case the curvature of the reference frame was only applied in the $s{-}x$ plane, whereas in the case of Figure~\ref{fig:bend-roll}, it will be applied in the plane obtained by tilting $s{-}x$ by some angle $\kappa$.
+
+Therefore, taking $B_{sx}$ as the earlier transformation, i.e.,
+\[
+	B_{sx} := \begin{bmatrix}
+		\cos\left(\alpha\right) & 0 & -\sin\left(\alpha\right) & \rho (\cos\left(\alpha\right) - 1) \\
+		0 & 1 & 0 & 0 \\
+		\sin\left(\alpha\right) & 0 & \cos\left(\alpha\right) & \rho \sin(\alpha) \\
+		0 & 0 & 0 & 1
+	\end{bmatrix},
+\]
+and taking $s_\alpha = \sin(\alpha)$, $c_\alpha = \cos(\alpha)$, etc.~for space-saving reasons, we can express $B$ as $R_s(\kappa) \; B_{sx} \; R_s(-\kappa)$, which evaluates to
+\[
+	B := \begin{bmatrix}
+		{\left(c_\alpha - 1\right)} c_\kappa^{2} + 1 & {\left(c_\alpha - 1\right)} c_\kappa s_\kappa & -c_\kappa s_\alpha & \rho {\left(c_\alpha - 1\right)} c_\kappa \\
+		{\left(c_\alpha - 1\right)} c_\kappa s_\kappa & {\left(c_\alpha - 1\right)} s_\kappa^{2} + 1 & -s_\alpha s_\kappa & \rho {\left(c_\alpha - 1\right)} s_\kappa \\
+		c_\kappa s_\alpha & s_\alpha s_\kappa & c_\alpha & \rho s_\alpha \\
+		0 & 0 & 0 & 1
+	\end{bmatrix}.
+\]
+We can obtain the matrices $B_f$ and $B_{1-f}$ by substituting $f \alpha$ and $(1 - f) \alpha$ for $\alpha$ in the above.
+To obtain the tracking procedure in this case it suffices to follow the steps of Section~\ref{section:curved-no-roll}, substituting the new matrices.
+
+
+\section{Misalignment at arbitrary $s$ with a tilt (straight case)}\label{section:straight-roll}
+
+We can generalise the matrix of the above section to a straight case by recalling that $\rho(\cos(\alpha) - 1) = -L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2)$ and $\rho \sin(\alpha) = L \mathrm{sinc}(\alpha)$.
+Then, we can see that when $\alpha = 0$, the matrix $B$ of the preceding section simplifies to
+\[
+	B \rvert_{\alpha=0} = \begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 \\
+		0 & 0 & 1 & L \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} = T_s(L) = D.
+\]
+This means that the effect of the roll is disregarded in the calculation of the reference frame change for the purposes of a misalignment, and, therefore, that we can apply the exact procedure outlined in Section~\ref{section:straight} also for tilted elements.
+This makes intuitive sense, as, in our setup, the tilt indeed only affects the direction of curvature of the element: if the element is straight, there is no work to be done for the misalignment, and the element map alone fully describes the effect of the tilt on the particles.
+
+
+\section{S Shift -- $\zeta$ correction}
+
+In the tracking procedures shown in the preceding sections, we use the tracking map we refer to as an SShift, which we use to transport the particles in a straight line by a displacement in $s$.
+We can presume the SShift to be a variant of DriftExact, however there are special considerations that we need to take here, with respect to the path length $s$ and the delay $\zeta$ of our particles.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%Straight Lines [id:da35507818785418455] 
+		\draw    (127.75,70.82) -- (191.11,70.82) ;
+		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8526813980418886] 
+		\draw    (24.11,180.32) -- (24.11,12.82) ;
+		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp5359668052415314] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
+		%Flowchart: Connector [id:dp7969702218848098] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
+		%Flowchart: Connector [id:dp09475937969231463] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
+		%Shape: Ellipse [id:dp5244406786344289] 
+		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
+		%Flowchart: Connector [id:dp7900569932281408] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
+		
+		%Flowchart: Connector [id:dp1702286240852332] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
+		%Shape: Rectangle [id:dp5029720108971986] 
+		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
+		%Straight Lines [id:da5919731693823477] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
+		%Flowchart: Connector [id:dp7156618154401919] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
+		%Shape: Rectangle [id:dp06216288058859021] 
+		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
+		%Straight Lines [id:da15643091065704995] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
+		%Straight Lines [id:da3239479052474509] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
+		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da4836988544272087] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.47,12) -- (66.47,138.95) ;
+		%Straight Lines [id:da5330246211677179] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (127.5,172) -- (127.5,71) ;
+		%Straight Lines [id:da5582054958236305] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (164.47,12) -- (164.61,169.34) ;
+		%Straight Lines [id:da2986734039407184] 
+		\draw    (23.97,138.95) -- (63.47,138.95) ;
+		\draw [shift={(66.47,138.95)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8950058864242387] 
+		\draw    (66.47,138.95) -- (161.74,168.45) ;
+		\draw [shift={(164.61,169.34)}, rotate = 197.2] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da776090670545246] 
+		\draw    (164.61,121.5) -- (130.5,121.5) ;
+		\draw [shift={(127.5,121.5)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da6954530061787899] 
+		\draw    (24.11,70.82) -- (124.5,70.82) ;
+		\draw [shift={(127.5,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]  {\textcolor{gray}{$T$}};
+		% Text Node
+		\draw (70.61,54.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
+		% Text Node
+		\draw (109.61,139.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
+		% Text Node
+		\draw (29.36,120.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{0}$};
+		% Text Node
+		\draw (135.61,102.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{1}$};
+	\end{tikzpicture}
+	\caption{Visualisation of the $s$-coordinate transformations without correction.}\label{fig:no-s-no-zeta-correction}
+\end{figure}
+
+In the visualisation in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle travelled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
+Clearly, $\Delta s_0 \neq -\Delta s_1$, and so the path length changes between the aligned and misaligned element.
+However, what we desire is the opposite, i.e.~that the path length does not change: it is inconvenient to have the length of our accelerator change due to a misalignment.
+Therefore, the simplest correction we can make in this instance is to disregard the update of the $s$ coordinate in our drift/$s$-shift.
+
+A further correction needs to be made with respect to the $\zeta$ coordinate.
+Since $\zeta$ is related to the path length by $\zeta = s - \beta_0 c t$, and since, in our setup, the synchronous particle arrival time is not expected to change between the normal and misaligned entry to the element we expect that $\Delta \zeta = \Delta s$ between those two points.
+However, as we have already established for our correction of $s$, we expect the $s$ coordinate to be unchanged, so we can adjust $\zeta$ in exactly the same fashion as we do $s$:
+
+\[
+	\text{SShift}(\Delta s) := ( \text{DriftExact}(\Delta s),\;\; s \leftarrow s - \Delta s,\;\; \zeta \leftarrow \zeta - \Delta s ).
+\]
+
+
+\section{Other notes}
+
+The rotation direction conventions differ between the MAD-X survey coordinate system and the beam coordinate system, in that the $y$-rotation of the beam is opposite to the one described by YRot in the tracking procedures above. This sign difference is taken into account in the Xsuite implementation.
+
+
 
 
 \chapter{Linear optics calculations}
@@ -4231,574 +4804,3 @@ t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
 which is what we wanted to prove.
 
 
-\chapter{Misalignments}
-
-\section{Definitions}\label{section:definitions}
-
-For defining the misalignments, we use the MAD-like coordinate system, where $s$ is the axis tangent to the reference trajectory at the entrance to the element, and $x$ and $y$ are the transverse beam coordinates; the rotations do not follow the classical right-handed approach: a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
-
-A misalignment of an element is defined by:
-\begin{itemize}
-	\item providing a reference point (anchor) along the element, specified as a number $f$, representing a fraction of the total element length, and 
-	\item 6 coordinates specifying the misaligned reference frame in the coordinate system described in Fig.~\ref{fig:mad-like-coordinates}, which will describe a transformation from the point described by $f$ in the normal frame, to the corresponding point in the misaligned frame (see the figures in subsequent sections for visualisation).
-\end{itemize}
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%uncomment if require: \path (0,232); %set diagram left start at 0, and has height of 232
-		
-		%Straight Lines [id:da20170232008889133] 
-		\draw    (30.75,200.25) -- (30.75,93.5) ;
-		\draw [shift={(30.75,90.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da7586738429193832] 
-		\draw    (30.75,200.25) -- (137,200.25) ;
-		\draw [shift={(140,200.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8289354712219019] 
-		\draw    (30.75,200.25) -- (113.33,157.87) ;
-		\draw [shift={(116,156.5)}, rotate = 152.83] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da8619095365842171] 
-		\draw    (107.75,195) .. controls (111.49,187.52) and (112.39,180.04) .. (102.07,171.95) ;
-		\draw [shift={(99.75,170.25)}, rotate = 34.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da14562765286410684] 
-		\draw    (93.75,162.5) .. controls (86.83,136.71) and (58.01,132.59) .. (39.76,141.42) ;
-		\draw [shift={(37.25,142.75)}, rotate = 329.74] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da5921182448586806] 
-		\draw    (75.5,195.75) .. controls (72.38,173.67) and (61.01,164.86) .. (39.05,160.48) ;
-		\draw [shift={(36.25,159.95)}, rotate = 10.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		
-		% Text Node
-		\draw (113.25,177.15) node [anchor=north west][inner sep=0.75pt]    {$\theta $};
-		% Text Node
-		\draw (25.5,75.65) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (118.75,150.15) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (144.5,197.15) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (69.5,123.19) node [anchor=north west][inner sep=0.75pt]    {$\psi $};
-		% Text Node
-		\draw (63.48,154.9) node [anchor=north west][inner sep=0.75pt]    {$\phi $};
-	\end{tikzpicture}
-	\caption{MAD-like coordinate system}\label{fig:mad-like-coordinates}
-\end{figure}
-
-For our calculations, we will represent the reference frame transformations using $4 \times 4$ augmented matrices.
-We shall assume the following notation convention: each matrix $M$ consists of entries from $M_{00}$ (top left corner), through $M_{03}$ (top right corner), to $M_{33}$ (bottom right corner).
-In particular, we distinguish 4 basic transformations:
-
-\[
-	\mathrm{T}(x, y, s) := \begin{bmatrix}
-		1 & 0 & 0 & x \\
-		0 & 1 & 0 & y \\
-		0 & 0 & 1 & s \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(translation)}
-\]
-
-\[
-	\mathrm{R}_x(\phi) := \begin{bmatrix}
-		1 & 0 & 0 & 0 \\
-		0 & \cos(\phi) & \sin(\phi) & 0 \\
-		0 & -\sin(\phi) & \cos(\phi) & 0 \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(rotation around the $x$ axis)}
-\]
-
-\[
-	\mathrm{R}_y(\theta) := \begin{bmatrix}
-		\cos(\theta) & 0 & \sin(\theta) & 0 \\
-		0 & 1 & 0 & 0 \\
-		-\sin(\theta) & 0 & \cos(\theta) & 0 \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(rotation around the $y$ axis)}
-\]
-
-\[
-	\mathrm{R}_s(\psi) := \begin{bmatrix}
-		\cos(\psi) & -\sin(\psi) & 0 & 0 \\
-		\sin(\psi) & \cos(\psi) & 0 & 0 \\
-		0 & 0 & 1 & 0 \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(rotation around the $s$ axis)}
-\]
-We allow the notation $T_x(\Delta x)$ to mean $T(\Delta x, 0, 0)$, and so on, for $T_y(\Delta y)$ and $T_s(\Delta s)$.
-
-
-\section{Misalignment at arbitrary $s$ without a tilt}\label{section:curved-no-roll}
-
-We consider a potentially curved element misaligned with respect to an arbitrary position along its length.
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-		
-		%Straight Lines [id:da797458358196216] 
-		\draw    (121.25,70.82) -- (191.11,70.82) ;
-		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da5268015128426032] 
-		\draw    (24.11,180.32) -- (24.11,12.82) ;
-		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Ellipse [id:dp6042944787247156] 
-		\draw   (20.02,75.11) .. controls (17.78,72.86) and (17.8,69.22) .. (20.06,66.98) .. controls (22.32,64.75) and (25.96,64.77) .. (28.19,67.02) .. controls (30.43,69.28) and (30.41,72.92) .. (28.15,75.16) .. controls (25.89,77.39) and (22.25,77.37) .. (20.02,75.11) -- cycle ;
-		%Flowchart: Connector [id:dp3071692594828601] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,71.07) .. controls (21.61,69.69) and (22.72,68.57) .. (24.11,68.57) .. controls (25.49,68.57) and (26.61,69.69) .. (26.61,71.07) .. controls (26.61,72.45) and (25.49,73.57) .. (24.11,73.57) .. controls (22.72,73.57) and (21.61,72.45) .. (21.61,71.07) -- cycle ;
-		
-		%Shape: Block Arc [id:dp07942148731975829] 
-		\draw   (24.3,50.19) .. controls (24.5,50.19) and (24.69,50.19) .. (24.89,50.2) .. controls (63.78,50.3) and (100.48,59.73) .. (132.86,76.36) -- (114.62,111.95) .. controls (87.67,98.12) and (57.14,90.27) .. (24.77,90.18) .. controls (24.61,90.18) and (24.45,90.18) .. (24.29,90.18) -- cycle ;
-		%Flowchart: Connector [id:dp3735648309295102] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (121.04,94.28) .. controls (121.01,92.9) and (122.1,91.75) .. (123.48,91.72) .. controls (124.86,91.69) and (126.01,92.78) .. (126.04,94.16) .. controls (126.07,95.54) and (124.98,96.69) .. (123.6,96.72) .. controls (122.22,96.75) and (121.07,95.66) .. (121.04,94.28) -- cycle ;
-		%Straight Lines [id:da2366039478899269] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.28,71.06) -- (53.48,72.52) ;
-		\draw [shift={(56.48,72.67)}, rotate = 182.86] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp8051968426783745] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (53.98,72.73) .. controls (53.95,71.35) and (55.04,70.21) .. (56.42,70.18) .. controls (57.8,70.14) and (58.95,71.24) .. (58.98,72.62) .. controls (59.01,74) and (57.92,75.14) .. (56.54,75.17) .. controls (55.16,75.21) and (54.01,74.11) .. (53.98,72.73) -- cycle ;
-		%Straight Lines [id:da5904317932248363] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (120.68,93.3) ;
-		\draw [shift={(123.54,94.22)}, rotate = 197.81] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Block Arc [id:dp3422197187906486] 
-		\draw   (67.57,137.06) .. controls (67.76,137.01) and (67.94,136.96) .. (68.13,136.92) .. controls (105.89,127.58) and (143.78,127.83) .. (179.23,136.1) -- (170.17,175.06) .. controls (140.67,168.17) and (109.15,167.97) .. (77.73,175.74) .. controls (77.57,175.77) and (77.41,175.81) .. (77.26,175.85) -- cycle ;
-		%Flowchart: Connector [id:dp3058023403472935] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (172.11,156.36) .. controls (171.74,155.03) and (172.53,153.65) .. (173.86,153.28) .. controls (175.19,152.92) and (176.56,153.7) .. (176.93,155.03) .. controls (177.3,156.36) and (176.51,157.74) .. (175.18,158.11) .. controls (173.85,158.47) and (172.48,157.69) .. (172.11,156.36) -- cycle ;
-		%Straight Lines [id:da06890321170988856] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (72.6,157.31) -- (100.77,151.6) ;
-		\draw [shift={(103.71,151)}, rotate = 168.53] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp2878241642690408] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (101.3,151.66) .. controls (100.93,150.33) and (101.71,148.96) .. (103.04,148.59) .. controls (104.38,148.22) and (105.75,149.01) .. (106.12,150.34) .. controls (106.48,151.67) and (105.7,153.05) .. (104.37,153.41) .. controls (103.04,153.78) and (101.66,153) .. (101.3,151.66) -- cycle ;
-		%Straight Lines [id:da3521010885853867] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (103.71,151) -- (171.53,155.5) ;
-		\draw [shift={(174.52,155.69)}, rotate = 183.79] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp35613516370993914] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (70.1,157.37) .. controls (70.07,155.99) and (71.17,154.84) .. (72.55,154.81) .. controls (73.93,154.78) and (75.07,155.87) .. (75.1,157.25) .. controls (75.14,158.63) and (74.04,159.78) .. (72.66,159.81) .. controls (71.28,159.84) and (70.14,158.75) .. (70.1,157.37) -- cycle ;
-		%Straight Lines [id:da881388803539509] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (102.16,148.43) ;
-		\draw [shift={(103.71,151)}, rotate = 238.91] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da07326003199202691] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,71.07) -- (71.13,154.7) ;
-		\draw [shift={(72.6,157.31)}, rotate = 240.65] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da5449253722191645] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (174.52,155.69) -- (125.45,96.53) ;
-		\draw [shift={(123.54,94.22)}, rotate = 50.33] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da0006877697562143181] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (59.1,52.92) -- (53.85,92.42) ;
-		%Straight Lines [id:da06332771626503675] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (102.03,131.04) -- (105.38,170.96) ;
-		
-		% Text Node
-		\draw (33.61,10.47) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (197.86,65.97) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (29.75,57.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
-		% Text Node
-		\draw (72.75,65.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
-		% Text Node
-		\draw (74.75,140.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
-		% Text Node
-		\draw (117.75,135.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
-		% Text Node
-		\draw (86,112.9) node [anchor=north west][inner sep=0.75pt]    {$T$};
-		% Text Node
-		\draw (33.5,125.4) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
-		% Text Node
-		\draw (144.5,106.65) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
-	\end{tikzpicture}
-	\caption{Transformations for a curved element misaligned at an arbitrary $s$.}
-\end{figure}
-
-Assuming a curved element of length $L$ that bends the reference frame by $\alpha$ (and therefore a radius of curvature $\rho = L / \alpha$), we can represent $B$ as a combination of a translation and a rotation, $B := T(\Delta x, 0, \Delta s) R_y(-\alpha)$, where
-\begin{equation}\label{eq:curved-frame-change}
-	\begin{aligned}
-		\Delta x &= \rho (\cos(\alpha) - 1) = - L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2), \\
-		\Delta s &= \rho \sin(\alpha) = L \mathrm{sinc}(\alpha).
-	\end{aligned}
-\end{equation}
-Note, that the second formulations of $\Delta x$ and $\Delta s$ let us avoid division by zero if $\alpha = 0$, catering also to the case of a straight element for a truly general case.
-
-Let us say that our element is misaligned at position $\Delta L$ along its length $L$.
-Then we can decompose our reference-frame-bending transformation $B$ into parts $B_f$ and $B_{1-f}$ so that $B = B_f B_{1-f}$.
-The respective bending angles of the two parts are simply $f \alpha$ and $(1 - f) \alpha$, where $f := \Delta L/L = \Delta L / (\rho \alpha)$ and $\rho$ is the curvature.
-Knowing these parameters, it is trivial to construct $B_f$ and $B_{1 - f}$ analogously to $B$, as shown in eq.~\ref{eq:curved-frame-change}.
-
-Then, we compute the following transformation, which will take us from the normal to the misaligned element entry frame:
-\[
-	M_0 = B_f T B_f^{-1},
-\]
-whereas for returning to the normal frame from the exit
-\[
-	\begin{aligned}
-		B_f T B_{1 - f} M_1 &= B = B_f B_{1-f}, \\
-		M_1 &= (T B_{1 - f})^{-1} B_{1-f} = B_{1 - f}^{-1} T^{-1} B_{1-f}.
-	\end{aligned}
-\]
-
-When evaluated, the matrix for the curved element in the general case is
-\[
-	B_f := \begin{bmatrix}
-		\cos\left(\alpha f\right) & 0 & -\sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
-		0 & 1 & 0 & 0 \\
-		\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & \rho \sin(\alpha f) \\
-		0 & 0 & 0 & 1
-	\end{bmatrix},
-\]
-and so
-\[
-	B_f^{-1} := \begin{bmatrix}
-			\cos\left(\alpha f\right) & 0 & \sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
-		0 & 1 & 0 & 0 \\
-		-\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & - \rho \sin(\alpha f) \\
-		0 & 0 & 0 & 1
-		\end{bmatrix}.
-\]
-Note that $B_{f,03} = (B_f^{-1})_{03} = -L f \mathrm{sinc}(\alpha f / 2) \sin(\alpha f / 2)$ and $B_{f,23} = -(B_f^{-1})_{23} = L f \mathrm{sinc}(\alpha f)$.
-
-Meanwhile, the misalignment matrix is (let $s_\phi := \sin(\phi)$, $c_\psi := \cos(\psi)$, etc., for space-saving reasons)
-\[
-	T = \begin{bmatrix}
-		-s_\phi s_\psi s_\theta + c_\psi c_\theta & -c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi s_\theta & x \\
-		c_\phi s_\psi & c_\phi c_\psi & s_\phi & y \\
-		-c_\theta s_\phi s_\psi - c_\psi s_\theta & -c_\psi c_\theta s_\phi + s_\psi s_\theta & c_\phi c_\theta & s \\
-		0 & 0 & 0 & 1
-	\end{bmatrix}
-\]
-and its inverse, since $T$ is a rigid affine transformation, can be computed with
-\[
-	T^{-1} = \begin{bmatrix}
-			R^T & -R^T t \\
-			0 & 1
-		\end{bmatrix}, \text{ given } \begin{bmatrix}
-			R & t \\
-			0 & 1
-		\end{bmatrix} := T.
-\]
-%which expands into the matrix
-%\[
-%	\begin{bmatrix}
-%		-s_\phi s_\psi s_\theta + c_\psi c_\theta & c_\phi s_\psi & -c_\theta s_\phi s_\psi - c_\psi s_\theta & (s_\phi s_\psi s - c_\psi x) c_\theta + (s_\phi s_\psi x + c_\psi s) s_\theta - c_\phi s_\psi y \\
-%		-c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi c_\psi & -c_\psi c_\theta s_\phi + s_\psi s_\theta & (c_\psi s_\phi s + s_\psi x) c_\theta + (c_\psi s_\phi x - s_\psi s) s_\theta - c_\phi c_\psi y \\
-%		c_\phi s_\theta & s_\phi & c_\phi c_\theta & -c_\phi c_\theta s - c_\phi s_\theta x - s_\phi y \\
-%		0 & 0 & 0 & 1
-%	\end{bmatrix}.
-%\]
-
-For the conversion from $M_0$ and $M_1$ to the basic tracking transformations, we can use the decomposition, $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, for which the parameters are as follows
-\[
-	\begin{aligned}
-		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}), \\
-		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}), \\
-		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}), \\
-		x_0 &= M_{0,03}, \\
-		y_0 &= M_{0,13}, \\
-		s_0 &= M_{0,23},
-	\end{aligned}
-\]
-and for the exit, $M_1 = T(x_1, y_1, s_1) R_y(\theta_1) R_x(\phi_1) R_s(\psi_1)$,
-\[
-	\begin{aligned}
-		\theta_1 &= \arctan_2(M_{1,02}, M_{1,22}), \\
-		\phi_1 &= \arctan_2(M_{1,12}, \sqrt{M_{1,10}^2 + M_{1,11}^2}), \\
-		\psi_1 &= \arctan_2(M_{1,10}, M_{1,11}), \\
-		x_1 &= M_{1,03}, \\
-		y_1 &= M_{1,13}, \\
-		s_1 &= M_{1,23}.
-	\end{aligned}
-\]
-Note that many decompositions are possible, and their order can lead to more or less clean closed formulae for the parameters; in this case, however, we do not expect any `nice' closed-form solutions (as opposed to the case of the subsequent section!)
-The above decomposition corresponds to the following tracking sequence:
-\begin{itemize}
-	\item ($M_0$:) XYShift($x_0$, $y_0$), SShift($s_0$), YRot($\theta_0$), XRot($\phi_0$), SRot($\psi_0$),
-	\item ($B$:) Element($L$, $\alpha$),
-	\item ($M_1$:) XYShift($x_1$, $y_1$), SShift($s_1$), YRot($\theta_1$), XRot($\phi_1$), SRot($\psi_1$).
-\end{itemize}
-
-
-\section{Misalignment at arbitrary $s$ (the straight case)}\label{section:straight}
-
-Analogously to the previous section, we split $D$ into $D_f D_{1-f}$:
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-		
-		%Straight Lines [id:da35507818785418455] 
-		\draw    (127.5,70.82) -- (191.11,70.82) ;
-		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8526813980418886] 
-		\draw    (24.11,180.32) -- (24.11,12.82) ;
-		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp5359668052415314] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
-		%Straight Lines [id:da6177744279918915] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (164.61,169.34) -- (128.56,73.81) ;
-		\draw [shift={(127.5,71)}, rotate = 69.32] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp7969702218848098] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
-		%Flowchart: Connector [id:dp09475937969231463] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
-		%Shape: Ellipse [id:dp5244406786344289] 
-		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
-		%Flowchart: Connector [id:dp7900569932281408] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
-		
-		%Straight Lines [id:da20442801210117567] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (64.89,136.4) ;
-		\draw [shift={(66.47,138.95)}, rotate = 238.12] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da774139029064869] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (57.5,70.76) ;
-		\draw [shift={(60.5,70.75)}, rotate = 179.89] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp1702286240852332] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
-		%Straight Lines [id:da6390869763810431] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (124.5,70.75) ;
-		\draw [shift={(127.5,70.75)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Rectangle [id:dp5029720108971986] 
-		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
-		%Straight Lines [id:da5919731693823477] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
-		%Straight Lines [id:da7746066807011568] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.29,139.41) -- (98.28,148.98) ;
-		\draw [shift={(101.15,149.84)}, rotate = 196.65] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp7156618154401919] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
-		%Straight Lines [id:da69262585053882] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (101.15,149.84) -- (162.44,168.3) ;
-		\draw [shift={(165.31,169.16)}, rotate = 196.76] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Rectangle [id:dp06216288058859021] 
-		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
-		%Straight Lines [id:da15643091065704995] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
-		%Straight Lines [id:da3239479052474509] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
-		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		
-		% Text Node
-		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (29.86,112.89) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
-		% Text Node
-		\draw (149.11,111.72) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
-		% Text Node
-		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]    {$T$};
-		% Text Node
-		\draw (30.61,54.72) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
-		% Text Node
-		\draw (68.11,145.22) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
-		% Text Node
-		\draw (75.11,53.97) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
-		% Text Node
-		\draw (112.86,160.22) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
-	\end{tikzpicture}
-	\caption{A straight element misaligned at an arbitrary location.}
-\end{figure}
-
-We simply have that $D_f := T(0, 0, fL)$ and $D_{1-f} := T(0, 0, (1-f)L)$.
-To get to the misaligned entry frame we have
-\[
-	M_0 := D_f T D_f^{-1} = T_s(fL) \; T \; T_s(-fL),
-\]
-whereas for returning to the normal frame from the exit
-\[
-	\begin{aligned}
-		M_1 := D_{1-f}^{-1} T^{-1} D_{1-f} = T_s((f-1)L) \; T^{-1} \; T_s((1-f)L).
-	\end{aligned}
-\]
-
-It is intuitively obvious, that due to lack of curvature, the entry and exit transformations should be possible to simplify.
-Specifically, we would want $M_0$ to involve some translation followed by rotations $R_y(\theta) R_x(\phi) R_s(\psi)$, and $M_1$, since it `undoes' the effect of $M_0$, into rotations $R_s(-\psi) R_x(-\phi) R_y(-\theta)$ followed by some other translation.
-
-First we decompose the entry matrix $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, i.e.~with the same method as in the previous section.
-After some algebra we observe that the angles and shifts indeed simplify:
-\[
-	\begin{aligned}
-		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}) = \theta, \\
-		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}) = \phi, \\
-		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}) = \psi, \\
-		x_0 &= T_{0,03} = x - L f \cos(\phi)\sin(\theta), \\
-		y_0 &= T_{0,13} = y - L f \sin(\phi), \\
-		s_0 &= T_{0,23} = s - L f (\cos(\phi)\cos(\theta) - 1).
-	\end{aligned}
-\]
-
-Let us now decompose the matrix $M_1$ into $R_s(\psi_1) R_x(\phi_1) R_y(\theta_1) T(x_1, y_1, s_1)$.
-To this end, let us write separately as $M_{rot}$ and $M_{tr}$ the rotation and translation part of the above decomposition, i.e.~let $M_{rot} = R_s(\psi_1) R_x(\phi_1) R_y(\theta_1)$ and let $M_{tr} := T(x_1, y_1, s_1)$.
-In such a decomposition, the rotation part of $M_{rot}$ is the same as that of $M_1$, and so we can simply extract it from there.
-Afterwards, knowing $M_{rot}$ we can compute $M_{tr} = M_{rot}^{-1} M_1$ to get the shifts.
-We indeed observe the angles and shifts simplifying:
-\[
-	\begin{aligned}
-		\theta_1 &= -\arctan_2(M_{1,20}, M_{1,22}) = -\theta, \\
-		\phi_1 &= -\arctan_2(M_{1,21}, \sqrt{M_{1,01}^2 + M_{1,11}^2}) = -\phi, \\
-		\psi_1 &= \arctan_2(M_{1,01}, M_{1,11}) = -\psi, \\
-		x_1 &= M_{tr,03} = (f - 1) L \cos(\phi) \sin(\theta) - x, \\
-		y_1 &= M_{tr,13} = (f - 1) L \sin(\phi) - y, \\
-		s_1 &= M_{tr,23} = (f - 1) L (\cos(\phi) \cos(\theta) - 1) - s.
-	\end{aligned}
-\]
-This way, our tracking procedure can be significantly less computationally expensive, compare to that of the preceding section, as no matrix operations are required:
-	\begin{itemize}
-	\item XYShift($x - L f \cos(\phi)\sin(\theta)$, $y - L f \sin(\phi)$)
-	\item SShift($s - L f (1 - \cos(\phi)\cos(\theta))$)
-	\item YRot($\theta$), XRot($\phi$), SRot($\psi$),
-	\item Element($L$),
-	\item SRot($-\psi$), XRot($-\phi$), YRot($-\theta$),
-	\item SShift($(f - 1) L (\cos(\phi) \cos(\theta) - 1) - s$),
-	\item XYShift($(f - 1) L \cos(\phi) \sin(\theta) - x$, $(f - 1) L \sin(\phi) - y$).
-\end{itemize}
-
-
-\section{Misalignment at arbitrary $s$ with a tilt}
-
-We consider a tilted curved element misaligned with respect to an arbitrary position along its length.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{figures/bend-roll.pdf}
-	\caption{A tilted curved element misaligned at an arbitrary location.}
-	\label{fig:bend-roll}
-\end{figure}
-
-Compared with the earlier discussion of misaligned curved elements (see Section~\ref{section:curved-no-roll}), when considering a tilted element, we need to include the tilting in our transformation $B$ (which, as before, is decomposed as $B_f B_{1-f}$ in Figure~\ref{fig:bend-roll}).
-
-In order to include this effect we need to realise that in the previous case the curvature of the reference frame was only applied in the $s{-}x$ plane, whereas in the case of Figure~\ref{fig:bend-roll}, it will be applied in the plane obtained by tilting $s{-}x$ by some angle $\kappa$.
-
-Therefore, taking $B_{sx}$ as the earlier transformation, i.e.,
-\[
-	B_{sx} := \begin{bmatrix}
-		\cos\left(\alpha\right) & 0 & -\sin\left(\alpha\right) & \rho (\cos\left(\alpha\right) - 1) \\
-		0 & 1 & 0 & 0 \\
-		\sin\left(\alpha\right) & 0 & \cos\left(\alpha\right) & \rho \sin(\alpha) \\
-		0 & 0 & 0 & 1
-	\end{bmatrix},
-\]
-and taking $s_\alpha = \sin(\alpha)$, $c_\alpha = \cos(\alpha)$, etc.~for space-saving reasons, we can express $B$ as $R_s(\kappa) \; B_{sx} \; R_s(-\kappa)$, which evaluates to
-\[
-	B := \begin{bmatrix}
-		{\left(c_\alpha - 1\right)} c_\kappa^{2} + 1 & {\left(c_\alpha - 1\right)} c_\kappa s_\kappa & -c_\kappa s_\alpha & \rho {\left(c_\alpha - 1\right)} c_\kappa \\
-		{\left(c_\alpha - 1\right)} c_\kappa s_\kappa & {\left(c_\alpha - 1\right)} s_\kappa^{2} + 1 & -s_\alpha s_\kappa & \rho {\left(c_\alpha - 1\right)} s_\kappa \\
-		c_\kappa s_\alpha & s_\alpha s_\kappa & c_\alpha & \rho s_\alpha \\
-		0 & 0 & 0 & 1
-	\end{bmatrix}.
-\]
-We can obtain the matrices $B_f$ and $B_{1-f}$ by substituting $f \alpha$ and $(1 - f) \alpha$ for $\alpha$ in the above.
-To obtain the tracking procedure in this case it suffices to follow the steps of Section~\ref{section:curved-no-roll}, substituting the new matrices.
-
-
-\section{Misalignment at arbitrary $s$ with a tilt (straight case)}\label{section:straight-roll}
-
-We can generalise the matrix of the above section to a straight case by recalling that $\rho(\cos(\alpha) - 1) = -L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2)$ and $\rho \sin(\alpha) = L \mathrm{sinc}(\alpha)$.
-Then, we can see that when $\alpha = 0$, the matrix $B$ of the preceding section simplifies to
-\[
-	B \rvert_{\alpha=0} = \begin{bmatrix}
-		1 & 0 & 0 & 0 \\
-		0 & 1 & 0 & 0 \\
-		0 & 0 & 1 & L \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} = T_s(L) = D.
-\]
-This means that the effect of the roll is disregarded in the calculation of the reference frame change for the purposes of a misalignment, and, therefore, that we can apply the exact procedure outlined in Section~\ref{section:straight} also for tilted elements.
-This makes intuitive sense, as, in our setup, the tilt indeed only affects the direction of curvature of the element: if the element is straight, there is no work to be done for the misalignment, and the element map alone fully describes the effect of the tilt on the particles.
-
-
-\section{S Shift -- $\zeta$ correction}
-
-In the tracking procedures shown in the preceding sections, we use the tracking map we refer to as an SShift, which we use to transport the particles in a straight line by a displacement in $s$.
-We can presume the SShift to be a variant of DriftExact, however there are special considerations that we need to take here, with respect to the path length $s$ and the delay $\zeta$ of our particles.
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%Straight Lines [id:da35507818785418455] 
-		\draw    (127.75,70.82) -- (191.11,70.82) ;
-		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8526813980418886] 
-		\draw    (24.11,180.32) -- (24.11,12.82) ;
-		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp5359668052415314] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
-		%Flowchart: Connector [id:dp7969702218848098] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
-		%Flowchart: Connector [id:dp09475937969231463] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
-		%Shape: Ellipse [id:dp5244406786344289] 
-		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
-		%Flowchart: Connector [id:dp7900569932281408] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
-		
-		%Flowchart: Connector [id:dp1702286240852332] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
-		%Shape: Rectangle [id:dp5029720108971986] 
-		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
-		%Straight Lines [id:da5919731693823477] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
-		%Flowchart: Connector [id:dp7156618154401919] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
-		%Shape: Rectangle [id:dp06216288058859021] 
-		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
-		%Straight Lines [id:da15643091065704995] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
-		%Straight Lines [id:da3239479052474509] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
-		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da4836988544272087] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.47,12) -- (66.47,138.95) ;
-		%Straight Lines [id:da5330246211677179] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (127.5,172) -- (127.5,71) ;
-		%Straight Lines [id:da5582054958236305] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (164.47,12) -- (164.61,169.34) ;
-		%Straight Lines [id:da2986734039407184] 
-		\draw    (23.97,138.95) -- (63.47,138.95) ;
-		\draw [shift={(66.47,138.95)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8950058864242387] 
-		\draw    (66.47,138.95) -- (161.74,168.45) ;
-		\draw [shift={(164.61,169.34)}, rotate = 197.2] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da776090670545246] 
-		\draw    (164.61,121.5) -- (130.5,121.5) ;
-		\draw [shift={(127.5,121.5)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da6954530061787899] 
-		\draw    (24.11,70.82) -- (124.5,70.82) ;
-		\draw [shift={(127.5,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		
-		% Text Node
-		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]  {\textcolor{gray}{$T$}};
-		% Text Node
-		\draw (70.61,54.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
-		% Text Node
-		\draw (109.61,139.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
-		% Text Node
-		\draw (29.36,120.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{0}$};
-		% Text Node
-		\draw (135.61,102.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{1}$};
-	\end{tikzpicture}
-	\caption{Visualisation of the $s$-coordinate transformations without correction.}\label{fig:no-s-no-zeta-correction}
-\end{figure}
-
-In the visualisation in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle travelled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
-Clearly, $\Delta s_0 \neq -\Delta s_1$, and so the path length changes between the aligned and misaligned element.
-However, what we desire is the opposite, i.e.~that the path length does not change: it is inconvenient to have the length of our accelerator change due to a misalignment.
-Therefore, the simplest correction we can make in this instance is to disregard the update of the $s$ coordinate in our drift/$s$-shift.
-
-A further correction needs to be made with respect to the $\zeta$ coordinate.
-Since $\zeta$ is related to the path length by $\zeta = s - \beta_0 c t$, and since, in our setup, the synchronous particle arrival time is not expected to change between the normal and misaligned entry to the element we expect that $\Delta \zeta = \Delta s$ between those two points.
-However, as we have already established for our correction of $s$, we expect the $s$ coordinate to be unchanged, so we can adjust $\zeta$ in exactly the same fashion as we do $s$:
-
-\[
-	\text{SShift}(\Delta s) := ( \text{DriftExact}(\Delta s),\;\; s \leftarrow s - \Delta s,\;\; \zeta \leftarrow \zeta - \Delta s ).
-\]
-
-
-\section{Other notes}
-
-The rotation direction conventions differ between the MAD-X survey coordinate system and the beam coordinate system, in that the $y$-rotation of the beam is opposite to the one described by YRot in the tracking procedures above. This sign difference is taken into account in the Xsuite implementation.
