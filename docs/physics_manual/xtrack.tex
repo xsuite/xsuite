@@ -1841,6 +1841,12 @@ Figs.~\ref{fig:misalignment_yaw}, \ref{fig:misalignment_pitch}, and \ref{fig:mis
         to the reference frame defined at the anchor point.
 \end{itemize}
 
+In the derivation we omit $\Delta$ in the naming of shifts and drift and we call
+\begin{equation}
+  f = \frac{\Delta s_\text{anchor}}{L}
+\end{equation}
+the relative position of the anchor along the element of length $L$.
+
 Note that the rotation about the $y$ axis does not follow the classical right-handed approach:
 a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
 
@@ -1853,8 +1859,6 @@ a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e.
   \includegraphics[width=0.5\textwidth]{figures/align_roll.png}
   \caption{Misalignment in the the x-y plane. \label{fig:misalignment_roll}}
 \end{figure}
-
-
 
 For our calculations, we will represent the reference frame transformations using $4 \times 4$ augmented matrices.
 We shall assume the following notation convention: each matrix $M$ consists of entries from $M_{00}$ (top left corner), through $M_{03}$ (top right corner), to $M_{33}$ (bottom right corner).
