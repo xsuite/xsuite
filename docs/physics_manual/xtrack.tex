@@ -654,7 +654,151 @@ Eqs.~\eqref{eq:px_mid_in} and \eqref{eq:px_mid_out}:
 \end{align}
 The last gives the usual equation for the sagitta of a bending magnet.
 
+\subsection{Expanded Combined-Function Sector Bend}
 
+We consider a particle with initial canonical coordinates
+\[
+(x,\, p_x,\, y,\, p_y,\, \zeta),
+\]
+relative momentum deviation $\delta$, velocity factor $\mathrm{rvv}=v/c$, and charge/sign factor $\chi$.
+The element has length $L$, curvature $h$, and (input) strengths $k_0$ and $k_1$.
+
+\subsubsection*{Definitions}
+
+Define
+\begin{align}
+\delta_+ &\equiv 1+\delta, \\
+x' &= \frac{p_x}{\delta_+}, \qquad
+y' = \frac{p_y}{\delta_+}.
+\end{align}
+
+We introduce the momentum-scaled (effective) strengths
+\begin{align}
+\bar{k}_0 &= \frac{\chi\, k_0}{\delta_+}, \qquad
+\bar{k}_1 = \frac{\chi\, k_1}{\delta_+},
+\end{align}
+and the corresponding focusing coefficients
+\begin{align}
+K_x &= \bar{k}_0\, h + \bar{k}_1, \\
+K_y &= -\bar{k}_1 .
+\end{align}
+
+Auxiliary quantities:
+\begin{align}
+A &= -K_x x - \bar{k}_0 + h, \\
+B &= x', \\
+C &= -K_y y, \\
+D &= y'.
+\end{align}
+
+\subsubsection*{Transport Functions}
+
+For an element of length $L$, define
+\[
+(C_x,S_x)=
+\begin{cases}
+\left(\cos(\sqrt{K_x}L), \dfrac{\sin(\sqrt{K_x}L)}{\sqrt{K_x}}\right),
+& K_x>0, \\[1em]
+\left(\cosh(\sqrt{-K_x}L), \dfrac{\sinh(\sqrt{-K_x}L)}{\sqrt{-K_x}}\right),
+& K_x<0, \\[1em]
+(1,\,L), & K_x=0,
+\end{cases}
+\]
+\[
+(C_y,S_y)=
+\begin{cases}
+\left(\cos(\sqrt{K_y}L), \dfrac{\sin(\sqrt{K_y}L)}{\sqrt{K_y}}\right),
+& K_y>0, \\[1em]
+\left(\cosh(\sqrt{-K_y}L), \dfrac{\sinh(\sqrt{-K_y}L)}{\sqrt{-K_y}}\right),
+& K_y<0, \\[1em]
+(1,\,L), & K_y=0.
+\end{cases}
+\]
+
+\subsection*{Transverse Map}
+
+\paragraph{Positions}
+\begin{align}
+x_1 &= x C_x + x' S_x
++ \begin{cases}
+\dfrac{(\bar{k}_0-h)(C_x-1)}{K_x}, & K_x\neq 0, \\[1em]
+-\dfrac{1}{2}(\bar{k}_0-h)L^2, & K_x=0,
+\end{cases}
+\\
+y_1 &= y C_y + y' S_y .
+\end{align}
+
+\paragraph{Momenta}
+\begin{align}
+p_{x1} &= \delta_+ \left(A S_x + B C_x\right), \\
+p_{y1} &= \delta_+ \left(C S_y + D C_y\right).
+\end{align}
+
+\subsubsection*{Path Length}
+
+Let $L_{\text{tot}}$ be the total path length travelled by the particle through the element.
+
+\paragraph{Horizontal contribution}
+
+For $K_x\neq 0$:
+\begin{align}
+L_{\text{tot}} &= L
+- \frac{h\left[(C_x-1)x' + S_x A + L(\bar{k}_0-h)\right]}{K_x} \nonumber\\
+&\quad + \frac{1}{2}\Bigg[
+- \frac{A^2 C_x S_x}{2K_x}
++ \frac{B^2 C_x S_x}{2}
++ \frac{A^2 L}{2K_x}
++ \frac{B^2 L}{2} \nonumber\\
+&\qquad\qquad
+- \frac{A B C_x^2}{K_x}
++ \frac{A B}{K_x}
+\Bigg].
+\end{align}
+
+For $K_x=0$:
+\begin{equation}
+L_{\text{tot}} =
+L
++ \frac{hL}{6}\left(3Lx' + 6x - (\bar{k}_0-h)L^2\right)
++ \frac{1}{2}B^2 L .
+\end{equation}
+
+\paragraph{Vertical contribution}
+
+For $K_y\neq 0$:
+\begin{align}
+L_{\text{tot}} \mathrel{+}= \frac{1}{2}\Bigg[
+- \frac{C^2 C_y S_y}{2K_y}
++ \frac{D^2 C_y S_y}{2}
++ \frac{C^2 L}{2K_y}
++ \frac{D^2 L}{2} \nonumber\\
+\qquad\qquad
+- \frac{C D C_y^2}{K_y}
++ \frac{C D}{K_y}
+\Bigg].
+\end{align}
+
+For $K_y=0$:
+\begin{equation}
+L_{\text{tot}} \mathrel{+}= \frac{1}{2}D^2 L .
+\end{equation}
+
+\subsubsection*{Longitudinal Map}
+
+The longitudinal coordinate update is
+\begin{equation}
+\Delta\zeta = L - \frac{L_{\text{tot}}}{\mathrm{rvv}} .
+\end{equation}
+
+\subsubsection*{Final Map}
+
+\begin{equation}
+(x,p_x,y,p_y,\zeta)
+\;\longrightarrow\;
+(x_1,p_{x1},y_1,p_{y1},\zeta+\Delta\zeta),
+\qquad
+s \rightarrow s+L .
+\end{equation}
 
 
 \subsection{Thin bend}
