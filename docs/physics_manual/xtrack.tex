@@ -5,14 +5,15 @@ trajectories of individual relativistic charged particles in circular
 accelerators. It has been developed based on SixTrack.
 
 The physical models are collected from the main references
-\cite{ripken85,barber87,ripken95,heinemann95,barber96,beam_beam,rf_multipoles},
+\cite{ripken85,barber87,ripken95,heinemann95,barber96,beam_beam,rf_multipoles,
+forest99},
 which contain more details of the derivation of the maps.
 
 
 \section{Notation and reference frame}
 
 The speed, momentum, energy, rest mass, charge of a particle are indicated
-by $v$, $P$, $E$, $m$ and $q$, respectively.  These quantities are
+by $v$, $P$, $E$, $m0$ and $q$, respectively.  These quantities are
 related by the following equations:
 \begin{align}
   v&=\beta c &
@@ -22,9 +23,7 @@ related by the following equations:
 \end{align}
 where $\beta$ and $\gamma$ are the relativistic factors.
 
-In a curvilinear reference frame defined by a constant curvature $h_x$ in the
-$\hat X, \hat Z$ plane and parameterized by $s$, the
-position of the particle at a time $t$ can be written as:
+We use a curvilinear reference frame in which the position of a particle can be written as:
 \begin{align}
   \vec Q(t)= \vec r(s) + x \,\hat x(s) + y\, \hat y(s),
 \end{align}
@@ -32,8 +31,10 @@ and therefore identified by the coordinates $s, x, y, t$ in the reference frame
 defined by $\hat x(s)$ and $\hat y(s)$. In particle tracking, $s$ is normally
 used as independent parameter and $t$ as a coordinate.
 
-The electromagnetic fields {\bf E} and {\bf B} can be derived in a curvilinear
-reference frame from the potentials $V(x,y,s,t)$ and $\mathbf{A}(x,y,s,t)$, where
+We call $h$ the local curvature of the reference trajectory in the horizontal plane ($x$),
+which is assumed to piece-wise constant.
+
+The electromagnetic fields {\bf E} and {\bf B} can be derived from the potentials $V(x,y,s,t)$ and $\mathbf{A}(x,y,s,t)$, where
 \begin{align}
 \mathbf{A}(x,y,s,t)=A_x(x,y,s,t) \hat x(s) + A_y(x,y,s,t) \hat y(s) + A_s(x,y,s,t) \hat z(s)
 \end{align}
@@ -53,7 +54,7 @@ In this reference frame the canonical momenta are:
   P_y&=m \gamma \dot y + q A_y, &
   P_s&=m \gamma \dot s (1 + h x)^2 + q (1 + h x) A_s.
 \end{align}
-and the energy of a particle and the field is
+and the energy of a particle is:
 \begin{align}
 E=q\phi + c \sqrt{(mc)^2
               +\frac{(P_s- q A_s(1+hx))^2}{(1+hx)^2}
@@ -80,14 +81,17 @@ of motion using $s$ as the independent parameter, $(-t, E)$ as conjugate coordin
     \right)
 \end{align}
 
-Since in accelerators the orbits of the 
-particles are often a perturbation of the reference trajectory followed by a
-particle with rest mass $m_0$, charge $q_0$, speed $\beta_0 c$ and momentum
-$P_0$, one could use the following derived quantities that usually assume small
-values:
+Since in accelerators the trajectory of the 
+particles are often a perturbation of a reference trajectory, we introduce
+a reference rest mass $m_0$, a reference charge $q_0$, and a refernce momentum
+$P_0$ (and the corresponding reference energy $E_0$ and relativistic factors
+$\beta_0$ and $\gamma_0$).
+
+To describe the motion of a generic particle, we introduce the following normalized
+quantities
 \begin{align}
-p(x,y) &=
-  \frac{m_0}{m}\frac{P(x,y)}{P_0}   &
+\mathbf{p}(x,y) &=
+  \frac{m_0}{m}\frac{\mathbf{P}(x,y)}{P_0}   &
 \chi &=
   \frac{q}{q_0}\frac{m_0}{m} &
 a(x,y,s) &=
@@ -95,24 +99,14 @@ a(x,y,s) &=
 \end{align}
 Note that here $m$ is used to indicate the rest mass of particles of species
 different from the reference particle (which has mass $m_0$) and not the relativistic mass.
-Further rescaling the energy and charge density as
+
+We rescale also the the energy and charge density
 \begin{align}
   e(x,y,s) &=
   \frac{m_0}{m}\frac{E(x,y,s)}{P_0}   &
   \varphi(x,y,s) &=
   \frac{q_0}{P_0c}\phi(x,y,s) \,,
 \end{align}
-% This allows us to rewrite the Hamiltonian as:
-% \begin{equation}\notag
-%   - (1+h x) \, P_0\frac{m}{m_0}\left(
-%       \sqrt{
-%           \frac{\left(e - q\varphi\right)^2}{c^2} 
-%             - \frac{1}{\beta_0^2\gamma_0^2}
-%        - (p_x - \chi a_x)^2
-%        - (p_y - \chi a_y)^2}
-%        + \chi a_s
-%     \right)
-% \end{equation}
 and as all canonical momenta scale with the same factor, we can define a new Hamiltonian
 $\tilde{H}$ that still satisfies the same equations of motion:
 \begin{align}\notag
