@@ -107,7 +107,7 @@ We rescale also the the energy and charge density
   \varphi(x,y,s) &=
   \frac{q_0}{P_0c}\phi(x,y,s) \,,
 \end{align}
-and as all canonical momenta scale with the same factor, we can define a new Hamiltonian
+Since all canonical momenta scale with the same factor, we can define a new Hamiltonian
 $\tilde{H}$ that still satisfies the same equations of motion:
 \begin{align}\notag
   &\tilde{H}(x,y,-t, p_x, p_y, e) =
@@ -225,29 +225,6 @@ The Hamiltonians are then:
        + \chi a_s
     \right)
 \end{align*}
-% where 
-% \begin{align}
-% \delta &= \frac{P \frac{m_0}{m} -P_0}{P_0} &
-% \chi &= \frac{q}{q_0}\frac{m_0}{m}.
-% \end{align}
-Note that things get complicated when using the pair $(\xi, \delta)$, as then the
-Hamiltonian contains terms in $\beta$, which in turn depends on the energy.  In particular:
-\begin{equation}
-\frac{\partial \beta}{\partial \delta} =
-    \beta\, \frac{1-\beta^2}{1+\delta}
-\end{equation}
-
-For this reason we prefer using $H_\tau$ when deriving the equations of motion. Note
-that when $\varphi=0$, the Hamiltonian simplifies into:
-\begin{equation}
-H_\tau  =
-\frac{p_\tau}{\beta_0} - (1+h x) \left(
-      \sqrt{ \left(1+\delta\right)^2
-           - (p_x - \chi a_x)^2
-           - (p_y - \chi a_y)^2}
-       + \chi a_s
-    \right)
-\end{equation}
 
 The following identities are useful to derive the equations of motion:
 
@@ -258,17 +235,16 @@ The following identities are useful to derive the equations of motion:
     \frac{1+\delta}{\beta\beta_0}
   \right)=
     \frac{\beta}{\beta_0}
-% \delta&=\sqrt{\beta_0^2 p_\zeta^2 + 2 p_\zeta +1} -1 &
-% \frac{d \delta}{d p_\zeta}= \frac{\beta_0^2 p_\zeta+1}{1+\delta} = \frac{\beta_0}{\beta}
 \end{align}
 
 \section{Symplectic integrators and magnet models}
 
-Magnets are modeled using symplectic integrators, splitting the Hamiltonian
+In Xsuite, magnets are modeled using symplectic integrators, splitting the Hamiltonian
 in a `propagation' part and a `kick' part.
-Hamiltonians for the maps implemented in Xsuite are reported in Table~\ref{tab:maps}.
+Hamiltonians for the maps that are reported in Table~\ref{tab:maps}, and the corresponding
+maps are reported in the following sections.
 
-Different magnet models are available in Xsuite, which correspond to different splittings of
+Different magnet models are available, which correspond to different ways of splitting
 the Hamiltonian. The available models are reported in Table~\ref{tab:models} and
 the available integration schemes are reported in Table~\ref{tab:integrators}.
 
@@ -381,7 +357,7 @@ $\mathbf{A}=0$).  The exact and expanded Hamiltonian for a drift space are
 %   p_\sigma - \delta + \frac{1}{2}\frac{p_x^2+p_y^2}{1+\delta}.
 % \end{align}
 
-The map is given by solving the equations of motion:
+The corresponding maps can be obtained by solving the equations of motion:
 \begin{align}
   \frac{\text{d} p_i}{\text{d}s} &= -\frac{\partial H}{\partial q_i} &
   \frac{\text{d} q_i}{\text{d}s} &=  \frac{\partial H}{\partial p_i} 
@@ -405,49 +381,21 @@ For the position coordinates, we get:
         \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}
 \end{align}
 
-
-
-\subsubsection{Expanded Drift}
-
-The map relative to the expanded Hamiltonian is then
+Hence, the map relative to the expanded Hamiltonian for a drift of length $L$ is:
 \begin{align}
-  x_p &= \frac{p_x}{1+\delta} & 
-  y_p &= \frac{p_y}{1+\delta}  \\
-  x & \leftarrow x + x_p l &
-  y & \leftarrow y + y_p l
-\end{align}
-% \begin{align}
-%   \tau & \leftarrow \tau +
-%    \frac{l}{\beta_0} - \frac{l}{\beta} -
-%     \frac{l}{\beta} \frac{x_p^2+y_p^2}{2}=
-%     \tau+
-%     l\left(\frac{\delta}{\beta_0}-\frac{p_t}{1+\delta} - \frac{x_p^2+y_p^2}{2\beta}\right)
-% \end{align}
-\begin{align}
-  \zeta &
+  &x_p = \frac{p_x}{1+\delta} \\
+  &y_p = \frac{p_y}{1+\delta}  \\
+  &x  \leftarrow x + x_p L \\
+  &y  \leftarrow y + y_p L \\
+  &\zeta 
     \leftarrow \zeta+
     l\left(1- \frac{\beta_0}{\beta}\left(1 + \frac{x_p^2+y_p^2}{2}\right)\right)
 \end{align}
-
-\subsubsection{Exact Drift}
-
-The map relative to the exact Hamiltonian is then
-% \begin{align}
-%   p_z&=\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} \\
-%   \frac{d p_z}{d p_t}&= \frac{p_t+1/\beta_0}{p_z} = \frac{1}{\beta_z}  \\
-%   \frac{d p_z}{d p_\sigma}&= \frac{\beta_0^2 p_\sigma+1}{p_z} = \frac{\beta_0}{\beta_z}  
-% \end{align}
+and the map relative to the exact Hamiltonian for a drift of length $L$ is:
 \begin{align}
-  x & \leftarrow x + \frac{p_x}{p_z} l  &
-  y & \leftarrow y + \frac{p_x}{p_z} l
-\end{align}
-% \begin{align}
-%   \tau & \leftarrow \tau + \frac{l}{\beta_0}
-%   -\frac{l}{\beta_z}=
-%   l\left(\frac{1}{\beta_0}-\frac{p_t+1/\beta_0}{p_z}\right)
-% \end{align}
-\begin{align}
-  \zeta & \leftarrow \zeta + l\left(
+  &x \leftarrow x + \frac{p_x}{p_z} L\\
+  &y \leftarrow y + \frac{p_x}{p_z} L\\
+  &\zeta \leftarrow \zeta + L\left(
           1-\frac{\beta_0}{\beta}\frac{1+\delta}{p_z}
           \right)
 \end{align}
@@ -461,16 +409,13 @@ when model is ``rot-kick-rot''.
 This map is ported from PTC and MAD-NG source codes.
 ~\\
 
-The following map is generated by the Hamiltonian:
+The following map, corresponding to the motion of a particle in a field-free region
+in a reference frame with horizontal curvature $h$,  is generated by the Hamiltonian:
 \begin{equation}
 H_R = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}\right)
 \end{equation}
 
-Let the initial particle coordinates be
-\[
-(x,\,p_x,\,y,\,p_y,\,\zeta),
-\]
-with
+We call:
 \[
 \delta_+ \equiv 1+\delta,\qquad \mathrm{rvv}=v/c,
 \qquad s \equiv L.
@@ -569,7 +514,7 @@ for specific configurations.
 
 The generating Hamiltonian is:
 \begin{equation}
-H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -b_1 x
+H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 x
 \end{equation}
 
 The corresponding map is adapted from \cite{forest99}:
