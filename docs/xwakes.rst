@@ -29,8 +29,6 @@ Quick start: resonator wake on a single bunch
                                  longitudinal_mode='linear_fixed_qs', qs=1e-3, bets=100)
     line = xt.Line(elements=[one_turn, wf], element_names=['one_turn', 'wake'])
     line.particle_ref = xt.Particles(p0c=7e12)
-    line.build_tracker()
-
     # One particle per slice, give it an offset, track once and inspect the kick
     particles = xp.Particles(
         p0c=line.particle_ref.p0c[0],
@@ -103,7 +101,6 @@ Example (two bunches, one-turn memory):
         longitudinal_mode='nonlinear', qs=2e-3, bets=731.27)
     line = xt.Line([one_turn, wf], element_names=['one_turn', 'wake'])
     line.particle_ref = xt.Particles(p0c=7e12)
-    line.build_tracker()
 
     # Generate a matched two-bunch beam and track
     particles = xp.generate_matched_gaussian_multibunch_beam(
@@ -115,75 +112,6 @@ Example (two bunches, one-turn memory):
     )
     line.track(particles, num_turns=10)
 
-Transverse damper and collective monitor
-----------------------------------------
-
-``xwakes`` ships with simple bunch-by-bunch tools that share the same slicer
-interface as the wakes:
-
-.. code-block:: python
-
-    import xwakes as xw
-
-    # Damper with 100-turn equivalent gains, using the same slicing as the wake
-    damper = xw.TransverseDamper(
-        gain_x=2/100, gain_y=2/100,
-        zeta_range=wf.slicer.zeta_range,
-        num_slices=wf.slicer.num_slices,
-        bunch_spacing_zeta=wf.slicer.bunch_spacing_zeta,
-        filling_scheme=filling_scheme,
-        circumference=26658.8832,
-    )
-
-    # Monitor to record bunch statistics to HDF5 every 100 turns
-    monitor = xw.CollectiveMonitor(
-        base_file_name='sps_tune_shift',
-        monitor_bunches=True, monitor_slices=False, monitor_particles=False,
-        flush_data_every=100,
-        stats_to_store=['mean_x', 'mean_y'],
-        zeta_range=wf.slicer.zeta_range,
-        num_slices=wf.slicer.num_slices,
-        bunch_spacing_zeta=wf.slicer.bunch_spacing_zeta,
-        filling_scheme=filling_scheme,
-    )
-
-    line = xt.Line([one_turn, wf, damper, monitor],
-                   element_names=['one_turn', 'wake', 'damper', 'monitor'])
-    line.particle_ref = xt.Particles(p0c=26e9)
-    line.build_tracker()
-    line.track(particles, num_turns=200)
-
-Pipeline/MPI integration
-------------------------
-
-For MPI runs with ``xt.pipeline``, use ``xw.config_pipeline_for_wakes`` to wire
-particles, wakes, dampers, and monitors. It reconfigures slicers per rank and
-sets partner names automatically:
-
-.. code-block:: python
-
-    import xtrack as xt
-    from mpi4py import MPI
-    import xwakes as xw
-
-    comm = MPI.COMM_WORLD
-    pipeline_manager = xw.config_pipeline_for_wakes(
-        particles=particles, line=line, communicator=comm)
-
-    multitracker = xt.PipelineMultiTracker(
-        branches=[xt.PipelineBranch(line=line, particles=particles)])
-    multitracker.track(num_turns=10)
-
-Pointers to worked scripts
---------------------------
-
-- SPS tune shift (single and multi-bunch): ``xwakes/examples/000a_sps_tune_shift.py`` and ``000b_sps_tune_shift_multibunch.py``
-- HLLHC instability against wake tables: ``xwakes/examples/001a_hllhc_instability_wake_table.py`` (single bunch) and ``001b_hllhc_instability_wake_table_multibunch.py``
-- Wake construction and summation demos: ``xwakes/examples/001_many_resonators.py`` and ``002_wake_sum.py``
-- Multibunch convolution/pipeline checks: ``xwakes/examples/convolution_multibunch/*``
-
-These mirror the automated tests in ``xwakes/tests`` and are good starting
-points to adapt to your machine and impedance model.
 
 Resonator API
 -------------
