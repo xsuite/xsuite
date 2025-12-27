@@ -425,18 +425,24 @@ Intra-Beam Scattering Kicks
 Beam elements (xwakes)
 ======================
 
-Wakes and impedance elements
-----------------------------
+WakeResonator
+-------------
 
 .. autoclass:: xwakes.WakeResonator
     :members:
     :member-order: bysource
 
-.. autoclass:: xwakes.WakeFromTable
+WakeThickResistiveWall
+----------------------
+
+.. autoclass:: xwakes.WakeThickResistiveWall
     :members:
     :member-order: bysource
 
-.. autoclass:: xwakes.WakeThickResistiveWall
+WakeFromTable
+-------------
+
+.. autoclass:: xwakes.WakeFromTable
     :members:
     :member-order: bysource
 

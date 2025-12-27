@@ -14,7 +14,6 @@ Quick start: resonator wake on a single bunch
 
     import numpy as np
     import xtrack as xt
-    import xpart as xp
     import xwakes as xw
 
     # Build a wake (here: transverse dipolar resonator) and configure slicing
@@ -28,12 +27,12 @@ Quick start: resonator wake on a single bunch
     one_turn = xt.LineSegmentMap(length=26000, betx=50., bety=40., qx=62.28, qy=62.31,
                                  longitudinal_mode='linear_fixed_qs', qs=1e-3, bets=100)
     line = xt.Line(elements=[one_turn, wf], element_names=['one_turn', 'wake'])
-    line.particle_ref = xt.Particles(p0c=7e12)
+    line.set_particle_ref('proton', p0c=7e12)
+
     # One particle per slice, give it an offset, track once and inspect the kick
-    particles = xp.Particles(
-        p0c=line.particle_ref.p0c[0],
+    particles = line.build_particles(
+        x=0, px=0, y=0, py=0,
         zeta=wf.slicer.zeta_centers.flatten(),
-        x=np.zeros(wf.slicer.num_slices),
     )
     particles.x += 1e-3  # mm-level offset
     line.track(particles, num_turns=1)
