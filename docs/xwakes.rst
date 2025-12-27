@@ -16,14 +16,20 @@ Quick start: resonator wake on a single bunch
     import xtrack as xt
     import xwakes as xw
 
-    # Build a wake (here: transverse dipolar resonator) and configure slicing
-    wf = xw.WakeResonator(kind='dipolar_x', r=1e8, q=1e5, f_r=1e3)
+    # Build a wake as the sum of dipolar and quadrupolar resonators
+    wf_dip_1 = xw.WakeResonator(kind='dipolar_x', r=1e8, q=1e5, f_r=1e3)
+    wf_dip_2 = xw.WakeResonator(kind='dipolar_x', r=5e7, q=5e4, f_r=5e2)
+    wf_quad_1 = xw.WakeResonator(kind='quadrupolar_x', r=2e7, q=8e4, f_r=2e3)
+    wf_quad_2 = xw.WakeResonator(kind='quadrupolar_y', r=3e7, q=6e4, f_r=1.5e3)
+    wf = wf_dip_1 + wf_dip_2 + wf_quad_1 + wf_quad_2
+
+    # Configure for tracking: zeta range and number of slices
     wf.configure_for_tracking(
         zeta_range=(-0.1, 0.1),  # meters
         num_slices=100
     )
 
-    # Simple lattice: one turn map plus wake
+    # Simple accelerator lattice: one turn map plus wake
     one_turn = xt.LineSegmentMap(length=26000, betx=50., bety=40., qx=62.28, qy=62.31,
                                  longitudinal_mode='linear_fixed_qs', qs=1e-3, bets=100)
     line = xt.Line(elements=[one_turn, wf], element_names=['one_turn', 'wake'])
@@ -35,6 +41,8 @@ Quick start: resonator wake on a single bunch
         zeta=wf.slicer.zeta_centers.flatten(),
     )
     particles.x += 1e-3  # mm-level offset
+
+    # Track one turn
     line.track(particles, num_turns=1)
 
 ``configure_for_tracking`` prepares the internal slicer and wake tracker
