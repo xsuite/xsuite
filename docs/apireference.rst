@@ -422,6 +422,29 @@ Intra-Beam Scattering Kicks
     :members:
     :member-order: bysource
 
+Beam elements (xwakes)
+======================
+
+Wakes and impedance elements
+----------------------------
+
+.. autoclass:: xwakes.WakeResonator
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xwakes.WakeFromTable
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xwakes.WakeThickResistiveWall
+    :members:
+    :member-order: bysource
+
+Utilities
+---------
+
+.. autofunction:: xwakes.read_headtail_file
+
 .. _misalignment_label:
 
 Element misalignment
@@ -713,5 +736,4 @@ See also: :doc:`Loss location refinement <collimation>`
 .. autoclass:: xtrack.LossLocationRefinement
     :members:
     :member-order: bysource
-
 
