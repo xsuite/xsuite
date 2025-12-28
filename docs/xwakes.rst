@@ -50,6 +50,37 @@ Quick start: resonator wake on a single bunch
 wakes works naturally: ``wf_total = wf1 + wf2 + wf3``; the combined wake is
 configured once and used like a single element.
 
+Wakefield definitions
+---------------------
+
+Transverse wakefields are defined such that the transverse kicks are given by:
+
+.. math::
+
+    \Delta p_x &=
+     \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2}
+     \sum_{i,j,k,l \ge 0}
+        x^k y^l \int_{-\infty}^{\infty}
+        \bar{x}^i(z')\,\bar{y}^j(z')\,\lambda(z')\,W^{i,j,k,l}_{x}(z - z')\,dz' \\
+    \Delta p_y &=
+     \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2}
+     \sum_{i,j,k,l \ge 0}
+        x^k y^l \int_{-\infty}^{\infty}
+        \bar{x}^i(z')\,\bar{y}^j(z')\,\lambda(z')\,W^{i,j,k,l}_{y}(z - z')\,dz'
+
+where :math:`\bar{x}(z)` and :math:`\bar{y}(z)` are the transverse centroids,
+and :math:`\lambda(z)` is the line density. The exponents :math:`(i,j)` belong
+to the source moments, while :math:`(k,l)` apply to the test particle offsets.
+
+Longitudinal kicks are defined so that the energy momentum deviation change is:
+
+.. math::
+
+    \Delta \delta = -\frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2}
+    \int_{-\infty}^{\infty} \lambda(z')\, W_s(z - z')\,dz' ~,
+
+with the sign convention that a positive wake causes energy loss.
+
 Building wakes from tables
 --------------------------
 
