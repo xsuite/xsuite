@@ -67,8 +67,15 @@ Use ``xw.read_headtail_file`` to parse HEADTAIL-format files, then wrap with
                'quadrupolar_x', 'quadrupolar_y']
 
     table = xw.read_headtail_file(test_data, columns)
+
+    # use only dipolar terms
     wf = xw.WakeFromTable(table, columns=['dipolar_x', 'dipolar_y'])
+
+    # Configure for tracking
     wf.configure_for_tracking(zeta_range=(-0.4, 0.4), num_slices=100)
+
+    # Track as usual in a line
+    # ...
 
 Defining custom wakes
 ---------------------
