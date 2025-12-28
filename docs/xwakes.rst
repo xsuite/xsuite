@@ -70,6 +70,47 @@ Use ``xw.read_headtail_file`` to parse HEADTAIL-format files, then wrap with
     wf = xw.WakeFromTable(table, columns=['dipolar_x', 'dipolar_y'])
     wf.configure_for_tracking(zeta_range=(-0.4, 0.4), num_slices=100)
 
+Defining custom wakes
+---------------------
+
+For forms not covered by the built-in components, you can build a ``Component`` directly
+from a wake callable in the time domain. Provide the plane of the kick, and the polynomial
+exponents applied to the source/test offsets (``source_exponents`` for the source particle,
+``test_exponents`` for the particle being kicked). The wake callable receives time ``t`` in
+seconds; enforce causality by zeroing ``t <= 0``. Wrap one or more components in ``xw.Wake``
+and configure it like any other wake.
+
+.. code-block:: python
+
+    import numpy as np
+    import xwakes as xw
+
+    a, b, c = 1.0e9, 0.1e9, 2.0  # frequency, damping rate, amplitude
+
+    def wake_vs_t(t):
+        t = np.atleast_1d(t)
+        out = c * np.sin(a * t) * np.exp(-b * t)
+        out[t <= 0] = 0.0  # causal wake
+        return out
+
+    custom_component = xw.Component(
+        wake=wake_vs_t,
+        plane='y',
+        source_exponents=(2, 0),
+        test_exponents=(1, 1),
+        name="Example damped sine wake",
+    )
+
+    custom_wake = xw.Wake(components=[custom_component])
+
+    # Inspect the zeta-domain wake or combine with other components
+    zeta = np.linspace(-10, 10, 500)
+    values = custom_component.function_vs_zeta(zeta, beta0=0.7)
+    custom_wake.configure_for_tracking(zeta_range=(-0.1, 0.1), num_slices=200)
+
+The snippet mirrors ``xwakes/examples/003_custom_wake.py``; you can mix these components with
+resonators or tables via ``custom_wake + other_wake``.
+
 Multi-bunch, multi-turn wakes
 -----------------------------
 
