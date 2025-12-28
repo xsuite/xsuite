@@ -81,6 +81,78 @@ Longitudinal kicks are defined so that the energy momentum deviation change is:
 
 with the sign convention that a positive wake causes energy loss.
 
+Kind definitions
+----------------
+
+Each predefined ``kind`` maps to a plane and to source/test exponents
+:math:`(i,j,k,l)`, following :math:`W^{i,j,k,l}` in the formulas above. The
+list below also notes the usual “driving/detuning” terminology:
+
+.. list-table::
+   :widths: 20 8 18 18 36
+   :header-rows: 1
+
+   * - kind
+     - plane
+     - source_exponents
+     - test_exponents
+     - meaning
+   * - ``longitudinal``
+     - z
+     - (0, 0)
+     - (0, 0)
+     - longitudinal
+   * - ``constant_x``
+     - x
+     - (0, 0)
+     - (0, 0)
+     - constant x
+   * - ``constant_y``
+     - y
+     - (0, 0)
+     - (0, 0)
+     - constant y
+   * - ``dipolar_x``
+     - x
+     - (1, 0)
+     - (0, 0)
+     - dipolar / driving x
+   * - ``dipolar_y``
+     - y
+     - (0, 1)
+     - (0, 0)
+     - dipolar / driving y
+   * - ``dipolar_xy``
+     - x
+     - (0, 1)
+     - (0, 0)
+     - dipolar / driving xy
+   * - ``dipolar_yx``
+     - y
+     - (1, 0)
+     - (0, 0)
+     - dipolar / driving yx
+   * - ``quadrupolar_x``
+     - x
+     - (0, 0)
+     - (1, 0)
+     - quadrupolar / detuning x
+   * - ``quadrupolar_y``
+     - y
+     - (0, 0)
+     - (0, 1)
+     - quadrupolar / detuning y
+   * - ``quadrupolar_xy``
+     - x
+     - (0, 0)
+     - (0, 1)
+     - quadrupolar / detuning xy
+   * - ``quadrupolar_yx``
+     - y
+     - (0, 0)
+     - (1, 0)
+     - quadrupolar / detuning yx
+
 Building wakes from tables
 --------------------------
 
