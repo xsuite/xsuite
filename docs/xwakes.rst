@@ -125,7 +125,6 @@ Multi-bunch, multi-turn wakes
 
 - ``filling_scheme``: array of 0/1 slots (length = number of RF buckets considered)
 - ``bunch_spacing_zeta``: spacing between buckets in meters
-- ``bunch_selection``: subset of slots for this process (used in MPI)
 - ``num_turns`` and ``circumference``: enable multi-turn wake memory
 
 Example (two bunches, one-turn memory):
@@ -163,7 +162,6 @@ Example (two bunches, one-turn memory):
         bunch_num_particles=100_000, bunch_intensity_particles=2.3e11,
         nemitt_x=2e-6, nemitt_y=2e-6, sigma_z=0.08,
         bucket_length=26658.8832 / 35640, bunch_spacing_buckets=10,
-        bunch_selection=[0, 1],
     )
     line.track(particles, num_turns=10)
 
