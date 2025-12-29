@@ -201,9 +201,10 @@ Combine and configure
 Building wakes from tables
 --------------------------
 
-Use ``xw.read_headtail_file`` to parse HEADTAIL-format files, then wrap with
-``WakeFromTable``. Columns must match the entries in ``xwakes.wit.component.KIND_DEFINITIONS``
-(``longitudinal``, ``dipolar_x``, ``quadrupolar_y``, ``constant_x``, etc.).
+The class ``WakeFromTable`` builds wakefields from tabulated data in the time domain.
+Columns must correspond to the wakefield kinds defined above. The function
+``xw.read_headtail_file`` can be used to read HEADTAIL-format files, as illustrated
+in the following examples.
 
 .. code-block:: python
 
