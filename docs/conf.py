@@ -72,8 +72,6 @@ import xtrack
 import xpart
 import xdeps
 import xwakes
-import xmask
-import xcoll
 
 ### GENERATE code snippets
 snippet_files = {
