@@ -62,11 +62,18 @@ sys.path.insert(0, os.path.abspath('./xtrack'))
 sys.path.insert(0, os.path.abspath('./xfields'))
 sys.path.insert(0, os.path.abspath('./xpart'))
 sys.path.insert(0, os.path.abspath('./xdeps'))
+sys.path.insert(0, os.path.abspath('./xwakes'))
+sys.path.insert(0, os.path.abspath('./xmask'))
+sys.path.insert(0, os.path.abspath('./xcoll'))
+
 import xobjects
 import xfields
 import xtrack
 import xpart
 import xdeps
+import xwakes
+import xmask
+import xcoll
 
 ### GENERATE code snippets
 snippet_files = {
