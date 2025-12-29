@@ -446,6 +446,13 @@ WakeFromTable
     :members:
     :member-order: bysource
 
+Wake
+----
+
+.. autoclass:: xwakes.Wake
+    :members:
+    :member-order: bysource
+
 Utilities
 ---------
 
