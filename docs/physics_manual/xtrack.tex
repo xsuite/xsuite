@@ -156,6 +156,82 @@ magnet is rolled about the $s$-axis by an angle $\psi$, the transformation
 \end{align}
 is applied. The special case $\psi=\pi/2$ represents a bend downward.
 
+\section{Magnetic field conventions}
+
+MAD-X uses the following Taylor expansion for the vertical field on the mid-plane $y=0$
+(note the factorial in the denominator):
+\begin{align}
+  B_y(x,0) = \sum_{n=0}^\infty \frac{B_n}{n!}\,x^n .
+\end{align}
+The coefficients have the meanings:
+\begin{itemize}
+  \item $B_0$ dipole field (positive along $+y$; positive $B_0$ bends a positively charged
+        particle to the right);
+  \item $B_1$ quadrupole coefficient $B_1 = \partial B_y/\partial x$ (positive gives horizontal
+        focusing for a positive particle);
+  \item $B_2$ sextupole coefficient $B_2 = \partial^2 B_y/\partial x^2$;
+  \item $B_3$ octupole coefficient $B_3 = \partial^3 B_y/\partial x^3$; etc.
+\end{itemize}
+With curvature $h$ of the reference orbit, the longitudinal component of the vector potential
+up to fourth order is
+\begin{align}
+  A_s =\;&
+    B_0\left(\frac{x - \tfrac{h x^2}{2}}{1 + h x}\right)
+  + B_1\left(
+      \frac{x^2 - y^2}{2}
+      - \frac{h}{6}x^3
+      + \frac{h^2}{24}(4 x^4 - y^4)
+      + \ldots
+    \right) \notag\\
+  &+ B_2\left(
+      \frac{x^3 - 3 x y^2}{6}
+      - \frac{h}{24}(x^4 - y^4)
+      + \ldots
+    \right)
+  + B_3\left(
+      \frac{x^4 - 6 x^2 y^2 + y^4}{24}
+      + \ldots
+    \right)
+  + \ldots
+\end{align}
+Using $\vec B = \nabla\times\vec A$ in curvilinear coordinates, the field components are
+\begin{align}
+  B_x(x,y) &=\;
+      B_1\left(y + \frac{h^2}{6}y^3 + \ldots\right)
+    + B_2\left(x y - \frac{h}{6}y^3 + \ldots\right)
+    + B_3\left(\frac{3 x^2 y - y^3}{6} + \ldots\right)
+    + \ldots \\
+  B_y(x,y) &=\;
+      B_0
+    + B_1\left(x - \frac{h}{2}y^2 + \frac{h^2}{2} x y^2 + \ldots\right)
+    + B_2\left(\frac{x^2 - y^2}{2} - \frac{h}{2} x y^2 + \ldots\right) \notag\\
+    &\quad
+    + B_3\left(\frac{x^3 - 3 x y^2}{6} + \ldots\right)
+    + \ldots
+\end{align}
+Up to the $B_3$ term, both $\nabla\times\vec B$ and $\nabla\cdot\vec B$ vanish. Introducing
+the magnetic rigidity $B\rho = p_s/q$ (momentum over charge), the multipole coefficients are
+\begin{align}
+  K_n = \frac{q B_n}{p_s} = \frac{B_n}{B\rho}.
+\end{align}
+
+Using the complex representation of position $(x+iy)$ and field, a general expansion is
+\begin{align}
+  B_y + i B_x = \sum_{n=0}^\infty \frac{(b_n + i a_n)}{n!}\,(x + i y)^n .
+\end{align}
+Define the normal and skew multipole coefficients at order $n$ as
+\begin{align}
+  K_n^N &= \frac{q\,b_n}{p_s} = \frac{b_n}{B\rho}, &
+  K_n^S &= \frac{q\,a_n}{p_s} = \frac{a_n}{B\rho},
+\end{align}
+so that the kicks in each plane are
+\begin{align}
+  \Delta P_x - i\,\Delta P_y =
+    - \sum_{n=0}^\infty \frac{K_n^N + i K_n^S}{n!}\,(x + i y)^n .
+\end{align}
+Remark: references to the $(a_n, b_n)$ field conventions in magnet specifications should
+be added when available.
+
 
 \section{Notation and reference frame}
 
@@ -4916,4 +4992,3 @@ and from Eq.\,\ref{eq:tndef} (with $s=0$) we obtain:\begin{equation}
 t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
 \end{equation}
 which is what we wanted to prove.
-
