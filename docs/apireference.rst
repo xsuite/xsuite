@@ -379,6 +379,8 @@ BeamSizeMonitor
     :members:
     :member-order: bysource
 
+
+
 Beam elements (xfields)
 ======================
 
@@ -421,6 +423,8 @@ Intra-Beam Scattering Kicks
 .. autoclass:: xfields.IBSKineticKick
     :members:
     :member-order: bysource
+
+.. _xwakes_section:
 
 Beam elements (xwakes)
 ======================

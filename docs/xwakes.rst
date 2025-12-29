@@ -2,10 +2,10 @@ Xwakes: wakefields and impedances
 =================================
 
 ``xwakes`` provides wakefield and impedance elements that plug into the
-Xsuite tracking stack. It offers analytic resonator wakes, wakes read from
+Xsuite tracking environment. It offers analytic resonator wakes, wakes read from
 tables, multi-bunch/multi-turn support, transverse damping, monitoring, and
-MPI pipeline wiring. The examples below mirror the test-suite patterns and the
-``xwakes/examples`` directory.
+MPI pipeline wiring. The list of available wakefield elements is available in
+:ref:`the API reference <xwakes_section>`.
 
 Quick start: resonator wake on a single bunch
 ---------------------------------------------
