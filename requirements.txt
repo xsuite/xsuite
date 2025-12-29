@@ -4,6 +4,5 @@ pandas
 cython
 lark
 pytest
-ruamel.yaml
 sphinx_rtd_theme>=0.5.2
 sphinx==5.3.0
