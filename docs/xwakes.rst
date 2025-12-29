@@ -1,9 +1,6 @@
 Xwakes: wakefields and impedances
 =================================
 
-.. contents:: Table of Contents
-    :depth: 3
-
 ``xwakes`` provides wakefield and impedance elements that plug into the
 Xsuite tracking environment. It offers analytic resonator wakes, wakes read from
 tables, multi-bunch/multi-turn support, transverse damping, monitoring, and
