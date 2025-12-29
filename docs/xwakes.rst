@@ -81,12 +81,9 @@ Longitudinal kicks are defined so that the energy momentum deviation change is:
 
 with the sign convention that a positive wake causes energy loss.
 
-Kind definitions
-----------------
-
-Each predefined ``kind`` maps to a plane and to source/test exponents
-:math:`(i,j,k,l)`, following :math:`W^{i,j,k,l}` in the formulas above. The
-list below also notes the usual “driving/detuning” terminology:
+Each predefined ``kind`` maps to a plane and to a set of source exponents
+:math:`(i,j)` and test exponents :math:`(k,l)`, following :math:`W^{i,j,k,l}` in 
+the formulas above. The available kinds are listed below:
 
 .. list-table::
    :widths: 20 8 18 18 36
@@ -152,6 +149,54 @@ list below also notes the usual “driving/detuning” terminology:
      - (0, 0)
      - (1, 0)
      - quadrupolar / detuning yx
+
+Wakefield objects can be initialized in different ways, as illustrated by the following
+examples.
+
+
+Single component
+    .. code-block:: python
+
+        # Horizontal dipolar resonator
+        w1 = xw.WakeResonator(kind='dipolar_x', r=1e8, q=1e5, f_r=1e9)
+
+Multiple components (list/tuple)
+    .. code-block:: python
+
+        # Horizontal + vertical dipolar with same r/q/f_r
+        w2 = xw.WakeResonator(kind=['dipolar_x', 'dipolar_y'],
+                              r=1e8, q=1e5, f_r=1e9)
+
+Weighted components (dict)
+    .. code-block:: python
+
+        # Scale horizontal twice as strong as vertical
+        w3 = xw.WakeResonator(kind={'dipolar_x': 2.0, 'dipolar_y': 1.0},
+                              r=1e8, q=1e5, f_r=1e9)
+
+Using Yokoya factors
+    .. code-block:: python
+
+        # Flat chamber (horizontal) yokoya factors expanded into the right components
+        w4 = xw.WakeResonator(kind=xw.Yokoya('flat_horizontal'),
+                              r=1e8, q=1e5, f_r=1e9)
+
+Custom polynomial term
+    .. code-block:: python
+
+        # Custom plane/exponents without a predefined kind entry
+        w5 = xw.WakeResonator(
+            plane='y',
+            source_exponents=(1, 0),  # x_source^1 y_source^0
+            test_exponents=(0, 2),    # x_test^0 y_test^2
+            r=1e8, q=1e5, f_r=1e9)
+
+Combine and configure
+    .. code-block:: python
+
+        w = w1 + w2 + w3.components[0]  # mix whole wakes and single components
+        w.configure_for_tracking(zeta_range=(-0.1, 0.1), num_slices=200)
+
 
 Building wakes from tables
 --------------------------
@@ -268,81 +313,3 @@ Example (two bunches, one-turn memory):
     )
     line.track(particles, num_turns=10)
 
-
-Resonator API
--------------
-
-``xwakes.WakeResonator`` builds one or more analytic resonator components.
-
-Constructor
-~~~~~~~~~~~
-
-.. code-block:: python
-
-    xw.WakeResonator(
-        kind=None,                 # str | list/tuple[str] | dict[str,float] | xw.Yokoya
-        plane=None,                # 'x' | 'y' | 'z' (used only when kind is None)
-        source_exponents=None,     # (int, int) for custom source term (kind is None)
-        test_exponents=None,       # (int, int) for custom test term (kind is None)
-        r=None, q=None, f_r=None,  # shunt impedance [Ohm/m^n], quality factor, resonant freq [Hz]
-        f_roi_level=0.5            # fractional cutoff to define ROI for sampling
-    )
-
-- ``kind``:
-  - string: e.g. ``'dipolar_x'``, ``'longitudinal'``
-  - list/tuple: several kinds with unit weight
-  - dict: mapping ``kind -> scale`` (scale multiplies the wake/impedance)
-  - ``xw.Yokoya``: expand yokoya factors into the appropriate kinds
-  - ``None``: supply ``plane``, ``source_exponents``, ``test_exponents`` directly for a custom polynomial term.
-- ``r``, ``q``, ``f_r`` define the resonator; all kinds in the same instance share them.
-- ``f_roi_level`` tunes how ROIs are generated for impedance/wake sampling.
-
-After construction, call ``configure_for_tracking(...)`` with slicing options
-as shown above. You can also combine resonators via ``+``; the resulting
-``CombinedWake`` is configured and tracked like a single wake.
-
-Examples of resonator initialization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Single component
-    .. code-block:: python
-
-        # Horizontal dipolar resonator
-        w1 = xw.WakeResonator(kind='dipolar_x', r=1e8, q=1e5, f_r=1e9)
-
-Multiple components (list/tuple)
-    .. code-block:: python
-
-        # Horizontal + vertical dipolar with same r/q/f_r
-        w2 = xw.WakeResonator(kind=['dipolar_x', 'dipolar_y'],
-                              r=1e8, q=1e5, f_r=1e9)
-
-Weighted components (dict)
-    .. code-block:: python
-
-        # Scale horizontal twice as strong as vertical
-        w3 = xw.WakeResonator(kind={'dipolar_x': 2.0, 'dipolar_y': 1.0},
-                              r=1e8, q=1e5, f_r=1e9)
-
-Using Yokoya factors
-    .. code-block:: python
-
-        # Flat chamber (horizontal) yokoya factors expanded into the right components
-        w4 = xw.WakeResonator(kind=xw.Yokoya('flat_horizontal'),
-                              r=1e8, q=1e5, f_r=1e9)
-
-Custom polynomial term
-    .. code-block:: python
-
-        # Custom plane/exponents without a predefined kind entry
-        w5 = xw.WakeResonator(
-            plane='y',
-            source_exponents=(1, 0),  # x_source^1 y_source^0
-            test_exponents=(0, 2),    # x_test^0 y_test^2
-            r=1e8, q=1e5, f_r=1e9)
-
-Combine and configure
-    .. code-block:: python
-
-        w = w1 + w2 + w3.components[0]  # mix whole wakes and single components
-        w.configure_for_tracking(zeta_range=(-0.1, 0.1), num_slices=200)
