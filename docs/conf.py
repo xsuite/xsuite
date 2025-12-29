@@ -30,6 +30,7 @@ xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
 xcoll_branch = 'main'
+xwakes_branch = 'main'
 
 os.system(
     f'git clone --single-branch --branch {xobjects_branch} '
@@ -52,6 +53,9 @@ os.system(
 os.system(
     f'git clone --single-branch --branch {xcoll_branch} '
     'https://github.com/xsuite/xcoll')
+os.system(
+    f'git clone --single-branch --branch {xwakes_branch} '
+    'https://github.com/xsuite/xwakes')
 
 sys.path.insert(0, os.path.abspath('./xobjects'))
 sys.path.insert(0, os.path.abspath('./xtrack'))
