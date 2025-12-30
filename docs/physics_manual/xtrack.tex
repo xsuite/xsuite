@@ -206,6 +206,31 @@ For this purpose we introduce the corresponding reference beam rigidity as
 \end{align}
 which is the momentum per unit charge used, for example, to normalize multipole strengths.
 
+\section{Electromagnetic potentials and fields}
+The electromagnetic fields {\bf E} and {\bf B} can be derived from the potentials $\Phi(x,y,s,t)$ and $\mathbf{A}(x,y,s,t)$, where
+\begin{align}
+\mathbf{A}(x,y,s,t)=A_x(x,y,s,t) \hat x(s) + A_y(x,y,s,t) \hat y(s) + A_s(x,y,s,t) \hat z(s)
+\end{align}
+and for which:
+\begin{align}
+  \mathbf{E}  &= -\nabla \Phi - \frac{\partial \mathbf{A}}{\partial t} 
+               = -\partial_x \Phi \hat x - \partial_y \Phi \hat y -
+  \frac{1}{1+h x}  \partial_s \Phi \hat z - \partial_t \mathbf{A}\\
+  \mathbf{B} &= \nabla\times\mathbf{A}  =
+  \left(\partial_y A_s - \frac{\partial_s  A_y}{1+h x} \right) \hat x 
+  +\left(\frac{\partial_s A_x-\partial_x (1+h x) A_s }{1+h x} \right)\hat y
+  + \left(\partial_x A_y - \partial_y A_x \right) \hat z.
+\end{align}
+
+We use the reference particle properties to define normalized potentials:
+\begin{align}
+  &\mathbf{a}(x,y,s,t) = \frac{q_0}{P_0} \mathbf{A}(x,y,s,t)\\
+  &\varphi(x,y,s,t) =
+    \frac{q_0}{P_0c}\Phi(x,y,s,t)
+\end{align}
+
+
+
 \section{Convention for multipole expansion of magnetic fields}
 
 This section is adapted from \cite{madsite}.
@@ -229,7 +254,7 @@ The associated longitudinal vector potential for straight elements can be writte
 \begin{align}
   A_s(x,y) = -\,\Re\left(\sum_{n=0}^{\infty} \frac{(B_n+i A_n)}{(n+1) !}(x+i y)^{n+1}\right),
 \end{align}
-so that $B_y+i B_x = -(\partial_x + i \partial_y) A_s$ yields the field expansion above.
+so that $B_y+i B_x = -(\partial_x - i \partial_y) A_s$ yields the field expansion above.
 
 We define the normal multipole coefficients $K_n$ and the skew multipole coefficients
 $\hat{K}_n$ using the reference beam rigidity from Eq.~\eqref{eq:brigidity}:
@@ -240,6 +265,8 @@ and
 \begin{align}
   \hat{K}_n=\frac{A_n}{\mathrm{rig}_0}
 \end{align}
+
+
 
 \section{Notation and reference frame}
 
@@ -265,20 +292,7 @@ used as independent parameter and $t$ as a coordinate.
 We call $h$ the local curvature of the reference trajectory in the horizontal plane ($x$),
 which is assumed to piece-wise constant.
 
-The electromagnetic fields {\bf E} and {\bf B} can be derived from the potentials $V(x,y,s,t)$ and $\mathbf{A}(x,y,s,t)$, where
-\begin{align}
-\mathbf{A}(x,y,s,t)=A_x(x,y,s,t) \hat x(s) + A_y(x,y,s,t) \hat y(s) + A_s(x,y,s,t) \hat z(s)
-\end{align}
-and for which:
-\begin{align}
-  \mathbf{E}  &= -\nabla V - \frac{\partial \mathbf{A}}{\partial t} 
-               = -\partial_x V \hat x - \partial_y V \hat y -
-  \frac{1}{1+h x}  \partial_s V \hat z - \partial_t \mathbf{A}\\
-  \mathbf{B} &= \nabla\times\mathbf{A}  =
-  \left(\partial_y A_s - \frac{\partial_s  A_y}{1+h x} \right) \hat x 
-  +\left(\frac{\partial_s A_x-\partial_x (1+h x) A_s }{1+h x} \right)\hat y \\
-  &+\quad \left(\partial_x A_y - \partial_y A_x \right) \hat z.
-\end{align}
+
 In this reference frame the canonical momenta are:
 \begin{align}
   P_x&=m \gamma \dot x + q A_x, &
