@@ -1,20 +1,17 @@
-\chapter{Single-particle tracking}
+\chapter{Lattice modeling and particle coordinates}
 
-XTrack is a 6D single particle symplectic tracking code used to compute the
-trajectories of individual relativistic charged particles in circular
-accelerators. It has been developed based on SixTrack.
+The modeling of lattice and beam particles used in Xsuite is largely based on the
+the experience of the MAD~\cite{madsite, mad8phys} and Sixtrack~\cite{sixtrack_user_guide} programs.
 
-The physical models are collected from the main references
+More details on the derivation of the tracking maps and the Hamiltonian formalism
+can be found in the references
 \cite{ripken85,barber87,ripken95,heinemann95,barber96,beam_beam,rf_multipoles,
-forest99},
-which contain more details of the derivation of the maps.
+forest99}.
 
-\section{Reference system}
+\section{Local reference system}
 
-The accelerator and/or beam line to be studied is described as a sequence of beam elements
-placed sequentially along a reference orbit. The reference orbit is the path of a charged
-particle having the central design momentum of the accelerator through idealised magnets
-with no fringe fields (see Figure~\ref{fig:local-frame}).
+This section is adapted from \cite{madsite}.
+~\\
 
 \begin{figure}[h]
   \centering
@@ -23,38 +20,32 @@ with no fringe fields (see Figure~\ref{fig:local-frame}).
   \label{fig:local-frame}
 \end{figure}
 
-The reference orbit consists of a series of straight line segments and circular arcs. It is defined
-under the assumption that all elements are perfectly aligned. The accompanying tripod of
+The beam line or ring to be studied is described as a sequence of beam elements
+placed sequentially along a reference trajectory.
+
+The reference trajectory consists of a series of straight line segments and circular arcs.
+The accompanying tripod, as shown in Fig. ~\ref{fig:local-frame}
 the reference orbit spans a local curvilinear right handed coordinate system $(x,y,s)$ The local
-$s$-axis is the tangent to the reference orbit. The two other axes are perpendicular to the
-reference orbit and are labelled $x$ (in the bend plane) and $y$ (perpendicular to the bend
-plane).
+$s$-axis is the tangent to the reference orbit and $x$ and $y$ are perpendincular to $s$.
+Typicallt, $x$ is horizontal and $y$ vertical.
 
-\section{Closed orbit}
-
-Due to various errors like misalignment errors, field errors, fringe fields etc., the closed orbit
-does not coincide with the reference orbit. The closed orbit also changes with the momentum
-error. The closed orbit is described with respect to the reference orbit, using the local reference
-system $( x, y, s )$. It is evaluated including any nonlinear effects.
-
-MAD-X also computes the betatron and synchrotron oscillations with respect to the closed
-orbit. Results are given in the local $( x, y, s )$-system defined by the reference orbit.
+We call $\rho$ the local radius of curvature of the reference trajectory and $h$ 
+the local curvature defined as:
+\begin{align}
+  h = \frac{1}{\rho}
+\end{align}
 
 \section{Global reference system}
 
-The global reference orbit of the accelerator is uniquely defined by the sequence of physical
-elements. The local reference system $( x, y, s )$ may thus be referred to a global Cartesian
-coordinate system $( X, Y, Z )$ (see Figure~\ref{fig:global-frame}).
+The local reference system $( x, y, s )$ may thus be referred to a global Cartesian
+coordinate system $( X, Y, Z )$ as shown in Fig.~\ref{fig:global-frame}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.75\textwidth]{figures/global_frame.png}
+  \includegraphics[width=0.9\textwidth]{figures/global_frame.png}
   \caption{Global Reference System showing the global Cartesian system $( X,Y,Z )$ in black
-           and the local reference system $( x, y, s )$ in red after translation $( X_i,Y_i,Z_i)$ and
-           rotation $(\theta_i,\phi_i,\psi_i)$. The projections of the local reference system axes onto
-           the horizontal $ZX$-plane of the Cartesian system are figured with blue dashed lines. The
-           intersections of planes $ys,xy$ and $xs$ of the local reference system with the horizontal
-           $ZX$-plane of the Cartesian system are figured in green dashed lines.}
+           and the local reference system $( x, y, s )$ in red with the translation $( X_i,Y_i,Z_i)$ and
+           rotation $(\theta_i,\phi_i,\psi_i)$ relating the two.}
   \label{fig:global-frame}
 \end{figure}
 
@@ -69,25 +60,24 @@ The above quantities are defined more precisely as follows:
   \item $X$ Displacement of the local origin in $X$-direction.
   \item $Y$ Displacement of the local origin in $Y$-direction.
   \item $Z$ Displacement of the local origin in $Z$-direction.
-  \item THETA $\theta$ is the angle of rotation (azimuth) about the global $Y$-axis, between the
+  \item $\theta$ is the angle of rotation (azimuth) about the global $Y$-axis, between the
         global $Z$-axis and the projection of the reference orbit onto the $( Z,X)$-plane.
-        A positive angle THETA forms a right-hand screw with the $Y$-axis.
-  \item PHI $\phi$ is the elevation angle, i.e. the angle between the reference orbit and its pro-
-        jection onto the $( Z,X)$-plane. A positive angle PHI corresponds to increasing
+        A positive angle $\theta$ forms a right-hand screw with the $Y$-axis.
+  \item $\phi$ is the elevation angle, i.e. the angle between the reference orbit and its pro-
+        jection onto the $( Z,X)$-plane. A positive angle $\phi$ corresponds to increasing
         $Y$.
 
         If only horizontal bends are present, the reference orbit remains in the $( Z,
-        X)$-plane and PHI is always zero.
-  \item PSI $\psi$ is the roll angle about the local $s$-axis, i.e. the angle between the line defined
+        X)$-plane and $\phi$ is always zero.
+  \item $\psi$ is the roll angle about the local $s$-axis, i.e. the angle between the line defined
         by the intersection of the $( x, y)$-plane and $( Z, X)$-plane on one hand, and the
-        local $x$-axis on the other hand. A positive angle PSI forms a right-hand screw
+        local $x$-axis on the other hand. A positive angle $\psi$ forms a right-hand screw
         with the $s$-axis.
 \end{itemize}
 
-The angles $( \theta, \phi, \psi)$ are not the Euler angles. The reference orbit starts at the origin and
-points by default in the direction of the positive $Z$-axis. The initial local axes $( x,y,s)$ coincide
-with the global axes $( X,Y,Z)$ in this order. The initial values $( X_0,Y_0,Z_0,\theta_0,\phi_0,\psi_0)$ are
-therefore all zero unless the user specifies different initial conditions.
+Note that the angles $( \theta, \phi, \psi)$ do not follow the usual definition of Euler angles. 
+The reference orbit starts at the origin and
+points by default in the direction of the positive $Z$-axis.
 
 Internally the displacement is described by a vector $\mathbf{V}$ and the orientation by a unitary matrix
 $\mathbf{W}$. The column vectors of $\mathbf{W}$ are the unit vectors spanning the local coordinate axes in the
@@ -124,27 +114,18 @@ where
     \end{bmatrix}.
 \end{align}
 
-The reference orbit should be closed, and it should not be twisted. This means that the
-displacement of the local reference system must be periodic with the revolution frequency of
-the accelerator, while the position angles must be periodic (modulo $2 \pi$) with the revolution
-frequency. If $\psi$ is not periodic (modulo $2 \pi$), coupling effects are introduced. When advancing
-through a beam element, MAD-X computes $V_i$ and $W_i$ by the recurrence relations
+When advancing
+through a beam element, Xsuite (like MAD) computes $V_i$ and $W_i$ by the recurrence relations
 \begin{align}
   V_i &= W_{i-1} R_i+V_{i-1}, &
   W_i &= W_{i-1} S_i
 \end{align}
 The vector $R_i$ is the displacement and the matrix $S_i$ is the rotation of the local reference
-system at the exit of the element $i$ with respect to the entrance of the same element. The
+system introduced by the element $i$ with respect to the entrance of the same element. The
 values of $R_i$ and $S_i$ are listed below for different physical element types.
 
-\section{Local reference systems}
-
-\subsection{Reference system for straight beam elements}
-
 In straight elements the local reference system is simply translated by the length of the element
-along the local $s$-axis. This is true for Drift spaces ,Quadrupoles ,Sextupoles ,Octupoles ,
-Solenoids ,Crab cavities ,RF cavities ,Electrostatic separators ,Closed orbit correctors and
-Beam position monitors .
+along the local $s$-axis.
 
 The corresponding $R, S$ are
 \begin{align}
@@ -165,8 +146,6 @@ The corresponding $R, S$ are
 A rotation of the element about the $s$-axis has no effect on $R$ and $S$, since the rotations of
 the reference system before and after the element cancel.
 
-\subsection{Reference system for bending magnets}
-
 Bending magnets have a curved reference orbit. For both rectangular and sector bending
 magnets, the $R$ and $S$ are expressed as function the bend angle $\alpha$:
 \begin{align}
@@ -184,6 +163,7 @@ magnets, the $R$ and $S$ are expressed as function the bend angle $\alpha$:
       \sin\alpha & 0 & \cos \alpha
     \end{bmatrix}
 \end{align}
+where we have assumed that the bending occurs in the horizontal plane.
 A positive bend angle represents a bend to the right, i.e. towards negative $x$ values. For
 sector bending magnets, the bend radius is given by $\rho$, and for rectangular bending magnets
 it has the value $\rho=L/(2 \sin( \alpha/2))$. If the magnet is rotated about the $s$-axis by an
