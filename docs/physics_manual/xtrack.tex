@@ -225,7 +225,11 @@ derivatives of the transverse field components:
   A_n &= \left.\frac{\partial^n B_x}{\partial x^n}\right|_{x=0,\,y=0}.
 \end{align}
 
-
+The associated longitudinal vector potential for straight elements can be written as
+\begin{align}
+  A_s(x,y) = -\,\Re\left(\sum_{n=0}^{\infty} \frac{(B_n+i A_n)}{(n+1) !}(x+i y)^{n+1}\right),
+\end{align}
+so that $B_y+i B_x = -(\partial_x + i \partial_y) A_s$ yields the field expansion above.
 
 We define the normal multipole coefficients $K_n$ and the skew multipole coefficients
 $\hat{K}_n$ using the reference beam rigidity from Eq.~\eqref{eq:brigidity}:
