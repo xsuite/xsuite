@@ -217,6 +217,11 @@ Using a complex notation for the field $(B_y+i B_x)$ and the position $(x+i y)$ 
 \begin{align}
   B_y+i B_x=\sum_{n=0}^{\infty} \frac{(B_n+i A_n)}{n !}(x+i y)^{n}
 \end{align}
+where the coefficients are the on-axis derivatives of the transverse field components:
+\begin{align}
+  B_n &= \left.\frac{\partial^n B_y}{\partial x^n}\right|_{x=0,\,y=0}, &
+  A_n &= \left.\frac{\partial^n B_x}{\partial x^n}\right|_{x=0,\,y=0}.
+\end{align}
 
 We define the normal multipole coefficients $K_n$ and the skew multipole coefficients $
 \hat{K}_n$ using the reference beam rigidity from Eq.~\eqref{eq:brigidity}:
