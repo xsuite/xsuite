@@ -11,226 +11,264 @@ which contain more details of the derivation of the maps.
 
 \section{Reference system}
 
-The accelerator (or beam line) is described as a sequence of beam elements placed along
-a reference orbit: the path of a particle with the nominal design momentum travelling
-through perfectly aligned, ideal magnets with no fringe fields (Fig.~\ref{fig:local-frame}).
-The reference orbit is made of straight segments and circular arcs and defines a local
-curvilinear right-handed system $(x, y, s)$, where $s$ is the tangent to the reference
-orbit, $x$ lies in the bending plane and $y$ is perpendicular to it.
+The accelerator and/or beam line to be studied is described as a sequence of beam elements
+placed sequentially along a reference orbit. The reference orbit is the path of a charged
+particle having the central design momentum of the accelerator through idealised magnets
+with no fringe fields (see Figure~\ref{fig:local-frame}).
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.60\textwidth]{figures/local_frame.png}
-  \caption{Local reference system along the reference orbit.}
+  \includegraphics[width=0.80\textwidth]{figures/local_frame.png}
+  \caption{Local Reference System}
   \label{fig:local-frame}
 \end{figure}
 
+The reference orbit consists of a series of straight line segments and circular arcs. It is defined
+under the assumption that all elements are perfectly aligned. The accompanying tripod of
+the reference orbit spans a local curvilinear right handed coordinate system $(x,y,s)$ The local
+$s$-axis is the tangent to the reference orbit. The two other axes are perpendicular to the
+reference orbit and are labelled $x$ (in the bend plane) and $y$ (perpendicular to the bend
+plane).
+
 \section{Closed orbit}
 
-Alignment errors, field imperfections and fringe fields make the closed orbit deviate
-from the reference orbit, and the deviation also depends on the momentum error. The
-closed orbit is described in the local system $(x, y, s)$ of the reference orbit, including
-nonlinear effects. Betatron and synchrotron oscillations are computed with respect to this
-closed orbit, and results are returned in the same local system.
+Due to various errors like misalignment errors, field errors, fringe fields etc., the closed orbit
+does not coincide with the reference orbit. The closed orbit also changes with the momentum
+error. The closed orbit is described with respect to the reference orbit, using the local reference
+system $( x, y, s )$. It is evaluated including any nonlinear effects.
+
+MAD-X also computes the betatron and synchrotron oscillations with respect to the closed
+orbit. Results are given in the local $( x, y, s )$-system defined by the reference orbit.
 
 \section{Global reference system}
 
-The sequence of physical elements uniquely defines a global Cartesian system $(X, Y, Z)$
-to which each local system $(x, y, s)$ is referred (Fig.~\ref{fig:global-frame}). At the
-interface between elements $i = 0,\ldots,n$, the origin and orientation of the local system
-with respect to $(X, Y, Z)$ are given by three displacements $(X_i, Y_i, Z_i)$ and three
-angles $(\theta_i, \phi_i, \psi_i)$:
+The global reference orbit of the accelerator is uniquely defined by the sequence of physical
+elements. The local reference system $( x, y, s )$ may thus be referred to a global Cartesian
+coordinate system $( X, Y, Z )$ (see Figure~\ref{fig:global-frame}).
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/global_frame.png}
+  \caption{Global Reference System showing the global Cartesian system $( X,Y,Z )$ in black
+           and the local reference system $( x, y, s )$ in red after translation $( X_i,Y_i,Z_i)$ and
+           rotation $(\theta_i,\phi_i,\psi_i)$. The projections of the local reference system axes onto
+           the horizontal $ZX$-plane of the Cartesian system are figured with blue dashed lines. The
+           intersections of planes $ys,xy$ and $xs$ of the local reference system with the horizontal
+           $ZX$-plane of the Cartesian system are figured in green dashed lines.}
+  \label{fig:global-frame}
+\end{figure}
+
+The positions between beam elements are indexed with $i=0,...n$. The local reference system
+$(x_i,y_i,s_i)$ at position $i$, i.e. the displacement and direction of the reference orbit with respect
+to the system $( X, Y, Z )$ are defined by three displacements $( X_i,Y_i,Z_i)$ and three angles
+$( \theta_i,\phi_i,\psi_i)$
+
+The above quantities are defined more precisely as follows:
+
 \begin{itemize}
-  \item $\theta$ is the azimuth about the global $Y$-axis between the global $Z$-axis and
-        the projection of the reference orbit onto the $ZX$-plane (right-hand screw about $Y$);
-  \item $\phi$ is the elevation between the reference orbit and its projection onto the
-        $ZX$-plane (positive for increasing $Y$);
-  \item $\psi$ is the roll about the local $s$-axis between the intersection of the $(x,y)$-plane
-        with the $ZX$-plane and the local $x$-axis (right-hand screw about $s$).
+  \item $X$ Displacement of the local origin in $X$-direction.
+  \item $Y$ Displacement of the local origin in $Y$-direction.
+  \item $Z$ Displacement of the local origin in $Z$-direction.
+  \item THETA $\theta$ is the angle of rotation (azimuth) about the global $Y$-axis, between the
+        global $Z$-axis and the projection of the reference orbit onto the $( Z,X)$-plane.
+        A positive angle THETA forms a right-hand screw with the $Y$-axis.
+  \item PHI $\phi$ is the elevation angle, i.e. the angle between the reference orbit and its pro-
+        jection onto the $( Z,X)$-plane. A positive angle PHI corresponds to increasing
+        $Y$.
+
+        If only horizontal bends are present, the reference orbit remains in the $( Z,
+        X)$-plane and PHI is always zero.
+  \item PSI $\psi$ is the roll angle about the local $s$-axis, i.e. the angle between the line defined
+        by the intersection of the $( x, y)$-plane and $( Z, X)$-plane on one hand, and the
+        local $x$-axis on the other hand. A positive angle PSI forms a right-hand screw
+        with the $s$-axis.
 \end{itemize}
-The reference orbit starts at the origin and, by default, points along $+Z$ so that
-$(X_0, Y_0, Z_0, \theta_0, \phi_0, \psi_0) = (0, 0, 0, 0, 0, 0)$ unless specified otherwise.
-Internally the displacement is stored in the vector $\mathbf{V}$ and the orientation in the
-rotation matrix $\mathbf{W}$ whose columns are the unit vectors of $(x, y, s)$:
+
+The angles $( \theta, \phi, \psi)$ are not the Euler angles. The reference orbit starts at the origin and
+points by default in the direction of the positive $Z$-axis. The initial local axes $( x,y,s)$ coincide
+with the global axes $( X,Y,Z)$ in this order. The initial values $( X_0,Y_0,Z_0,\theta_0,\phi_0,\psi_0)$ are
+therefore all zero unless the user specifies different initial conditions.
+
+Internally the displacement is described by a vector $\mathbf{V}$ and the orientation by a unitary matrix
+$\mathbf{W}$. The column vectors of $\mathbf{W}$ are the unit vectors spanning the local coordinate axes in the
+order $( x, y, s )$. $\mathbf{V}$ and $\mathbf{W}$ have the values:
 \begin{align}
-  \mathbf{V}_0 &=
+  \mathbf{V} &=
     \begin{bmatrix}
-      X_0 \\ Y_0 \\ Z_0
-    \end{bmatrix}, &
-  \mathbf{W}_0 &=
-    R_y(\theta_0)\,R_x(\phi_0)\,R_s(\psi_0),
+      X\\
+      Y\\
+      Z
+    \end{bmatrix},
+  &
+  \mathbf{W} &= \Theta \Phi \Psi
 \end{align}
-with the elementary rotations
+where
 \begin{align}
-  R_y(\theta) &=
+  \Theta &=
     \begin{bmatrix}
       \cos\theta & 0 & \sin\theta\\
       0 & 1 & 0\\
       -\sin\theta & 0 & \cos\theta
     \end{bmatrix}, &
-  R_x(\phi) &=
+  \Phi &=
     \begin{bmatrix}
       1 & 0 & 0\\
       0 & \cos\phi & \sin\phi\\
       0 & -\sin\phi & \cos\phi
     \end{bmatrix}, &
-  R_s(\psi) &=
+  \Psi &=
     \begin{bmatrix}
       \cos\psi & \sin\psi & 0\\
       -\sin\psi & \cos\psi & 0\\
       0 & 0 & 1
     \end{bmatrix}.
 \end{align}
-Advancing through element $i$ applies the element displacement $\mathbf{R}_i$ and rotation
-$\mathbf{S}_i$:
-\begin{align}
-  \mathbf{V}_i &= \mathbf{W}_{i-1}\,\mathbf{R}_i + \mathbf{V}_{i-1}, &
-  \mathbf{W}_i &= \mathbf{W}_{i-1}\,\mathbf{S}_i .
-\end{align}
-The reference orbit must be closed and untwisted: $\mathbf{V}$ must be periodic over one
-turn and the orientation angles must be periodic modulo $2\pi$ (a non-periodic $\psi$
-introduces coupling).
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.75\textwidth]{figures/global_frame.png}
-  \caption{Global Cartesian system $(X, Y, Z)$ and a translated/rotated local system
-           $(x, y, s)$ after $(X_i, Y_i, Z_i)$ and $(\theta_i, \phi_i, \psi_i)$.}
-  \label{fig:global-frame}
-\end{figure}
+The reference orbit should be closed, and it should not be twisted. This means that the
+displacement of the local reference system must be periodic with the revolution frequency of
+the accelerator, while the position angles must be periodic (modulo $2 \pi$) with the revolution
+frequency. If $\psi$ is not periodic (modulo $2 \pi$), coupling effects are introduced. When advancing
+through a beam element, MAD-X computes $V_i$ and $W_i$ by the recurrence relations
+\begin{align}
+  V_i &= W_{i-1} R_i+V_{i-1}, &
+  W_i &= W_{i-1} S_i
+\end{align}
+The vector $R_i$ is the displacement and the matrix $S_i$ is the rotation of the local reference
+system at the exit of the element $i$ with respect to the entrance of the same element. The
+values of $R_i$ and $S_i$ are listed below for different physical element types.
 
 \section{Local reference systems}
 
-The displacement $\mathbf{R}$ and rotation $\mathbf{S}$ depend on the element type.
-
 \subsection{Reference system for straight beam elements}
 
-For straight elements (drifts, quadrupoles, sextupoles, octupoles, solenoids, crab and RF
-cavities, electrostatic separators, correctors and BPMs) the local system is translated by
-the length $L$ along $s$ without rotation:
+In straight elements the local reference system is simply translated by the length of the element
+along the local $s$-axis. This is true for Drift spaces ,Quadrupoles ,Sextupoles ,Octupoles ,
+Solenoids ,Crab cavities ,RF cavities ,Electrostatic separators ,Closed orbit correctors and
+Beam position monitors .
+
+The corresponding $R, S$ are
 \begin{align}
-  \mathbf{R} &=
+  R &=
     \begin{bmatrix}
-      0 \\ 0 \\ L
-    \end{bmatrix}, &
-  \mathbf{S} &=
+      0\\
+      0\\
+      L
+    \end{bmatrix},
+  &
+  S &=
     \begin{bmatrix}
       1 & 0 & 0\\
       0 & 1 & 0\\
       0 & 0 & 1
     \end{bmatrix}.
 \end{align}
-A rotation about the $s$-axis does not change $\mathbf{R}$ or $\mathbf{S}$ because the
-rotation before and after the element cancel.
+A rotation of the element about the $s$-axis has no effect on $R$ and $S$, since the rotations of
+the reference system before and after the element cancel.
 
 \subsection{Reference system for bending magnets}
 
-Bending magnets have a curved reference orbit. For a bend angle $\alpha$ and bending
-radius $\rho$ (for rectangular bends $\rho = L / (2\sin(\alpha/2))$) the element displacement
-and rotation are
+Bending magnets have a curved reference orbit. For both rectangular and sector bending
+magnets, the $R$ and $S$ are expressed as function the bend angle $\alpha$:
 \begin{align}
-  \mathbf{R} &=
+  R &=
     \begin{bmatrix}
-      \rho(\cos\alpha - 1)\\
+      \rho(\cos \alpha-1)\\
       0\\
       \rho\sin\alpha
-    \end{bmatrix}, &
-  \mathbf{S} &=
+    \end{bmatrix},
+  &
+  S &=
     \begin{bmatrix}
       \cos\alpha & 0 & -\sin\alpha\\
       0 & 1 & 0\\
-      \sin\alpha & 0 & \cos\alpha
-    \end{bmatrix}.
+      \sin\alpha & 0 & \cos \alpha
+    \end{bmatrix}
 \end{align}
-A positive $\alpha$ bends the reference orbit to the right (toward negative $x$). If the
-magnet is rolled about the $s$-axis by an angle $\psi$, the transformation
+A positive bend angle represents a bend to the right, i.e. towards negative $x$ values. For
+sector bending magnets, the bend radius is given by $\rho$, and for rectangular bending magnets
+it has the value $\rho=L/(2 \sin( \alpha/2))$. If the magnet is rotated about the $s$-axis by an
+angle $\psi$, $R$ and $S$ are transformed by
 \begin{align}
-  \mathbf{R} &= T\,\mathbf{R}, &
-  \mathbf{S} &= T\,\mathbf{S}\,T^{-1}, &
+  R &= T R, &
+  S &= T S T^{-1}
+\end{align}
+where $T$ is the orthogonal rotation matrix
+\begin{align}
   T &=
     \begin{bmatrix}
-      \cos\psi & -\sin\psi & 0\\
-      \sin\psi & \phantom{-}\cos\psi & 0\\
+      \cos \psi & -\sin \psi & 0\\
+      \sin \psi & \cos \psi & 0\\
       0 & 0 & 1
     \end{bmatrix}
 \end{align}
-is applied. The special case $\psi=\pi/2$ represents a bend downward.
+The special value $\psi=\pi/2$ represents a bend down.
 
-\section{Magnetic field conventions}
+\section{Sign conventions for magnetic fields and generalisation}
 
-MAD-X uses the following Taylor expansion for the vertical field on the mid-plane $y=0$
-(note the factorial in the denominator):
+The MAD-X program uses the following Taylor expansion for the field on the mid-plane $y=0$,
+described in \cite{barber96} (Note the factorial in the denominator):
 \begin{align}
-  B_y(x,0) = \sum_{n=0}^\infty \frac{B_n}{n!}\,x^n .
+  B_y(x,0) = \sum_{n=0}^\infty \frac{B_n}{n!} x^{n}
 \end{align}
-The coefficients have the meanings:
+The field coefficients have the following meaning:
 \begin{itemize}
-  \item $B_0$ dipole field (positive along $+y$; positive $B_0$ bends a positively charged
-        particle to the right);
-  \item $B_1$ quadrupole coefficient $B_1 = \partial B_y/\partial x$ (positive gives horizontal
-        focusing for a positive particle);
-  \item $B_2$ sextupole coefficient $B_2 = \partial^2 B_y/\partial x^2$;
-  \item $B_3$ octupole coefficient $B_3 = \partial^3 B_y/\partial x^3$; etc.
+  \item $B_0$ Dipole field, with a positive value in the positive $y$ direction; a positive field
+        bends a positively charged particle to the right.
+  \item $B_1$ Quadrupole coefficient $B_1=\left(\partial B_y / \partial x\right)$; a positive value
+        corresponds to horizontal focussing of a positively charged particle.
+  \item $B_2$ Sextupole coefficient $B_2=\left(\partial^{2} B_y / \partial x^{2}\right)$.
+  \item $B_3$ Octupole coefficient $B_3=\left(\partial^{3} B_y / \partial x^{3}\right)$.
+  \item ... etc.
 \end{itemize}
-With curvature $h$ of the reference orbit, the longitudinal component of the vector potential
-up to fourth order is
+Using this expansion and the curvature $h$ of the reference orbit, the longitudinal component
+of the vector potential to order 4 is:
 \begin{align}
-  A_s =\;&
-    B_0\left(\frac{x - \tfrac{h x^2}{2}}{1 + h x}\right)
-  + B_1\left(
-      \frac{x^2 - y^2}{2}
-      - \frac{h}{6}x^3
-      + \frac{h^2}{24}(4 x^4 - y^4)
-      + \ldots
-    \right) \notag\\
-  &+ B_2\left(
-      \frac{x^3 - 3 x y^2}{6}
-      - \frac{h}{24}(x^4 - y^4)
-      + \ldots
-    \right)
-  + B_3\left(
-      \frac{x^4 - 6 x^2 y^2 + y^4}{24}
-      + \ldots
-    \right)
-  + \ldots
-\end{align}
-Using $\vec B = \nabla\times\vec A$ in curvilinear coordinates, the field components are
-\begin{align}
-  B_x(x,y) &=\;
-      B_1\left(y + \frac{h^2}{6}y^3 + \ldots\right)
-    + B_2\left(x y - \frac{h}{6}y^3 + \ldots\right)
-    + B_3\left(\frac{3 x^2 y - y^3}{6} + \ldots\right)
-    + \ldots \\
-  B_y(x,y) &=\;
-      B_0
-    + B_1\left(x - \frac{h}{2}y^2 + \frac{h^2}{2} x y^2 + \ldots\right)
-    + B_2\left(\frac{x^2 - y^2}{2} - \frac{h}{2} x y^2 + \ldots\right) \notag\\
-    &\quad
-    + B_3\left(\frac{x^3 - 3 x y^2}{6} + \ldots\right)
-    + \ldots
-\end{align}
-Up to the $B_3$ term, both $\nabla\times\vec B$ and $\nabla\cdot\vec B$ vanish. Introducing
-the magnetic rigidity $B\rho = p_s/q$ (momentum over charge), the multipole coefficients are
-\begin{align}
-  K_n = \frac{q B_n}{p_s} = \frac{B_n}{B\rho}.
+  A_s= & B_0\left(\frac{x-h x^{2}}{2(1+h x)}\right)
+  +B_1\left(\frac{1}{2}\left(x^{2}-y^{2}\right)-\frac{h}{6} x^{3}+\frac{h^{2}}{24}\left(4 x^{4}-y^{4}\right)+\cdots\right) \notag\\
+  &+B_2\left(\frac{1}{6}\left(x^{3}-3 x y^{2}\right)-\frac{h}{24}\left(x^{4}-y^{4}\right)+\cdots\right)
+  +B_3\left(\frac{1}{24}\left(x^{4}-6 x^{2} y^{2}+y^{4}\right) \cdots\right)
+  +\cdots
 \end{align}
 
-Using the complex representation of position $(x+iy)$ and field, a general expansion is
+Taking $\vec{B}=\nabla \times \vec{A}$ in curvilinear coordinates, the field components can be computed as
 \begin{align}
-  B_y + i B_x = \sum_{n=0}^\infty \frac{(b_n + i a_n)}{n!}\,(x + i y)^n .
+  B_x(x, y)=\;& B_1\left(y+\frac{h^{2}}{6} y^{3}+\cdots\right)
+  +B_2\left(x y-\frac{h}{6} y^{3}+\cdots\right)
+  +B_3\left(\frac{1}{6}\left(3 x^{2} y-y^{3}\right)+\cdots\right)
+  +\cdots \\
+  B_y(x, y)=\;& B_0
+  +B_1\left(x-\frac{h}{2} y^{2}+\frac{h^{2}}{2} x y^{2}+\cdots\right)
+  +B_2\left(\frac{1}{2}\left(x^{2}-y^{2}\right)-\frac{h}{2} x y^{2}+\cdots\right) \notag\\
+  &+B_3\left(\frac{1}{6}\left(x^{3}-3 x y^{2}\right)+\cdots\right)
+  +\cdots
 \end{align}
-Define the normal and skew multipole coefficients at order $n$ as
+It can be easily verified that both $\nabla \times \vec{B}$ and $\nabla \cdot \vec{B}$ are zero to the order of the $B_3$
+term. Introducing the magnetic rigidity $B \rho=p_s / q$ as the momentum of the particle divided by its
+charge, the multipole coefficients are computed as
 \begin{align}
-  K_n^N &= \frac{q\,b_n}{p_s} = \frac{b_n}{B\rho}, &
-  K_n^S &= \frac{q\,a_n}{p_s} = \frac{a_n}{B\rho},
+  K_n=q B_n / p_s=B_n / B \rho
 \end{align}
-so that the kicks in each plane are
+
+The previous section assumed an expansion at the mid-plane ($y=0$), symmetry around the
+mid-plane and considered only the vertical component of the field.
+
+An extension using complex notation for the position $(x+i y)$ and the field is given as
 \begin{align}
-  \Delta P_x - i\,\Delta P_y =
-    - \sum_{n=0}^\infty \frac{K_n^N + i K_n^S}{n!}\,(x + i y)^n .
+  B_y+i B_x=\sum_{n=0}^{\infty} \frac{(b_n+i a_n)}{n !}(x+i y)^{n}
 \end{align}
-Remark: references to the $(a_n, b_n)$ field conventions in magnet specifications should
-be added when available.
+By introducing the normal and skew multipole coefficients $K_n^N$ and $K_n^S$ at order $n$ as
+\begin{align}
+  K_n^N=q b_n / p_s=b_n / B \rho
+\end{align}
+and
+\begin{align}
+  K_n^S=q a_n / p_s=a_n / B \rho
+\end{align}
+the kicks received in each plane can be expressed as the summation over all components
+\begin{align}
+  \Delta P_x-i \Delta P_y=-\sum_{n=0}^{\infty} \frac{\left(K_n^N+i K_n^S\right)(x+i y)^{n}}{n !}
+\end{align}
+Remark: need to add references to the $(a_n,b_n)$ field conventions in the magnet world.
 
 
 \section{Notation and reference frame}
