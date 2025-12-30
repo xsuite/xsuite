@@ -183,6 +183,25 @@ where $T$ is the orthogonal rotation matrix
 \end{align}
 The special value $\psi=\pi/2$ represents a bend down.
 
+\section{Reference particle}
+
+We introduce a reference particle with rest mass $m_0$, charge $q_0$, total energy $E_0$,
+momentum $P_0$, and relativistic factors $\beta_0,\gamma_0$. These quantities satisfy
+\begin{align}
+  E_0^2 &= (P_0 c)^2 + (m_0 c^2)^2, \\
+  E_0 &=  m_0 \gamma_0 c^2, \\
+  P_0 &= m_0 \beta_0 \gamma_0 c, \\
+  \beta_0 &= \frac{P_0 c}{E_0} = \sqrt{1-\frac{1}{\gamma_0^2}}, \\
+  \gamma_0 &= \frac{1}{\sqrt{1-\beta_0^2}} .
+\end{align}
+The reference particle will be used to normalize momentum and energy variables as
+well as electromagnetic fields and potentials.
+The corresponding reference beam rigidity is
+\begin{align}
+  \mathrm{rig}_0 = \frac{P_0}{q_0},
+\end{align}
+which is the momentum per unit charge used to express magnetic fields and multipole strengths.
+
 \section{Sign conventions for magnetic fields and generalisation}
 
 The MAD-X program uses the following Taylor expansion for the field on the mid-plane $y=0$,
