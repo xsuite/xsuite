@@ -201,80 +201,32 @@ The reference particle will be used to normalize momentum and energy variables a
 well as electromagnetic fields and potentials.
 For this purpose we introduce the corresponding reference beam rigidity as
 \begin{align}
+  \label{eq:brigidity}
   \mathrm{rig}_0 = \frac{P_0}{q_0},
 \end{align}
 which is the momentum per unit charge used, for example, to normalize multipole strengths.
 
-\section{Sign conventions for magnetic fields and generalisation}
+\section{Convention for multipole expansion of magnetic fields}
 
 This section is adapted from \cite{madsite}.
 ~\\
 
-The MAD-X program uses the following Taylor expansion for the field on the mid-plane $y=0$,
-described in \cite{barber96} (Note the factorial in the denominator):
+Xsuite, like MAD, uses the following Taylor expansion for the magnetic field components.
+Using a complex notation for the field $(B_y+i B_x)$ and the position $(x+i y)$ we write:
+
 \begin{align}
-  B_y(x,0) = \sum_{n=0}^\infty \frac{B_n}{n!} x^{n}
-\end{align}
-The field coefficients have the following meaning:
-\begin{itemize}
-  \item $B_0$ Dipole field, with a positive value in the positive $y$ direction; a positive field
-        bends a positively charged particle to the right.
-  \item $B_1$ Quadrupole coefficient $B_1=\left(\partial B_y / \partial x\right)$; a positive value
-        corresponds to horizontal focussing of a positively charged particle.
-  \item $B_2$ Sextupole coefficient $B_2=\left(\partial^{2} B_y / \partial x^{2}\right)$.
-  \item $B_3$ Octupole coefficient $B_3=\left(\partial^{3} B_y / \partial x^{3}\right)$.
-  \item ... etc.
-\end{itemize}
-Using this expansion and the curvature $h$ of the reference orbit, the longitudinal component
-of the vector potential to order 4 is:
-\begin{align}
-  A_s= & B_0\left(\frac{x-h x^{2}}{2(1+h x)}\right)
-  +B_1\left(\frac{1}{2}\left(x^{2}-y^{2}\right)-\frac{h}{6} x^{3}+\frac{h^{2}}{24}\left(4 x^{4}-y^{4}\right)+\cdots\right) \notag\\
-  &+B_2\left(\frac{1}{6}\left(x^{3}-3 x y^{2}\right)-\frac{h}{24}\left(x^{4}-y^{4}\right)+\cdots\right)
-  +B_3\left(\frac{1}{24}\left(x^{4}-6 x^{2} y^{2}+y^{4}\right) \cdots\right)
-  +\cdots
+  B_y+i B_x=\sum_{n=0}^{\infty} \frac{(B_n+i A_n)}{n !}(x+i y)^{n}
 \end{align}
 
-Taking $\vec{B}=\nabla \times \vec{A}$ in curvilinear coordinates, the field components can be computed as
+We define the normal multipole coefficients $K_n$ and the skew multipole coefficients $
+\hat{K}_n$ using the reference beam rigidity from Eq.~\eqref{eq:brigidity}:
 \begin{align}
-  B_x(x, y)=\;& B_1\left(y+\frac{h^{2}}{6} y^{3}+\cdots\right)
-  +B_2\left(x y-\frac{h}{6} y^{3}+\cdots\right)
-  +B_3\left(\frac{1}{6}\left(3 x^{2} y-y^{3}\right)+\cdots\right)
-  +\cdots \\
-  B_y(x, y)=\;& B_0
-  +B_1\left(x-\frac{h}{2} y^{2}+\frac{h^{2}}{2} x y^{2}+\cdots\right)
-  +B_2\left(\frac{1}{2}\left(x^{2}-y^{2}\right)-\frac{h}{2} x y^{2}+\cdots\right) \notag\\
-  &+B_3\left(\frac{1}{6}\left(x^{3}-3 x y^{2}\right)+\cdots\right)
-  +\cdots
-\end{align}
-It can be easily verified that both $\nabla \times \vec{B}$ and $\nabla \cdot \vec{B}$ are zero to the order of the $B_3$
-term. Introducing the magnetic rigidity $B \rho=p_s / q$ as the momentum of the particle divided by its
-charge, the multipole coefficients are computed as
-\begin{align}
-  K_n=q B_n / p_s=B_n / B \rho
-\end{align}
-
-The previous section assumed an expansion at the mid-plane ($y=0$), symmetry around the
-mid-plane and considered only the vertical component of the field.
-
-An extension using complex notation for the position $(x+i y)$ and the field is given as
-\begin{align}
-  B_y+i B_x=\sum_{n=0}^{\infty} \frac{(b_n+i a_n)}{n !}(x+i y)^{n}
-\end{align}
-By introducing the normal and skew multipole coefficients $K_n^N$ and $K_n^S$ at order $n$ as
-\begin{align}
-  K_n^N=q b_n / p_s=b_n / B \rho
+  K_n=\frac{B_n}{\mathrm{rig}_0}
 \end{align}
 and
 \begin{align}
-  K_n^S=q a_n / p_s=a_n / B \rho
+  \hat{K}_n=\frac{A_n}{\mathrm{rig}_0}
 \end{align}
-the kicks received in each plane can be expressed as the summation over all components
-\begin{align}
-  \Delta P_x-i \Delta P_y=-\sum_{n=0}^{\infty} \frac{\left(K_n^N+i K_n^S\right)(x+i y)^{n}}{n !}
-\end{align}
-Remark: need to add references to the $(a_n,b_n)$ field conventions in the magnet world.
-
 
 \section{Notation and reference frame}
 
@@ -533,27 +485,27 @@ Br  & k0, l        & Rectangular bend &
 $H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{...} -b_1 x$
 \\
 B   & k0, l, h     & Exact Bend & 
-$H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...} -k_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) $\\
+$H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) $\\
 Kh  & h, l            & Thin curvature kick & 
 $H_{Kh} = -hx$\\
 K0h & k0,l          & Weak focusing & 
-$H_{K0h} = k_0 h \frac{x^2}{2}$\\
+$H_{K0h} = K_0 h \frac{x^2}{2}$\\
 K0  & k0, l           & Dipole kick & 
-$H_{K0} = k_0 x$\\
+$H_{K0} = K_0 x$\\
 K1  & k1, l       & Quadrupole kick & 
-$H_{K1} = k_1\frac{x^2 - y^2}{2}$\\
+$H_{K1} = K_1\frac{x^2 - y^2}{2}$\\
 K1h & k1, h, l      & Quad correction & 
-$H_{K1h} = k_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
+$H_{K1h} = K_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
 Kn  & kn, ks, l     & Multipole & 
-$H_{Kn} = -\Re\left( \sum_{n=0}^N (k_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
+$H_{Kn} = -\Re\left( \sum_{n=0}^N (K_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
 \\
 % Knh & kn, ks, h  & Curved Multipoles & 
 % Not yet available\\
 M   & k0, k1, l, h & 2nd order Hamiltonian & 
-$H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (k_0 -h)x + \frac{k_0hx^2}{2} + k_1 \frac{x^2-y^2}{2} $
+$H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (K_0 -h)x + \frac{K_0hx^2}{2} + K_1 \frac{x^2-y^2}{2} $
 \\
 S   & ksol, l          & Solenoid & 
-$H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{k_s}{2} y\right)^2 - \left(p_y+\frac{k_s}{2}\right)^2}$
+$H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{K_s}{2} y\right)^2 - \left(p_y+\frac{K_s}{2}\right)^2}$
 \\
 \bottomrule
 \end{tabular}
@@ -757,18 +709,18 @@ Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.ht
 
 The generating Hamiltonian is:
 \begin{equation}
-H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -k_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right)
+H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right)
 \end{equation}
 
 The corresponding map is adapted from \cite{forest99}:
 \begin{align}
-x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
-p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
-y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+x(s) &= \frac{1}{hK_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - K_0 \chi \right) \\
+p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - K_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
+y(s) &= y + \frac{p_y s h}{K_0 \chi} + \frac{p_y}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
 p_y(s) &= p_y \\
 \delta(s) &= \delta \\
 \ell(s) &= \ell +
-  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+  \frac{(1 + \delta) s h}{K_0 \chi} + \frac{(1 + \delta)}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
 \end{align}
 
 \subsection{Straight exact bend}
@@ -780,19 +732,19 @@ for specific configurations.
 
 The generating Hamiltonian is:
 \begin{equation}
-H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 x
+H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - K_0 x
 \end{equation}
 
 The corresponding map is adapted from \cite{forest99}:
 \begin{align}
-x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
+x(L) &= x + \frac{1}{K_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
 \label{eq:straight_bend_x}\\
-p_x(L) &= p_x - k_0 \chi L \label{eq:straight_bend_px}\\
-y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_x(L) &= p_x - K_0 \chi L \label{eq:straight_bend_px}\\
+y(L) &= y + \frac{p_y}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
 p_y(L) &= p_y \\
 \delta(L) &= \delta \\
 \ell(L) &= \ell +
-\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\frac{1 + \delta}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
 \label{eq:straight_bend_ell}
 \end{align}
 
@@ -886,7 +838,7 @@ This map is ported from MAD-X source code.
 
 The following map is generated by the Hamiltonian:
 \begin{equation}
-  H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (k_0 -h)x + \frac{k_0hx^2}{2} + k_1 \frac{x^2-y^2}{2} 
+  H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (K_0 -h)x + \frac{K_0hx^2}{2} + K_1 \frac{x^2-y^2}{2} 
 \end{equation}
 
 We consider a particle with initial canonical coordinates
@@ -894,7 +846,7 @@ We consider a particle with initial canonical coordinates
 (x,\, p_x,\, y,\, p_y,\, \zeta),
 \]
 relative momentum deviation $\delta$, velocity factor $\mathrm{rvv}=v/c$, and charge/sign factor $\chi$.
-The element has length $L$, curvature $h$, and (input) strengths $k_0$ and $k_1$.
+The element has length $L$, curvature $h$, and (input) strengths $K_0$ and $K_1$.
 
 \subsubsection*{Definitions}
 
@@ -907,8 +859,8 @@ y' = \frac{p_y}{\delta_+}.
 
 We introduce the momentum-scaled (effective) strengths
 \begin{align}
-\bar{k}_0 &= \frac{\chi\, k_0}{\delta_+}, \qquad
-\bar{k}_1 = \frac{\chi\, k_1}{\delta_+},
+\bar{k}_0 &= \frac{\chi\, K_0}{\delta_+}, \qquad
+\bar{k}_1 = \frac{\chi\, K_1}{\delta_+},
 \end{align}
 and the corresponding focusing coefficients
 \begin{align}
@@ -1046,7 +998,7 @@ horizontal plane a uniform magnetic field can be derived by the vector potential
   - B_y \left(x-\frac{h x^2}{2 (1+h x)}\right).
 \end{align}
 
-With the following normalization $k_0=\frac{q_0}{p} B_y$ is the inverse of the bending 
+With the following normalization $K_0=\frac{q_0}{p} B_y$ is the inverse of the bending 
 radius of the reference particle.
 
 The exact and expanded Hamiltonian for a horizontal bending magnet is (eq. 2.12 in
@@ -1054,18 +1006,18 @@ The exact and expanded Hamiltonian for a horizontal bending magnet is (eq. 2.12 
 \begin{align}
   H &= \frac{p_\tau}{\beta_0} 
        - (1+h x)\sqrt{(1+\delta)^2 -p_x^2 - p_y^2}
-       + \chi k_0 \left( x + \frac{h x^2}{2} \right)  \\
+       + \chi K_0 \left( x + \frac{h x^2}{2} \right)  \\
     &\simeq   \frac{p_\tau}{\beta_0}
     + \frac{1}{2}\frac{p_x^2+p_y^2}{1+\delta}
-  - (1+h x) (1+\delta) + \chi k_0 \left( x + \frac{h x^2}{2} \right)
+  - (1+h x) (1+\delta) + \chi K_0 \left( x + \frac{h x^2}{2} \right)
 \end{align}
 
 
 The map for a thin dipole kick (horizontal or vertical) from the expanded Hamiltonian is 
 (eq. 4.12 in \cite{heinemann95}):
 \begin{align}
-  p_x &\leftarrow p_x + (h_x l - \chi k_0 l)  + h_x l \delta - \chi k_0 l h_x x \\
-  p_y &\leftarrow p_y - (h_y l - \chi \hat k_0 l) - h_y l \delta - \chi \hat k_0 l h_y y\\
+  p_x &\leftarrow p_x + (h_x l - \chi K_0 l)  + h_x l \delta - \chi K_0 l h_x x \\
+  p_y &\leftarrow p_y - (h_y l - \chi \hat K_0 l) - h_y l \delta - \chi \hat K_0 l h_y y\\
   \tau &\leftarrow \tau - \frac{h_xx - h_yy}{\beta}  l.
 \end{align}
 
