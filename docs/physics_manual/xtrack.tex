@@ -344,186 +344,11 @@ where:
 \end{align}
 in which $\dot x$ and $\dot y$ are the time derivatives of $x$ and $y$.
 
-\section{Notation and reference frame}
+\section{Hamiltionan and equations of motion}
 
-The speed, momentum, energy, rest mass, charge of a particle are indicated
-by $v$, $P$, $E$, $m0$ and $q$, respectively.  These quantities are
-related by the following equations:
+The motion of a particle is described by one of the following Hamiltonian functions,
+depending on the choice of longitudinal coordinates:
 \begin{align}
-  v&=\beta c &
-  E^2-P^2c^2&=m^2c^4 &
-  E & = \gamma mc^2 &
-  Pc & =\beta E
-\end{align}
-where $\beta$ and $\gamma$ are the relativistic factors.
-
-We use a curvilinear reference frame in which the position of a particle can be written as:
-\begin{align}
-  \vec Q(t)= \vec r(s) + x \,\hat x(s) + y\, \hat y(s),
-\end{align}
-and therefore identified by the coordinates $s, x, y, t$ in the reference frame
-defined by $\hat x(s)$ and $\hat y(s)$. In particle tracking, $s$ is normally
-used as independent parameter and $t$ as a coordinate.
-
-We call $h$ the local curvature of the reference trajectory in the horizontal plane ($x$),
-which is assumed to piece-wise constant.
-
-
-In this reference frame the canonical momenta are:
-\begin{align}
-  P_x&=m \gamma \dot x + q A_x, &
-  P_y&=m \gamma \dot y + q A_y, &
-  P_s&=m \gamma \dot s (1 + h x)^2 + q (1 + h x) A_s.
-\end{align}
-and the energy of a particle is:
-\begin{align}
-E=q\phi + c \sqrt{(mc)^2
-              +\frac{(P_s- q A_s(1+hx))^2}{(1+hx)^2}
-              +(P_x-q A_x)^2 + (P_y-q A_y)^2}.
-\end{align}
-
-
-
-
-
-
-
-\section{Hamiltonian and particle coordinates}
-
-If $s(t)$ is monotonically increasing, it is possible to derive the equations
-of motion using $s$ as the independent parameter, $(-t, E)$ as conjugate coordinates and $-P_s$ as Hamiltonian.
-
-\begin{align}
-  P_s&= (1+h x) \left( 
-       \sqrt{ \frac{(E-q\phi)^2}{c^2} - (mc)^2
-           - (P_x - q A_x)^2
-           - (P_y - q A_y)^2}
-       +q A_s
-    \right)
-\end{align}
-
-Since in accelerators the trajectory of the 
-particles are often a perturbation of a reference trajectory, we introduce
-a reference rest mass $m_0$, a reference charge $q_0$, and a refernce momentum
-$P_0$ (and the corresponding reference energy $E_0$ and relativistic factors
-$\beta_0$ and $\gamma_0$).
-
-To describe the motion of a generic particle, we introduce the following normalized
-quantities
-\begin{align}
-\mathbf{p}(x,y) &=
-  \frac{m_0}{m}\frac{\mathbf{P}(x,y)}{P_0}   &
-\chi &=
-  \frac{q}{q_0}\frac{m_0}{m} &
-a(x,y,s) &=
-  \frac{q_0}{P_0}  A(x,y,s)
-\end{align}
-Note that here $m$ is used to indicate the rest mass of particles of species
-different from the reference particle (which has mass $m_0$) and not the relativistic mass.
-
-We rescale also the the energy and charge density
-\begin{align}
-  e(x,y,s) &=
-  \frac{m_0}{m}\frac{E(x,y,s)}{P_0}   &
-  \varphi(x,y,s) &=
-  \frac{q_0}{P_0c}\phi(x,y,s) \,,
-\end{align}
-Since all canonical momenta scale with the same factor, we can define a new Hamiltonian
-$\tilde{H}$ that still satisfies the same equations of motion:
-\begin{align}\notag
-  &\tilde{H}(x,y,-t, p_x, p_y, e) =
-      \frac{m_0}{m}\frac{1}{P_0}H(x,y,-t, P_x, P_y, E) \\
-  &\tilde{H}=
-    - (1+h x) \left(
-      \sqrt{ 
-          \left(\frac{e}{c} - \chi\varphi\right)^2
-            - \frac{1}{\beta_0^2\gamma_0^2}
-           - (p_x - \chi a_x)^2
-           - (p_y - \chi a_y)^2}
-       + \chi a_s
-    \right)
-\end{align}
-
-\subsection{Longitudinal coordinates}
-
-Different sets of longitudinal coordinates can be used:
-\begin{align}
-\xi &= s \frac{\beta}{\beta_0} - \beta c t &
-\tau &= \frac{s}{\beta_0} - ct &
-\zeta &= s - \beta_0 ct \label{eq:coord1}&
-\delta &=
-  \frac{P \frac{m_0}{m} -P_0}{P_0} \\
-\delta &=
-  \frac{P \frac{m_0}{m} -P_0}{P_0} &
-p_\tau &=
-  \frac{1}{\beta_0} \frac{E \frac{m_0}{m} -E_0}{E_0} &
-p_\zeta &=
-  \frac{1}{\beta_0^2}\frac{E \frac{m_0}{m} -E_0}{E_0}&
-\ell &= \beta c t
-  \label{eq:coord2}
-\end{align}
-where variables in the same columns are canonically conjugate.
-
-%As the position of the reference particle is given by
-%$s=\beta_0ct_0$ we see that $\tau$ is the time advance of the tracked %particle w.r.t.\ 
-%the reference particle:
-%\begin{equation}
-%  \tau = c\left(t_0-t\right) = c\Delta t
-%\end{equation}
-%This is the coordinate used by MAD-X. In Xsuite the pair $(\zeta, \delta)$ is used; note that
-%these are not canonical as the canonical conjugates are the pairs $(\xi, \delta)$, $(\tau, p_\tau)$,
-%and  $(\zeta, p_\zeta)$.
-
-The different longitudinal variables can be easily related to each other:
-\begin{align}
-  &\xi= s \frac{\beta}{\beta_0} - \ell = 
-      \beta\tau =
-      \frac{\beta}{\beta_0}\zeta \\
-  &p_\tau = \beta_0 p_\zeta\\
-  &\delta= \sqrt{p_\tau^2 + 2 \frac{p_\tau}{\beta_0} +1} - 1
-       =\beta p_\tau + \frac{\beta-\beta_0}{\beta_0}\\
-  &\delta= \sqrt{\beta_0^2p_\zeta^2 + 2 p_\zeta +1} - 1
-      =\beta\beta_0 p_\zeta + \frac{\beta-\beta_0}{\beta_0}\\
-  &\gamma = \gamma_0 (1 + \beta_0 p_\tau)\\
-  &\beta = \sqrt{1 - \frac{1 - \beta_0}{\left(1 + \beta_0 p_\tau\right)^2}}
-\end{align}
-
-For small energy deviations ($\delta \ll 1$, $p_\tau \ll 1$, $p_\zeta \ll 1$),
-we can neglect the terms of order $\delta^2$, $p_\tau^2$, $p_\zeta^2$ and higher, hence
-the following approximations hold:
-\begin{align}
-  &\delta \simeq \frac{p_\tau}{\beta_0} \\
-  &\delta \simeq p_\zeta \\
-  &\beta \simeq \beta_0 + (1 - \beta_0^2) p_\tau
-\end{align}
-
-\subsection{Hamiltonian with different coordinate choices}
-
-The conjugate pairs can be generated by the following generating functions \footnote{
-$F_2(-t , p_{\rm new}, s)$,\,
-$e = \frac{\partial F_2}{\partial (-t)}$, \,
-$q_{\rm new} = \frac{\partial F_2}{\partial p_{\rm new}}$,\,
-$H_{\rm new} = H + \frac{\partial F_2}{\partial s}$
-}
-
-\begin{align}
-F_2& = x p_x + y p_y + \left(\frac{s}{\beta_0}-ct\right)
-                            \frac{1+\delta}{\beta} \\
-F_2& = x p_x + y p_y + \left(\frac{s}{\beta_0}-ct\right)
-                            \left(p_\tau + \frac{1}{\beta_0}\right) \\
-F_2& = x p_x + y p_y + \left(\frac{s}{\beta_0}-ct\right)
-                            \left(\beta_0 p_\zeta + \frac{1}{\beta_0}\right)
-\end{align}
-
-The Hamiltonians are then:
-
-% \begin{align}
-%  H_\delta   &= \frac{1+\delta}{\beta\beta_0} - \frac{m_0}{m}\frac{P_s}{P_0} &
-%  H_\tau   &= \frac{p_\tau}{\beta_0} - \frac{m_0}{m}\frac{P_s}{P_0} &
-%  H_\zeta &= p_\zeta - \frac{m_0}{m}\frac{P_s}{P_0}
-% \end{align}
-
-\begin{align*}
  H_\delta   &= \frac{1+\delta}{\beta\beta_0} - (1+h x) \left(
       \sqrt{ \left(\frac{1+\delta}{\beta}-\chi\varphi\right)^2
            - \frac{1}{\beta_0^2\gamma_0^2} 
@@ -545,18 +370,28 @@ The Hamiltonians are then:
            - (p_y - \chi a_y)^2}
        + \chi a_s
     \right)
-\end{align*}
-
-The following identities are useful to derive the equations of motion:
-
-\begin{align}
-&\frac{\partial \delta}{\partial p_\tau} =
-    \frac{p_\tau+1/\beta_0}{1+\delta} = \frac{1}{\beta} \\
-&\frac{\partial}{\partial\delta}\left( 
-    \frac{1+\delta}{\beta\beta_0}
-  \right)=
-    \frac{\beta}{\beta_0}
 \end{align}
+
+Using $\tau$ and $p_\tau$ as longitudinal coordinates, the equations of motion are:
+\begin{align}
+  \frac{\text{d} p_x}{\text{d}s} &=
+    -\frac{\partial H_\tau}{\partial x} \\
+  \frac{\text{d} p_y}{\text{d}s} &=
+    -\frac{\partial H_\tau}{\partial y} \\
+  \frac{\text{d} p_\tau}{\text{d}s} &=
+    -\frac{\partial H_\tau}{\partial \tau} \\
+  \frac{\text{d} x}{\text{d}s} &=
+    \frac{\partial H_\tau}{\partial p_x} \\
+  \frac{\text{d} y}{\text{d}s} &=
+    \frac{\partial H_\tau}{\partial p_y} \\
+  \frac{\text{d} \tau}{\text{d}s} &=
+    \frac{\partial H_\tau}{\partial p_\tau}
+\end{align}
+
+The full derivation of the Hamiltonian and equations of motion can be found in
+Wolski~\cite{wolski2014beam} (note the different notation, as the symbolo $\delta$
+in~\cite{wolski2014beam} denotes the quantity that here we call $p_\tau$).
+
 
 \section{Symplectic integrators and magnet models}
 
