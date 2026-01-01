@@ -402,10 +402,10 @@ and no skew components, the body Hamiltonian
 can be expanded as $H_\tau = H_1 + H_2 + H_3 + H_4$, with:
 \begin{align}
   H_1 &= (K_0 - h) x ,\\
-  H_2 &= \frac{1}{2}(K_1 + h K_0) x^2 - \frac{1}{2} K_1 y^2 + \frac{1}{2} \left( p_x^2 + p_y^2 + \frac{p_t^2}{\beta_0^2 \gamma_0^2} \right) ,\\
-  H_3 &= \frac{1}{6}(K_2 + 2 h K_1) x^3 - \frac{1}{2}(K_2 + h K_1) x y^2 + \frac{1}{2} \left( h x - \frac{p_t}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_t^2}{\beta_0^2 \gamma_0^2} \right) ,\\
+  H_2 &= \frac{1}{2}(K_1 + h K_0) x^2 - \frac{1}{2} K_1 y^2 + \frac{1}{2} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
+  H_3 &= \frac{1}{6}(K_2 + 2 h K_1) x^3 - \frac{1}{2}(K_2 + h K_1) x y^2 + \frac{1}{2} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
   H_4 &= \frac{1}{24}(K_3 + 3 h K_2) x^4 - \frac{1}{4}(K_3 + 2 h K_2) x^2 y^2 + \frac{1}{24}(K_3 + h K_2 - h^2 K_1) y^4 \\
-      &\quad - \frac{p_t}{2 \beta_0} \left( h x - \frac{p_t}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_t^2}{\beta_0^2 \gamma_0^2} \right) + \frac{1}{8} \left( p_x^2 + p_y^2 + \frac{p_t^2}{\beta_0^2 \gamma_0^2} \right)^2 .
+      &\quad - \frac{p_\tau}{2 \beta_0} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) + \frac{1}{8} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right)^2 .
 \end{align}
 
 
@@ -1812,7 +1812,7 @@ y \leftarrow \frac{y}{\kappa \cos\phi}, \quad p_y \leftarrow p_y \cos\phi + p_z 
 \]
 
 \[
-x \leftarrow x + \frac{y p_x \tan\phi}{\kappa p_z}, \quad \zeta \leftarrow \zeta - \frac{y \tan\phi \left(1 + \beta_0 p_t \right)}{\kappa p_z}.
+x \leftarrow x + \frac{y p_x \tan\phi}{\kappa p_z}, \quad \zeta \leftarrow \zeta - \frac{y \tan\phi \left(1 + \beta_0 p_\tau \right)}{\kappa p_z}.
 \]
 
 \subsubsection{Y Rotation}\label{sec:Yrotation}
@@ -1834,7 +1834,7 @@ p_x \leftarrow p_x \cos\theta - p_z \sin\theta,
 \[
 y \leftarrow y - \frac{x\,p_y\,\tan\theta}{\kappa\,p_z}, 
 \quad 
-\zeta \leftarrow \zeta + \frac{x\,\tan\theta\,(1 + \beta_0 p_t)}{\kappa\,p_z}.
+\zeta \leftarrow \zeta + \frac{x\,\tan\theta\,(1 + \beta_0 p_\tau)}{\kappa\,p_z}.
 \]
 
 \subsubsection{S Rotation}
