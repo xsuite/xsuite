@@ -813,18 +813,18 @@ y' = \frac{p_y}{\delta_+}.
 
 We introduce the momentum-scaled (effective) strengths
 \begin{align}
-\bar{k}_0 &= \frac{\chi\, K_0}{\delta_+}, \qquad
-\bar{k}_1 = \frac{\chi\, K_1}{\delta_+},
+\bar{K}_0 &= \frac{\chi\, K_0}{\delta_+}, \qquad
+\bar{K}_1 = \frac{\chi\, K_1}{\delta_+},
 \end{align}
 and the corresponding focusing coefficients
 \begin{align}
-K_x &= \bar{k}_0\, h + \bar{k}_1, \\
-K_y &= -\bar{k}_1 .
+K_x &= \bar{K}_0\, h + \bar{K}_1, \\
+K_y &= -\bar{K}_1 .
 \end{align}
 
 Auxiliary quantities:
 \begin{align}
-A &= -K_x x - \bar{k}_0 + h, \\
+A &= -K_x x - \bar{K}_0 + h, \\
 B &= x', \\
 C &= -K_y y, \\
 D &= y'.
@@ -860,8 +860,8 @@ For an element of length $L$, define
 \begin{align}
 x_1 &= x C_x + x' S_x
 + \begin{cases}
-\dfrac{(\bar{k}_0-h)(C_x-1)}{K_x}, & K_x\neq 0, \\[1em]
--\dfrac{1}{2}(\bar{k}_0-h)L^2, & K_x=0,
+\dfrac{(\bar{K}_0-h)(C_x-1)}{K_x}, & K_x\neq 0, \\[1em]
+-\dfrac{1}{2}(\bar{K}_0-h)L^2, & K_x=0,
 \end{cases}
 \\
 y_1 &= y C_y + y' S_y .
@@ -882,7 +882,7 @@ Let $L_{\text{tot}}$ be the total path length travelled by the particle through 
 For $K_x\neq 0$:
 \begin{align}
 L_{\text{tot}} &= L
-- \frac{h\left[(C_x-1)x' + S_x A + L(\bar{k}_0-h)\right]}{K_x} \nonumber\\
+- \frac{h\left[(C_x-1)x' + S_x A + L(\bar{K}_0-h)\right]}{K_x} \nonumber\\
 &\quad + \frac{1}{2}\Bigg[
 - \frac{A^2 C_x S_x}{2K_x}
 + \frac{B^2 C_x S_x}{2}
@@ -898,7 +898,7 @@ For $K_x=0$:
 \begin{equation}
 L_{\text{tot}} =
 L
-+ \frac{hL}{6}\left(3Lx' + 6x - (\bar{k}_0-h)L^2\right)
++ \frac{hL}{6}\left(3Lx' + 6x - (\bar{K}_0-h)L^2\right)
 + \frac{1}{2}B^2 L .
 \end{equation}
 
@@ -1131,10 +1131,10 @@ If the dipole wedge or rotation around the $y$ axis in field free regions,
 take place in the presence of a quadrupole field,
 the following correction is applied to the transverse momenta:
 \begin{align}
-p_x^f &= p_x - k_1 x^2 \theta + k_1 \frac{y^2}{2} \theta 
+p_x^f &= p_x - K_1 x^2 \theta + K_1 \frac{y^2}{2} \theta 
 \label{eq:pxf}
 \\
-p_y^f &= p_y + k_1 x y \theta
+p_y^f &= p_y + K_1 x y \theta
 \label{eq:pyf}
 \end{align}
 This correction is a perturbation of the wedge or Y rotation, and can in theory be applied using any integration scheme. It is currently implemented as a kick-drift approximation.
@@ -1147,36 +1147,36 @@ In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
 H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x) 
 \left( 
 \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} 
-- \frac{x + \frac{h}{2} x^2}{1 + h x} b_1 + k_1 \frac{y^2}{2} - \frac{k_1 h x^3}{3} + \frac{k_1 x^2}{2(hx+1)}
+- \frac{x + \frac{h}{2} x^2}{1 + h x} K_0 + K_1 \frac{y^2}{2} - \frac{K_1 h x^3}{3} + \frac{K_1 x^2}{2(hx+1)}
 \right)
 \label{eq:Htau}
 \end{equation}
 which we can split in perturbation theory in a drift-like part $H_0$ and a kick-like part $H_1$:
 \begin{align}
-H_0 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_0 
+H_0 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) K_0 
 \label{eq:H1}
 \\
-H_2 &= -(1 + h x) k_1 \frac{y^2}{2} + \left( k_1 h \frac{x^3}{3} + k_1 \frac{x^2}{2} \right)
+H_1 &= -(1 + h x) K_1 \frac{y^2}{2} + \left( K_1 h \frac{x^3}{3} + K_1 \frac{x^2}{2} \right)
 \label{eq:H2}
 \end{align}
 
 The Hamiltonian $H_0$ leads to the dipole wedge \ref{sec:DipoleWedge} (or a dynamical rotation \ref{sec:Yrotation} if $b_0 = 0$) when taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ . 
 The Hamiltonian $H_1$ has equations of motion:
 \begin{align}
-p_x' &= -\frac{\partial H_2}{\partial x} 
-= h k_1 \frac{y^2}{2} - h k_1 x^2 - k_1 x 
+p_x' &= -\frac{\partial H_1}{\partial x} 
+= h K_1 \frac{y^2}{2} - h K_1 x^2 - K_1 x 
 \label{eq:pxprime}
 \\
-p_y' &= -\frac{\partial H_2}{\partial y} 
-= (1 + h x) k_1 y 
+p_y' &= -\frac{\partial H_1}{\partial y} 
+= (1 + h x) K_1 y 
 \label{eq:pyprime}
 \end{align}
 which gives integrated equations:
 \begin{align}
-p_x(s) &= p_x + h k_1 \frac{y^2}{2} s - h k_1 x^2 s - k_1 x s 
+p_x(s) &= p_x + h K_1 \frac{y^2}{2} s - h K_1 x^2 s - K_1 x s 
 \label{eq:pxs}
 \\
-p_y(s) &= p_y + (1 + h x) k_1 y s 
+p_y(s) &= p_y + (1 + h x) K_1 y s 
 \label{eq:pys}
 \end{align}
 Taking the limit to $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
@@ -1202,10 +1202,8 @@ V_n&=  \frac{q_0}{P_0 c} V  &
 \end{align}
 from which one can derive the following map
 \begin{align}
-p_\tau & \leftarrow p_\tau + \chi V_n \sin(\phi - k \tau + k \frac{s-s_0}{\beta_0}  ),
+p_\tau & \leftarrow p_\tau + \chi V_n \sin(\phi - k \tau).
 \end{align}
-where the additional terms in the phase is added in case harmonic number is not exactly
-integer and the phase is unlocked phase ). The new $\delta$ can be updated from the new $p_\tau$.
 
 
 
@@ -3719,10 +3717,10 @@ Using the fact that $B = \sqrt{B_x^2 + B_y^2}$, the derivatives of $B$ w.r.t. $x
 The magnetic field gradients are defined as:
 \begin{align}
     &\partder{B_y}{x} = \partder{B_x}{y}  = G       = \frac{\gamma_0 m_0 c}{Q_0} k_1\\
-    &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma_0 m_0 c}{Q_0} \bar{k}_1
+    &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma_0 m_0 c}{Q_0} \bar{K}_1
 \end{align}
 
-Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit we can assume $\gamma\simeq\gamma_0$, obtaining:
+Here, $k_1$ is the normalised normal quadrupole strength and $\bar{K}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit we can assume $\gamma\simeq\gamma_0$, obtaining:
 \begin{equation}
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
