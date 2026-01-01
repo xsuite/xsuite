@@ -1037,10 +1037,11 @@ Additional information can be found in \cite{silke_cap, silke_fringe}.
 
 The implemented map is the following:
 \begin{align*}
+p_s &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
 x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
 p_{x,f} &= p_x \\
 y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
-p_{y,f} &= p_y - \psi y_f - \frac{K_0^2}{9 K g (1 + \delta)} y_f^3 \\
+p_{y,f} &= p_y - \psi y_f - \frac{K_0^2}{9 F g (1 + \delta)} y_f^3 \\
 \ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
 \delta_f &= \delta
 \end{align*}
@@ -1049,13 +1050,13 @@ with:
 \begin{equation}
 \psi = K_0 \tan \left[
 \arctan \left( \frac{x'}{1 + y'^2} \right)
-- g K_0 K \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
+- g K_0 F \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
 \right]
 \end{equation}
-where $K_0$ is the normalized magnetic field, $g$ is the magnet gap and $K$ is
+where $K_0$ is the normalized magnetic field, $g$ is the magnet gap and $F$ is
 the fringe field integral:
 \begin{equation}
-K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(K_0 - b(s)\bigr)}{g K_0^{2}} \, ds
+F = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(K_0 - b(s)\bigr)}{g K_0^{2}} \, ds
 \end{equation}
 
 \subsection{Dipole wedge} \label{sec:DipoleWedge}
