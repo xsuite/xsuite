@@ -232,6 +232,7 @@ We use the reference particle properties to define normalized potentials:
 
 
 \section{Convention for multipole expansion of magnetic fields}
+\label{sec:multipole_expansion}
 
 This section is adapted from \cite{madsite}.
 ~\\
@@ -981,53 +982,23 @@ The map for a thin dipole kick (horizontal or vertical) from the expanded Hamilt
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#multipole}{\underline{Multipole element}}.
 ~\\
 
-The effect of a thin multipole can be approximated by the following Hamiltonian
-
-A longitudinally uniform static magnetic field can be described by the following equations
-\begin{align}
-    B_y+iB_x&=\sum_{n=1}     \frac{B_n+iA_n}{r_0^{n-1}} (x+iy)^{n-1} \\
-            &=B_N \sum_{n=N} \frac{b_n+ia_n}{r_0^{n-1}} (x+iy)^{n-1}  .
-\end{align}
-
-%Usually multipole are expressed as relative to
-The kick $\Delta \vec P  = q_0 v_z \hat z \times (B_x \hat x + B_y \hat y)$ translates into
-\begin{align}
-   \Delta p_x - i \Delta p_y = -\frac{q_0}{P_0}\chi(B_y + i B_x) 
-\end{align}
+Multipolar components are defined according to the definition in Sec.~\ref{sec:magnetic_elements}.
 
 
-A thin multiple idealizes the effect of the field by taking the limit of the integration 
+A thin multiple models the effect of the field by taking the limit of the integration
 length going to zero while keeping constant the integrated strength. The Hamiltonian is:
 \begin{align}
-  H= \delta(s) \chi L \Re\left[\sum_{n=0} \frac{1}{(n+1)!}(k_n + i\hat k_n) (x+iy)^{n+1} \right].
+  H= \delta(s) \chi L \Re\left[\sum_{n=0} \frac{1}{(n+1)!}(K_n + i\hat K_n) (x+iy)^{n+1} \right].
 \end{align}
-where
-\begin{align}
-  k_n     &=  n!\frac{q_0}{p_0}  \frac{B_{n+1}}{r_0^n}  &
-  \hat k_n&=  n!\frac{q_0}{p_0}  \frac{A_{n+1}}{r_0^n} .
-\end{align}
-
 
 The corresponding map is:
 \begin{align}
-  p_x &\leftarrow p_x - \chi L\cdot\Re\left[\sum_{n=0} \frac{1}{n!} (k_n + i\hat k_n) (x+iy)^n \right], \\
-  p_y &\leftarrow p_y + \chi L\cdot\Im\left[\sum_{n=0} \frac{1}{n!} (k_n + i\hat k_n) (x+iy)^n \right],
+  p_x &\leftarrow p_x - \chi L\cdot\Re\left[\sum_{n=0} \frac{1}{n!} (K_n + i\hat K_n) (x+iy)^n \right], \\
+  p_y &\leftarrow p_y + \chi L\cdot\Im\left[\sum_{n=0} \frac{1}{n!} (K_n + i\hat K_n) (x+iy)^n \right],
 \end{align}
+where $L$ is the length of the modelled multipole element.
 
-In case a curvature $h$, the vector potential become:
-
-\begin{align}
-f(x,y)&=\int B_x(x,y) dy  \\
-g(x,y)&=\int \partial x  B_x(x,y) dy \\
-a_s(x,y)&=\frac{c_1}{1 + h x} + f(x,y) -
-   \frac{\int_1^x (1 + h \tilde{x}) (g(\tilde{x},y)+\tilde{x}) +h f(x,y)  \, d\tilde{x}}{1+ h x}
-\end{align}
-
-\begin{align}
-\frac{\int_1^x \left(-h \tilde{x} \left(g(x,y)\right)-\int \text{bx}^{(1,0)}(\tilde{x},y) \, dy-h \int \text{bx}(\tilde{x},y) \,
-   dy-h \tilde{x} \text{by}(\tilde{x},y)-\text{by}(\tilde{x},y)\right) \, d\tilde{x}}{h x+1}
-\end{align}
-
+The other coordinates ($x$, $y$, $\delta$, $\zeta$) remain unchanged.
 
 \subsection{Dipole fringe field}
 
