@@ -982,7 +982,7 @@ The map for a thin dipole kick (horizontal or vertical) from the expanded Hamilt
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#multipole}{\underline{Multipole element}}.
 ~\\
 
-Multipolar components are defined according to the definition in Sec.~\ref{sec:magnetic_elements}.
+Multipolar components are defined according to the definition in Sec.~\ref{sec:multipole_expansion}.
 
 
 A thin multiple models the effect of the field by taking the limit of the integration
@@ -1074,6 +1074,8 @@ f_\pm &\approx
 &= \frac{p_x f^x + p_y f^y}{1+\delta}.
 \nonumber
 \end{align}
+where $c_n = K_n + i \hat{K}_n$ is the complex multipole strength (see Sec.~\ref{sec:multipole_expansion}).
+
 The functions $f^x$ and $f^y$ depend on position only. 
 The characteristic function is chosen so as to depend on the final momenta:
 \begin{equation}
