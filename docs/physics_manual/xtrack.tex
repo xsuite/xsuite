@@ -506,10 +506,14 @@ Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yiel
   H_\tau &= \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + h x \delta
   - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right) \nonumber\\
   &\quad + \chi \Bigg[
-    K_0 x + \frac{h K_0}{2} x^{2}
-    + K_1 \left(\frac{1}{2}(x^{2}-y^{2}) + h\left(\frac{1}{3}x^{3}-\frac{1}{2}x y^{2}\right)\right) \nonumber\\
-  &\qquad\quad
-    + K_2 \left(\frac{1}{6}(x^{3}-3xy^{2}) + h\left(\frac{1}{8}x^{4}-\frac{1}{2}x^{2}y^{2}+\frac{1}{24}y^{4}\right)\right)
+    K_0 x
+    + K_1 \frac{x^{2}-y^{2}}{2}
+    + K_2 \frac{x^{3}-3xy^{2}}{6}
+  \Bigg] \nonumber\\
+  &\quad + \chi h \Bigg[
+    \frac{K_0}{2} x^{2}
+    + K_1 \left(\frac{1}{3}x^{3}-\frac{1}{2}x y^{2}\right)
+    + K_2 \left(\frac{1}{8}x^{4}-\frac{1}{2}x^{2}y^{2}+\frac{1}{24}y^{4}\right)
   \Bigg].
 \end{align}
 
