@@ -542,13 +542,13 @@ the available integration schemes are reported in Table~\ref{tab:integrators}.
 D   & l            & Drift exact   & 
 $H_D = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$ \\
 De  & l            & Drift expanded & 
-$H_{De} = \frac{p_\tau}{\beta_0}-\frac{p_x^2+p_y^2}{2(1+\delta)}$\\
+$H_{De} = \frac{p_\tau}{\beta_0} - (1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}$\\
 % Dc  & l            & Correction drift exact & 
 % $H_{Dc} = H_D - H_{De}$\\
 R   & h, l         & Curved drift& 
-$H_R = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...}\right)$\\
+$H_R = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$\\
 Br  & k0, l        & Rectangular bend & 
-$H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{...} -b_1 x$
+$H_{Br} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - \chi K_0 x$
 \\
 B   & k0, l, h     & Exact Bend & 
 $H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) $\\
