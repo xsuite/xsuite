@@ -220,7 +220,7 @@ and for which:
   \mathbf{B} &= \nabla\times\mathbf{A}  =
   \left(\partial_y A_s - \frac{\partial_s  A_y}{1+h x} \right) \hat x 
   +\left(\frac{\partial_s A_x-\partial_x (1+h x) A_s }{1+h x} \right)\hat y
-  + \left(\partial_x A_y - \partial_y A_x \right) \hat z.
+  + \left(\partial_x A_y - \partial_y A_x \right) \hat z. \label{eq:Bfield_from_a_curved}
 \end{align}
 
 We use the reference particle properties to define normalized potentials:
@@ -236,7 +236,8 @@ We use the reference particle properties to define normalized potentials:
 \label{sec:multipole_expansion}
 
 This section is adapted from \cite{madsite}.
-~\\
+
+\subsection{Straight magnets ($h=0$)}
 
 Xsuite, like MAD, uses the following Taylor expansion for the magnetic field components.
 Using a complex notation for the field $(B_y+i B_x)$ and the position $(x+i y)$ we write:
@@ -283,13 +284,40 @@ Sec.~\ref{sec:electromagnetic_potentials_and_fields} is then
   = -\,\Re\left(\sum_{n=0}^{\infty}
   \frac{(K_n+i \hat{K}_n)}{(n+1) !}(x+i y)^{n+1}\right).
 \end{align}
-In the common case where only $K_0$, $K_1$, and $K_2$ are non-zero (all $K_{n\ge3}=0$
+In the special case where only $K_0$, $K_1$, and $K_2$ are non-zero (all $K_{n\ge3}=0$
 and $\hat{K}_n=0$), the normalized longitudinal potential reduces to
 \begin{align}
   a_s(x,y) &= -\left[
   K_0 x + \frac{K_1}{2}\left(x^2 - y^2\right)
   + \frac{K_2}{6}\left(x^3 - 3 x y^2\right) \right].
 \end{align}
+
+\subsection{Curved magnets ($h\neq0$)}
+
+In the case of curved magnets ($h\neq0$), multipole components are still defined
+as the derivatives at the symmetry point of the magnet:
+\begin{align}
+  B_n &= \left.\frac{\partial^n B_y}{\partial x^n}\right|_{x=0,\,y=0}, \label{eq:multipole_Bn} &
+  A_n &= \left.\frac{\partial^n B_x}{\partial x^n}\right|_{x=0,\,y=0} . \label{eq:multipole_An}
+\end{align}
+and the corresponding normalized multipole coefficients $K_n$ and $\hat{K}_n$ are defined as before:
+\begin{align}
+  K_n=\frac{B_n}{\mathrm{rig}_0}, \quad &
+  \hat{K}_n=\frac{A_n}{\mathrm{rig}_0}.
+\end{align}
+The field and potential expansions are more complex than in the straight case
+as they must satisfy \ref{eq:Bfield_from_a_curved} together with the definitions \eqref{eq:multipole_Bn}
+and \eqref{eq:multipole_An}.
+
+For the special case where only $K_0$, $K_1$, and $K_2$ are non-zero, a truncated expansion
+for the normalized potential is:
+\begin{align}
+A_s(x,y,s)
+&= -K_0\left(x-\frac{h x^{2}}{2(1+h x)}\right)
+ -K_1\left(\frac{1}{2}(x^{2}-y^{2})-\frac{h}{6}x^{3}+\frac{h^{2}}{24}(4x^{4}-y^{4})\right) \\
+&\quad -K_2\left(\frac{1}{6}(x^{3}-3xy^{2})-\frac{h}{24}(x^{4}-y^{4})\right)
+\end{align}
+
 
 \section{Particle coordinates}
 
