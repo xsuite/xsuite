@@ -489,7 +489,8 @@ H_\tau   &= \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\left(1 - \frac{1}{2}\
         -(1+h x) \chi a_s
 \end{align}
 For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, insert
-the curved-magnet potential from Eq.~\eqref{eq:as_curved}:
+the curved-magnet potential from Eq.~\eqref{eq:as_curved}. The resulting
+Hamiltonian is
 \begin{align}
   H_\tau &= \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + h x \delta
   - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right) \nonumber\\
@@ -498,6 +499,17 @@ the curved-magnet potential from Eq.~\eqref{eq:as_curved}:
     + K_1\left(\frac{1}{2}(x^{2}-y^{2})-\frac{h}{6}x^{3}\right) \nonumber\\
   &\qquad\quad
     + K_2\left(\frac{1}{6}(x^{3}-3xy^{2})-\frac{h}{24}(x^{4}-y^{4})\right)
+  \Bigg].
+\end{align}
+Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yields
+\begin{align}
+  H_\tau &= \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + h x \delta
+  - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right) \nonumber\\
+  &\quad + \chi \Bigg[
+    K_0 x + \frac{h K_0}{2} x^{2}
+    + K_1 \left(\frac{1}{2}(x^{2}-y^{2}) + h\left(\frac{1}{3}x^{3}-\frac{1}{2}x y^{2}\right)\right) \nonumber\\
+  &\qquad\quad
+    + K_2 \left(\frac{1}{6}(x^{3}-3xy^{2}) + h\left(\frac{1}{8}x^{4}-\frac{1}{2}x^{2}y^{2}+\frac{1}{24}y^{4}\right)\right)
   \Bigg].
 \end{align}
 
