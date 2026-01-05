@@ -466,7 +466,7 @@ where
   &H^\text{kin} = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ \left(p_\tau+\frac{1}{\beta_0}\right)^2
            - \frac{1}{\beta_0^2\gamma_0^2}
            - p_x^2
-           - p_y^2} \\
+           - p_y^2} \label{eq:hamilt_kinetic_part}\\
   &H^\text{magn} = -(1+h x) \chi a_s
 \end{align}
 
@@ -485,13 +485,10 @@ Expanding the square root to first order:
 \end{align}
 
 
-For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, insert
-the curved-magnet potential from Eq.~\eqref{eq:as_curved}. The resulting
-Hamiltonian is
+For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, inserting
+the curved-magnet potential from Eq.~\eqref{eq:as_curved} in $H^\text{magn}$ yields:
 \begin{align}
-  H_\tau &= \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + h x \delta
-  - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right) \nonumber\\
-  &\quad + (1+h x)\chi \Bigg[
+  H^\text{magn} &= (1+h x)\chi \Bigg[
     K_0\left(x-\frac{h x^{2}}{2(1+h x)}\right)
     + K_1\left(\frac{1}{2}(x^{2}-y^{2})-\frac{h}{6}x^{3}\right) \nonumber\\
   &\qquad\quad
@@ -500,9 +497,7 @@ Hamiltonian is
 \end{align}
 Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yields
 \begin{align}
-  H_\tau &= \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + h x \delta
-  - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right) \nonumber\\
-  &\quad + \chi \Bigg[
+  H^\text{magn} &\simeq \chi \Bigg[
     K_0 x
     + K_1 \frac{x^{2}-y^{2}}{2}
     + K_2 \frac{x^{3}-3xy^{2}}{6}
@@ -514,13 +509,6 @@ Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yiel
   \Bigg].
 \end{align}
 
-% \begin{align}
-%   H &= \frac{p_\tau}{\beta+0} + (K_0 - h) x - \delta,\\
-%     +& \frac{1}{2}(K_1 + h K_0) x^2 - \frac{1}{2} K_1 y^2 + \frac{1}{2} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
-%     +& \frac{1}{6}(K_2 + 2 h K_1) x^3 - \frac{1}{2}(K_2 + h K_1) x y^2 + \frac{1}{2} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
-%     +& \frac{1}{24}(K_3 + 3 h K_2) x^4 - \frac{1}{4}(K_3 + 2 h K_2) x^2 y^2 + \frac{1}{24}(K_3 + h K_2 - h^2 K_1) y^4 \\
-%       &\quad - \frac{p_\tau}{2 \beta_0} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) + \frac{1}{8} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right)^2 .
-% \end{align}
 
 \section{Symplectic integrators and magnet models}
 
