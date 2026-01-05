@@ -207,6 +207,7 @@ For this purpose we introduce the corresponding reference beam rigidity as
 which is the momentum per unit charge used, for example, to normalize multipole strengths.
 
 \section{Electromagnetic potentials and fields}
+\label{sec:electromagnetic_potentials_and_fields}
 The electromagnetic fields {\bf E} and {\bf B} can be derived from the potentials $\Phi(x,y,s,t)$ and $\mathbf{A}(x,y,s,t)$, where
 \begin{align}
 \mathbf{A}(x,y,s,t)=A_x(x,y,s,t) \hat x(s) + A_y(x,y,s,t) \hat y(s) + A_s(x,y,s,t) \hat z(s)
@@ -265,6 +266,22 @@ $\hat{K}_n$ using the reference beam rigidity from Eq.~\eqref{eq:brigidity}:
 and
 \begin{align}
   \hat{K}_n=\frac{A_n}{\mathrm{rig}_0}
+\end{align}
+
+Using these coefficients, the field expansion and the longitudinal vector potential
+can be written as
+\begin{align}
+  B_y+i B_x &= \mathrm{rig}_0
+  \sum_{n=0}^{\infty} \frac{(K_n+i \hat{K}_n)}{n !}(x+i y)^{n}, \\
+  A_s(x,y) &= -\,\mathrm{rig}_0\,\Re\left(\sum_{n=0}^{\infty}
+  \frac{(K_n+i \hat{K}_n)}{(n+1) !}(x+i y)^{n+1}\right).
+\end{align}
+The normalized longitudinal potential $a_s$ introduced in
+Sec.~\ref{sec:electromagnetic_potentials_and_fields} is then
+\begin{align}
+  a_s(x,y) &= \frac{q_0}{P_0} A_s(x,y)
+  = -\,\Re\left(\sum_{n=0}^{\infty}
+  \frac{(K_n+i \hat{K}_n)}{(n+1) !}(x+i y)^{n+1}\right).
 \end{align}
 
 \section{Particle coordinates}
