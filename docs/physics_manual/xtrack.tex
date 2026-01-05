@@ -421,7 +421,7 @@ depending on the choice of longitudinal coordinates:
            - (p_x - \chi a_x)^2
            - (p_y - \chi a_y)^2}
        + \chi a_s
-    \right) \\
+    \right) \label{eq:hamiltonian_htau}\\
   H_\zeta &= p_\zeta - (1+h x) \left(
       \sqrt{ \left(\beta_0 p_\zeta+\frac{1}{\beta_0}-\chi\varphi\right)^2
            - \frac{1}{\beta_0^2\gamma_0^2}
@@ -455,28 +455,38 @@ in~\cite{wolski2014beam} denotes the quantity that here we call $p_\tau$).
 
 This section is adapted from \cite{mad8phys}.
 
-For a magnet with geometric curvature $h$,
-normal multipole strengths $K_0$, $K_1$, $K_2$, $K_3$
-and no skew components, the body Hamiltonian
-can be expanded as $H_\tau = H_1 + H_2 + H_3 + H_4$, with:
-% \begin{align}
-%   H_1 &= (K_0 - h) x ,\\
-%   H_2 &= \frac{1}{2}(K_1 + h K_0) x^2 - \frac{1}{2} K_1 y^2 + \frac{1}{2} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
-%   H_3 &= \frac{1}{6}(K_2 + 2 h K_1) x^3 - \frac{1}{2}(K_2 + h K_1) x y^2 + \frac{1}{2} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
-%   H_4 &= \frac{1}{24}(K_3 + 3 h K_2) x^4 - \frac{1}{4}(K_3 + 2 h K_2) x^2 y^2 + \frac{1}{24}(K_3 + h K_2 - h^2 K_1) y^4 \\
-%       &\quad - \frac{p_\tau}{2 \beta_0} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) + \frac{1}{8} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right)^2 .
-% \end{align}
+For a magnet with piece-wise constant multipole components and curvature $h$, we can
+set $a_x = 0$ and $a_y = 0$ in Eq.~\eqref{eq:hamiltonian_htau}:
 \begin{align}
- H_\tau   &= \frac{p_\tau}{\beta_0} - (1+h x) \left(
+ H_\tau   &= H^\text{kin} + H^\text{magn}
+\end{align}
+where
+\begin{align}
+  &H^\text{kin} = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ \left(p_\tau+\frac{1}{\beta_0}\right)^2
+           - \frac{1}{\beta_0^2\gamma_0^2}
+           - p_x^2
+           - p_y^2} \\
+  &H^\text{magn} = -(1+h x) \chi a_s
+\end{align}
+
+Using kinetic part can we rewritten as follows:
+% \begin{align}
+%   H^\text{kin}
+%     = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}\right)\\
+%     % &= \frac{p_\tau}{\beta_0} - (1+h x)  \left((1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
+%     %    \right)
+% \end{align}
+
+
+\begin{align}
+H_\tau &= \frac{p_\tau}{\beta_0} - (1+h x) \left(
       \sqrt{ \left(p_\tau+\frac{1}{\beta_0}\right)^2
            - \frac{1}{\beta_0^2\gamma_0^2}
            - p_x^2
            - p_y^2}
        + \chi a_s
-    \right)\\
-    &= \frac{p_\tau}{\beta_0} - (1+h x) \left(\sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
-       + \chi a_s\right)\\
-    &= \frac{p_\tau}{\beta_0} - (1+h x)  \left((1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
+    \right) \\
+&= \frac{p_\tau}{\beta_0} - (1+h x) \left(\sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
        + \chi a_s\right)
 \end{align}
 Expand the sqrt:
