@@ -367,7 +367,8 @@ These variables can be easily related to each other:
       =\beta\beta_0 p_\zeta + \frac{\beta-\beta_0}{\beta_0}\\
   &(1+\delta)^2 = \frac{P^2}{P_0^2} = \frac{E^2 - m_0^2 c^4}{P_0^2 c^2}
      = \frac{E^2}{c^2 P_0^2} - \frac{1}{\beta_0^2 \gamma_0^2}
-     = \left( p_\tau + \frac{1}{\beta_0}\right)^2 - \frac{1}{\beta_0^2 \gamma_0^2}\\
+     = \left( p_\tau + \frac{1}{\beta_0}\right)^2 - \frac{1}{\beta_0^2 \gamma_0^2}
+     \label{eq:one_plus_delta_squared}\\
   &p_\tau = \beta_0 p_\zeta\\
   &p_\tau = \frac{\sqrt{1 + \beta_0^2\,\delta(\delta + 2)} - 1}{\beta_0}
 \end{align}
@@ -469,35 +470,21 @@ where
   &H^\text{magn} = -(1+h x) \chi a_s
 \end{align}
 
-Using kinetic part can we rewritten as follows:
-% \begin{align}
-%   H^\text{kin}
-%     = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}\right)\\
-%     % &= \frac{p_\tau}{\beta_0} - (1+h x)  \left((1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
-%     %    \right)
-% \end{align}
+Using \ref{eq:one_plus_delta_squared}, the kinetic part can we rewritten as follows:
+\begin{align}
+  H^\text{kin}
+    &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2} \nonumber\\
+    &= \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
+\end{align}
+Expanding the square root to first order:
+\begin{align}
+  H^\text{kin}
+    &\simeq \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\left(1 - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2}\right) \nonumber \\
+    &= \frac{p_\tau}{\beta_0} - (1+h x) \left((1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right) \nonumber \\
+    &=  \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + hx\delta - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
+\end{align}
 
 
-\begin{align}
-H_\tau &= \frac{p_\tau}{\beta_0} - (1+h x) \left(
-      \sqrt{ \left(p_\tau+\frac{1}{\beta_0}\right)^2
-           - \frac{1}{\beta_0^2\gamma_0^2}
-           - p_x^2
-           - p_y^2}
-       + \chi a_s
-    \right) \\
-&= \frac{p_\tau}{\beta_0} - (1+h x) \left(\sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
-       + \chi a_s\right)
-\end{align}
-Expand the sqrt:
-\begin{align}
-H_\tau   &= \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\left(1 - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2}\right)
-       -(1+h x) \chi a_s\\
-          &=  \frac{p_\tau}{\beta_0} - (1+h x) \left((1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
-        -(1+h x) \chi a_s\\
-          &=  \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + hx\delta - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
-        -(1+h x) \chi a_s
-\end{align}
 For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, insert
 the curved-magnet potential from Eq.~\eqref{eq:as_curved}. The resulting
 Hamiltonian is
