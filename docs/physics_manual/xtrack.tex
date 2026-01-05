@@ -459,16 +459,23 @@ Expand the sqrt:
           &=  \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + hx\delta - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
         -(1+h x) \chi a_s
 \end{align}
-
-
-
+For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, insert
+$a_s(x,y) = -\left[K_0 x + \frac{K_1}{2}(x^2 - y^2) + \frac{K_2}{6}(x^3 - 3 x y^2)\right]$
+into the expressions above, yielding
 \begin{align}
-  H &= \frac{p_\tau}{\beta+0} + (K_0 - h) x - \delta,\\
-    +& \frac{1}{2}(K_1 + h K_0) x^2 - \frac{1}{2} K_1 y^2 + \frac{1}{2} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
-    +& \frac{1}{6}(K_2 + 2 h K_1) x^3 - \frac{1}{2}(K_2 + h K_1) x y^2 + \frac{1}{2} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
-    +& \frac{1}{24}(K_3 + 3 h K_2) x^4 - \frac{1}{4}(K_3 + 2 h K_2) x^2 y^2 + \frac{1}{24}(K_3 + h K_2 - h^2 K_1) y^4 \\
-      &\quad - \frac{p_\tau}{2 \beta_0} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) + \frac{1}{8} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right)^2 .
+ H_\tau   &= \frac{p_\tau}{\beta_0} -  \left(1 + \delta  + h x + hx\delta - (1+h x)\frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right) \nonumber\\
+ &\quad + (1+h x)\chi \left[K_0 x + \frac{K_1}{2}(x^2 - y^2) + \frac{K_2}{6}(x^3 - 3 x y^2)\right].
 \end{align}
+
+
+
+% \begin{align}
+%   H &= \frac{p_\tau}{\beta+0} + (K_0 - h) x - \delta,\\
+%     +& \frac{1}{2}(K_1 + h K_0) x^2 - \frac{1}{2} K_1 y^2 + \frac{1}{2} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
+%     +& \frac{1}{6}(K_2 + 2 h K_1) x^3 - \frac{1}{2}(K_2 + h K_1) x y^2 + \frac{1}{2} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) ,\\
+%     +& \frac{1}{24}(K_3 + 3 h K_2) x^4 - \frac{1}{4}(K_3 + 2 h K_2) x^2 y^2 + \frac{1}{24}(K_3 + h K_2 - h^2 K_1) y^4 \\
+%       &\quad - \frac{p_\tau}{2 \beta_0} \left( h x - \frac{p_\tau}{\beta_0} \right) \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right) + \frac{1}{8} \left( p_x^2 + p_y^2 + \frac{p_\tau^2}{\beta_0^2 \gamma_0^2} \right)^2 .
+% \end{align}
 
 \section{Symplectic integrators and magnet models}
 
