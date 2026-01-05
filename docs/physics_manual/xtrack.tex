@@ -440,21 +440,17 @@ can be expanded as $H_\tau = H_1 + H_2 + H_3 + H_4$, with:
     \right)\\
     &= \frac{p_\tau}{\beta_0} - (1+h x) \left(\sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
        + \chi a_s\right)\\
-    &= \frac{p_\tau}{\beta_0} - (1+h x) (1 + \delta) \left(\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
+    &= \frac{p_\tau}{\beta_0} - (1+h x)  \left((1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
        + \chi a_s\right)
 \end{align}
 Expand the sqrt:
 \begin{align}
- H_\tau   &= \frac{p_\tau}{\beta_0} - (1+h x) (1 + \delta) \left(1 - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2}
-       + \chi a_s\right) + O\left(\frac{(p_x^2 + p_y^2)^2}{(1+\delta)^4}\right)\\
+ H_\tau   &= \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\left(1 - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2}\right)
+       -(1+h x) \chi a_s\\
+          &=  \frac{p_\tau}{\beta_0} - (1+h x) \left((1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
+        -(1+h x) \chi a_s
 \end{align}
 
-
-We omit the O(...) and make the three factor multiplication:
-\begin{align}
- H_\tau  
-    &= \frac{p_\tau}{\beta_0} - 1 - h x - \delta - h x \delta + \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + \frac{1}{2} h x \frac{p_x^2 + p_y^2}{(1 + \delta)} - (1+h x)(1 + \delta)\chi a_s
-\end{align}
 
 
 \begin{align}
