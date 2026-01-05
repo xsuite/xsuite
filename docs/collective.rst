@@ -7,11 +7,11 @@ Collective effects
 
 .. include:: collective_intro.rst
 
+.. include:: xwakes.rst
+
 .. include:: spacechargeauto.rst
 
 .. include:: beambeam.rst
-
-.. include:: pyhtinterface.rst
 
 .. include:: combined_cpu_gpu.rst
 

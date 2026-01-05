@@ -444,7 +444,7 @@ relative to other elements:
    # ||drift_4           11.6          11.8            12
    # _end_point            12            12            12
 
-Elements can also be created inline while placing them:
+Elements can also be created and placed with a single instruction:
 
 .. code-block:: python
 
@@ -658,7 +658,7 @@ Insert elements
 ---------------
 
 It is possible to insert elements in a line also after its creation. The position
-of the new elements can be specified as absolut s position or as relative to
+of the new elements can be specified as absolute s position or as relative to
 an existing element. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/insert_element.py

@@ -1,137 +1,340 @@
-\chapter{Single-particle tracking}
+\chapter{Lattice modeling and particle coordinates}
 
-XTrack is a 6D single particle symplectic tracking code used to compute the
-trajectories of individual relativistic charged particles in circular
-accelerators. It has been developed based on SixTrack.
+The modeling of lattice and beam particles used in Xsuite is largely based on the
+the experience of the MAD~\cite{madsite, mad8phys} and Sixtrack~\cite{sixtrack_user_guide} programs.
 
-The physical models are collected from the main references
-\cite{ripken85,barber87,ripken95,heinemann95,barber96,beam_beam,rf_multipoles},
-which contain more details of the derivation of the maps.
+More details on the derivation of the tracking maps and the Hamiltonian formalism
+can be found in the references
+\cite{ripken85,barber87,ripken95,heinemann95,barber96,beam_beam,rf_multipoles,
+forest99}.
 
+\section{Local reference system}
 
-\section{Notation and reference frame}
+This section is adapted from \cite{madsite}.
+~\\
 
-The speed, momentum, energy, rest mass, charge of a particle are indicated
-by $v$, $P$, $E$, $m$ and $q$, respectively.  These quantities are
-related by the following equations:
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.80\textwidth]{figures/local_frame.png}
+  \caption{Local Reference System}
+  \label{fig:local-frame}
+\end{figure}
+
+The beam line or ring to be studied is described as a sequence of beam elements
+placed sequentially along a reference trajectory.
+
+The reference trajectory consists of a series of straight line segments and circular arcs.
+The accompanying tripod, as shown in Fig. ~\ref{fig:local-frame}
+the reference orbit spans a local curvilinear right handed coordinate system $(x,y,s)$ The local
+$s$-axis is the tangent to the reference orbit and $x$ and $y$ are perpendincular to $s$.
+Typicallt, $x$ is horizontal and $y$ vertical.
+
+We call $\rho$ the local radius of curvature of the reference trajectory and $h$ 
+the local curvature defined as:
 \begin{align}
-  v&=\beta c &
-  E^2-P^2c^2&=m^2c^4 &
-  E & = \gamma mc^2 &
-  Pc & =\beta E
+  h = \frac{1}{\rho}
 \end{align}
-where $\beta$ and $\gamma$ are the relativistic factors.
 
-In a curvilinear reference frame defined by a constant curvature $h_x$ in the
-$\hat X, \hat Z$ plane and parameterized by $s$, the
-position of the particle at a time $t$ can be written as:
+\section{Global reference system}
+
+This section is adapted from \cite{madsite}.
+~\\
+
+The local reference system $( x, y, s )$ may thus be referred to a global Cartesian
+coordinate system $( X, Y, Z )$ as shown in Fig.~\ref{fig:global-frame}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/global_frame.png}
+  \caption{Global Reference System showing the global Cartesian system $( X,Y,Z )$ in black
+           and the local reference system $( x, y, s )$ in red with the translation $( X_i,Y_i,Z_i)$ and
+           rotation $(\theta_i,\phi_i,\psi_i)$ relating the two.}
+  \label{fig:global-frame}
+\end{figure}
+
+The positions between beam elements are indexed with $i=0,...n$. The local reference system
+$(x_i,y_i,s_i)$ at position $i$, i.e. the displacement and direction of the reference orbit with respect
+to the system $( X, Y, Z )$ are defined by three displacements $( X_i,Y_i,Z_i)$ and three angles
+$( \theta_i,\phi_i,\psi_i)$
+
+The above quantities are defined more precisely as follows:
+
+\begin{itemize}
+  \item $X$ Displacement of the local origin in $X$-direction.
+  \item $Y$ Displacement of the local origin in $Y$-direction.
+  \item $Z$ Displacement of the local origin in $Z$-direction.
+  \item $\theta$ is the angle of rotation (azimuth) about the global $Y$-axis, between the
+        global $Z$-axis and the projection of the reference orbit onto the $( Z,X)$-plane.
+        A positive angle $\theta$ forms a right-hand screw with the $Y$-axis.
+  \item $\phi$ is the elevation angle, i.e. the angle between the reference orbit and its pro-
+        jection onto the $( Z,X)$-plane. A positive angle $\phi$ corresponds to increasing
+        $Y$.
+
+        If only horizontal bends are present, the reference orbit remains in the $( Z,
+        X)$-plane and $\phi$ is always zero.
+  \item $\psi$ is the roll angle about the local $s$-axis, i.e. the angle between the line defined
+        by the intersection of the $( x, y)$-plane and $( Z, X)$-plane on one hand, and the
+        local $x$-axis on the other hand. A positive angle $\psi$ forms a right-hand screw
+        with the $s$-axis.
+\end{itemize}
+
+Note that the angles $( \theta, \phi, \psi)$ do not follow the usual definition of Euler angles. 
+The reference orbit starts at the origin and
+points by default in the direction of the positive $Z$-axis.
+
+Internally the displacement is described by a vector $\mathbf{V}$ and the orientation by a unitary matrix
+$\mathbf{W}$. The column vectors of $\mathbf{W}$ are the unit vectors spanning the local coordinate axes in the
+order $( x, y, s )$. $\mathbf{V}$ and $\mathbf{W}$ have the values:
 \begin{align}
-  \vec Q(t)= \vec r(s) + x \,\hat x(s) + y\, \hat y(s),
+  \mathbf{V} &=
+    \begin{bmatrix}
+      X\\
+      Y\\
+      Z
+    \end{bmatrix},
+  &
+  \mathbf{W} &= \Theta \Phi \Psi
 \end{align}
-and therefore identified by the coordinates $s, x, y, t$ in the reference frame
-defined by $\hat x(s)$ and $\hat y(s)$. In particle tracking, $s$ is normally
-used as independent parameter and $t$ as a coordinate.
+where
+\begin{align}
+  \Theta &=
+    \begin{bmatrix}
+      \cos\theta & 0 & \sin\theta\\
+      0 & 1 & 0\\
+      -\sin\theta & 0 & \cos\theta
+    \end{bmatrix}, &
+  \Phi &=
+    \begin{bmatrix}
+      1 & 0 & 0\\
+      0 & \cos\phi & \sin\phi\\
+      0 & -\sin\phi & \cos\phi
+    \end{bmatrix}, &
+  \Psi &=
+    \begin{bmatrix}
+      \cos\psi & \sin\psi & 0\\
+      -\sin\psi & \cos\psi & 0\\
+      0 & 0 & 1
+    \end{bmatrix}.
+\end{align}
 
-The electromagnetic fields {\bf E} and {\bf B} can be derived in a curvilinear
-reference frame from the potentials $V(x,y,s,t)$ and $\mathbf{A}(x,y,s,t)$, where
+When advancing
+through a beam element, Xsuite (like MAD) computes $V_i$ and $W_i$ by the recurrence relations
+\begin{align}
+  V_i &= W_{i-1} R_i+V_{i-1}, &
+  W_i &= W_{i-1} S_i
+\end{align}
+The vector $R_i$ is the displacement and the matrix $S_i$ is the rotation of the local reference
+system introduced by the element $i$ with respect to the entrance of the same element. The
+values of $R_i$ and $S_i$ are listed below for different physical element types.
+
+In straight elements the local reference system is simply translated by the length of the element
+along the local $s$-axis.
+
+The corresponding $R, S$ are
+\begin{align}
+  R &=
+    \begin{bmatrix}
+      0\\
+      0\\
+      L
+    \end{bmatrix},
+  &
+  S &=
+    \begin{bmatrix}
+      1 & 0 & 0\\
+      0 & 1 & 0\\
+      0 & 0 & 1
+    \end{bmatrix}.
+\end{align}
+A rotation of the element about the $s$-axis has no effect on $R$ and $S$, since the rotations of
+the reference system before and after the element cancel.
+
+Bending magnets have a curved reference orbit. For both rectangular and sector bending
+magnets, the $R$ and $S$ are expressed as function the bend angle $\alpha$:
+\begin{align}
+  R &=
+    \begin{bmatrix}
+      \rho(\cos \alpha-1)\\
+      0\\
+      \rho\sin\alpha
+    \end{bmatrix},
+  &
+  S &=
+    \begin{bmatrix}
+      \cos\alpha & 0 & -\sin\alpha\\
+      0 & 1 & 0\\
+      \sin\alpha & 0 & \cos \alpha
+    \end{bmatrix}
+\end{align}
+where we have assumed that the bending occurs in the horizontal plane.
+A positive bend angle represents a bend to the right, i.e. towards negative $x$ values. For
+sector bending magnets, the bend radius is given by $\rho$, and for rectangular bending magnets
+it has the value $\rho=L/(2 \sin( \alpha/2))$. If the magnet is rotated about the $s$-axis by an
+angle $\psi$, $R$ and $S$ are transformed by
+\begin{align}
+  R &= T R, &
+  S &= T S T^{-1}
+\end{align}
+where $T$ is the orthogonal rotation matrix
+\begin{align}
+  T &=
+    \begin{bmatrix}
+      \cos \psi & -\sin \psi & 0\\
+      \sin \psi & \cos \psi & 0\\
+      0 & 0 & 1
+    \end{bmatrix}
+\end{align}
+The special value $\psi=\pi/2$ represents a bend down.
+
+\section{Reference particle}
+
+We introduce a reference particle with rest mass $m_0$, charge $q_0$, total energy $E_0$,
+momentum $P_0$, and relativistic factors $\beta_0,\gamma_0$. These quantities satisfy
+\begin{align}
+  E_0^2 &= (P_0 c)^2 + (m_0 c^2)^2, \\
+  E_0 &=  m_0 \gamma_0 c^2, \\
+  P_0 &= m_0 \beta_0 \gamma_0 c, \\
+  \beta_0 &= \frac{P_0 c}{E_0} = \sqrt{1-\frac{1}{\gamma_0^2}}, \\
+  \gamma_0 &= \frac{1}{\sqrt{1-\beta_0^2}} .
+\end{align}
+The reference particle will be used to normalize momentum and energy variables as
+well as electromagnetic fields and potentials.
+For this purpose we introduce the corresponding reference beam rigidity as
+\begin{align}
+  \label{eq:brigidity}
+  \mathrm{rig}_0 = \frac{P_0}{q_0},
+\end{align}
+which is the momentum per unit charge used, for example, to normalize multipole strengths.
+
+\section{Electromagnetic potentials and fields}
+\label{sec:electromagnetic_potentials_and_fields}
+The electromagnetic fields {\bf E} and {\bf B} can be derived from the potentials $\Phi(x,y,s,t)$ and $\mathbf{A}(x,y,s,t)$, where
 \begin{align}
 \mathbf{A}(x,y,s,t)=A_x(x,y,s,t) \hat x(s) + A_y(x,y,s,t) \hat y(s) + A_s(x,y,s,t) \hat z(s)
 \end{align}
 and for which:
 \begin{align}
-  \mathbf{E}  &= -\nabla V - \frac{\partial \mathbf{A}}{\partial t} 
-               = -\partial_x V \hat x - \partial_y V \hat y -
-  \frac{1}{1+h x}  \partial_s V \hat z - \partial_t \mathbf{A}\\
+  \mathbf{E}  &= -\nabla \Phi - \frac{\partial \mathbf{A}}{\partial t} 
+               = -\partial_x \Phi \hat x - \partial_y \Phi \hat y -
+  \frac{1}{1+h x}  \partial_s \Phi \hat z - \partial_t \mathbf{A}\\
   \mathbf{B} &= \nabla\times\mathbf{A}  =
   \left(\partial_y A_s - \frac{\partial_s  A_y}{1+h x} \right) \hat x 
-  +\left(\frac{\partial_s A_x-\partial_x (1+h x) A_s }{1+h x} \right)\hat y \\
-  &+\quad \left(\partial_x A_y - \partial_y A_x \right) \hat z.
+  +\left(\frac{\partial_s A_x-\partial_x (1+h x) A_s }{1+h x} \right)\hat y
+  + \left(\partial_x A_y - \partial_y A_x \right) \hat z. \label{eq:Bfield_from_a_curved}
 \end{align}
-In this reference frame the canonical momenta are:
+
+We use the reference particle properties to define normalized potentials:
 \begin{align}
-  P_x&=m \gamma \dot x + q A_x, &
-  P_y&=m \gamma \dot y + q A_y, &
-  P_s&=m \gamma \dot s (1 + h x)^2 + q (1 + h x) A_s.
-\end{align}
-and the energy of a particle and the field is
-\begin{align}
-E=q\phi + c \sqrt{(mc)^2
-              +\frac{(P_s- q A_s(1+hx))^2}{(1+hx)^2}
-              +(P_x-q A_x)^2 + (P_y-q A_y)^2}.
+  &\mathbf{a}(x,y,s,t) = \frac{q_0}{P_0} \mathbf{A}(x,y,s,t)\\
+  &\varphi(x,y,s,t) =
+    \frac{q_0}{P_0c}\Phi(x,y,s,t)
 \end{align}
 
 
 
+\section{Convention for multipole expansion of magnetic fields}
+\label{sec:multipole_expansion}
 
+This section is adapted from \cite{madsite}.
 
+\subsection{Straight magnets ($h=0$)}
 
-
-\section{Hamiltonian and particle coordinates}
-
-If $s(t)$ is monotonically increasing, it is possible to derive the equations
-of motion using $s$ as the independent parameter, $(-t, E)$ as conjugate coordinates and $-P_s$ as Hamiltonian.
+Xsuite, like MAD, uses the following Taylor expansion for the magnetic field components.
+Using a complex notation for the field $(B_y+i B_x)$ and the position $(x+i y)$ we write:
 
 \begin{align}
-  P_s&= (1+h x) \left( 
-       \sqrt{ \frac{(E-q\phi)^2}{c^2} - (mc)^2
-           - (P_x - q A_x)^2
-           - (P_y - q A_y)^2}
-       +q A_s
-    \right)
+  B_y+i B_x=\sum_{n=0}^{\infty} \frac{(B_n+i A_n)}{n !}(x+i y)^{n}
 \end{align}
-
-Since in accelerators the orbits of the 
-particles are often a perturbation of the reference trajectory followed by a
-particle with rest mass $m_0$, charge $q_0$, speed $\beta_0 c$ and momentum
-$P_0$, one could use the following derived quantities that usually assume small
-values:
+where, assuming that the field is piece-wise constant along $s$ and that the local
+curvature $h$ is zero, the coefficients $B_n$ and $A_n$ are the on-axis
+derivatives of the transverse field components:
 \begin{align}
-p(x,y) &=
-  \frac{m_0}{m}\frac{P(x,y)}{P_0}   &
-\chi &=
-  \frac{q}{q_0}\frac{m_0}{m} &
-a(x,y,s) &=
-  \frac{q_0}{P_0}  A(x,y,s)
+  B_n &= \left.\frac{\partial^n B_y}{\partial x^n}\right|_{x=0,\,y=0}, &
+  A_n &= \left.\frac{\partial^n B_x}{\partial x^n}\right|_{x=0,\,y=0}.
 \end{align}
-Note that here $m$ is used to indicate the rest mass of particles of species
-different from the reference particle (which has mass $m_0$) and not the relativistic mass.
-Further rescaling the energy and charge density as
+
+The associated longitudinal vector potential for straight elements can be written as
 \begin{align}
-  e(x,y,s) &=
-  \frac{m_0}{m}\frac{E(x,y,s)}{P_0}   &
-  \varphi(x,y,s) &=
-  \frac{q_0}{P_0c}\phi(x,y,s) \,,
+  A_s(x,y) = -\,\Re\left(\sum_{n=0}^{\infty} \frac{(B_n+i A_n)}{(n+1) !}(x+i y)^{n+1}\right),
 \end{align}
-% This allows us to rewrite the Hamiltonian as:
-% \begin{equation}\notag
-%   - (1+h x) \, P_0\frac{m}{m_0}\left(
-%       \sqrt{
-%           \frac{\left(e - q\varphi\right)^2}{c^2} 
-%             - \frac{1}{\beta_0^2\gamma_0^2}
-%        - (p_x - \chi a_x)^2
-%        - (p_y - \chi a_y)^2}
-%        + \chi a_s
-%     \right)
-% \end{equation}
-and as all canonical momenta scale with the same factor, we can define a new Hamiltonian
-$\tilde{H}$ that still satisfies the same equations of motion:
-\begin{align}\notag
-  &\tilde{H}(x,y,-t, p_x, p_y, e) =
-      \frac{m_0}{m}\frac{1}{P_0}H(x,y,-t, P_x, P_y, E) \\
-  &\tilde{H}=
-    - (1+h x) \left(
-      \sqrt{ 
-          \left(\frac{e}{c} - \chi\varphi\right)^2
-            - \frac{1}{\beta_0^2\gamma_0^2}
-           - (p_x - \chi a_x)^2
-           - (p_y - \chi a_y)^2}
-       + \chi a_s
-    \right)
+so that $B_y+i B_x = -(\partial_x - i \partial_y) A_s$ yields the field expansion above.
+
+We define the normal multipole coefficients $K_n$ and the skew multipole coefficients
+$\hat{K}_n$ using the reference beam rigidity from Eq.~\eqref{eq:brigidity}:
+\begin{align}
+  K_n=\frac{B_n}{\mathrm{rig}_0}
+\end{align}
+and
+\begin{align}
+  \hat{K}_n=\frac{A_n}{\mathrm{rig}_0}
 \end{align}
 
-\subsection{Longitudinal coordinates}
+Using these coefficients, the field expansion and the longitudinal vector potential
+can be written as
+\begin{align}
+  B_y+i B_x &= \mathrm{rig}_0
+  \sum_{n=0}^{\infty} \frac{(K_n+i \hat{K}_n)}{n !}(x+i y)^{n}, \\
+  A_s(x,y) &= -\,\mathrm{rig}_0\,\Re\left(\sum_{n=0}^{\infty}
+  \frac{(K_n+i \hat{K}_n)}{(n+1) !}(x+i y)^{n+1}\right).
+\end{align}
+The normalized longitudinal potential $a_s$ introduced in
+Sec.~\ref{sec:electromagnetic_potentials_and_fields} is then
+\begin{align}
+  a_s(x,y) &= \frac{q_0}{P_0} A_s(x,y)
+  = -\,\Re\left(\sum_{n=0}^{\infty}
+  \frac{(K_n+i \hat{K}_n)}{(n+1) !}(x+i y)^{n+1}\right).
+\end{align}
+In the special case where only $K_0$, $K_1$, and $K_2$ are non-zero (all $K_{n\ge3}=0$
+and $\hat{K}_n=0$), the normalized longitudinal potential reduces to
+\begin{align}
+  a_s(x,y) &= -\left[
+  K_0 x + \frac{K_1}{2}\left(x^2 - y^2\right)
+  + \frac{K_2}{6}\left(x^3 - 3 x y^2\right) \right].
+\end{align}
 
-Different sets of longitudinal coordinates can be used:
+\subsection{Curved magnets ($h\neq0$)}
+
+In the case of curved magnets ($h\neq0$), multipole components are still defined
+as the derivatives at the symmetry point of the magnet:
+\begin{align}
+  B_n &= \left.\frac{\partial^n B_y}{\partial x^n}\right|_{x=0,\,y=0}, \label{eq:multipole_Bn} \\
+  A_n &= \left.\frac{\partial^n B_x}{\partial x^n}\right|_{x=0,\,y=0} . \label{eq:multipole_An}
+\end{align}
+and the corresponding normalized multipole coefficients $K_n$ and $\hat{K}_n$ are defined as before:
+\begin{align}
+  K_n=\frac{B_n}{\mathrm{rig}_0}, \quad &
+  \hat{K}_n=\frac{A_n}{\mathrm{rig}_0}.
+\end{align}
+The field and potential expansions are more complex than in the straight case
+as they must satisfy \ref{eq:Bfield_from_a_curved} together with the definitions \eqref{eq:multipole_Bn}
+and \eqref{eq:multipole_An}.
+
+For the special case where only $K_0$, $K_1$, and $K_2$ are non-zero, a truncated expansion
+for the normalized potential is:
+\begin{align}
+a_s(x,y,s)
+&= -K_0\left(x-\frac{h x^{2}}{2(1+h x)}\right)
+ -K_1\left(\frac{1}{2}(x^{2}-y^{2})-\frac{h}{6}x^{3}\right) \nonumber\\
+&\quad -K_2\left(\frac{1}{6}(x^{3}-3xy^{2})-\frac{h}{24}(x^{4}-y^{4})\right)
+\label{eq:as_curved}
+\end{align}
+
+
+\section{Particle coordinates}
+
+Xsuite uses as independent variable the position along the reference trajectory $s$.
+We call $t$ the time coordinate, i.e. the time at which the particle passes
+the position $s$.
+
+Xsuite can track particles of different species within the same particle ensemble.
+We call $m$ and $q$ the rest mass and charge of the individual particle and we introduce
+the coefficient:
+\begin{align}
+  \chi = \frac{q}{q_0} \frac{m_0}{m}
+\end{align}
+
+In the "longitudinal plane", i.e. the space spanned by time and energy coordinates,
+we can use any of the following pairs of conjugate variables:
 \begin{align}
 \xi &= s \frac{\beta}{\beta_0} - \beta c t &
 \tau &= \frac{s}{\beta_0} - ct &
@@ -147,30 +350,36 @@ p_\zeta &=
 \ell &= \beta c t
   \label{eq:coord2}
 \end{align}
-where variables in the same columns are canonically conjugate.
+where variables in the same column are canonically conjugate.
 
-%As the position of the reference particle is given by
-%$s=\beta_0ct_0$ we see that $\tau$ is the time advance of the tracked %particle w.r.t.\ 
-%the reference particle:
-%\begin{equation}
-%  \tau = c\left(t_0-t\right) = c\Delta t
-%\end{equation}
-%This is the coordinate used by MAD-X. In Xsuite the pair $(\zeta, \delta)$ is used; note that
-%these are not canonical as the canonical conjugates are the pairs $(\xi, \delta)$, $(\tau, p_\tau)$,
-%and  $(\zeta, p_\zeta)$.
-
-The different longitudinal variables can be easily related to each other:
+These variables can be easily related to each other:
 \begin{align}
+  &E =  m \gamma c^2 = P_0 c \left( p_\tau + \frac{1}{\beta_0}\right), \\
+  &P = m \beta \gamma c = P_0 (1 + \delta) \\
+  &\beta = \frac{P c}{E} = \sqrt{1-\frac{1}{\gamma^2}} =\sqrt{1 - \frac{1 - \beta_0}{\left(1 + \beta_0 p_\tau\right)^2}}, \\
+  &\gamma = \frac{1}{\sqrt{1-\beta^2}} = \gamma_0 (1 + \beta_0 p_\tau)\\
   &\xi= s \frac{\beta}{\beta_0} - \ell = 
       \beta\tau =
       \frac{\beta}{\beta_0}\zeta \\
-  &p_\tau = \beta_0 p_\zeta\\
   &\delta= \sqrt{p_\tau^2 + 2 \frac{p_\tau}{\beta_0} +1} - 1
        =\beta p_\tau + \frac{\beta-\beta_0}{\beta_0}\\
   &\delta= \sqrt{\beta_0^2p_\zeta^2 + 2 p_\zeta +1} - 1
       =\beta\beta_0 p_\zeta + \frac{\beta-\beta_0}{\beta_0}\\
-  &\gamma = \gamma_0 (1 + \beta_0 p_\tau)\\
-  &\beta = \sqrt{1 - \frac{1 - \beta_0}{\left(1 + \beta_0 p_\tau\right)^2}}
+  &(1+\delta)^2 = \frac{P^2}{P_0^2} = \frac{E^2 - m_0^2 c^4}{P_0^2 c^2}
+     = \frac{E^2}{c^2 P_0^2} - \frac{1}{\beta_0^2 \gamma_0^2}
+     = \left( p_\tau + \frac{1}{\beta_0}\right)^2 - \frac{1}{\beta_0^2 \gamma_0^2}
+     \label{eq:one_plus_delta_squared}\\
+  &p_\tau = \beta_0 p_\zeta\\
+  &p_\tau = \frac{\sqrt{1 + \beta_0^2\,\delta(\delta + 2)} - 1}{\beta_0}
+\end{align}
+and the following derivatives:
+\begin{align}
+    &\frac{\partial \delta}{\partial p_\tau} =
+    \frac{p_\tau+1/\beta_0}{1+\delta} = \frac{1}{\beta} \\
+  &\frac{\partial}{\partial\delta}\left( 
+    \frac{1+\delta}{\beta\beta_0}
+  \right)=
+    \frac{\beta}{\beta_0}
 \end{align}
 
 For small energy deviations ($\delta \ll 1$, $p_\tau \ll 1$, $p_\zeta \ll 1$),
@@ -182,33 +391,24 @@ the following approximations hold:
   &\beta \simeq \beta_0 + (1 - \beta_0^2) p_\tau
 \end{align}
 
-\subsection{Hamiltonian with different coordinate choices}
-
-The conjugate pairs can be generated by the following generating functions \footnote{
-$F_2(-t , p_{\rm new}, s)$,\,
-$e = \frac{\partial F_2}{\partial (-t)}$, \,
-$q_{\rm new} = \frac{\partial F_2}{\partial p_{\rm new}}$,\,
-$H_{\rm new} = H + \frac{\partial F_2}{\partial s}$
-}
-
+In the transverse plane we use the coordinates $x, p_x, y, p_y$. The transverse canonical
+momenta are defined as:
 \begin{align}
-F_2& = x p_x + y p_y + \left(\frac{s}{\beta_0}-ct\right)
-                            \frac{1+\delta}{\beta} \\
-F_2& = x p_x + y p_y + \left(\frac{s}{\beta_0}-ct\right)
-                            \left(p_\tau + \frac{1}{\beta_0}\right) \\
-F_2& = x p_x + y p_y + \left(\frac{s}{\beta_0}-ct\right)
-                            \left(\beta_0 p_\zeta + \frac{1}{\beta_0}\right)
+  p_x&= \frac{m_0}{m}\frac{P_x}{P_0}, &
+  p_y&= \frac{m_0}{m}\frac{P_y}{P_0},
 \end{align}
+where:
+\begin{align}
+  P_x &= m \gamma \dot x + q A_x, &
+  P_y &= m \gamma \dot y + q A_y
+\end{align}
+in which $\dot x$ and $\dot y$ are the time derivatives of $x$ and $y$.
 
-The Hamiltonians are then:
+\section{Hamiltionan and equations of motion}
 
-% \begin{align}
-%  H_\delta   &= \frac{1+\delta}{\beta\beta_0} - \frac{m_0}{m}\frac{P_s}{P_0} &
-%  H_\tau   &= \frac{p_\tau}{\beta_0} - \frac{m_0}{m}\frac{P_s}{P_0} &
-%  H_\zeta &= p_\zeta - \frac{m_0}{m}\frac{P_s}{P_0}
-% \end{align}
-
-\begin{align*}
+The motion of a particle is described by one of the following Hamiltonian functions,
+depending on the choice of longitudinal coordinates:
+\begin{align}
  H_\delta   &= \frac{1+\delta}{\beta\beta_0} - (1+h x) \left(
       \sqrt{ \left(\frac{1+\delta}{\beta}-\chi\varphi\right)^2
            - \frac{1}{\beta_0^2\gamma_0^2} 
@@ -222,7 +422,7 @@ The Hamiltonians are then:
            - (p_x - \chi a_x)^2
            - (p_y - \chi a_y)^2}
        + \chi a_s
-    \right) \\
+    \right) \label{eq:hamiltonian_htau}\\
   H_\zeta &= p_\zeta - (1+h x) \left(
       \sqrt{ \left(\beta_0 p_\zeta+\frac{1}{\beta_0}-\chi\varphi\right)^2
            - \frac{1}{\beta_0^2\gamma_0^2}
@@ -230,52 +430,105 @@ The Hamiltonians are then:
            - (p_y - \chi a_y)^2}
        + \chi a_s
     \right)
-\end{align*}
-% where 
-% \begin{align}
-% \delta &= \frac{P \frac{m_0}{m} -P_0}{P_0} &
-% \chi &= \frac{q}{q_0}\frac{m_0}{m}.
-% \end{align}
-Note that things get complicated when using the pair $(\xi, \delta)$, as then the
-Hamiltonian contains terms in $\beta$, which in turn depends on the energy.  In particular:
-\begin{equation}
-\frac{\partial \beta}{\partial \delta} =
-    \beta\, \frac{1-\beta^2}{1+\delta}
-\end{equation}
-
-For this reason we prefer using $H_\tau$ when deriving the equations of motion. Note
-that when $\varphi=0$, the Hamiltonian simplifies into:
-\begin{equation}
-H_\tau  =
-\frac{p_\tau}{\beta_0} - (1+h x) \left(
-      \sqrt{ \left(1+\delta\right)^2
-           - (p_x - \chi a_x)^2
-           - (p_y - \chi a_y)^2}
-       + \chi a_s
-    \right)
-\end{equation}
-
-The following identities are useful to derive the equations of motion:
-
-\begin{align}
-&\frac{\partial \delta}{\partial p_\tau} =
-    \frac{p_\tau+1/\beta_0}{1+\delta} = \frac{1}{\beta} \\
-&\frac{\partial}{\partial\delta}\left( 
-    \frac{1+\delta}{\beta\beta_0}
-  \right)=
-    \frac{\beta}{\beta_0}
-% \delta&=\sqrt{\beta_0^2 p_\zeta^2 + 2 p_\zeta +1} -1 &
-% \frac{d \delta}{d p_\zeta}= \frac{\beta_0^2 p_\zeta+1}{1+\delta} = \frac{\beta_0}{\beta}
 \end{align}
 
-\section{Symplectic integrators}
+Using $\tau$ and $p_\tau$ as longitudinal coordinates, the equations of motion are:
+\begin{align}
+  \frac{\text{d} p_x}{\text{d}s} &=
+    -\frac{\partial H_\tau}{\partial x} \\
+  \frac{\text{d} p_y}{\text{d}s} &=
+    -\frac{\partial H_\tau}{\partial y} \\
+  \frac{\text{d} p_\tau}{\text{d}s} &=
+    -\frac{\partial H_\tau}{\partial \tau} \\
+  \frac{\text{d} x}{\text{d}s} &=
+    \frac{\partial H_\tau}{\partial p_x} \\
+  \frac{\text{d} y}{\text{d}s} &=
+    \frac{\partial H_\tau}{\partial p_y} \\
+  \frac{\text{d} \tau}{\text{d}s} &=
+    \frac{\partial H_\tau}{\partial p_\tau}
+\end{align}
+
+The full derivation of the Hamiltonian and equations of motion can be found in
+Wolski~\cite{wolski2014beam} (note the different notation, as the symbol $\delta$
+in~\cite{wolski2014beam} denotes the quantity that here we call $p_\tau$).
+
+\section{Expanded magnet body hamiltonian}
+
+This section is adapted from \cite{mad8phys}.
+
+For a magnet with piece-wise constant multipole components and curvature $h$, we can
+set $a_x = 0$ and $a_y = 0$ in Eq.~\eqref{eq:hamiltonian_htau}:
+\begin{align}
+ H_\tau   &= H^\text{kin} + H^\text{magn}
+\end{align}
+where
+\begin{align}
+  &H^\text{kin} = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ \left(p_\tau+\frac{1}{\beta_0}\right)^2
+           - \frac{1}{\beta_0^2\gamma_0^2}
+           - p_x^2
+           - p_y^2} \label{eq:hamilt_kinetic_part}\\
+  &H^\text{magn} = -(1+h x) \chi a_s
+\end{align}
+
+Using \ref{eq:one_plus_delta_squared}, the kinetic part can we rewritten as follows:
+\begin{align}
+  H^\text{kin}
+    &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2} \nonumber\\
+    &= \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
+\end{align}
+Expanding the square root to first order:
+\begin{align}
+  H^\text{kin}
+    &\simeq \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\left(1 - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2}\right) \nonumber \\
+    &= \frac{p_\tau}{\beta_0} - (1+h x) \left((1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
+\end{align}
+Neglecting terms in $hxp_x^2$ and $hxp_y^2$ we obtain:
+\begin{align}
+  H^\text{kin}
+    &=  \frac{p_\tau}{\beta_0}
+    - \left(1 + \delta  - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
+    - h x \left(1 + \delta\right)
+\end{align}
+To second order we can identify the Hamiltonian of the straight drift plus a curvature
+term:
+\begin{align}
+  H^\text{kin} &\simeq \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
+  - h x \left(1 + \delta\right)
+\end{align}
+
+For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, inserting
+the curved-magnet potential from Eq.~\eqref{eq:as_curved} in $H^\text{magn}$ yields:
+\begin{align}
+  H^\text{magn} &= (1+h x)\chi \Bigg[
+    K_0\left(x-\frac{h x^{2}}{2(1+h x)}\right)
+    + K_1\left(\frac{1}{2}(x^{2}-y^{2})-\frac{h}{6}x^{3}\right) \nonumber\\
+  &\qquad\quad
+    + K_2\left(\frac{1}{6}(x^{3}-3xy^{2})-\frac{h}{24}(x^{4}-y^{4})\right)
+  \Bigg].
+\end{align}
+Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yields
+\begin{align}
+  H^\text{magn} &\simeq \chi \Bigg[
+    K_0 x
+    + K_1 \frac{x^{2}-y^{2}}{2}
+    + K_2 \frac{x^{3}-3xy^{2}}{6}
+  \Bigg] \nonumber\\
+  &\quad + \chi h \Bigg[
+    \frac{K_0}{2} x^{2}
+    + K_1 \left(\frac{1}{3}x^{3}-\frac{1}{2}x y^{2}\right)
+    + K_2 \left(\frac{1}{8}x^{4}-\frac{1}{2}x^{2}y^{2}+\frac{1}{24}y^{4}\right)
+  \Bigg].
+\end{align}
 
 
-Magnets are modeled using symplectic integrators, splitting the Hamiltonian
+\section{Symplectic integrators and magnet models}
+
+In Xsuite, magnets are modeled using symplectic integrators, splitting the Hamiltonian
 in a `propagation' part and a `kick' part.
-Hamiltonians for the maps implemented in Xsuite are reported in Table~\ref{tab:maps}.
+Hamiltonians for the maps that are reported in Table~\ref{tab:maps}, and the corresponding
+maps are reported in the following sections.
 
-Different magnet models are available in Xsuite, which correspond to different splittings of
+Different magnet models are available, which correspond to different ways of splitting
 the Hamiltonian. The available models are reported in Table~\ref{tab:models} and
 the available integration schemes are reported in Table~\ref{tab:integrators}.
 
@@ -298,27 +551,27 @@ Br  & k0, l        & Rectangular bend &
 $H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{...} -b_1 x$
 \\
 B   & k0, l, h     & Exact Bend & 
-$H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...} -k_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) $\\
+$H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) $\\
 Kh  & h, l            & Thin curvature kick & 
 $H_{Kh} = -hx$\\
 K0h & k0,l          & Weak focusing & 
-$H_{K0h} = k_0 h \frac{x^2}{2}$\\
+$H_{K0h} = K_0 h \frac{x^2}{2}$\\
 K0  & k0, l           & Dipole kick & 
-$H_{K0} = k_0 x$\\
+$H_{K0} = K_0 x$\\
 K1  & k1, l       & Quadrupole kick & 
-$H_{K1} = k_1\frac{x^2 - y^2}{2}$\\
-K1h & k1, h, l      & Quad correction & 
-$H_{K1h} = k_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
+$H_{K1} = K_1\frac{x^2 - y^2}{2}$\\
+K1h & k1, h, l      & Quad curv. correction & 
+$H_{K1h} = K_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
 Kn  & kn, ks, l     & Multipole & 
-$H_{Kn} = -\Re\left( \sum_{n=0}^N (k_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
+$H_{Kn} = -\Re\left( \sum_{n=0}^N (K_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
 \\
 % Knh & kn, ks, h  & Curved Multipoles & 
 % Not yet available\\
 M   & k0, k1, l, h & 2nd order Hamiltonian & 
-$H_{Kn} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (k_0 -h)x + \frac{k_0hx^2}{2} + k_1 \frac{x^2-y^2}{2} $
+$H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (K_0 -h)x + \frac{K_0hx^2}{2} + K_1 \frac{x^2-y^2}{2} $
 \\
 S   & ksol, l          & Solenoid & 
-$H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{k_s}{2} y\right)^2 - \left(p_y+\frac{k_s}{2}\right)^2}$
+$H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{K_s}{2} y\right)^2 - \left(p_y+\frac{K_s}{2}\right)^2}$
 \\
 \bottomrule
 \end{tabular}
@@ -363,88 +616,6 @@ yoshida4 & Fourth order Yoshida integrator \cite{yoshida90} \\
 
 
 
-\section{Cavity time, energy errors and acceleration}
-
-A cavity kick depends on:
-
-\begin{equation}
-\sin(2 \pi f T + \phi)
-\end{equation}
-
-where T is laboratory time.
-
-
-For the most general case:
-
-\begin{equation}
-\sin(2 \pi f T + \phi) = \sin\left(2 \pi f \frac{s-\zeta}{\beta_0 c}  + \phi \right)
-\end{equation}
-
-Most codes drop the term $2 \pi f s / (\beta_0 c)$ that is
-
-\begin{equation}
-\sin(2 \pi f T + \phi) \to  \sin\left(- 2 \pi f \frac{\zeta}{\beta_0 c} + \phi\right)
-\end{equation}
-
-to make sure that a particle that is syncrhonous to the reference trajectory is in phase with the cavity.
-
-
-\subsection{Implementing energy errors} 
-
-One can define
-
-\begin{equation}
-\begin{aligned}
-s &= s_0 + n (L_0-L) + n L\\
-f_{\rm rev} &= \beta_0 c / L\\ 
-f &= h f_{\rm rev}
-\end{aligned}
-\end{equation}
-
-where $s_0$ is the path length at the cavity turn at 0, $L_0$ is the design circumference, $n$ is the turn number, $h$ is the harmonic number, L is the new path length with an energy error. Indeed one could write $L=L_0(1 +\eta \delta_s$) where $\eta$ is a constant property of the lattice.
-
-Multiple cavities can have their own defined $L$.
-
-Using these definitions, then
-
-
-\begin{align}
-\sin(2 \pi f T + \phi) =
-&\sin\left(2 \pi h f_{\rm rev} \frac{s_0 + n(L_0-L) -\zeta}{\beta_0 c}  + \phi\right)\\
-=&\sin\left(2 \pi h f_{\rm rev} \frac{n(L_0-L) -\zeta}{\beta_0 c}  + \phi'\right)
-\end{align}
-
-
-where $\phi'=\frac{2\pi h s_0}{L} + \phi$.
-
-
-In MAD-X twiss and MAD8, indeed the longitudinal coordinates is directly $\zeta'=n(L_0-L) -\zeta$ and the term $n(L_0-L)$ is added smoothly in each thick element. This forces all the cavities to share the same $L$ or $f_{\rm rev}$.
-
-In SixTrack or MAD-X track, one could simply define a turn dependent phase
-\begin{equation}
-\phi=\phi_0 + 2 \pi h f_{\rm rev} n(L_0-L)
-\end{equation}
-which is very general or in alternative add a special element that perform at each turn the following transformation:
-
-\begin{equation}
-\zeta_{\rm new}=(L_0-L) -\zeta_{\rm old} 
-\end{equation}
-
-\subsection{Acceleration}
-
-Accelaration can be achieved by renormalized the relative variables using a new momentum reference. This has the side effect that the fields of the magnets (expressed in normalized strength) follow the energy ramp and that the cavity frequency (if expressed in terms of the harmonic number (NB we should perhaps change this in the Xtrack interface) is updated.
-
-The re-normalization if done once at each turn is:
-
-\begin{align}
-p_{x,\rm new} &= p_{x,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} &
-p_{y,\rm new} &= p_{y,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} \\
-\delta_{\rm new}&= (\delta_{\rm old}+1) \frac{P_{0,\rm old}}{P_{0,\rm new}} -1 &
-p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - E_{0,\rm new}}{P_{0,\rm new}c} \\
-\zeta_{\rm new} &= s\beta_0 \left(\frac{1}{\beta_{0,\rm new}} -
-\frac{1}{\beta_{0,\rm old}}\right) - \zeta_{\rm old} &
-\tau_{\rm new} &= s\left(\frac{1}{\beta_{0,\rm new}} -  \frac{1}{\beta_{0,\rm old}}\right) - \tau_{\rm old} \\
-\end{align}
 
 
 
@@ -453,6 +624,10 @@ p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - 
 \section{Beam element maps}
 
 \subsection{Drift}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#drift}{\underline{Drift element}}.
+~\\
+
 A drift is a straight, field-free region ($h(x,y)=0$, $V=0$ and
 $\mathbf{A}=0$).  The exact and expanded Hamiltonian for a drift space are
 \begin{align}
@@ -466,7 +641,7 @@ $\mathbf{A}=0$).  The exact and expanded Hamiltonian for a drift space are
 %   p_\sigma - \delta + \frac{1}{2}\frac{p_x^2+p_y^2}{1+\delta}.
 % \end{align}
 
-The map is given by solving the equations of motion:
+The corresponding maps can be obtained by solving the equations of motion:
 \begin{align}
   \frac{\text{d} p_i}{\text{d}s} &= -\frac{\partial H}{\partial q_i} &
   \frac{\text{d} q_i}{\text{d}s} &=  \frac{\partial H}{\partial p_i} 
@@ -490,95 +665,164 @@ For the position coordinates, we get:
         \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}
 \end{align}
 
-
-
-\subsubsection{Expanded Drift}
-
-The map relative to the expanded Hamiltonian is then
+Hence, the map relative to the expanded Hamiltonian for a drift of length $L$ is:
 \begin{align}
-  x_p &= \frac{p_x}{1+\delta} & 
-  y_p &= \frac{p_y}{1+\delta}  \\
-  x & \leftarrow x + x_p l &
-  y & \leftarrow y + y_p l
-\end{align}
-% \begin{align}
-%   \tau & \leftarrow \tau +
-%    \frac{l}{\beta_0} - \frac{l}{\beta} -
-%     \frac{l}{\beta} \frac{x_p^2+y_p^2}{2}=
-%     \tau+
-%     l\left(\frac{\delta}{\beta_0}-\frac{p_t}{1+\delta} - \frac{x_p^2+y_p^2}{2\beta}\right)
-% \end{align}
-\begin{align}
-  \zeta &
+  &x_p = \frac{p_x}{1+\delta} \\
+  &y_p = \frac{p_y}{1+\delta}  \\
+  &x  \leftarrow x + x_p L \\
+  &y  \leftarrow y + y_p L \\
+  &\zeta 
     \leftarrow \zeta+
     l\left(1- \frac{\beta_0}{\beta}\left(1 + \frac{x_p^2+y_p^2}{2}\right)\right)
 \end{align}
-
-\subsubsection{Exact Drift}
-
-The map relative to the exact Hamiltonian is then
-% \begin{align}
-%   p_z&=\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} \\
-%   \frac{d p_z}{d p_t}&= \frac{p_t+1/\beta_0}{p_z} = \frac{1}{\beta_z}  \\
-%   \frac{d p_z}{d p_\sigma}&= \frac{\beta_0^2 p_\sigma+1}{p_z} = \frac{\beta_0}{\beta_z}  
-% \end{align}
+and the map relative to the exact Hamiltonian for a drift of length $L$ is:
 \begin{align}
-  x & \leftarrow x + \frac{p_x}{p_z} l  &
-  y & \leftarrow y + \frac{p_x}{p_z} l
-\end{align}
-% \begin{align}
-%   \tau & \leftarrow \tau + \frac{l}{\beta_0}
-%   -\frac{l}{\beta_z}=
-%   l\left(\frac{1}{\beta_0}-\frac{p_t+1/\beta_0}{p_z}\right)
-% \end{align}
-\begin{align}
-  \zeta & \leftarrow \zeta + l\left(
+  &x \leftarrow x + \frac{p_x}{p_z} L\\
+  &y \leftarrow y + \frac{p_x}{p_z} L\\
+  &\zeta \leftarrow \zeta + L\left(
           1-\frac{\beta_0}{\beta}\frac{1+\delta}{p_z}
           \right)
 \end{align}
 
+\subsection{Polar drift (sector curvature $h$)}
+
+Used in the implementation of \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
+and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
+when model is ``rot-kick-rot''.
+~\\
+This map is ported from PTC and MAD-NG source codes.
+~\\
+
+The following map, corresponding to the motion of a particle in a field-free region
+in a reference frame with horizontal curvature $h$,  is generated by the Hamiltonian:
+\begin{equation}
+H_R = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}\right)
+\end{equation}
+
+We call:
+\[
+\delta_+ \equiv 1+\delta,\qquad \mathrm{rvv}=v/c,
+\qquad s \equiv L.
+\]
+
+Define the longitudinal momentum component
+\begin{equation}
+p_z \equiv \sqrt{\delta_+^{\,2}-p_x^{\,2}-p_y^{\,2}} .
+\end{equation}
+
+Define the curvature radius
+\begin{equation}
+\rho \equiv \frac{1}{h},
+\end{equation}
+and the trigonometric abbreviations
+\begin{equation}
+c \equiv \cos(hs),\qquad
+s_a \equiv \sin(hs),\qquad
+s_{a2}\equiv \sin\!\left(\frac{hs}{2}\right).
+\end{equation}
+
+Introduce
+\begin{equation}
+\frac{1}{p_z} \equiv p_z^{-1},\qquad
+p_{x,t} \equiv \frac{p_x}{p_z},
+\qquad
+\mathcal{D} \equiv c - s_a\, p_{x,t},
+\qquad
+\mathcal{D}^{-1} \equiv \frac{1}{\mathcal{D}}.
+\end{equation}
+
+Define also
+\begin{equation}
+p_s \equiv (x+\rho)\, s_a\, p_z^{-1}\, \mathcal{D}^{-1}.
+\end{equation}
+
+\paragraph{Transverse map}
+\begin{align}
+x_1 &=
+\left[
+x+\rho\left(2 s_{a2}^{\,2}+ s_a\, p_{x,t}\right)
+\right]\mathcal{D}^{-1},
+\\
+p_{x1} &= c\,p_x + s_a\, p_z,
+\\
+y_1 &= y + p_s\, p_y.
+\end{align}
+
+\paragraph{Path length / longitudinal map}
+
+The quantity \(\Delta \ell\) computed in the code is
+\begin{equation}
+\Delta \ell
+=
+\delta_+\,
+\frac{(x+\rho)\, s_a}{c\, p_z\left(1-\dfrac{p_x s_a}{c\,p_z}\right)} .
+\end{equation}
+
+The longitudinal coordinate is updated as
+\begin{equation}
+\zeta_1 = \zeta + \left( L - \frac{\Delta \ell}{\mathrm{rvv}} \right),
+\end{equation}
+and the reference longitudinal position as
+\begin{equation}
+s_{\text{ref},1} = s_{\text{ref}} + L.
+\end{equation}
+
 
 \subsection{Curved exact bend}
 
-This map is adapted from \cite{forest99}.
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend element}}.
+~\\
 
+The generating Hamiltonian is:
+\begin{equation}
+H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right)
+\end{equation}
+
+The corresponding map is adapted from \cite{forest99}:
 \begin{align}
-x(s) &= \frac{1}{hk_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - k_0 \chi \right) \\
-p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - k_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
-y(s) &= y + \frac{p_y s h}{k_0 \chi} + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+x(s) &= \frac{1}{hK_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - K_0 \chi \right) \\
+p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - K_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
+y(s) &= y + \frac{p_y s h}{K_0 \chi} + \frac{p_y}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
 p_y(s) &= p_y \\
 \delta(s) &= \delta \\
 \ell(s) &= \ell +
-  \frac{(1 + \delta) s h}{k_0 \chi} + \frac{(1 + \delta)}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+  \frac{(1 + \delta) s h}{K_0 \chi} + \frac{(1 + \delta)}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
 \end{align}
 
 \subsection{Straight exact bend}
 
-This map is adapted from \cite{forest99}.
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
+and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
+for specific configurations.
+~\\
 
+The generating Hamiltonian is:
+\begin{equation}
+H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - K_0 x
+\end{equation}
+
+The corresponding map is adapted from \cite{forest99}:
 \begin{align}
-x(L) &= x + \frac{1}{k_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
+x(L) &= x + \frac{1}{K_0 \chi} \left( \sqrt{(1 + \delta)^2 - p_x(L)^2 - p_y^2} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} \right) 
 \label{eq:straight_bend_x}\\
-p_x(L) &= p_x - k_0 \chi L \label{eq:straight_bend_px}\\
-y(L) &= y + \frac{p_y}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+p_x(L) &= p_x - K_0 \chi L \label{eq:straight_bend_px}\\
+y(L) &= y + \frac{p_y}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
 p_y(L) &= p_y \\
 \delta(L) &= \delta \\
 \ell(L) &= \ell +
-\frac{1 + \delta}{k_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+\frac{1 + \delta}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(L)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
 \label{eq:straight_bend_ell}
 \end{align}
 
 \subsection{Rectangular bend - straight body}
 
-Xsuite supports rectangular bends with generic shifts and angles at the
-entrance and exit faces as shown in Fig.~\ref{fig:rbend}. The following relations
-among the involved quantities can be derived.
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend element}}.
+~\\
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[height=0.40\textheight]{figures/rbend.png}
-  \caption{Rectangular bend.\label{fig:rbend}}
-\end{figure}
+Xsuite supports rectangular bends with generic shifts and angles at the
+entrance and exit faces as shown in Fig.~\ref{fig:rbend}. In this section we report
+relations among the quantities defining the geometry of the magnet with respect
+to the reference trajectory.
 
 The code takes as input the total bending angle $\alpha$ and the difference
 $\alpha_\text{diff}$ between the angles at entrance and exit of the reference
@@ -592,6 +836,12 @@ from which:
 &\alpha_\text{in} = \frac{\alpha - \alpha_\text{diff}}{2} \\
 &\alpha_\text{out} = \frac{\alpha + \alpha_\text{diff}}{2}
 \end{align}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[height=0.40\textheight]{figures/rbend.png}
+  \caption{Rectangular bend.\label{fig:rbend}}
+\end{figure}
 
 In the reference frame of the magnet body, for an on-momentum particle on the
 reference trajectory we can write:
@@ -642,27 +892,170 @@ The last gives the usual equation for the sagitta of a bending magnet.
 
 
 
+\subsection{Expanded Bend-Quadrupole (also used for Quadrupole)}
 
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}},
+\href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} and
+\href{https://xsuite.readthedocs.io/en/latest/apireference.html#quadrupole}{\underline{Quadrupole}} elements,
+for ``mat-kick-mat'' model.
+~\\
+This map is ported from MAD-X source code.
+~\\
 
+The following map is generated by the Hamiltonian:
+\begin{equation}
+  H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (K_0 -h)x + \frac{K_0hx^2}{2} + K_1 \frac{x^2-y^2}{2} 
+\end{equation}
 
+We consider a particle with initial canonical coordinates
+\[
+(x,\, p_x,\, y,\, p_y,\, \zeta),
+\]
+relative momentum deviation $\delta$, velocity factor $\mathrm{rvv}=v/c$, and charge/sign factor $\chi$.
+The element has length $L$, curvature $h$, and (input) strengths $K_0$ and $K_1$.
 
-% \subsubsection{Polar Drift}
-% It is possible to define a ``polar'' drift that has the effect of rotating the reference frame
-% \cite{forest99} for instance in the $x$-$z$ plane
+\subsubsection*{Definitions}
 
-% \begin{align}
-% p_x & \leftarrow   p_x \cos \theta + p_z \sin\theta &
-% p_z & \leftarrow - p_x \sin \theta + p_z \cos\theta \\
-% z   &= -x \sin \theta & x' &= p_x/p_z &  y' &= p_y/p_z \\
-% x   & \leftarrow x \cos\theta - x' z  &
-% y   & \leftarrow y - x' z  & \tau & \leftarrow \tau + z\frac{1}{\beta}\frac{1+\delta}{p_z} .
-% \end{align}
-% where $\theta$ is the angle bringing the new $\hat x$ towards the old $\hat z$.
-% The map can be also generated by combining a rotation with a $-x
-% \sin(\theta)$-length drift. In case of an $\hat x$ rotation the role of $x$ and $y$ are interchanged. 
+Define
+\begin{align}
+\delta_+ &\equiv 1+\delta, \\
+x' &= \frac{p_x}{\delta_+}, \qquad
+y' = \frac{p_y}{\delta_+}.
+\end{align}
+
+We introduce the momentum-scaled (effective) strengths
+\begin{align}
+\bar{K}_0 &= \frac{\chi\, K_0}{\delta_+}, \qquad
+\bar{K}_1 = \frac{\chi\, K_1}{\delta_+},
+\end{align}
+and the corresponding focusing coefficients
+\begin{align}
+K_x &= \bar{K}_0\, h + \bar{K}_1, \\
+K_y &= -\bar{K}_1 .
+\end{align}
+
+Auxiliary quantities:
+\begin{align}
+A &= -K_x x - \bar{K}_0 + h, \\
+B &= x', \\
+C &= -K_y y, \\
+D &= y'.
+\end{align}
+
+\subsubsection*{Transport Functions}
+
+For an element of length $L$, define
+\[
+(C_x,S_x)=
+\begin{cases}
+\left(\cos(\sqrt{K_x}L), \dfrac{\sin(\sqrt{K_x}L)}{\sqrt{K_x}}\right),
+& K_x>0, \\[1em]
+\left(\cosh(\sqrt{-K_x}L), \dfrac{\sinh(\sqrt{-K_x}L)}{\sqrt{-K_x}}\right),
+& K_x<0, \\[1em]
+(1,\,L), & K_x=0,
+\end{cases}
+\]
+\[
+(C_y,S_y)=
+\begin{cases}
+\left(\cos(\sqrt{K_y}L), \dfrac{\sin(\sqrt{K_y}L)}{\sqrt{K_y}}\right),
+& K_y>0, \\[1em]
+\left(\cosh(\sqrt{-K_y}L), \dfrac{\sinh(\sqrt{-K_y}L)}{\sqrt{-K_y}}\right),
+& K_y<0, \\[1em]
+(1,\,L), & K_y=0.
+\end{cases}
+\]
+
+\subsection*{Transverse Map}
+
+\paragraph{Positions}
+\begin{align}
+x_1 &= x C_x + x' S_x
++ \begin{cases}
+\dfrac{(\bar{K}_0-h)(C_x-1)}{K_x}, & K_x\neq 0, \\[1em]
+-\dfrac{1}{2}(\bar{K}_0-h)L^2, & K_x=0,
+\end{cases}
+\\
+y_1 &= y C_y + y' S_y .
+\end{align}
+
+\paragraph{Momenta}
+\begin{align}
+p_{x1} &= \delta_+ \left(A S_x + B C_x\right), \\
+p_{y1} &= \delta_+ \left(C S_y + D C_y\right).
+\end{align}
+
+\subsubsection*{Path Length}
+
+Let $L_{\text{tot}}$ be the total path length travelled by the particle through the element.
+
+\paragraph{Horizontal contribution}
+
+For $K_x\neq 0$:
+\begin{align}
+L_{\text{tot}} &= L
+- \frac{h\left[(C_x-1)x' + S_x A + L(\bar{K}_0-h)\right]}{K_x} \nonumber\\
+&\quad + \frac{1}{2}\Bigg[
+- \frac{A^2 C_x S_x}{2K_x}
++ \frac{B^2 C_x S_x}{2}
++ \frac{A^2 L}{2K_x}
++ \frac{B^2 L}{2} \nonumber\\
+&\qquad\qquad
+- \frac{A B C_x^2}{K_x}
++ \frac{A B}{K_x}
+\Bigg].
+\end{align}
+
+For $K_x=0$:
+\begin{equation}
+L_{\text{tot}} =
+L
++ \frac{hL}{6}\left(3Lx' + 6x - (\bar{K}_0-h)L^2\right)
++ \frac{1}{2}B^2 L .
+\end{equation}
+
+\paragraph{Vertical contribution}
+
+For $K_y\neq 0$:
+\begin{align}
+L_{\text{tot}} \mathrel{+}= \frac{1}{2}\Bigg[
+- \frac{C^2 C_y S_y}{2K_y}
++ \frac{D^2 C_y S_y}{2}
++ \frac{C^2 L}{2K_y}
++ \frac{D^2 L}{2} \nonumber\\
+\qquad\qquad
+- \frac{C D C_y^2}{K_y}
++ \frac{C D}{K_y}
+\Bigg].
+\end{align}
+
+For $K_y=0$:
+\begin{equation}
+L_{\text{tot}} \mathrel{+}= \frac{1}{2}D^2 L .
+\end{equation}
+
+\subsubsection*{Longitudinal Map}
+
+The longitudinal coordinate update is
+\begin{equation}
+\Delta\zeta = L - \frac{L_{\text{tot}}}{\mathrm{rvv}} .
+\end{equation}
+
+\subsubsection*{Final Map}
+
+\begin{equation}
+(x,p_x,y,p_y,\zeta)
+\;\longrightarrow\;
+(x_1,p_{x1},y_1,p_{y1},\zeta+\Delta\zeta),
+\qquad
+s \rightarrow s+L .
+\end{equation}
 
 
 \subsection{Thin bend}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#multipole}{\underline{Multipole element}}.
+~\\
 
 In a curvilinear reference system with a constant curvature $h$ in the
 horizontal plane a uniform magnetic field can be derived by the vector potential:
@@ -671,7 +1064,7 @@ horizontal plane a uniform magnetic field can be derived by the vector potential
   - B_y \left(x-\frac{h x^2}{2 (1+h x)}\right).
 \end{align}
 
-With the following normalization $k_0=\frac{q_0}{p} B_y$ is the inverse of the bending 
+With the following normalization $K_0=\frac{q_0}{p} B_y$ is the inverse of the bending 
 radius of the reference particle.
 
 The exact and expanded Hamiltonian for a horizontal bending magnet is (eq. 2.12 in
@@ -679,98 +1072,206 @@ The exact and expanded Hamiltonian for a horizontal bending magnet is (eq. 2.12 
 \begin{align}
   H &= \frac{p_\tau}{\beta_0} 
        - (1+h x)\sqrt{(1+\delta)^2 -p_x^2 - p_y^2}
-       + \chi k_0 \left( x + \frac{h x^2}{2} \right)  \\
+       + \chi K_0 \left( x + \frac{h x^2}{2} \right)  \\
     &\simeq   \frac{p_\tau}{\beta_0}
     + \frac{1}{2}\frac{p_x^2+p_y^2}{1+\delta}
-  - (1+h x) (1+\delta) + \chi k_0 \left( x + \frac{h x^2}{2} \right)
+  - (1+h x) (1+\delta) + \chi K_0 \left( x + \frac{h x^2}{2} \right)
 \end{align}
 
 
 The map for a thin dipole kick (horizontal or vertical) from the expanded Hamiltonian is 
 (eq. 4.12 in \cite{heinemann95}):
 \begin{align}
-  p_x &\leftarrow p_x + (h_x l - \chi k_0 l)  + h_x l \delta - \chi k_0 l h_x x \\
-  p_y &\leftarrow p_y - (h_y l - \chi \hat k_0 l) - h_y l \delta - \chi \hat k_0 l h_y y\\
-  \tau &\leftarrow \tau - \frac{h_xx - h_yy}{\beta}  l.
+  p_x &\leftarrow p_x - \chi K_0 L + h L (1 + \delta)  - \chi K_0  h x L\\
+  \tau &\leftarrow \tau - \frac{h x}{\beta}  L.
 \end{align}
-
-
-%\subsubsection{mad thin dipole}
-% see ttt = sqrt( one + two*track(6,jtrk)*beti + track(6,jtrk)*track(6,jtrk) ) 
-
-%
-%to be checked
-%??? dipr 
-%\begin{align}
-%  p_x &\leftarrow p_x + (h_x l - \chi k_0 l)  + h_x l \delta - \chi k_0 l h_x x \\
-%  p_y &\leftarrow p_y - (h_y l - \chi \hat k_0 l) - h_y l \delta  + \chi k_0 l h_y y\\
-%  \tau &\leftarrow \tau - \frac{h_xx - h_yy}{\beta}  l.
-%\end{align}
-
- %   ttt = sqrt( one + two*track(6,jtrk)*beti + track(6,jtrk)*track(6,jtrk) ) 
- %   track(2,jtrk) = track(2,jtrk) - (dbr + dxt(jtrk) - dipr * (ttt - one))
- %    track(4,jtrk) = track(4,jtrk) + (dbi + dyt(jtrk) - dipi * (ttt - one))
- %    track(5,jtrk) = track(5,jtrk) - &
- %         (dipr*track(1,jtrk) - dipi*track(3,jtrk)) *   &
- %         ((one + bet0*track(6,jtrk))/ttt) * bet0i
-
-
-
 
 
 
 \subsection{Thin Multipole}
 
-The effect of a thin multipole can be approximated by the following Hamiltonian
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#multipole}{\underline{Multipole element}}.
+~\\
 
-A longitudinally uniform static magnetic field can be described by the following equations
-\begin{align}
-    B_y+iB_x&=\sum_{n=1}     \frac{B_n+iA_n}{r_0^{n-1}} (x+iy)^{n-1} \\
-            &=B_N \sum_{n=N} \frac{b_n+ia_n}{r_0^{n-1}} (x+iy)^{n-1}  .
-\end{align}
-
-%Usually multipole are expressed as relative to 
-The kick $\Delta \vec P  = q_0 v_z \hat z \times (B_x \hat x + B_y \hat y)$ translates into
-\begin{align}
-   \Delta p_x - i \Delta p_y = -\frac{q_0}{P_0}\chi(B_y + i B_x) 
-\end{align}
+Multipolar components are defined according to the definition in Sec.~\ref{sec:multipole_expansion}.
 
 
-A thin multiple idealizes the effect of the field by taking the limit of the integration 
+A thin multiple models the effect of the field by taking the limit of the integration
 length going to zero while keeping constant the integrated strength. The Hamiltonian is:
 \begin{align}
-  H= \delta(s) \chi L \Re\left[\sum_{n=0} \frac{1}{(n+1)!}(k_n + i\hat k_n) (x+iy)^{n+1} \right].
+  H= \delta(s) \chi L \Re\left[\sum_{n=0} \frac{1}{(n+1)!}(K_n + i\hat K_n) (x+iy)^{n+1} \right].
 \end{align}
-where
-\begin{align}
-  k_n     &=  n!\frac{q_0}{p_0}  \frac{B_{n+1}}{r_0^n}  &
-  \hat k_n&=  n!\frac{q_0}{p_0}  \frac{A_{n+1}}{r_0^n} .
-\end{align}
-
 
 The corresponding map is:
 \begin{align}
-  p_x &\leftarrow p_x - \chi L\cdot\Re\left[\sum_{n=0} \frac{1}{n!} (k_n + i\hat k_n) (x+iy)^n \right], \\
-  p_y &\leftarrow p_y + \chi L\cdot\Im\left[\sum_{n=0} \frac{1}{n!} (k_n + i\hat k_n) (x+iy)^n \right],
+  p_x &\leftarrow p_x - \chi L\cdot\Re\left[\sum_{n=0} \frac{1}{n!} (K_n + i\hat K_n) (x+iy)^n \right], \\
+  p_y &\leftarrow p_y + \chi L\cdot\Im\left[\sum_{n=0} \frac{1}{n!} (K_n + i\hat K_n) (x+iy)^n \right],
 \end{align}
+where $L$ is the length of the modelled multipole element.
 
-In case a curvature $h$, the vector potential become:
+The other coordinates ($x$, $y$, $\delta$, $\zeta$) remain unchanged.
 
+\subsection{Dipole fringe field}
+
+The dipole fringe field map used in Xsuite is based on \cite{forest-fringe-1}.
+Additional information can be found in \cite{silke_cap, silke_fringe}.
+
+The implemented map is the following:
+\begin{align*}
+p_s &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
+x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
+p_{x,f} &= p_x \\
+y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
+p_{y,f} &= p_y - \psi y_f - \frac{K_0^2}{9 F g (1 + \delta)} y_f^3 \\
+\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
+\delta_f &= \delta
+\end{align*}
+%
+with:
+\begin{equation}
+\psi = K_0 \tan \left[
+\arctan \left( \frac{x'}{1 + y'^2} \right)
+- g K_0 F \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
+\right]
+\end{equation}
+where $K_0$ is the normalized magnetic field, $g$ is the magnet gap and $F$ is
+the fringe field integral:
+\begin{equation}
+F = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(K_0 - b(s)\bigr)}{g K_0^{2}} \, ds
+\end{equation}
+
+\subsection{Dipole wedge} \label{sec:DipoleWedge}
+
+The following map is used to move the observation plane by an angle $\theta$
+around the $y$ axis in a uniform dipole field~\cite{forest99}:
 \begin{align}
-f(x,y)&=\int B_x(x,y) dy  \\
-g(x,y)&=\int \partial x  B_x(x,y) dy \\
-a_s(x,y)&=\frac{c_1}{1 + h x} + f(x,y) -
-   \frac{\int_1^x (1 + h \tilde{x}) (g(\tilde{x},y)+\tilde{x}) +h f(x,y)  \, d\tilde{x}}{1+ h x}
+x(\theta) &= x \cos\theta 
++ \frac{ x p_x \sin(2\theta) + \sin^2\theta \left( 2x \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - K_0 x^2 \right) }
+{\sqrt{(1+\delta)^2 - p_x(\theta)^2 - p_y^2} + \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} \cos\theta - p_x \sin\theta} 
+\\[1ex]
+p_x(\theta) &= p_x \cos\theta + \left( \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - K_0 x \right) \sin\theta
+\\[1ex]
+y(\theta) &= y + \frac{p_y}{K_0} \theta 
++ \frac{p_y}{K_0} \left( 
+\sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
+- \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
+\right)
+\\[1ex]
+p_y(\theta) &= p_y
+\\[1ex]
+\delta(\theta) &= \delta
+\\[1ex]
+\ell(\theta) &= \ell + \frac{(1+\delta)}{K_0} \theta
++ \frac{(1+\delta)}{K_0} \left(
+\sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
+- \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
+\right)
+\end{align}
+%
+where $K_0$ is the normalized magnetic field.
+
+\subsection{Multipole fringe field}
+
+The fringe field effect for multipole magnets is implemented as described in 
+\cite{forest99}.
+
+We introduce the following auxiliary quantities:
+\begin{align}
+f_\pm &\approx 
+\mp \Re \frac{c_n (x + i y)^n}{4 (n+1)(1+\delta)} 
+\left\{ x p_x + y p_y + i \frac{n+2}{n} (x p_y - y p_x) \right\} 
+\label{eq:fpm}
+\\[1ex]
+&= \frac{p_x f^x + p_y f^y}{1+\delta}.
+\nonumber
+\end{align}
+where $c_n = K_n + i \hat{K}_n$ is the complex multipole strength (see Sec.~\ref{sec:multipole_expansion}).
+
+The functions $f^x$ and $f^y$ depend on position only. 
+The characteristic function is chosen so as to depend on the final momenta:
+\begin{equation}
+S(\vec{x}, \vec{p}^f) = \vec{x} \cdot \vec{p}^f - \frac{p_x^f f^x + p_y^f f^y}{1+\delta}.
+\label{eq:characteristic}
+\end{equation}
+The following implicit solution is found:
+\begin{subequations}
+\label{eq:system}
+\begin{align}
+x^f &= x - \frac{f^x}{1+\delta} \label{eq:xf} \\[0.5ex]
+p_x &= p_x^f - \frac{p_x^f (\partial_x f^x) + p_y^f (\partial_x f^y)}{1+\delta} \label{eq:fringe_px} \\[0.5ex]
+y^f &= y - \frac{f^y}{1+\delta} \label{eq:yf} \\[0.5ex]
+p_y &= p_y^f - \frac{p_x^f (\partial_y f^x) + p_y^f (\partial_y f^y)}{1+\delta} \label{eq:fringe_py} \\[0.5ex]
+\delta^f &= \delta \label{eq:deltaf} \\[0.5ex]
+\ell &= \ell^f + \frac{p_x^f f^x + p_y^f f^y}{(1+\delta)^2}. \label{eq:l}
+\end{align}
+\end{subequations}
+It is solved by inverting Eqs.~\eqref{eq:fringe_px} and \eqref{eq:fringe_py}
+simultaneously to obtain the final transverse momenta.
+
+\subsection{Quadrupolar correction for wedge and Y rotation}
+
+If the dipole wedge or rotation around the $y$ axis in field free regions,
+take place in the presence of a quadrupole field,
+the following correction is applied to the transverse momenta:
+\begin{align}
+p_x^f &= p_x - K_1 x^2 \theta + K_1 \frac{y^2}{2} \theta 
+\label{eq:pxf}
+\\
+p_y^f &= p_y + K_1 x y \theta
+\label{eq:pyf}
+\end{align}
+This correction is a perturbation of the wedge or Y rotation, and can in theory be applied using any integration scheme. It is currently implemented as a kick-drift approximation.
+
+\subsubsection*{Derivation}
+(derived by S. Van der Schueren based on the MAD-X/PTC \cite{madsite} source code)
+
+In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
+\begin{equation}
+H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x) 
+\left( 
+\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} 
+- \frac{x + \frac{h}{2} x^2}{1 + h x} K_0 + K_1 \frac{y^2}{2} - \frac{K_1 h x^3}{3} + \frac{K_1 x^2}{2(hx+1)}
+\right)
+\label{eq:Htau}
+\end{equation}
+which we can split in perturbation theory in a drift-like part $H_0$ and a kick-like part $H_1$:
+\begin{align}
+H_0 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) K_0 
+\label{eq:H1}
+\\
+H_1 &= -(1 + h x) K_1 \frac{y^2}{2} + \left( K_1 h \frac{x^3}{3} + K_1 \frac{x^2}{2} \right)
+\label{eq:H2}
 \end{align}
 
+The Hamiltonian $H_0$ leads to the dipole wedge \ref{sec:DipoleWedge} (or a dynamical rotation \ref{sec:Yrotation} if $b_0 = 0$) when taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ . 
+The Hamiltonian $H_1$ has equations of motion:
 \begin{align}
-\frac{\int_1^x \left(-h \tilde{x} \left(g(x,y)\right)-\int \text{bx}^{(1,0)}(\tilde{x},y) \, dy-h \int \text{bx}(\tilde{x},y) \,
-   dy-h \tilde{x} \text{by}(\tilde{x},y)-\text{by}(\tilde{x},y)\right) \, d\tilde{x}}{h x+1}
+p_x' &= -\frac{\partial H_1}{\partial x} 
+= h K_1 \frac{y^2}{2} - h K_1 x^2 - K_1 x 
+\label{eq:pxprime}
+\\
+p_y' &= -\frac{\partial H_1}{\partial y} 
+= (1 + h x) K_1 y 
+\label{eq:pyprime}
 \end{align}
+which gives integrated equations:
+\begin{align}
+p_x(s) &= p_x + h K_1 \frac{y^2}{2} s - h K_1 x^2 s - K_1 x s 
+\label{eq:pxs}
+\\
+p_y(s) &= p_y + (1 + h x) K_1 y s 
+\label{eq:pys}
+\end{align}
+Taking the limit to $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
+
+
 
 
 
 \subsection{Accelerating Cavity}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#cavity}{\underline{Cavity element}}.
+~\\
 
 The approximated energy gain of a particle passing through an electric field of frequency $f=\frac{kc}{2\pi}$ for which:
 \begin{align}
@@ -784,14 +1285,16 @@ V_n&=  \frac{q_0}{P_0 c} V  &
 \end{align}
 from which one can derive the following map
 \begin{align}
-p_\tau & \leftarrow p_\tau + \chi V_n \sin(\phi - k \tau + k \frac{s-s_0}{\beta_0}  ),
+p_\tau & \leftarrow p_\tau + \chi V_n \sin(\phi - k \tau).
 \end{align}
-where the additional terms in the phase is added in case harmonic number is not exactly
-integer and the phase is unlocked phase ). The new $\delta$ can be updated from the new $p_\tau$.
 
 
 
 \subsection{RF-Multipole}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rfmultipole}{\underline{RFMultipole}}
+and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#crabcavity}{\underline{Crab Cavity}} elements.
+~\\
 
 The RF-multipole generalizes the interaction of a particle with an electromagnetic field by assuming that
 
@@ -828,6 +1331,10 @@ where
 
 
 \subsection{Solenoid}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#uniformsolenoid}{\underline{UniformSolenoid}}
+and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#variablesolenoid}{\underline{VariableSolenoid}} elements.
+~\\
 
 The derivation largely follows one by Forest~\cite{forest99}, while the final map can be verified to be the same as the one by Wolski~\cite{wolski2014beam}.
 
@@ -989,7 +1496,7 @@ We have the following map (note the change in $\zeta$ is analogous to the drift)
 \end{align*}
 where $p_z :=  \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y}\right)}^{2} - {\left(\frac{b_{z}}{2} y + p_{x}\right)}^{2}}$, $\theta := \frac{b_{z} L}{2 p_z} $, and $L$ is the length of the thick solenoid.
 
-\subsection{Tilted solenoid}
+\subsubsection{Tilted solenoid}
 
 From solenoid frame (x'-z') to beam frame (x-z) we have the following transformation:
 \begin{align}
@@ -1081,99 +1588,12 @@ The corresponding magnetic field is:
 &\boxed{B_y(x,y,z) = -\frac{1}{2} \frac{dB_{z0}}{dz} \, y + B_{y0}(z)} \\
 &\boxed{B_z(x,y,z) = B_{z0}(z)}
 \end{align}
-%\section{Beam-Beam}
-%
-%The closed expression of an integrated kick experienced by a test particle of charge  $q=Z e$ due to a 2D uncoupled Gaussian charge distribution of total charge $q_b=N_b e$ defined by $\sigma_x, \sigma_y$ and located at $\Delta x, \Delta y$ from the test particle and moving at $v_z=\beta_b c$ from the test particle can be obtained through the use of complex the function \cite{bassetti-erskine}:
-%
-%\begin{align}
-%w(z)=\exp({-z^2})\left(1+\frac{2i}{\sqrt{\pi}}\int_0^z \exp({\xi^2}) d\xi \right)=
-%     \exp({-z^2}){\rm erfc}(-iz).
-%\end{align}
-%
-%The kick can then be expressed as
-%\begin{equation}
-%\Delta p_y+i \Delta p_x= K_b \frac{\sqrt{\pi}}{r}
-%\left( {\rm w}\left(\xi_1 \right)
-%       -\exp\left( \xi_2^2-\xi_1^2 \right)
-%         {\rm w}\left( \xi_2 \right)
-%\right)
-%\end{equation}
-%or, when $\sigma_x=\sigma_y=\sigma$, with
-%\begin{equation}
-%\Delta p_y+i \Delta p_x= K_b \frac{i \Delta x+ \Delta y}{\Delta_x^2+\Delta y^2}
-%\left( 1 - \exp\left(-\frac{\Delta x^2+\Delta y^2}{2\sigma^2}\right) \right)
-%\end{equation}
-%since $w(z) \leftarrow i / (\sqrt{\pi} z) $ for $z\leftarrow \infty$ with and where
-%\begin{align}
-%r&=\sqrt{2(\sigma_x^2 - \sigma_y^2)} &
-%\xi_1&=\frac {\Delta x}r +i \frac {\Delta y}r &
-%\xi_2= \frac{\Delta x\sigma_y}{r\sigma_x}+i \frac{\Delta y \sigma_x}{r\sigma_y}.
-%\end{align}
-%and where
-%\begin{align}
-%K_b 
-%=\chi \frac{q_0 q_b  (1 -\beta \beta_b)}{2\pi \epsilon_0  P_0 c^2}
-%=\frac{2 N_b Z r_0 (1 -\beta \beta_b)}{ \beta_0 \gamma_0} && 
-%r_0=\frac{e^2}{4\pi\epsilon_0 m c^2},
-%\end{align}
-%
-%In case the 2D distribution approximates the integrated effect of a longitudinal distribution (e.g. beam beam effect) the kick has to be scaled by a time of flight factor
-%\begin{align}
-%K_b^{BB}&=\frac{K_b}{\beta - \beta_b}, 
-%\end{align}
-%while in case the distribution is stationary of length L and charge density $\lambda$ such that $N_b=\lambda L$.
-%\begin{align}
-%K_b^{SC}&=\frac{K_b}{\beta}. 
-%\end{align}
-%
-%In case the distribution is not longitudinally uniform and the potential of a slice of charge can be written as
-%$q_b U(X,Y,Z,t)/(P_0 c)$ where $S=\frac{Z-\beta_0\tau}{2}$ is the location of the interaction point, 
-%one can apply the so-called Synchro-Betatron mapping in the ultra-relativistic limit:
-%\begin{align}
-%x &\leftarrow x- S f_X & 
-%y &\leftarrow y- S f_Y   \\
-%p_x &\leftarrow p_x+  f_X=x'   &
-%p_y &\leftarrow p_y+  f_Y=y' 
-%\end{align} 
-%\begin{align}
-%p_t & \leftarrow p_t  + \frac{1}{2}
-%   \left( f_Z 
-%        + f_X \frac{p_x +x'}{2} 
-%        + f_Y \frac{p_y +y'}{2} \right)
-%\end{align} with $f_{X,Y,Z}=- n \partial_{X,Y,Z} U(X=x+S p_x,Y=y+S p_y,Z=Z,t=\tau)$.
-%
-%In the non-relativistic limit:
-%\begin{align}
-%f_{X,Y} &= - q_b \frac{1 -\beta \beta_b}{\beta - \beta_b} \partial_{X,Y} U&
-%f_Z &= - q_b \frac{1}{\beta - \beta_b} \partial_Z U \\
-%S&=\beta_0 \frac{Z/\beta-\tau}{\beta - \beta_b}&
-%p_t & \leftarrow p_t  + \frac{\beta_0}{\beta-\beta_b}\left(\ldots\right)
-%\end{align}.
-
-\subsection{AC-dipole}
-The excitation amplitude of the AC-dipole is denoted by $A$ [Tm], the excitation frequency by $q_d$ [$2\pi$] and the phase of the excitation by $\phi$. The map
-presented here is for a purely horizontal dipole, the map for a vertical dipole is obtained by replacing $p_x\to p_y$.
-
-The effect of the AC-dipole is split into four stages. The turn number is denoted by $n$.
-\begin{enumerate}
-  \item A number of free turns $n_{\text{free}}$, in which the AC-dipole has no effect on the motion.
-  \item Ramp-up of the voltage from $0$ to the excitation amplitude $A$ for $n_{\text{ramp-up}}$ turns.
-        \begin{align*}
-            n' &= \frac{n-n_{\text{free}}}{n_{\text{ramp-up}}} \\
-            p_x &\to p_x + n' \cdot \frac{A}{pc} \cdot(1+\delta) \sin\left(2\pi q_d\cdot(n-n_{\text{free}})+\phi\right)
-        \end{align*}
-  \item Constant excitation amplitude for $n_{\text{flat}}$ turns.
-        \begin{align*}
-            p_x &\to p_x + \frac{A}{pc}\cdot(1+\delta)\sin\left(2\pi q_d\cdot(n-n_{\text{free}})+\phi\right)
-        \end{align*}
-  \item Ramp-down of the voltage from the excitation amplitude $A$ to $0$ for $n_{\text{ramp-down}}$ turns.
-        \begin{align*}
-            n' &= \frac{n-n_{\text{free}}-n_{\text{ramp-up}}-n_{\text{flat}}-n_{\text{ramp-down}}}{n_{\text{ramp-down}}} \\
-            p_x &\to p_x + n' \cdot \frac{A}{p} \cdot(1+\delta) \sin\left(2\pi q_d\cdot(n-n_{\text{free}})+\phi\right)
-        \end{align*}
-\end{enumerate}
 
 \subsection{Wire}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#wire}{\underline{Wire element}}.
+~\\
+
 For each part we define $p_z=\sqrt{(1+\delta)^2-x'^2-y'^2}$, using the current values for $x'$ and $y'$.
 
 Step 1. Initial backwards drift of length $L=\frac{embl}{2}$.
@@ -1250,6 +1670,9 @@ Step 8. Negative drift of length $L=\frac{embl}{2}$.
 
 
 \subsection{Electron Lens}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#elens}{\underline{Elens element}}.
+
 \label{elense}
 \subsubsection{Hollow electron lens - uniform annular profile}
 For a uniform distribution of the electron beam between $R_1$ and $R_2$, the radial kick can be described by a shape function $f(r)$ and a maximum kick strength $\theta_{\rm max}$:
@@ -1293,6 +1716,9 @@ y'&=y'-\theta_{\rm max}\cdot\frac{r_2}{\tilde r^2}\cdot f(\tilde r)\cdot \tilde 
 \end{align}
 
 \subsection{Electron Cooler}
+
+Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#electroncooler}{\underline{ElectronCooler element}}.
+~\\
 
 The Parkhomchuk electron cooler in Xsuite applies a kick to the circulating ion based on the following equation:
 %
@@ -1406,63 +1832,6 @@ An additional effect due to space charge is the rotation of the electron beam ar
 \end{equation}
 This effect can also be disabled by setting "space charge factor" to zero. A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
 
-\subsection{Dipole fringe field}
-
-The dipole fringe field implementation is based on \cite{forest-fringe-1}.
-Additional information can be found in \cite{silke_cap, silke_fringe}.
-
-\begin{align*}
-x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
-p_{x,f} &= p_x \\
-y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
-p_{y,f} &= p_y - \psi y_f - \frac{k_0^2}{9 K g (1 + \delta)} y_f^3 \\
-\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
-\delta_f &= \delta
-\end{align*}
-
-with:
-\begin{equation}
-\psi = k_0 \tan \left[
-\arctan \left( \frac{x'}{1 + y'^2} \right)
-- g k_0 K \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
-\right]
-\end{equation}
-where $k_0$ is the normalized magnetic field, $g$ is the magnet gap and $K$ is
-the fringe field integral:
-\begin{equation}
-K = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(k_0 - b(s)\bigr)}{g k_0^{2}} \, ds
-\end{equation}
-
-\subsection{Dipole wedge} \label{sec:DipoleWedge}
-
-The following map can be used to move the observation plane by an angle $\theta$
-around the $y$ axis in a uniform dipole field~\cite{forest99}.
-
-\begin{align}
-x(\theta) &= x \cos\theta 
-+ \frac{ x p_x \sin(2\theta) + \sin^2\theta \left( 2x \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - k_0 x^2 \right) }
-{\sqrt{(1+\delta)^2 - p_x(\theta)^2 - p_y^2} + \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} \cos\theta - p_x \sin\theta} 
-\\[1ex]
-p_x(\theta) &= p_x \cos\theta + \left( \sqrt{(1+\delta)^2 - p_x^2 - p_y^2} - k_0 x \right) \sin\theta
-\\[1ex]
-y(\theta) &= y + \frac{p_y}{k_0} \theta 
-+ \frac{p_y}{k_0} \left( 
-\sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
-- \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right) 
-\right)
-\\[1ex]
-p_y(\theta) &= p_y
-\\[1ex]
-\delta(\theta) &= \delta
-\\[1ex]
-\ell(\theta) &= \ell + \frac{(1+\delta)}{k_0} \theta
-+ \frac{(1+\delta)}{k_0} \left(
-\sin^{-1}\!\left( \frac{p_x}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
-- \sin^{-1}\!\left( \frac{p_x(\theta)}{\sqrt{(1+\delta)^2 - p_y^2}} \right)
-\right)
-\end{align}
-
-where $k_0$ is the normalized magnetic field.
 
 \subsection{Rotations}
 
@@ -1525,7 +1894,7 @@ y \leftarrow \frac{y}{\kappa \cos\phi}, \quad p_y \leftarrow p_y \cos\phi + p_z 
 \]
 
 \[
-x \leftarrow x + \frac{y p_x \tan\phi}{\kappa p_z}, \quad \zeta \leftarrow \zeta - \frac{y \tan\phi \left(1 + \beta_0 p_t \right)}{\kappa p_z}.
+x \leftarrow x + \frac{y p_x \tan\phi}{\kappa p_z}, \quad \zeta \leftarrow \zeta - \frac{y \tan\phi \left(1 + \beta_0 p_\tau \right)}{\kappa p_z}.
 \]
 
 \subsubsection{Y Rotation}\label{sec:Yrotation}
@@ -1547,7 +1916,7 @@ p_x \leftarrow p_x \cos\theta - p_z \sin\theta,
 \[
 y \leftarrow y - \frac{x\,p_y\,\tan\theta}{\kappa\,p_z}, 
 \quad 
-\zeta \leftarrow \zeta + \frac{x\,\tan\theta\,(1 + \beta_0 p_t)}{\kappa\,p_z}.
+\zeta \leftarrow \zeta + \frac{x\,\tan\theta\,(1 + \beta_0 p_\tau)}{\kappa\,p_z}.
 \]
 
 \subsubsection{S Rotation}
@@ -1566,96 +1935,685 @@ p_x \leftarrow p_x \cos\psi + p_y \sin\psi,
 p_y \leftarrow -p_x \sin\psi + p_y \cos\psi.
 \]
 
-\subsection{Multipole fringe field}
 
-The fringe field effect for multipole magnets is implemented as described in 
-\cite{forest99}.
+\section{Cavity time, energy errors and acceleration}
 
-\begin{align}
-f_\pm &\approx 
-\mp \Re \frac{c_n (x + i y)^n}{4 (n+1)(1+\delta)} 
-\left\{ x p_x + y p_y + i \frac{n+2}{n} (x p_y - y p_x) \right\} 
-\label{eq:fpm}
-\\[1ex]
-&= \frac{p_x f^x + p_y f^y}{1+\delta}.
-\nonumber
-\end{align}
-The functions $f^x$ and $f^y$ depend on position only. 
-The characteristic function is chosen so as to depend on the final momenta:
+A cavity kick depends on:
+
 \begin{equation}
-S(\vec{x}, \vec{p}^f) = \vec{x} \cdot \vec{p}^f - \frac{p_x^f f^x + p_y^f f^y}{1+\delta}.
-\label{eq:characteristic}
+\sin(2 \pi f T + \phi)
 \end{equation}
-The resulting system is:
-\begin{subequations}
-\label{eq:system}
-\begin{align}
-x^f &= x - \frac{f^x}{1+\delta} \label{eq:xf} \\[0.5ex]
-p_x &= p_x^f - \frac{p_x^f (\partial_x f^x) + p_y^f (\partial_x f^y)}{1+\delta} \label{eq:fringe_px} \\[0.5ex]
-y^f &= y - \frac{f^y}{1+\delta} \label{eq:yf} \\[0.5ex]
-p_y &= p_y^f - \frac{p_x^f (\partial_y f^x) + p_y^f (\partial_y f^y)}{1+\delta} \label{eq:fringe_py} \\[0.5ex]
-\delta^f &= \delta \label{eq:deltaf} \\[0.5ex]
-\ell &= \ell^f + \frac{p_x^f f^x + p_y^f f^y}{(1+\delta)^2}. \label{eq:l}
-\end{align}
-\end{subequations}
-It is solved by inverting Eqs.~\eqref{eq:fringe_px} and \eqref{eq:fringe_py}
-simultaneously for the final transverse momenta.
 
-\subsection{Quadrupolar correction for wedge and Y rotation}
+where T is laboratory time.
 
-If the wedge or Y rotation take place in the presence of a quadrupole field,
-the following correction is applied to the transverse momenta:
-\begin{align}
-p_x^f &= p_x - k_1 x^2 \theta + k_1 \frac{y^2}{2} \theta 
-\label{eq:pxf}
-\\
-p_y^f &= p_y + k_1 x y \theta
-\label{eq:pyf}
-\end{align}
-This correction is a perturbation of the wedge or Y rotation, and can in theory be applied using any integration scheme. It is currently implemented as a kick-drift approximation.
 
-\subsubsection*{Derivation}
-(derived by S. Van der Schueren based on the MAD-X/PTC \cite{madsite} source code)
+For the most general case:
 
-In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
 \begin{equation}
-H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x) 
-\left( 
-\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} 
-- \frac{x + \frac{h}{2} x^2}{1 + h x} b_1 + k_1 \frac{y^2}{2} - \frac{k_1 h x^3}{3} + \frac{k_1 x^2}{2(hx+1)}
-\right)
-\label{eq:Htau}
+\sin(2 \pi f T + \phi) = \sin\left(2 \pi f \frac{s-\zeta}{\beta_0 c}  + \phi \right)
 \end{equation}
-which we can split in perturbation theory in a drift-like part $H_0$ and a kick-like part $H_1$:
+
+Most codes drop the term $2 \pi f s / (\beta_0 c)$ that is
+
+\begin{equation}
+\sin(2 \pi f T + \phi) \to  \sin\left(- 2 \pi f \frac{\zeta}{\beta_0 c} + \phi\right)
+\end{equation}
+
+to make sure that a particle that is syncrhonous to the reference trajectory is in phase with the cavity.
+
+
+\subsection{Implementing energy errors}
+
+One can define
+
+\begin{equation}
+\begin{aligned}
+s &= s_0 + n (L_0-L) + n L\\
+f_{\rm rev} &= \beta_0 c / L\\ 
+f &= h f_{\rm rev}
+\end{aligned}
+\end{equation}
+
+where $s_0$ is the path length at the cavity turn at 0, $L_0$ is the design circumference, $n$ is the turn number, $h$ is the harmonic number, L is the new path length with an energy error. Indeed one could write $L=L_0(1 +\eta \delta_s$) where $\eta$ is a constant property of the lattice.
+
+Multiple cavities can have their own defined $L$.
+
+Using these definitions, then
+
+
 \begin{align}
-H_0 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) b_0 
-\label{eq:H1}
-\\
-H_2 &= -(1 + h x) k_1 \frac{y^2}{2} + \left( k_1 h \frac{x^3}{3} + k_1 \frac{x^2}{2} \right)
-\label{eq:H2}
+\sin(2 \pi f T + \phi) =
+&\sin\left(2 \pi h f_{\rm rev} \frac{s_0 + n(L_0-L) -\zeta}{\beta_0 c}  + \phi\right)\\
+=&\sin\left(2 \pi h f_{\rm rev} \frac{n(L_0-L) -\zeta}{\beta_0 c}  + \phi'\right)
 \end{align}
 
-The Hamiltonian $H_0$ leads to the dipole wedge \ref{sec:DipoleWedge} (or a dynamical rotation \ref{sec:Yrotation} if $b_0 = 0$) when taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ . 
-The Hamiltonian $H_1$ has equations of motion:
-\begin{align}
-p_x' &= -\frac{\partial H_2}{\partial x} 
-= h k_1 \frac{y^2}{2} - h k_1 x^2 - k_1 x 
-\label{eq:pxprime}
-\\
-p_y' &= -\frac{\partial H_2}{\partial y} 
-= (1 + h x) k_1 y 
-\label{eq:pyprime}
-\end{align}
-which gives integrated equations:
-\begin{align}
-p_x(s) &= p_x + h k_1 \frac{y^2}{2} s - h k_1 x^2 s - k_1 x s 
-\label{eq:pxs}
-\\
-p_y(s) &= p_y + (1 + h x) k_1 y s 
-\label{eq:pys}
-\end{align}
-Taking the limit to $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
 
+where $\phi'=\frac{2\pi h s_0}{L} + \phi$.
+
+
+In MAD-X twiss and MAD8, indeed the longitudinal coordinates is directly $\zeta'=n(L_0-L) -\zeta$ and the term $n(L_0-L)$ is added smoothly in each thick element. This forces all the cavities to share the same $L$ or $f_{\rm rev}$.
+
+In SixTrack or MAD-X track, one could simply define a turn dependent phase
+\begin{equation}
+\phi=\phi_0 + 2 \pi h f_{\rm rev} n(L_0-L)
+\end{equation}
+which is very general or in alternative add a special element that perform at each turn the following transformation:
+
+\begin{equation}
+\zeta_{\rm new}=(L_0-L) -\zeta_{\rm old} 
+\end{equation}
+
+\subsection{Acceleration}
+
+Accelaration can be achieved by renormalized the relative variables using a new momentum reference. This has the side effect that the fields of the magnets (expressed in normalized strength) follow the energy ramp and that the cavity frequency (if expressed in terms of the harmonic number (NB we should perhaps change this in the Xtrack interface) is updated.
+
+The re-normalization if done once at each turn is:
+
+\begin{align}
+p_{x,\rm new} &= p_{x,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} &
+p_{y,\rm new} &= p_{y,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} \\
+\delta_{\rm new}&= (\delta_{\rm old}+1) \frac{P_{0,\rm old}}{P_{0,\rm new}} -1 &
+p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - E_{0,\rm new}}{P_{0,\rm new}c} \\
+\zeta_{\rm new} &= s\beta_0 \left(\frac{1}{\beta_{0,\rm new}} -
+\frac{1}{\beta_{0,\rm old}}\right) - \zeta_{\rm old} &
+\tau_{\rm new} &= s\left(\frac{1}{\beta_{0,\rm new}} -  \frac{1}{\beta_{0,\rm old}}\right) - \tau_{\rm old} \\
+\end{align}
+
+
+\chapter{Misalignments}
+
+\section{Definitions}\label{section:definitions}
+
+For defining the misalignments, we use the MAD-like coordinate system, where $s$ 
+is the axis tangent to the reference trajectory at the entrance to the element, 
+and $x$ and $y$ are the transverse beam coordinates; 
+
+A misalignment of an element is defined by 7 quantities, defined as illustrated in
+Figs.~\ref{fig:misalignment_yaw}, \ref{fig:misalignment_pitch}, and \ref{fig:misalignment_roll}:
+\begin{itemize}
+	\item A reference point (anchor) along the reference trajestory throught the unperfurbed element;
+	\item 6 parameters specifying the shifts and rotations of the element with respect 
+        to the reference frame defined at the anchor point.
+\end{itemize}
+
+In the derivation we omit $\Delta$ in the naming of shifts and drift and we call
+\begin{equation}
+  f = \frac{\Delta s_\text{anchor}}{L}
+\end{equation}
+the relative position of the anchor along the element of length $L$.
+
+Note that the rotation about the $y$ axis does not follow the classical right-handed approach:
+a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/align_yaw.png}
+  \caption{Misalignment in the the s-x plane. \label{fig:misalignment_yaw}}
+  \includegraphics[width=0.8\textwidth]{figures/align_pitch.png}
+  \caption{Misalignment in the the s-y plane. \label{fig:misalignment_pitch}}
+  \includegraphics[width=0.5\textwidth]{figures/align_roll.png}
+  \caption{Misalignment in the the x-y plane. \label{fig:misalignment_roll}}
+\end{figure}
+
+For our calculations, we will represent the reference frame transformations using $4 \times 4$ augmented matrices.
+We shall assume the following notation convention: each matrix $M$ consists of entries from $M_{00}$ (top left corner), through $M_{03}$ (top right corner), to $M_{33}$ (bottom right corner).
+In particular, we distinguish 4 basic transformations:
+
+\[
+	\mathrm{T}(x, y, s) := \begin{bmatrix}
+		1 & 0 & 0 & x \\
+		0 & 1 & 0 & y \\
+		0 & 0 & 1 & s \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(translation)}
+\]
+
+\[
+	\mathrm{R}_x(\phi) := \begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & \cos(\phi) & \sin(\phi) & 0 \\
+		0 & -\sin(\phi) & \cos(\phi) & 0 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(rotation around the $x$ axis)}
+\]
+
+\[
+	\mathrm{R}_y(\theta) := \begin{bmatrix}
+		\cos(\theta) & 0 & \sin(\theta) & 0 \\
+		0 & 1 & 0 & 0 \\
+		-\sin(\theta) & 0 & \cos(\theta) & 0 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(rotation around the $y$ axis)}
+\]
+
+\[
+	\mathrm{R}_s(\psi) := \begin{bmatrix}
+		\cos(\psi) & -\sin(\psi) & 0 & 0 \\
+		\sin(\psi) & \cos(\psi) & 0 & 0 \\
+		0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} \;\;\text{(rotation around the $s$ axis)}
+\]
+We allow the notation $T_x(\Delta x)$ to mean $T(\Delta x, 0, 0)$, and so on, for $T_y(\Delta y)$ and $T_s(\Delta s)$.
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,232); %set diagram left start at 0, and has height of 232
+		
+		%Straight Lines [id:da20170232008889133] 
+		\draw    (30.75,200.25) -- (30.75,93.5) ;
+		\draw [shift={(30.75,90.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da7586738429193832] 
+		\draw    (30.75,200.25) -- (137,200.25) ;
+		\draw [shift={(140,200.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8289354712219019] 
+		\draw    (30.75,200.25) -- (113.33,157.87) ;
+		\draw [shift={(116,156.5)}, rotate = 152.83] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da8619095365842171] 
+		\draw    (107.75,195) .. controls (111.49,187.52) and (112.39,180.04) .. (102.07,171.95) ;
+		\draw [shift={(99.75,170.25)}, rotate = 34.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da14562765286410684] 
+		\draw    (93.75,162.5) .. controls (86.83,136.71) and (58.01,132.59) .. (39.76,141.42) ;
+		\draw [shift={(37.25,142.75)}, rotate = 329.74] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Curve Lines [id:da5921182448586806] 
+		\draw    (75.5,195.75) .. controls (72.38,173.67) and (61.01,164.86) .. (39.05,160.48) ;
+		\draw [shift={(36.25,159.95)}, rotate = 10.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (113.25,177.15) node [anchor=north west][inner sep=0.75pt]    {$\theta $};
+		% Text Node
+		\draw (25.5,75.65) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (118.75,150.15) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (144.5,197.15) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (69.5,123.19) node [anchor=north west][inner sep=0.75pt]    {$\psi $};
+		% Text Node
+		\draw (63.48,154.9) node [anchor=north west][inner sep=0.75pt]    {$\phi $};
+	\end{tikzpicture}
+	\caption{MAD-like coordinate system}\label{fig:mad-like-coordinates}
+\end{figure}
+
+\section{Misalignment at arbitrary $s$ without a tilt}\label{section:curved-no-roll}
+
+We consider a potentially curved element misaligned with respect to an arbitrary position along its length.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+		
+		%Straight Lines [id:da797458358196216] 
+		\draw    (121.25,70.82) -- (191.11,70.82) ;
+		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da5268015128426032] 
+		\draw    (24.11,180.32) -- (24.11,12.82) ;
+		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Ellipse [id:dp6042944787247156] 
+		\draw   (20.02,75.11) .. controls (17.78,72.86) and (17.8,69.22) .. (20.06,66.98) .. controls (22.32,64.75) and (25.96,64.77) .. (28.19,67.02) .. controls (30.43,69.28) and (30.41,72.92) .. (28.15,75.16) .. controls (25.89,77.39) and (22.25,77.37) .. (20.02,75.11) -- cycle ;
+		%Flowchart: Connector [id:dp3071692594828601] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,71.07) .. controls (21.61,69.69) and (22.72,68.57) .. (24.11,68.57) .. controls (25.49,68.57) and (26.61,69.69) .. (26.61,71.07) .. controls (26.61,72.45) and (25.49,73.57) .. (24.11,73.57) .. controls (22.72,73.57) and (21.61,72.45) .. (21.61,71.07) -- cycle ;
+		
+		%Shape: Block Arc [id:dp07942148731975829] 
+		\draw   (24.3,50.19) .. controls (24.5,50.19) and (24.69,50.19) .. (24.89,50.2) .. controls (63.78,50.3) and (100.48,59.73) .. (132.86,76.36) -- (114.62,111.95) .. controls (87.67,98.12) and (57.14,90.27) .. (24.77,90.18) .. controls (24.61,90.18) and (24.45,90.18) .. (24.29,90.18) -- cycle ;
+		%Flowchart: Connector [id:dp3735648309295102] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (121.04,94.28) .. controls (121.01,92.9) and (122.1,91.75) .. (123.48,91.72) .. controls (124.86,91.69) and (126.01,92.78) .. (126.04,94.16) .. controls (126.07,95.54) and (124.98,96.69) .. (123.6,96.72) .. controls (122.22,96.75) and (121.07,95.66) .. (121.04,94.28) -- cycle ;
+		%Straight Lines [id:da2366039478899269] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.28,71.06) -- (53.48,72.52) ;
+		\draw [shift={(56.48,72.67)}, rotate = 182.86] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp8051968426783745] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (53.98,72.73) .. controls (53.95,71.35) and (55.04,70.21) .. (56.42,70.18) .. controls (57.8,70.14) and (58.95,71.24) .. (58.98,72.62) .. controls (59.01,74) and (57.92,75.14) .. (56.54,75.17) .. controls (55.16,75.21) and (54.01,74.11) .. (53.98,72.73) -- cycle ;
+		%Straight Lines [id:da5904317932248363] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (120.68,93.3) ;
+		\draw [shift={(123.54,94.22)}, rotate = 197.81] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Block Arc [id:dp3422197187906486] 
+		\draw   (67.57,137.06) .. controls (67.76,137.01) and (67.94,136.96) .. (68.13,136.92) .. controls (105.89,127.58) and (143.78,127.83) .. (179.23,136.1) -- (170.17,175.06) .. controls (140.67,168.17) and (109.15,167.97) .. (77.73,175.74) .. controls (77.57,175.77) and (77.41,175.81) .. (77.26,175.85) -- cycle ;
+		%Flowchart: Connector [id:dp3058023403472935] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (172.11,156.36) .. controls (171.74,155.03) and (172.53,153.65) .. (173.86,153.28) .. controls (175.19,152.92) and (176.56,153.7) .. (176.93,155.03) .. controls (177.3,156.36) and (176.51,157.74) .. (175.18,158.11) .. controls (173.85,158.47) and (172.48,157.69) .. (172.11,156.36) -- cycle ;
+		%Straight Lines [id:da06890321170988856] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (72.6,157.31) -- (100.77,151.6) ;
+		\draw [shift={(103.71,151)}, rotate = 168.53] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp2878241642690408] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (101.3,151.66) .. controls (100.93,150.33) and (101.71,148.96) .. (103.04,148.59) .. controls (104.38,148.22) and (105.75,149.01) .. (106.12,150.34) .. controls (106.48,151.67) and (105.7,153.05) .. (104.37,153.41) .. controls (103.04,153.78) and (101.66,153) .. (101.3,151.66) -- cycle ;
+		%Straight Lines [id:da3521010885853867] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (103.71,151) -- (171.53,155.5) ;
+		\draw [shift={(174.52,155.69)}, rotate = 183.79] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp35613516370993914] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (70.1,157.37) .. controls (70.07,155.99) and (71.17,154.84) .. (72.55,154.81) .. controls (73.93,154.78) and (75.07,155.87) .. (75.1,157.25) .. controls (75.14,158.63) and (74.04,159.78) .. (72.66,159.81) .. controls (71.28,159.84) and (70.14,158.75) .. (70.1,157.37) -- cycle ;
+		%Straight Lines [id:da881388803539509] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (102.16,148.43) ;
+		\draw [shift={(103.71,151)}, rotate = 238.91] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da07326003199202691] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,71.07) -- (71.13,154.7) ;
+		\draw [shift={(72.6,157.31)}, rotate = 240.65] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da5449253722191645] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (174.52,155.69) -- (125.45,96.53) ;
+		\draw [shift={(123.54,94.22)}, rotate = 50.33] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da0006877697562143181] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (59.1,52.92) -- (53.85,92.42) ;
+		%Straight Lines [id:da06332771626503675] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (102.03,131.04) -- (105.38,170.96) ;
+		
+		% Text Node
+		\draw (33.61,10.47) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (197.86,65.97) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (29.75,57.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
+		% Text Node
+		\draw (72.75,65.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
+		% Text Node
+		\draw (74.75,140.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
+		% Text Node
+		\draw (117.75,135.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
+		% Text Node
+		\draw (86,112.9) node [anchor=north west][inner sep=0.75pt]    {$T$};
+		% Text Node
+		\draw (33.5,125.4) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
+		% Text Node
+		\draw (144.5,106.65) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
+	\end{tikzpicture}
+	\caption{Transformations for a curved element misaligned at an arbitrary $s$.}
+\end{figure}
+
+Assuming a curved element of length $L$ that bends the reference frame by $\alpha$ (and therefore a radius of curvature $\rho = L / \alpha$), we can represent $B$ as a combination of a translation and a rotation, $B := T(\Delta x, 0, \Delta s) R_y(-\alpha)$, where
+\begin{equation}\label{eq:curved-frame-change}
+	\begin{aligned}
+		\Delta x &= \rho (\cos(\alpha) - 1) = - L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2), \\
+		\Delta s &= \rho \sin(\alpha) = L \mathrm{sinc}(\alpha).
+	\end{aligned}
+\end{equation}
+Note, that the second formulations of $\Delta x$ and $\Delta s$ let us avoid division by zero if $\alpha = 0$, catering also to the case of a straight element for a truly general case.
+
+Let us say that our element is misaligned at position $\Delta L$ along its length $L$.
+Then we can decompose our reference-frame-bending transformation $B$ into parts $B_f$ and $B_{1-f}$ so that $B = B_f B_{1-f}$.
+The respective bending angles of the two parts are simply $f \alpha$ and $(1 - f) \alpha$, where $f := \Delta L/L = \Delta L / (\rho \alpha)$ and $\rho$ is the curvature.
+Knowing these parameters, it is trivial to construct $B_f$ and $B_{1 - f}$ analogously to $B$, as shown in eq.~\ref{eq:curved-frame-change}.
+
+Then, we compute the following transformation, which will take us from the normal to the misaligned element entry frame:
+\[
+	M_0 = B_f T B_f^{-1},
+\]
+whereas for returning to the normal frame from the exit
+\[
+	\begin{aligned}
+		B_f T B_{1 - f} M_1 &= B = B_f B_{1-f}, \\
+		M_1 &= (T B_{1 - f})^{-1} B_{1-f} = B_{1 - f}^{-1} T^{-1} B_{1-f}.
+	\end{aligned}
+\]
+
+When evaluated, the matrix for the curved element in the general case is
+\[
+	B_f := \begin{bmatrix}
+		\cos\left(\alpha f\right) & 0 & -\sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
+		0 & 1 & 0 & 0 \\
+		\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & \rho \sin(\alpha f) \\
+		0 & 0 & 0 & 1
+	\end{bmatrix},
+\]
+and so
+\[
+	B_f^{-1} := \begin{bmatrix}
+			\cos\left(\alpha f\right) & 0 & \sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
+		0 & 1 & 0 & 0 \\
+		-\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & - \rho \sin(\alpha f) \\
+		0 & 0 & 0 & 1
+		\end{bmatrix}.
+\]
+Note that $B_{f,03} = (B_f^{-1})_{03} = -L f \mathrm{sinc}(\alpha f / 2) \sin(\alpha f / 2)$ and $B_{f,23} = -(B_f^{-1})_{23} = L f \mathrm{sinc}(\alpha f)$.
+
+Meanwhile, the misalignment matrix is (let $s_\phi := \sin(\phi)$, $c_\psi := \cos(\psi)$, etc., for space-saving reasons)
+\[
+	T = \begin{bmatrix}
+		-s_\phi s_\psi s_\theta + c_\psi c_\theta & -c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi s_\theta & x \\
+		c_\phi s_\psi & c_\phi c_\psi & s_\phi & y \\
+		-c_\theta s_\phi s_\psi - c_\psi s_\theta & -c_\psi c_\theta s_\phi + s_\psi s_\theta & c_\phi c_\theta & s \\
+		0 & 0 & 0 & 1
+	\end{bmatrix}
+\]
+and its inverse, since $T$ is a rigid affine transformation, can be computed with
+\[
+	T^{-1} = \begin{bmatrix}
+			R^T & -R^T t \\
+			0 & 1
+		\end{bmatrix}, \text{ given } \begin{bmatrix}
+			R & t \\
+			0 & 1
+		\end{bmatrix} := T.
+\]
+%which expands into the matrix
+%\[
+%	\begin{bmatrix}
+%		-s_\phi s_\psi s_\theta + c_\psi c_\theta & c_\phi s_\psi & -c_\theta s_\phi s_\psi - c_\psi s_\theta & (s_\phi s_\psi s - c_\psi x) c_\theta + (s_\phi s_\psi x + c_\psi s) s_\theta - c_\phi s_\psi y \\
+%		-c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi c_\psi & -c_\psi c_\theta s_\phi + s_\psi s_\theta & (c_\psi s_\phi s + s_\psi x) c_\theta + (c_\psi s_\phi x - s_\psi s) s_\theta - c_\phi c_\psi y \\
+%		c_\phi s_\theta & s_\phi & c_\phi c_\theta & -c_\phi c_\theta s - c_\phi s_\theta x - s_\phi y \\
+%		0 & 0 & 0 & 1
+%	\end{bmatrix}.
+%\]
+
+For the conversion from $M_0$ and $M_1$ to the basic tracking transformations, we can use the decomposition, $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, for which the parameters are as follows
+\[
+	\begin{aligned}
+		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}), \\
+		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}), \\
+		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}), \\
+		x_0 &= M_{0,03}, \\
+		y_0 &= M_{0,13}, \\
+		s_0 &= M_{0,23},
+	\end{aligned}
+\]
+and for the exit, $M_1 = T(x_1, y_1, s_1) R_y(\theta_1) R_x(\phi_1) R_s(\psi_1)$,
+\[
+	\begin{aligned}
+		\theta_1 &= \arctan_2(M_{1,02}, M_{1,22}), \\
+		\phi_1 &= \arctan_2(M_{1,12}, \sqrt{M_{1,10}^2 + M_{1,11}^2}), \\
+		\psi_1 &= \arctan_2(M_{1,10}, M_{1,11}), \\
+		x_1 &= M_{1,03}, \\
+		y_1 &= M_{1,13}, \\
+		s_1 &= M_{1,23}.
+	\end{aligned}
+\]
+Note that many decompositions are possible, and their order can lead to more or less clean closed formulae for the parameters; in this case, however, we do not expect any `nice' closed-form solutions (as opposed to the case of the subsequent section!)
+The above decomposition corresponds to the following tracking sequence:
+\begin{itemize}
+	\item ($M_0$:) XYShift($x_0$, $y_0$), SShift($s_0$), YRot($\theta_0$), XRot($\phi_0$), SRot($\psi_0$),
+	\item ($B$:) Element($L$, $\alpha$),
+	\item ($M_1$:) XYShift($x_1$, $y_1$), SShift($s_1$), YRot($\theta_1$), XRot($\phi_1$), SRot($\psi_1$).
+\end{itemize}
+
+
+\section{Misalignment at arbitrary $s$ (the straight case)}\label{section:straight}
+
+Analogously to the previous section, we split $D$ into $D_f D_{1-f}$:
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+		
+		%Straight Lines [id:da35507818785418455] 
+		\draw    (127.5,70.82) -- (191.11,70.82) ;
+		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8526813980418886] 
+		\draw    (24.11,180.32) -- (24.11,12.82) ;
+		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp5359668052415314] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
+		%Straight Lines [id:da6177744279918915] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (164.61,169.34) -- (128.56,73.81) ;
+		\draw [shift={(127.5,71)}, rotate = 69.32] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp7969702218848098] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
+		%Flowchart: Connector [id:dp09475937969231463] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
+		%Shape: Ellipse [id:dp5244406786344289] 
+		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
+		%Flowchart: Connector [id:dp7900569932281408] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
+		
+		%Straight Lines [id:da20442801210117567] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (64.89,136.4) ;
+		\draw [shift={(66.47,138.95)}, rotate = 238.12] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da774139029064869] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (57.5,70.76) ;
+		\draw [shift={(60.5,70.75)}, rotate = 179.89] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp1702286240852332] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
+		%Straight Lines [id:da6390869763810431] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (124.5,70.75) ;
+		\draw [shift={(127.5,70.75)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Rectangle [id:dp5029720108971986] 
+		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
+		%Straight Lines [id:da5919731693823477] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
+		%Straight Lines [id:da7746066807011568] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.29,139.41) -- (98.28,148.98) ;
+		\draw [shift={(101.15,149.84)}, rotate = 196.65] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp7156618154401919] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
+		%Straight Lines [id:da69262585053882] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (101.15,149.84) -- (162.44,168.3) ;
+		\draw [shift={(165.31,169.16)}, rotate = 196.76] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Shape: Rectangle [id:dp06216288058859021] 
+		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
+		%Straight Lines [id:da15643091065704995] 
+		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
+		%Straight Lines [id:da3239479052474509] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
+		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (29.86,112.89) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
+		% Text Node
+		\draw (149.11,111.72) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
+		% Text Node
+		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]    {$T$};
+		% Text Node
+		\draw (30.61,54.72) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
+		% Text Node
+		\draw (68.11,145.22) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
+		% Text Node
+		\draw (75.11,53.97) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
+		% Text Node
+		\draw (112.86,160.22) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
+	\end{tikzpicture}
+	\caption{A straight element misaligned at an arbitrary location.}
+\end{figure}
+
+We simply have that $D_f := T(0, 0, fL)$ and $D_{1-f} := T(0, 0, (1-f)L)$.
+To get to the misaligned entry frame we have
+\[
+	M_0 := D_f T D_f^{-1} = T_s(fL) \; T \; T_s(-fL),
+\]
+whereas for returning to the normal frame from the exit
+\[
+	\begin{aligned}
+		M_1 := D_{1-f}^{-1} T^{-1} D_{1-f} = T_s((f-1)L) \; T^{-1} \; T_s((1-f)L).
+	\end{aligned}
+\]
+
+It is intuitively obvious, that due to lack of curvature, the entry and exit transformations should be possible to simplify.
+Specifically, we would want $M_0$ to involve some translation followed by rotations $R_y(\theta) R_x(\phi) R_s(\psi)$, and $M_1$, since it `undoes' the effect of $M_0$, into rotations $R_s(-\psi) R_x(-\phi) R_y(-\theta)$ followed by some other translation.
+
+First we decompose the entry matrix $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, i.e.~with the same method as in the previous section.
+After some algebra we observe that the angles and shifts indeed simplify:
+\[
+	\begin{aligned}
+		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}) = \theta, \\
+		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}) = \phi, \\
+		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}) = \psi, \\
+		x_0 &= T_{0,03} = x - L f \cos(\phi)\sin(\theta), \\
+		y_0 &= T_{0,13} = y - L f \sin(\phi), \\
+		s_0 &= T_{0,23} = s - L f (\cos(\phi)\cos(\theta) - 1).
+	\end{aligned}
+\]
+
+Let us now decompose the matrix $M_1$ into $R_s(\psi_1) R_x(\phi_1) R_y(\theta_1) T(x_1, y_1, s_1)$.
+To this end, let us write separately as $M_{rot}$ and $M_{tr}$ the rotation and translation part of the above decomposition, i.e.~let $M_{rot} = R_s(\psi_1) R_x(\phi_1) R_y(\theta_1)$ and let $M_{tr} := T(x_1, y_1, s_1)$.
+In such a decomposition, the rotation part of $M_{rot}$ is the same as that of $M_1$, and so we can simply extract it from there.
+Afterwards, knowing $M_{rot}$ we can compute $M_{tr} = M_{rot}^{-1} M_1$ to get the shifts.
+We indeed observe the angles and shifts simplifying:
+\[
+	\begin{aligned}
+		\theta_1 &= -\arctan_2(M_{1,20}, M_{1,22}) = -\theta, \\
+		\phi_1 &= -\arctan_2(M_{1,21}, \sqrt{M_{1,01}^2 + M_{1,11}^2}) = -\phi, \\
+		\psi_1 &= \arctan_2(M_{1,01}, M_{1,11}) = -\psi, \\
+		x_1 &= M_{tr,03} = (f - 1) L \cos(\phi) \sin(\theta) - x, \\
+		y_1 &= M_{tr,13} = (f - 1) L \sin(\phi) - y, \\
+		s_1 &= M_{tr,23} = (f - 1) L (\cos(\phi) \cos(\theta) - 1) - s.
+	\end{aligned}
+\]
+This way, our tracking procedure can be significantly less computationally expensive, compare to that of the preceding section, as no matrix operations are required:
+	\begin{itemize}
+	\item XYShift($x - L f \cos(\phi)\sin(\theta)$, $y - L f \sin(\phi)$)
+	\item SShift($s - L f (1 - \cos(\phi)\cos(\theta))$)
+	\item YRot($\theta$), XRot($\phi$), SRot($\psi$),
+	\item Element($L$),
+	\item SRot($-\psi$), XRot($-\phi$), YRot($-\theta$),
+	\item SShift($(f - 1) L (\cos(\phi) \cos(\theta) - 1) - s$),
+	\item XYShift($(f - 1) L \cos(\phi) \sin(\theta) - x$, $(f - 1) L \sin(\phi) - y$).
+\end{itemize}
+
+
+\section{Misalignment at arbitrary $s$ with a tilt}
+
+We consider a tilted curved element misaligned with respect to an arbitrary position along its length.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{figures/bend-roll.pdf}
+	\caption{A tilted curved element misaligned at an arbitrary location.}
+	\label{fig:bend-roll}
+\end{figure}
+
+Compared with the earlier discussion of misaligned curved elements (see Section~\ref{section:curved-no-roll}), when considering a tilted element, we need to include the tilting in our transformation $B$ (which, as before, is decomposed as $B_f B_{1-f}$ in Figure~\ref{fig:bend-roll}).
+
+In order to include this effect we need to realise that in the previous case the curvature of the reference frame was only applied in the $s{-}x$ plane, whereas in the case of Figure~\ref{fig:bend-roll}, it will be applied in the plane obtained by tilting $s{-}x$ by some angle $\kappa$.
+
+Therefore, taking $B_{sx}$ as the earlier transformation, i.e.,
+\[
+	B_{sx} := \begin{bmatrix}
+		\cos\left(\alpha\right) & 0 & -\sin\left(\alpha\right) & \rho (\cos\left(\alpha\right) - 1) \\
+		0 & 1 & 0 & 0 \\
+		\sin\left(\alpha\right) & 0 & \cos\left(\alpha\right) & \rho \sin(\alpha) \\
+		0 & 0 & 0 & 1
+	\end{bmatrix},
+\]
+and taking $s_\alpha = \sin(\alpha)$, $c_\alpha = \cos(\alpha)$, etc.~for space-saving reasons, we can express $B$ as $R_s(\kappa) \; B_{sx} \; R_s(-\kappa)$, which evaluates to
+\[
+	B := \begin{bmatrix}
+		{\left(c_\alpha - 1\right)} c_\kappa^{2} + 1 & {\left(c_\alpha - 1\right)} c_\kappa s_\kappa & -c_\kappa s_\alpha & \rho {\left(c_\alpha - 1\right)} c_\kappa \\
+		{\left(c_\alpha - 1\right)} c_\kappa s_\kappa & {\left(c_\alpha - 1\right)} s_\kappa^{2} + 1 & -s_\alpha s_\kappa & \rho {\left(c_\alpha - 1\right)} s_\kappa \\
+		c_\kappa s_\alpha & s_\alpha s_\kappa & c_\alpha & \rho s_\alpha \\
+		0 & 0 & 0 & 1
+	\end{bmatrix}.
+\]
+We can obtain the matrices $B_f$ and $B_{1-f}$ by substituting $f \alpha$ and $(1 - f) \alpha$ for $\alpha$ in the above.
+To obtain the tracking procedure in this case it suffices to follow the steps of Section~\ref{section:curved-no-roll}, substituting the new matrices.
+
+
+\section{Misalignment at arbitrary $s$ with a tilt (straight case)}\label{section:straight-roll}
+
+We can generalise the matrix of the above section to a straight case by recalling that $\rho(\cos(\alpha) - 1) = -L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2)$ and $\rho \sin(\alpha) = L \mathrm{sinc}(\alpha)$.
+Then, we can see that when $\alpha = 0$, the matrix $B$ of the preceding section simplifies to
+\[
+	B \rvert_{\alpha=0} = \begin{bmatrix}
+		1 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 \\
+		0 & 0 & 1 & L \\
+		0 & 0 & 0 & 1
+	\end{bmatrix} = T_s(L) = D.
+\]
+This means that the effect of the roll is disregarded in the calculation of the reference frame change for the purposes of a misalignment, and, therefore, that we can apply the exact procedure outlined in Section~\ref{section:straight} also for tilted elements.
+This makes intuitive sense, as, in our setup, the tilt indeed only affects the direction of curvature of the element: if the element is straight, there is no work to be done for the misalignment, and the element map alone fully describes the effect of the tilt on the particles.
+
+
+\section{S Shift -- $\zeta$ correction}
+
+In the tracking procedures shown in the preceding sections, we use the tracking map we refer to as an SShift, which we use to transport the particles in a straight line by a displacement in $s$.
+We can presume the SShift to be a variant of DriftExact, however there are special considerations that we need to take here, with respect to the path length $s$ and the delay $\zeta$ of our particles.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+		%Straight Lines [id:da35507818785418455] 
+		\draw    (127.75,70.82) -- (191.11,70.82) ;
+		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8526813980418886] 
+		\draw    (24.11,180.32) -- (24.11,12.82) ;
+		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Flowchart: Connector [id:dp5359668052415314] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
+		%Flowchart: Connector [id:dp7969702218848098] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
+		%Flowchart: Connector [id:dp09475937969231463] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
+		%Shape: Ellipse [id:dp5244406786344289] 
+		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
+		%Flowchart: Connector [id:dp7900569932281408] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
+		
+		%Flowchart: Connector [id:dp1702286240852332] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
+		%Shape: Rectangle [id:dp5029720108971986] 
+		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
+		%Straight Lines [id:da5919731693823477] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
+		%Flowchart: Connector [id:dp7156618154401919] 
+		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
+		%Shape: Rectangle [id:dp06216288058859021] 
+		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
+		%Straight Lines [id:da15643091065704995] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
+		%Straight Lines [id:da3239479052474509] 
+		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
+		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da4836988544272087] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.47,12) -- (66.47,138.95) ;
+		%Straight Lines [id:da5330246211677179] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (127.5,172) -- (127.5,71) ;
+		%Straight Lines [id:da5582054958236305] 
+		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (164.47,12) -- (164.61,169.34) ;
+		%Straight Lines [id:da2986734039407184] 
+		\draw    (23.97,138.95) -- (63.47,138.95) ;
+		\draw [shift={(66.47,138.95)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da8950058864242387] 
+		\draw    (66.47,138.95) -- (161.74,168.45) ;
+		\draw [shift={(164.61,169.34)}, rotate = 197.2] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da776090670545246] 
+		\draw    (164.61,121.5) -- (130.5,121.5) ;
+		\draw [shift={(127.5,121.5)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		%Straight Lines [id:da6954530061787899] 
+		\draw    (24.11,70.82) -- (124.5,70.82) ;
+		\draw [shift={(127.5,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
+		
+		% Text Node
+		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
+		% Text Node
+		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
+		% Text Node
+		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
+		% Text Node
+		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]  {\textcolor{gray}{$T$}};
+		% Text Node
+		\draw (70.61,54.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
+		% Text Node
+		\draw (109.61,139.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
+		% Text Node
+		\draw (29.36,120.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{0}$};
+		% Text Node
+		\draw (135.61,102.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{1}$};
+	\end{tikzpicture}
+	\caption{Visualisation of the $s$-coordinate transformations without correction.}\label{fig:no-s-no-zeta-correction}
+\end{figure}
+
+In the visualization in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle travelled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
+Clearly, $\Delta s_0 \neq -\Delta s_1$, and so the path length changes between the aligned and misaligned element.
+However, what we desire is the opposite, i.e.~that the path length does not change: it is inconvenient to have the length of our accelerator change due to a misalignment.
+Therefore, the simplest correction we can make in this instance is to disregard the update of the $s$ coordinate in our drift/$s$-shift.
+
+A further correction needs to be made with respect to the $\zeta$ coordinate.
+Since $\zeta$ is related to the path length by $\zeta = s - \beta_0 c t$, and since, in our setup, the synchronous particle arrival time is not expected to change between the normal and misaligned entry to the element we expect that $\Delta \zeta = \Delta s$ between those two points.
+However, as we have already established for our correction of $s$, we expect the $s$ coordinate to be unchanged, so we can adjust $\zeta$ in exactly the same fashion as we do $s$:
+
+\[
+	\text{SShift}(\Delta s) := ( \text{DriftExact}(\Delta s),\;\; s \leftarrow s - \Delta s,\;\; \zeta \leftarrow \zeta - \Delta s ).
+\]
+
+
+% \section{Other notes}
+
+% The rotation direction conventions differ between the MAD-X survey coordinate system and the beam coordinate system, in that the $y$-rotation of the beam is opposite to the one described by YRot in the tracking procedures above. This sign difference is taken into account in the Xsuite implementation.
 
 
 
@@ -2370,7 +3328,7 @@ From this we obtain:
 }
 \end{equation}
 
-\section{Vertical deflecting cavity}
+\subsection{Vertical deflecting cavity}
 
 The case of a vertical deflecting cavity is similar but not identical.
 
@@ -2842,10 +3800,10 @@ Using the fact that $B = \sqrt{B_x^2 + B_y^2}$, the derivatives of $B$ w.r.t. $x
 The magnetic field gradients are defined as:
 \begin{align}
     &\partder{B_y}{x} = \partder{B_x}{y}  = G       = \frac{\gamma_0 m_0 c}{Q_0} k_1\\
-    &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma_0 m_0 c}{Q_0} \bar{k}_1
+    &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma_0 m_0 c}{Q_0} \bar{K}_1
 \end{align}
 
-Here, $k_1$ is the normalised normal quadrupole strength and $\bar{k}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit we can assume $\gamma\simeq\gamma_0$, obtaining:
+Here, $k_1$ is the normalised normal quadrupole strength and $\bar{K}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit we can assume $\gamma\simeq\gamma_0$, obtaining:
 \begin{equation}
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
@@ -4065,576 +5023,3 @@ and from Eq.\,\ref{eq:tndef} (with $s=0$) we obtain:\begin{equation}
 t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
 \end{equation}
 which is what we wanted to prove.
-
-
-\chapter{Misalignments}
-
-\section{Definitions}\label{section:definitions}
-
-For defining the misalignments, we use the MAD-like coordinate system, where $s$ is the axis tangent to the reference trajectory at the entrance to the element, and $x$ and $y$ are the transverse beam coordinates; the rotations do not follow the classical right-handed approach: a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
-
-A misalignment of an element is defined by:
-\begin{itemize}
-	\item providing a reference point (anchor) along the element, specified as a number $f$, representing a fraction of the total element length, and 
-	\item 6 coordinates specifying the misaligned reference frame in the coordinate system described in Fig.~\ref{fig:mad-like-coordinates}, which will describe a transformation from the point described by $f$ in the normal frame, to the corresponding point in the misaligned frame (see the figures in subsequent sections for visualisation).
-\end{itemize}
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%uncomment if require: \path (0,232); %set diagram left start at 0, and has height of 232
-		
-		%Straight Lines [id:da20170232008889133] 
-		\draw    (30.75,200.25) -- (30.75,93.5) ;
-		\draw [shift={(30.75,90.5)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da7586738429193832] 
-		\draw    (30.75,200.25) -- (137,200.25) ;
-		\draw [shift={(140,200.25)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8289354712219019] 
-		\draw    (30.75,200.25) -- (113.33,157.87) ;
-		\draw [shift={(116,156.5)}, rotate = 152.83] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da8619095365842171] 
-		\draw    (107.75,195) .. controls (111.49,187.52) and (112.39,180.04) .. (102.07,171.95) ;
-		\draw [shift={(99.75,170.25)}, rotate = 34.46] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da14562765286410684] 
-		\draw    (93.75,162.5) .. controls (86.83,136.71) and (58.01,132.59) .. (39.76,141.42) ;
-		\draw [shift={(37.25,142.75)}, rotate = 329.74] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Curve Lines [id:da5921182448586806] 
-		\draw    (75.5,195.75) .. controls (72.38,173.67) and (61.01,164.86) .. (39.05,160.48) ;
-		\draw [shift={(36.25,159.95)}, rotate = 10.01] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		
-		% Text Node
-		\draw (113.25,177.15) node [anchor=north west][inner sep=0.75pt]    {$\theta $};
-		% Text Node
-		\draw (25.5,75.65) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (118.75,150.15) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (144.5,197.15) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (69.5,123.19) node [anchor=north west][inner sep=0.75pt]    {$\psi $};
-		% Text Node
-		\draw (63.48,154.9) node [anchor=north west][inner sep=0.75pt]    {$\phi $};
-	\end{tikzpicture}
-	\caption{MAD-like coordinate system}\label{fig:mad-like-coordinates}
-\end{figure}
-
-For our calculations, we will represent the reference frame transformations using $4 \times 4$ augmented matrices.
-We shall assume the following notation convention: each matrix $M$ consists of entries from $M_{00}$ (top left corner), through $M_{03}$ (top right corner), to $M_{33}$ (bottom right corner).
-In particular, we distinguish 4 basic transformations:
-
-\[
-	\mathrm{T}(x, y, s) := \begin{bmatrix}
-		1 & 0 & 0 & x \\
-		0 & 1 & 0 & y \\
-		0 & 0 & 1 & s \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(translation)}
-\]
-
-\[
-	\mathrm{R}_x(\phi) := \begin{bmatrix}
-		1 & 0 & 0 & 0 \\
-		0 & \cos(\phi) & \sin(\phi) & 0 \\
-		0 & -\sin(\phi) & \cos(\phi) & 0 \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(rotation around the $x$ axis)}
-\]
-
-\[
-	\mathrm{R}_y(\theta) := \begin{bmatrix}
-		\cos(\theta) & 0 & \sin(\theta) & 0 \\
-		0 & 1 & 0 & 0 \\
-		-\sin(\theta) & 0 & \cos(\theta) & 0 \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(rotation around the $y$ axis)}
-\]
-
-\[
-	\mathrm{R}_s(\psi) := \begin{bmatrix}
-		\cos(\psi) & -\sin(\psi) & 0 & 0 \\
-		\sin(\psi) & \cos(\psi) & 0 & 0 \\
-		0 & 0 & 1 & 0 \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} \;\;\text{(rotation around the $s$ axis)}
-\]
-We allow the notation $T_x(\Delta x)$ to mean $T(\Delta x, 0, 0)$, and so on, for $T_y(\Delta y)$ and $T_s(\Delta s)$.
-
-
-\section{Misalignment at arbitrary $s$ without a tilt}\label{section:curved-no-roll}
-
-We consider a potentially curved element misaligned with respect to an arbitrary position along its length.
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-		
-		%Straight Lines [id:da797458358196216] 
-		\draw    (121.25,70.82) -- (191.11,70.82) ;
-		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da5268015128426032] 
-		\draw    (24.11,180.32) -- (24.11,12.82) ;
-		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Ellipse [id:dp6042944787247156] 
-		\draw   (20.02,75.11) .. controls (17.78,72.86) and (17.8,69.22) .. (20.06,66.98) .. controls (22.32,64.75) and (25.96,64.77) .. (28.19,67.02) .. controls (30.43,69.28) and (30.41,72.92) .. (28.15,75.16) .. controls (25.89,77.39) and (22.25,77.37) .. (20.02,75.11) -- cycle ;
-		%Flowchart: Connector [id:dp3071692594828601] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,71.07) .. controls (21.61,69.69) and (22.72,68.57) .. (24.11,68.57) .. controls (25.49,68.57) and (26.61,69.69) .. (26.61,71.07) .. controls (26.61,72.45) and (25.49,73.57) .. (24.11,73.57) .. controls (22.72,73.57) and (21.61,72.45) .. (21.61,71.07) -- cycle ;
-		
-		%Shape: Block Arc [id:dp07942148731975829] 
-		\draw   (24.3,50.19) .. controls (24.5,50.19) and (24.69,50.19) .. (24.89,50.2) .. controls (63.78,50.3) and (100.48,59.73) .. (132.86,76.36) -- (114.62,111.95) .. controls (87.67,98.12) and (57.14,90.27) .. (24.77,90.18) .. controls (24.61,90.18) and (24.45,90.18) .. (24.29,90.18) -- cycle ;
-		%Flowchart: Connector [id:dp3735648309295102] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (121.04,94.28) .. controls (121.01,92.9) and (122.1,91.75) .. (123.48,91.72) .. controls (124.86,91.69) and (126.01,92.78) .. (126.04,94.16) .. controls (126.07,95.54) and (124.98,96.69) .. (123.6,96.72) .. controls (122.22,96.75) and (121.07,95.66) .. (121.04,94.28) -- cycle ;
-		%Straight Lines [id:da2366039478899269] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.28,71.06) -- (53.48,72.52) ;
-		\draw [shift={(56.48,72.67)}, rotate = 182.86] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp8051968426783745] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (53.98,72.73) .. controls (53.95,71.35) and (55.04,70.21) .. (56.42,70.18) .. controls (57.8,70.14) and (58.95,71.24) .. (58.98,72.62) .. controls (59.01,74) and (57.92,75.14) .. (56.54,75.17) .. controls (55.16,75.21) and (54.01,74.11) .. (53.98,72.73) -- cycle ;
-		%Straight Lines [id:da5904317932248363] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (120.68,93.3) ;
-		\draw [shift={(123.54,94.22)}, rotate = 197.81] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Block Arc [id:dp3422197187906486] 
-		\draw   (67.57,137.06) .. controls (67.76,137.01) and (67.94,136.96) .. (68.13,136.92) .. controls (105.89,127.58) and (143.78,127.83) .. (179.23,136.1) -- (170.17,175.06) .. controls (140.67,168.17) and (109.15,167.97) .. (77.73,175.74) .. controls (77.57,175.77) and (77.41,175.81) .. (77.26,175.85) -- cycle ;
-		%Flowchart: Connector [id:dp3058023403472935] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (172.11,156.36) .. controls (171.74,155.03) and (172.53,153.65) .. (173.86,153.28) .. controls (175.19,152.92) and (176.56,153.7) .. (176.93,155.03) .. controls (177.3,156.36) and (176.51,157.74) .. (175.18,158.11) .. controls (173.85,158.47) and (172.48,157.69) .. (172.11,156.36) -- cycle ;
-		%Straight Lines [id:da06890321170988856] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (72.6,157.31) -- (100.77,151.6) ;
-		\draw [shift={(103.71,151)}, rotate = 168.53] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp2878241642690408] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (101.3,151.66) .. controls (100.93,150.33) and (101.71,148.96) .. (103.04,148.59) .. controls (104.38,148.22) and (105.75,149.01) .. (106.12,150.34) .. controls (106.48,151.67) and (105.7,153.05) .. (104.37,153.41) .. controls (103.04,153.78) and (101.66,153) .. (101.3,151.66) -- cycle ;
-		%Straight Lines [id:da3521010885853867] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (103.71,151) -- (171.53,155.5) ;
-		\draw [shift={(174.52,155.69)}, rotate = 183.79] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp35613516370993914] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (70.1,157.37) .. controls (70.07,155.99) and (71.17,154.84) .. (72.55,154.81) .. controls (73.93,154.78) and (75.07,155.87) .. (75.1,157.25) .. controls (75.14,158.63) and (74.04,159.78) .. (72.66,159.81) .. controls (71.28,159.84) and (70.14,158.75) .. (70.1,157.37) -- cycle ;
-		%Straight Lines [id:da881388803539509] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (56.48,72.67) -- (102.16,148.43) ;
-		\draw [shift={(103.71,151)}, rotate = 238.91] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da07326003199202691] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,71.07) -- (71.13,154.7) ;
-		\draw [shift={(72.6,157.31)}, rotate = 240.65] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da5449253722191645] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (174.52,155.69) -- (125.45,96.53) ;
-		\draw [shift={(123.54,94.22)}, rotate = 50.33] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da0006877697562143181] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (59.1,52.92) -- (53.85,92.42) ;
-		%Straight Lines [id:da06332771626503675] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (102.03,131.04) -- (105.38,170.96) ;
-		
-		% Text Node
-		\draw (33.61,10.47) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (197.86,65.97) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (29.75,57.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
-		% Text Node
-		\draw (72.75,65.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
-		% Text Node
-		\draw (74.75,140.15) node [anchor=north west][inner sep=0.75pt]    {$B_{f}$};
-		% Text Node
-		\draw (117.75,135.4) node [anchor=north west][inner sep=0.75pt]    {$B_{1-f}$};
-		% Text Node
-		\draw (86,112.9) node [anchor=north west][inner sep=0.75pt]    {$T$};
-		% Text Node
-		\draw (33.5,125.4) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
-		% Text Node
-		\draw (144.5,106.65) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
-	\end{tikzpicture}
-	\caption{Transformations for a curved element misaligned at an arbitrary $s$.}
-\end{figure}
-
-Assuming a curved element of length $L$ that bends the reference frame by $\alpha$ (and therefore a radius of curvature $\rho = L / \alpha$), we can represent $B$ as a combination of a translation and a rotation, $B := T(\Delta x, 0, \Delta s) R_y(-\alpha)$, where
-\begin{equation}\label{eq:curved-frame-change}
-	\begin{aligned}
-		\Delta x &= \rho (\cos(\alpha) - 1) = - L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2), \\
-		\Delta s &= \rho \sin(\alpha) = L \mathrm{sinc}(\alpha).
-	\end{aligned}
-\end{equation}
-Note, that the second formulations of $\Delta x$ and $\Delta s$ let us avoid division by zero if $\alpha = 0$, catering also to the case of a straight element for a truly general case.
-
-Let us say that our element is misaligned at position $\Delta L$ along its length $L$.
-Then we can decompose our reference-frame-bending transformation $B$ into parts $B_f$ and $B_{1-f}$ so that $B = B_f B_{1-f}$.
-The respective bending angles of the two parts are simply $f \alpha$ and $(1 - f) \alpha$, where $f := \Delta L/L = \Delta L / (\rho \alpha)$ and $\rho$ is the curvature.
-Knowing these parameters, it is trivial to construct $B_f$ and $B_{1 - f}$ analogously to $B$, as shown in eq.~\ref{eq:curved-frame-change}.
-
-Then, we compute the following transformation, which will take us from the normal to the misaligned element entry frame:
-\[
-	M_0 = B_f T B_f^{-1},
-\]
-whereas for returning to the normal frame from the exit
-\[
-	\begin{aligned}
-		B_f T B_{1 - f} M_1 &= B = B_f B_{1-f}, \\
-		M_1 &= (T B_{1 - f})^{-1} B_{1-f} = B_{1 - f}^{-1} T^{-1} B_{1-f}.
-	\end{aligned}
-\]
-
-When evaluated, the matrix for the curved element in the general case is
-\[
-	B_f := \begin{bmatrix}
-		\cos\left(\alpha f\right) & 0 & -\sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
-		0 & 1 & 0 & 0 \\
-		\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & \rho \sin(\alpha f) \\
-		0 & 0 & 0 & 1
-	\end{bmatrix},
-\]
-and so
-\[
-	B_f^{-1} := \begin{bmatrix}
-			\cos\left(\alpha f\right) & 0 & \sin\left(\alpha f\right) & \rho (\cos\left(\alpha f\right) - 1) \\
-		0 & 1 & 0 & 0 \\
-		-\sin\left(\alpha f\right) & 0 & \cos\left(\alpha f\right) & - \rho \sin(\alpha f) \\
-		0 & 0 & 0 & 1
-		\end{bmatrix}.
-\]
-Note that $B_{f,03} = (B_f^{-1})_{03} = -L f \mathrm{sinc}(\alpha f / 2) \sin(\alpha f / 2)$ and $B_{f,23} = -(B_f^{-1})_{23} = L f \mathrm{sinc}(\alpha f)$.
-
-Meanwhile, the misalignment matrix is (let $s_\phi := \sin(\phi)$, $c_\psi := \cos(\psi)$, etc., for space-saving reasons)
-\[
-	T = \begin{bmatrix}
-		-s_\phi s_\psi s_\theta + c_\psi c_\theta & -c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi s_\theta & x \\
-		c_\phi s_\psi & c_\phi c_\psi & s_\phi & y \\
-		-c_\theta s_\phi s_\psi - c_\psi s_\theta & -c_\psi c_\theta s_\phi + s_\psi s_\theta & c_\phi c_\theta & s \\
-		0 & 0 & 0 & 1
-	\end{bmatrix}
-\]
-and its inverse, since $T$ is a rigid affine transformation, can be computed with
-\[
-	T^{-1} = \begin{bmatrix}
-			R^T & -R^T t \\
-			0 & 1
-		\end{bmatrix}, \text{ given } \begin{bmatrix}
-			R & t \\
-			0 & 1
-		\end{bmatrix} := T.
-\]
-%which expands into the matrix
-%\[
-%	\begin{bmatrix}
-%		-s_\phi s_\psi s_\theta + c_\psi c_\theta & c_\phi s_\psi & -c_\theta s_\phi s_\psi - c_\psi s_\theta & (s_\phi s_\psi s - c_\psi x) c_\theta + (s_\phi s_\psi x + c_\psi s) s_\theta - c_\phi s_\psi y \\
-%		-c_\psi s_\phi s_\theta - c_\theta s_\psi & c_\phi c_\psi & -c_\psi c_\theta s_\phi + s_\psi s_\theta & (c_\psi s_\phi s + s_\psi x) c_\theta + (c_\psi s_\phi x - s_\psi s) s_\theta - c_\phi c_\psi y \\
-%		c_\phi s_\theta & s_\phi & c_\phi c_\theta & -c_\phi c_\theta s - c_\phi s_\theta x - s_\phi y \\
-%		0 & 0 & 0 & 1
-%	\end{bmatrix}.
-%\]
-
-For the conversion from $M_0$ and $M_1$ to the basic tracking transformations, we can use the decomposition, $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, for which the parameters are as follows
-\[
-	\begin{aligned}
-		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}), \\
-		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}), \\
-		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}), \\
-		x_0 &= M_{0,03}, \\
-		y_0 &= M_{0,13}, \\
-		s_0 &= M_{0,23},
-	\end{aligned}
-\]
-and for the exit, $M_1 = T(x_1, y_1, s_1) R_y(\theta_1) R_x(\phi_1) R_s(\psi_1)$,
-\[
-	\begin{aligned}
-		\theta_1 &= \arctan_2(M_{1,02}, M_{1,22}), \\
-		\phi_1 &= \arctan_2(M_{1,12}, \sqrt{M_{1,10}^2 + M_{1,11}^2}), \\
-		\psi_1 &= \arctan_2(M_{1,10}, M_{1,11}), \\
-		x_1 &= M_{1,03}, \\
-		y_1 &= M_{1,13}, \\
-		s_1 &= M_{1,23}.
-	\end{aligned}
-\]
-Note that many decompositions are possible, and their order can lead to more or less clean closed formulae for the parameters; in this case, however, we do not expect any `nice' closed-form solutions (as opposed to the case of the subsequent section!)
-The above decomposition corresponds to the following tracking sequence:
-\begin{itemize}
-	\item ($M_0$:) XYShift($x_0$, $y_0$), SShift($s_0$), YRot($\theta_0$), XRot($\phi_0$), SRot($\psi_0$),
-	\item ($B$:) Element($L$, $\alpha$),
-	\item ($M_1$:) XYShift($x_1$, $y_1$), SShift($s_1$), YRot($\theta_1$), XRot($\phi_1$), SRot($\psi_1$).
-\end{itemize}
-
-
-\section{Misalignment at arbitrary $s$ (the straight case)}\label{section:straight}
-
-Analogously to the previous section, we split $D$ into $D_f D_{1-f}$:
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-		
-		%Straight Lines [id:da35507818785418455] 
-		\draw    (127.5,70.82) -- (191.11,70.82) ;
-		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8526813980418886] 
-		\draw    (24.11,180.32) -- (24.11,12.82) ;
-		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp5359668052415314] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
-		%Straight Lines [id:da6177744279918915] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (164.61,169.34) -- (128.56,73.81) ;
-		\draw [shift={(127.5,71)}, rotate = 69.32] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp7969702218848098] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
-		%Flowchart: Connector [id:dp09475937969231463] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
-		%Shape: Ellipse [id:dp5244406786344289] 
-		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
-		%Flowchart: Connector [id:dp7900569932281408] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
-		
-		%Straight Lines [id:da20442801210117567] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (64.89,136.4) ;
-		\draw [shift={(66.47,138.95)}, rotate = 238.12] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da774139029064869] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (24.11,70.82) -- (57.5,70.76) ;
-		\draw [shift={(60.5,70.75)}, rotate = 179.89] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp1702286240852332] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
-		%Straight Lines [id:da6390869763810431] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (124.5,70.75) ;
-		\draw [shift={(127.5,70.75)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Rectangle [id:dp5029720108971986] 
-		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
-		%Straight Lines [id:da5919731693823477] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
-		%Straight Lines [id:da7746066807011568] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.29,139.41) -- (98.28,148.98) ;
-		\draw [shift={(101.15,149.84)}, rotate = 196.65] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp7156618154401919] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
-		%Straight Lines [id:da69262585053882] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (101.15,149.84) -- (162.44,168.3) ;
-		\draw [shift={(165.31,169.16)}, rotate = 196.76] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Shape: Rectangle [id:dp06216288058859021] 
-		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
-		%Straight Lines [id:da15643091065704995] 
-		\draw  [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
-		%Straight Lines [id:da3239479052474509] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
-		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		
-		% Text Node
-		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (29.86,112.89) node [anchor=north west][inner sep=0.75pt]    {$M_{0}$};
-		% Text Node
-		\draw (149.11,111.72) node [anchor=north west][inner sep=0.75pt]    {$M_{1}$};
-		% Text Node
-		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]    {$T$};
-		% Text Node
-		\draw (30.61,54.72) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
-		% Text Node
-		\draw (68.11,145.22) node [anchor=north west][inner sep=0.75pt]    {$D_{f}$};
-		% Text Node
-		\draw (75.11,53.97) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
-		% Text Node
-		\draw (112.86,160.22) node [anchor=north west][inner sep=0.75pt]    {$D_{1-f}$};
-	\end{tikzpicture}
-	\caption{A straight element misaligned at an arbitrary location.}
-\end{figure}
-
-We simply have that $D_f := T(0, 0, fL)$ and $D_{1-f} := T(0, 0, (1-f)L)$.
-To get to the misaligned entry frame we have
-\[
-	M_0 := D_f T D_f^{-1} = T_s(fL) \; T \; T_s(-fL),
-\]
-whereas for returning to the normal frame from the exit
-\[
-	\begin{aligned}
-		M_1 := D_{1-f}^{-1} T^{-1} D_{1-f} = T_s((f-1)L) \; T^{-1} \; T_s((1-f)L).
-	\end{aligned}
-\]
-
-It is intuitively obvious, that due to lack of curvature, the entry and exit transformations should be possible to simplify.
-Specifically, we would want $M_0$ to involve some translation followed by rotations $R_y(\theta) R_x(\phi) R_s(\psi)$, and $M_1$, since it `undoes' the effect of $M_0$, into rotations $R_s(-\psi) R_x(-\phi) R_y(-\theta)$ followed by some other translation.
-
-First we decompose the entry matrix $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, i.e.~with the same method as in the previous section.
-After some algebra we observe that the angles and shifts indeed simplify:
-\[
-	\begin{aligned}
-		\theta_0 &= \arctan_2(M_{0,02}, M_{0,22}) = \theta, \\
-		\phi_0 &= \arctan_2(M_{0,12}, \sqrt{M_{0,10}^2 + M_{0,11}^2}) = \phi, \\
-		\psi_0 &= \arctan_2(M_{0,10}, M_{0,11}) = \psi, \\
-		x_0 &= T_{0,03} = x - L f \cos(\phi)\sin(\theta), \\
-		y_0 &= T_{0,13} = y - L f \sin(\phi), \\
-		s_0 &= T_{0,23} = s - L f (\cos(\phi)\cos(\theta) - 1).
-	\end{aligned}
-\]
-
-Let us now decompose the matrix $M_1$ into $R_s(\psi_1) R_x(\phi_1) R_y(\theta_1) T(x_1, y_1, s_1)$.
-To this end, let us write separately as $M_{rot}$ and $M_{tr}$ the rotation and translation part of the above decomposition, i.e.~let $M_{rot} = R_s(\psi_1) R_x(\phi_1) R_y(\theta_1)$ and let $M_{tr} := T(x_1, y_1, s_1)$.
-In such a decomposition, the rotation part of $M_{rot}$ is the same as that of $M_1$, and so we can simply extract it from there.
-Afterwards, knowing $M_{rot}$ we can compute $M_{tr} = M_{rot}^{-1} M_1$ to get the shifts.
-We indeed observe the angles and shifts simplifying:
-\[
-	\begin{aligned}
-		\theta_1 &= -\arctan_2(M_{1,20}, M_{1,22}) = -\theta, \\
-		\phi_1 &= -\arctan_2(M_{1,21}, \sqrt{M_{1,01}^2 + M_{1,11}^2}) = -\phi, \\
-		\psi_1 &= \arctan_2(M_{1,01}, M_{1,11}) = -\psi, \\
-		x_1 &= M_{tr,03} = (f - 1) L \cos(\phi) \sin(\theta) - x, \\
-		y_1 &= M_{tr,13} = (f - 1) L \sin(\phi) - y, \\
-		s_1 &= M_{tr,23} = (f - 1) L (\cos(\phi) \cos(\theta) - 1) - s.
-	\end{aligned}
-\]
-This way, our tracking procedure can be significantly less computationally expensive, compare to that of the preceding section, as no matrix operations are required:
-	\begin{itemize}
-	\item XYShift($x - L f \cos(\phi)\sin(\theta)$, $y - L f \sin(\phi)$)
-	\item SShift($s - L f (1 - \cos(\phi)\cos(\theta))$)
-	\item YRot($\theta$), XRot($\phi$), SRot($\psi$),
-	\item Element($L$),
-	\item SRot($-\psi$), XRot($-\phi$), YRot($-\theta$),
-	\item SShift($(f - 1) L (\cos(\phi) \cos(\theta) - 1) - s$),
-	\item XYShift($(f - 1) L \cos(\phi) \sin(\theta) - x$, $(f - 1) L \sin(\phi) - y$).
-\end{itemize}
-
-
-\section{Misalignment at arbitrary $s$ with a tilt}
-
-We consider a tilted curved element misaligned with respect to an arbitrary position along its length.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{figures/bend-roll.pdf}
-	\caption{A tilted curved element misaligned at an arbitrary location.}
-	\label{fig:bend-roll}
-\end{figure}
-
-Compared with the earlier discussion of misaligned curved elements (see Section~\ref{section:curved-no-roll}), when considering a tilted element, we need to include the tilting in our transformation $B$ (which, as before, is decomposed as $B_f B_{1-f}$ in Figure~\ref{fig:bend-roll}).
-
-In order to include this effect we need to realise that in the previous case the curvature of the reference frame was only applied in the $s{-}x$ plane, whereas in the case of Figure~\ref{fig:bend-roll}, it will be applied in the plane obtained by tilting $s{-}x$ by some angle $\kappa$.
-
-Therefore, taking $B_{sx}$ as the earlier transformation, i.e.,
-\[
-	B_{sx} := \begin{bmatrix}
-		\cos\left(\alpha\right) & 0 & -\sin\left(\alpha\right) & \rho (\cos\left(\alpha\right) - 1) \\
-		0 & 1 & 0 & 0 \\
-		\sin\left(\alpha\right) & 0 & \cos\left(\alpha\right) & \rho \sin(\alpha) \\
-		0 & 0 & 0 & 1
-	\end{bmatrix},
-\]
-and taking $s_\alpha = \sin(\alpha)$, $c_\alpha = \cos(\alpha)$, etc.~for space-saving reasons, we can express $B$ as $R_s(\kappa) \; B_{sx} \; R_s(-\kappa)$, which evaluates to
-\[
-	B := \begin{bmatrix}
-		{\left(c_\alpha - 1\right)} c_\kappa^{2} + 1 & {\left(c_\alpha - 1\right)} c_\kappa s_\kappa & -c_\kappa s_\alpha & \rho {\left(c_\alpha - 1\right)} c_\kappa \\
-		{\left(c_\alpha - 1\right)} c_\kappa s_\kappa & {\left(c_\alpha - 1\right)} s_\kappa^{2} + 1 & -s_\alpha s_\kappa & \rho {\left(c_\alpha - 1\right)} s_\kappa \\
-		c_\kappa s_\alpha & s_\alpha s_\kappa & c_\alpha & \rho s_\alpha \\
-		0 & 0 & 0 & 1
-	\end{bmatrix}.
-\]
-We can obtain the matrices $B_f$ and $B_{1-f}$ by substituting $f \alpha$ and $(1 - f) \alpha$ for $\alpha$ in the above.
-To obtain the tracking procedure in this case it suffices to follow the steps of Section~\ref{section:curved-no-roll}, substituting the new matrices.
-
-
-\section{Misalignment at arbitrary $s$ with a tilt (straight case)}\label{section:straight-roll}
-
-We can generalise the matrix of the above section to a straight case by recalling that $\rho(\cos(\alpha) - 1) = -L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2)$ and $\rho \sin(\alpha) = L \mathrm{sinc}(\alpha)$.
-Then, we can see that when $\alpha = 0$, the matrix $B$ of the preceding section simplifies to
-\[
-	B \rvert_{\alpha=0} = \begin{bmatrix}
-		1 & 0 & 0 & 0 \\
-		0 & 1 & 0 & 0 \\
-		0 & 0 & 1 & L \\
-		0 & 0 & 0 & 1
-	\end{bmatrix} = T_s(L) = D.
-\]
-This means that the effect of the roll is disregarded in the calculation of the reference frame change for the purposes of a misalignment, and, therefore, that we can apply the exact procedure outlined in Section~\ref{section:straight} also for tilted elements.
-This makes intuitive sense, as, in our setup, the tilt indeed only affects the direction of curvature of the element: if the element is straight, there is no work to be done for the misalignment, and the element map alone fully describes the effect of the tilt on the particles.
-
-
-\section{S Shift -- $\zeta$ correction}
-
-In the tracking procedures shown in the preceding sections, we use the tracking map we refer to as an SShift, which we use to transport the particles in a straight line by a displacement in $s$.
-We can presume the SShift to be a variant of DriftExact, however there are special considerations that we need to take here, with respect to the path length $s$ and the delay $\zeta$ of our particles.
-
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-		%Straight Lines [id:da35507818785418455] 
-		\draw    (127.75,70.82) -- (191.11,70.82) ;
-		\draw [shift={(194.11,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8526813980418886] 
-		\draw    (24.11,180.32) -- (24.11,12.82) ;
-		\draw [shift={(24.11,9.82)}, rotate = 90] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Flowchart: Connector [id:dp5359668052415314] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (125,71) .. controls (125,69.62) and (126.12,68.5) .. (127.5,68.5) .. controls (128.88,68.5) and (130,69.62) .. (130,71) .. controls (130,72.38) and (128.88,73.5) .. (127.5,73.5) .. controls (126.12,73.5) and (125,72.38) .. (125,71) -- cycle ;
-		%Flowchart: Connector [id:dp7969702218848098] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (64.14,138.06) .. controls (64.63,136.77) and (66.07,136.12) .. (67.36,136.62) .. controls (68.65,137.11) and (69.3,138.55) .. (68.81,139.84) .. controls (68.32,141.13) and (66.87,141.78) .. (65.58,141.29) .. controls (64.29,140.8) and (63.65,139.35) .. (64.14,138.06) -- cycle ;
-		%Flowchart: Connector [id:dp09475937969231463] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (162.27,168.45) .. controls (162.77,167.16) and (164.21,166.51) .. (165.5,167) .. controls (166.79,167.49) and (167.44,168.94) .. (166.95,170.23) .. controls (166.45,171.52) and (165.01,172.16) .. (163.72,171.67) .. controls (162.43,171.18) and (161.78,169.74) .. (162.27,168.45) -- cycle ;
-		%Shape: Ellipse [id:dp5244406786344289] 
-		\draw   (20.02,74.86) .. controls (17.78,72.61) and (17.8,68.97) .. (20.06,66.73) .. controls (22.32,64.5) and (25.96,64.52) .. (28.19,66.77) .. controls (30.43,69.03) and (30.41,72.67) .. (28.15,74.91) .. controls (25.89,77.14) and (22.25,77.12) .. (20.02,74.86) -- cycle ;
-		%Flowchart: Connector [id:dp7900569932281408] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 0; green, 0; blue, 0 }  ,fill opacity=1 ] (21.61,70.82) .. controls (21.61,69.44) and (22.72,68.32) .. (24.11,68.32) .. controls (25.49,68.32) and (26.61,69.44) .. (26.61,70.82) .. controls (26.61,72.2) and (25.49,73.32) .. (24.11,73.32) .. controls (22.72,73.32) and (21.61,72.2) .. (21.61,70.82) -- cycle ;
-		
-		%Flowchart: Connector [id:dp1702286240852332] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (58.01,70.93) .. controls (57.91,69.55) and (58.94,68.36) .. (60.32,68.26) .. controls (61.7,68.16) and (62.89,69.19) .. (62.99,70.57) .. controls (63.09,71.95) and (62.06,73.14) .. (60.68,73.24) .. controls (59.3,73.34) and (58.11,72.31) .. (58.01,70.93) -- cycle ;
-		%Shape: Rectangle [id:dp5029720108971986] 
-		\draw   (24.19,50.8) -- (127.5,50.84) -- (127.49,90.84) -- (24.18,90.8) -- cycle ;
-		%Straight Lines [id:da5919731693823477] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (60.5,50.75) -- (60.5,90.75) ;
-		%Flowchart: Connector [id:dp7156618154401919] 
-		\draw  [draw opacity=0][fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ] (98.71,149.3) .. controls (99.02,147.95) and (100.35,147.1) .. (101.7,147.4) .. controls (103.05,147.7) and (103.9,149.04) .. (103.59,150.39) .. controls (103.29,151.74) and (101.96,152.58) .. (100.61,152.28) .. controls (99.26,151.98) and (98.41,150.65) .. (98.71,149.3) -- cycle ;
-		%Shape: Rectangle [id:dp06216288058859021] 
-		\draw   (72.14,120.28) -- (171.05,150.1) -- (159.5,188.4) -- (60.59,158.57) -- cycle ;
-		%Straight Lines [id:da15643091065704995] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 0.84pt off 2.51pt}]  (106.92,130.69) -- (95.39,168.99) ;
-		%Straight Lines [id:da3239479052474509] 
-		\draw [color={rgb, 255:red, 155; green, 155; blue, 155 }  ,draw opacity=1 ] [dash pattern={on 4.5pt off 4.5pt}]  (60.5,70.75) -- (99.78,147.18) ;
-		\draw [shift={(101.15,149.84)}, rotate = 242.8] [fill={rgb, 255:red, 155; green, 155; blue, 155 }  ,fill opacity=1 ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da4836988544272087] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (66.47,12) -- (66.47,138.95) ;
-		%Straight Lines [id:da5330246211677179] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (127.5,172) -- (127.5,71) ;
-		%Straight Lines [id:da5582054958236305] 
-		\draw  [dash pattern={on 4.5pt off 4.5pt}]  (164.47,12) -- (164.61,169.34) ;
-		%Straight Lines [id:da2986734039407184] 
-		\draw    (23.97,138.95) -- (63.47,138.95) ;
-		\draw [shift={(66.47,138.95)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da8950058864242387] 
-		\draw    (66.47,138.95) -- (161.74,168.45) ;
-		\draw [shift={(164.61,169.34)}, rotate = 197.2] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da776090670545246] 
-		\draw    (164.61,121.5) -- (130.5,121.5) ;
-		\draw [shift={(127.5,121.5)}, rotate = 360] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		%Straight Lines [id:da6954530061787899] 
-		\draw    (24.11,70.82) -- (124.5,70.82) ;
-		\draw [shift={(127.5,70.82)}, rotate = 180] [fill={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.08]  [draw opacity=0] (10.72,-5.15) -- (0,0) -- (10.72,5.15) -- (7.12,0) -- cycle    ;
-		
-		% Text Node
-		\draw (33.86,9.72) node [anchor=north west][inner sep=0.75pt]    {$x$};
-		% Text Node
-		\draw (198.11,66.72) node [anchor=north west][inner sep=0.75pt]    {$s$};
-		% Text Node
-		\draw (6.61,69.72) node [anchor=north west][inner sep=0.75pt]    {$y$};
-		% Text Node
-		\draw (84.86,103.47) node [anchor=north west][inner sep=0.75pt]  {\textcolor{gray}{$T$}};
-		% Text Node
-		\draw (70.61,54.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
-		% Text Node
-		\draw (109.61,139.9) node [anchor=north west][inner sep=0.75pt]    {$L$};
-		% Text Node
-		\draw (29.36,120.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{0}$};
-		% Text Node
-		\draw (135.61,102.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{1}$};
-	\end{tikzpicture}
-	\caption{Visualisation of the $s$-coordinate transformations without correction.}\label{fig:no-s-no-zeta-correction}
-\end{figure}
-
-In the visualisation in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle travelled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
-Clearly, $\Delta s_0 \neq -\Delta s_1$, and so the path length changes between the aligned and misaligned element.
-However, what we desire is the opposite, i.e.~that the path length does not change: it is inconvenient to have the length of our accelerator change due to a misalignment.
-Therefore, the simplest correction we can make in this instance is to disregard the update of the $s$ coordinate in our drift/$s$-shift.
-
-A further correction needs to be made with respect to the $\zeta$ coordinate.
-Since $\zeta$ is related to the path length by $\zeta = s - \beta_0 c t$, and since, in our setup, the synchronous particle arrival time is not expected to change between the normal and misaligned entry to the element we expect that $\Delta \zeta = \Delta s$ between those two points.
-However, as we have already established for our correction of $s$, we expect the $s$ coordinate to be unchanged, so we can adjust $\zeta$ in exactly the same fashion as we do $s$:
-
-\[
-	\text{SShift}(\Delta s) := ( \text{DriftExact}(\Delta s),\;\; s \leftarrow s - \Delta s,\;\; \zeta \leftarrow \zeta - \Delta s ).
-\]
-
-
-\section{Other notes}
-
-The rotation direction conventions differ between the MAD-X survey coordinate system and the beam coordinate system, in that the $y$-rotation of the beam is opposite to the one described by YRot in the tracking procedures above. This sign difference is taken into account in the Xsuite implementation.

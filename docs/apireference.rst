@@ -1,9 +1,517 @@
-================
-Reference manual
-================
+===============
+Reference guide
+===============
 
 .. contents:: Table of Contents
     :depth: 3
+
+
+Beam elements (xtrack)
+======================
+
+Marker
+------
+
+.. autoclass:: xtrack.Marker
+    :members:
+    :member-order: bysource
+
+Drift
+-----
+
+.. autoclass:: xtrack.Drift
+    :members:
+    :member-order: bysource
+
+Bend
+----
+
+.. autoclass:: xtrack.Bend
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+.. figure:: ./physics_manual/figures/sbend_edge_definition.png
+    :align: center
+    :width: 70%
+
+    Sector bend (figure from MAD-X manual).
+
+.. list-table:: Naming convention
+   :header-rows: 1
+   :align: center
+
+   * - Symbol
+     - Xsuite attribute name
+   * - :math:`L`
+     - ``length``
+   * - :math:`\alpha`
+     - ``angle``
+   * - :math:`h = 1/\rho`
+     - ``angle / length``
+   * - :math:`e_1`
+     - ``edge_entry_angle``
+   * - :math:`e_2`
+     - ``edge_exit_angle``
+
+RBend
+-----
+
+.. autoclass:: xtrack.RBend
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+.. figure:: ./physics_manual/figures/rbend.png
+    :align: center
+    :width: 80%
+
+    Rectangular with arbitrary face angles and arbitrary placement with respect to
+    the reference trajectory.
+
+
+.. list-table:: Naming convention
+   :header-rows: 1
+   :align: center
+
+   * - Symbol
+     - Xsuite attribute name
+   * - :math:`L_\text{straight}`
+     - ``length_straight``
+   * - :math:`L_\text{curv}`
+     - ``length`` (read-only, computed internally)
+   * - :math:`\alpha = \alpha_\text{in} + \alpha_\text{out}`
+     - ``angle``
+   * - :math:`\alpha_\text{diff} = \alpha_\text{in} - \alpha_\text{out}`
+     - ``rbend_angle_diff``
+   * - :math:`x_\text{mid}`
+     - ``rbend_shift`` (+ half of the sagitta if ``rbend_compensate_sagitta`` is ``True``)
+   * - :math:`e_1`
+     - ``edge_entry_angle``
+   * - :math:`e_2`
+     - ``edge_exit_angle``
+
+Quadrupole
+----------
+
+.. autoclass:: xtrack.Quadrupole
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+Sextupole
+---------
+
+.. autoclass:: xtrack.Sextupole
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+Octupole
+---------
+
+.. autoclass:: xtrack.Octupole
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+Multipole
+---------
+
+.. autoclass:: xtrack.Multipole
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+UniformSolenoid
+---------------
+
+.. autoclass:: xtrack.UniformSolenoid
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+VariableSolenoid
+----------------
+
+.. autoclass:: xtrack.VariableSolenoid
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+Cavity
+------
+
+.. autoclass:: xtrack.Cavity
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+CrabCavity
+----------
+
+.. autoclass:: xtrack.CrabCavity
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+RFMultipole
+-----------
+
+.. autoclass:: xtrack.RFMultipole
+    :members:
+    :member-order: bysource
+
+The definition of the misalignment parameters (``rot_s_rad``,
+``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
+can be found in the :ref:`element misalignment section <misalignment_label>`.
+
+ReferenceEnergyIncrease
+-----------------------
+
+.. autoclass:: xtrack.ReferenceEnergyIncrease
+    :members:
+    :member-order: bysource
+
+
+Exciter
+-------
+
+.. autoclass:: xtrack.Exciter
+    :members:
+    :member-order: bysource
+
+AC-Dipole
+---------
+.. autoclass:: xtrack.ACDipole
+    :members:
+    :member-order: bysource
+
+Elens
+-----
+
+.. autoclass:: xtrack.Elens
+    :members:
+    :member-order: bysource
+
+NonLinearLens
+-------------
+
+.. autoclass:: xtrack.NonLinearLens
+    :members:
+    :member-order: bysource
+
+ElectronCooler
+--------------
+
+.. autoclass:: xtrack.ElectronCooler
+    :members:
+    :member-order: bysource
+
+Wire
+----
+
+.. autoclass:: xtrack.Wire
+    :members:
+    :member-order: bysource
+
+FirstOrderTaylorMap
+-------------------
+
+.. autoclass:: xtrack.FirstOrderTaylorMap
+    :members:
+    :member-order: bysource
+
+SecondOrderTaylorMap
+--------------------
+
+.. autoclass:: xtrack.SecondOrderTaylorMap
+    :members:
+    :member-order: bysource
+
+LineSegmentMap
+--------------
+
+.. autoclass:: xtrack.LineSegmentMap
+    :members:
+    :member-order: bysource
+
+XYShift
+-------
+
+.. autoclass:: xtrack.XYShift
+    :members:
+    :member-order: bysource
+
+SRotation
+----------
+
+.. autoclass:: xtrack.SRotation
+    :members:
+    :member-order: bysource
+
+XRotation
+---------
+
+.. autoclass:: xtrack.XRotation
+    :members:
+    :member-order: bysource
+
+YRotation
+---------
+
+.. autoclass:: xtrack.YRotation
+    :members:
+    :member-order: bysource
+
+ZetaShift
+---------
+
+.. autoclass:: xtrack.ZetaShift
+    :members:
+    :member-order: bysource
+
+
+LimitEllipse
+------------
+
+.. autoclass:: xtrack.LimitEllipse
+    :members:
+    :member-order: bysource
+
+LimitRect
+---------
+
+.. autoclass:: xtrack.LimitRect
+    :members:
+    :member-order: bysource
+
+LimitRectEllipse
+----------------
+
+.. autoclass:: xtrack.LimitRectEllipse
+    :members:
+    :member-order: bysource
+
+LimitRacetrack
+--------------
+
+.. autoclass:: xtrack.LimitRacetrack
+    :members:
+    :member-order: bysource
+
+LimitPolygon
+------------
+
+.. autoclass:: xtrack.LimitPolygon
+    :members:
+    :member-order: bysource
+
+LongitudinalLimitRect
+---------------------
+
+.. autoclass:: xtrack.LongitudinalLimitRect
+    :members:
+    :member-order: bysource
+
+ParticlesMonitor
+----------------
+
+.. autoclass:: xtrack.ParticlesMonitor
+    :members:
+    :member-order: bysource
+
+LastTurnsMonitor
+----------------
+
+.. autoclass:: xtrack.LastTurnsMonitor
+    :members:
+    :member-order: bysource
+
+BeamPositionMonitor
+----------------
+
+.. autoclass:: xtrack.BeamPositionMonitor
+    :members:
+    :member-order: bysource
+
+BeamProfileMonitor
+----------------
+
+.. autoclass:: xtrack.BeamProfileMonitor
+    :members:
+    :member-order: bysource
+
+BeamSizeMonitor
+----------------
+
+.. autoclass:: xtrack.BeamSizeMonitor
+    :members:
+    :member-order: bysource
+
+
+
+Beam elements (xfields)
+======================
+
+
+Beam-beam Bi-Gaussian 2D
+------------------------
+
+.. autoclass:: xfields.BeamBeamBiGaussian2D
+    :members:
+    :member-order: bysource
+
+Beam-beam Bi-Gaussian 3D
+------------------------
+
+.. autoclass:: xfields.BeamBeamBiGaussian3D
+    :members:
+    :member-order: bysource
+
+Space Charge Bi-Gaussian
+------------------------
+
+.. autoclass:: xfields.SpaceChargeBiGaussian
+    :members:
+    :member-order: bysource
+
+Space Charge 3D
+---------------
+
+.. autoclass:: xfields.SpaceCharge3D
+    :members:
+    :member-order: bysource
+
+Intra-Beam Scattering Kicks
+---------------------------
+
+.. autoclass:: xfields.IBSAnalyticalKick
+    :members:
+    :member-order: bysourcef
+
+.. autoclass:: xfields.IBSKineticKick
+    :members:
+    :member-order: bysource
+
+.. _xwakes_section:
+
+Beam elements (xwakes)
+======================
+
+WakeResonator
+-------------
+
+.. autoclass:: xwakes.WakeResonator
+    :members:
+    :member-order: bysource
+
+WakeThickResistiveWall
+----------------------
+
+.. autoclass:: xwakes.WakeThickResistiveWall
+    :members:
+    :member-order: bysource
+
+WakeFromTable
+-------------
+
+.. autoclass:: xwakes.WakeFromTable
+    :members:
+    :member-order: bysource
+
+Wake
+----
+
+.. autoclass:: xwakes.Wake
+    :members:
+    :member-order: bysource
+
+Utilities
+---------
+
+.. autofunction:: xwakes.read_headtail_file
+
+.. _misalignment_label:
+
+Element misalignment
+====================
+
+Most Xsuite beam elements support misalignments. The different misalignment
+parameters are defined as illustrated in the following table and figures.
+
+See also the :ref:`misalignment section <misalignment_example_label>` in User's guide.
+
+.. list-table:: Naming convention
+   :header-rows: 1
+   :align: center
+
+   * - Symbol
+     - Xsuite attribute name
+   * - :math:`\Delta s_\text{anchor}`
+     - ``rot_shift_anchor``
+   * - :math:`\Delta \psi`
+     - ``rot_s_rad`` or ``rot_s_rad_no_frame``
+   * - :math:`\Delta \theta`
+     - ``rot_x_rad``
+   * - :math:`\Delta \phi`
+     - ``rot_y_rad``
+   * - :math:`\Delta x`
+     - ``shift_x``
+   * - :math:`\Delta y`
+     - ``shift_y``
+   * - :math:`\Delta s`
+     - ``shift_s``
+
+
+.. figure:: ./physics_manual/figures/align_roll.png
+    :align: center
+    :width: 50%
+
+    Misalignment in the the x-y plane.
+
+.. figure:: ./physics_manual/figures/align_yaw.png
+    :align: center
+    :width: 70%
+
+    Misalignment in the the s-x plane.
+
+.. figure:: ./physics_manual/figures/align_pitch.png
+    :align: center
+    :width: 70%
+
+    Misalignment in the the s-y plane.
+
 
 xtrack.Environment class
 ========================
@@ -217,13 +725,6 @@ CPU context
 Configuration tools
 ===================
 
-xtrack.Multiline class
-----------------------
-
-.. autoclass:: xtrack.Multiline
-    :members:
-    :member-order: bysource
-
 xtrack.Multisetter class
 ------------------------
 
@@ -253,368 +754,3 @@ See also: :doc:`Loss location refinement <collimation>`
     :members:
     :member-order: bysource
 
-Beam elements (xtrack)
-======================
-
-Marker
-------
-
-.. autoclass:: xtrack.Marker
-    :members:
-    :member-order: bysource
-
-Drift
------
-
-.. autoclass:: xtrack.Drift
-    :members:
-    :member-order: bysource
-
-Bend
-----
-
-.. autoclass:: xtrack.Bend
-    :members:
-    :member-order: bysource
-
-RBend
-----
-
-.. autoclass:: xtrack.RBend
-    :members:
-    :member-order: bysource
-
-SimpleThinBend
-----
-
-.. autoclass:: xtrack.SimpleThinBend
-    :members:
-    :member-order: bysource
-
-DipoleEdge
-----------
-
-.. autoclass:: xtrack.DipoleEdge
-    :members:
-    :member-order: bysource
-
-DipoleFringe
-----------
-
-.. autoclass:: xtrack.DipoleFringe
-    :members:
-    :member-order: bysource
-
-Wedge
-----------
-
-.. autoclass:: xtrack.Wedge
-    :members:
-    :member-order: bysource
-
-Quadrupole
-----------
-
-.. autoclass:: xtrack.Quadrupole
-    :members:
-    :member-order: bysource
-
-SimpleThinQuadrupole
-----
-
-.. autoclass:: xtrack.SimpleThinQuadrupole
-    :members:
-    :member-order: bysource
-
-Sextupole
----------
-
-.. autoclass:: xtrack.Sextupole
-    :members:
-    :member-order: bysource
-
-Octupole
----------
-
-.. autoclass:: xtrack.Octupole
-    :members:
-    :member-order: bysource
-
-Multipole
----------
-
-.. autoclass:: xtrack.Multipole
-    :members:
-    :member-order: bysource
-
-MultipoleEdge
----------
-
-.. autoclass:: xtrack.MultipoleEdge
-    :members:
-    :member-order: bysource
-
-CombinedFunctionMagnet
-----------------------
-
-.. autoclass:: xtrack.CombinedFunctionMagnet
-    :members:
-    :member-order: bysource
-
-Solenoid
---------
-
-.. autoclass:: xtrack.Solenoid
-    :members:
-    :member-order: bysource
-
-RFMultipole
------------
-
-.. autoclass:: xtrack.RFMultipole
-    :members:
-    :member-order: bysource
-
-Exciter
--------
-
-.. autoclass:: xtrack.Exciter
-    :members:
-    :member-order: bysource
-
-AC-Dipole
----------
-.. autoclass:: xtrack.ACDipole
-    :members:
-    :member-order: bysource
-
-Cavity
-------
-
-.. autoclass:: xtrack.Cavity
-    :members:
-    :member-order: bysource
-
-ReferenceEnergyIncrease
------------------------
-
-.. autoclass:: xtrack.ReferenceEnergyIncrease
-    :members:
-    :member-order: bysource
-
-Elens
------
-
-.. autoclass:: xtrack.Elens
-    :members:
-    :member-order: bysource
-
-NonLinearLens
------
-
-.. autoclass:: xtrack.NonLinearLens
-    :members:
-    :member-order: bysource
-
-ElectronCooler
------
-
-.. autoclass:: xtrack.ElectronCooler
-    :members:
-    :member-order: bysource
-
-Wire
-----
-
-.. autoclass:: xtrack.Wire
-    :members:
-    :member-order: bysource
-
-FirstOrderTaylorMap
--------------------
-
-.. autoclass:: xtrack.FirstOrderTaylorMap
-    :members:
-    :member-order: bysource
-
-SecondOrderTaylorMap
---------------------
-
-.. autoclass:: xtrack.SecondOrderTaylorMap
-    :members:
-    :member-order: bysource
-
-LineSegmentMap
---------------
-
-.. autoclass:: xtrack.LineSegmentMap
-    :members:
-    :member-order: bysource
-
-LinearTransferMatrix
---------------------
-
-N.B. This element is deprecated. Use LineSegmentMap instead.
-
-.. autoclass:: xtrack.LinearTransferMatrix
-    :members:
-    :member-order: bysource
-
-XYShift
--------
-
-.. autoclass:: xtrack.XYShift
-    :members:
-    :member-order: bysource
-
-SRotation
-----------
-
-.. autoclass:: xtrack.SRotation
-    :members:
-    :member-order: bysource
-
-XRotation
----------
-
-.. autoclass:: xtrack.XRotation
-    :members:
-    :member-order: bysource
-
-YRotation
----------
-
-.. autoclass:: xtrack.YRotation
-    :members:
-    :member-order: bysource
-
-ZetaShift
----------
-
-.. autoclass:: xtrack.ZetaShift
-    :members:
-    :member-order: bysource
-
-
-LimitEllipse
-------------
-
-.. autoclass:: xtrack.LimitEllipse
-    :members:
-    :member-order: bysource
-
-LimitRect
----------
-
-.. autoclass:: xtrack.LimitRect
-    :members:
-    :member-order: bysource
-
-LimitRectEllipse
-----------------
-
-.. autoclass:: xtrack.LimitRectEllipse
-    :members:
-    :member-order: bysource
-
-LimitRacetrack
---------------
-
-.. autoclass:: xtrack.LimitRacetrack
-    :members:
-    :member-order: bysource
-
-LimitPolygon
-------------
-
-.. autoclass:: xtrack.LimitPolygon
-    :members:
-    :member-order: bysource
-
-LongitudinalLimitRect
----------------------
-
-.. autoclass:: xtrack.LongitudinalLimitRect
-    :members:
-    :member-order: bysource
-
-Monitors (xtrack)
-======================
-
-ParticlesMonitor
-----------------
-
-.. autoclass:: xtrack.ParticlesMonitor
-    :members:
-    :member-order: bysource
-
-LastTurnsMonitor
-----------------
-
-.. autoclass:: xtrack.LastTurnsMonitor
-    :members:
-    :member-order: bysource
-
-BeamPositionMonitor
-----------------
-
-.. autoclass:: xtrack.BeamPositionMonitor
-    :members:
-    :member-order: bysource
-
-BeamProfileMonitor
-----------------
-
-.. autoclass:: xtrack.BeamProfileMonitor
-    :members:
-    :member-order: bysource
-
-BeamSizeMonitor
-----------------
-
-.. autoclass:: xtrack.BeamSizeMonitor
-    :members:
-    :member-order: bysource
-
-Beam elements (xfields)
-======================
-
-
-Beam-beam Bi-Gaussian 2D
-------------------------
-
-.. autoclass:: xfields.BeamBeamBiGaussian2D
-    :members:
-    :member-order: bysource
-
-Beam-beam Bi-Gaussian 3D
-------------------------
-
-.. autoclass:: xfields.BeamBeamBiGaussian3D
-    :members:
-    :member-order: bysource
-
-Space Charge Bi-Gaussian
-------------------------
-
-.. autoclass:: xfields.SpaceChargeBiGaussian
-    :members:
-    :member-order: bysource
-
-Space Charge 3D
----------------
-
-.. autoclass:: xfields.SpaceCharge3D
-    :members:
-    :member-order: bysource
-
-Intra-Beam Scattering Kicks
----------------------------
-
-.. autoclass:: xfields.IBSAnalyticalKick
-    :members:
-    :member-order: bysource
-
-.. autoclass:: xfields.IBSKineticKick
-    :members:
-    :member-order: bysource
