@@ -537,15 +537,18 @@ Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yiel
 \section{Symplectic integrators and magnet models}
 
 In Xsuite, magnets are modeled using symplectic integrators, splitting the Hamiltonian
-in a `propagation' part and a `kick' part.
-Hamiltonians for the maps that are reported in Table~\ref{tab:maps}, and the corresponding
-maps are reported in the following sections.
+in a `propagation' part and a `kick' part, for which closed-form solutions of the equations of motion
+are available.
+
+Hamiltonians for which closed-form solution of the equations of motion exist and are
+implemented in Xsuite are reported in Table~\ref{tab:maps}. The corresponding
+maps are reporded in the following sections.
 
 Different magnet models are available, which correspond to different ways of splitting
 the Hamiltonian. The available models are reported in Table~\ref{tab:models} and
 the available integration schemes are reported in Table~\ref{tab:integrators}.
 
-\begin{table}[h]
+\begin{table}[htb]
 \centering
 {\small
 \begin{tabular}{llll}
@@ -593,7 +596,7 @@ $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{K_s}{2}
 \end{table}
 
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \begin{tabular}{lll}
 \toprule
@@ -608,9 +611,9 @@ drift-kick-drift-expanded & [De] & [h K0 K0h K1 K1h Kn] \\
 \end{tabular}
 \caption{Available magnet models. \label{tab:models}}
 \end{table}
-\clearpage
 
-\begin{table}[h]
+
+\begin{table}[t]
 \centering
 \begin{tabular}{ll}
 \toprule
@@ -623,7 +626,6 @@ yoshida4 & Fourth order Yoshida integrator \cite{yoshida90} \\
 \end{tabular}
 \caption{Available integration schemes. \label{tab:integrators}}
 \end{table}
-\clearpage
 
 
 
