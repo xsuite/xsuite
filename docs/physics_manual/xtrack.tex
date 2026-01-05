@@ -454,8 +454,6 @@ in~\cite{wolski2014beam} denotes the quantity that here we call $p_\tau$).
 
 \section{Expanded magnet body hamiltonian}
 
-This section is adapted from \cite{mad8phys}.
-
 For a magnet with piece-wise constant multipole components and curvature $h$, we can
 set $a_x = 0$ and $a_y = 0$ in Eq.~\eqref{eq:hamiltonian_htau}:
 \begin{align}
@@ -470,31 +468,46 @@ where
   &H^\text{magn} = -(1+h x) \chi a_s
 \end{align}
 
+\subsection{Approximation of the kinetic part of the hamiltonian}
+
 Using \ref{eq:one_plus_delta_squared}, the kinetic part can we rewritten as follows:
 \begin{align}
   H^\text{kin}
-    &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2} \nonumber\\
-    &= \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
+    &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}\\
+    &= \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2 - p_x^2 - p_y^2}
+                              - h x \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
 \end{align}
-Expanding the square root to first order:
+Neglecting high-order terms $h^2 x^2 p_x^2$ and $h^2 x^2 p_y^2$ in the second
+square root, we can approximate:
 \begin{align}
   H^\text{kin}
-    &\simeq \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\left(1 - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2}\right) \nonumber \\
-    &= \frac{p_\tau}{\beta_0} - (1+h x) \left((1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
+    &= \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2 - p_x^2 - p_y^2} - h x (1 + \delta)\\
+    &= H_D - h x (1 + \delta)
+    \label{eq:hamilt_kinetic_curv_approx}
 \end{align}
-Neglecting terms in $hxp_x^2$ and $hxp_y^2$ we obtain:
+where
+\begin{align}
+  H_D = \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2 - p_x^2 - p_y^2}
+\end{align}
+is the Hamiltonian of a straight drift.
+
+The hamiltonian for the drift can in turn be expanded as follows:
+\begin{align}
+  H_D &= \frac{p_\tau}{\beta_0} - (1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}\\
+      &\simeq \frac{p_\tau}{\beta_0} - (1 + \delta) + \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}
+      \label{eq:hamilt_drift_expanded}
+\end{align}
+
+Replacing Eq.~\eqref{eq:hamilt_drift_expanded} in Eq.~\eqref{eq:hamilt_kinetic_curv_approx}
+yields the following expression for the kinetic part of the Hamiltonian:
 \begin{align}
   H^\text{kin}
-    &=  \frac{p_\tau}{\beta_0}
+    &\simeq  \frac{p_\tau}{\beta_0}
     - \left(1 + \delta  - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
     - h x \left(1 + \delta\right)
 \end{align}
-To second order we can identify the Hamiltonian of the straight drift plus a curvature
-term:
-\begin{align}
-  H^\text{kin} &\simeq \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
-  - h x \left(1 + \delta\right)
-\end{align}
+
+\subsection{Approximation of the magnetic part of the hamiltonian}
 
 For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, inserting
 the curved-magnet potential from Eq.~\eqref{eq:as_curved} in $H^\text{magn}$ yields:
