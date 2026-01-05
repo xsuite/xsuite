@@ -537,47 +537,45 @@ the available integration schemes are reported in Table~\ref{tab:integrators}.
 {\small
 \begin{tabular}{llll}
 \toprule
-\textbf{Map} & \textbf{Parameters} & \textbf{Description} \\
+\textbf{Map} & \textbf{Params.} & \textbf{Description} \\
 \midrule
-D   & l            & Drift exact   & 
+D   &            & Drift exact   & 
 $H_D = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$ \\
-De  & l            & Drift expanded & 
+De  &            & Drift expanded & 
 $H_{De} = \frac{p_\tau}{\beta_0} - (1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}$\\
 % Dc  & l            & Correction drift exact & 
 % $H_{Dc} = H_D - H_{De}$\\
-R   & h, l         & Curved drift& 
+R   & h         & Curved drift& 
 $H_R = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$\\
-Br  & k0, l        & Rectangular bend & 
-$H_{Br} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - \chi K_0 x$
+Br  & $K_0$        & Rectangular bend & 
+$H_{Br} = H_D + \chi K_0 x$
 \\
-B   & k0, l, h     & Exact Bend & 
-$H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) $\\
-Kh  & h, l            & Thin curvature kick & 
-$H_{Kh} = -hx$\\
-K0h & k0,l          & Weak focusing & 
-$H_{K0h} = K_0 h \frac{x^2}{2}$\\
-K0  & k0, l           & Dipole kick & 
-$H_{K0} = K_0 x$\\
-K1  & k1, l       & Quadrupole kick & 
-$H_{K1} = K_1\frac{x^2 - y^2}{2}$\\
-K1h & k1, h, l      & Quad curv. correction & 
-$H_{K1h} = K_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
-Kn  & kn, ks, l     & Multipole & 
-$H_{Kn} = -\Re\left( \sum_{n=0}^N (K_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
+B   & $K_0$, h     & Exact Bend & 
+$H_{B} = H_R + \chi K_0 x + \chi h K_0 \frac{x^2}{2}$\\
+K0  & $K_0$           & Dipole kick & 
+$H_{K0} = \chi K_0 x$\\
+K1  & $K_1$       & Quadrupole kick & 
+$H_{K1} = \chi K_1\frac{x^2 - y^2}{2}$\\
+h  & $h$         & Curvature kick & 
+$H_{h} = -h x (1 + \delta)$\\
+K0h & $K_0$          & Weak focusing kick & 
+$H_{K0h} = \chi h K_0  \frac{x^2}{2}$\\
+K1h & $K_1$, $h$      & Quad curv. correction & 
+$H_{K1h} = \chi h K_1 \frac{2 x^3 - 3 xy^2}{6}$\\
+Kn  & $K_n$, $\hat{K}_n$     & Multipole & 
+$H_{Kn} = -\chi \Re\left( \sum_{n=0}^N (K_n+i{\hat K}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
 \\
 % Knh & kn, ks, h  & Curved Multipoles & 
 % Not yet available\\
-M   & k0, k1, l, h & 2nd order Hamiltonian & 
-$H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (K_0 -h)x + \frac{K_0hx^2}{2} + K_1 \frac{x^2-y^2}{2} $
-\\
-S   & ksol, l          & Solenoid & 
+M   & $K_0$, $K_1$, $h$ & Expanded bend-quad. & 
+$H_{M} =  H_{De} - h x (1 + \delta) + \chi K_0 x + \chi K_1\frac{x^2 - y^2}{2} + \chi h K_0 \frac{x^2}{2}$\\
+S   & $K_s$          & Solenoid & 
 $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{K_s}{2} y\right)^2 - \left(p_y+\frac{K_s}{2}\right)^2}$
 \\
 \bottomrule
 \end{tabular}
 }
-\caption{Hamiltonians of the implemented maps. Here we have
-        called $\sqrt{...} = \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$.
+\caption{Hamiltonians of the implemented maps.
         \label{tab:maps}}
 \end{table}
 
@@ -589,10 +587,10 @@ $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{K_s}{2}
 \textbf{Model} & \textbf{Propagation part} & \textbf{Kick part} \\
 \midrule
 rot-kick-rot & [R] & [K0 K0h K1 K1h Kn] \\
-bend-kick-bend & [B] & [K1 K1h Kn Knh] \\
+bend-kick-bend & [B] & [K1 K1h Kn] \\
 matrix-kick-matrix & [M] & [K1h Kn] \\
-drift-kick-drift-exact & [D] & [Kh K0 K0h K1 K1h Kn] \\
-drift-kick-drift-expanded & [De] & [Kh K0 K0h K1 K1h Kn] \\
+drift-kick-drift-exact & [D] & [h K0 K0h K1 K1h Kn] \\
+drift-kick-drift-expanded & [De] & [h K0 K0h K1 K1h Kn] \\
 \bottomrule
 \end{tabular}
 \caption{Available magnet models. \label{tab:models}}
