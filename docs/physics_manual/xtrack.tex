@@ -454,8 +454,6 @@ in~\cite{wolski2014beam} denotes the quantity that here we call $p_\tau$).
 
 \section{Expanded magnet body hamiltonian}
 
-This section is adapted from \cite{mad8phys}.
-
 For a magnet with piece-wise constant multipole components and curvature $h$, we can
 set $a_x = 0$ and $a_y = 0$ in Eq.~\eqref{eq:hamiltonian_htau}:
 \begin{align}
@@ -470,31 +468,46 @@ where
   &H^\text{magn} = -(1+h x) \chi a_s
 \end{align}
 
+\subsection{Approximation of the kinetic part of the hamiltonian}
+
 Using \ref{eq:one_plus_delta_squared}, the kinetic part can we rewritten as follows:
 \begin{align}
   H^\text{kin}
-    &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2} \nonumber\\
-    &= \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}
+    &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}\\
+    &= \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2 - p_x^2 - p_y^2}
+                              - h x \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
 \end{align}
-Expanding the square root to first order:
+Neglecting high-order terms $h^2 x^2 p_x^2$ and $h^2 x^2 p_y^2$ in the second
+square root, we can approximate:
 \begin{align}
   H^\text{kin}
-    &\simeq \frac{p_\tau}{\beta_0} - (1+h x)  (1 + \delta)\left(1 - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)^2}\right) \nonumber \\
-    &= \frac{p_\tau}{\beta_0} - (1+h x) \left((1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
+    &= \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2 - p_x^2 - p_y^2} - h x (1 + \delta)\\
+    &= H_D - h x (1 + \delta)
+    \label{eq:hamilt_kinetic_curv_approx}
 \end{align}
-Neglecting terms in $hxp_x^2$ and $hxp_y^2$ we obtain:
+where
+\begin{align}
+  H_D = \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2 - p_x^2 - p_y^2}
+\end{align}
+is the Hamiltonian of a straight drift.
+
+The hamiltonian for the drift can in turn be expanded as follows:
+\begin{align}
+  H_D &= \frac{p_\tau}{\beta_0} - (1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}\\
+      &\simeq \frac{p_\tau}{\beta_0} - (1 + \delta) + \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}
+      \label{eq:hamilt_drift_expanded}
+\end{align}
+
+Replacing Eq.~\eqref{eq:hamilt_drift_expanded} in Eq.~\eqref{eq:hamilt_kinetic_curv_approx}
+yields the following expression for the kinetic part of the Hamiltonian:
 \begin{align}
   H^\text{kin}
-    &=  \frac{p_\tau}{\beta_0}
+    &\simeq  \frac{p_\tau}{\beta_0}
     - \left(1 + \delta  - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}\right)
     - h x \left(1 + \delta\right)
 \end{align}
-To second order we can identify the Hamiltonian of the straight drift plus a curvature
-term:
-\begin{align}
-  H^\text{kin} &\simeq \frac{p_\tau}{\beta_0} - \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}
-  - h x \left(1 + \delta\right)
-\end{align}
+
+\subsection{Approximation of the magnetic part of the hamiltonian}
 
 For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, inserting
 the curved-magnet potential from Eq.~\eqref{eq:as_curved} in $H^\text{magn}$ yields:
@@ -524,82 +537,83 @@ Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yiel
 \section{Symplectic integrators and magnet models}
 
 In Xsuite, magnets are modeled using symplectic integrators, splitting the Hamiltonian
-in a `propagation' part and a `kick' part.
-Hamiltonians for the maps that are reported in Table~\ref{tab:maps}, and the corresponding
-maps are reported in the following sections.
+in a `propagation' part and a `kick' part, for which closed-form solutions of the equations of motion
+are available.
+
+Hamiltonians for which closed-form solution of the equations of motion exist and are
+implemented in Xsuite are reported in Table~\ref{tab:maps}. The corresponding
+maps are reporded in the following sections.
 
 Different magnet models are available, which correspond to different ways of splitting
 the Hamiltonian. The available models are reported in Table~\ref{tab:models} and
 the available integration schemes are reported in Table~\ref{tab:integrators}.
 
-\begin{table}[h]
+\begin{table}[htb]
 \centering
 {\small
 \begin{tabular}{llll}
 \toprule
-\textbf{Map} & \textbf{Parameters} & \textbf{Description} \\
+\textbf{Map} & \textbf{Params.} & \textbf{Description} \\
 \midrule
-D   & l            & Drift exact   & 
+D   &            & Drift exact   & 
 $H_D = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$ \\
-De  & l            & Drift expanded & 
-$H_{De} = \frac{p_\tau}{\beta_0}-\frac{p_x^2+p_y^2}{2(1+\delta)}$\\
+De  &            & Drift expanded & 
+$H_{De} = \frac{p_\tau}{\beta_0} - (1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}$\\
 % Dc  & l            & Correction drift exact & 
 % $H_{Dc} = H_D - H_{De}$\\
-R   & h, l         & Curved drift& 
-$H_R = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...}\right)$\\
-Br  & k0, l        & Rectangular bend & 
-$H_{Br} = \frac{p_\tau}{\beta_0} -\sqrt{...} -b_1 x$
+R   & h         & Curved drift& 
+$H_R = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$\\
+Br  & $K_0$        & Rectangular bend & 
+$H_{Br} = H_D + \chi K_0 x$
 \\
-B   & k0, l, h     & Exact Bend & 
-$H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{...} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right) $\\
-Kh  & h, l            & Thin curvature kick & 
-$H_{Kh} = -hx$\\
-K0h & k0,l          & Weak focusing & 
-$H_{K0h} = K_0 h \frac{x^2}{2}$\\
-K0  & k0, l           & Dipole kick & 
-$H_{K0} = K_0 x$\\
-K1  & k1, l       & Quadrupole kick & 
-$H_{K1} = K_1\frac{x^2 - y^2}{2}$\\
-K1h & k1, h, l      & Quad curv. correction & 
-$H_{K1h} = K_1 h \frac{2 x^3 - 3 xy^2}{6}$\\
-Kn  & kn, ks, l     & Multipole & 
-$H_{Kn} = -\Re\left( \sum_{n=0}^N (K_n+i{\hat k}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
+B   & $K_0$, h     & Exact Bend & 
+$H_{B} = H_R + \chi K_0 x + \chi h K_0 \frac{x^2}{2}$\\
+K0  & $K_0$           & Dipole kick & 
+$H_{K0} = \chi K_0 x$\\
+K1  & $K_1$       & Quadrupole kick & 
+$H_{K1} = \chi K_1\frac{x^2 - y^2}{2}$\\
+h  & $h$         & Curvature kick & 
+$H_{h} = -h x (1 + \delta)$\\
+K0h & $K_0$          & Weak focusing kick & 
+$H_{K0h} = \chi h K_0  \frac{x^2}{2}$\\
+K1h & $K_1$, $h$      & Quad curv. correction & 
+$H_{K1h} = \chi h K_1 \frac{2 x^3 - 3 xy^2}{6}$\\
+Kn  & $K_n$, $\hat{K}_n$     & Multipole & 
+$H_{Kn} = -\chi \Re\left( \sum_{n=0}^N (K_n+i{\hat K}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
 \\
 % Knh & kn, ks, h  & Curved Multipoles & 
 % Not yet available\\
-M   & k0, k1, l, h & 2nd order Hamiltonian & 
-$H_{M} = \frac{p_\tau}{\beta_0} +  \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)} + (K_0 -h)x + \frac{K_0hx^2}{2} + K_1 \frac{x^2-y^2}{2} $
-\\
-S   & ksol, l          & Solenoid & 
+M   & $K_0$, $K_1$, $h$ & Expanded bend-quad. & 
+$H_{M} =  H_{De} - h x (1 + \delta) + \chi K_0 x + \chi K_1\frac{x^2 - y^2}{2} + \chi h K_0 \frac{x^2}{2}$\\
+S   & $K_s$          & Solenoid & 
 $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{K_s}{2} y\right)^2 - \left(p_y+\frac{K_s}{2}\right)^2}$
 \\
 \bottomrule
 \end{tabular}
 }
-\caption{Hamiltonians of the implemented maps. Here we have
-        called $\sqrt{...} = \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$.
+\caption{Hamiltonians of the implemented maps.
         \label{tab:maps}}
 \end{table}
 
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
 \begin{tabular}{lll}
 \toprule
 \textbf{Model} & \textbf{Propagation part} & \textbf{Kick part} \\
 \midrule
 rot-kick-rot & [R] & [K0 K0h K1 K1h Kn] \\
-bend-kick-bend & [B] & [K1 K1h Kn Knh] \\
+bend-kick-bend & [B] & [K1 K1h Kn] \\
 matrix-kick-matrix & [M] & [K1h Kn] \\
-drift-kick-drift-exact & [D] & [Kh K0 K0h K1 K1h Kn] \\
-drift-kick-drift-expanded & [De] & [Kh K0 K0h K1 K1h Kn] \\
+drift-kick-drift-exact & [D] & [h K0 K0h K1 K1h Kn] \\
+drift-kick-drift-expanded & [De] & [h K0 K0h K1 K1h Kn] \\
 \bottomrule
 \end{tabular}
 \caption{Available magnet models. \label{tab:models}}
 \end{table}
-\clearpage
 
-\begin{table}[h]
+
+\begin{table}[t]
 \centering
 \begin{tabular}{ll}
 \toprule
@@ -612,7 +626,6 @@ yoshida4 & Fourth order Yoshida integrator \cite{yoshida90} \\
 \end{tabular}
 \caption{Available integration schemes. \label{tab:integrators}}
 \end{table}
-\clearpage
 
 
 
