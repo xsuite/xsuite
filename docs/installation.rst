@@ -215,10 +215,10 @@ The following configuration has been tested and confirmed to work as expected:
    Compiling CuPy from source on ROCm can be non-trivial.  
    Using configurations different from those listed above may lead to compatibility issues.
 
-Installing ROCm on Debian
+Installing ROCm on Ubuntu
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-On Debian-based distributions, the ROCm stack can be installed using:
+These installation instructions have been tested to work on Ubuntu, but they should work on other Debian-based distributions as well. The ROCm stack can be installed using:
 
 .. code-block:: bash
 
