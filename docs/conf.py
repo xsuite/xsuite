@@ -295,8 +295,8 @@ snippet_files = {
         'generated_code_snippets/environment.py',
     'xmask/examples/hllhc15_collision/005_footprint.py':
         'generated_code_snippets/footprint_with_bb.py',
-    'xcoll/examples/lhc_run3_lossmap.py':
-        'generated_code_snippets/lhc_run3_lossmap.py',
+    'xcoll/examples/lossmap.py':
+        'generated_code_snippets/lossmap.py',
     'xtrack/examples/magnet_models_and_integrators/000_models_integrators.py':
         'generated_code_snippets/models_integrators.py',
     'xtrack/examples/spin_lep/001_n0_and_eq_polarization.py':
