@@ -4256,7 +4256,7 @@ We assume that that the energy deviation of the stable fixed point is zero:
 Assuming that the slippage and the energy kicks are uniformly distributed along the ring we have:
 \begin{align}
 \frac{dp_\zeta}{d s} &= \frac{\Delta {p}_\zeta}{C}
-=-\frac{2\pi q V_{RF} f_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}\hat{\zeta}
+=K_s \hat{\zeta}
 \\
 \frac{d\hat{\zeta}}{d s} &= \frac{\Delta \zeta}{C} = -\eta p_\zeta
 \label{eg:dzeta_ds}
@@ -4266,28 +4266,32 @@ where we have used the approximation:
 \begin{align}
 \delta \ll 1  \Rightarrow \delta \simeq p_\zeta
 \end{align}
+and we have defined the smooth-approximation longitudinal focusing factor:
+\begin{align}
+K_s = -\frac{2\pi q V_{RF} f_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}
+\end{align}
 
 We derive the second equation and replace the first:
 
 \begin{align}
-\frac{d^2\hat{\zeta}}{d s^2}  -  \frac{2\pi q \eta f_{RF} V_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}\hat{\zeta} = 0
+\frac{d^2\hat{\zeta}}{d s^2}  +  \eta K_s \hat{\zeta} = 0
 \end{align}
 
 The motion is stable if
 \begin{align}
-\eta \cos{\phi_s} < 0
+\eta K_s > 0 \quad \Leftrightarrow \quad \eta \cos{\phi_s} < 0
 \end{align}
 
 In that case the solution is in the form:
 \begin{align}
-\hat{\zeta}(s) = A \sin\left( \sqrt{-  \frac{2\pi q \eta f_{RF} V_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}} s + B\right) = A \sin\left( 2 \pi Q_s s/C + B\right)
+\hat{\zeta}(s) = A \sin\left( \sqrt{ \eta K_s}\, s + B\right) = A \sin\left( 2 \pi Q_s s/C + B\right)
 \end{align}
 
 where the synchrotron tune is given by:
 
 
 \begin{align}
-Q_s = \sqrt{-  \frac{2\pi q \eta f_{RF} V_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}} \frac{C}{2\pi}
+Q_s = \sqrt{ \eta K_s} \frac{C}{2\pi}
 = \sqrt{-  \frac{ q \eta f_{RF} C V_{RF}}{2\pi\beta_0^3 E_0 c}\cos{\phi_s}}
 \end{align}
 We replace
@@ -4336,7 +4340,7 @@ p_\zeta(s) &= \frac{\hat{\zeta}_A}{\beta_\zeta} \sin\left( 2 \pi Q_s \frac{s}{C}
 
 For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \begin{align}
-\Delta {p}_\zeta =-\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\hat{\zeta}
+\Delta {p}_\zeta = C K_s \hat{\zeta}
 \end{align}
 
 \section{Hamiltonian of the synchrotron motion}
