@@ -2003,13 +2003,13 @@ Using these definitions, then
 where $\phi'=\frac{2\pi h s_0}{L} + \phi$.
 
 
-In MAD-X twiss and MAD8, indeed the longitudinal coordinates is directly $\zeta'=n(L_0-L) -\zeta$ and the term $n(L_0-L)$ is added smoothly in each thick element. This forces all the cavities to share the same $L$ or $f_{\rm rev}$.
+In MAD-X Twiss and MAD8, the longitudinal coordinate is directly $\zeta'=n(L_0-L) -\zeta$ and the term $n(L_0-L)$ is added smoothly in each thick element. This forces all the cavities to share the same $L$ or $f_{\rm rev}$.
 
-In SixTrack or MAD-X track, one could simply define a turn dependent phase
+In SixTrack or MAD-X track, one could simply define a turn-dependent phase
 \begin{equation}
 \phi=\phi_0 + 2 \pi h f_{\rm rev} n(L_0-L)
 \end{equation}
-which is very general or in alternative add a special element that perform at each turn the following transformation:
+which is very general, or alternatively add a special element that performs at each turn the following transformation:
 
 \begin{equation}
 \zeta_{\rm new}=(L_0-L) -\zeta_{\rm old} 
@@ -2017,7 +2017,7 @@ which is very general or in alternative add a special element that perform at ea
 
 \subsection{Acceleration}
 
-Accelaration can be achieved by renormalized the relative variables using a new momentum reference. This has the side effect that the fields of the magnets (expressed in normalized strength) follow the energy ramp and that the cavity frequency (if expressed in terms of the harmonic number (NB we should perhaps change this in the Xtrack interface) is updated.
+Acceleration can be achieved by renormalizing the relative variables using a new momentum reference. This has the side effect that the fields of the magnets (expressed in normalized strength) follow the energy ramp and that the cavity frequency (if expressed in terms of the harmonic number; NB we should perhaps change this in the Xtrack interface) is updated.
 
 The re-normalization if done once at each turn is:
 
@@ -2038,17 +2038,17 @@ p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - 
 
 For defining the misalignments, we use the MAD-like coordinate system, where $s$ 
 is the axis tangent to the reference trajectory at the entrance to the element, 
-and $x$ and $y$ are the transverse beam coordinates; 
+and $x$ and $y$ are the transverse beam coordinates.
 
-A misalignment of an element is defined by 7 quantities, defined as illustrated in
+A misalignment of an element is characterized by seven quantities, as illustrated in
 Figs.~\ref{fig:misalignment_yaw}, \ref{fig:misalignment_pitch}, and \ref{fig:misalignment_roll}:
 \begin{itemize}
-	\item A reference point (anchor) along the reference trajestory throught the unperfurbed element;
+	\item A reference point (anchor) along the reference trajectory through the unperturbed element;
 	\item 6 parameters specifying the shifts and rotations of the element with respect 
         to the reference frame defined at the anchor point.
 \end{itemize}
 
-In the derivation we omit $\Delta$ in the naming of shifts and drift and we call
+In the derivation we omit $\Delta$ in the naming of shifts and drifts and we call
 \begin{equation}
   f = \frac{\Delta s_\text{anchor}}{L}
 \end{equation}
@@ -2060,11 +2060,11 @@ a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e.
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{figures/align_yaw.png}
-  \caption{Misalignment in the the s-x plane. \label{fig:misalignment_yaw}}
+  \caption{Misalignment in the s-x plane. \label{fig:misalignment_yaw}}
   \includegraphics[width=0.8\textwidth]{figures/align_pitch.png}
-  \caption{Misalignment in the the s-y plane. \label{fig:misalignment_pitch}}
+  \caption{Misalignment in the s-y plane. \label{fig:misalignment_pitch}}
   \includegraphics[width=0.5\textwidth]{figures/align_roll.png}
-  \caption{Misalignment in the the x-y plane. \label{fig:misalignment_roll}}
+  \caption{Misalignment in the x-y plane. \label{fig:misalignment_roll}}
 \end{figure}
 
 For our calculations, we will represent the reference frame transformations using $4 \times 4$ augmented matrices.
