@@ -2907,7 +2907,7 @@ which simplifies in the 2D case to:
 
 \section{Transformation to normalized coordinates}
 
-The $W$ matrix can be used to transform normalized coordinate into physical coordinates and viceversa:
+The $W$ matrix can be used to transform normalized coordinates into physical coordinates and vice versa:
 
 \begin{equation}
 \left(\begin{array}{l}
@@ -2967,9 +2967,9 @@ A_\zeta &= \sqrt{\hat{\zeta}^2 + \hat{p}^2_\zeta} = \sqrt{2J_\zeta}
 
 A Gaussian distribution is defined such that the density with respect to each action can be written as:
 \begin{equation}
-f(J_x) = K e^{J_x/\varepsilon_x}
+f(J_x) = K e^{-J_x/\varepsilon_x}
 \end{equation}
-where the emittance $\varepsilon_x$ can be written as:
+where the emittance $\varepsilon_x$ is
 \begin{equation}
 \varepsilon_x = <J_x> = \int J_x f(J_x) \,dJ_x
 \end{equation}
@@ -3317,7 +3317,7 @@ obtaining:
 \Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin{\phi_s} -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\bar{\zeta}\cos{\phi_s}
 \end{align}
 
-We assume that that the energy deviation of the stable fixed point is zero, giving
+We assume that the energy deviation of the stable fixed point is zero, giving
 \begin{align}
 \Delta {p}_\zeta \approx -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\bar{\zeta}
 \label{eq:deltapzeta}
@@ -3513,7 +3513,7 @@ There are two families of solutions:
  = 
 -2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_\text{RF}
 \end{align}
-where $n$ is an integer number. Depending on the sign of $\eta$ Only one family of fixed points is stable.
+where $n$ is an integer number. Depending on the sign of $\eta$ only one family of fixed points is stable.
 
 We solve for $\zeta$:
 \begin{align}
@@ -3541,7 +3541,7 @@ It is possible to set $\phi_\text{RF}$ to place a fixed point of either family i
  - \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
   \label{eq:phiabovetr}
 \end{align}
-It can be shown that, to have a stable fixed point in $\zeta=0$ one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (below transition).
+It can be shown that, to have a stable fixed point in $\zeta=0$, one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (above transition).
 
 
 \chapter{Counter-rotating beams}
@@ -3572,7 +3572,7 @@ where the tilde indicates the coordinates in the reversed reference frame.
 
 \section{Transformation of beam elements}
 
-The elements are tranformed in such a way that the map implements the backtrack of
+The elements are transformed in such a way that the map implements the backtrack of
 the physical beam as seen in the reversed reference frame.
 
 \subsection{Horizontal deflecting cavity}
@@ -3864,10 +3864,10 @@ where:
 The change in action (see Eq.\,\ref{eq:action}) associated to the first mode, due to the emission of a photon can be written as:
 \begin{align}
 \Delta J_x &= \frac{1}{2}\left[
-\left(\hat{x} +\Delta \hat{x}\right)^2 
-\left(\hat{p}_x +\Delta \hat{p}_x \right)^2 
--\hat{x}^2 - \hat{p}_x^2
-\right]\\
+ \left(\hat{x} +\Delta \hat{x}\right)^2 
++ \left(\hat{p}_x +\Delta \hat{p}_x \right)^2 
+ -\hat{x}^2 - \hat{p}_x^2
+ \right]\\
 &= \frac{1}{2}\left[
 \Delta \hat{x}^2 + \Delta \hat{p}_{x}^2
 + 2 \hat{x} \Delta \hat{x} + 2 \hat{p}_{x} \Delta \hat{p}_{x} 
@@ -4108,7 +4108,7 @@ Here, $k_1$ is the normalised normal quadrupole strength and $\bar{K}_1$ is the 
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
 
-The curvatures in Eqs.\,\eqref{eq:curvx}, \eqref{eq:curvy} and \eqref{eq:btocurv} can be substituded, which gives:
+The curvatures in Eqs.\,\eqref{eq:curvx}, \eqref{eq:curvy} and \eqref{eq:btocurv} can be substituted, which gives:
 \begin{equation}
     \totder{P_s}{E}
     %= 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0}\frac{\gamma m_0 c}{Q} \frac{Q^2}{(\gamma m_0 c)^2} \frac{k_1}{h^2} \frac{\gamma m_0 c}{Q} \left( h_x D_x - h_y D_y \right) \right]
