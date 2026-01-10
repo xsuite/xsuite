@@ -2631,11 +2631,11 @@ However, as we have already established for our correction of $s$, we expect the
 
 
 
-\chapter{Linear optics calculations}
+\chapter{Linear optics}
 \label{opt}
 We define $z$ as the vector of $2 k$ coordinates,
 \begin{align}\label{opt:eqn:1}
-z&=(z_1,\ldots,z_{2k})^T=(x-x_0,p_x-p_{x0},y-y_0,p_y-p_{y0},\tau-\tau_0,p_\tau-p_{\tau0})^T
+z&=(z_1,\ldots,z_{2k})^T=(x-x_0,p_x-p_{x0},y-y_0,p_y-p_{y0},\zeta-\zeta_0,p_\zeta-p_{\zeta0})^T
 \end{align}
 one can define linear transfer maps (e.g. $M_{1\to 2}$ that propagates coordinates between two points $s_1$, $s_2$) and the one-turn map (e.g. $M_1$ that combines the effects for one turn starting from $s_1$):
 \begin{align}\label{opt:eqn:2}
@@ -2833,8 +2833,8 @@ An arbitrary vector $z(s)$ can thus be written in the following form:
 \label{opt:sec:4}
 In the following the parameter $k$ will always be used for the mode $k$ and the parameter
 $j=1,2,3$ for the horizontal ($x,p_x$), vertical ($y,p_y$) and longitudinal plane
-$(\zeta,\delta)$ in the phase space. $z_{2j-1}$ then stands for the coordinates $(x,y,\zeta$)
-and $z_{2j}$ for $(p_x,_y,\delta$).
+$(\zeta,p_\zeta)$ in the phase space. $z_{2j-1}$ then stands for the coordinates $(x,y,\zeta$)
+and $z_{2j}$ for $(p_x,_y,p_\zeta$).
 
 The Twiss parameters can be introduced by writing the components of the eigenvector basis
 $(a_k(s),b_k(s))$ as the product of two envelope functions $\sqrt{\beta_{k,j}(s)}$,
@@ -2878,7 +2878,7 @@ a_k^TSb_k=1
 \end{align}
 by the following steps:
 \begin{enumerate}
-\item As $x'=\frac{dx}{ds},\ y'=\frac{dy}{ds}$ and $\delta=\frac{d\zeta}{ds}$ the following relations hold also for $a_k$ and $b_k$:
+\item As $x'=\frac{dx}{ds},\ y'=\frac{dy}{ds}$ the following relations hold also for $a_k$ and $b_k$:
 \begin{align}
 a_{k,2j}=a_{k,2j-1}'&=\frac{d}{ds}(a_{k,2j-1}), \\
 b_{k,2j}=b_{k,2j-1}'&=\frac{d}{ds}(b_{k,2j-1}),\ k,j=1,\ldots,3 
@@ -2990,7 +2990,7 @@ p_\zeta &= W_{65}\hat{\zeta} + W_{66}\hat{p}_\zeta \label{eq:crab_pzeta}
 \subsection{Dispersion}
 The dispersion is:
 \begin{equation}
-D_{x}^{p_\zeta} = \frac{dx}{d \delta} \quad \text{for } \zeta=0
+D_{x}^{p_\zeta} = \frac{dx}{d p_\zeta} \quad \text{for } \zeta=0
 \end{equation}
 
 By imposing $\zeta = 0$ in Eq.\,\ref{eq:crab_zeta} we obtain:
