@@ -4182,21 +4182,20 @@ The expectation value of the emittance can be written as:
 
 We collect here some relevant properties and quantities of the longitudinal particle motion.
 
-Definition of momentum compaction factor:
+The momentum compaction factor is defined as:
 \begin{equation}
 \alpha_c = 
 \frac{\Delta C/C}\delta
 \end{equation}
-
-Slip factor:
+%
+where $C$ is the closed orbit path length.
+The slip factor is defined as (positive above transition):
 \begin{equation}
 \eta = -\frac{\Delta f/f_0}{\delta} = \alpha_c - \frac{1}{\gamma_0^2}
 = \frac{1}{\gamma_t^2}- \frac{1}{\gamma_0^2}
 \end{equation}
-
-(positive above transition)
-
-Slippage over a single turn:
+%
+The slippage over a single turn is given by:
 \begin{align}
 \Delta \zeta 
 & = -\beta_0 c \Delta T 
@@ -4207,8 +4206,8 @@ Slippage over a single turn:
 = -\eta \frac{\beta_0 c}{f_0}\delta
 = -\eta C \delta
 \end{align}
-
-RF kick
+%
+The kick in energy from an RF cavity is given by:
 \begin{align}
 \Delta E
 & = q V_{RF} \sin\left( 2 \pi h_{RF} f_0 t + \phi_{RF} \right)\\
@@ -4223,16 +4222,16 @@ from which:
 
 \section{Linearized motion}
 
-We expand around the fixed point $\zeta_0$:
+We expand around the synchronous fixed point at longitudinal position $\zeta_0$, where the RF frequency is $f_{RF} = h_{RF} f_0 = h_{RF}\beta_0 c/C$:
 \begin{align}
 \Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right) -\frac{2\pi q f_{RF}V_{RF}}{\beta_0^3 E_0 c}(\zeta-\zeta_0)\cos\left(-2\pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right)
 \end{align}
 
-We call synchronous phase:
+We define the synchronous phase as
 \begin{align}
 \phi_s = -2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}
 \end{align}
-And we call 
+and the longitudinal displacement as 
 \begin{align}
 \bar{\zeta}= \zeta - \zeta_0
 \end{align}
@@ -4241,7 +4240,7 @@ obtaining:
 \Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin{\phi_s} -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\bar{\zeta}\cos{\phi_s}
 \end{align}
 
-We assume that that the energy deviation of the stable fixed point is zero:
+We assume that that the energy deviation of the stable fixed point is zero, giving
 \begin{align}
 \Delta {p}_\zeta \approx -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\bar{\zeta}
 \label{eq:deltapzeta}
@@ -4253,7 +4252,7 @@ We assume that that the energy deviation of the stable fixed point is zero:
 
 \section{Smooth approximation}
 
-Assuming that the slippage and the energy kicks are uniformly distributed along the ring we have:
+In the smooth approximation we smear the RF kicks and the slippage uniformly along the ring. The equations of motion become:
 \begin{align}
 \frac{dp_\zeta}{d s} &= \frac{\Delta {p}_\zeta}{C}
 =K_s \bar{\zeta}
@@ -4261,8 +4260,7 @@ Assuming that the slippage and the energy kicks are uniformly distributed along 
 \frac{d\bar{\zeta}}{d s} &= \frac{\Delta \zeta}{C} = -\eta p_\zeta
 \label{eg:dzeta_ds}
 \end{align}
-
-where we have used the approximation:
+where we have used the approximation from Eq.~\ref{eq:delta_pzeta_approx}:
 \begin{align}
 \delta \ll 1  \Rightarrow \delta \simeq p_\zeta
 \end{align}
@@ -4272,7 +4270,6 @@ K_s = -\frac{2\pi q V_{RF} f_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}
 \end{align}
 
 We derive the second equation and replace the first:
-
 \begin{align}
 \frac{d^2\bar{\zeta}}{d s^2}  +  \eta K_s \bar{\zeta} = 0
 \end{align}
@@ -4282,14 +4279,13 @@ The motion is stable if
 \eta K_s > 0 \quad \Leftrightarrow \quad \eta \cos{\phi_s} < 0
 \end{align}
 
-In that case the solution is in the form:
+In that case the solution is harmonic:
 \begin{align}
 \bar{\zeta}(s) &= \bar{\zeta}_A \cos\left( \sqrt{ \eta K_s}\, s\right) + B \sin\left( \sqrt{ \eta K_s}\, s \right) \nonumber\\
                &= \bar{\zeta}_A \cos\left( 2 \pi Q_s s/C\right) + B \sin\left( 2 \pi Q_s s/C \right)
 \label{eq:zetasolution_B}
 \end{align}
-where $\bar{\zeta}_A = \bar{\zeta}(0)$ and $p_{\zeta_A} = p_\zeta(0)$ denote the initial conditions,
-where the synchrotron tune is given by:
+where $\bar{\zeta}_A = \bar{\zeta}(0)$ and $p_{\zeta_A} = p_\zeta(0)$ denote the initial conditions. The synchrotron tune is
 \begin{align}
 Q_s = \sqrt{ \eta K_s} \frac{C}{2\pi}
 = \sqrt{-  \frac{ q \eta f_{RF} C V_{RF}}{2\pi\beta_0^3 E_0 c}\cos{\phi_s}}
@@ -4318,7 +4314,7 @@ p_{\zeta_A} = - \frac{2\pi Q_s} {\eta C} B
 
 from which:
 \begin{align}
-B = -\frac{\eta C}{2\pi Q_s}p_{\zeta_A} = -\beta_\zeta p_{\zeta_A}
+B = -\frac{\eta C}{2\pi Q_s}p_{\zeta_A} = -\beta_\zeta p_{\zeta_A},
 \end{align}
 
 where we have defined:
@@ -4340,9 +4336,13 @@ For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 
 \section{Hamiltonian of the synchrotron motion}
 
-In this section we use the time in the laboratory frame as independent variable as done in the PyHEADTAIL longitudinal treatment. In this section we also include the effect of a reference momentum change of $\Delta P_0$ per turn.
+In this section we use the time in the laboratory frame as independent variable as
+done in the PyHEADTAIL longitudinal treatment. In this section we also include
+the effect of a reference momentum change of $\Delta P_0$ per turn.
 
-We assume small energy deviations, hence we can consider the coordinates $(\zeta, \delta)$ to be canonically conjugate ($\delta \ll 1 \Rightarrow \delta \simeq p_\zeta$).
+We assume small energy deviations, hence we can consider the coordinates
+$(\zeta, \delta)$ to be canonically conjugate
+($\delta \ll 1 \Rightarrow \delta \simeq p_\zeta$  -- see Eq.~\ref{eq:delta_pzeta_approx}).
 
 The longitudinal motion can be described by the following Hamiltonian:
 \begin{equation}
