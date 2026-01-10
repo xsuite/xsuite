@@ -3255,6 +3255,294 @@ E_{2,1} & E_{2,2}
 \end{align}
 
 
+\chapter{Synchrotron motion}
+\label{ch:synchmon}
+
+We collect here some relevant properties and quantities of the longitudinal particle motion.
+
+The momentum compaction factor is defined as:
+\begin{equation}
+\alpha_c = 
+\frac{\Delta C/C}\delta
+\end{equation}
+%
+where $C$ is the closed orbit path length.
+The slip factor is defined as (positive above transition):
+\begin{equation}
+\eta = -\frac{\Delta f/f_0}{\delta} = \alpha_c - \frac{1}{\gamma_0^2}
+= \frac{1}{\gamma_t^2}- \frac{1}{\gamma_0^2}
+\end{equation}
+%
+The slippage over a single turn is given by:
+\begin{align}
+\Delta \zeta 
+& = -\beta_0 c \Delta T 
+= -\beta_0 c (T - T_0) 
+= -\beta_0 c \left(\frac{1}{f} - \frac{1}{f_0}\right) \\
+&= -\frac{\beta_0 c}{f_0} \left(\frac{1}{1 + {\Delta f}/{f_0}} - 1\right)
+\simeq \frac{\beta_0 c}{f_0}\frac{\Delta f}{f_0}
+= -\eta \frac{\beta_0 c}{f_0}\delta
+= -\eta C \delta
+\end{align}
+%
+The kick in energy from an RF cavity is given by:
+\begin{align}
+\Delta E
+& = q V_{RF} \sin\left( 2 \pi h_{RF} f_0 t + \phi_{RF} \right)\\
+& = q V_{RF} \sin\left(-2 \pi h_{RF} \frac{\zeta}{C} + \phi_{RF} \right)\\
+& = q V_{RF} \sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF} \right)
+\end{align}
+from which:
+\begin{align}
+\Delta p_\zeta = \frac{\Delta E}{\beta_0^2E_0} 
+= \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF}\right)
+\end{align}
+
+\section{Linearized motion}
+
+We expand around the synchronous fixed point at longitudinal position $\zeta_0$, where the RF frequency is $f_{RF} = h_{RF} f_0 = h_{RF}\beta_0 c/C$:
+\begin{align}
+\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right) -\frac{2\pi q f_{RF}V_{RF}}{\beta_0^3 E_0 c}(\zeta-\zeta_0)\cos\left(-2\pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right)
+\end{align}
+
+We define the synchronous phase as
+\begin{align}
+\phi_s = -2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}
+\end{align}
+and the longitudinal displacement as 
+\begin{align}
+\bar{\zeta}= \zeta - \zeta_0
+\end{align}
+obtaining:
+\begin{align}
+\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin{\phi_s} -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\bar{\zeta}\cos{\phi_s}
+\end{align}
+
+We assume that that the energy deviation of the stable fixed point is zero, giving
+\begin{align}
+\Delta {p}_\zeta \approx -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\bar{\zeta}
+\label{eq:deltapzeta}
+\end{align}
+
+
+
+
+
+\section{Smooth approximation}
+
+In the smooth approximation we smear the RF kicks and the slippage uniformly along the ring. The equations of motion become:
+\begin{align}
+\frac{dp_\zeta}{d s} &= \frac{\Delta {p}_\zeta}{C}
+=K_s \bar{\zeta}
+\\
+\frac{d\bar{\zeta}}{d s} &= \frac{\Delta \zeta}{C} = -\eta p_\zeta
+\label{eg:dzeta_ds}
+\end{align}
+where we have used the approximation from Eq.~\ref{eq:delta_pzeta_approx}:
+\begin{align}
+\delta \ll 1  \Rightarrow \delta \simeq p_\zeta
+\end{align}
+and we have defined the smooth-approximation longitudinal focusing factor:
+\begin{align}
+K_s = -\frac{2\pi q V_{RF} f_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}
+\end{align}
+
+We derive the second equation and replace the first:
+\begin{align}
+\frac{d^2\bar{\zeta}}{d s^2}  +  \eta K_s \bar{\zeta} = 0
+\end{align}
+
+The motion is stable if
+\begin{align}
+\eta K_s > 0 \quad \Leftrightarrow \quad \eta \cos{\phi_s} < 0
+\end{align}
+
+In that case the solution is harmonic:
+\begin{align}
+\bar{\zeta}(s) &= \bar{\zeta}_A \cos\left( \sqrt{ \eta K_s}\, s\right) + B \sin\left( \sqrt{ \eta K_s}\, s \right) \nonumber\\
+               &= \bar{\zeta}_A \cos\left( 2 \pi Q_s s/C\right) + B \sin\left( 2 \pi Q_s s/C \right)
+\label{eq:zetasolution_B}
+\end{align}
+where $\bar{\zeta}_A = \bar{\zeta}(0)$ and $p_{\zeta_A} = p_\zeta(0)$ denote the initial conditions. The synchrotron tune is
+\begin{align}
+Q_s = \sqrt{ \eta K_s} \frac{C}{2\pi}
+= \sqrt{-  \frac{ q \eta f_{RF} C V_{RF}}{2\pi\beta_0^3 E_0 c}\cos{\phi_s}}
+\end{align}
+We replace
+\begin{align}
+f_{RF} =
+\frac{h_{RF} {\beta_0 c}}{C}
+\end{align}
+obtaining:
+
+\begin{align}
+Q_s
+= \sqrt{-  \frac{ q \eta h_{RF} V_{RF}}{2\pi\beta_0^2 E_0}\cos{\phi_s}}
+\end{align}
+
+Replacing Eq.~\ref{eq:zetasolution_B} in Eq.~\ref{eg:dzeta_ds}:
+\begin{align}
+p_\zeta = - \frac{2\pi Q_s} {\eta C} \left( -\bar{\zeta}_A \sin\left( 2 \pi Q_s s/C\right) + B \cos\left( 2 \pi Q_s s/C \right)\right)
+\end{align}
+Replacing $s=0$:
+
+\begin{align}
+p_{\zeta_A} = - \frac{2\pi Q_s} {\eta C} B
+\end{align}
+
+from which:
+\begin{align}
+B = -\frac{\eta C}{2\pi Q_s}p_{\zeta_A} = -\beta_\zeta p_{\zeta_A},
+\end{align}
+
+where we have defined:
+\begin{align}
+\beta_\zeta = \frac{\eta C}{2\pi Q_s}
+\end{align}
+
+Replacing
+\begin{align}
+\bar{\zeta}(s) &= \bar{\zeta}_A \cos\left( 2 \pi Q_s \frac{s}{C}\right) -p_{\zeta_A} \beta_\zeta \sin\left( 2 \pi Q_s \frac{s}{C} \right)\\
+p_\zeta(s) &= \frac{\bar{\zeta}_A}{\beta_\zeta} \sin\left( 2 \pi Q_s \frac{s}{C}\right)
+           + p_{\zeta_A} \cos\left( 2 \pi Q_s \frac{s}{C}\right)
+\end{align}
+These expressions can be recast in Courant--Snyder form:
+\begin{align}
+\bar{\zeta}(s) &= \sqrt{\beta_\zeta\,\varepsilon_s}\;\cos\left(2 \pi Q_s \frac{s}{C} + \Phi_{s,\bar{\zeta}}\right)\\
+p_\zeta(s) &= \sqrt{\frac{\varepsilon_s}{\beta_\zeta}}\;\cos\left(2 \pi Q_s \frac{s}{C} + \Phi_{s,p_\zeta}\right)
+\end{align}
+with the longitudinal emittance and phases determined by the initial conditions $\bar{\zeta}_A=\bar{\zeta}(0)$ and $p_{\zeta_A}=p_\zeta(0)$:
+\begin{align}
+\varepsilon_s &= \frac{\bar{\zeta}_A^2}{\beta_\zeta} + \beta_\zeta p_{\zeta_A}^2\\
+\Phi_{s,\bar{\zeta}} &= \operatorname{atan2}\!\left(\beta_\zeta p_{\zeta_A},\,\bar{\zeta}_A\right)\\
+\Phi_{s,p_\zeta} &= \operatorname{atan2}\!\left(-\bar{\zeta}_A/\beta_\zeta,\, p_{\zeta_A}\right)
+\end{align}
+The two phase offsets differ by $\pi/2$ (modulo $2\pi$), consistently with the sine/cosine quadrature between coordinate and momentum in a simple harmonic oscillator.
+
+In the longitudinal plane we can take the Twiss parameter $\alpha_\zeta = 0$, since the longitudinal focusing is weak compared to the revolution scale and can be treated as constant around the ring.
+
+For a matched bunch with longitudinal emittance $\varepsilon_s$, the rms beam sizes read
+\begin{align}
+\sigma_{\bar{\zeta}} &= \sqrt{\beta_\zeta\,\varepsilon_s}\\
+\sigma_{p_\zeta} &= \sqrt{\frac{\varepsilon_s}{\beta_\zeta}}
+\end{align}
+so that
+\begin{align}
+\sigma_{\bar{\zeta}}\sigma_{p_\zeta} &= \varepsilon_s
+\label{eq:rms_emittance_relation}
+\end{align}
+and equivalently
+\begin{align}
+\beta_\zeta &= \frac{\sigma_{\bar{\zeta}}}{\sigma_{p_\zeta}}
+\label{eq:beta_from_rms}
+\end{align}
+and the longitudinal envelope rotates in phase space with tune $Q_s$.
+
+\section{Kick-drift model}
+For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
+\begin{align}
+\Delta {p}_\zeta = C K_s \bar{\zeta}
+\end{align}
+
+\section{Hamiltonian of the synchrotron motion}
+
+In this section we use the time in the laboratory frame as independent variable as
+done in the PyHEADTAIL longitudinal treatment. In this section we also include
+the effect of a reference momentum change of $\Delta P_0$ per turn.
+
+We assume small energy deviations, hence we can consider the coordinates
+$(\zeta, \delta)$ to be canonically conjugate
+($\delta \ll 1 \Rightarrow \delta \simeq p_\zeta$  -- see Eq.~\ref{eq:delta_pzeta_approx}).
+
+The longitudinal motion can be described by the following Hamiltonian:
+\begin{equation}
+H(\zeta, \delta) = -\frac{1}{2} \eta \beta_0 c \delta^2
+                   + \frac{\beta_0 c}{C}\frac{\Delta P_0}{P_0} \zeta
+                   - \frac{q_0}{P_0}\sum_i \frac{1}{2\pi h_i}V_i \cos\left(
+                   		-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
+\end{equation}
+
+This can be proven using Hamilton's equations:
+\begin{align}
+&\frac{d\zeta}{dt} = \frac{\partial H}{\partial \delta} = -\eta \beta_0 c \delta\\
+&\frac{d\delta}{dt} = -\frac{\partial H}{\partial \zeta} = 
+	- \frac{\beta_0 c}{C}\frac{\Delta P_0}{P_0}
+                   + \frac{q_0}{P_0 C} \sum_i 
+                   V_i \sin\left(
+                   	-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
+\end{align}
+
+The coordinate change over one revolution is:
+\begin{align}
+&\Delta \zeta = \frac{d\zeta}{dt}\frac{C}{\beta_0 c} 
+	= -\eta C \delta\\
+&\Delta \delta =\frac{d\delta}{dt} \frac{C}{\beta_0 c}= 
+	- \frac{\Delta P_0}{P_0}
+                   + \frac{q_0}{\beta_0 c P_0} \sum_i 
+                   V_i \sin\left(
+                   	-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
+\end{align}
+which are consistent with those found in Sec.\,\ref{ch:synchmon}.
+
+\subsection{Fixed points}
+
+The fixed points can be found by imposing $\Delta\zeta = 0$ and $\Delta\delta = 0$.
+If only a single harmonic is present a closed solution can be found:
+
+\begin{equation}
+- \frac{\Delta P_0}{P_0}
++ \frac{q_0}{\beta_0 c P_0} 
+V_\text{RF} \sin\left(
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_i \right) = 0
+\end{equation}
+
+We want to get an explicit expression for $\zeta$:
+\begin{equation}
+ \frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} 
+ = 
+\sin\left(
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_i \right)
+\end{equation}
+There are two families of solutions:
+\begin{align}
+ &\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ + 2 n \pi
+ = 
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_\text{RF} \\
+ &\pi - \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ + 2 n \pi
+ = 
+-2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_\text{RF}
+\end{align}
+where $n$ is an integer number. Depending on the sign of $\eta$ Only one family of fixed points is stable.
+
+We solve for $\zeta$:
+\begin{align}
+&\zeta =
+ \frac{C}{2 \pi h_\text{RF}} \left(
+ \phi_\text{RF}
+ -\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ +2 n \pi
+ \right)\\
+ &\zeta =
+ \frac{C}{2 \pi h_\text{RF}} \left(
+ \phi_\text{RF} + \pi
+ +\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ +2 n \pi
+ \right)
+\end{align}
+It is possible to set $\phi_\text{RF}$ to place a fixed point of either family in $\zeta = 0$:
+\begin{align}
+&\phi_\text{RF} = 
+ \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+ \label{eq:phibelowtr}
+ \\
+ & \phi_\text{RF} = 
+ \pi
+ - \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
+  \label{eq:phiabovetr}
+\end{align}
+It can be shown that, to have a stable fixed point in $\zeta=0$ one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (below transition).
 
 
 \chapter{Counter-rotating beams}
@@ -4177,294 +4465,6 @@ The expectation value of the emittance can be written as:
 \end{equation}
 
 
-\chapter{Synchrotron motion}
-\label{ch:synchmon}
-
-We collect here some relevant properties and quantities of the longitudinal particle motion.
-
-The momentum compaction factor is defined as:
-\begin{equation}
-\alpha_c = 
-\frac{\Delta C/C}\delta
-\end{equation}
-%
-where $C$ is the closed orbit path length.
-The slip factor is defined as (positive above transition):
-\begin{equation}
-\eta = -\frac{\Delta f/f_0}{\delta} = \alpha_c - \frac{1}{\gamma_0^2}
-= \frac{1}{\gamma_t^2}- \frac{1}{\gamma_0^2}
-\end{equation}
-%
-The slippage over a single turn is given by:
-\begin{align}
-\Delta \zeta 
-& = -\beta_0 c \Delta T 
-= -\beta_0 c (T - T_0) 
-= -\beta_0 c \left(\frac{1}{f} - \frac{1}{f_0}\right) \\
-&= -\frac{\beta_0 c}{f_0} \left(\frac{1}{1 + {\Delta f}/{f_0}} - 1\right)
-\simeq \frac{\beta_0 c}{f_0}\frac{\Delta f}{f_0}
-= -\eta \frac{\beta_0 c}{f_0}\delta
-= -\eta C \delta
-\end{align}
-%
-The kick in energy from an RF cavity is given by:
-\begin{align}
-\Delta E
-& = q V_{RF} \sin\left( 2 \pi h_{RF} f_0 t + \phi_{RF} \right)\\
-& = q V_{RF} \sin\left(-2 \pi h_{RF} \frac{\zeta}{C} + \phi_{RF} \right)\\
-& = q V_{RF} \sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF} \right)
-\end{align}
-from which:
-\begin{align}
-\Delta p_\zeta = \frac{\Delta E}{\beta_0^2E_0} 
-= \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF}\right)
-\end{align}
-
-\section{Linearized motion}
-
-We expand around the synchronous fixed point at longitudinal position $\zeta_0$, where the RF frequency is $f_{RF} = h_{RF} f_0 = h_{RF}\beta_0 c/C$:
-\begin{align}
-\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right) -\frac{2\pi q f_{RF}V_{RF}}{\beta_0^3 E_0 c}(\zeta-\zeta_0)\cos\left(-2\pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}\right)
-\end{align}
-
-We define the synchronous phase as
-\begin{align}
-\phi_s = -2 \pi f_{RF} \frac{\zeta_0}{\beta_0 c} + \phi_{RF}
-\end{align}
-and the longitudinal displacement as 
-\begin{align}
-\bar{\zeta}= \zeta - \zeta_0
-\end{align}
-obtaining:
-\begin{align}
-\Delta p_\zeta \approx \frac{q V_{RF}}{\beta_0^2E_0}\sin{\phi_s} -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\bar{\zeta}\cos{\phi_s}
-\end{align}
-
-We assume that that the energy deviation of the stable fixed point is zero, giving
-\begin{align}
-\Delta {p}_\zeta \approx -\frac{2\pi q f_{RF} V_{RF}}{\beta_0^3 E_0 c}\cos{\phi_s}\bar{\zeta}
-\label{eq:deltapzeta}
-\end{align}
-
-
-
-
-
-\section{Smooth approximation}
-
-In the smooth approximation we smear the RF kicks and the slippage uniformly along the ring. The equations of motion become:
-\begin{align}
-\frac{dp_\zeta}{d s} &= \frac{\Delta {p}_\zeta}{C}
-=K_s \bar{\zeta}
-\\
-\frac{d\bar{\zeta}}{d s} &= \frac{\Delta \zeta}{C} = -\eta p_\zeta
-\label{eg:dzeta_ds}
-\end{align}
-where we have used the approximation from Eq.~\ref{eq:delta_pzeta_approx}:
-\begin{align}
-\delta \ll 1  \Rightarrow \delta \simeq p_\zeta
-\end{align}
-and we have defined the smooth-approximation longitudinal focusing factor:
-\begin{align}
-K_s = -\frac{2\pi q V_{RF} f_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}
-\end{align}
-
-We derive the second equation and replace the first:
-\begin{align}
-\frac{d^2\bar{\zeta}}{d s^2}  +  \eta K_s \bar{\zeta} = 0
-\end{align}
-
-The motion is stable if
-\begin{align}
-\eta K_s > 0 \quad \Leftrightarrow \quad \eta \cos{\phi_s} < 0
-\end{align}
-
-In that case the solution is harmonic:
-\begin{align}
-\bar{\zeta}(s) &= \bar{\zeta}_A \cos\left( \sqrt{ \eta K_s}\, s\right) + B \sin\left( \sqrt{ \eta K_s}\, s \right) \nonumber\\
-               &= \bar{\zeta}_A \cos\left( 2 \pi Q_s s/C\right) + B \sin\left( 2 \pi Q_s s/C \right)
-\label{eq:zetasolution_B}
-\end{align}
-where $\bar{\zeta}_A = \bar{\zeta}(0)$ and $p_{\zeta_A} = p_\zeta(0)$ denote the initial conditions. The synchrotron tune is
-\begin{align}
-Q_s = \sqrt{ \eta K_s} \frac{C}{2\pi}
-= \sqrt{-  \frac{ q \eta f_{RF} C V_{RF}}{2\pi\beta_0^3 E_0 c}\cos{\phi_s}}
-\end{align}
-We replace
-\begin{align}
-f_{RF} =
-\frac{h_{RF} {\beta_0 c}}{C}
-\end{align}
-obtaining:
-
-\begin{align}
-Q_s
-= \sqrt{-  \frac{ q \eta h_{RF} V_{RF}}{2\pi\beta_0^2 E_0}\cos{\phi_s}}
-\end{align}
-
-Replacing Eq.~\ref{eq:zetasolution_B} in Eq.~\ref{eg:dzeta_ds}:
-\begin{align}
-p_\zeta = - \frac{2\pi Q_s} {\eta C} \left( -\bar{\zeta}_A \sin\left( 2 \pi Q_s s/C\right) + B \cos\left( 2 \pi Q_s s/C \right)\right)
-\end{align}
-Replacing $s=0$:
-
-\begin{align}
-p_{\zeta_A} = - \frac{2\pi Q_s} {\eta C} B
-\end{align}
-
-from which:
-\begin{align}
-B = -\frac{\eta C}{2\pi Q_s}p_{\zeta_A} = -\beta_\zeta p_{\zeta_A},
-\end{align}
-
-where we have defined:
-\begin{align}
-\beta_\zeta = \frac{\eta C}{2\pi Q_s}
-\end{align}
-
-Replacing
-\begin{align}
-\bar{\zeta}(s) &= \bar{\zeta}_A \cos\left( 2 \pi Q_s \frac{s}{C}\right) -p_{\zeta_A} \beta_\zeta \sin\left( 2 \pi Q_s \frac{s}{C} \right)\\
-p_\zeta(s) &= \frac{\bar{\zeta}_A}{\beta_\zeta} \sin\left( 2 \pi Q_s \frac{s}{C}\right)
-           + p_{\zeta_A} \cos\left( 2 \pi Q_s \frac{s}{C}\right)
-\end{align}
-These expressions can be recast in Courant--Snyder form:
-\begin{align}
-\bar{\zeta}(s) &= \sqrt{\beta_\zeta\,\varepsilon_s}\;\cos\left(2 \pi Q_s \frac{s}{C} + \Phi_{s,\bar{\zeta}}\right)\\
-p_\zeta(s) &= \sqrt{\frac{\varepsilon_s}{\beta_\zeta}}\;\cos\left(2 \pi Q_s \frac{s}{C} + \Phi_{s,p_\zeta}\right)
-\end{align}
-with the longitudinal emittance and phases determined by the initial conditions $\bar{\zeta}_A=\bar{\zeta}(0)$ and $p_{\zeta_A}=p_\zeta(0)$:
-\begin{align}
-\varepsilon_s &= \frac{\bar{\zeta}_A^2}{\beta_\zeta} + \beta_\zeta p_{\zeta_A}^2\\
-\Phi_{s,\bar{\zeta}} &= \operatorname{atan2}\!\left(\beta_\zeta p_{\zeta_A},\,\bar{\zeta}_A\right)\\
-\Phi_{s,p_\zeta} &= \operatorname{atan2}\!\left(-\bar{\zeta}_A/\beta_\zeta,\, p_{\zeta_A}\right)
-\end{align}
-The two phase offsets differ by $\pi/2$ (modulo $2\pi$), consistently with the sine/cosine quadrature between coordinate and momentum in a simple harmonic oscillator.
-
-In the longitudinal plane we can take the Twiss parameter $\alpha_\zeta = 0$, since the longitudinal focusing is weak compared to the revolution scale and can be treated as constant around the ring.
-
-For a matched bunch with longitudinal emittance $\varepsilon_s$, the rms beam sizes read
-\begin{align}
-\sigma_{\bar{\zeta}} &= \sqrt{\beta_\zeta\,\varepsilon_s}\\
-\sigma_{p_\zeta} &= \sqrt{\frac{\varepsilon_s}{\beta_\zeta}}
-\end{align}
-so that
-\begin{align}
-\sigma_{\bar{\zeta}}\sigma_{p_\zeta} &= \varepsilon_s
-\label{eq:rms_emittance_relation}
-\end{align}
-and equivalently
-\begin{align}
-\beta_\zeta &= \frac{\sigma_{\bar{\zeta}}}{\sigma_{p_\zeta}}
-\label{eq:beta_from_rms}
-\end{align}
-and the longitudinal envelope rotates in phase space with tune $Q_s$.
-
-\section{Kick-drift model}
-For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
-\begin{align}
-\Delta {p}_\zeta = C K_s \bar{\zeta}
-\end{align}
-
-\section{Hamiltonian of the synchrotron motion}
-
-In this section we use the time in the laboratory frame as independent variable as
-done in the PyHEADTAIL longitudinal treatment. In this section we also include
-the effect of a reference momentum change of $\Delta P_0$ per turn.
-
-We assume small energy deviations, hence we can consider the coordinates
-$(\zeta, \delta)$ to be canonically conjugate
-($\delta \ll 1 \Rightarrow \delta \simeq p_\zeta$  -- see Eq.~\ref{eq:delta_pzeta_approx}).
-
-The longitudinal motion can be described by the following Hamiltonian:
-\begin{equation}
-H(\zeta, \delta) = -\frac{1}{2} \eta \beta_0 c \delta^2
-                   + \frac{\beta_0 c}{C}\frac{\Delta P_0}{P_0} \zeta
-                   - \frac{q_0}{P_0}\sum_i \frac{1}{2\pi h_i}V_i \cos\left(
-                   		-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
-\end{equation}
-
-This can be proven using Hamilton's equations:
-\begin{align}
-&\frac{d\zeta}{dt} = \frac{\partial H}{\partial \delta} = -\eta \beta_0 c \delta\\
-&\frac{d\delta}{dt} = -\frac{\partial H}{\partial \zeta} = 
-	- \frac{\beta_0 c}{C}\frac{\Delta P_0}{P_0}
-                   + \frac{q_0}{P_0 C} \sum_i 
-                   V_i \sin\left(
-                   	-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
-\end{align}
-
-The coordinate change over one revolution is:
-\begin{align}
-&\Delta \zeta = \frac{d\zeta}{dt}\frac{C}{\beta_0 c} 
-	= -\eta C \delta\\
-&\Delta \delta =\frac{d\delta}{dt} \frac{C}{\beta_0 c}= 
-	- \frac{\Delta P_0}{P_0}
-                   + \frac{q_0}{\beta_0 c P_0} \sum_i 
-                   V_i \sin\left(
-                   	-2 \pi h_i \frac{\zeta}{C} + \phi_i \right)
-\end{align}
-which are consistent with those found in Sec.\,\ref{ch:synchmon}.
-
-\subsection{Fixed points}
-
-The fixed points can be found by imposing $\Delta\zeta = 0$ and $\Delta\delta = 0$.
-If only a single harmonic is present a closed solution can be found:
-
-\begin{equation}
-- \frac{\Delta P_0}{P_0}
-+ \frac{q_0}{\beta_0 c P_0} 
-V_\text{RF} \sin\left(
--2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_i \right) = 0
-\end{equation}
-
-We want to get an explicit expression for $\zeta$:
-\begin{equation}
- \frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} 
- = 
-\sin\left(
--2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_i \right)
-\end{equation}
-There are two families of solutions:
-\begin{align}
- &\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
- + 2 n \pi
- = 
--2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_\text{RF} \\
- &\pi - \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
- + 2 n \pi
- = 
--2 \pi h_\text{RF} \frac{\zeta}{C} + \phi_\text{RF}
-\end{align}
-where $n$ is an integer number. Depending on the sign of $\eta$ Only one family of fixed points is stable.
-
-We solve for $\zeta$:
-\begin{align}
-&\zeta =
- \frac{C}{2 \pi h_\text{RF}} \left(
- \phi_\text{RF}
- -\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
- +2 n \pi
- \right)\\
- &\zeta =
- \frac{C}{2 \pi h_\text{RF}} \left(
- \phi_\text{RF} + \pi
- +\arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
- +2 n \pi
- \right)
-\end{align}
-It is possible to set $\phi_\text{RF}$ to place a fixed point of either family in $\zeta = 0$:
-\begin{align}
-&\phi_\text{RF} = 
- \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
- \label{eq:phibelowtr}
- \\
- & \phi_\text{RF} = 
- \pi
- - \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
-  \label{eq:phiabovetr}
-\end{align}
-It can be shown that, to have a stable fixed point in $\zeta=0$ one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (below transition).
 
 \chapter{Spin tracking and polarization}
 
