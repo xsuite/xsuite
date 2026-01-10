@@ -1,7 +1,7 @@
 \chapter{Lattice modeling and particle coordinates}
 
 The modeling of lattice and beam particles used in Xsuite is largely based on the
-the experience of the MAD~\cite{madsite, mad8phys} and Sixtrack~\cite{sixtrack_user_guide} programs.
+experience of the MAD~\cite{madsite, mad8phys} and Sixtrack~\cite{sixtrack_user_guide} programs.
 
 More details on the derivation of the tracking maps and the Hamiltonian formalism
 can be found in the references
@@ -24,10 +24,9 @@ The beam line or ring to be studied is described as a sequence of beam elements
 placed sequentially along a reference trajectory.
 
 The reference trajectory consists of a series of straight line segments and circular arcs.
-The accompanying tripod, as shown in Fig. ~\ref{fig:local-frame}
-the reference orbit spans a local curvilinear right handed coordinate system $(x,y,s)$ The local
-$s$-axis is the tangent to the reference orbit and $x$ and $y$ are perpendincular to $s$.
-Typicallt, $x$ is horizontal and $y$ vertical.
+The accompanying tripod, as shown in Fig. ~\ref{fig:local-frame}, spans a local curvilinear
+right-handed coordinate system $(x,y,s)$. The local $s$-axis is the tangent to the reference
+orbit and $x$ and $y$ are perpendicular to $s$. Typically, $x$ is horizontal and $y$ vertical.
 
 We call $\rho$ the local radius of curvature of the reference trajectory and $h$ 
 the local curvature defined as:
@@ -52,10 +51,10 @@ coordinate system $( X, Y, Z )$ as shown in Fig.~\ref{fig:global-frame}.
   \label{fig:global-frame}
 \end{figure}
 
-The positions between beam elements are indexed with $i=0,...n$. The local reference system
+The positions between beam elements are indexed with $i=0,\ldots,n$. The local reference system
 $(x_i,y_i,s_i)$ at position $i$, i.e. the displacement and direction of the reference orbit with respect
 to the system $( X, Y, Z )$ are defined by three displacements $( X_i,Y_i,Z_i)$ and three angles
-$( \theta_i,\phi_i,\psi_i)$
+$( \theta_i,\phi_i,\psi_i)$.
 
 The above quantities are defined more precisely as follows:
 
@@ -130,7 +129,7 @@ values of $R_i$ and $S_i$ are listed below for different physical element types.
 In straight elements the local reference system is simply translated by the length of the element
 along the local $s$-axis.
 
-The corresponding $R, S$ are
+The corresponding $R$ and $S$ are
 \begin{align}
   R &=
     \begin{bmatrix}
@@ -150,7 +149,7 @@ A rotation of the element about the $s$-axis has no effect on $R$ and $S$, since
 the reference system before and after the element cancel.
 
 Bending magnets have a curved reference orbit. For both rectangular and sector bending
-magnets, the $R$ and $S$ are expressed as function the bend angle $\alpha$:
+magnets, the $R$ and $S$ are expressed as functions of the bend angle $\alpha$:
 \begin{align}
   R &=
     \begin{bmatrix}
@@ -404,7 +403,7 @@ where:
 \end{align}
 in which $\dot x$ and $\dot y$ are the time derivatives of $x$ and $y$.
 
-\section{Hamiltionan and equations of motion}
+\section{Hamiltonian and equations of motion}
 
 The motion of a particle is described by one of the following Hamiltonian functions,
 depending on the choice of longitudinal coordinates:
@@ -470,7 +469,7 @@ where
 
 \subsection{Approximation of the kinetic part of the hamiltonian}
 
-Using \ref{eq:one_plus_delta_squared}, the kinetic part can we rewritten as follows:
+Using \ref{eq:one_plus_delta_squared}, the kinetic part can be rewritten as follows:
 \begin{align}
   H^\text{kin}
     &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}\\
@@ -540,9 +539,9 @@ In Xsuite, magnets are modeled using symplectic integrators, splitting the Hamil
 in a `propagation' part and a `kick' part, for which closed-form solutions of the equations of motion
 are available.
 
-Hamiltonians for which closed-form solution of the equations of motion exist and are
+Hamiltonians for which closed-form solutions of the equations of motion exist and are
 implemented in Xsuite are reported in Table~\ref{tab:maps}. The corresponding
-maps are reporded in the following sections.
+maps are reported in the following sections.
 
 Different magnet models are available, which correspond to different ways of splitting
 the Hamiltonian. The available models are reported in Table~\ref{tab:models} and
@@ -691,7 +690,7 @@ Hence, the map relative to the expanded Hamiltonian for a drift of length $L$ is
 and the map relative to the exact Hamiltonian for a drift of length $L$ is:
 \begin{align}
   &x \leftarrow x + \frac{p_x}{p_z} L\\
-  &y \leftarrow y + \frac{p_x}{p_z} L\\
+  &y \leftarrow y + \frac{p_y}{p_z} L\\
   &\zeta \leftarrow \zeta + L\left(
           1-\frac{\beta_0}{\beta}\frac{1+\delta}{p_z}
           \right)
@@ -1109,7 +1108,7 @@ Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.ht
 Multipolar components are defined according to the definition in Sec.~\ref{sec:multipole_expansion}.
 
 
-A thin multiple models the effect of the field by taking the limit of the integration
+A thin multipole models the effect of the field by taking the limit of the integration
 length going to zero while keeping constant the integrated strength. The Hamiltonian is:
 \begin{align}
   H= \delta(s) \chi L \Re\left[\sum_{n=0} \frac{1}{(n+1)!}(K_n + i\hat K_n) (x+iy)^{n+1} \right].
