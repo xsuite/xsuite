@@ -4341,6 +4341,24 @@ with the longitudinal emittance and phases determined by the initial conditions 
 \end{align}
 The two phase offsets differ by $\pi/2$ (modulo $2\pi$), consistently with the sine/cosine quadrature between coordinate and momentum in a simple harmonic oscillator.
 
+For a matched bunch with longitudinal emittance $\varepsilon_s$, the rms beam sizes read
+\begin{align}
+\sigma_{\bar{\zeta}} &= \sqrt{\beta_\zeta\,\varepsilon_s}\\
+\sigma_{p_\zeta} &= \sqrt{\frac{\varepsilon_s}{\beta_\zeta}}
+\end{align}
+so that
+\begin{align}
+\sigma_{\bar{\zeta}}\sigma_{p_\zeta} &= \varepsilon_s
+\label{eq:rms_emittance_relation}
+\end{align}
+and equivalently
+\begin{align}
+\beta_\zeta &= \frac{\sigma_{\bar{\zeta}}}{\sigma_{p_\zeta}}
+\label{eq:beta_from_rms}
+\end{align}
+and the longitudinal envelope rotates in phase space with tune $Q_s$.
+
+\section{Kick-drift model}
 For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \begin{align}
 \Delta {p}_\zeta = C K_s \bar{\zeta}
