@@ -4284,8 +4284,9 @@ The motion is stable if
 
 In that case the solution is in the form:
 \begin{align}
-\bar{\zeta}(s) &= \bar{\zeta}_A \cos\left( \sqrt{ \eta K_s}\, s\right) + B \sin\left( \sqrt{ \eta K_s}\, s \right)\\
+\bar{\zeta}(s) &= \bar{\zeta}_A \cos\left( \sqrt{ \eta K_s}\, s\right) + B \sin\left( \sqrt{ \eta K_s}\, s \right) \nonumber\\
                &= \bar{\zeta}_A \cos\left( 2 \pi Q_s s/C\right) + B \sin\left( 2 \pi Q_s s/C \right)
+\label{eq:zetasolution_B}
 \end{align}
 
 where the synchrotron tune is given by:
@@ -4295,22 +4296,17 @@ Q_s = \sqrt{ \eta K_s} \frac{C}{2\pi}
 \end{align}
 We replace
 \begin{align}
-f_{RF} = 
+f_{RF} =
 \frac{h_{RF} {\beta_0 c}}{C}
 \end{align}
 obtaining:
 
 \begin{align}
-Q_s 
+Q_s
 = \sqrt{-  \frac{ q \eta h_{RF} V_{RF}}{2\pi\beta_0^2 E_0}\cos{\phi_s}}
 \end{align}
 
-The solution can be written as:
-\begin{align}
-\bar{\zeta}(s) = \bar{\zeta}_A \cos\left( 2 \pi Q_s s/C\right) + B \sin\left( 2 \pi Q_s s/C \right)
-\end{align}
-
-Replacing in Eq.~\ref{eg:dzeta_ds}:
+Replacing Eq.~\ref{eq:zetasolution_B} in Eq.~\ref{eg:dzeta_ds}:
 \begin{align}
 p_\zeta = - \frac{2\pi Q_s} {\eta C} \left( -\bar{\zeta}_A \sin\left( 2 \pi Q_s s/C\right) + B \cos\left( 2 \pi Q_s s/C \right)\right)
 \end{align}
