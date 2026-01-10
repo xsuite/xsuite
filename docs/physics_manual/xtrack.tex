@@ -4328,10 +4328,10 @@ Replacing
 p_\zeta(s) &= \frac{\bar{\zeta}_A}{\beta_\zeta} \sin\left( 2 \pi Q_s \frac{s}{C}\right)
            + p_{\zeta_A} \cos\left( 2 \pi Q_s \frac{s}{C}\right)
 \end{align}
-These expressions can be recast in Courant--Snyder form using the same phase advance $\psi = 2 \pi Q_s s/C$:
+These expressions can be recast in Courant--Snyder form:
 \begin{align}
-\bar{\zeta}(s) &= \sqrt{\beta_\zeta\,\varepsilon_s}\;\cos\left(\psi + \Phi_{s,\bar{\zeta}}\right)\\
-p_\zeta(s) &= \sqrt{\frac{\varepsilon_s}{\beta_\zeta}}\;\cos\left(\psi + \Phi_{s,p_\zeta}\right)
+\bar{\zeta}(s) &= \sqrt{\beta_\zeta\,\varepsilon_s}\;\cos\left(2 \pi Q_s \frac{s}{C} + \Phi_{s,\bar{\zeta}}\right)\\
+p_\zeta(s) &= \sqrt{\frac{\varepsilon_s}{\beta_\zeta}}\;\cos\left(2 \pi Q_s \frac{s}{C} + \Phi_{s,p_\zeta}\right)
 \end{align}
 with the longitudinal emittance and phases determined by the initial conditions $\bar{\zeta}_A=\bar{\zeta}(0)$ and $p_{\zeta_A}=p_\zeta(0)$:
 \begin{align}
@@ -4339,6 +4339,7 @@ with the longitudinal emittance and phases determined by the initial conditions 
 \Phi_{s,\bar{\zeta}} &= \operatorname{atan2}\!\left(\beta_\zeta p_{\zeta_A},\,\bar{\zeta}_A\right)\\
 \Phi_{s,p_\zeta} &= \operatorname{atan2}\!\left(-\bar{\zeta}_A/\beta_\zeta,\, p_{\zeta_A}\right)
 \end{align}
+The two phase offsets differ by $\pi/2$ (modulo $2\pi$), consistently with the sine/cosine quadrature between coordinate and momentum in a simple harmonic oscillator.
 
 For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
 \begin{align}
