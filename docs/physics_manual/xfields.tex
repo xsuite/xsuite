@@ -62,7 +62,7 @@ We can therefore write:
 \rho' \left(x', y', s', t'\right) =   \frac{1}{\gamma_0} \rho_0  \left(x', y',  \frac{s'}{\gamma_0}\right)\label{rhoprimerho0}
 \end{equation}
 
-The electric potential in the bunch frame is solution of Poisson's equation:
+The electric potential in the bunch frame is the solution of Poisson's equation:
 
 \begin{equation}
 \frac{\partial^2 \phi'}{\partial x'^2} +  \frac{\partial^2 \phi'}{\partial y'^2}+  \frac{\partial^2 \phi'}{\partial s'^2}= -\frac{\rho' (x', y', s')}{\varepsilon_0}
@@ -200,7 +200,7 @@ The angles of such test particles are neglected as done in the usual thin-lens a
 \textbf{v} = \beta c\, \hat{\textbf{i}}_s
 \end{equation}
 
-The Lorenz force can be written as:
+The Lorentz force can be written as:
 \begin{equation}
 \begin{split}
 \textbf{F} &=q \left( -\nabla \phi -\frac{\partial \textbf{A}}{\partial t}
@@ -277,7 +277,7 @@ F_y(x, y, \zeta) &=  -q(1-\beta_0^2) \frac{\partial \phi}{\partial y}(x, y, \zet
 F_z(x, y, \zeta) &=  -q (1-\beta_0^2) \frac{\partial \phi}{\partial \zeta}(x, y, \zeta)
 \end{align}
 
-In this way the force over the single interaction becomes independent on time and therefore we can compute the kicks simply as:
+In this way the force over the single interaction becomes independent of time and therefore we can compute the kicks simply as:
 \begin{equation}
 \Delta \textbf{P} = \frac{L}{\beta_0 c}\textbf{F} 
 \end{equation}
@@ -309,7 +309,7 @@ In the modulated 2D case (see Sec.\,\ref{sec:modulated2d} and in particular Eq.\
 \Delta \delta \simeq \Delta p_z = \frac{ m_0} {m}\frac{\Delta P_z} {P_0}= -\frac{qq_0L (1-\beta_0^2)}{ m\gamma_0\beta_0^2 c^2} \,\frac{d\lambda_0}{d\zeta}(\zeta)\,{\phi_\perp}\left(x, y\right)}\label{dpz_mod}
 \end{align}
 
-In some cases, for example in the case of transversely Gaussian beams, an analytic closed form exists for the quantities $\frac{\partial \phi_\perp}{\partial x}$ and $\frac{\partial \phi_\perp}{\partial y}$ but not for the potential $\phi \perp$ itself. In those cases, in order to compute the longitudinal kick, it is possible to obtain a function $\phi_\perp (x,y)$ generating the same transverse kicks by computing numerically the integral:
+In some cases, for example in the case of transversely Gaussian beams, an analytic closed form exists for the quantities $\frac{\partial \phi_\perp}{\partial x}$ and $\frac{\partial \phi_\perp}{\partial y}$ but not for the potential $\phi_\perp$ itself. In those cases, in order to compute the longitudinal kick, it is possible to obtain a function $\phi_\perp (x,y)$ generating the same transverse kicks by computing numerically the integral:
 
 \begin{equation}
 \phi_\perp (x,y) = \int_{(0, 0)}^{(x, y)} 
@@ -333,11 +333,11 @@ s_W(t) = -\beta_{0W} ct
 \end{align}
 Equations\,\eqref{eq:forcex}\,-\,\eqref{eq:forcez} become:
 \begin{align}
-F_x(x, y, \zeta_W(t)) &=  -q(1+\beta_{0W}  \beta_{0s}) \frac{\partial \phi}{\partial x}(x, y, \zeta_W(t)) \label{eq:bbfgenx}\\
+F_x(x, y, \zeta_W(t)) &=  -q(1+\beta_{0W}  \beta_{0S}) \frac{\partial \phi}{\partial x}(x, y, \zeta_W(t)) \label{eq:bbfgenx}\\
 F_y(x, y, \zeta_W(t)) &=  -q(1+\beta_{0W}  \beta_{0S}) \frac{\partial \phi}{\partial y}(x, y, \zeta_W(t))\label{eq:bbfgeny}\\
 F_z(x, y, \zeta_W(t)) &=  -q\left(1+\beta_{0W}  \beta_{0S} -\frac{\beta_{0S}(\beta_{0W}+\beta_{0S})}{\gamma_0}\right) \frac{\partial \phi}{\partial \zeta}(x, y, \zeta_W(t))\label{eq:bbfgenz}
 \end{align}
-where we have used the the subscript $S$ (strong) for the bunch generating the fields, and the subscript $W$ (weak) for the test particle. 
+where we have used the subscript $S$ (strong) for the bunch generating the fields, and the subscript $W$ (weak) for the test particle. 
 
 $\zeta_W(t)$ is the position of the test particle within the bunch generating the fields: 
 \begin{equation}
@@ -347,10 +347,10 @@ $\zeta_W(t)$ is the position of the test particle within the bunch generating th
 
 In modulated-2D case (Eq.\,\ref{eq:factorized2d}), Eqs.\,\eqref{eq:bbfgenx}\,-\,\eqref{eq:bbfgeny} become:
 \begin{align}
-F_x(x, y, \zeta_W(t)) &=  -q q_{0S} (1+\beta_{0W}  \beta_{0s})
+F_x(x, y, \zeta_W(t)) &=  -q q_{0S} (1+\beta_{0W}  \beta_{0S})
 \lambda_{0S}(\zeta_W(t))
  \frac{\partial \phi_\perp}{\partial x}(x, y ) \\
-F_y(x, y, \zeta_W(t)) &=  -qq_{0S}  (1+\beta_{0W}  \beta_{0s})
+F_y(x, y, \zeta_W(t)) &=  -qq_{0S}  (1+\beta_{0W}  \beta_{0S})
 \lambda_{0S}(\zeta_W(t))
  \frac{\partial \phi_\perp}{\partial y}(x, y ) \\
 F_z(x, y, \zeta_W(t)) &=  -qq_{0S}\left(1+\beta_{0W}  \beta_{0S} -\frac{\beta_{0S}(\beta_{0W}+\beta_{0S})}{\gamma_0}\right) \frac{d \lambda_{0S}}{d \zeta}(\zeta_W(t)) \phi_\perp(x, y)
@@ -431,12 +431,12 @@ The parameter beta defines the standard deviation of the distribution:
 
 
 
-These expressions are valid for values of the parameter $q$ is   the range of interest:
+These expressions are valid for values of the parameter $q$ in the range of interest:
 \begin{equation}
 1<q<\frac{5}{3}
 \end{equation}
 
-In general the q-Gaussian is defined outside this range, but for smaller values it has a limited support (not of interest) and for larger values has a not defined standard deviation.
+In general the q-Gaussian is defined outside this range, but for smaller values it has limited support (not of interest) and for larger values it has an undefined standard deviation.
 
 \section{Beam-beam interaction (6D model, Hirata method)}
 
@@ -1519,7 +1519,7 @@ The survey provides the coordinates in the lab frame of the two beams:
          s^\text{su}
     \end{array}\right)
 \end{equation}
-and the corresponding set of angles $(\theta^\text{su}, \phi^\text{su}, \psi^\text{su})$ defining the orientation of the local reference system used by the twiss\,\cite{madsite}. The origin and the orientation of the lab frame are defined by the the first element in the sequence.
+and the corresponding set of angles $(\theta^\text{su}, \phi^\text{su}, \psi^\text{su})$ defining the orientation of the local reference system used by the twiss\,\cite{madsite}. The origin and the orientation of the lab frame are defined by the first element in the sequence.
 
 The components of the unit vectors defining the local reference frame with respect to the lab frame can be obtained from the following relationship:
 \begin{multline}
@@ -4058,4 +4058,3 @@ The inverse DFT of $\hat{\phi}^\text{aux}_k$ provides:
 \phi^\text{aux}\left(c +CL_\text{aux} + mh_x\right) 
 \text{~~ for}~0 \leq m <N_T N_\text{aux}\\
 \end{equation}
-
