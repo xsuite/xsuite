@@ -470,9 +470,6 @@ and the transformed coordinates:
 \left(x^*, p_x^*, y^*, p_y^*, \sigma^*, \delta^*\right)
 \end{equation}
 
-%\textit{Note that in \cite{refpaper} $z$ is actually $\sigma$ and $p_z$ is actually $\delta$!}
-
-
 We start by computing the drift Hamiltonian in the original coordinates (we are doing a Lorentz transformation, therefore constants matter as we are assuming that $h$ is the total energy of the particle):
 \begin{equation}
 h = \delta + 1 -\sqrt{\left(1+\delta\right)^2-p_x^2-p_y^2}
@@ -599,7 +596,7 @@ We transport the position part of the boosted $\Sigma$-matrix to the CP (here we
 \Sigma^*_{13} &= \Sigma_{13} ^{*0}+\left(\Sigma_{14} ^{*0} +\Sigma_{23}^{*0}\right) S +\Sigma_{24} ^{*0} S^2\label{eq:TranspSig13}
 \end{align}
 
-The $\Sigma$-matrix is given \underline{in the reference system of the weak beam}.% which is not what  \cite{refpaper} is doing.
+The $\Sigma$-matrix is given \underline{in the reference system of the weak beam}.
 ~\\
 For singular cases we will also need to transport the other terms:
 \begin{align}
@@ -667,12 +664,9 @@ It can be proved that \cite{beam_beam}:
 \sin \theta &= \textrm{sgn}(R)\textrm{sgn}(\Sigma^*_{13}) \sqrt{\frac{1}{2}\left(1 - \cos 2\theta \right)}
 \label{eq:sincostheta}
 \end{align}
-%Here $\theta$ is defined \underline{in the reference system of the weak beam}. For this reason $\sin \theta$ has opposite sign with respect to \cite{refpaper}. 
-
-%\textit{N.B. It seems that in sixtrack the term $\Sigma^*_{13}$ in the sgn is not there. Can this compensate for the different convention above? To be investigated...}
 ~\\
 
-The corresponding derivatives are given by (see Eq. 2.64 in \cite{refpaper}):
+The corresponding derivatives are given by:
 \begin{align}
 \frac{\partial }{\partial S} \cos \theta =& \frac{1}{4 \cos \theta} \frac{\partial }{\partial S} \cos 2\theta \\
 \frac{\partial }{\partial S} \sin \theta =& -\frac{1}{4 \sin \theta} \frac{\partial }{\partial S} \cos 2\theta \label{eq:dS_sintheta}
