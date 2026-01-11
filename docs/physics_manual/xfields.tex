@@ -2218,7 +2218,7 @@ and we find
     \int_{-\infty}^{\infty}dt \ e^{-j\omega' t}\widehat{W}_{x,y}(t) = -j \int_{-\infty}^{+\infty} d\omega \ Z_{x,y}(\omega) \delta(\omega-\omega') = -j Z_{x, y}(\omega').
 \end{equation}
 
-We can write the impedances also in terms of the wakefield expressed as a function of $z= -\beta_0 c t$ (using Eqs.\,\ref{eq:wake_vs_t} and\,\ref{eq:wake_vs_t}):
+We can write the impedances also in terms of the wakefield expressed as a function of $z= -\beta_0 c t$ (using Eqs.\,\ref{eq:wake_vs_t} and\,\ref{eq:wake_vs_z}):
 \begin{align}
     &W_{x,y}(z) = -\frac{j}{2\pi}\int_{-\infty}^{+\infty} d\omega \ e^{-j\omega \frac{z}{\beta_0 c}} Z_{x,y}(\omega)\, ,\\
     &Z_{x,y}(\omega) = \frac{j}{\beta_0 c} \int_{-\infty}^{+\infty} \ dz e^{j \omega \frac{z}{\beta_0 c}} W_{x,y}(z)\, .
@@ -2244,8 +2244,8 @@ The minus sign is introduced such that a positive wake causes the particles to l
 
 Also in this case, we call $\widehat{W}_{s}$ the wakefield defined as a function of time $t$:
 \begin{align}
-    &\widehat{W}_{s}(t) = {W}_{s}\left(\beta_0 c t\right) \label{eq:wake_vs_t}\\
-    &W_s(z) = \widehat{W}_{s}\left(-\frac{z}{\beta_0 c}\right) \label{eq:wake_vs_z}
+    &\widehat{W}_{s}(t) = {W}_{s}\left(\beta_0 c t\right) \label{eq:wakel_vs_t}\\
+    &W_s(z) = \widehat{W}_{s}\left(-\frac{z}{\beta_0 c}\right) \label{eq:wakel_vs_z}
 \end{align}
 
 \section{Longitudinal impedance}
@@ -2256,7 +2256,7 @@ The longitudinal beam coupling impedances $Z_{s}(\omega)$ are related to the wak
     &Z_s(\omega) = \int_{-\infty}^{+\infty} dt \ e^{-j\omega t} \widehat{W}_{s}(t)~.\label{eq:imp_from_wake_long}
 \end{align}
 
-We can write the impedances also in terms of the wakefield expressed as a function of $z= -\beta_0 c t$ (using Eqs.\,\ref{eq:wake_vs_t} and\,\ref{eq:wake_vs_t}):
+We can write the impedances also in terms of the wakefield expressed as a function of $z= -\beta_0 c t$ (using Eqs.\,\ref{eq:wakel_vs_t} and\,\ref{eq:wakel_vs_z}):
 \begin{align}
     &W_{s}(z) = \frac{1}{2\pi}\int_{-\infty}^{+\infty} d\omega \ e^{-j\omega \frac{z}{\beta_0 c}} Z_{s}(\omega)\, ,\\
     &Z_{s}(\omega) = \frac{1}{\beta_0 c} \int_{-\infty}^{+\infty} \ dz e^{j \omega \frac{z}{\beta_0 c}} W_{s}(z)\, .
