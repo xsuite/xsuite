@@ -429,6 +429,10 @@ Intra-Beam Scattering Kicks
 Beam elements (xwakes)
 ======================
 
+See also the :ref:`Xwakes section <xwakes_user_guide_section>` in User's guide.
+
+.. include:: wakedefs.rst
+
 WakeResonator
 -------------
 
