@@ -673,6 +673,11 @@ Pencil
 
 .. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
 
+q-Gaussian
+~~~~~~
+
+.. autofunction:: xpart.generate_round_4D_q_gaussian_normalised
+
 CPU and GPU contexts
 ====================
 
