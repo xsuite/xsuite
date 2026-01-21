@@ -62,7 +62,6 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
     git clone https://github.com/xsuite/xfields
     git clone https://github.com/xsuite/xwakes
     git clone https://github.com/xsuite/xcoll
-    git clone https://github.com/xsuite/xsuite
 
     pip install -e xobjects
     pip install -e xdeps
@@ -71,10 +70,17 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
     pip install -e xfields
     pip install -e xwakes
     pip install -e xcoll
-    pip install -e xsuite
-
+    pip install xsuite --no-deps --no-binary=xsuite
 
 This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
+
+The installation of Xsuite in the last line provides the prebuilt kernels. Note that, here, Xsuite is pulled from PyPI instead of being installed locally, while the kernels are being built using the local packages (as requested with the ``--no-binary`` flag). This is the correct use-case for the typical developer, as it ensures the kernels are stored in the Python environment (conda, venv, ...) instead of the local folder (which would cause difficult-to-recognise kernel conflicts if more than one environment uses this local installation). In case one wants to develop code directly related to the Xsuite prebuilt kernel mechanism (and only in that case), it makes sense to install it locally (while also making sure only a single environment uses it) with pip in editable mode:
+
+.. code-block:: bash
+
+    git clone https://github.com/xsuite/xsuite
+    pip install -e xsuite
+
 
 Testing
 -------
