@@ -3266,19 +3266,16 @@ C^{a b} & D^{a b}
 Using the Edwards-Teng parametrization $\{E^{a},F^{a},R_{\text{ET}}^{a}\}$ at $a$, the parameters at
 $b$ are obtained from
 \begin{align}
-E^{b} &= E^{a b}\,E^{a}\,\overline{E}^{a b}/|E^{a b}|,
-&
-E^{a b} &= A^{a b}-B^{a b} R_{\text{ET}}^{a},
-\\
-F^{b} &= F^{a b}\,F^{a}\,\overline{F}^{a b}/|F^{a b}|,
-&
-F^{a b} &= D^{a b}+C^{a b} \overline{R}_{\text{ET}}^{a},
-\\
+E^{b} &= E^{a b}\,E^{a}\,\overline{E}^{a b}/|E^{a b}|,\\
+F^{b} &= F^{a b}\,F^{a}\,\overline{F}^{a b}/|F^{a b}|,\\
 R_{\text{ET}}^{b} &= -\,\big(C^{a b}-D^{a b} R_{\text{ET}}^{a}\big)\,\overline{E}^{a b}/|E^{a b}|.
 \end{align}
-Here $\overline{(\cdot)}$ denotes the symplectic conjugate, and $|X|$ indicates the modulus of the
-matrix $X$ (i.e. $\sqrt{|\det X|}$ for $2\times2$ matrices).
-
+where:
+\begin{align}
+E^{a b} &= A^{a b}-B^{a b} R_{\text{ET}}^{a},\\
+F^{a b} &= D^{a b}+C^{a b} \overline{R}_{\text{ET}}^{a}.
+\end{align}
+Here $\overline{(\cdot)}$ denotes the symplectic conjugate, and $|X|$ the determinant of matrix $X$.
 
 
 \chapter{Synchrotron motion}
