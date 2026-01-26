@@ -3275,7 +3275,15 @@ where:
 E^{a b} &= A^{a b}-B^{a b} R_{\text{ET}}^{a},\\
 F^{a b} &= D^{a b}+C^{a b} \overline{R}_{\text{ET}}^{a}.
 \end{align}
-Here $\overline{(\cdot)}$ denotes the symplectic conjugate, and $|X|$ the determinant of matrix $X$.
+Let $E^{a b}_{i,j}$ denote the elements of $E^{a b}$. The Edwards-Teng Twiss parameters propagate as
+\begin{align}
+\beta_x^{b} &= \frac{\big(E^{a b}_{1,1}\beta_x^{a}-E^{a b}_{1,2}\alpha_x^{a}\big)^{2}+\big(E^{a b}_{1,2}\big)^{2}}{|E^{a b}|\,\beta_x^{a}},\\
+\alpha_x^{b} &= -\,\frac{\big(E^{a b}_{2,1}\beta_x^{a}-E^{a b}_{2,2}\alpha_x^{a}\big)\big(E^{a b}_{1,1}\beta_x^{a}-E^{a b}_{1,2}\alpha_x^{a}\big)+E^{a b}_{1,2}E^{a b}_{2,2}}{|E^{a b}|\,\beta_x^{a}},\\
+\mu_x^{b} &= \mu_x^{a} + \operatorname{atan2}\!\Big(E^{a b}_{1,2},\,E^{a b}_{1,1}\beta_x^{a}-E^{a b}_{1,2}\alpha_x^{a}\Big),\\
+\gamma_x^{b} &= \frac{1+\big(\alpha_x^{b}\big)^{2}}{\beta_x^{b}}.
+\end{align}
+The same relations apply to $F$ by replacing $E^{a b}$ with $F^{a b}$ and $(\beta_x^{a},\alpha_x^{a},\mu_x^{a})$ with $(\beta_y^{a},\alpha_y^{a},\mu_y^{a})$.
+Here $\overline{(\cdot)}$ denotes the symplectic conjugate, and $|X|$ the modulus of matrix $X$ (i.e. $\sqrt{|\det X|}$ for $2\times2$ matrices).
 
 
 \chapter{Synchrotron motion}
