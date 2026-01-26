@@ -3253,6 +3253,33 @@ E_{2,1} & E_{2,2}
 &\alpha_A=\frac{E_{1,1}-E_{2,2}}{2\sin\mu_A}.
 \end{align}
 
+\subsubsection{Propagation of Edwards-Teng parameters}
+
+Consider two positions $a$ and $b$ along the lattice, with the linear transfer map
+\begin{equation}
+R^{a b}=
+\begin{pmatrix}
+A^{a b} & B^{a b}\\
+C^{a b} & D^{a b}
+\end{pmatrix}.
+\end{equation}
+Using the Edwards-Teng parametrization $\{E^{a},F^{a},R_{\text{ET}}^{a}\}$ at $a$, the parameters at
+$b$ are obtained from
+\begin{align}
+E^{b} &= E^{a b}\,E^{a}\,\overline{E}^{a b}/|E^{a b}|,
+&
+E^{a b} &= A^{a b}-B^{a b} R_{\text{ET}}^{a},
+\\
+F^{b} &= F^{a b}\,F^{a}\,\overline{F}^{a b}/|F^{a b}|,
+&
+F^{a b} &= D^{a b}+C^{a b} \overline{R}_{\text{ET}}^{a},
+\\
+R_{\text{ET}}^{b} &= -\,\big(C^{a b}-D^{a b} R_{\text{ET}}^{a}\big)\,\overline{E}^{a b}/|E^{a b}|.
+\end{align}
+Here $\overline{(\cdot)}$ denotes the symplectic conjugate, and $|X|$ indicates the modulus of the
+matrix $X$ (i.e. $\sqrt{|\det X|}$ for $2\times2$ matrices).
+
+
 
 \chapter{Synchrotron motion}
 \label{ch:synchmon}
