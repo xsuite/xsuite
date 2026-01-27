@@ -3377,6 +3377,62 @@ The phase advances between element $m$ and observation point $j$ follow
 \end{equation}
 Note that $h_{m,pqrt}$ in Eq.~\eqref{eq:hamiltonian_terms} is a Hamiltonian coefficient and shall not be confused with the complex Courant--Snyder coordinates $h_{x,y}$ appearing in Eqs.~\eqref{eq:rdt_hx}--\eqref{eq:rdt_hy}.
 
+\section{Feed-down and misalignments}
+
+When evaluating RDTs, the multipole strengths must be taken on the closed orbit and corrected for magnet tilts and transverse shifts. Using the complex transverse coordinate \(z = x + i y\) (lab frame), the normalized longitudinal potential is
+\begin{equation}
+  a_s(z) = - \Re \left[ \sum_{n=0}^{\infty} \frac{K_n + i \hat K_n}{(n+1)!} \, z^{\,n+1} \right],
+  \label{eq:potential}
+\end{equation}
+where \(K_n\) and \(\hat K_n\) are the normal and skew multipole coefficients of order \(n\) (dipole \(n=0\), quadrupole \(n=1\), etc.) in the magnet reference frame. We consider a magnet whose center is transversely shifted by \(\Delta = \Delta x + i \Delta y\) and tilted by an angle \(\psi\) around the longitudinal axis (positive \(\psi\) rotates the magnet frame counter-clockwise relative to the lab frame).
+
+\subsection{Coordinate transformation}
+From the lab coordinate \(z\), the coordinate in the magnet frame is obtained by first translating by \(-\Delta\) and then rotating by \(-\psi\):
+\begin{equation}
+  z_{\mathrm{mag}} = e^{-i\psi}\,(z - \Delta).
+  \label{eq:zmag}
+\end{equation}
+Substituting \eqref{eq:zmag} into \eqref{eq:potential} gives
+\begin{equation}
+  a_s(z) = - \Re \left[ \sum_{n=0}^{\infty} \frac{K_n + i \hat K_n}{(n+1)!} \, e^{-i (n+1)\psi}\, (z - \Delta)^{n+1} \right].
+  \label{eq:potential_transformed}
+\end{equation}
+
+\subsection{Feed-down expansion}
+Expanding the shifted power with the binomial theorem,
+\begin{equation}
+  (z - \Delta)^{n+1} = \sum_{m=0}^{n+1} \binom{n+1}{m+1} z^{\,m+1} (-\Delta)^{n-m},
+\end{equation}
+and re-collecting terms proportional to \(z^{\,m+1}\), we write
+\begin{equation}
+  a_s(z) = - \Re \left[ \sum_{m=0}^{\infty} \frac{K_m' + i \hat K_m'}{(m+1)!} \, z^{\,m+1} \right],
+  \label{eq:potential_effective}
+\end{equation}
+with effective (feed-down) multipole coefficients
+\begin{equation}
+  K_m' + i \hat K_m' = \sum_{n=m}^{\infty} \frac{K_n + i \hat K_n}{(n-m)!} \, (-\Delta)^{\,n-m} \, e^{-i (n+1)\psi}.
+  \label{eq:feeddown_raw}
+\end{equation}
+Expressing the transverse shift in the magnet frame, \(\tilde\Delta = e^{-i\psi} \Delta\), and using \(n = m + p\) gives
+\begin{equation}
+  K_m' + i \hat K_m' = e^{-i (m+1)\psi} \sum_{p=0}^{\infty} \frac{K_{m+p} + i \hat K_{m+p}}{p!} \, (-\tilde\Delta)^{\,p}.
+  \label{eq:feeddown_final}
+\end{equation}
+
+\subsection{Expansion around a closed orbit \(x_0, y_0\)}
+Let \(z_0 = x_0 + i y_0\) denote the closed orbit in the lab frame and write \(z = z_0 + u\), where \(u\) is the small transverse excursion. The magnet-frame coordinate becomes
+\begin{equation}
+  z_{\mathrm{mag}} = e^{-i\psi}\,(z_0 - \Delta + u) = \tilde b + e^{-i\psi} u,
+  \quad \text{with} \quad \tilde b \equiv e^{-i\psi}(z_0 - \Delta).
+\end{equation}
+Expanding the potential in powers of \(u\) as in \eqref{eq:potential_effective} yields effective multipoles around the closed orbit:
+\begin{equation}
+  K_m^{(\mathrm{orb})} + i \hat K_m^{(\mathrm{orb})}
+  = e^{-i (m+1)\psi} \sum_{p=0}^{\infty} \frac{K_{m+p} + i \hat K_{m+p}}{p!} \, (\tilde b)^{\,p}.
+  \label{eq:feeddown_orbit}
+\end{equation}
+This is the same feed-down structure as \eqref{eq:feeddown_final}, with \(\tilde\Delta\) replaced by the orbit-corrected offset \(\tilde b = e^{-i\psi}(z_0 - \Delta)\). For \(z_0 = 0\) the result reduces to \eqref{eq:feeddown_final}; for a centered magnet (\(\Delta = 0\)), \(\tilde b\) captures the intrinsic feed-down from the closed-orbit displacement.
+
 
 \chapter{Synchrotron motion}
 \label{ch:synchmon}
