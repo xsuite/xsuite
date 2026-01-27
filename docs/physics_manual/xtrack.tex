@@ -3287,6 +3287,107 @@ The same relations apply  to the vertical plane, replacing $E^{a b}$ by $F^{a b}
 the subscript $x$ by $y$.
 
 
+\chapter{Resonant Driving Terms}
+\label{ch:rdt}
+
+\section{Courant--Snyder normalized coordinates}
+
+We apply the Courant--Snyder change of coordinates in both transverse planes:
+\begin{equation}
+\begin{pmatrix}
+\tilde x\\
+\tilde p_x
+\end{pmatrix}
+=
+\begin{pmatrix}
+\beta_x^{-1/2} & 0\\
+\alpha_x \beta_x^{-1/2} & \beta_x^{1/2}
+\end{pmatrix}
+\begin{pmatrix}
+x\\
+p_x
+\end{pmatrix},
+\qquad
+\begin{pmatrix}
+\tilde y\\
+\tilde p_y
+\end{pmatrix}
+=
+\begin{pmatrix}
+\beta_y^{-1/2} & 0\\
+\alpha_y \beta_y^{-1/2} & \beta_y^{1/2}
+\end{pmatrix}
+\begin{pmatrix}
+y\\
+p_y
+\end{pmatrix}.
+\end{equation}
+The Twiss parameters $(\alpha_{x,y},\beta_{x,y})$ are evaluated at the observation point $s$.
+
+\section{Complex Courant--Snyder coordinates}
+
+For $q \in \{x,y\}$ we introduce the complex Courant--Snyder coordinates
+\begin{equation}
+h_{q,\pm} = \tilde q \pm i \tilde p_q = \sqrt{2 J_q}\; e^{\mp i (\phi_q + \phi_{q,0})},
+\end{equation}
+where $J_q$ is the action and $\phi_q$ the betatron phase advance (with initial phase $\phi_{q,0}$).
+From $\tilde q$ and $\tilde p_q$ we recover
+\begin{align}
+J_q &= \frac{\tilde q^{\,2} + \tilde p_q^{\,2}}{2}, \\
+\phi_q &= -\,\phi_{q,0} - \operatorname{atan2}\!\left(\tilde p_q,\,\tilde q\right).
+\end{align}
+
+\section{Motion expressed through resonant driving terms}
+
+The transverse motion written in terms of resonant driving terms (RDTs) reads
+\begin{align}
+h_{x,-}(s,N) &= \sqrt{2 I_x}\, e^{i\left(2\pi Q_x N + \psi_{s,x,0}\right)}
+- 2i \sum_{jklm} j\, f^{(s)}_{jklm}\, (2 I_x)^{\frac{j+k-1}{2}} (2 I_y)^{\frac{l+m}{2}} \nonumber\\
+&\hspace{36pt}\times e^{i\left[(1-j+k)\left(2\pi Q_x N + \psi_{s,x,0}\right) + (m-l)\left(2\pi Q_y N + \psi_{s,y,0}\right)\right]}, \label{eq:rdt_hx}\\
+h_{y,-}(s,N) &= \sqrt{2 I_y}\, e^{i\left(2\pi Q_y N + \psi_{s,y,0}\right)}
+- 2i \sum_{jklm} l\, f^{(s)}_{jklm}\, (2 I_x)^{\frac{j+k}{2}} (2 I_y)^{\frac{l+m-1}{2}} \nonumber\\
+&\hspace{36pt}\times e^{i\left[(k-j)\left(2\pi Q_x N + \psi_{s,x,0}\right) + (1-l+m)\left(2\pi Q_y N + \psi_{s,y,0}\right)\right]}, \label{eq:rdt_hy}
+\end{align}
+where $N$ is the turn number, $Q_{x,y}$ the tunes, $I_{x,y}$ the invariants (equal to the actions $J_{x,y}$), and $\psi_{s,x,0}$, $\psi_{s,y,0}$ the initial phases at the observation point $s$.
+
+\section{Definition of the resonant driving terms}
+
+We take $f_{pqrt}$ to be defined by
+\begin{equation}
+f_{pqrt}(j) = \frac{\displaystyle \sum_{m=1}^{M} h_{m,pqrt}\, e^{i\left[(p-q)\Delta\phi_{x,mj} + (r-t)\Delta\phi_{y,mj}\right]}}{1 - e^{2\pi i\left[(p-q)Q_x + (r-t)Q_y\right]}},
+\label{eq:rdt_def}
+\end{equation}
+where the numerator runs over the $M$ nonlinear elements, and the denominator enforces the resonance structure. The Hamiltonian coefficients are
+\begin{equation}
+h_{m,pqrt} = -\,\frac{K_{m,n-1}\,\Omega(r+t) + i\, J_{m,n-1}\,\Omega(r+t+1)}{p!\,q!\,r!\,t!\; 2^{p+q+r+t}}\;
+i^{\,r+t}\, (\beta_{m,x})^{\frac{p+q}{2}} (\beta_{m,y})^{\frac{r+t}{2}},
+\label{eq:hamiltonian_terms}
+\end{equation}
+with $n = p+q+r+t$ and where $K_{m,n-1}$ and $J_{m,n-1}$ are the normal and skew multipole strengths of order $n-1$ in element $m$. The parity selector is
+\begin{equation}
+\Omega(i)=
+\begin{cases}
+1, & \text{if $i$ is even},\\
+0, & \text{if $i$ is odd}.
+\end{cases}
+\end{equation}
+The phase advances between element $m$ and observation point $j$ follow
+\begin{equation}
+\Delta\phi_{x,mj} =
+\begin{cases}
+\phi_{x,j} - \phi_{x,m}, & \phi_{x,j} > \phi_{x,m},\\
+\phi_{x,j} - \phi_{x,m} + 2\pi Q_x, & \phi_{x,j} < \phi_{x,m},
+\end{cases}
+\qquad
+\Delta\phi_{y,mj} =
+\begin{cases}
+\phi_{y,j} - \phi_{y,m}, & \phi_{y,j} > \phi_{y,m},\\
+\phi_{y,j} - \phi_{y,m} + 2\pi Q_y, & \phi_{y,j} < \phi_{y,m}.
+\end{cases}
+\end{equation}
+Note that $h_{m,pqrt}$ in Eq.~\eqref{eq:hamiltonian_terms} is a Hamiltonian coefficient and shall not be confused with the complex Courant--Snyder coordinates $h_{x,y}$ appearing in Eqs.~\eqref{eq:rdt_hx}--\eqref{eq:rdt_hy}.
+
+
 \chapter{Synchrotron motion}
 \label{ch:synchmon}
 
