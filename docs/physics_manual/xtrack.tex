@@ -3316,13 +3316,13 @@ where the Twiss parameters $(\alpha_u,\beta_u)$ are evaluated at the observation
 
 For $q \in \{x,y\}$ we introduce the complex Courant--Snyder coordinates
 \begin{equation}
-h_{q,\pm} = \tilde q \pm i \tilde p_q = \sqrt{2 J_q}\; e^{\mp i (\phi_q + \phi_{q,0})},
+h_{q,\pm} = \tilde q \pm i \tilde p_q = \sqrt{2 I_q}\; e^{\mp i (\psi_q + \psi_{q,0})},
 \end{equation}
-where $J_q$ is the action and $\phi_q$ the betatron phase advance (with initial phase $\phi_{q,0}$).
+where $I_q$ is the action and $\psi_q$ the betatron phase advance (with initial phase $\psi_{q,0}$).
 From $\tilde q$ and $\tilde p_q$ we recover
 \begin{align}
-J_q &= \frac{\tilde q^{\,2} + \tilde p_q^{\,2}}{2}, \\
-\phi_q &= -\,\phi_{q,0} - \operatorname{atan2}\!\left(\tilde p_q,\,\tilde q\right).
+I_q &= \frac{\tilde q^{\,2} + \tilde p_q^{\,2}}{2}, \\
+\psi_q &= -\,\psi_{q,0} - \operatorname{atan2}\!\left(\tilde p_q,\,\tilde q\right).
 \end{align}
 
 \section{Motion expressed through resonant driving terms}
@@ -3330,11 +3330,11 @@ J_q &= \frac{\tilde q^{\,2} + \tilde p_q^{\,2}}{2}, \\
 The transverse motion written in terms of resonant driving terms (RDTs) reads
 \begin{align}
 h_{x,-}(s,N) &= \sqrt{2 I_x}\, e^{i\left(2\pi Q_x N + \psi_{s,x,0}\right)}
-- 2i \sum_{jklm} j\, f^{(s)}_{jklm}\, (2 I_x)^{\frac{j+k-1}{2}} (2 I_y)^{\frac{l+m}{2}} \nonumber\\
-&\hspace{36pt}\times e^{i\left[(1-j+k)\left(2\pi Q_x N + \psi_{s,x,0}\right) + (m-l)\left(2\pi Q_y N + \psi_{s,y,0}\right)\right]}, \label{eq:rdt_hx}\\
+- 2i \sum_{pqrt} p\, f^{(s)}_{pqrt}\, (2 I_x)^{\frac{p+q-1}{2}} (2 I_y)^{\frac{r+t}{2}} \nonumber\\
+&\hspace{36pt}\times e^{i\left[(1-p+q)\left(2\pi Q_x N + \psi_{s,x,0}\right) + (t-r)\left(2\pi Q_y N + \psi_{s,y,0}\right)\right]}, \label{eq:rdt_hx}\\
 h_{y,-}(s,N) &= \sqrt{2 I_y}\, e^{i\left(2\pi Q_y N + \psi_{s,y,0}\right)}
-- 2i \sum_{jklm} l\, f^{(s)}_{jklm}\, (2 I_x)^{\frac{j+k}{2}} (2 I_y)^{\frac{l+m-1}{2}} \nonumber\\
-&\hspace{36pt}\times e^{i\left[(k-j)\left(2\pi Q_x N + \psi_{s,x,0}\right) + (1-l+m)\left(2\pi Q_y N + \psi_{s,y,0}\right)\right]}, \label{eq:rdt_hy}
+- 2i \sum_{pqrt} r\, f^{(s)}_{pqrt}\, (2 I_x)^{\frac{p+q}{2}} (2 I_y)^{\frac{r+t-1}{2}} \nonumber\\
+&\hspace{36pt}\times e^{i\left[(q-p)\left(2\pi Q_x N + \psi_{s,x,0}\right) + (1-r+t)\left(2\pi Q_y N + \psi_{s,y,0}\right)\right]}, \label{eq:rdt_hy}
 \end{align}
 where $N$ is the turn number, $Q_{x,y}$ the tunes, $I_{x,y}$ the invariants (equal to the actions $J_{x,y}$), and $\psi_{s,x,0}$, $\psi_{s,y,0}$ the initial phases at the observation point $s$.
 
