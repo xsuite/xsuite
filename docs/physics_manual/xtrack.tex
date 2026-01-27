@@ -3347,11 +3347,11 @@ f_{pqrt}(j) = \frac{\displaystyle \sum_{m=1}^{M} h_{m,pqrt}\, e^{i\left[(p-q)\De
 \end{equation}
 where the numerator runs over the $M$ nonlinear elements, and the denominator enforces the resonance structure. The Hamiltonian coefficients are
 \begin{equation}
-h_{m,pqrt} = -\,\frac{K_{m,n-1}\,\Omega(r+t) + i\, J_{m,n-1}\,\Omega(r+t+1)}{p!\,q!\,r!\,t!\; 2^{p+q+r+t}}\;
+h_{m,pqrt} = -\,\frac{K_{m,n-1}\,\Omega(r+t) + i\, \hat{K}_{m,n-1}\,\Omega(r+t+1)}{p!\,q!\,r!\,t!\; 2^{p+q+r+t}}\;
 i^{\,r+t}\, (\beta_{m,x})^{\frac{p+q}{2}} (\beta_{m,y})^{\frac{r+t}{2}},
 \label{eq:hamiltonian_terms}
 \end{equation}
-with $n = p+q+r+t$ and where $K_{m,n-1}$ and $J_{m,n-1}$ are the normal and skew multipole strengths of order $n-1$ in element $m$. The parity selector is
+with $n = p+q+r+t$ and where $K_{m,n-1}$ and $\hat{K}_{m,n-1}$ are the normal and skew multipole strengths of order $n-1$ in element $m$. The parity selector is
 \begin{equation}
 \Omega(i)=
 \begin{cases}
@@ -3366,7 +3366,8 @@ The phase advances between element $m$ and observation point $j$ follow
 \phi_{x,j} - \phi_{x,m}, & \phi_{x,j} > \phi_{x,m},\\
 \phi_{x,j} - \phi_{x,m} + 2\pi Q_x, & \phi_{x,j} < \phi_{x,m},
 \end{cases}
-\qquad
+\end{equation}
+\begin{equation}
 \Delta\phi_{y,mj} =
 \begin{cases}
 \phi_{y,j} - \phi_{y,m}, & \phi_{y,j} > \phi_{y,m},\\
