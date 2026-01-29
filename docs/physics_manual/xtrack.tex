@@ -3082,7 +3082,7 @@ D_{y}^\zeta = \left(W_{35} -\frac{W_{36}W_{65}}{W_{66}}\right)\left( W_{55}\ -  
 D_{p_y}^\zeta = \left(W_{45} -\frac{W_{46}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
 
-\section{Linear betatron coupling}
+\section{Linear coupling indicators}
 
 The following is based on \cite{luo2004phase} and \cite{Jones:2020hhl}.
 ~\\~\\
@@ -3148,10 +3148,9 @@ and averaged over the ring, as suggested in \cite{tobias_coupling_note}.
 
 \subsection{Edwards-Teng formalism}
 
-This section is based on \cite{mad8phys}. The full derivation can be found in
-\cite{laurent_coupling_1} and \cite{laurent_coupling_2}.
+This section is based on \cite{laurent_coupling_1} and \cite{laurent_coupling_2}.
 
-Consider the linear transfer map $R$ in two degrees of freedom, partitioned into four $2\times2$ blocks:
+Consider the linear one-turn matrix $R$ in two degrees of freedom, partitioned into four $2\times2$ blocks:
 \begin{equation}
 R=
 \begin{pmatrix}
@@ -3160,77 +3159,55 @@ C & D
 \end{pmatrix}.
 \end{equation}
 
-The 4\,-dimensional phase space vector shall also be partitioned according
-to the horizontal and vertical planes. Edwards and Teng introduce a
-``symplectic rotation'':
+We can block-diagonalize $R$ as follows:
 \begin{equation}
-T_\text{ET}=
+g^{2}
 \begin{pmatrix}
-I\cos\phi & \overline{R}_\text{ET}\,\sin\phi\\
--\,R_\text{ET}\sin\phi & I\cos\phi
-\end{pmatrix}.
-\end{equation}
-
-Here $R_\text{ET}$ is a $2 \times 2$ matrix with unit determinant,
-and $\overline{R}_\text{ET}$ denotes its symplectic conjugate:
-\begin{equation}
-R_\text{ET}=
+I & -\bar{R}_\text{ET} \\
+R_\text{ET} & I
+\end{pmatrix}
 \begin{pmatrix}
-a & b\\
-c & d
-\end{pmatrix},
-\qquad
-|R_\text{ET}|=
-\left|
-\begin{matrix}
-a & b\\
-c & d
-\end{matrix}
-\right|
-=1,
-\qquad
-\overline{R}_\text{ET}=
+A & B \\
+C & D
+\end{pmatrix}
 \begin{pmatrix}
-d & -b\\
--c & a
-\end{pmatrix}.
-\end{equation}
-
-This leaves three free parameters for the elements of $R_\text{ET}$, and a fourth parameter $\phi$.
-Edwards and Teng then determine $R_\text{ET}$ such that $R$ conjugated with $T_\text{ET}$ becomes block diagonal:
-\begin{equation}
-T_\text{ET}MT_\text{ET}^{-1}=
+I & \bar{R}_\text{ET} \\
+-R_\text{ET} & I
+\end{pmatrix}
+=
 \begin{pmatrix}
-E & 0\\
+E & 0 \\
 0 & F
-\end{pmatrix}.
+\end{pmatrix}
 \end{equation}
 
-If $\,|B+\overline{C}|<0\,$ both $\phi$ and all elements of $R_\text{ET}$ become imaginary. This may be avoided by redefining
-\begin{equation}
-T_\text{ET}=\frac{1}{\sqrt{\,1+|R_\text{ET}|\,}}
-\begin{pmatrix}
-I & \overline{R}_\text{ET}\\
--\,R_\text{ET} & I
-\end{pmatrix},
-\end{equation}
-where all four elements of $R_\text{ET}$ are free parameters.
+Here $R_\text{ET}$ is a $2 \times 2$ matrix with unit determinant.
 
-The solution is
+The notation $\overline{Z}$ denotes the symplectic conjugate of matrix $Z$:
 \begin{equation}
-R_\text{ET}=\Bigg(
-\frac{1}{2}\big(\operatorname{Tr}A-\operatorname{Tr}D\big)
-+\operatorname{sign}\!\big(|C+\overline{B}|\big)\,
-\sqrt{|C+\overline{B}|+\frac{1}{4}\big(\operatorname{Tr}A-\operatorname{Tr}D\big)^2}
-\Bigg)^{-1}\,(C+\overline{B}),
+\bar{Z} = - S Z^{T} S
 \end{equation}
-and
+
+The matrix $R_\text{ET}$ is given by:
+\begin{equation}
+R_\text{ET} = -\left(
+\frac{1}{2}(\operatorname{tr} A - \operatorname{tr} D)
++ \operatorname{sign}(\operatorname{tr} A - \operatorname{tr} D)\,\sqrt{\Delta}
+\right)^{-1}
+(C + \bar{B})
+\end{equation}
+where:
+\begin{equation}
+\Delta = \frac{1}{4}(\operatorname{tr} A - \operatorname{tr} D)^2 + |C + \bar{B}|
+\end{equation}
+
+The matrices $E$ and $F$ are given by:
 \begin{align}
 E=A-BR_\text{ET}\\
 F=D+R_\text{ET}B
 \end{align}
 
-Twiss parameters of $E$ (and $F$) can be found by:
+Twiss parameters can be found from $E$ (and $F$):
 \begin{equation}
 E=
 \begin{pmatrix}
@@ -3243,7 +3220,7 @@ E_{2,1} & E_{2,2}
 -\gamma_A \sin\mu_A & \cos\mu_A - \alpha_A \sin\mu_A
 \end{pmatrix}
 \end{equation}
-
+from which:
 \begin{align}
 &\cos\mu_A=\tfrac12\,\operatorname{tr}E, \\
 &\sin\mu_A=\operatorname{sign}(E_{1,2})
