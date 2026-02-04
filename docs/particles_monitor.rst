@@ -250,4 +250,14 @@ The recorded profiles are 2D arrays of shape ``(sample_size, n)``
 where ``sample_size = round(( stop_at_turn - start_at_turn ) * sampling_frequency / frev)``.
 I.e. ``monitor.x_intensity[0,:]`` is the first recorded profile and ``monitor.x_intensity[-1,:]`` the last.
 
+Multi-element monitor
+---------------------
 
+It is possible to log particle coordinates at multiple selected elements in the
+beamline for all tracked turns. This can be activated by adding the argument
+``multi_element_monitor_at`` when calling the track method of the Line object.
+This is illustrated in the following example, where the coordinates are recorded
+at all BPMs of a ring.
+
+.. literalinclude:: generated_code_snippets/multi_element_monitor.py
+   :language: python
