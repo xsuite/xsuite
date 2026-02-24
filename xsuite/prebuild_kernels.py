@@ -2,24 +2,25 @@
 # This file is part of the Xsuite project.  #
 # Copyright (c) CERN, 2025.                 #
 # ######################################### #
-
 import json
 import os
+import warnings
 from multiprocessing import Pool
 from pathlib import Path
 from pprint import pformat
 from typing import Iterator, Optional, Tuple
 
-import xsuite as xs
 import xcoll as xc
-from xtrack.prebuilt_kernel_definitions import XTRACK_ELEMENTS_INIT_DEFAULTS
-from xfields.prebuilt_kernel_definitions import XFIELDS_ELEMENTS_INIT_DEFAULTS
-from xcoll.prebuilt_kernel_definitions import XCOLL_ELEMENTS_INIT_DEFAULTS
 import xfields as xf
 import xobjects as xo
 import xtrack as xt
-from xsuite.kernel_definitions import kernel_definitions
+from xcoll.prebuilt_kernel_definitions import XCOLL_ELEMENTS_INIT_DEFAULTS
+from xfields.prebuilt_kernel_definitions import XFIELDS_ELEMENTS_INIT_DEFAULTS
 from xtrack.general import _print
+from xtrack.prebuilt_kernel_definitions import XTRACK_ELEMENTS_INIT_DEFAULTS
+
+import xsuite as xs
+from xsuite.kernel_definitions import kernel_definitions
 
 XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 
@@ -222,13 +223,17 @@ def build_single_kernel(idx, total, location, metadata, module_name):
     element_classes = metadata['classes']
     extra_classes = metadata.get('extra_classes', [])
 
-    elements = []
-    for cls in element_classes:
-        if cls.__name__ in BEAM_ELEMENTS_INIT_DEFAULTS:
-            element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__])
-        else:
-            element = cls()
-        elements.append(element)
+    with warnings.catch_warnings():
+        # We still include deprecated elements in the kernels, so silence the warnings
+        warnings.filterwarnings('ignore', category=FutureWarning)
+
+        elements = []
+        for cls in element_classes:
+            if cls.__name__ in BEAM_ELEMENTS_INIT_DEFAULTS:
+                element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__])
+            else:
+                element = cls()
+            elements.append(element)
 
     line = xt.Line(elements=elements)
     tracker = xt.Tracker(line=line, compile=False, _prebuilding_kernels=True)
