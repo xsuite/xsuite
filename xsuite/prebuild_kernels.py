@@ -223,15 +223,18 @@ def build_single_kernel(idx, total, location, metadata, module_name):
         warnings.filterwarnings('ignore', category=FutureWarning)
 
         elements = []
+        buffer = xo.context_default.new_buffer()
         for cls in element_classes:
             if cls.__name__ in BEAM_ELEMENTS_INIT_DEFAULTS:
-                element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__])
+                element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__],
+                              _buffer=buffer)
             else:
-                element = cls()
+                element = cls(_buffer=buffer)
             elements.append(element)
 
     line = xt.Line(elements=elements)
     tracker = xt.Tracker(line=line, compile=False, _prebuilding_kernels=True)
+    assert tracker.iscollective == False
     tracker.config.clear()
     tracker.config.update(config)
     tracker_classes = tracker._tracker_data_base.kernel_element_classes
