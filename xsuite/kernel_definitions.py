@@ -8,6 +8,9 @@ from xtrack.prebuilt_kernel_definitions import (ONLY_XTRACK_ELEMENTS,
                                     NO_SYNRAD_ELEMENTS, NON_TRACKING_ELEMENTS)
 from xcoll.prebuilt_kernel_definitions import DEFAULT_XCOLL_ELEMENTS, EXTRA_XCOLL_ELEMENTS
 from xfields.prebuilt_kernel_definitions import DEFAULT_XFIELDS_ELEMENTS
+from xfields.prebuilt_kernel_definitions import NON_TRACKING_ELEMENTS as XFIELDS_NON_TRACKING_ELEMENTS
+
+import xfields as xf
 
 
 LOGGER = logging.getLogger(__name__)
@@ -24,7 +27,7 @@ kernel_definitions = [
     ('non_tracking_kernels', {
         'config': {},
         'classes': [],
-        'extra_classes': NON_TRACKING_ELEMENTS
+        'extra_classes': NON_TRACKING_ELEMENTS + XFIELDS_NON_TRACKING_ELEMENTS,
     }),
     ('default_no_config', {
         'config': {},
@@ -41,3 +44,8 @@ kernel_definitions = [
         'classes': ONLY_XTRACK_ELEMENTS,
     }),
 ]
+
+ALL_CLASSES = set()
+for _, kernel_def in kernel_definitions:
+    ALL_CLASSES.update(kernel_def.get('classes', []))
+    ALL_CLASSES.update(kernel_def.get('extra_classes', []))

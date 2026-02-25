@@ -20,7 +20,7 @@ from xtrack.general import _print
 from xtrack.prebuilt_kernel_definitions import XTRACK_ELEMENTS_INIT_DEFAULTS
 
 import xsuite as xs
-from xsuite.kernel_definitions import kernel_definitions
+from xsuite.kernel_definitions import kernel_definitions, ALL_CLASSES
 
 XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 
@@ -29,13 +29,8 @@ BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_IN
 
 
 def get_element_class_by_name(name: str) -> type:
-    extra_classes = (xt.MultiSetter, )
 
-    element_classes = (xt.element_classes + xt.rng_classes + xt.monitor_classes
-                       + xf.element_classes + xc.element_classes
-                       + extra_classes)
-
-    for cls in element_classes:
+    for cls in ALL_CLASSES:
         if cls.__name__ == name:
             return cls
 
