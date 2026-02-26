@@ -33,7 +33,8 @@ BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_IN
 def save_kernel_metadata(
         module_name: str,
         config: dict,
-        kernel_element_classes,
+        tracker_element_classes,
+        all_classes,
         location,
 ):
     location = Path(location)
@@ -41,7 +42,8 @@ def save_kernel_metadata(
 
     kernel_metadata = {
         'config': config.data,
-        'classes': [cls._DressingClass.__name__ for cls in kernel_element_classes],
+        'tracker_element_classes': [cls._DressingClass.__name__ for cls in tracker_element_classes],
+        'classes': [getattr(cls, '_DressingClass', cls).__name__ for cls in all_classes],
         'versions': {
             'xtrack': xt.__version__,
             'xfields': xf.__version__,
@@ -99,7 +101,8 @@ def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
 
 def get_suitable_kernel(
         config: dict,
-        line_element_classes,
+        tracker_element_classes,
+        classes,
         verbose=False,
 ) -> Optional[Tuple[str, list]]:
     """
@@ -111,22 +114,22 @@ def get_suitable_kernel(
     env_var = os.environ.get("XSUITE_PREBUILT_KERNELS")
     if env_var and env_var == '0':
         if verbose:
-            _print('Skipping the search for a suitable kernel, as the '
+            print('Skipping the search for a suitable kernel, as the '
                    'environment variable XSUITE_PREBUILT_KERNELS == "0".')
         return
 
     if os.environ.get("XSUITE_VERBOSE", None) is not None:
         verbose = True
 
-    requested_class_names = [
-        cls._DressingClass.__name__ for cls in line_element_classes
+    requested_tracker_class_names = [
+        cls._DressingClass.__name__ for cls in tracker_element_classes
     ]
+    requested_class_names = [getattr(cls, '_DressingClass', cls).__name__ for cls in classes]
 
     for module_name, kernel_metadata in enumerate_kernels(verbose=verbose):
         if verbose:
-            _print(f"==> Considering the precompiled kernel `{module_name}`...")
+            print(f"==> Considering the precompiled kernel `{module_name}`...")
 
-        available_classes_names = kernel_metadata['classes']
         if kernel_metadata['config'] != config:
             if verbose:
                 lhs = kernel_metadata['config']
@@ -134,35 +137,53 @@ def get_suitable_kernel(
                 config_diff = {kk: (lhs.get(kk), rhs.get(kk))
                                for kk in set(lhs.keys()) | set(rhs.keys())
                                if lhs.get(kk) != rhs.get(kk)}
-                _print(f'The kernel `{module_name}` is unsuitable. Its config '
+                print(f'The kernel `{module_name}` is unsuitable. Its config '
                       f'(left) and the requested one (right) differ at the '
                       f'following keys:\n'
                       f'{pformat(config_diff)}')
-                _print(f'Skipping class compatibility check for `{module_name}`.')
+                print(f'Skipping class compatibility check for `{module_name}`.')
 
             continue
 
         if verbose:
-            _print(f'The kernel `{module_name}` has the right config.')
+            print(f'The kernel `{module_name}` has the right config.')
 
-        if set(requested_class_names) <= set(available_classes_names):
-            available_classes = []
-            for ccnn in available_classes_names:
-                cc = NAME_CLASS_MAP.get(ccnn, None)
-                if cc is None:
-                    raise ValueError(f'Class `{ccnn}` from kernel `{module_name}` is not available in the current version of xsuite.')
-                available_classes.append(cc)
+        module_tracker_element_names = kernel_metadata['tracker_element_classes']
+        module_class_names = kernel_metadata['classes']
+
+        if not set(requested_tracker_class_names) <= set(module_tracker_element_names):
             if verbose:
-                _print(f'Found suitable prebuilt kernel `{module_name}`.')
-            return module_name, available_classes
-        elif verbose:
-            class_diff = set(requested_class_names) - set(available_classes_names)
-            _print(f'The kernel `{module_name}` is unsuitable. It does not '
-                  f'provide the following requested classes: '
-                  f'{", ".join(class_diff)}.')
+                class_diff = set(requested_tracker_class_names) - set(module_tracker_element_names)
+                print(f'The kernel `{module_name}` is unsuitable. It does not '
+                      f'provide the following requested classes: '
+                      f'{", ".join(class_diff)}.')
+            continue
+
+        all_class_names = set(module_tracker_element_names) | set(module_class_names)
+        if not set(requested_class_names) <= all_class_names:
+            if verbose:
+                class_diff = set(requested_class_names) - all_class_names
+                print(f'The kernel `{module_name}` is unsuitable. It does not '
+                      f'provide the following requested classes: '
+                      f'{", ".join(class_diff)}.')
+                breakpoint()
+            continue
+
+        tracker_element_classes = []
+        for ccnn in module_tracker_element_names:
+            cc = NAME_CLASS_MAP.get(ccnn, None)
+            if cc is None:
+                raise ValueError(f'Class `{ccnn}` from kernel `{module_name}` is not available in the current version of xsuite.')
+            tracker_element_classes.append(cc)
+        if verbose:
+            print(f'Found suitable prebuilt kernel `{module_name}`.')
+        return {
+            'module_name': module_name,
+            'tracker_element_classes': tracker_element_classes,
+        }
 
     if verbose:
-        _print('==> No suitable precompiled kernel found.')
+        print('==> No suitable precompiled kernel found.')
 
 
 def regenerate_kernels(
@@ -258,7 +279,8 @@ def build_single_kernel(idx, total, location, metadata, module_name):
     save_kernel_metadata(
         module_name=module_name,
         config=tracker.config,
-        kernel_element_classes=tracker._tracker_data_base.kernel_element_classes,
+        tracker_element_classes=tracker._tracker_data_base.kernel_element_classes,
+        all_classes=all_classes,
         location=location,
     )
 
