@@ -45,7 +45,9 @@ kernel_definitions = [
     }),
 ]
 
-ALL_CLASSES = set()
+NAME_CLASS_MAP = {}
 for _, kernel_def in kernel_definitions:
-    ALL_CLASSES.update(kernel_def.get('classes', []))
-    ALL_CLASSES.update(kernel_def.get('extra_classes', []))
+    for cls in kernel_def.get('classes', []):
+        NAME_CLASS_MAP[cls.__name__] = cls
+    for cls in kernel_def.get('extra_classes', []):
+        NAME_CLASS_MAP[cls.__name__] = cls

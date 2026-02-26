@@ -20,7 +20,7 @@ from xtrack.general import _print
 from xtrack.prebuilt_kernel_definitions import XTRACK_ELEMENTS_INIT_DEFAULTS
 
 import xsuite as xs
-from xsuite.kernel_definitions import kernel_definitions, ALL_CLASSES
+from xsuite.kernel_definitions import kernel_definitions, NAME_CLASS_MAP
 
 XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 
@@ -28,13 +28,6 @@ BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_IN
                             | XCOLL_ELEMENTS_INIT_DEFAULTS
 
 
-def get_element_class_by_name(name: str) -> type:
-
-    for cls in ALL_CLASSES:
-        if cls.__name__ == name:
-            return cls
-
-    raise ValueError(f'No element class with name {name} available.')
 
 
 def save_kernel_metadata(
@@ -153,10 +146,12 @@ def get_suitable_kernel(
             _print(f'The kernel `{module_name}` has the right config.')
 
         if set(requested_class_names) <= set(available_classes_names):
-            available_classes = [
-                get_element_class_by_name(class_name)
-                for class_name in available_classes_names
-            ]
+            available_classes = []
+            for ccnn in available_classes_names:
+                cc = NAME_CLASS_MAP.get(ccnn, None)
+                if cc is None:
+                    raise ValueError(f'Class `{ccnn}` from kernel `{module_name}` is not available in the current version of xsuite.')
+                available_classes.append(cc)
             if verbose:
                 _print(f'Found suitable prebuilt kernel `{module_name}`.')
             return module_name, available_classes
