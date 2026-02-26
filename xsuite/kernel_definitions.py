@@ -31,13 +31,13 @@ kernel_definitions = [
     }),
     ('default_no_config', {
         'config': {},
-        'classes': [xt.Particles] + ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-        'extra_classes': EXTRA_XCOLL_ELEMENTS,
+        'classes': NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {
         'config': BASE_CONFIG,
-        'classes': [xt.Particles] + ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-        'extra_classes': EXTRA_XCOLL_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
