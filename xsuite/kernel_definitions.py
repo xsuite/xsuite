@@ -41,7 +41,8 @@ kernel_definitions = [
     }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
-        'classes': [xt.Particles] + ONLY_XTRACK_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS,
+        'extra_classes': [xt.Particles],
     }),
 ]
 
