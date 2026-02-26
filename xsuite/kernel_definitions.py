@@ -12,6 +12,8 @@ from xfields.prebuilt_kernel_definitions import NON_TRACKING_ELEMENTS as XFIELDS
 
 import xtrack as xt
 
+XTRACK_ELEMENTS = ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS
+
 
 LOGGER = logging.getLogger(__name__)
 
@@ -31,17 +33,23 @@ kernel_definitions = [
     }),
     ('default_no_config', {
         'config': {},
-        'classes': NO_SYNRAD_ELEMENTS + ONLY_XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {
         'config': BASE_CONFIG,
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
         'classes': ONLY_XTRACK_ELEMENTS,
+        'extra_classes': [xt.Particles],
+    }),
+    ('all_with_radiative', {
+        'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False,
+                   'XFIELDS_BB3D_NO_BEAMSTR': False, 'XFIELDS_BB3D_NO_BHABHA': False},
+        'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': [xt.Particles],
     }),
 ]
