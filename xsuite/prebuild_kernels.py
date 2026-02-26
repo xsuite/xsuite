@@ -234,13 +234,13 @@ def build_single_kernel(idx, total, location, metadata, module_name):
     tracker.config.update(config)
     tracker_classes = tracker._tracker_data_base.kernel_element_classes
     expected_classes = [getattr(el, '_XoStruct', el) for el in element_classes]
-    extra_classes.extend(ee for ee in expected_classes if ee not in tracker_classes)
+    all_extra_classes = extra_classes + [ee for ee in expected_classes if ee not in tracker_classes]
 
     # Get all kernels in the elements
     extra_kernels = {}
-    extra_classes = [getattr(el, '_XoStruct', el) for el in extra_classes]
+    extra_xostructs = [getattr(el, '_XoStruct', el) for el in all_extra_classes]
 
-    all_classes = tracker._tracker_data_base.kernel_element_classes + extra_classes
+    all_classes = tracker._tracker_data_base.kernel_element_classes + extra_xostructs
 
     assert len(set(all_classes)) == len(all_classes), 'Duplicate classes in kernel definition.'
 
@@ -251,7 +251,7 @@ def build_single_kernel(idx, total, location, metadata, module_name):
         module_name=module_name,
         containing_dir=location,
         compile='force',
-        extra_classes=extra_classes,
+        extra_classes=extra_xostructs,
         extra_kernels=extra_kernels,
     )
 
