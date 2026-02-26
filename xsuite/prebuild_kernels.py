@@ -259,8 +259,6 @@ def build_single_kernel(idx, total, location, metadata, module_name):
         extra_kernels=extra_kernels,
     )
 
-    all_classes = [cls for cls in all_classes if cls.__name__ != 'ParticlesData']
-
     save_kernel_metadata(
         module_name=module_name,
         config=tracker.config,
