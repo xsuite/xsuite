@@ -10,7 +10,7 @@ from xcoll.prebuilt_kernel_definitions import DEFAULT_XCOLL_ELEMENTS, EXTRA_XCOL
 from xfields.prebuilt_kernel_definitions import DEFAULT_XFIELDS_ELEMENTS
 from xfields.prebuilt_kernel_definitions import NON_TRACKING_ELEMENTS as XFIELDS_NON_TRACKING_ELEMENTS
 
-import xfields as xf
+import xtrack as xt
 
 
 LOGGER = logging.getLogger(__name__)
@@ -27,21 +27,21 @@ kernel_definitions = [
     ('non_tracking_kernels', {
         'config': {},
         'classes': [],
-        'extra_classes': NON_TRACKING_ELEMENTS + XFIELDS_NON_TRACKING_ELEMENTS,
+        'extra_classes': [xt.Particles] + NON_TRACKING_ELEMENTS + XFIELDS_NON_TRACKING_ELEMENTS,
     }),
     ('default_no_config', {
         'config': {},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': [xt.Particles] + ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': EXTRA_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {
         'config': BASE_CONFIG,
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': [xt.Particles] + ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': EXTRA_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
-        'classes': ONLY_XTRACK_ELEMENTS,
+        'classes': [xt.Particles] + ONLY_XTRACK_ELEMENTS,
     }),
 ]
 
