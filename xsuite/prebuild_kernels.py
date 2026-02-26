@@ -243,6 +243,8 @@ def build_single_kernel(idx, total, location, metadata, module_name):
 
     all_classes = tracker._tracker_data_base.kernel_element_classes + extra_classes
 
+    assert len(set(all_classes)) == len(all_classes), 'Duplicate classes in kernel definition.'
+
     for el in all_classes:
         extra_kernels.update(el._kernels)
 
@@ -257,7 +259,7 @@ def build_single_kernel(idx, total, location, metadata, module_name):
     save_kernel_metadata(
         module_name=module_name,
         config=tracker.config,
-        kernel_element_classes=all_classes,
+        kernel_element_classes=tracker._tracker_data_base.kernel_element_classes,
         location=location,
     )
 
