@@ -238,7 +238,6 @@ def build_single_kernel(idx, total, location, metadata, module_name):
 
     # Get all kernels in the elements
     extra_kernels = {}
-    extra_classes.append(xt.Particles)
     extra_classes = [getattr(el, '_XoStruct', el) for el in extra_classes]
 
     all_classes = tracker._tracker_data_base.kernel_element_classes + extra_classes
