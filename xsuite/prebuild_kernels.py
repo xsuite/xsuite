@@ -166,7 +166,6 @@ def get_suitable_kernel(
                 print(f'The kernel `{module_name}` is unsuitable. It does not '
                       f'provide the following requested classes: '
                       f'{", ".join(class_diff)}.')
-                breakpoint()
             continue
 
         tracker_element_classes = []
@@ -210,19 +209,23 @@ def regenerate_kernels(
             continue
         kernels_to_build.append((module_name, metadata))
 
-    thread_pool = Pool(processes=n_threads)
-    results = []
-    for idx, (module_name, metadata) in enumerate(kernels_to_build):
-        args = (idx, len(kernels_to_build), location, metadata, module_name)
-        result = thread_pool.apply_async(build_single_kernel, args=args)
-        results.append(result)
+    if n_threads == 0:
+         for idx, (module_name, metadata) in enumerate(kernels_to_build):
+            build_single_kernel(idx, len(kernels_to_build), location, metadata, module_name)
+    else:
+        thread_pool = Pool(processes=n_threads)
+        results = []
+        for idx, (module_name, metadata) in enumerate(kernels_to_build):
+            args = (idx, len(kernels_to_build), location, metadata, module_name)
+            result = thread_pool.apply_async(build_single_kernel, args=args)
+            results.append(result)
 
-    thread_pool.close()
-    thread_pool.join()
+        thread_pool.close()
+        thread_pool.join()
 
-    # Ensure no errors
-    for result in results:
-        result.get()
+        # Ensure no errors
+        for result in results:
+            result.get()
 
     _print(f'Built {len(kernels_to_build)} kernels.')
 
