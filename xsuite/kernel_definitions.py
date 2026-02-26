@@ -31,7 +31,7 @@ kernel_definitions = [
     }),
     ('default_no_config', {
         'config': {},
-        'classes': NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'classes': NO_SYNRAD_ELEMENTS + ONLY_XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {

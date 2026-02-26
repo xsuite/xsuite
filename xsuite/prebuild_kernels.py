@@ -55,7 +55,6 @@ def save_kernel_metadata(
     with out_file.open('w') as fd:
         json.dump(kernel_metadata, fd, indent=4)
 
-
 def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
     """
     Iterate over the prebuilt kernels compatible with the current version of
