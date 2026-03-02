@@ -20,7 +20,7 @@ from xtrack.general import _print
 from xtrack.prebuilt_kernel_definitions import XTRACK_ELEMENTS_INIT_DEFAULTS
 
 import xsuite as xs
-from xsuite.kernel_definitions import kernel_definitions
+from xsuite.kernel_definitions import kernel_definitions, NAME_CLASS_MAP
 
 XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 
@@ -28,24 +28,13 @@ BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_IN
                             | XCOLL_ELEMENTS_INIT_DEFAULTS
 
 
-def get_element_class_by_name(name: str) -> type:
-    extra_classes = (xt.MultiSetter, )
-
-    element_classes = (xt.element_classes + xt.rng_classes + xt.monitor_classes
-                       + xf.element_classes + xc.element_classes
-                       + extra_classes)
-
-    for cls in element_classes:
-        if cls.__name__ == name:
-            return cls
-
-    raise ValueError(f'No element class with name {name} available.')
 
 
 def save_kernel_metadata(
         module_name: str,
         config: dict,
-        kernel_element_classes,
+        tracker_element_classes,
+        all_classes,
         location,
 ):
     location = Path(location)
@@ -53,7 +42,8 @@ def save_kernel_metadata(
 
     kernel_metadata = {
         'config': config.data,
-        'classes': [cls._DressingClass.__name__ for cls in kernel_element_classes],
+        'tracker_element_classes': [cls._DressingClass.__name__ for cls in tracker_element_classes],
+        'classes': [getattr(cls, '_DressingClass', cls).__name__ for cls in all_classes],
         'versions': {
             'xtrack': xt.__version__,
             'xfields': xf.__version__,
@@ -64,7 +54,6 @@ def save_kernel_metadata(
 
     with out_file.open('w') as fd:
         json.dump(kernel_metadata, fd, indent=4)
-
 
 def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
     """
@@ -111,7 +100,8 @@ def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
 
 def get_suitable_kernel(
         config: dict,
-        line_element_classes,
+        tracker_element_classes,
+        classes,
         verbose=False,
 ) -> Optional[Tuple[str, list]]:
     """
@@ -123,22 +113,22 @@ def get_suitable_kernel(
     env_var = os.environ.get("XSUITE_PREBUILT_KERNELS")
     if env_var and env_var == '0':
         if verbose:
-            _print('Skipping the search for a suitable kernel, as the '
+            print('Skipping the search for a suitable kernel, as the '
                    'environment variable XSUITE_PREBUILT_KERNELS == "0".')
         return
 
     if os.environ.get("XSUITE_VERBOSE", None) is not None:
         verbose = True
 
-    requested_class_names = [
-        cls._DressingClass.__name__ for cls in line_element_classes
+    requested_tracker_class_names = [
+        cls._DressingClass.__name__ for cls in tracker_element_classes
     ]
+    requested_class_names = [getattr(cls, '_DressingClass', cls).__name__ for cls in classes]
 
     for module_name, kernel_metadata in enumerate_kernels(verbose=verbose):
         if verbose:
-            _print(f"==> Considering the precompiled kernel `{module_name}`...")
+            print(f"==> Considering the precompiled kernel `{module_name}`...")
 
-        available_classes_names = kernel_metadata['classes']
         if kernel_metadata['config'] != config:
             if verbose:
                 lhs = kernel_metadata['config']
@@ -146,33 +136,52 @@ def get_suitable_kernel(
                 config_diff = {kk: (lhs.get(kk), rhs.get(kk))
                                for kk in set(lhs.keys()) | set(rhs.keys())
                                if lhs.get(kk) != rhs.get(kk)}
-                _print(f'The kernel `{module_name}` is unsuitable. Its config '
+                print(f'The kernel `{module_name}` is unsuitable. Its config '
                       f'(left) and the requested one (right) differ at the '
                       f'following keys:\n'
                       f'{pformat(config_diff)}')
-                _print(f'Skipping class compatibility check for `{module_name}`.')
+                print(f'Skipping class compatibility check for `{module_name}`.')
 
             continue
 
         if verbose:
-            _print(f'The kernel `{module_name}` has the right config.')
+            print(f'The kernel `{module_name}` has the right config.')
 
-        if set(requested_class_names) <= set(available_classes_names):
-            available_classes = [
-                get_element_class_by_name(class_name)
-                for class_name in available_classes_names
-            ]
+        module_tracker_element_names = kernel_metadata['tracker_element_classes']
+        module_class_names = kernel_metadata['classes']
+
+        if not set(requested_tracker_class_names) <= set(module_tracker_element_names):
             if verbose:
-                _print(f'Found suitable prebuilt kernel `{module_name}`.')
-            return module_name, available_classes
-        elif verbose:
-            class_diff = set(requested_class_names) - set(available_classes_names)
-            _print(f'The kernel `{module_name}` is unsuitable. It does not '
-                  f'provide the following requested classes: '
-                  f'{", ".join(class_diff)}.')
+                class_diff = set(requested_tracker_class_names) - set(module_tracker_element_names)
+                print(f'The kernel `{module_name}` is unsuitable. It does not '
+                      f'provide the following requested classes: '
+                      f'{", ".join(class_diff)}.')
+            continue
+
+        all_class_names = set(module_tracker_element_names) | set(module_class_names)
+        if not set(requested_class_names) <= all_class_names:
+            if verbose:
+                class_diff = set(requested_class_names) - all_class_names
+                print(f'The kernel `{module_name}` is unsuitable. It does not '
+                      f'provide the following requested classes: '
+                      f'{", ".join(class_diff)}.')
+            continue
+
+        tracker_element_classes = []
+        for ccnn in module_tracker_element_names:
+            cc = NAME_CLASS_MAP.get(ccnn, None)
+            if cc is None:
+                raise ValueError(f'Class `{ccnn}` from kernel `{module_name}` is not available in the current version of xsuite.')
+            tracker_element_classes.append(cc)
+        if verbose:
+            print(f'Found suitable prebuilt kernel `{module_name}`.')
+        return {
+            'module_name': module_name,
+            'tracker_element_classes': tracker_element_classes,
+        }
 
     if verbose:
-        _print('==> No suitable precompiled kernel found.')
+        print('==> No suitable precompiled kernel found.')
 
 
 def regenerate_kernels(
@@ -199,19 +208,23 @@ def regenerate_kernels(
             continue
         kernels_to_build.append((module_name, metadata))
 
-    thread_pool = Pool(processes=n_threads)
-    results = []
-    for idx, (module_name, metadata) in enumerate(kernels_to_build):
-        args = (idx, len(kernels_to_build), location, metadata, module_name)
-        result = thread_pool.apply_async(build_single_kernel, args=args)
-        results.append(result)
+    if n_threads == 0:
+         for idx, (module_name, metadata) in enumerate(kernels_to_build):
+            build_single_kernel(idx, len(kernels_to_build), location, metadata, module_name)
+    else:
+        thread_pool = Pool(processes=n_threads)
+        results = []
+        for idx, (module_name, metadata) in enumerate(kernels_to_build):
+            args = (idx, len(kernels_to_build), location, metadata, module_name)
+            result = thread_pool.apply_async(build_single_kernel, args=args)
+            results.append(result)
 
-    thread_pool.close()
-    thread_pool.join()
+        thread_pool.close()
+        thread_pool.join()
 
-    # Ensure no errors
-    for result in results:
-        result.get()
+        # Ensure no errors
+        for result in results:
+            result.get()
 
     _print(f'Built {len(kernels_to_build)} kernels.')
 
@@ -228,27 +241,31 @@ def build_single_kernel(idx, total, location, metadata, module_name):
         warnings.filterwarnings('ignore', category=FutureWarning)
 
         elements = []
+        buffer = xo.context_default.new_buffer()
         for cls in element_classes:
             if cls.__name__ in BEAM_ELEMENTS_INIT_DEFAULTS:
-                element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__])
+                element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__],
+                              _buffer=buffer)
             else:
-                element = cls()
+                element = cls(_buffer=buffer)
             elements.append(element)
 
     line = xt.Line(elements=elements)
     tracker = xt.Tracker(line=line, compile=False, _prebuilding_kernels=True)
+    assert tracker.iscollective == False
     tracker.config.clear()
     tracker.config.update(config)
     tracker_classes = tracker._tracker_data_base.kernel_element_classes
     expected_classes = [getattr(el, '_XoStruct', el) for el in element_classes]
-    extra_classes.extend(ee for ee in expected_classes if ee not in tracker_classes)
+    all_extra_classes = extra_classes + [ee for ee in expected_classes if ee not in tracker_classes]
 
     # Get all kernels in the elements
     extra_kernels = {}
-    extra_classes.append(xt.Particles)
-    extra_classes = [getattr(el, '_XoStruct', el) for el in extra_classes]
+    extra_xostructs = [getattr(el, '_XoStruct', el) for el in all_extra_classes]
 
-    all_classes = tracker._tracker_data_base.kernel_element_classes + extra_classes
+    all_classes = tracker._tracker_data_base.kernel_element_classes + extra_xostructs
+
+    assert len(set(all_classes)) == len(all_classes), 'Duplicate classes in kernel definition.'
 
     for el in all_classes:
         extra_kernels.update(el._kernels)
@@ -257,16 +274,15 @@ def build_single_kernel(idx, total, location, metadata, module_name):
         module_name=module_name,
         containing_dir=location,
         compile='force',
-        extra_classes=extra_classes,
+        extra_classes=extra_xostructs,
         extra_kernels=extra_kernels,
     )
-
-    all_classes = [cls for cls in all_classes if cls.__name__ != 'ParticlesData']
 
     save_kernel_metadata(
         module_name=module_name,
         config=tracker.config,
-        kernel_element_classes=all_classes,
+        tracker_element_classes=tracker._tracker_data_base.kernel_element_classes,
+        all_classes=all_classes,
         location=location,
     )
 

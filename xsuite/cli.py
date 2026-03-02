@@ -11,7 +11,7 @@ from xsuite.prebuild_kernels import (
 
 
 def regenerate_command(args):
-    n_threads = None if args.threads == 0 else args.threads
+    n_threads = args.threads
     regenerate_kernels(n_threads=n_threads)
 
 

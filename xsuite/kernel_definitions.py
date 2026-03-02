@@ -8,6 +8,11 @@ from xtrack.prebuilt_kernel_definitions import (ONLY_XTRACK_ELEMENTS,
                                     NO_SYNRAD_ELEMENTS, NON_TRACKING_ELEMENTS)
 from xcoll.prebuilt_kernel_definitions import DEFAULT_XCOLL_ELEMENTS, EXTRA_XCOLL_ELEMENTS
 from xfields.prebuilt_kernel_definitions import DEFAULT_XFIELDS_ELEMENTS
+from xfields.prebuilt_kernel_definitions import NON_TRACKING_ELEMENTS as XFIELDS_NON_TRACKING_ELEMENTS
+
+import xtrack as xt
+
+XTRACK_ELEMENTS = ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS
 
 
 LOGGER = logging.getLogger(__name__)
@@ -24,20 +29,34 @@ kernel_definitions = [
     ('non_tracking_kernels', {
         'config': {},
         'classes': [],
-        'extra_classes': NON_TRACKING_ELEMENTS
+        'extra_classes': [xt.Particles] + NON_TRACKING_ELEMENTS + XFIELDS_NON_TRACKING_ELEMENTS,
     }),
     ('default_no_config', {
         'config': {},
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-        'extra_classes': EXTRA_XCOLL_ELEMENTS,
+        'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
     ('default_base_config', {
         'config': BASE_CONFIG,
-        'classes': ONLY_XTRACK_ELEMENTS + NO_SYNRAD_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
-        'extra_classes': EXTRA_XCOLL_ELEMENTS,
+        'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
     ('only_xtrack_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
         'classes': ONLY_XTRACK_ELEMENTS,
+        'extra_classes': [xt.Particles],
+    }),
+    ('all_with_radiative', {
+        'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False,
+                   'XFIELDS_BB3D_NO_BEAMSTR': False, 'XFIELDS_BB3D_NO_BHABHA': False},
+        'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
+        'extra_classes': [xt.Particles],
     }),
 ]
+
+NAME_CLASS_MAP = {}
+for _, kernel_def in kernel_definitions:
+    for cls in kernel_def.get('classes', []):
+        NAME_CLASS_MAP[cls.__name__] = cls
+    for cls in kernel_def.get('extra_classes', []):
+        NAME_CLASS_MAP[cls.__name__] = cls
