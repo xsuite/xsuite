@@ -30,7 +30,7 @@ dependencies = [
 <<<<<<< HEAD
     "xfields==0.25.14",
 =======
-    "xfields==0.25.13",
+    "xfields==0.25.14",
 >>>>>>> 3e2b5b0f2df2e42130beca37847a62e773ddd9fc
     "xcoll==0.9.10",
     "xobjects==0.5.14",
