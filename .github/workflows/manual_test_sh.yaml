@@ -33,7 +33,7 @@ on:
         required: false
       platform:
         description: platform
-        default: 'ubuntu'
+        default: 'alma2'
         required: true
       suites:
         description: test suites (JSON array string)

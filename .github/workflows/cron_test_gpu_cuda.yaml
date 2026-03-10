@@ -14,6 +14,6 @@ jobs:
     uses: ./.github/workflows/test_sh.yaml
     with:
       test_contexts: 'ContextCupy'
-      platform: 'ubuntu'
+      platform: 'alma2'
       suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
       pytest_options: '-m context_dependent'

@@ -59,6 +59,12 @@ jobs:
       - id: checkout-repo
         name: Checkout the repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check that git is installed
+        run: |
+          command -v git
+          git --version
       - id: build-image
         name: Build the test image
         run: |
