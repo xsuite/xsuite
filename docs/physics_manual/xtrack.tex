@@ -15,7 +15,7 @@ This section is adapted from \cite{madsite}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.80\textwidth]{figures/local_frame.png}
+  \includegraphics[width=0.80\textwidth, trim={0cm 2cm 0cm 1cm}, clip]{figures/local_frame.png}
   \caption{Local Reference System}
   \label{fig:local-frame}
 \end{figure}
@@ -578,7 +578,7 @@ $H_{K0h} = \chi h K_0  \frac{x^2}{2}$\\
 K1h & $K_1$, $h$      & Quad curv. correction & 
 $H_{K1h} = \chi h K_1 \frac{2 x^3 - 3 xy^2}{6}$\\
 Kn  & $K_n$, $\hat{K}_n$     & Multipole & 
-$H_{Kn} = -\chi \Re\left( \sum_{n=0}^N (K_n+i{\hat K}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
+$H_{Kn} = \chi \Re\left( \sum_{n=0}^N (K_n+i{\hat K}_n)\frac{(x+iy)^{n+1}}{(n+1)!}\right)$
 \\
 % Knh & kn, ks, h  & Curved Multipoles & 
 % Not yet available\\
