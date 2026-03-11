@@ -37,7 +37,7 @@ run_pytest() {
 }
 
 # Use multithreading if on cpu context and not xmask
-if [[ $XOBJECTS_TEST_CONTEXTS =~ "ContextCpu" ]] && [[ ! $* =~ xsuite/(xmask|xcoll) ]]; then
+if [[ ! $XOBJECTS_TEST_CONTEXTS =~ Context(Cupy|Pyopencl) ]] && [[ ! $* =~ xsuite/(xmask|xcoll) ]]; then
   pip install pytest-xdist
   PYTEST_OPTS="$PYTEST_OPTS -nauto"
 fi
