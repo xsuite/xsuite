@@ -487,9 +487,9 @@ See also the :ref:`misalignment section <misalignment_example_label>` in User's 
    * - :math:`\Delta \psi`
      - ``rot_s_rad`` or ``rot_s_rad_no_frame``
    * - :math:`\Delta \theta`
-     - ``rot_x_rad``
-   * - :math:`\Delta \phi`
      - ``rot_y_rad``
+   * - :math:`\Delta \phi`
+     - ``rot_x_rad``
    * - :math:`\Delta x`
      - ``shift_x``
    * - :math:`\Delta y`
