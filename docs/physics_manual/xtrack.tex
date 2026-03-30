@@ -2032,7 +2032,7 @@ p_{\tau,\rm new} &= \frac{p_{\tau,\rm old}\, P_{0,\rm old}\,c + E_{0,\rm old} - 
 \end{align}
 
 
-\chapter{Misalignments}
+\chapter{Misalignments}\label{chapter:misalignments}
 
 \section{Definitions}\label{section:definitions}
 
@@ -4037,20 +4037,20 @@ The change in action (see Eq.\,\ref{eq:action}) associated to the first mode, du
 
 Averaging over all particles in the beam we obtain:
 \begin{align}
-\Delta \varepsilon_x = <\Delta J_x> = 
-\frac{1}{2}\left( <\Delta \hat{x}^2> + <\Delta \hat{p}_{x}^2> \right)
+\Delta \varepsilon_x = \langle\Delta J_x\rangle = 
+\frac{1}{2}\left( \langle\Delta \hat{x}^2\rangle + \langle\Delta \hat{p}_{x}^2\rangle \right)
 \end{align}
 
 Using Eqs.\,\ref{eq:sr_dxhat} and \ref{eq:sr_dxphat} we obtain:
 \begin{align}
-\Delta \varepsilon_x = <\Delta J_x> = 
-\frac{1}{2}\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\Delta \delta^2>
+\Delta \varepsilon_x = \langle\Delta J_x\rangle = 
+\frac{1}{2}\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\Delta \delta^2\rangle
 \end{align}
 
 Assuming that the kicks are uncorrelated we can obtain the emittance growth rate from quantum excitation integrating over a full turn:
 \begin{align}
 \left(\frac {d\varepsilon_x}{dt} \right)_\text{quant}= 
-\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\dot{N} \Delta \delta^2\rangle \,ds
 \label{eq:grate_quantum}
 \end{align}
 where $\dot{N}$ is the photon emission rate (number of photons per unit time), $T_0$ is the revolution period, C is the circumference.
@@ -4064,20 +4064,20 @@ By summing Eqs.\,\ref{eq:grate_rad_damp} and \ref{eq:grate_quantum} we obtain th
 =
 - \frac{2\alpha_x}{T_0}  \varepsilon_x
 +
-\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\dot{N} \Delta \delta^2\rangle \,ds
 \end{align}
 
 By imposing the derivative to be zero we obtain the value of the equilibrium emittance:
 \begin{align}
 \varepsilon_x= 
-\frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)<\dot{N} \Delta \delta^2> \,ds
+\frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\dot{N} \Delta \delta^2\rangle \,ds
 \label{eq:equilemi1}
 \end{align}
 
 In the ultra-relativistic approximation:
 \begin{align}
-<\dot{N} \Delta \delta^2> = 
-\frac{<\dot{N} (\Delta E)^2>}{E_0^2}
+\langle\dot{N} \Delta \delta^2\rangle = 
+\frac{\langle\dot{N} (\Delta E)^2\rangle}{E_0^2}
 \label{eq:equilemi2}
 \end{align}
 
@@ -5225,3 +5225,6 @@ and from Eq.\,\ref{eq:tndef} (with $s=0$) we obtain:\begin{equation}
 t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
 \end{equation}
 which is what we wanted to prove.
+
+
+\include{aperture.tex}
