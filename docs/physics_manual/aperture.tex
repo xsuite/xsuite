@@ -259,9 +259,9 @@ In particular, \lstinline{halo_params} define the following beam parameters:
 \end{itemize}
 The optical beam sizes for a one-betatron sigma beam are given by
 \[
-\sigma_x = \sqrt{\frac{\varepsilon_{x,\mathrm{n}}}{\gamma}\beta_x} \cdot f_\beta,
+\sigma_x = \sqrt{\frac{\varepsilon_{x,\mathrm{n}}}{\gamma_r\beta_r}\beta_x} \cdot f_\beta,
 \qquad
-\sigma_y = \sqrt{\frac{\varepsilon_{y,\mathrm{n}}}{\gamma}\beta_y} \cdot f_\beta.
+\sigma_y = \sqrt{\frac{\varepsilon_{y,\mathrm{n}}}{\gamma_r\beta_r}\beta_y} \cdot f_\beta.
 \]
 We model the beam as a racetrack of shape determined by the parameters $h_x$, $h_y$, and $h_r$.
 To obtain the modelled $n$-sigma beam envelope in metres, the racetrack defined by the above parameters is scaled by $(n\sigma_x, n\sigma_y)$:
