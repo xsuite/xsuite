@@ -454,7 +454,7 @@ We recommend installing Xsuite inside a conda environment:
     curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-$(uname -m).sh
     bash Miniforge3-MacOSX-$(uname -m).sh
     source miniforge3/bin/activate
-    conda create -n xsuite_env python=3.11  # or your preferred version
+    conda create -n xsuite_env python=3.13  # or your preferred version
     conda activate xsuite_env
     conda install compilers
     pip install numpy scipy matplotlib pandas ipython pytest
