@@ -73,6 +73,12 @@ import xpart
 import xdeps
 import xwakes
 
+# Regenerate line API page at every docs build.
+_docs_dir = os.path.dirname(os.path.abspath(__file__))
+_line_rst = os.path.join(_docs_dir, "line.rst")
+with open(_line_rst, "w") as _fid:
+    _fid.write(xtrack.generate_line_rst())
+
 ### GENERATE code snippets
 snippet_files = {
     'xpart/examples/particles_generation/000_basics.py':
