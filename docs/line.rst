@@ -26,6 +26,8 @@ Members - short description
    }
    </style>
 
+.. _line-api-line-editing-summary:
+
 .. list-table:: :ref:`Line Editing <line-api-line-editing>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -77,6 +79,8 @@ Members - short description
    * - :ref:`elements <line-api-line-editing-property-elements>`
      - Tuple-like container of element-object views in line order.
 
+.. _line-api-compose-mode-summary:
+
 .. list-table:: :ref:`Compose Mode <line-api-compose-mode>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -97,6 +101,8 @@ Members - short description
      - Builder used when the line is in ``compose`` mode.
    * - :ref:`mode <line-api-compose-mode-property-mode>`
      - Current line mode.
+
+.. _line-api-inspection-variables-and-configuration-summary:
 
 .. list-table:: :ref:`Inspection, Variables and Configuration <line-api-inspection-variables-and-configuration>`
    :class: line-api-summary-table
@@ -149,6 +155,8 @@ Members - short description
    * - :ref:`varval <line-api-inspection-variables-and-configuration-property-varval>`
      - Convenience accessor to variable values.
 
+.. _line-api-reference-particle-and-particle-generation-summary:
+
 .. list-table:: :ref:`Reference Particle and Particle Generation <line-api-reference-particle-and-particle-generation>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -163,6 +171,8 @@ Members - short description
      - Set the reference particle of the line. See `particle_​ref` property.
    * - :ref:`particle_​ref <line-api-reference-particle-and-particle-generation-property-particle-ref>`
      - Reference particle used by the line for optics and tracking defaults.
+
+.. _line-api-tracking-and-analysis-summary:
 
 .. list-table:: :ref:`Tracking and Analysis <line-api-tracking-and-analysis>`
    :class: line-api-summary-table
@@ -215,6 +225,8 @@ Members - short description
    * - :ref:`twiss_​default <line-api-tracking-and-analysis-property-twiss-default>`
      - Default options used by Twiss-related computations.
 
+.. _line-api-matching-and-corrections-summary:
+
 .. list-table:: :ref:`Matching and Corrections <line-api-matching-and-corrections>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -244,6 +256,8 @@ Members - short description
    * - :ref:`steering_​monitors_​y <line-api-matching-and-corrections-property-steering-monitors-y>`
      - Names of vertical trajectory monitors used by trajectory correction.
 
+.. _line-api-magnet-model-configuration-summary:
+
 .. list-table:: :ref:`Magnet Model Configuration <line-api-magnet-model-configuration>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -262,6 +276,8 @@ Members - short description
      - Configure the model for all quadrupoles in the line.
    * - :ref:`configure_​sextupole_​model(...) <line-api-magnet-model-configuration-method-configure-sextupole-model>`
      - Configure the model for all sextupoles in the line.
+
+.. _line-api-radiation-spin-and-intra-beam-scattering-summary:
 
 .. list-table:: :ref:`Radiation, Spin and Intra-Beam Scattering <line-api-radiation-spin-and-intra-beam-scattering>`
    :class: line-api-summary-table
@@ -284,6 +300,8 @@ Members - short description
    * - :ref:`scattering <line-api-radiation-spin-and-intra-beam-scattering-property-scattering>`
      - Interface to Xcoll scattering tools for this line.
 
+.. _line-api-energy-longitudinal-state-summary:
+
 .. list-table:: :ref:`Energy & Longitudinal State <line-api-energy-longitudinal-state>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -296,6 +314,8 @@ Members - short description
      - Freeze energy in tracked Particles objects.
    * - :ref:`freeze_​longitudinal(...) <line-api-energy-longitudinal-state-method-freeze-longitudinal>`
      - Freeze longitudinal coordinates in tracked Particles objects.
+
+.. _line-api-tracker-setup-summary:
 
 .. list-table:: :ref:`Tracker Setup <line-api-tracker-setup>`
    :class: line-api-summary-table
@@ -319,6 +339,8 @@ Members - short description
      - Whether end-turn actions are skipped during tracking.
    * - :ref:`tracker <line-api-tracker-setup-property-tracker>`
      - Tracker associated with this line, if built.
+
+.. _line-api-constructors-and-serialization-summary:
 
 .. list-table:: :ref:`Constructors and Serialization <line-api-constructors-and-serialization>`
    :class: line-api-summary-table
@@ -345,6 +367,8 @@ Members - short description
    * - :ref:`to_​madx_​sequence(...) <line-api-constructors-and-serialization-method-to-madx-sequence>`
      - Return a MAD-X sequence corresponding to the line.
 
+.. _line-api-element-internal-logging-summary:
+
 .. list-table:: :ref:`Element Internal Logging <line-api-element-internal-logging>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -359,6 +383,8 @@ Members - short description
      - Stop internal logging for all elements.
    * - :ref:`stop_​internal_​logging_​for_​elements_​of_​type(...) <line-api-element-internal-logging-method-stop-internal-logging-for-elements-of-type>`
      - Stop internal logging for all elements of a given type.
+
+.. _line-api-cleanup-and-simplification-summary:
 
 .. list-table:: :ref:`Cleanup and Simplification <line-api-cleanup-and-simplification>`
    :class: line-api-summary-table
@@ -387,6 +413,8 @@ Members - short description
    * - :ref:`use_​simple_​quadrupoles(...) <line-api-cleanup-and-simplification-method-use-simple-quadrupoles>`
      - Replace multipoles having only the normal quadrupolar component with quadrupole elements. The element is not replaced when synchrotron radiation is active.
 
+.. _line-api-mad-ng-integration-summary:
+
 .. list-table:: :ref:`MAD-NG Integration <line-api-mad-ng-integration>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -406,6 +434,8 @@ Members - short description
    * - :ref:`regen_​madng_​model(...) <line-api-mad-ng-integration-method-regen-madng-model>`
      - Regenerate the MAD-NG model associated with this line.
 
+.. _line-api-deprecated-methods-summary:
+
 .. list-table:: :ref:`Deprecated Methods <line-api-deprecated-methods>`
    :class: line-api-summary-table
    :header-rows: 1
@@ -424,6 +454,8 @@ Members - short description
      - Insert an element in the line.
    * - :ref:`unfreeze(...) <line-api-deprecated-methods-method-unfreeze>`
      - Use :meth:`Line.discard_​tracker` instead.
+
+.. _line-api-upcoming-deprecations-summary:
 
 .. list-table:: :ref:`Upcoming Deprecations <line-api-upcoming-deprecations>`
    :class: line-api-summary-table
@@ -464,6 +496,8 @@ Members - full description
 
 Line Editing
 ~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-line-editing-summary>`
 
 .. _line-api-line-editing-methods:
 
@@ -558,6 +592,8 @@ Line Editing
 Compose Mode
 ~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-compose-mode-summary>`
+
 .. _line-api-compose-mode-methods:
 
 .. _line-api-compose-mode-method-end-compose:
@@ -590,6 +626,8 @@ Compose Mode
 
 Inspection, Variables and Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-inspection-variables-and-configuration-summary>`
 
 .. _line-api-inspection-variables-and-configuration-methods:
 
@@ -684,6 +722,8 @@ Inspection, Variables and Configuration
 Reference Particle and Particle Generation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-reference-particle-and-particle-generation-summary>`
+
 .. _line-api-reference-particle-and-particle-generation-methods:
 
 .. _line-api-reference-particle-and-particle-generation-method-build-particles:
@@ -704,6 +744,8 @@ Reference Particle and Particle Generation
 
 Tracking and Analysis
 ~~~~~~~~~~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-tracking-and-analysis-summary>`
 
 .. _line-api-tracking-and-analysis-methods:
 
@@ -798,6 +840,8 @@ Tracking and Analysis
 Matching and Corrections
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-matching-and-corrections-summary>`
+
 .. _line-api-matching-and-corrections-methods:
 
 .. _line-api-matching-and-corrections-method-correct-trajectory:
@@ -847,6 +891,8 @@ Matching and Corrections
 Magnet Model Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-magnet-model-configuration-summary>`
+
 .. _line-api-magnet-model-configuration-methods:
 
 .. _line-api-magnet-model-configuration-method-configure-bend-model:
@@ -873,6 +919,8 @@ Magnet Model Configuration
 
 Radiation, Spin and Intra-Beam Scattering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-radiation-spin-and-intra-beam-scattering-summary>`
 
 .. _line-api-radiation-spin-and-intra-beam-scattering-methods:
 
@@ -907,6 +955,8 @@ Radiation, Spin and Intra-Beam Scattering
 Energy & Longitudinal State
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-energy-longitudinal-state-summary>`
+
 .. _line-api-energy-longitudinal-state-methods:
 
 .. _line-api-energy-longitudinal-state-method-freeze-energy:
@@ -921,6 +971,8 @@ Energy & Longitudinal State
 
 Tracker Setup
 ~~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-tracker-setup-summary>`
 
 .. _line-api-tracker-setup-methods:
 
@@ -958,6 +1010,8 @@ Tracker Setup
 
 Constructors and Serialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-constructors-and-serialization-summary>`
 
 .. _line-api-constructors-and-serialization-methods:
 
@@ -998,6 +1052,8 @@ Constructors and Serialization
 Element Internal Logging
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-element-internal-logging-summary>`
+
 .. _line-api-element-internal-logging-methods:
 
 .. _line-api-element-internal-logging-method-start-internal-logging-for-elements-of-type:
@@ -1016,6 +1072,8 @@ Element Internal Logging
 
 Cleanup and Simplification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-cleanup-and-simplification-summary>`
 
 .. _line-api-cleanup-and-simplification-methods:
 
@@ -1060,6 +1118,8 @@ Cleanup and Simplification
 MAD-NG Integration
 ~~~~~~~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-mad-ng-integration-summary>`
+
 .. _line-api-mad-ng-integration-methods:
 
 .. _line-api-mad-ng-integration-method-build-madng-model:
@@ -1087,6 +1147,8 @@ MAD-NG Integration
 Deprecated Methods
 ~~~~~~~~~~~~~~~~~~
 
+Go to :ref:`Summary table <line-api-deprecated-methods-summary>`
+
 .. _line-api-deprecated-methods-methods:
 
 .. _line-api-deprecated-methods-method-append-element:
@@ -1113,6 +1175,8 @@ Deprecated Methods
 
 Upcoming Deprecations
 ~~~~~~~~~~~~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-upcoming-deprecations-summary>`
 
 .. _line-api-upcoming-deprecations-methods:
 
