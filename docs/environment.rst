@@ -34,107 +34,300 @@ Members - short description
 
    * - Member
      - Description
-   * - lines
-     - TBD
-   * - ref
-     - TBD
-   * - metadata
-     - TBD
-   * - new(...)
-     - Create a new element or line.
-   * - new_​particle(...)
-     - Associate a particle type to a name. The particle is stored in Environment.particles, its properties can be controlled with deferred expressions and it can be used as reference particle for lines.
-   * - new_​line(...)
-     - Create a new line.
-   * - place(...)
-     - Create a place object.
-   * - new_​builder(...)
-     - Deprecated. Create a new builder.
-   * - call(...)
-     - Call a file with xtrack commands.
-   * - copy(...)
-     - TBD
-   * - copy_​element_​from(...)
-     - Copy an element from another environment.
-   * - replace_​replica(...)
-     - TBD
-   * - import_​line(...)
-     - Import a line into this environment.
-   * - discard_​trackers(...)
-     - Discard all trackers in all lines of the environment.
-   * - to_​dict(...)
-     - TBD
-   * - from_​dict(...)
-     - TBD
-   * - from_​json(...)
-     - Constructs an environment from a JSON file.
-   * - to_​json(...)
-     - Save the environment to a json file.
-   * - from_​madx(...)
-     - Load a multiline from a MAD-X file.
-   * - elements
-     - TBD
-   * - particles
-     - TBD
-   * - set_​particle_​ref(...)
-     - TBD
-   * - particle_​ref
-     - TBD
-   * - line_​names
-     - TBD
-   * - functions
-     - TBD
-   * - set_​multipolar_​errors(...)
-     - Deprecated: set multipolar errors for specified elements of the environment.
-   * - element_​dict
-     - TBD
-   * - vars
-     - TBD
-   * - varval
-     - TBD
-   * - vv
-     - TBD
-   * - eval(...)
-     - Get the value of an expression
-   * - element_​refs
-     - TBD
-   * - remove(...)
-     - TBD
-   * - set(...)
-     - Set the values or expressions of variables or element properties. A single call can set one or multiple variables or elements.
-   * - get(...)
-     - Get an element or the value of a variable.
-   * - info(...)
-     - Get information about an element or a variable.
-   * - get_​expr(...)
-     - Get expression associated to a variable
-   * - new_​expr(...)
-     - Create a new expression
-   * - extend_​knl_​ksl(...)
-     - Extend the order of the knl and ksl attributes of the elements.
-   * - extend_​knl_​rel_​ksl_​rel(...)
-     - Extend the order of the rel_​knl and rel_​ksl attributes of the elements.
-   * - ref_​manager
-     - TBD
-   * - twiss(...)
-     - Compute the twiss parameters for the lines.
-   * - build_​trackers(...)
-     - Build the trackers for the lines.
-   * - match(...)
-     - Change a set of knobs in the beam lines in order to match assigned targets.
-   * - match_​knob(...)
-     - Match a new knob in the beam line such that the specified targets are matched when the knob is set to the value `knob_​value_​end` and the state of the line before tha matching is recovered when the knob is set to the value `knob_​value_​start`.
-   * - install_​beambeam_​interactions(...)
-     - Install beam-beam elements in the lines. Elements are inserted in the lines in the appropriate positions. They are not configured and are kept inactive.
-   * - configure_​beambeam_​interactions(...)
-     - Configure the beam-beam elements in the lines.
-   * - apply_​filling_​pattern(...)
+   * - :ref:`apply_​filling_​pattern(...) <class-api-environment-method-apply-filling-pattern>`
      - Enable only he beam-beam elements corresponding to actual encounters for the given filling pattern and the selected bunches.
+   * - :ref:`build_​trackers(...) <class-api-environment-method-build-trackers>`
+     - Build the trackers for the lines.
+   * - :ref:`call(...) <class-api-environment-method-call>`
+     - Call a file with xtrack commands.
+   * - :ref:`configure_​beambeam_​interactions(...) <class-api-environment-method-configure-beambeam-interactions>`
+     - Configure the beam-beam elements in the lines.
+   * - :ref:`copy(...) <class-api-environment-method-copy>`
+     - TBD
+   * - :ref:`copy_​element_​from(...) <class-api-environment-method-copy-element-from>`
+     - Copy an element from another environment.
+   * - :ref:`discard_​trackers(...) <class-api-environment-method-discard-trackers>`
+     - Discard all trackers in all lines of the environment.
+   * - :ref:`element_​dict <class-api-environment-property-element-dict>`
+     - TBD
+   * - :ref:`element_​refs <class-api-environment-property-element-refs>`
+     - TBD
+   * - :ref:`elements <class-api-environment-property-elements>`
+     - TBD
+   * - :ref:`eval(...) <class-api-environment-method-eval>`
+     - Get the value of an expression
+   * - :ref:`extend_​knl_​ksl(...) <class-api-environment-method-extend-knl-ksl>`
+     - Extend the order of the knl and ksl attributes of the elements.
+   * - :ref:`extend_​knl_​rel_​ksl_​rel(...) <class-api-environment-method-extend-knl-rel-ksl-rel>`
+     - Extend the order of the rel_​knl and rel_​ksl attributes of the elements.
+   * - :ref:`from_​dict(...) <class-api-environment-method-from-dict>`
+     - TBD
+   * - :ref:`from_​json(...) <class-api-environment-method-from-json>`
+     - Constructs an environment from a JSON file.
+   * - :ref:`from_​madx(...) <class-api-environment-method-from-madx>`
+     - Load a multiline from a MAD-X file.
+   * - :ref:`functions <class-api-environment-property-functions>`
+     - TBD
+   * - :ref:`get(...) <class-api-environment-method-get>`
+     - Get an element or the value of a variable.
+   * - :ref:`get_​expr(...) <class-api-environment-method-get-expr>`
+     - Get expression associated to a variable
+   * - :ref:`import_​line(...) <class-api-environment-method-import-line>`
+     - Import a line into this environment.
+   * - :ref:`info(...) <class-api-environment-method-info>`
+     - Get information about an element or a variable.
+   * - :ref:`install_​beambeam_​interactions(...) <class-api-environment-method-install-beambeam-interactions>`
+     - Install beam-beam elements in the lines. Elements are inserted in the lines in the appropriate positions. They are not configured and are kept inactive.
+   * - :ref:`line_​names <class-api-environment-property-line-names>`
+     - TBD
+   * - :ref:`lines <class-api-environment-property-lines>`
+     - TBD
+   * - :ref:`match(...) <class-api-environment-method-match>`
+     - Change a set of knobs in the beam lines in order to match assigned targets.
+   * - :ref:`match_​knob(...) <class-api-environment-method-match-knob>`
+     - Match a new knob in the beam line such that the specified targets are matched when the knob is set to the value `knob_​value_​end` and the state of the line before tha matching is recovered when the knob is set to the value `knob_​value_​start`.
+   * - :ref:`metadata <class-api-environment-property-metadata>`
+     - TBD
+   * - :ref:`new(...) <class-api-environment-method-new>`
+     - Create a new element or line.
+   * - :ref:`new_​builder(...) <class-api-environment-method-new-builder>`
+     - Deprecated. Create a new builder.
+   * - :ref:`new_​expr(...) <class-api-environment-method-new-expr>`
+     - Create a new expression
+   * - :ref:`new_​line(...) <class-api-environment-method-new-line>`
+     - Create a new line.
+   * - :ref:`new_​particle(...) <class-api-environment-method-new-particle>`
+     - Associate a particle type to a name. The particle is stored in Environment.particles, its properties can be controlled with deferred expressions and it can be used as reference particle for lines.
+   * - :ref:`particle_​ref <class-api-environment-property-particle-ref>`
+     - TBD
+   * - :ref:`particles <class-api-environment-property-particles>`
+     - TBD
+   * - :ref:`place(...) <class-api-environment-method-place>`
+     - Create a place object.
+   * - :ref:`ref <class-api-environment-property-ref>`
+     - TBD
+   * - :ref:`ref_​manager <class-api-environment-property-ref-manager>`
+     - TBD
+   * - :ref:`remove(...) <class-api-environment-method-remove>`
+     - TBD
+   * - :ref:`replace_​replica(...) <class-api-environment-method-replace-replica>`
+     - TBD
+   * - :ref:`set(...) <class-api-environment-method-set>`
+     - Set the values or expressions of variables or element properties. A single call can set one or multiple variables or elements.
+   * - :ref:`set_​multipolar_​errors(...) <class-api-environment-method-set-multipolar-errors>`
+     - Deprecated: set multipolar errors for specified elements of the environment.
+   * - :ref:`set_​particle_​ref(...) <class-api-environment-method-set-particle-ref>`
+     - TBD
+   * - :ref:`to_​dict(...) <class-api-environment-method-to-dict>`
+     - TBD
+   * - :ref:`to_​json(...) <class-api-environment-method-to-json>`
+     - Save the environment to a json file.
+   * - :ref:`twiss(...) <class-api-environment-method-twiss>`
+     - Compute the twiss parameters for the lines.
+   * - :ref:`vars <class-api-environment-property-vars>`
+     - TBD
+   * - :ref:`varval <class-api-environment-property-varval>`
+     - TBD
+   * - :ref:`vv <class-api-environment-property-vv>`
+     - TBD
 
 Members - full description
 --------------------------
 
-.. autoclass:: xtrack.environment.Environment
-    :members:
-    :member-order: bysource
+.. _class-api-environment:
+
+Environment
+~~~~~~~~~~~
+
+.. _class-api-environment-method-apply-filling-pattern:
+
+.. automethod:: xtrack.environment.Environment.apply_filling_pattern
+
+.. _class-api-environment-method-build-trackers:
+
+.. automethod:: xtrack.environment.Environment.build_trackers
+
+.. _class-api-environment-method-call:
+
+.. automethod:: xtrack.environment.Environment.call
+
+.. _class-api-environment-method-configure-beambeam-interactions:
+
+.. automethod:: xtrack.environment.Environment.configure_beambeam_interactions
+
+.. _class-api-environment-method-copy:
+
+.. automethod:: xtrack.environment.Environment.copy
+
+.. _class-api-environment-method-copy-element-from:
+
+.. automethod:: xtrack.environment.Environment.copy_element_from
+
+.. _class-api-environment-method-discard-trackers:
+
+.. automethod:: xtrack.environment.Environment.discard_trackers
+
+.. _class-api-environment-property-element-dict:
+
+.. autoproperty:: xtrack.environment.Environment.element_dict
+
+.. _class-api-environment-property-element-refs:
+
+.. autoproperty:: xtrack.environment.Environment.element_refs
+
+.. _class-api-environment-property-elements:
+
+.. autoproperty:: xtrack.environment.Environment.elements
+
+.. _class-api-environment-method-eval:
+
+.. automethod:: xtrack.environment.Environment.eval
+
+.. _class-api-environment-method-extend-knl-ksl:
+
+.. automethod:: xtrack.environment.Environment.extend_knl_ksl
+
+.. _class-api-environment-method-extend-knl-rel-ksl-rel:
+
+.. automethod:: xtrack.environment.Environment.extend_knl_rel_ksl_rel
+
+.. _class-api-environment-method-from-dict:
+
+.. automethod:: xtrack.environment.Environment.from_dict
+
+.. _class-api-environment-method-from-json:
+
+.. automethod:: xtrack.environment.Environment.from_json
+
+.. _class-api-environment-method-from-madx:
+
+.. automethod:: xtrack.environment.Environment.from_madx
+
+.. _class-api-environment-property-functions:
+
+.. autoproperty:: xtrack.environment.Environment.functions
+
+.. _class-api-environment-method-get:
+
+.. automethod:: xtrack.environment.Environment.get
+
+.. _class-api-environment-method-get-expr:
+
+.. automethod:: xtrack.environment.Environment.get_expr
+
+.. _class-api-environment-method-import-line:
+
+.. automethod:: xtrack.environment.Environment.import_line
+
+.. _class-api-environment-method-info:
+
+.. automethod:: xtrack.environment.Environment.info
+
+.. _class-api-environment-method-install-beambeam-interactions:
+
+.. automethod:: xtrack.environment.Environment.install_beambeam_interactions
+
+.. _class-api-environment-property-line-names:
+
+.. autoproperty:: xtrack.environment.Environment.line_names
+
+.. _class-api-environment-property-lines:
+
+.. autoproperty:: xtrack.environment.Environment.lines
+
+.. _class-api-environment-method-match:
+
+.. automethod:: xtrack.environment.Environment.match
+
+.. _class-api-environment-method-match-knob:
+
+.. automethod:: xtrack.environment.Environment.match_knob
+
+.. _class-api-environment-property-metadata:
+
+.. autoproperty:: xtrack.environment.Environment.metadata
+
+.. _class-api-environment-method-new:
+
+.. automethod:: xtrack.environment.Environment.new
+
+.. _class-api-environment-method-new-builder:
+
+.. automethod:: xtrack.environment.Environment.new_builder
+
+.. _class-api-environment-method-new-expr:
+
+.. automethod:: xtrack.environment.Environment.new_expr
+
+.. _class-api-environment-method-new-line:
+
+.. automethod:: xtrack.environment.Environment.new_line
+
+.. _class-api-environment-method-new-particle:
+
+.. automethod:: xtrack.environment.Environment.new_particle
+
+.. _class-api-environment-property-particle-ref:
+
+.. autoproperty:: xtrack.environment.Environment.particle_ref
+
+.. _class-api-environment-property-particles:
+
+.. autoproperty:: xtrack.environment.Environment.particles
+
+.. _class-api-environment-method-place:
+
+.. automethod:: xtrack.environment.Environment.place
+
+.. _class-api-environment-property-ref:
+
+.. autoproperty:: xtrack.environment.Environment.ref
+
+.. _class-api-environment-property-ref-manager:
+
+.. autoproperty:: xtrack.environment.Environment.ref_manager
+
+.. _class-api-environment-method-remove:
+
+.. automethod:: xtrack.environment.Environment.remove
+
+.. _class-api-environment-method-replace-replica:
+
+.. automethod:: xtrack.environment.Environment.replace_replica
+
+.. _class-api-environment-method-set:
+
+.. automethod:: xtrack.environment.Environment.set
+
+.. _class-api-environment-method-set-multipolar-errors:
+
+.. automethod:: xtrack.environment.Environment.set_multipolar_errors
+
+.. _class-api-environment-method-set-particle-ref:
+
+.. automethod:: xtrack.environment.Environment.set_particle_ref
+
+.. _class-api-environment-method-to-dict:
+
+.. automethod:: xtrack.environment.Environment.to_dict
+
+.. _class-api-environment-method-to-json:
+
+.. automethod:: xtrack.environment.Environment.to_json
+
+.. _class-api-environment-method-twiss:
+
+.. automethod:: xtrack.environment.Environment.twiss
+
+.. _class-api-environment-property-vars:
+
+.. autoproperty:: xtrack.environment.Environment.vars
+
+.. _class-api-environment-property-varval:
+
+.. autoproperty:: xtrack.environment.Environment.varval
+
+.. _class-api-environment-property-vv:
+
+.. autoproperty:: xtrack.environment.Environment.vv
 
