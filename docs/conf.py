@@ -81,6 +81,13 @@ with open(_line_rst, "w") as _fid:
     _fid.write(xtrack.generate_line_rst())
 print("Done.")
 
+# Regenerate environment API page at every docs build.
+print("Generating environment API page...")
+_environment_rst = os.path.join(_docs_dir, "environment.rst")
+with open(_environment_rst, "w") as _fid:
+    _fid.write(xtrack.generate_environment_rst())
+print("Done.")
+
 ### GENERATE code snippets
 snippet_files = {
     'xpart/examples/particles_generation/000_basics.py':
