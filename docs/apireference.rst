@@ -521,7 +521,12 @@ xtrack.Environment class
 ========================
 
 The Xsuite environment manages variables and elements that can be shared by
-different lines and can be used to create elements and line objects.
+different lines and can be used to create elements and line objects. more info on 
+how can be found in the :doc:`Xsuite user's guide <usersguide>`).
+
+.. contents::
+    :depth: 2
+    :local:
 
 .. include:: environment.rst
 
