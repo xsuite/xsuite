@@ -528,7 +528,7 @@ how can be found in the :doc:`Xsuite user's guide <usersguide>`).
     :depth: 2
     :local:
 
-.. include:: environment.rst
+.. include:: environment_api.rst
 
 xtrack.Line class
 =================
@@ -541,7 +541,7 @@ different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
     :depth: 2
     :local:
 
-.. include:: line.rst
+.. include:: line_api.rst
 
 .. _track_method_label:
 
