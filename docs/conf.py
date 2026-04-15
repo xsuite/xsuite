@@ -78,14 +78,14 @@ print("Generating line API page...")
 _docs_dir = os.path.dirname(os.path.abspath(__file__))
 _line_rst = os.path.join(_docs_dir, "line_api.rst")
 with open(_line_rst, "w") as _fid:
-    _fid.write(xtrack.generate_line_rst())
+    _fid.write(xtrack.Line._generate_doc_rst())
 print("Done.")
 
 # Regenerate environment API page at every docs build.
 print("Generating environment API page...")
 _environment_rst = os.path.join(_docs_dir, "environment_api.rst")
 with open(_environment_rst, "w") as _fid:
-    _fid.write(xtrack.generate_environment_rst())
+    _fid.write(xtrack.Environment._generate_doc_rst())
 print("Done.")
 
 ### GENERATE code snippets
