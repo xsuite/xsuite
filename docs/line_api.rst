@@ -468,7 +468,7 @@ Members - short description
    * - :ref:`check_​aperture(...) <line-api-upcoming-deprecations-method-check-aperture>`
      - Check that all active elements have an associated aperture.
    * - :ref:`copy_​element_​from(...) <line-api-upcoming-deprecations-method-copy-element-from>`
-     - TBD
+     - Deprecated wrapper for ``line.env.copy_​element_​from(...)``.
    * - :ref:`extend(...) <line-api-upcoming-deprecations-method-extend>`
      - Append elements from another line to this line.
    * - :ref:`filter_​elements(...) <line-api-upcoming-deprecations-method-filter-elements>`
@@ -484,7 +484,7 @@ Members - short description
    * - :ref:`unfreeze_​vars(...) <line-api-upcoming-deprecations-method-unfreeze-vars>`
      - Unfreeze variables in tracked Particles objects.
    * - :ref:`builder <line-api-upcoming-deprecations-property-builder>`
-     - TBD
+     - Deprecated alias for ``line.composer``.
    * - :ref:`vv <line-api-upcoming-deprecations-property-vv>`
      - Deprecated short alias for variable values.
 

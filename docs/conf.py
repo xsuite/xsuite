@@ -208,14 +208,8 @@ snippet_files = {
         'generated_code_snippets/beambeamws.py',
     'xtrack/examples/dynamic_aperture/000_tracking_for_da.py':
         'generated_code_snippets/tracking_for_da.py',
-    'xtrack/examples/toy_ring/002_expressions.py':
-        'generated_code_snippets/expressions_basics.py',
     'xtrack/examples/toy_ring/003_slicing.py':
         'generated_code_snippets/slicing.py',
-    'xtrack/examples/toy_ring/004_inspect.py':
-        'generated_code_snippets/line_inspect.py',
-    'xtrack/examples/toy_ring/000_toy_ring.py':
-        'generated_code_snippets/toy_ring.py',
     'xtrack/examples/lattice_design/007b_insert_elements.py':
         'generated_code_snippets/insert_element.py',
     'xtrack/examples/lattice_design/007c_insert_individual.py':
@@ -306,8 +300,6 @@ snippet_files = {
         'generated_code_snippets/composition_with_replicas.py',
     'xtrack/examples/lattice_design/008c_place_line_at_s.py':
         'generated_code_snippets/place_line_at_s.py',
-    'xtrack/examples/lattice_design/008d_environment.py':
-        'generated_code_snippets/environment.py',
     'xmask/examples/hllhc15_collision/005_footprint.py':
         'generated_code_snippets/footprint_with_bb.py',
     'xcoll/examples/lossmap.py':

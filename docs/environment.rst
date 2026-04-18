@@ -11,7 +11,7 @@ Overview
 An ``xt.Environment`` is the shared container that keeps together:
 
 - **Variables** in ``env.vars``: scalar knobs and deferred expressions used to
-  drive elements and lines. Retrieve their current value with ``env['name']``.
+  drive elements and lines. Their current value can be retrieved with ``env['name']``.
 - **Elements** in ``env.elements``: magnets, markers, RF cavities, etc. They can
   be reused across multiple lines.
 - **Lines** in ``env.lines``: ordered sequences of elements assembled from the
@@ -79,29 +79,37 @@ elements, and lines is shown below:
    env.lines.keys()     # is: ['fodo', 'half_fodo']
 
    # Inspect a deferred expression with references
-   env.ref['qf'].k1._info()
-   #  element_refs['qf'].k1._get_value()
-   #    element_refs['qf'].k1 = 0.126
+   env.ref['qf'].k1 # is a ref object
+   env.ref['qf'].k1.xdeps # gives basic information on the ref.
+   # It prints:
+   # Ref(element_refs['qf'].k1, expr=vars['kq.total'], value=0.126)
+   # Additional information can be obtained from the `info()` method
+   env.ref['qf'].k1.xdeps.info()
+   # prints:
+   # Info for element_refs['qf'].k1
    #
-   #  element_refs['qf'].k1._expr
-   #    element_refs['qf'].k1 = vars['kq.total']
+   # value: 0.126
    #
-   #  element_refs['qf'].k1._expr._get_dependencies()
-   #    vars['kq.total'] = 0.126
+   # controlled by expr:
+   #   element_refs['qf'].k1 = vars['kq.total']
    #
-   #  element_refs['qf'].k1 does not influence any target
-   env.ref['kq.total']._info()
-   #  vars['kq.total']._get_value()
-   #    vars['kq.total'] = 0.126
+   # expr_dependencies:
+   #   vars['kq.total'] = 0.126
    #
-   #  vars['kq.total']._expr
-   #    vars['kq.total'] = (vars['kq'] + vars['kq.trim'])
+   # controlled_targets: None
+   env.ref['kq.total'].xdeps.info()
+   # Info for vars['kq.total']
    #
-   #  vars['kq.total']._expr._get_dependencies()
-   #    vars['kq.trim'] = 0.006
-   #    vars['kq'] = 0.12
+   # value: 0.126
    #
-   #  vars['kq.total']._find_dependant_targets()
+   # controlled by expr:
+   #   vars['kq.total'] = (vars['kq'] + vars['kq.trim'])
+   #
+   # expr_dependencies:
+   #   vars['kq'] = 0.12
+   #   vars['kq.trim'] = 0.006
+   #
+   # controlled_targets:
    #    element_refs['qd'].k1
    #    element_refs['qf'].k1
 
@@ -151,33 +159,33 @@ Inspecting variables
    # kq.trim   0.088    (1.1 * kq)
    # kq.total  0.168    (kq + kq.trim)
 
-To understand dependencies, fetch the reference and ask for its info:
+To understand dependencies, fetch the reference and ask for its xdeps.info:
 
 .. code-block:: python
 
-   env.ref['kq.total']._info()
+   env.ref['kq.total'].xdeps.info()
    # prints:
-   # #  vars['kq.total']._get_value()
-   #    vars['kq.total'] = 0.168
+   # Info for vars['kq.total']
    #
-   # #  vars['kq.total']._expr
-   #    vars['kq.total'] = (vars['kq'] + vars['kq.trim'])
+   # value: 0.168
    #
-   # #  vars['kq.total']._expr._get_dependencies()
-   #    vars['kq.trim'] = 0.08800000000000001
-   #    vars['kq'] = 0.08
+   # controlled by expr:
+   #   vars['kq.total'] = (vars['kq'] + vars['kq.trim'])
    #
-   # #  vars['kq.total'] does not influence any target
+   # expr_dependencies:
+   #   vars['kq'] = 0.08
+   #   vars['kq.trim'] = 0.08800000000000001
+   #
+   # controlled_targets: None
 
-
-   env.ref['kq']._info()
-   # prints:
-   # #  vars['kq']._get_value()
-   #    vars['kq'] = 0.08
+   env.ref['kq'].xdeps.info()
+   # Info for vars['kq']
    #
-   # #  vars['kq']._expr is None
+   # value: 0.08
    #
-   # #  vars['kq']._find_dependant_targets()
+   # Not controlled by other entities.
+   #
+   # controlled_targets:
    #    vars['kq.trim']
    #    vars['kq.total']
 
@@ -241,17 +249,20 @@ You can inspect deferred attributes the same way as variables:
 
 .. code-block:: python
 
-   env.ref['mq0'].k1._info()
-   #  element_refs['mq0'].k1._get_value()
-   #    element_refs['mq0'].k1 = 0.084
+   env.ref['mq0'].k1.xdeps.info()
+   # prints:
+   # Info for element_refs['mq0'].k1
    #
-   #  element_refs['mq0'].k1._expr
-   #    element_refs['mq0'].k1 = (0.5 * vars['kq.total'])
+   # value: 0.08
    #
-   #  element_refs['mq0'].k1._expr._get_dependencies()
-   #    vars['kq.total'] = 0.168
+   # controlled by expr:
+   #   element_refs['mq0'].k1 = (0.5 * vars['kq.total'])
    #
-   #  element_refs['mq0'].k1 does not influence any target
+   # expr_dependencies:
+   #   vars['kq.total'] = 0.16
+   #
+   # controlled_targets: None
+
 
 Listing elements
 ----------------
@@ -830,18 +841,18 @@ driven by variables.
    tw = line.twiss4d()                 # Twiss now uses the updated reference
 
    # Inspect the deferred expression on the particle
-   env.ref['my_ref_part'].energy0._info()
-
-   #  particles['my_ref_part'].energy0._get_value()
-   particles['my_ref_part'].energy0 = [5.25e+09]
-   # prints:
-   # #  particles['my_ref_part'].energy0._expr
-   #    particles['my_ref_part'].energy0 = (vars['energy_gev'] * 1000000000.0)
+   env.ref['my_ref_part'].energy0.xdeps.info()
+   # Info for particles['my_ref_part'].energy0
    #
-   # #  particles['my_ref_part'].energy0._expr._get_dependencies()
-   #    vars['energy_gev'] = 5.25
+   # value: [5.25e+09]
    #
-   # #  particles['my_ref_part'].energy0 does not influence any target
+   # controlled by expr:
+   #   particles['my_ref_part'].energy0 = (vars['energy_gev'] * 1000000000.0)
+   #
+   # expr_dependencies:
+   #   vars['energy_gev'] = 5.25
+   #
+   # controlled_targets: None
 
 
 Link lattice properties to reference particle parameters
