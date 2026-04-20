@@ -25,7 +25,7 @@ from sphinx.util.inspect import safe_getattr
 
 xobjects_branch = 'main'
 xfields_branch = 'main'
-xtrack_branch = 'reorganize/line'
+xtrack_branch = 'main'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
