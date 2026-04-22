@@ -7,6 +7,7 @@
 
    installation
    gettingstarted
+   units
    environment
    lattice_model
    twiss
