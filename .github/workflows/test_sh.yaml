@@ -43,6 +43,11 @@ on:
         required: false
         type: boolean
         default: false
+      timeout_minutes:
+        description: timeout for run-tests job in minutes
+        required: false
+        type: number
+        default: 1380
 
 env:
   with_gpu: ${{ contains(inputs.test_contexts, 'Cupy') || contains(inputs.test_contexts, 'Pyopencl') }}
@@ -108,7 +113,7 @@ jobs:
   run-tests:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
     needs: [build-test-image, image-sanity-checks]
-    timeout-minutes: 1380
+    timeout-minutes: ${{ inputs.timeout_minutes }}
     strategy:
       fail-fast: false
       matrix:

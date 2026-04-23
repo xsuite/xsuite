@@ -1,10 +1,10 @@
-# This is a workflow that should run daily
-name: Daily test (self-hosted, OpenCL)
+# This is a workflow that should run every other day
+name: Every other day test (self-hosted, OpenCL)
 
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+    - cron: '00 19 */2 * *'  # run at 19:00 UTC every other day
 
 # This workflow calls the test_gpu.yaml workflow passing the default
 # branches as inputs. The cron workflow will not run on forks.
@@ -17,3 +17,4 @@ jobs:
       platform: 'alma'
       suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
       pytest_options: '-m context_dependent'
+      timeout_minutes: 2880  # 48h
