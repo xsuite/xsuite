@@ -16,11 +16,9 @@ ARG xmask_branch=xsuite:main
 ARG xcoll_branch=xsuite:main
 ARG xwakes_branch=xsuite:main
 ARG xsuite_branch=xsuite:main
+ARG cuda_version=""
 ARG install_mpi=false
 ARG with_gpu
-
-# Use bash as the default shell
-SHELL ["/usr/bin/bash", "-c"]
 
 # If an Nvidia GPU is available, nvidia-container-toolkit takes care of
 # providing the right libraries and drivers to the container. There is no need
@@ -55,7 +53,6 @@ RUN rm Miniforge3-Linux-x86_64.sh
 
 ENV PATH /opt/miniforge/bin:$PATH
 RUN mamba install python=3.12 && mamba shell init -s bash && echo "mamba activate base" >> ~/.bashrc
-SHELL ["mamba", "run", "/bin/bash", "-c"]
 
 # Install dependencies (compilers, OpenCL and CUDA packages, test requirements)
 # - mako is an optional requirement of pyopencl that we need
@@ -69,7 +66,10 @@ RUN pip install --no-cache-dir cython gitpython pytest-html \
     && rm -rf /var/cache/yum
 
 RUN if [[ "$with_gpu" == true ]]; then \
-        mamba install cupy cudatoolkit ocl-icd-system clinfo clfft \
+        if [[ -n "$cuda_version" ]]; then \
+            mamba install -y cuda-version=${cuda_version} cuda-cudart cuda-nvrtc cuda-nvcc cupy; \
+        fi \
+        && mamba install ocl-icd-system clinfo clfft \
         && mamba clean -afy \
         && pip install --no-cache-dir pyopencl mako \
         && git clone --depth 1 https://github.com/geggo/gpyfft.git \
@@ -83,6 +83,10 @@ COPY ./ /opt/xsuite/xsuite/
 RUN chmod +x /opt/xsuite/xsuite/.github/scripts/install_branches.sh && bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
 
 WORKDIR /opt
-RUN ln -s /opt/xsuite/xsuite/.github/scripts/run_tests.sh /opt/ && chmod +x run_tests.sh
+RUN ln -s /opt/xsuite/xsuite/.github/scripts/run_tests.sh /opt/ && chmod +x run_tests.sh \
+    && ln -s /opt/xsuite/xsuite/.github/scripts/entrypoint.sh /opt/ && chmod +x entrypoint.sh
 
-CMD python /opt/xsuite/xtrack/examples/print_package_paths.py
+RUN chmod +x /opt/entrypoint.sh
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
+CMD ["python", "/opt/xsuite/xtrack/examples/print_package_paths.py"]

@@ -74,6 +74,7 @@ jobs:
         name: Build the test image
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
+          CUDA_VERSION=$(nvidia-smi 2>/dev/null | sed -n 's/.*CUDA Version: \([0-9.]*\).*/\1/p' | head -n1 || true)
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           docker build \
             --rm \
@@ -89,6 +90,7 @@ jobs:
             --build-arg xwakes_branch=${{ fromJson(inputs.locations).xwakes_location }} \
             --build-arg install_mpi=${{ inputs.with_mpi }} \
             --build-arg with_gpu=${with_gpu} \
+            --build-arg cuda_version=${CUDA_VERSION} \
             -t $IMAGE .
 
   # Print out some stuff about the test environment
