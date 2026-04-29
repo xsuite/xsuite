@@ -76,7 +76,7 @@ jobs:
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           CUDA_VERSION=$(nvidia-smi 2>/dev/null | sed -n 's/.*CUDA Version: \([0-9.]*\).*/\1/p' | head -n1 || true)
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
-          docker build \
+          podman build \
             --rm \
             --network=host \
             --no-cache=true \
@@ -102,14 +102,14 @@ jobs:
     steps:
       - name: CUDA/ROCm info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${image_id} bash -c "nvidia-smi || rocm-smi"
+        run: podman run --rm --device nvidia.com/gpu=all ${image_id} bash -c "nvidia-smi || rocm-smi"
       - name: OpenCL info
         if: ${{ env.with_gpu == 'true' }}
-        run: docker run --rm --gpus all ${image_id} clinfo
+        run: podman run --rm --device nvidia.com/gpu=all ${image_id} clinfo
       - name: Package paths
-        run: docker run --rm ${{ env.with_gpu == 'true' && '--gpus all' || '' }} ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
+        run: podman run --rm ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} ${image_id} python3 /opt/xsuite/xtrack/examples/print_package_paths.py
       - name: List dependencies
-        run: docker run --rm ${{ env.with_gpu == 'true' && '--gpus all' || '' }} ${image_id} pip freeze
+        run: podman run --rm ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} ${image_id} pip freeze
 
   # Run the tests for each repo in parallel in a test container
   run-tests:
@@ -126,8 +126,8 @@ jobs:
       if: ${{ !inputs.with_mpi }}
       run: |
         mkdir -p reports/${{ matrix.test-suite }}
-        exec docker run --rm \
-          ${{ env.with_gpu == 'true' && '--gpus all' || '' }} \
+        exec podman run --rm \
+          ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
           --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
@@ -137,8 +137,8 @@ jobs:
     - name: Run pytest (MPI)
       if: ${{ inputs.with_mpi }}
       run: |
-        exec docker run --rm \
-          ${{ env.with_gpu == 'true' && '--gpus all' || '' }} \
+        exec podman run --rm \
+          ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
           --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
           ${{ needs.build-test-image.outputs.image_id }} \
@@ -165,4 +165,4 @@ jobs:
     if: always()
     steps:
       - name: Clean up the image
-        run: docker image rm -f ${image_id}
+        run: podman image rm -f ${image_id}
