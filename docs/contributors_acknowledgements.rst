@@ -19,6 +19,7 @@ From CERN:
  - Bernardo Abreu Figueiredo
  - Pablo Arrutia
  - Hannes Bartosik
+ - Giacomo Broggi
  - Xavier Buffat
  - Simon Buijsman
  - Riccardo De Maria
@@ -64,6 +65,7 @@ These include:
 
 - BMAD
 - COMBI
+- ELEGANT
 - GUINEA-PIG
 - HEADTAIL
 - MAD-NG
@@ -71,6 +73,7 @@ These include:
 - Sixtrack
 - Sixtracklib
 - PLACET
+- PyAT
 - PyHEADTAIL
 - PyWIT
 - PyPIC
