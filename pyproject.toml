@@ -5,7 +5,7 @@ requires = [
     "xtrack==0.103.2",
     "xfields==0.25.16",
     "xcoll==0.9.12",
-    "xobjects==0.6.2",
+    "xobjects==0.6.3",
     "xdeps==0.10.16",
     "xpart==0.23.10",
     "numpy",
@@ -29,7 +29,7 @@ dependencies = [
     "xtrack==0.103.2",
     "xfields==0.25.16",
     "xcoll==0.9.12",
-    "xobjects==0.6.2",
+    "xobjects==0.6.3",
     "xdeps==0.10.16",
     "xpart==0.23.10",
 ]
