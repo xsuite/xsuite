@@ -37,7 +37,5 @@ Core quantities
      - :math:`\text{m}^{-n}`, with :math:`n = 1` for dipole, :math:`n = 2` for quadrupole, etc.
    * - Frequency
      - :math:`\text{Hz}`
-   * - Geometric angle, phase advance
+   * - Geometric angles, RF and optics phases
      - :math:`\text{rad}`
-   * - RF phase
-     - :math:`{}^{\circ}`
