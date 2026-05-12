@@ -266,6 +266,25 @@ LineSegmentMap
     :members:
     :member-order: bysource
 
+Translation
+-----------
+
+.. autoclass:: xtrack.Translation
+    :members:
+    :member-order: bysource
+
+Rotation
+--------
+.. autoclass:: xtrack.Rotation
+    :members:
+    :member-order: bysource
+
+TimeDelay
+---------
+.. autoclass:: xtrack.TimeDelay
+    :members:
+    :member-order: bysource
+
 XYShift
 -------
 
