@@ -5,7 +5,7 @@
 import json
 import os
 import warnings
-from multiprocessing import Pool
+from multiprocessing import get_context
 from pathlib import Path
 from pprint import pformat
 from typing import Iterator, Optional, Tuple
@@ -212,7 +212,7 @@ def regenerate_kernels(
          for idx, (module_name, metadata) in enumerate(kernels_to_build):
             build_single_kernel(idx, len(kernels_to_build), location, metadata, module_name)
     else:
-        thread_pool = Pool(processes=n_threads)
+        thread_pool = get_context('spawn').Pool(processes=n_threads)
         results = []
         for idx, (module_name, metadata) in enumerate(kernels_to_build):
             args = (idx, len(kernels_to_build), location, metadata, module_name)
@@ -309,4 +309,3 @@ def clear_kernels(kernels=None, verbose=False, location=XSK_PREBUILT_KERNELS_LOC
 
 if __name__ == '__main__':
     regenerate_kernels()
-
