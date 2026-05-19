@@ -1560,14 +1560,14 @@ A_z &= -B_A(z\,/\cos \theta) \, y \sin\theta - \frac{1}{2} \frac{dB_A}{dz} \, z 
 
 From this we compute the field $\mathbf{B} = \nabla \times \mathbf{A}$:
 \begin{align}
-B_x(x,y,z) &= -\frac{1}{2} \frac{dB_A(z\,/\cos \theta)}{dz} \, x \cos\theta - B_A(z\,/\cos \theta) \sin\theta - \frac{1}{2} \frac{dB_A(z\,/\cos \theta)}{dz} \, z \sin\theta  \\
-B_y(x,y,z) &= -\frac{1}{2} \frac{dB_A(z\,/\cos \theta)}{dz} \, y \cos\theta \\
+B_x(x,y,z) &= -\frac{1}{2} \frac{d}{dz} \left[B_A(z\,/\cos \theta)\right]\, x \cos\theta - B_A(z\,/\cos \theta) \sin\theta - \frac{1}{2}  \frac{d}{dz} \left[B_A(z\,/\cos \theta)\right] \, z \sin\theta  \\
+B_y(x,y,z) &= -\frac{1}{2}  \frac{d}{dz} \left[B_A(z\,/\cos \theta)\right] \, y \cos\theta \\
 B_z(x,y,z) &= B_A(z\,/\cos \theta) \cos\theta
 \end{align}
 
 We call
 \begin{align}
-&\boxed{B_{x0}(z) = B_x(0,0,z) = -B_A(z\,/\cos \theta) \sin\theta - \frac{1}{2} \frac{dB_A(z\,/\cos \theta)}{dz} \, z \sin\theta }\\
+&\boxed{B_{x0}(z) = B_x(0,0,z) = -B_A(z\,/\cos \theta) \sin\theta - \frac{1}{2} \frac{d}{dz} \left[B_A(z\,/\cos \theta)\right] \, z \sin\theta }\\
 &\boxed{B_{z0}(z) = B_z(0,0,z) = B_A(z\,/\cos \theta) \cos\theta}
 \end{align}
 
