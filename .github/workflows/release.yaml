@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [
+          ubuntu-24.04-arm, 
           ubuntu-latest,
           macos-15-intel,  # x86_64 runners for building x86 wheels
           macos-latest,  # arm64 runners
