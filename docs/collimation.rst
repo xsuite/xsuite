@@ -299,6 +299,11 @@ or from the database using their name or aliases:
     print(mat1 == mat2)
     print(mat1 == mat3)
 
+Note that the collimators in the LHC are made of CFC (``xc.materials.CarbonFibreCarbon``) and not just
+plain carbon (as it is colloquially named). Hence, refrain from using (``xc.materials.Carbon``) as a
+collimator material (unless this is the explicit purpose), as it does not yet support full Everest
+scattering (see below).
+
 When a material is known to FLUKA or Geant4, it has a ``fluka_name`` resp ``geant4_name`` attribute:
 
 .. code-block:: python
