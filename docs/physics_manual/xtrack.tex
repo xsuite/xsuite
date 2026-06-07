@@ -601,7 +601,9 @@ $H_{S} = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - \left(p_x-\frac{K_s}{2}
 \toprule
 \textbf{Model} & \textbf{Propagation part} & \textbf{Kick part} \\
 \midrule
-rot-kick-rot & [R] & [K0 K0h K1 K1h Kn] \\
+rot-kick-rot-low-order & [R] & [K0 K0h K1 K1h Kn] \\
+rot-kick-rot & [R, K0] - Yoshida 4 & [K0h K1 K1h Kn] \\
+rot-kick-rot-high-order & [R, K0] - Yoshida 6 & [K0h K1 K1h Kn] \\
 bend-kick-bend & [B] & [K1 K1h Kn] \\
 matrix-kick-matrix & [M] & [K1h Kn] \\
 drift-kick-drift-exact & [D] & [h K0 K0h K1 K1h Kn] \\
