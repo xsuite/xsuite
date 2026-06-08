@@ -792,16 +792,108 @@ The generating Hamiltonian is:
 H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} -K_0\left(x-\frac{hx^2}{2(1+hx)} \right) \right)
 \end{equation}
 
+For compactness, define
+\begin{align}
+p_z(0) &= \sqrt{(1+\delta)^2-p_x(0)^2-p_y^2}, \\
+p_z(s) &= \sqrt{(1+\delta)^2-p_x(s)^2-p_y^2}.
+\end{align}
+
 The corresponding map is adapted from \cite{forest99}:
 \begin{align}
-x(s) &= \frac{1}{hK_0} \left( h \sqrt{(1 + \delta)^2 - p_x(s)^2 - p_y^2} - \frac{dp_x(s)}{ds} - K_0 \chi \right) \\
-p_x(s) &= p_x \cos(h s) + \left( \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2} - K_0 \chi \left( \frac{1}{h} + x \right) \right) \sin(h s) \\
-y(s) &= y + \frac{p_y s h}{K_0 \chi} + \frac{p_y}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+x(s) &= \frac{1}{hK_0 \chi} \left( h p_z(s) - \frac{dp_x(s)}{ds} - K_0 \chi \right) \\
+p_x(s) &= p_x(0) \cos(h s) + \left( p_z(0) - K_0 \chi \left( \frac{1}{h} + x(0) \right) \right) \sin(h s) \\
+y(s) &= y + \frac{p_y s h}{K_0 \chi} + \frac{p_y}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x(0)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
 p_y(s) &= p_y \\
 \delta(s) &= \delta \\
 \ell(s) &= \ell +
-  \frac{(1 + \delta) s h}{K_0 \chi} + \frac{(1 + \delta)}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+  \frac{(1 + \delta) s h}{K_0 \chi} + \frac{(1 + \delta)}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x(0)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
 \end{align}
+
+\paragraph{Numerically stable horizontal update}
+
+The direct evaluation of the horizontal coordinate can involve the subtraction
+of large radius-like terms. In the implementation we compute the horizontal
+increment
+\begin{equation}
+\Delta x(s) \equiv x(s)-x(0),
+\end{equation}
+and then update the coordinate as \(x(s)=x(0)+\Delta x(s)\). To derive a
+stable expression for \(\Delta x(s)\), define
+\begin{equation}
+C = p_z(0)-K_0\chi\left(\frac{1}{h}+x(0)\right).
+\end{equation}
+Then
+\begin{equation}
+p_x(s)=p_x(0)\cos(hs)+C\sin(hs),
+\end{equation}
+and
+\begin{equation}
+\frac{1}{h}\frac{dp_x(s)}{ds}
+=
+C\cos(hs)-p_x(0)\sin(hs).
+\end{equation}
+The horizontal map can therefore be written as
+\begin{equation}
+x(s)=
+\frac{p_z(s)-\left[C\cos(hs)-p_x(0)\sin(hs)\right]}{K_0\chi}
+-\frac{1}{h}.
+\end{equation}
+Using the definition of \(C\), the initial coordinate satisfies
+\begin{equation}
+x(0)=
+\frac{p_z(0)-C}{K_0\chi}
+-\frac{1}{h}.
+\end{equation}
+Subtracting these two expressions gives the increment directly and avoids
+reconstructing \(x(s)\) as a difference of large radius-like terms:
+\begin{align}
+\Delta p_z(s) &\equiv p_z(s)-p_z(0), \\
+\Delta D(s) &\equiv C\cos(hs)-p_x(0)\sin(hs)-C.
+\end{align}
+Then
+\begin{equation}
+\Delta x(s)
+=
+\frac{\Delta p_z(s)-\Delta D(s)}{K_0\chi}.
+\end{equation}
+The second term is evaluated as
+\begin{equation}
+\Delta D(s)
+=
+C\left[\cos(hs)-1\right]-p_x(0)\sin(hs).
+\end{equation}
+For small \(hs\), the difference \(\cos(hs)-1\) is numerically inaccurate if
+evaluated directly. We therefore use
+\begin{equation}
+\cos(hs)-1
+=
+-2\sin^2\left(\frac{hs}{2}\right),
+\end{equation}
+giving
+\begin{equation}
+\Delta D(s)
+=
+-2C\sin^2\left(\frac{hs}{2}\right)-p_x(0)\sin(hs).
+\end{equation}
+The first term is also evaluated without subtracting two nearly equal square
+roots:
+\begin{align}
+\Delta p_z(s)
+&=
+\frac{p_z(s)^2-p_z(0)^2}{p_z(s)+p_z(0)} \\
+&=
+\frac{p_x(0)^2-p_x(s)^2}{p_z(s)+p_z(0)} \\
+&=
+\frac{\left[p_x(0)-p_x(s)\right]\left[p_x(0)+p_x(s)\right]}
+{p_z(s)+p_z(0)}.
+\end{align}
+The implemented increment uses the expression above, with
+\(\Delta p_z(s)\) and \(\Delta D(s)\) evaluated by the stable expressions
+given here.
+The horizontal coordinate is then updated as
+\begin{equation}
+x(s) = x(0) + \Delta x(s).
+\end{equation}
 
 \subsection{Straight exact bend}
 
