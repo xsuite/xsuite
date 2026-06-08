@@ -120,10 +120,6 @@ Members - short description
      - Get expression associated to a variable
    * - :ref:`get_​length(...) <line-api-inspection-variables-and-configuration-method-get-length>`
      - Get total length of the line
-   * - :ref:`get_​s_​elements(...) <line-api-inspection-variables-and-configuration-method-get-s-elements>`
-     - Get s position for all elements
-   * - :ref:`get_​s_​position(...) <line-api-inspection-variables-and-configuration-method-get-s-position>`
-     - Get s position for given elements
    * - :ref:`get_​strengths(...) <line-api-inspection-variables-and-configuration-method-get-strengths>`
      - Return integrated magnet strengths as a table.
    * - :ref:`get_​table(...) <line-api-inspection-variables-and-configuration-method-get-table>`
@@ -152,8 +148,6 @@ Members - short description
      - xdeps dependency manager for variables, element references, and expressions.
    * - :ref:`vars <line-api-inspection-variables-and-configuration-property-vars>`
      - Variables container associated with the line environment.
-   * - :ref:`varval <line-api-inspection-variables-and-configuration-property-varval>`
-     - Convenience accessor to variable values.
 
 .. _line-api-reference-particle-and-particle-generation-summary:
 
@@ -182,12 +176,12 @@ Members - short description
 
    * - Member
      - Description
-   * - :ref:`compute_​R_​matrix(...) <line-api-tracking-and-analysis-method-compute-r-matrix>`
-     - Compute the one turn matrix using finite differences.
-   * - :ref:`compute_​T_​matrix(...) <line-api-tracking-and-analysis-method-compute-t-matrix>`
-     - Compute the second order tensor of the beamline.
    * - :ref:`find_​closed_​orbit(...) <line-api-tracking-and-analysis-method-find-closed-orbit>`
      - Find the closed orbit of the beamline.
+   * - :ref:`get_​R_​matrix(...) <line-api-tracking-and-analysis-method-get-r-matrix>`
+     - Compute the one turn matrix using finite differences.
+   * - :ref:`get_​T_​matrix(...) <line-api-tracking-and-analysis-method-get-t-matrix>`
+     - Compute the second order tensor of the beamline.
    * - :ref:`get_​amplitude_​detuning_​coefficients(...) <line-api-tracking-and-analysis-method-get-amplitude-detuning-coefficients>`
      - Compute the amplitude detuning coefficients (det_​xx = dQx / dJx, det_​yy = dQy / dJy, det_​xy = dQx / dJy, det_​yx = dQy / dJx) using tracking.
    * - :ref:`get_​footprint(...) <line-api-tracking-and-analysis-method-get-footprint>`
@@ -295,10 +289,8 @@ Members - short description
      - Configure radiation within the line.
    * - :ref:`configure_​spin(...) <line-api-radiation-spin-and-intra-beam-scattering-method-configure-spin>`
      - Configure the spin model for the line.
-   * - :ref:`collimators <line-api-radiation-spin-and-intra-beam-scattering-property-collimators>`
-     - Interface to Xcoll collimator tools for this line.
-   * - :ref:`scattering <line-api-radiation-spin-and-intra-beam-scattering-property-scattering>`
-     - Interface to Xcoll scattering tools for this line.
+   * - :ref:`xcoll <line-api-radiation-spin-and-intra-beam-scattering-property-xcoll>`
+     - Xcoll-specific helpers associated with this line.
 
 .. _line-api-energy-longitudinal-state-summary:
 
@@ -434,9 +426,9 @@ Members - short description
    * - :ref:`regen_​madng_​model(...) <line-api-mad-ng-integration-method-regen-madng-model>`
      - Regenerate the MAD-NG model associated with this line.
 
-.. _line-api-deprecated-methods-summary:
+.. _line-api-deprecated-summary:
 
-.. list-table:: :ref:`Deprecated Methods <line-api-deprecated-methods>`
+.. list-table:: :ref:`Deprecated <line-api-deprecated>`
    :class: line-api-summary-table
    :header-rows: 1
    :width: 100%
@@ -444,16 +436,34 @@ Members - short description
 
    * - Member
      - Description
-   * - :ref:`append_​element(...) <line-api-deprecated-methods-method-append-element>`
+   * - :ref:`append_​element(...) <line-api-deprecated-method-append-element>`
      - Append element to the end of the lattice
-   * - :ref:`compute_​one_​turn_​matrix_​finite_​differences(...) <line-api-deprecated-methods-method-compute-one-turn-matrix-finite-differences>`
+   * - :ref:`compute_​R_​matrix(...) <line-api-deprecated-method-compute-r-matrix>`
+     - Compute the one turn matrix using finite differences.
+   * - :ref:`compute_​T_​matrix(...) <line-api-deprecated-method-compute-t-matrix>`
+     - Compute the second order tensor of the beamline.
+   * - :ref:`compute_​one_​turn_​matrix_​finite_​differences(...) <line-api-deprecated-method-compute-one-turn-matrix-finite-differences>`
      - Deprecated. Compute the one turn matrix using finite differences.
-   * - :ref:`from_​sixinput(...) <line-api-deprecated-methods-method-from-sixinput>`
+   * - :ref:`from_​sixinput(...) <line-api-deprecated-method-from-sixinput>`
      - ``Line.from_​sixinput`` has been removed in favour of ``sixinput.generate_​xtrack_​line()``.
-   * - :ref:`insert_​element(...) <line-api-deprecated-methods-method-insert-element>`
+   * - :ref:`get_​elements_​of_​type(...) <line-api-deprecated-method-get-elements-of-type>`
+     - Get all elements of given type(s)
+   * - :ref:`get_​s_​elements(...) <line-api-deprecated-method-get-s-elements>`
+     - Get s position for all elements
+   * - :ref:`get_​s_​position(...) <line-api-deprecated-method-get-s-position>`
+     - Get s position for given elements
+   * - :ref:`insert_​element(...) <line-api-deprecated-method-insert-element>`
      - Insert an element in the line.
-   * - :ref:`unfreeze(...) <line-api-deprecated-methods-method-unfreeze>`
+   * - :ref:`to_​pandas(...) <line-api-deprecated-method-to-pandas>`
+     - Return a pandas DataFrame with the elements of the line.
+   * - :ref:`unfreeze(...) <line-api-deprecated-method-unfreeze>`
      - Use :meth:`Line.discard_​tracker` instead.
+   * - :ref:`builder <line-api-deprecated-property-builder>`
+     - Deprecated alias for ``line.composer``.
+   * - :ref:`varval <line-api-deprecated-property-varval>`
+     - Convenience accessor to variable values.
+   * - :ref:`vv <line-api-deprecated-property-vv>`
+     - Short alias for variable values.
 
 .. _line-api-upcoming-deprecations-summary:
 
@@ -467,26 +477,20 @@ Members - short description
      - Description
    * - :ref:`check_​aperture(...) <line-api-upcoming-deprecations-method-check-aperture>`
      - Check that all active elements have an associated aperture.
-   * - :ref:`copy_​element_​from(...) <line-api-upcoming-deprecations-method-copy-element-from>`
-     - Deprecated wrapper for ``line.env.copy_​element_​from(...)``.
    * - :ref:`extend(...) <line-api-upcoming-deprecations-method-extend>`
-     - Append elements from another line to this line.
+     - Append existing element names to this line.
    * - :ref:`filter_​elements(...) <line-api-upcoming-deprecations-method-filter-elements>`
      - Return a new line with only the elements satisfying a given condition. Other elements are replaced with Drifts.
    * - :ref:`freeze_​vars(...) <line-api-upcoming-deprecations-method-freeze-vars>`
      - Freeze variables in tracked Particles objects.
    * - :ref:`get_​aperture_​table(...) <line-api-upcoming-deprecations-method-get-aperture-table>`
      - Return a table with the horizontal and vertical aperture estimated at all elements of the line. The aperture is estimated by tracking a particle through the line and measuring the maximum and minumum horizontal and vertical position at which particles survive. For elements at which no lost particles are detected, the aperture is estimated by interpolating the values of the neighbouring elements.
-   * - :ref:`get_​elements_​of_​type(...) <line-api-upcoming-deprecations-method-get-elements-of-type>`
-     - Get all elements of given type(s)
-   * - :ref:`to_​pandas(...) <line-api-upcoming-deprecations-method-to-pandas>`
-     - Return a pandas DataFrame with the elements of the line.
    * - :ref:`unfreeze_​vars(...) <line-api-upcoming-deprecations-method-unfreeze-vars>`
      - Unfreeze variables in tracked Particles objects.
-   * - :ref:`builder <line-api-upcoming-deprecations-property-builder>`
-     - Deprecated alias for ``line.composer``.
-   * - :ref:`vv <line-api-upcoming-deprecations-property-vv>`
-     - Deprecated short alias for variable values.
+   * - :ref:`collimators <line-api-upcoming-deprecations-property-collimators>`
+     - Deprecated alias for ``line.xcoll.collimators``.
+   * - :ref:`scattering <line-api-upcoming-deprecations-property-scattering>`
+     - Deprecated alias for ``line.xcoll.scattering``.
 
 
 Members - full description
@@ -647,14 +651,6 @@ Go to :ref:`Summary table <line-api-inspection-variables-and-configuration-summa
 
 .. automethod:: xtrack.line.Line.get_length
 
-.. _line-api-inspection-variables-and-configuration-method-get-s-elements:
-
-.. automethod:: xtrack.line.Line.get_s_elements
-
-.. _line-api-inspection-variables-and-configuration-method-get-s-position:
-
-.. automethod:: xtrack.line.Line.get_s_position
-
 .. _line-api-inspection-variables-and-configuration-method-get-strengths:
 
 .. automethod:: xtrack.line.Line.get_strengths
@@ -713,10 +709,6 @@ Go to :ref:`Summary table <line-api-inspection-variables-and-configuration-summa
 
 .. autoproperty:: xtrack.line.Line.vars
 
-.. _line-api-inspection-variables-and-configuration-property-varval:
-
-.. autoproperty:: xtrack.line.Line.varval
-
 .. _line-api-reference-particle-and-particle-generation:
 
 Reference Particle and Particle Generation
@@ -749,17 +741,17 @@ Go to :ref:`Summary table <line-api-tracking-and-analysis-summary>`
 
 .. _line-api-tracking-and-analysis-methods:
 
-.. _line-api-tracking-and-analysis-method-compute-r-matrix:
-
-.. automethod:: xtrack.line.Line.compute_R_matrix
-
-.. _line-api-tracking-and-analysis-method-compute-t-matrix:
-
-.. automethod:: xtrack.line.Line.compute_T_matrix
-
 .. _line-api-tracking-and-analysis-method-find-closed-orbit:
 
 .. automethod:: xtrack.line.Line.find_closed_orbit
+
+.. _line-api-tracking-and-analysis-method-get-r-matrix:
+
+.. automethod:: xtrack.line.Line.get_R_matrix
+
+.. _line-api-tracking-and-analysis-method-get-t-matrix:
+
+.. automethod:: xtrack.line.Line.get_T_matrix
 
 .. _line-api-tracking-and-analysis-method-get-amplitude-detuning-coefficients:
 
@@ -942,13 +934,9 @@ Go to :ref:`Summary table <line-api-radiation-spin-and-intra-beam-scattering-sum
 
 .. _line-api-radiation-spin-and-intra-beam-scattering-properties:
 
-.. _line-api-radiation-spin-and-intra-beam-scattering-property-collimators:
+.. _line-api-radiation-spin-and-intra-beam-scattering-property-xcoll:
 
-.. autoproperty:: xtrack.line.Line.collimators
-
-.. _line-api-radiation-spin-and-intra-beam-scattering-property-scattering:
-
-.. autoproperty:: xtrack.line.Line.scattering
+.. autoproperty:: xtrack.line.Line.xcoll
 
 .. _line-api-energy-longitudinal-state:
 
@@ -1142,34 +1130,72 @@ Go to :ref:`Summary table <line-api-mad-ng-integration-summary>`
 
 .. automethod:: xtrack.line.Line.regen_madng_model
 
+.. _line-api-deprecated:
+
+Deprecated
+~~~~~~~~~~
+
+Go to :ref:`Summary table <line-api-deprecated-summary>`
+
 .. _line-api-deprecated-methods:
 
-Deprecated Methods
-~~~~~~~~~~~~~~~~~~
-
-Go to :ref:`Summary table <line-api-deprecated-methods-summary>`
-
-.. _line-api-deprecated-methods-methods:
-
-.. _line-api-deprecated-methods-method-append-element:
+.. _line-api-deprecated-method-append-element:
 
 .. automethod:: xtrack.line.Line.append_element
 
-.. _line-api-deprecated-methods-method-compute-one-turn-matrix-finite-differences:
+.. _line-api-deprecated-method-compute-r-matrix:
+
+.. automethod:: xtrack.line.Line.compute_R_matrix
+
+.. _line-api-deprecated-method-compute-t-matrix:
+
+.. automethod:: xtrack.line.Line.compute_T_matrix
+
+.. _line-api-deprecated-method-compute-one-turn-matrix-finite-differences:
 
 .. automethod:: xtrack.line.Line.compute_one_turn_matrix_finite_differences
 
-.. _line-api-deprecated-methods-method-from-sixinput:
+.. _line-api-deprecated-method-from-sixinput:
 
 .. automethod:: xtrack.line.Line.from_sixinput
 
-.. _line-api-deprecated-methods-method-insert-element:
+.. _line-api-deprecated-method-get-elements-of-type:
+
+.. automethod:: xtrack.line.Line.get_elements_of_type
+
+.. _line-api-deprecated-method-get-s-elements:
+
+.. automethod:: xtrack.line.Line.get_s_elements
+
+.. _line-api-deprecated-method-get-s-position:
+
+.. automethod:: xtrack.line.Line.get_s_position
+
+.. _line-api-deprecated-method-insert-element:
 
 .. automethod:: xtrack.line.Line.insert_element
 
-.. _line-api-deprecated-methods-method-unfreeze:
+.. _line-api-deprecated-method-to-pandas:
+
+.. automethod:: xtrack.line.Line.to_pandas
+
+.. _line-api-deprecated-method-unfreeze:
 
 .. automethod:: xtrack.line.Line.unfreeze
+
+.. _line-api-deprecated-properties:
+
+.. _line-api-deprecated-property-builder:
+
+.. autoproperty:: xtrack.line.Line.builder
+
+.. _line-api-deprecated-property-varval:
+
+.. autoproperty:: xtrack.line.Line.varval
+
+.. _line-api-deprecated-property-vv:
+
+.. autoproperty:: xtrack.line.Line.vv
 
 .. _line-api-upcoming-deprecations:
 
@@ -1183,10 +1209,6 @@ Go to :ref:`Summary table <line-api-upcoming-deprecations-summary>`
 .. _line-api-upcoming-deprecations-method-check-aperture:
 
 .. automethod:: xtrack.line.Line.check_aperture
-
-.. _line-api-upcoming-deprecations-method-copy-element-from:
-
-.. automethod:: xtrack.line.Line.copy_element_from
 
 .. _line-api-upcoming-deprecations-method-extend:
 
@@ -1204,25 +1226,17 @@ Go to :ref:`Summary table <line-api-upcoming-deprecations-summary>`
 
 .. automethod:: xtrack.line.Line.get_aperture_table
 
-.. _line-api-upcoming-deprecations-method-get-elements-of-type:
-
-.. automethod:: xtrack.line.Line.get_elements_of_type
-
-.. _line-api-upcoming-deprecations-method-to-pandas:
-
-.. automethod:: xtrack.line.Line.to_pandas
-
 .. _line-api-upcoming-deprecations-method-unfreeze-vars:
 
 .. automethod:: xtrack.line.Line.unfreeze_vars
 
 .. _line-api-upcoming-deprecations-properties:
 
-.. _line-api-upcoming-deprecations-property-builder:
+.. _line-api-upcoming-deprecations-property-collimators:
 
-.. autoproperty:: xtrack.line.Line.builder
+.. autoproperty:: xtrack.line.Line.collimators
 
-.. _line-api-upcoming-deprecations-property-vv:
+.. _line-api-upcoming-deprecations-property-scattering:
 
-.. autoproperty:: xtrack.line.Line.vv
+.. autoproperty:: xtrack.line.Line.scattering
 
