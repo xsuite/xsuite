@@ -794,19 +794,23 @@ H_{B} = \frac{p_\tau}{\beta_0} -(1 + hx) \left( \sqrt{(1 + \delta)^2 - p_x^2 - p
 
 For compactness, define
 \begin{align}
+p_w &= \sqrt{(1+\delta)^2-p_y^2}, \\
 p_z(0) &= \sqrt{(1+\delta)^2-p_x(0)^2-p_y^2}, \\
-p_z(s) &= \sqrt{(1+\delta)^2-p_x(s)^2-p_y^2}.
+p_z(s) &= \sqrt{(1+\delta)^2-p_x(s)^2-p_y^2}, \\
+\Delta a(s) &=
+\sin^{-1}\left(\frac{p_x(0)}{p_w}\right)
+-\sin^{-1}\left(\frac{p_x(s)}{p_w}\right).
 \end{align}
 
 The corresponding map is adapted from \cite{forest99}:
 \begin{align}
 x(s) &= \frac{1}{hK_0 \chi} \left( h p_z(s) - \frac{dp_x(s)}{ds} - K_0 \chi \right) \\
 p_x(s) &= p_x(0) \cos(h s) + \left( p_z(0) - K_0 \chi \left( \frac{1}{h} + x(0) \right) \right) \sin(h s) \\
-y(s) &= y + \frac{p_y s h}{K_0 \chi} + \frac{p_y}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x(0)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right) \\
+y(s) &= y + \frac{p_y}{K_0\chi}\left[hs+\Delta a(s)\right] \\
 p_y(s) &= p_y \\
 \delta(s) &= \delta \\
 \ell(s) &= \ell +
-  \frac{(1 + \delta) s h}{K_0 \chi} + \frac{(1 + \delta)}{K_0 \chi} \left( \sin^{-1} \left( \frac{p_x(0)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) - \sin^{-1} \left( \frac{p_x(s)}{\sqrt{(1 + \delta)^2 - p_y^2}} \right) \right)
+  \frac{1+\delta}{K_0\chi}\left[hs+\Delta a(s)\right]
 \end{align}
 
 \paragraph{Numerically stable horizontal update}
@@ -894,6 +898,68 @@ The horizontal coordinate is then updated as
 \begin{equation}
 x(s) = x(0) + \Delta x(s).
 \end{equation}
+
+\paragraph{Numerically stable vertical and longitudinal update}
+
+The vertical and longitudinal maps depend on the inverse-sine difference
+\(\Delta a(s)\). Directly subtracting the two inverse sines can lose precision
+when their arguments are close. With
+\begin{equation}
+u=\frac{p_x(0)}{p_w}, \qquad v=\frac{p_x(s)}{p_w},
+\end{equation}
+we use
+\begin{equation}
+\sin^{-1}(u)-\sin^{-1}(v)
+=
+\operatorname{atan2}\left(
+u\sqrt{1-v^2}-v\sqrt{1-u^2},
+\sqrt{1-u^2}\sqrt{1-v^2}+uv
+\right).
+\end{equation}
+Since
+\begin{equation}
+\sqrt{1-u^2}=\frac{p_z(0)}{p_w}, \qquad
+\sqrt{1-v^2}=\frac{p_z(s)}{p_w},
+\end{equation}
+the common factor \(1/p_w^2\) cancels, giving
+\begin{equation}
+\Delta a(s)
+=
+\operatorname{atan2}
+\left(
+p_x(0)p_z(s)-p_x(s)p_z(0),
+p_z(0)p_z(s)+p_x(0)p_x(s)
+\right).
+\end{equation}
+The numerator is evaluated without subtracting two nearly equal products. Define
+\begin{equation}
+\Delta p_x(s) \equiv p_x(s)-p_x(0)
+=
+-2p_x(0)\sin^2\left(\frac{hs}{2}\right)+C\sin(hs).
+\end{equation}
+Then
+\begin{align}
+N_a(s)
+&\equiv p_x(0)p_z(s)-p_x(s)p_z(0) \\
+&= p_x(0)\Delta p_z(s)-p_z(0)\Delta p_x(s),
+\end{align}
+and
+\begin{equation}
+D_a(s) \equiv p_z(0)p_z(s)+p_x(0)p_x(s).
+\end{equation}
+The implemented inverse-sine difference is therefore
+\begin{equation}
+\Delta a(s)=\operatorname{atan2}\left(N_a(s),D_a(s)\right).
+\end{equation}
+Using
+\begin{equation}
+I(s)=\frac{hs+\Delta a(s)}{K_0\chi},
+\end{equation}
+the vertical and longitudinal updates are
+\begin{align}
+y(s) &= y + p_y I(s), \\
+\ell(s) &= \ell + (1+\delta) I(s).
+\end{align}
 
 \subsection{Straight exact bend}
 
