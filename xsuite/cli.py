@@ -12,11 +12,11 @@ from xsuite.prebuild_kernels import (
 
 def regenerate_command(args):
     n_threads = args.threads
-    regenerate_kernels(n_threads=n_threads)
+    regenerate_kernels(n_threads=n_threads, context=args.context)
 
 
 def clean_command(args):
-    clear_kernels(verbose=args.verbose)
+    clear_kernels(verbose=args.verbose, context=args.context)
     print('Cleaned kernels.')
 
 
@@ -49,6 +49,12 @@ def main():
         help='specify the number of threads for kernel generation '
              '(default or zero: let multiprocessing decide)',
     )
+    regenerate_parser.add_argument(
+        '--context',
+        choices=('serial', 'omp'),
+        default='serial',
+        help='build serial CPU kernels or OpenMP CPU kernels',
+    )
     regenerate_parser.set_defaults(func=regenerate_command)
 
     # `clean` command
@@ -61,6 +67,12 @@ def main():
         '-v', '--verbose',
         help='list the files being deleted',
         action='store_true',
+    )
+    clean_parser.add_argument(
+        '--context',
+        choices=('serial', 'omp'),
+        default=None,
+        help='remove only kernels for the selected CPU context',
     )
     clean_parser.set_defaults(func=clean_command)
 
