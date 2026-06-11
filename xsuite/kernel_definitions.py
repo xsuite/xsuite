@@ -41,9 +41,9 @@ kernel_definitions = [
         'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
     }),
-    ('only_xtrack_with_synrad', {
+    ('all_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
-        'classes': ONLY_XTRACK_ELEMENTS,
+        'classes': ONLY_XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': [xt.Particles],
     }),
     ('all_with_radiative', {
