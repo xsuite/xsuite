@@ -84,6 +84,10 @@ Members - short description
      - xdeps dependency manager for variables, element references, and expressions.
    * - :ref:`vars <line-api-editing-inspection-variables-and-configuration-property-vars>`
      - Variables container associated with the environment.
+   * - :ref:`xcoll <line-api-editing-inspection-variables-and-configuration-property-xcoll>`
+     - Xcoll-specific helpers associated with this environment.
+   * - :ref:`xfields <line-api-editing-inspection-variables-and-configuration-property-xfields>`
+     - Xfields-specific helpers associated with this environment.
 
 .. _line-api-reference-particle-and-particle-generation-summary:
 
@@ -169,10 +173,16 @@ Members - short description
 
    * - Member
      - Description
+   * - :ref:`from_​madx(...) <line-api-deprecated-method-from-madx>`
+     - Load a multiline from a MAD-X file.
    * - :ref:`new_​builder(...) <line-api-deprecated-method-new-builder>`
-     - Deprecated. Create a new builder.
+     - Deprecated. Create a new composer.
    * - :ref:`set_​multipolar_​errors(...) <line-api-deprecated-method-set-multipolar-errors>`
      - Deprecated: set multipolar errors for specified elements of the environment.
+   * - :ref:`varval <line-api-deprecated-property-varval>`
+     - Convenience accessor to variable values.
+   * - :ref:`vv <line-api-deprecated-property-vv>`
+     - Short alias for variable values.
 
 .. _line-api-upcoming-deprecations-summary:
 
@@ -185,19 +195,11 @@ Members - short description
    * - Member
      - Description
    * - :ref:`apply_​filling_​pattern(...) <line-api-upcoming-deprecations-method-apply-filling-pattern>`
-     - Enable only he beam-beam elements corresponding to actual encounters for the given filling pattern and the selected bunches.
+     - Deprecated alias for ``env.xfields.apply_​filling_​pattern(...)``.
    * - :ref:`configure_​beambeam_​interactions(...) <line-api-upcoming-deprecations-method-configure-beambeam-interactions>`
-     - Configure the beam-beam elements in the lines.
-   * - :ref:`copy_​element_​from(...) <line-api-upcoming-deprecations-method-copy-element-from>`
-     - Copy an element from another environment.
-   * - :ref:`from_​madx(...) <line-api-upcoming-deprecations-method-from-madx>`
-     - Load a multiline from a MAD-X file.
+     - Deprecated alias for ``env.xfields.configure_​beambeam_​interactions(...)``.
    * - :ref:`install_​beambeam_​interactions(...) <line-api-upcoming-deprecations-method-install-beambeam-interactions>`
-     - Install beam-beam elements in the lines. Elements are inserted in the lines in the appropriate positions. They are not configured and are kept inactive.
-   * - :ref:`varval <line-api-upcoming-deprecations-property-varval>`
-     - Convenience accessor to variable values.
-   * - :ref:`vv <line-api-upcoming-deprecations-property-vv>`
-     - Deprecated short alias for variable values.
+     - Deprecated alias for ``env.xfields.install_​beambeam_​interactions(...)``.
 
 
 Members - full description
@@ -310,6 +312,14 @@ Go to :ref:`Summary table <line-api-editing-inspection-variables-and-configurati
 
 .. autoproperty:: xtrack.environment.Environment.vars
 
+.. _line-api-editing-inspection-variables-and-configuration-property-xcoll:
+
+.. autoproperty:: xtrack.environment.Environment.xcoll
+
+.. _line-api-editing-inspection-variables-and-configuration-property-xfields:
+
+.. autoproperty:: xtrack.environment.Environment.xfields
+
 .. _line-api-reference-particle-and-particle-generation:
 
 Reference Particle and Particle Generation
@@ -417,6 +427,10 @@ Go to :ref:`Summary table <line-api-deprecated-summary>`
 
 .. _line-api-deprecated-methods:
 
+.. _line-api-deprecated-method-from-madx:
+
+.. automethod:: xtrack.environment.Environment.from_madx
+
 .. _line-api-deprecated-method-new-builder:
 
 .. automethod:: xtrack.environment.Environment.new_builder
@@ -424,6 +438,16 @@ Go to :ref:`Summary table <line-api-deprecated-summary>`
 .. _line-api-deprecated-method-set-multipolar-errors:
 
 .. automethod:: xtrack.environment.Environment.set_multipolar_errors
+
+.. _line-api-deprecated-properties:
+
+.. _line-api-deprecated-property-varval:
+
+.. autoproperty:: xtrack.environment.Environment.varval
+
+.. _line-api-deprecated-property-vv:
+
+.. autoproperty:: xtrack.environment.Environment.vv
 
 .. _line-api-upcoming-deprecations:
 
@@ -442,25 +466,7 @@ Go to :ref:`Summary table <line-api-upcoming-deprecations-summary>`
 
 .. automethod:: xtrack.environment.Environment.configure_beambeam_interactions
 
-.. _line-api-upcoming-deprecations-method-copy-element-from:
-
-.. automethod:: xtrack.environment.Environment.copy_element_from
-
-.. _line-api-upcoming-deprecations-method-from-madx:
-
-.. automethod:: xtrack.environment.Environment.from_madx
-
 .. _line-api-upcoming-deprecations-method-install-beambeam-interactions:
 
 .. automethod:: xtrack.environment.Environment.install_beambeam_interactions
-
-.. _line-api-upcoming-deprecations-properties:
-
-.. _line-api-upcoming-deprecations-property-varval:
-
-.. autoproperty:: xtrack.environment.Environment.varval
-
-.. _line-api-upcoming-deprecations-property-vv:
-
-.. autoproperty:: xtrack.environment.Environment.vv
 

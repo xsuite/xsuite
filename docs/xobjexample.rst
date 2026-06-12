@@ -121,6 +121,13 @@ which provides the following set of C functions:
     /*gpufun*/ void DataStructure_set_s(DataStructure/*restrict*/ obj, double value);
     /*gpufun*/ /*gpuglmem*/double* DataStructure_getp_s(DataStructure/*restrict*/ obj);
 
+The generated C declarations currently still use legacy magic comments such as
+``/*gpufun*/``, ``/*gpuglmem*/`` and ``/*restrict*/``. For new handwritten C
+code, however, include ``xobjects/headers/common.h`` and use macros such as
+``GPUFUN``, ``GPUKERN``, ``GPUGLMEM``, ``RESTRICT`` and ``VECTORIZE_OVER``.
+With macros, typos are caught by the compiler instead of being silently ignored
+as unknown comments.
+
 
 Writing a C kernel
 ------------------
@@ -132,21 +139,26 @@ As an example, using our example data structure, we write a C kernel function (r
 
     src = '''
 
-    /*gpukern*/
+    #include "xobjects/headers/common.h"
+
+    GPUKERN
     void myprod(DataStructure ob, int nelem){
 
-        for (int ii=0; ii<nelem; ii++){ //vectorize_over ii nelem
+        VECTORIZE_OVER(ii, nelem);
             double a_ii = DataStructure_get_a(ob, ii);
             double b_ii = DataStructure_get_b(ob, ii);
 
             double c_ii = a_ii * b_ii;
             DataStructure_set_c(ob, ii, c_ii);
-        } //end_vectorize
+        END_VECTORIZE;
 
     }
     '''
 
-Note the xobject annotation ``/*gpukern*/`` that specifies that the function is a kernel, as well as annotations ``//vectorize_over ii nelem`` and ``//end_vectorize`` which identifies the variable on which the calculation can be performed in parallel and the corresponding range (i.e. 0 <= ii < nelem).
+Note the Xobjects macros ``GPUKERN``, ``VECTORIZE_OVER`` and
+``END_VECTORIZE``. The first specifies that the function is a kernel. The
+vectorization macros identify the variable on which the calculation can be
+performed in parallel and the corresponding range (i.e. 0 <= ii < nelem).
 
 
 Compiling the kernel
@@ -248,7 +260,6 @@ If the chosen context is a ``ContextCupy`` the generated specialized source is:
         //end autovectorized
 
     }
-
 
 
 

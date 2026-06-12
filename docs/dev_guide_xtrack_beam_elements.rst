@@ -9,3 +9,4 @@ Definition of new Xtrack-compatible beam elements
     dev_guide_xtbe_tracking_code
     dev_guide_xtbe_internal_record
     dev_guide_xtbe_lost_part_codes
+    dev_guide_xtbe_prebuilt_kernels
