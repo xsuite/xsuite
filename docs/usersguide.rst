@@ -9,6 +9,7 @@
    gettingstarted
    units
    environment
+   tables
    lattice_model
    twiss
    match

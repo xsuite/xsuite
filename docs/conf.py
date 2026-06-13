@@ -210,6 +210,8 @@ snippet_files = {
         'generated_code_snippets/tracking_for_da.py',
     'xtrack/examples/toy_ring/003_slicing.py':
         'generated_code_snippets/slicing.py',
+    'xtrack/examples/toy_ring/004b_work_with_table.py':
+        'generated_code_snippets/work_with_table.py',
     'xtrack/examples/lattice_design/007b_insert_elements.py':
         'generated_code_snippets/insert_element.py',
     'xtrack/examples/lattice_design/007c_insert_individual.py':
@@ -312,6 +314,7 @@ snippet_files = {
         'generated_code_snippets/monte_carlo_polarization.py',
     'xtrack/examples/monitor_multi_element/000_multi_element_monitor.py':
         'generated_code_snippets/multi_element_monitor.py',
+    
 }
 
 for ss, tt in snippet_files.items():
