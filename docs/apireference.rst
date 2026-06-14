@@ -581,6 +581,16 @@ See also: :doc:`Twiss <twiss>`.
 
 .. automethod:: xtrack.Line.twiss
 
+TwissTable class
+----------------
+
+The :class:`xtrack.TwissTable` class is the table returned by
+:meth:`xtrack.Line.twiss`.
+
+.. autoclass:: xtrack.TwissTable
+    :members:
+    :member-order: bysource
+
 Match
 =====
 
