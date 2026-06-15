@@ -562,6 +562,16 @@ different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
 
 .. include:: line_api.rst
 
+LineTable class
+---------------
+
+The :class:`xtrack.line.LineTable` class is the table returned by
+:meth:`xtrack.Line.get_table`.
+
+.. autoclass:: xtrack.line.LineTable
+    :members:
+    :member-order: bysource
+
 .. _track_method_label:
 
 Track
