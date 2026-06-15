@@ -580,6 +580,19 @@ Environment containers
     :members:
     :member-order: bysource
 
+Table class
+-----------
+
+The :class:`xtrack.Table` class is the base table used by xtrack table outputs
+and provides selection, display, and serialization helpers. Row and column
+selection is available through the inherited :attr:`~xdeps.Table.rows` and
+:attr:`~xdeps.Table.cols` accessors.
+
+.. autoclass:: xtrack.Table
+    :members:
+    :inherited-members:
+    :member-order: bysource
+
 VarsTable
 ~~~~~~~~~
 
