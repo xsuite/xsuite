@@ -332,8 +332,8 @@ Tables support convenient filtering and regex matching (see
 Setting element properties
 --------------------------
 
-``env.set`` assigns numbers or expressions to one or many elements. When a
-string is passed, it is treated as a deferred expression.
+``env.set`` assigns numbers or expressions to attributes of one or many elements.
+When a string is passed, it is treated as a deferred expression.
 
 .. code-block:: python
 
