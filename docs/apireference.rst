@@ -549,6 +549,16 @@ how can be found in the :doc:`Xsuite user's guide <usersguide>`).
 
 .. include:: environment_api.rst
 
+VarsTable class
+---------------
+
+The :class:`xtrack.environment.VarsTable` class is the table returned by
+environment variable table methods such as ``env.vars.get_table()``.
+
+.. autoclass:: xtrack.environment.VarsTable
+    :members:
+    :member-order: bysource
+
 xtrack.Line class
 =================
 
