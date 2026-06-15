@@ -615,6 +615,7 @@ environment variable table methods such as ``env.vars.get_table()``.
 
 .. autoclass:: xtrack.environment.VarsTable
     :members:
+    :inherited-members:
     :member-order: bysource
 
 xtrack.Line class
@@ -638,6 +639,7 @@ The :class:`xtrack.line.LineTable` class is the table returned by
 
 .. autoclass:: xtrack.line.LineTable
     :members:
+    :inherited-members:
     :member-order: bysource
 
 .. _track_method_label:
@@ -667,6 +669,7 @@ The :class:`xtrack.TwissTable` class is the table returned by
 
 .. autoclass:: xtrack.TwissTable
     :members:
+    :inherited-members:
     :member-order: bysource
 
 .. _survey_method_label:
@@ -684,6 +687,7 @@ The :class:`xtrack.survey.SurveyTable` class is the table returned by
 
 .. autoclass:: xtrack.survey.SurveyTable
     :members:
+    :inherited-members:
     :member-order: bysource
 
 Match
