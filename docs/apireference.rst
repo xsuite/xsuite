@@ -593,6 +593,20 @@ selection is available through the inherited :attr:`~xdeps.Table.rows` and
     :inherited-members:
     :member-order: bysource
 
+Table row and column accessors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The :attr:`xtrack.Table.rows` and :attr:`xtrack.Table.cols` properties return
+accessor objects exposing row-selection and column-selection helpers.
+
+.. autoclass:: xdeps.table._RowView
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xdeps.table._ColView
+    :members:
+    :member-order: bysource
+
 VarsTable
 ~~~~~~~~~
 
