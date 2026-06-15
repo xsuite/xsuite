@@ -18,20 +18,19 @@ An ``xt.Environment`` is the shared container that keeps together:
   environment.
 - **Additional data** including reference particles and user-defined functions.
 
+The contents of all these containers can be inspected with the ``.get_table()``
+method, and a list of all names in each container is available with the ``.keys()``
+method.
+
 Named objects can be accessed in different ways.
 
 The most common access mode is ``env['name']``, which gives access to the named
 variable, line, element, or particle stored in the environment (for elements and
-particles this returns a view object, so assignments can use deferred
-expressions; see :ref:`environment-values-views-references`).
+particles this returns a :ref:`view object <environment-values-views-references>`,
+so assignments can use deferred expressions).
 
-Accessing ``env.ref['name']`` returns a reference object that keeps track of
-expressions; use references whenever you want to build expressions or inspect
-dependencies.
-
-The contents of all these containers can be inspected with the ``.get_table()``
-method, and a list of all names in each container is available with the ``.keys()``
-method.
+Accessing ``env.ref['name']`` returns a reference object that allows inspecting
+and manipulating deferred expressions and dependencies. 
 
 A simple example illustrating the creation of an environment with variables,
 elements, and lines is shown below:
@@ -79,8 +78,6 @@ elements, and lines is shown below:
    # name      num_elements mode
    # fodo                 4 normal
    # half_fodo            2 normal
-
-   # Quick name listings
    env.vars.keys()      # is: ['t_turn_s', 'l_q', 'kq', 'kq.trim', 'kq.total']
    env.elements.keys()  # is: ['dr', 'qd', 'qf']
    env.lines.keys()     # is: ['fodo', 'half_fodo']
@@ -128,7 +125,7 @@ Defining variables and deferred expressions
 -------------------------------------------
 
 Variables can be provided by direct item assignment. Strings are parsed as
-expressions and can mix Python, NumPy, and other variables in the environment.
+expressions:
 
 .. code-block:: python
 
@@ -303,7 +300,8 @@ attributes), use ``env.elements.get_table(attr=True)``:
    # mq2.d Quadrupole             1.2        -0.192
    # ms1   Sextupole              0.3             0
 
-Tables support convenient filtering and regex matching:
+Tables support convenient filtering and regex matching (see
+:doc:`Working with tables <tables>`):
 
 .. code-block:: python
 
