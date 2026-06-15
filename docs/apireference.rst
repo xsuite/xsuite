@@ -549,8 +549,39 @@ how can be found in the :doc:`Xsuite user's guide <usersguide>`).
 
 .. include:: environment_api.rst
 
-VarsTable class
----------------
+Environment containers
+----------------------
+
+.. autoclass:: xtrack.environment.EnvVars
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.environment.EnvElements
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.environment.EnvParticles
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.environment.EnvLines
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.environment.EnvRef
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.environment.EnvParticleRef
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.environment.EnvXfields
+    :members:
+    :member-order: bysource
+
+VarsTable
+~~~~~~~~~
 
 The :class:`xtrack.environment.VarsTable` class is the table returned by
 environment variable table methods such as ``env.vars.get_table()``.
