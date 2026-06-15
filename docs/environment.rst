@@ -11,17 +11,24 @@ Overview
 An ``xt.Environment`` is the shared container that keeps together:
 
 - **Variables** in ``env.vars``: scalar knobs and deferred expressions used to
-  drive elements and lines. Their current value can be retrieved with ``env['name']``.
+  drive elements and lines.
 - **Elements** in ``env.elements``: magnets, markers, RF cavities, etc. They can
   be reused across multiple lines.
 - **Lines** in ``env.lines``: ordered sequences of elements assembled from the
   environment.
 - **Additional data** including reference particles and user-defined functions.
 
-Accessing ``env['name']`` returns the *value* of a variable, an element object,
-or a line. Accessing ``env.ref['name']`` returns a reference object that keeps
-track of expressions; use references whenever you want to build expressions or
-inspect dependencies.
+Named objects can be accessed in different ways.
+
+The most common access mode is ``env['name']``, which gives access to the named
+variable, line, element, or particle stored in the environment (for elements and
+particles this returns a view object, so assignments can use deferred
+expressions; see :ref:`environment-values-views-references`).
+
+Accessing ``env.ref['name']`` returns a reference object that keeps track of
+expressions; use references whenever you want to build expressions or inspect
+dependencies.
+
 The contents of all these containers can be inspected with the ``.get_table()``
 method, and a list of all names in each container is available with the ``.keys()``
 method.
@@ -894,6 +901,65 @@ Particles stored in the environment can be removed with ``del``:
 
    # Remove a stored particle
    del env.particles['my_ref_part']
+
+
+.. _environment-values-views-references:
+
+Values, views, and references
+=============================
+
+The environment distinguishes between three related concepts:
+
+- **Values** are the current numerical or object values obtained after evaluating
+  any deferred expressions.
+- **Views** are lightweight wrappers returned by ``env['name']`` for elements
+  and particles. A view behaves like the underlying object for normal attribute
+  access, but assignments are routed through the environment expression system.
+- **References** are xdeps objects returned by ``env.ref['name']``. They are used
+  to inspect expressions, inspect dependencies, and build new deferred
+  expressions.
+
+The following examples use a fresh environment. For variables, ``env['name']``
+and ``env.get('name')`` both return the current value, while
+``env.ref['name']`` returns the variable reference:
+
+.. code-block:: python
+
+   import xtrack as xt
+
+   env = xt.Environment()
+   env['a'] = 3.0
+   env['b'] = '2 * a'
+
+   env['b']       # 6.0
+   env.get('b')   # 6.0
+   env.ref['b']   # vars['b']
+
+For elements and particles, ``env['name']`` returns a view,
+``env.get('name')`` returns the raw stored object, and ``env.ref['name']``
+returns the dependency reference:
+
+.. code-block:: python
+
+   env.new('qf', xt.Quadrupole, length='5*a', k1='b')
+
+   env['qf'].length                  # 15.0, current value through the view
+   env.get('qf').length              # 15.0, value on the stored element
+   env.ref['qf'].length              # element_refs['qf'].length
+   env.ref['qf'].length.xdeps.expr   # (5.0 * vars['a'])
+
+The view and the stored object expose the same element values, but they are not
+the same Python object:
+
+.. code-block:: python
+
+   env['qf'] is env.get('qf')     # False
+   type(env['qf']).__name__       # 'View'
+   type(env.get('qf')).__name__   # 'Quadrupole'
+
+In ordinary use, prefer ``env['name']``. Use ``env.get('name')`` when object
+identity or the raw stored object matters. Use ``env.ref['name']`` when working
+with expressions or dependencies.
 
 
 Saving and loading environment or individual lines
