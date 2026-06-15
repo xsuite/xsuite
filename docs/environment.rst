@@ -913,13 +913,14 @@ The environment distinguishes between three related concepts:
 - **Views** are lightweight wrappers returned by ``env['name']`` for elements
   and particles. A view behaves like the underlying object for normal attribute
   access, but assignments are routed through the environment expression system.
+  This is what makes it possible to assign deferred expressions to element or
+  particle attributes.
 - **References** are xdeps objects returned by ``env.ref['name']``. They are used
   to inspect expressions, inspect dependencies, and build new deferred
   expressions.
 
-The following examples use a fresh environment. For variables, ``env['name']``
-and ``env.get('name')`` both return the current value, while
-``env.ref['name']`` returns the variable reference:
+For variables, ``env['name']`` and ``env.get('name')`` both return the current
+value, while ``env.ref['name']`` returns the variable reference:
 
 .. code-block:: python
 
@@ -945,6 +946,23 @@ returns the dependency reference:
    env.get('qf').length              # 15.0, value on the stored element
    env.ref['qf'].length              # element_refs['qf'].length
    env.ref['qf'].length.xdeps.expr   # (5.0 * vars['a'])
+
+The main difference between the view and the raw object appears when assigning
+expressions. ``env['name']`` can be used to set an element attribute to an expression:
+
+.. code-block:: python
+
+   env['qf'].k1 = '2 * a'
+
+   env['qf'].k1                  # 6.0
+   env.ref['qf'].k1.xdeps.expr   # (2.0 * vars['a'])
+
+On the other hand, the raw stored object does not support expression assignment:
+
+.. code-block:: python
+
+   env.get('qf').k1 = 0.5        # numerical assignment is possible
+   # env.get('qf').k1 = '2 * a'  # not supported: the raw field expects a number
 
 The view and the stored object expose the same element values, but they are not
 the same Python object:
