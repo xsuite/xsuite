@@ -67,19 +67,19 @@ Members - short description
    * - :ref:`element_​dict <line-api-editing-inspection-variables-and-configuration-property-element-dict>`
      - Dictionary-like container of elements in the environment.
    * - :ref:`element_​refs <line-api-editing-inspection-variables-and-configuration-property-element-refs>`
-     - Dictionary-like container of xdeps element references.
+     - xdeps reference container for element fields.
    * - :ref:`elements <line-api-editing-inspection-variables-and-configuration-property-elements>`
-     - Container of environment elements; item access returns ``View`` objects.
+     - Container of elements stored in the environment.
    * - :ref:`functions <line-api-editing-inspection-variables-and-configuration-property-functions>`
      - xdeps function container used in expressions.
    * - :ref:`line_​names <line-api-editing-inspection-variables-and-configuration-property-line-names>`
-     - List of names of all lines currently in the environment.
+     - Names of all lines currently in the environment.
    * - :ref:`lines <line-api-editing-inspection-variables-and-configuration-property-lines>`
      - Container of named lines registered in this environment.
    * - :ref:`metadata <line-api-editing-inspection-variables-and-configuration-property-metadata>`
      - User metadata associated with the environment.
    * - :ref:`ref <line-api-editing-inspection-variables-and-configuration-property-ref>`
-     - xdeps reference container for variables, elements and particles.
+     - xdeps reference container for variables, elements, particles, and lines.
    * - :ref:`ref_​manager <line-api-editing-inspection-variables-and-configuration-property-ref-manager>`
      - xdeps dependency manager for variables, element references, and expressions.
    * - :ref:`vars <line-api-editing-inspection-variables-and-configuration-property-vars>`
@@ -104,9 +104,9 @@ Members - short description
    * - :ref:`set_​particle_​ref(...) <line-api-reference-particle-and-particle-generation-method-set-particle-ref>`
      - Set the environment reference particle and optionally propagate it to lines.
    * - :ref:`particle_​ref <line-api-reference-particle-and-particle-generation-property-particle-ref>`
-     - Reference particle accessor, or ``None`` if not configured.
+     - Reference particle associated with the environment.
    * - :ref:`particles <line-api-reference-particle-and-particle-generation-property-particles>`
-     - Container of named particles; item access returns ``View`` objects.
+     - Container of named particle references stored in the environment.
 
 .. _line-api-analysis-and-matching-summary:
 
