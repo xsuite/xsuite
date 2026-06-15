@@ -591,6 +591,23 @@ The :class:`xtrack.TwissTable` class is the table returned by
     :members:
     :member-order: bysource
 
+.. _survey_method_label:
+
+Survey
+======
+
+.. automethod:: xtrack.Line.survey
+
+SurveyTable class
+-----------------
+
+The :class:`xtrack.survey.SurveyTable` class is the table returned by
+:meth:`xtrack.Line.survey`.
+
+.. autoclass:: xtrack.survey.SurveyTable
+    :members:
+    :member-order: bysource
+
 Match
 =====
 
