@@ -28,7 +28,7 @@ BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_IN
                             | XCOLL_ELEMENTS_INIT_DEFAULTS
 
 SERIAL_CONTEXT = 'serial'
-OPENMP_CONTEXT = 'omp'
+OPENMP_CONTEXT = 'openmp'
 CONTEXT_SUFFIXES = {
     SERIAL_CONTEXT: '_cpu_serial',
     OPENMP_CONTEXT: '_cpu_openmp',
@@ -41,6 +41,31 @@ def _context_key_from_cli(context: Optional[str]) -> Optional[str]:
     if context not in (SERIAL_CONTEXT, OPENMP_CONTEXT):
         raise ValueError(f'Unsupported prebuild context `{context}`.')
     return context
+
+
+def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
+    if context is None:
+        return None
+
+    if isinstance(context, str):
+        raw_contexts = context.split(',')
+    elif hasattr(context, '__iter__'):
+        raw_contexts = context
+    else:
+        raw_contexts = [context]
+
+    context_keys = []
+    for raw_context in raw_contexts:
+        if raw_context is None:
+            continue
+        context_key = _context_key_from_cli(raw_context.strip())
+        if context_key not in context_keys:
+            context_keys.append(context_key)
+
+    if not context_keys:
+        raise ValueError('At least one prebuild context must be provided.')
+
+    return tuple(context_keys)
 
 
 def _context_key_from_runtime(context) -> Optional[str]:
@@ -277,7 +302,7 @@ def regenerate_kernels(
         kernels = [kernels]
 
     location = Path(location)
-    context_key = _context_key_from_cli(context)
+    context_keys = _context_keys_from_cli(context)
 
     # Delete existing kernels to avoid accidentally loading in existing C code
     clear_kernels(kernels=kernels, location=location, context=context)
@@ -289,11 +314,12 @@ def regenerate_kernels(
         for base_module_name, metadata in kernel_definitions:
             if kernels is not None and base_module_name not in kernels:
                 continue
-            module_name = _module_name_for_context(base_module_name, context_key)
-            kernels_to_build.append((base_module_name, module_name, metadata))
+            for context_key in context_keys:
+                module_name = _module_name_for_context(base_module_name, context_key)
+                kernels_to_build.append((base_module_name, module_name, metadata, context_key))
 
         if n_threads == 0:
-            for idx, (base_module_name, module_name, metadata) in enumerate(kernels_to_build):
+            for idx, (base_module_name, module_name, metadata, context_key) in enumerate(kernels_to_build):
                 build_single_kernel(
                     idx, len(kernels_to_build), location, metadata, module_name,
                     base_module_name, context_key,
@@ -301,7 +327,7 @@ def regenerate_kernels(
         else:
             thread_pool = get_context('spawn').Pool(processes=n_threads)
             results = []
-            for idx, (base_module_name, module_name, metadata) in enumerate(kernels_to_build):
+            for idx, (base_module_name, module_name, metadata, context_key) in enumerate(kernels_to_build):
                 args = (
                     idx, len(kernels_to_build), location, metadata, module_name,
                     base_module_name, context_key,
@@ -405,7 +431,7 @@ def clear_kernels(
         kernels = [kernels]
 
     location = Path(location)
-    context_key = _context_key_from_cli(context)
+    context_keys = _context_keys_from_cli(context)
 
     for file in location.iterdir():
         if file.name.startswith('_'):
@@ -418,7 +444,7 @@ def clear_kernels(
 
         if kernels is not None and base_module_name not in kernels:
             continue
-        if context_key is not None and file_context_key != context_key:
+        if context_keys is not None and file_context_key not in context_keys:
             continue
         file.unlink()
 

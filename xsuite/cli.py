@@ -7,16 +7,17 @@ from importlib.metadata import version
 
 from xsuite.prebuild_kernels import (
     clear_kernels, regenerate_kernels, XSK_PREBUILT_KERNELS_LOCATION,
+    SERIAL_CONTEXT, OPENMP_CONTEXT,
 )
 
 
 def regenerate_command(args):
     n_threads = args.threads
-    regenerate_kernels(n_threads=n_threads, context=args.context)
+    regenerate_kernels(n_threads=n_threads, context=args.kind)
 
 
 def clean_command(args):
-    clear_kernels(verbose=args.verbose, context=args.context)
+    clear_kernels(verbose=args.verbose, context=args.kind)
     print('Cleaned kernels.')
 
 
@@ -24,6 +25,24 @@ def info_command(args):
     version_str = version("xsuite")
     print(f'Xsuite version {version_str}')
     print(f'Kernels location: {XSK_PREBUILT_KERNELS_LOCATION}')
+
+
+def parse_kind_argument(value):
+    kinds = []
+    for raw_kind in value.split(','):
+        kind = raw_kind.strip()
+        if kind not in (SERIAL_CONTEXT, OPENMP_CONTEXT):
+            raise argparse.ArgumentTypeError(
+                f'unsupported kind `{kind}`; expected `serial`, `openmp`, '
+                f'or a comma-separated combination'
+            )
+        if kind not in kinds:
+            kinds.append(kind)
+
+    if not kinds:
+        raise argparse.ArgumentTypeError('at least one kind must be provided')
+
+    return tuple(kinds)
 
 
 def main():
@@ -50,10 +69,10 @@ def main():
              '(default or zero: let multiprocessing decide)',
     )
     regenerate_parser.add_argument(
-        '--context',
-        choices=('serial', 'omp'),
-        default='serial',
-        help='build serial CPU kernels or OpenMP CPU kernels',
+        '--kind',
+        type=parse_kind_argument,
+        default=(SERIAL_CONTEXT,),
+        help='build `serial`, `openmp`, or both with `serial,openmp`',
     )
     regenerate_parser.set_defaults(func=regenerate_command)
 
@@ -69,10 +88,10 @@ def main():
         action='store_true',
     )
     clean_parser.add_argument(
-        '--context',
-        choices=('serial', 'omp'),
+        '--kind',
+        type=parse_kind_argument,
         default=None,
-        help='remove only kernels for the selected CPU context',
+        help='remove only `serial`, `openmp`, or both with `serial,openmp`',
     )
     clean_parser.set_defaults(func=clean_command)
 
