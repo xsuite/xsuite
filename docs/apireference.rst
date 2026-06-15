@@ -591,7 +591,7 @@ selection is available through the inherited :attr:`~xdeps.Table.rows` and
 .. autoclass:: xtrack.Table
     :members:
     :inherited-members:
-    :member-order: bysource
+    :member-order: alphabetical
 
 Table row and column accessors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -601,11 +601,11 @@ accessor objects exposing row-selection and column-selection helpers.
 
 .. autoclass:: xdeps.table._RowView
     :members:
-    :member-order: bysource
+    :member-order: alphabetical
 
 .. autoclass:: xdeps.table._ColView
     :members:
-    :member-order: bysource
+    :member-order: alphabetical
 
 VarsTable
 ~~~~~~~~~
@@ -616,7 +616,7 @@ environment variable table methods such as ``env.vars.get_table()``.
 .. autoclass:: xtrack.environment.VarsTable
     :members:
     :inherited-members:
-    :member-order: bysource
+    :member-order: alphabetical
 
 xtrack.Line class
 =================
@@ -640,7 +640,7 @@ The :class:`xtrack.line.LineTable` class is the table returned by
 .. autoclass:: xtrack.line.LineTable
     :members:
     :inherited-members:
-    :member-order: bysource
+    :member-order: alphabetical
 
 .. _track_method_label:
 
@@ -670,7 +670,7 @@ The :class:`xtrack.TwissTable` class is the table returned by
 .. autoclass:: xtrack.TwissTable
     :members:
     :inherited-members:
-    :member-order: bysource
+    :member-order: alphabetical
 
 .. _survey_method_label:
 
@@ -688,7 +688,7 @@ The :class:`xtrack.survey.SurveyTable` class is the table returned by
 .. autoclass:: xtrack.survey.SurveyTable
     :members:
     :inherited-members:
-    :member-order: bysource
+    :member-order: alphabetical
 
 Match
 =====
