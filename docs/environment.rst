@@ -378,6 +378,15 @@ Lines
 See :ref:`xtrack.Line class <line-api-reference>` in the Reference guide for the
 complete line API.
 
+A line is an ordered sequence of beam elements that defines the path followed by
+particles during tracking and optics calculations. In an environment, lines are
+assembled from elements stored in ``env.elements`` and can reuse the same
+variables, elements, and reference particles as other lines. The sections below
+show how to build lines from existing elements, inspect their layout, place
+elements at specified longitudinal positions, compose and mirror line fragments,
+insert or remove elements after construction, and manage lines stored in
+``env.lines``.
+
 Create line as list of existing elements
 ----------------------------------------
 
