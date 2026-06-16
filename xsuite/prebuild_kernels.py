@@ -27,11 +27,83 @@ XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_INIT_DEFAULTS \
                             | XCOLL_ELEMENTS_INIT_DEFAULTS
 
+SERIAL_CONTEXT = 'serial'
+OPENMP_CONTEXT = 'openmp'
+CONTEXT_SUFFIXES = {
+    SERIAL_CONTEXT: '_cpu_serial',
+    OPENMP_CONTEXT: '_cpu_openmp',
+}
 
+
+def _context_key_from_cli(context: Optional[str]) -> Optional[str]:
+    if context is None:
+        return None
+    if context not in (SERIAL_CONTEXT, OPENMP_CONTEXT):
+        raise ValueError(f'Unsupported prebuild context `{context}`.')
+    return context
+
+
+def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
+    if context is None:
+        return None
+
+    if isinstance(context, str):
+        raw_contexts = context.split(',')
+    elif hasattr(context, '__iter__'):
+        raw_contexts = context
+    else:
+        raw_contexts = [context]
+
+    context_keys = []
+    for raw_context in raw_contexts:
+        if raw_context is None:
+            continue
+        context_key = _context_key_from_cli(raw_context.strip())
+        if context_key not in context_keys:
+            context_keys.append(context_key)
+
+    if not context_keys:
+        raise ValueError('At least one prebuild context must be provided.')
+
+    return tuple(context_keys)
+
+
+def _context_key_from_runtime(context) -> Optional[str]:
+    if context is None:
+        return None
+    if not isinstance(context, xo.ContextCpu):
+        return None
+    if context.openmp_enabled:
+        return OPENMP_CONTEXT
+    return SERIAL_CONTEXT
+
+
+def _context_key_from_metadata(kernel_metadata: dict) -> str:
+    return kernel_metadata.get('context', SERIAL_CONTEXT)
+
+
+def _split_module_name(module_name: str) -> Tuple[str, str]:
+    for context_key, suffix in CONTEXT_SUFFIXES.items():
+        if module_name.endswith(suffix):
+            return module_name[:-len(suffix)], context_key
+    return module_name, SERIAL_CONTEXT
+
+
+def _module_name_for_context(base_module_name: str, context_key: str) -> str:
+    return f'{base_module_name}{CONTEXT_SUFFIXES[context_key]}'
+
+
+def _iter_kernel_metadata_files():
+    for metadata_file in sorted(XSK_PREBUILT_KERNELS_LOCATION.glob('*.json')):
+        if metadata_file.name.startswith('_'):
+            continue
+        yield metadata_file
 
 
 def save_kernel_metadata(
         module_name: str,
+        base_module_name: str,
+        context_key: str,
         config: dict,
         tracker_element_classes,
         all_classes,
@@ -41,6 +113,8 @@ def save_kernel_metadata(
     out_file = location / f'{module_name}.json'
 
     kernel_metadata = {
+        'base_module_name': base_module_name,
+        'context': context_key,
         'config': config.data,
         'tracker_element_classes': [cls._DressingClass.__name__ for cls in tracker_element_classes],
         'classes': [getattr(cls, '_DressingClass', cls).__name__ for cls in all_classes],
@@ -61,14 +135,25 @@ def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
     xsuite. The first element of the tuple is the name of the kernel module
     and the second is a dictionary with the kernel metadata.
     """
-    for kernel_name, _ in kernel_definitions:
-        metadata_file = XSK_PREBUILT_KERNELS_LOCATION / f'{kernel_name}.json'
-
-        if not metadata_file.exists():
-            continue
+    kernel_order = {name: idx for idx, (name, _) in enumerate(kernel_definitions)}
+    candidates = []
+    for metadata_file in _iter_kernel_metadata_files():
+        module_name = metadata_file.stem
 
         with metadata_file.open('r') as fd:
             kernel_metadata = json.load(fd)
+
+        base_module_name = kernel_metadata.get('base_module_name')
+        if base_module_name is None:
+            base_module_name, _ = _split_module_name(module_name)
+            kernel_metadata['base_module_name'] = base_module_name
+
+        explicit_context = 'context' in kernel_metadata
+        context_key = _context_key_from_metadata(kernel_metadata)
+        kernel_metadata['context'] = context_key
+
+        if base_module_name not in kernel_order:
+            continue
 
         needed_versions = kernel_metadata['versions']
         have_versions = {
@@ -88,20 +173,29 @@ def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
             version_mismatch = True
             if verbose:
                 _print(
-                    f'Version mismatch for kernel `{kernel_name}`: needs '
+                    f'Version mismatch for kernel `{module_name}`: needs '
                     f'{package}=={need}, but have {package}=={have}.'
                 )
 
         if version_mismatch:
             continue
 
-        yield metadata_file.stem, kernel_metadata
+        candidates.append((
+            kernel_order[base_module_name],
+            0 if explicit_context else 1,
+            module_name,
+            kernel_metadata,
+        ))
+
+    for _, _, module_name, kernel_metadata in sorted(candidates):
+        yield module_name, kernel_metadata
 
 
 def get_suitable_kernel(
         config: dict,
         tracker_element_classes,
         classes,
+        context=None,
         verbose=False,
 ) -> Optional[Tuple[str, list]]:
     """
@@ -124,10 +218,19 @@ def get_suitable_kernel(
         cls._DressingClass.__name__ for cls in tracker_element_classes
     ]
     requested_class_names = [getattr(cls, '_DressingClass', cls).__name__ for cls in classes]
+    requested_context = _context_key_from_runtime(context)
 
     for module_name, kernel_metadata in enumerate_kernels(verbose=verbose):
         if verbose:
             print(f"==> Considering the precompiled kernel `{module_name}`...")
+
+        kernel_context = _context_key_from_metadata(kernel_metadata)
+        if requested_context is not None and kernel_context != requested_context:
+            if verbose:
+                print(f'The kernel `{module_name}` is unsuitable. Its context '
+                      f'is `{kernel_context}`, but the requested one is '
+                      f'`{requested_context}`.')
+            continue
 
         if kernel_metadata['config'] != config:
             if verbose:
@@ -188,6 +291,7 @@ def regenerate_kernels(
         kernels=None,
         location=XSK_PREBUILT_KERNELS_LOCATION,
         n_threads=None,
+        context='serial',
 ):
     """
     Use the kernel definitions in the `kernel_definitions.py` file to
@@ -198,50 +302,72 @@ def regenerate_kernels(
         kernels = [kernels]
 
     location = Path(location)
+    context_keys = _context_keys_from_cli(context)
 
     # Delete existing kernels to avoid accidentally loading in existing C code
-    clear_kernels(kernels=kernels, location=location)
+    clear_kernels(kernels=kernels, location=location, context=context)
 
-    kernels_to_build = []
-    for module_name, metadata in kernel_definitions:
-        if kernels is not None and module_name not in kernels:
-            continue
-        kernels_to_build.append((module_name, metadata))
+    old_prebuilt_env = os.environ.get("XSUITE_PREBUILT_KERNELS")
+    os.environ["XSUITE_PREBUILT_KERNELS"] = "0"
+    try:
+        kernels_to_build = []
+        for base_module_name, metadata in kernel_definitions:
+            if kernels is not None and base_module_name not in kernels:
+                continue
+            for context_key in context_keys:
+                module_name = _module_name_for_context(base_module_name, context_key)
+                kernels_to_build.append((base_module_name, module_name, metadata, context_key))
 
-    if n_threads == 0:
-         for idx, (module_name, metadata) in enumerate(kernels_to_build):
-            build_single_kernel(idx, len(kernels_to_build), location, metadata, module_name)
-    else:
-        thread_pool = get_context('spawn').Pool(processes=n_threads)
-        results = []
-        for idx, (module_name, metadata) in enumerate(kernels_to_build):
-            args = (idx, len(kernels_to_build), location, metadata, module_name)
-            result = thread_pool.apply_async(build_single_kernel, args=args)
-            results.append(result)
+        if n_threads == 0:
+            for idx, (base_module_name, module_name, metadata, context_key) in enumerate(kernels_to_build):
+                build_single_kernel(
+                    idx, len(kernels_to_build), location, metadata, module_name,
+                    base_module_name, context_key,
+                )
+        else:
+            thread_pool = get_context('spawn').Pool(processes=n_threads)
+            results = []
+            for idx, (base_module_name, module_name, metadata, context_key) in enumerate(kernels_to_build):
+                args = (
+                    idx, len(kernels_to_build), location, metadata, module_name,
+                    base_module_name, context_key,
+                )
+                result = thread_pool.apply_async(build_single_kernel, args=args)
+                results.append(result)
 
-        thread_pool.close()
-        thread_pool.join()
+            thread_pool.close()
+            thread_pool.join()
 
-        # Ensure no errors
-        for result in results:
-            result.get()
+            # Ensure no errors
+            for result in results:
+                result.get()
+    finally:
+        if old_prebuilt_env is None:
+            del os.environ["XSUITE_PREBUILT_KERNELS"]
+        else:
+            os.environ["XSUITE_PREBUILT_KERNELS"] = old_prebuilt_env
 
     _print(f'Built {len(kernels_to_build)} kernels.')
 
 
-def build_single_kernel(idx, total, location, metadata, module_name):
+def build_single_kernel(
+        idx, total, location, metadata, module_name, base_module_name, context_key,
+):
     _print(f'[{idx + 1}/{total}] Building `{module_name}`...')
 
     config = metadata['config']
     element_classes = metadata['classes']
     extra_classes = metadata.get('extra_classes', [])
+    build_context = xo.ContextCpu() if context_key == SERIAL_CONTEXT else xo.ContextCpu(
+        omp_num_threads='auto'
+    )
 
     with warnings.catch_warnings():
         # We still include deprecated elements in the kernels, so silence the warnings
         warnings.filterwarnings('ignore', category=FutureWarning)
 
         elements = []
-        buffer = xo.context_default.new_buffer()
+        buffer = build_context.new_buffer()
         for cls in element_classes:
             if cls.__name__ in BEAM_ELEMENTS_INIT_DEFAULTS:
                 element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__],
@@ -251,7 +377,12 @@ def build_single_kernel(idx, total, location, metadata, module_name):
             elements.append(element)
 
     line = xt.Line(elements=elements)
-    tracker = xt.Tracker(line=line, compile=False, _prebuilding_kernels=True)
+    tracker = xt.Tracker(
+        line=line,
+        compile=False,
+        _context=build_context,
+        _prebuilding_kernels=True,
+    )
     assert tracker.iscollective == False
     tracker.config.clear()
     tracker.config.update(config)
@@ -280,6 +411,8 @@ def build_single_kernel(idx, total, location, metadata, module_name):
 
     save_kernel_metadata(
         module_name=module_name,
+        base_module_name=base_module_name,
+        context_key=context_key,
         config=tracker.config,
         tracker_element_classes=tracker._tracker_data_base.kernel_element_classes,
         all_classes=all_classes,
@@ -287,19 +420,31 @@ def build_single_kernel(idx, total, location, metadata, module_name):
     )
 
 
-def clear_kernels(kernels=None, verbose=False, location=XSK_PREBUILT_KERNELS_LOCATION):
+def clear_kernels(
+        kernels=None,
+        verbose=False,
+        location=XSK_PREBUILT_KERNELS_LOCATION,
+        context=None,
+):
     if kernels is not None and (
             isinstance(kernels, str) or not hasattr(kernels, '__iter__')):
         kernels = [kernels]
 
     location = Path(location)
+    context_keys = _context_keys_from_cli(context)
 
     for file in location.iterdir():
         if file.name.startswith('_'):
             continue
         if file.suffix not in ('.c', '.so', '.json'):
             continue
-        if kernels is not None and file.stem.split('.')[0] not in kernels:
+
+        module_name = file.stem.split('.')[0]
+        base_module_name, file_context_key = _split_module_name(module_name)
+
+        if kernels is not None and base_module_name not in kernels:
+            continue
+        if context_keys is not None and file_context_key not in context_keys:
             continue
         file.unlink()
 
