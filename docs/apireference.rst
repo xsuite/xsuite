@@ -580,33 +580,6 @@ Environment containers
     :members:
     :member-order: bysource
 
-Table class
------------
-
-The :class:`xtrack.Table` class is the base table used by xtrack table outputs
-and provides selection, display, and serialization helpers. Row and column
-selection is available through the inherited :attr:`~xdeps.Table.rows` and
-:attr:`~xdeps.Table.cols` accessors.
-
-.. autoclass:: xtrack.Table
-    :members:
-    :inherited-members:
-    :member-order: alphabetical
-
-Table row and column accessors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The :attr:`xtrack.Table.rows` and :attr:`xtrack.Table.cols` properties return
-accessor objects exposing row-selection and column-selection helpers.
-
-.. autoclass:: xdeps.table._RowView
-    :members:
-    :member-order: alphabetical
-
-.. autoclass:: xdeps.table._ColView
-    :members:
-    :member-order: alphabetical
-
 VarsTable
 ~~~~~~~~~
 
@@ -799,6 +772,43 @@ Pencil
 .. autofunction:: xpart.generate_2D_pencil
 
 .. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
+
+Table class
+===========
+
+The :class:`xtrack.Table` class is the base table used by xtrack table outputs
+and provides selection, display, and serialization helpers. Row and column
+selection is available through the inherited :attr:`~xdeps.Table.rows` and
+:attr:`~xdeps.Table.cols` accessors.
+
+.. autoclass:: xtrack.Table
+    :members:
+    :inherited-members:
+    :member-order: alphabetical
+
+Table subclasses
+----------------
+
+The following xtrack table classes inherit from :class:`xtrack.Table`:
+
+- :class:`xtrack.environment.VarsTable`
+- :class:`xtrack.line.LineTable`
+- :class:`xtrack.TwissTable`
+- :class:`xtrack.survey.SurveyTable`
+
+Table row and column accessors
+------------------------------
+
+The :attr:`xtrack.Table.rows` and :attr:`xtrack.Table.cols` properties return
+accessor objects exposing row-selection and column-selection helpers.
+
+.. autoclass:: xdeps.table._RowView
+    :members:
+    :member-order: alphabetical
+
+.. autoclass:: xdeps.table._ColView
+    :members:
+    :member-order: alphabetical
 
 CPU and GPU contexts
 ====================
