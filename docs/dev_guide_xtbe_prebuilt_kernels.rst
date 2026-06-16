@@ -123,6 +123,13 @@ After changing definitions, regenerate the prebuilt kernels locally:
 .. code-block:: bash
 
     xsuite-prebuild regenerate
+    # or, alternatively:
+    xsuite-prebuild regenerate --kind serial  # default
+    xsuite-prebuild regenerate --kind openmp  # (re)build only OpenMP kernels
+    xsuite-prebuild regenerate --kind serial,openmp  # (re)build both CPU serial and OpenMP kernels
+
+The ``--kind`` option limits kernel regeneration to the requested context kind.
+If omitted, ``xsuite-prebuild regenerate`` builds only ``serial`` kernels.
 
 Set ``XSUITE_VERBOSE`` when checking runtime selection. With this environment
 variable set, Xsuite prints which prebuilt kernels it considers and why each
