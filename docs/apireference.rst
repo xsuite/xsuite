@@ -586,6 +586,9 @@ VarsTable
 The :class:`xtrack.environment.VarsTable` class is the table returned by
 environment variable table methods such as ``env.vars.get_table()``.
 
+See :doc:`Working with tables <tables>` in the User's guide for an overview
+of the features offered by Table objects.
+
 .. autoclass:: xtrack.environment.VarsTable
     :members:
     :inherited-members:
@@ -609,6 +612,9 @@ LineTable class
 
 The :class:`xtrack.line.LineTable` class is the table returned by
 :meth:`xtrack.Line.get_table`.
+
+See :doc:`Working with tables <tables>` in the User's guide for an overview
+of the features offered by Table objects.
 
 .. autoclass:: xtrack.line.LineTable
     :members:
@@ -640,6 +646,9 @@ TwissTable class
 The :class:`xtrack.TwissTable` class is the table returned by
 :meth:`xtrack.Line.twiss`.
 
+See :doc:`Working with tables <tables>` in the User's guide for an overview
+of the features offered by Table objects.
+
 .. autoclass:: xtrack.TwissTable
     :members:
     :inherited-members:
@@ -657,6 +666,9 @@ SurveyTable class
 
 The :class:`xtrack.survey.SurveyTable` class is the table returned by
 :meth:`xtrack.Line.survey`.
+
+See :doc:`Working with tables <tables>` in the User's guide for an overview
+of the features offered by Table objects.
 
 .. autoclass:: xtrack.survey.SurveyTable
     :members:
@@ -894,4 +906,3 @@ See also: :doc:`Loss location refinement <collimation>`
 .. autoclass:: xtrack.LossLocationRefinement
     :members:
     :member-order: bysource
-
