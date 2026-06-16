@@ -536,12 +536,15 @@ See also the :ref:`misalignment section <misalignment_example_label>` in User's 
     Misalignment in the the s-y plane.
 
 
+.. _environment-api-reference:
+
 xtrack.Environment class
 ========================
 
 The Xsuite environment manages variables and elements that can be shared by
-different lines and can be used to create elements and line objects. more info on 
-how can be found in the :doc:`Xsuite user's guide <usersguide>`).
+different lines and can be used to create elements and line objects. See
+:ref:`Xsuite environment <environment-user-guide>` in the User's guide for
+tutorial examples.
 
 .. contents::
     :depth: 2
@@ -580,6 +583,8 @@ Environment containers
     :members:
     :member-order: bysource
 
+.. _varstable-api-reference:
+
 VarsTable
 ~~~~~~~~~
 
@@ -594,18 +599,22 @@ of the features offered by Table objects.
     :inherited-members:
     :member-order: alphabetical
 
+.. _line-api-reference:
+
 xtrack.Line class
 =================
 
 The Xsuite Line class is the main class to build beam lines. Its interface is
-described in the following (more info on how to build and use beam lines for
-different purposes can be found in the :doc:`Xsuite user's guide <usersguide>`).
+described in the following. See :ref:`Lines <line-user-guide>` in the User's
+guide for tutorial examples on building and inspecting lines.
 
 .. contents::
     :depth: 2
     :local:
 
 .. include:: line_api.rst
+
+.. _linetable-api-reference:
 
 LineTable class
 ---------------
@@ -632,13 +641,16 @@ See also: :doc:`Single particle tracking <singlepart>`,
 
 
 .. _twiss_method_label:
+.. _twiss-api-reference:
 
 Twiss
 =====
 
-See also: :doc:`Twiss <twiss>`.
+See also: :ref:`Twiss <twiss-user-guide>` in the User's guide.
 
 .. automethod:: xtrack.Line.twiss
+
+.. _twisstable-api-reference:
 
 TwissTable class
 ----------------
@@ -655,11 +667,16 @@ of the features offered by Table objects.
     :member-order: alphabetical
 
 .. _survey_method_label:
+.. _survey-api-reference:
 
 Survey
 ======
 
+See also: :doc:`Working with tables <tables>` in the User's guide.
+
 .. automethod:: xtrack.Line.survey
+
+.. _surveytable-api-reference:
 
 SurveyTable class
 -----------------
@@ -785,6 +802,8 @@ Pencil
 
 .. autofunction:: xpart.generate_2D_pencil_with_absolute_cut
 
+.. _table-api-reference:
+
 Table class
 ===========
 
@@ -792,6 +811,9 @@ The :class:`xtrack.Table` class is the base table used by xtrack table outputs
 and provides selection, display, and serialization helpers. Row and column
 selection is available through the inherited :attr:`~xdeps.Table.rows` and
 :attr:`~xdeps.Table.cols` accessors.
+
+See :ref:`Working with tables <tables-user-guide>` in the User's guide for
+tutorial examples.
 
 .. autoclass:: xtrack.Table
     :members:

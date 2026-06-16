@@ -1,3 +1,5 @@
+.. _environment-user-guide:
+
 ==================
 Xsuite environment
 ==================
@@ -17,6 +19,9 @@ An ``xt.Environment`` is the shared container that keeps together:
 - **Lines** in ``env.lines``: ordered sequences of elements assembled from the
   environment.
 - **Additional data** including reference particles and user-defined functions.
+
+See :ref:`xtrack.Environment class <environment-api-reference>` in the Reference
+guide for the complete API.
 
 The contents of all these containers can be inspected with the ``.get_table()``
 method, and a list of all names in each container is available with the ``.keys()``
@@ -365,8 +370,13 @@ Elements can be deleted from the environment when they are not used in any line:
 
    del env.elements['mq2.d']        # or env.elements.remove('mq2.d')
 
+.. _line-user-guide:
+
 Lines
 =====
+
+See :ref:`xtrack.Line class <line-api-reference>` in the Reference guide for the
+complete line API.
 
 Create line as list of existing elements
 ----------------------------------------
@@ -405,6 +415,9 @@ Line inspection
 ---------------
 
 You can inspect a line using ``line.get_table()``:
+
+See :ref:`LineTable class <linetable-api-reference>` in the Reference guide for
+the corresponding table type.
 
 .. code-block:: python
 

@@ -1,3 +1,5 @@
+.. _twiss-user-guide:
+
 =====
 Twiss
 =====
@@ -6,7 +8,10 @@ Xtrack provides a twiss method associated to the line that can be used to
 obtain the lattice functions and other quantities like tunes, chromaticities,
 slip factor, etc. This is illustrated in the following examples. For a complete
 description of all available options and output quantities, please refer to the
-:meth:`xtrack.Line.twiss` method documentation.
+:ref:`Twiss API reference <twiss-api-reference>`.
+
+See also :ref:`TwissTable class <twisstable-api-reference>` in the Reference
+guide for the table type returned by ``line.twiss()``.
 
 .. contents:: Table of Contents
     :depth: 3
