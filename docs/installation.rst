@@ -30,10 +30,11 @@ you need to install the corresponding packages, as described in the
 
 .. note::
     On most machines, when using Xsuite installed from PyPI, there is no longer
-    a need to run ``xsuite-prebuild`` to precompile the kernels. The precompiled
+    a need to run ``xsuite-prebuild`` to precompile the serial kernels. The precompiled
     kernels are automatically downloaded and installed with the ``xsuite``
     package. See the :ref:`relevant section<prebuiltkernels>` of the developer
-    guide below for more details.
+    guide below for more details, including how to build local kernels with OpenMP
+    support.
 
 
 Usage in Microsoft Windows
@@ -131,6 +132,13 @@ can be accomplished simply by running the following command:
 .. code-block:: bash
 
     xsuite-prebuild regenerate
+    # or, alternatively:
+    xsuite-prebuild regenerate --kind serial  # default
+    xsuite-prebuild regenerate --kind openmp  # (re)build only OpenMP kernels
+    xsuite-prebuild regenerate --kind serial,openmp  # (re)build both CPU serial and OpenMP kernels
+
+By default, ``xsuite-prebuild regenerate`` creates only ``serial`` kernels. Use
+``--kind`` to regenerate only ``openmp`` kernels or both kinds explicitly.
 
 
 
