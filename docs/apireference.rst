@@ -88,7 +88,7 @@ can be found in the :ref:`element misalignment section <misalignment_label>`.
      - ``length`` (read-only, computed internally)
    * - :math:`\alpha = \alpha_\text{in} + \alpha_\text{out}`
      - ``angle``
-   * - :math:`\alpha_\text{diff} = \alpha_\text{in} - \alpha_\text{out}`
+   * - :math:`\alpha_\text{diff} = \alpha_\text{out} - \alpha_\text{in}`
      - ``rbend_angle_diff``
    * - :math:`x_\text{mid}`
      - ``rbend_shift`` (+ half of the sagitta if ``rbend_compensate_sagitta`` is ``True``)
