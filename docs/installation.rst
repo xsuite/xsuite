@@ -29,11 +29,11 @@ you need to install the corresponding packages, as described in the
 :ref:`dedicated section<gpuinst>`.
 
 .. note::
-    On most machines, when using Xsuite installed from PyPI, there is no longer
-    a need to run ``xsuite-prebuild`` to precompile the kernels. The precompiled
-    kernels are automatically downloaded and installed with the ``xsuite``
-    package. See the :ref:`relevant section<prebuiltkernels>` of the developer
-    guide below for more details.
+    On most machines, when using Xsuite installed from PyPI, precompiled CPU serial
+    kernels are automatically downloaded and installed with the ``xsuite`` package.
+    However, it is possible to additionally prebuild multithreaded OpenMP kernels
+    using ``xsuite-prebuild regenerate --kind openmp``.
+    See the :ref:`relevant section<prebuiltkernels>` of the developer guide for more details.
 
 
 Usage in Microsoft Windows
@@ -131,6 +131,13 @@ can be accomplished simply by running the following command:
 .. code-block:: bash
 
     xsuite-prebuild regenerate
+    # or, alternatively:
+    xsuite-prebuild regenerate --kind serial  # default
+    xsuite-prebuild regenerate --kind openmp  # (re)build only OpenMP kernels
+    xsuite-prebuild regenerate --kind serial,openmp  # (re)build both CPU serial and OpenMP kernels
+
+By default, ``xsuite-prebuild regenerate`` creates only ``serial`` kernels. Use
+``--kind`` to regenerate only ``openmp`` kernels or both kinds explicitly.
 
 
 

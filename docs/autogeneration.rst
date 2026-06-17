@@ -2,91 +2,139 @@ Code autogeneration
 ===================
 
 The xsuite library uses code autogeneration to specialize kernel code for the different contexts.
-Three contexts are presently available: ``cpu``, ``cuda``,  and ``opencl``.
+Three contexts are presently available: ``CPU``, ``CUDA``,  and ``OpenCL``.
 
 
-The developer writes a single C source code, providing additional information through the comment strings (annotations) described in the following.
+The developer writes a single C source code using the portability macros
+provided by ``xobjects/headers/common.h``. The preferred macro API includes
+``GPUFUN`` for functions callable on the GPU device, ``GPUKERN`` for kernels,
+``GPUGLMEM`` for pointers to GPU global memory, ``RESTRICT`` for restrict
+qualifiers, and ``VECTORIZE_OVER`` / ``END_VECTORIZE`` for context-dependent
+loops. Older sources may still use the comment strings described below; these
+legacy annotations are kept for compatibility but should not be used in new
+handwritten C code. With macros, typos are caught by the compiler instead of
+being silently ignored as unknown comments.
 
-``vectorize_over`` block
+``VECTORIZE_OVER`` block
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The syntax is the following:
+The preferred macro syntax is the following:
 
 .. code-block:: C
 
-    for (int myvar=0; myvar<myvarlim; myvar++){ //vectorize_over myvar myvarlim
+    VECTORIZE_OVER(myvar, myvarlim);
 
         [MY CODE]
 
-    }//end_vectorize
+    END_VECTORIZE;
 
-This is translated into a for loop in the CPU implementation and in a kernel function for the parallel implementations (cupy, pyopencl).
+This is translated into a for loop in the CPU implementation and into a
+single-particle block in the parallel implementations (cupy, pyopencl). Older
+sources may use the legacy ``//vectorize_over`` and ``//end_vectorize``
+comments for the same purpose.
 
-The generated cpu code will be:
+The corresponding CPU code will be:
 
 .. code-block:: C
 
     for (int myvar=0; myvar<myvarlim; myvar++){ //autovectorized
-
         [MY CODE]
+    } //end autovectorized
 
-        }//end autovectorized
-
-The generated CUDA code will be:
+The corresponding CUDA code will be:
 
 .. code-block:: C
 
     int myvar; //autovectorized
     myvar = blockDim.x * blockIdx.x + threadIdx.x; //autovectorized
     if (myvar<myvarlim) { //autovectorized
-
         [MY CODE]
+    } //end autovectorized
 
-    }//end autovectorized
-
-The corresponding generated OpenCL code will be:
+The corresponding OpenCL code will be:
 
 .. code-block:: C
 
     int myvar; //autovectorized
     myvar = get_global_id(0); //autovectorized
-
         [MY CODE]
-
     //end autovectorized
 
 
-``only_for_context`` directive
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The ``\\only_for_context`` directive can be used to include a givem line only for a certain context.
-For example with the following code the line marked line is included only in the GPU implementation.
+Context specific code guards
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Context-specific code should be guarded with the ``XO_CONTEXT_*`` macros
+defined by Xobjects at compile time. The available context macros are:
+
+``XO_CONTEXT_CPU``
+    Defined for both CPU contexts.
+
+``XO_CONTEXT_CPU_SERIAL``
+    Defined for the serial CPU context.
+
+``XO_CONTEXT_CPU_OPENMP``
+    Defined for the OpenMP CPU context.
+
+``XO_CONTEXT_CUDA``
+    Defined for the CUDA GPU context.
+
+``XO_CONTEXT_CL``
+    Defined for the OpenCL GPU context.
+
+For example, CPU-only code can be written as:
 
 .. code-block:: C
 
-    #include <atomicadd.h> //only_for_context cpu
+    #ifdef XO_CONTEXT_CPU
+    #include <math.h>
+    #endif
 
-``gpufun`` directive
-    ~~~~~~~~~~~~~~~~~~~~~
-    
-    The ``\*gpufun*\`` directive is used to qualify device functions. The code generator replaces it with ``__device__`` in the CUDA code.
-    
+and OpenMP-specific code can be written as:
 
-``gpukern`` directive
+.. code-block:: C
+
+    #ifdef XO_CONTEXT_CPU_OPENMP
+    #pragma omp parallel for
+    #endif
+
+Older sources may still use the legacy ``//only_for_context`` directive. New
+handwritten C code should use the ``XO_CONTEXT_*`` macros instead so that the
+code is more readable and so that the typos are caught by the compiler.
+
+``GPUFUN`` directive
+~~~~~~~~~~~~~~~~~~~~
+
+``GPUFUN`` marks a C function that can be called from the kernel code.
+On CUDA it expands to ``__device__``; on CPU it expands to ``static inline``.
+Use it for helper functions and element tracking functions that need to work
+across CPU and GPU contexts.
+
+Legacy C sources can use the ``/*gpufun*/`` directive for the same purpose. New
+code should include ``xobjects/headers/common.h`` and use the ``GPUFUN`` macro
+instead.
+
+``GPUKERN`` directive
 ~~~~~~~~~~~~~~~~~~~~~
 
-The ``\*gpukern*\`` directive is used to qualify kernel functions. The code generator replaces it with ``__global__`` in the CUDA code and with ``__kernel`` in the OpenCL code.
+``GPUKERN`` marks an entry-point kernel function launched by an Xobjects
+context. On CUDA it expands to ``__global__``; on OpenCL it expands to
+``__kernel``; on CPU it is empty.
+
+Legacy C sources can use the ``/*gpukern*/`` directive for the same purpose.
+New code should include ``xobjects/headers/common.h`` and use the ``GPUKERN``
+macro instead.
 
 
-``gpuglmem`` directive
+``GPUGLMEM`` directive
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``\*gpuglmem*\`` directive is used to qualify pointers to locations in the device global memoru. The code generator replaces it with ``__global`` in the OpenCL code.
+``GPUGLMEM`` marks a pointer as referring to global memory in GPU contexts. It
+expands to ``__global`` on OpenCL and is empty on CUDA and CPU.
 
-
-
-
-
-
+Legacy C sources can use the ``/*gpuglmem*/`` directive for the same purpose.
+New code should include ``xobjects/headers/common.h`` and use the ``GPUGLMEM``
+macro instead.
 
 
 
