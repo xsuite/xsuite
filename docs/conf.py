@@ -134,6 +134,8 @@ snippet_files = {
         'generated_code_snippets/beam_interaction.py',
     'xtrack/examples/twiss/000_twiss.py':
         'generated_code_snippets/twiss.py',
+    'xtrack/examples/survey/000_survey.py':
+        'generated_code_snippets/survey.py',
     'xtrack/examples/match/000_match_basic.py':
         'generated_code_snippets/match_basic.py',
     'xtrack/examples/match/001_match_interactive.py':

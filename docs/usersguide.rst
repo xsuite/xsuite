@@ -12,6 +12,7 @@
    tables
    lattice_model
    twiss
+   survey
    match
    track
    particlesmanip
