@@ -713,6 +713,8 @@ See also: :doc:`Match<match>` in the User's guide.
 
 .. automethod:: xtrack.Line.match
 
+.. _optimize-api-reference:
+
 .. autoclass:: xdeps.Optimize
     :members:
     :member-order: bysource

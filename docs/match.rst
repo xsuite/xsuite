@@ -5,6 +5,8 @@ Match
 The Xtrack Line class provides a match method that allows using a numerical optimizer
 to adjust knobs attached to the line in order to obtain desired values
 in the twiss results (or as a result of other user-defined actions).
+See :ref:`Optimize in the API reference <optimize-api-reference>` for the
+full Optimizer API.
 
 .. contents:: Table of Contents
     :depth: 3
@@ -156,4 +158,3 @@ lines, as illustrated in the following example.
 
 .. literalinclude:: generated_code_snippets/match_targets_from_vars_or_line.py
    :language: python
-
