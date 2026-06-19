@@ -686,7 +686,8 @@ of the features offered by Table objects.
 Survey
 ======
 
-See also: :doc:`Working with tables <tables>` in the User's guide.
+See also: :ref:`Survey <survey-user-guide>` and
+:doc:`Working with tables <tables>` in the User's guide.
 
 .. automethod:: xtrack.Line.survey
 
