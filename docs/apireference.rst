@@ -709,7 +709,7 @@ of the features offered by Table objects.
 Match
 =====
 
-See also: :doc:`Match<match>`.
+See also: :doc:`Match<match>` in the User's guide. 
 
 .. automethod:: xtrack.Line.match
 
