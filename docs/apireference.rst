@@ -611,6 +611,11 @@ environment, available as ``line.env``. The environment owns the named elements,
 variables, particles, and other lines that can be shared across lattice
 descriptions.
 
+A line can be in normal mode or in compose mode, as indicated by ``line.mode``.
+In compose mode, elements are placed with ``line.place(...)`` and
+``line.new(...)`` by their longitudinal position and/or relative to each other;
+the line is resolved later with ``line.end_compose()``.
+
 For most new lattices it is convenient to create an
 :class:`xtrack.Environment` and build lines with ``env.new_line(...)``. The
 ``Line`` constructor can also be used directly when the element objects and
