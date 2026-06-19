@@ -69,7 +69,7 @@ Members - short description
    * - :ref:`element_​refs <line-api-editing-inspection-variables-and-configuration-property-element-refs>`
      - xdeps reference container for element fields.
    * - :ref:`elements <line-api-editing-inspection-variables-and-configuration-property-elements>`
-     - Container of elements stored in the environment.
+     - Container of named beam elements stored in the environment.
    * - :ref:`functions <line-api-editing-inspection-variables-and-configuration-property-functions>`
      - xdeps function container used in expressions.
    * - :ref:`line_​names <line-api-editing-inspection-variables-and-configuration-property-line-names>`
@@ -157,11 +157,11 @@ Members - short description
    * - :ref:`from_​dict(...) <line-api-constructors-and-serialization-method-from-dict>`
      - Rebuild an environment from a serialized dictionary.
    * - :ref:`from_​json(...) <line-api-constructors-and-serialization-method-from-json>`
-     - Constructs an environment from a JSON file.
+     - Construct an environment from a JSON file.
    * - :ref:`to_​dict(...) <line-api-constructors-and-serialization-method-to-dict>`
      - Serialize the environment to a JSON-compatible dictionary.
    * - :ref:`to_​json(...) <line-api-constructors-and-serialization-method-to-json>`
-     - Save the environment to a json file.
+     - Save the environment to a JSON file.
 
 .. _line-api-deprecated-summary:
 

@@ -43,7 +43,7 @@ Members - short description
    * - :ref:`copy(...) <line-api-line-editing-method-copy>`
      - Return a copy of the line.
    * - :ref:`cut_​at_​s(...) <line-api-line-editing-method-cut-at-s>`
-     - Slice the line so that positions in s never fall inside an element.
+     - Slice the line in place at positions ``s``.
    * - :ref:`cycle(...) <line-api-line-editing-method-cycle>`
      - Cycle the line to start from a given element.
    * - :ref:`extend_​knl_​ksl(...) <line-api-line-editing-method-extend-knl-ksl>`

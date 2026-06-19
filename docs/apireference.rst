@@ -604,9 +604,18 @@ of the features offered by Table objects.
 xtrack.Line class
 =================
 
-The Xsuite Line class is the main class to build beam lines. Its interface is
-described in the following. See :ref:`Lines <line-user-guide>` in the User's
-guide for tutorial examples on building and inspecting lines.
+The Xsuite ``Line`` class represents an ordered sequence of beam elements used
+for tracking, optics calculations, matching, and lattice manipulation. A line
+stores the sequence of element names and resolves them in its associated
+environment, available as ``line.env``. The environment owns the named elements,
+variables, particles, and other lines that can be shared across lattice
+descriptions.
+
+For most new lattices it is convenient to create an
+:class:`xtrack.Environment` and build lines with ``env.new_line(...)``. The
+``Line`` constructor can also be used directly when the element objects and
+their order are already available. See :ref:`Lines <line-user-guide>` in the
+User's guide for tutorial examples on building and inspecting lines.
 
 .. contents::
     :depth: 2
