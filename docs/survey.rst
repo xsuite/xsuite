@@ -13,9 +13,6 @@ global coordinates ``X``, ``Y`` and ``Z`` and the orientation angles ``theta``,
 For a complete description of the available options, please refer to the
 :ref:`Survey API reference <survey-api-reference>`.
 
-See also :ref:`SurveyTable class <surveytable-api-reference>` in the Reference
-guide for the table type returned by ``line.survey()``.
-
 .. contents:: Table of Contents
     :depth: 3
 
