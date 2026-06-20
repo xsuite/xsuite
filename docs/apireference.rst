@@ -163,6 +163,20 @@ The definition of the misalignment parameters (``rot_s_rad``,
 ``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
 can be found in the :ref:`element misalignment section <misalignment_label>`.
 
+SplineBoris
+-----------
+
+.. autoclass:: xtrack.SplineBoris
+    :members:
+    :member-order: bysource
+
+BorisSpatialIntegrator
+----------------------
+
+.. autoclass:: xtrack.BorisSpatialIntegrator
+    :members:
+    :member-order: bysource
+
 Cavity
 ------
 
