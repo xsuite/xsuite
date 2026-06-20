@@ -710,9 +710,20 @@ of the features offered by Table objects.
 Match
 =====
 
-See also: :doc:`Match<match>` in the User's guide. 
+See also: :doc:`Match <match>` and :ref:`Create new knobs by matching
+<match-knob-user-guide>` in the User's guide.
 
 .. automethod:: xtrack.Line.match
+
+.. _line-match-knob-api-reference:
+
+.. automethod:: xtrack.Line.match_knob
+
+.. _knob-optimizer-api-reference:
+
+.. autoclass:: xtrack.match.KnobOptimizer
+    :members:
+    :member-order: bysource
 
 .. _optimize-api-reference:
 

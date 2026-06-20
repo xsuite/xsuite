@@ -134,10 +134,13 @@ optimization steps. This is illustrated in the following example.
 .. literalinclude:: generated_code_snippets/match_interactive.py
    :language: python
 
+.. _match-knob-user-guide:
+
 Create new knobs by matching
 ----------------------------
 
-See also :meth:`xtrack.Line.match_knob`
+See also :ref:`Line.match_knob <line-match-knob-api-reference>` and
+:ref:`KnobOptimizer <knob-optimizer-api-reference>` in the API reference.
 
 The :meth:`xtrack.Line.match_knob` method allows generating new knobs based on
 the result of an optimization. The user can specify a value for
