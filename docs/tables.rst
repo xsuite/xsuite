@@ -10,8 +10,7 @@ of such methods are :meth:`xtrack.Line.get_table`, :meth:`xtrack.Line.twiss`,
 :meth:`xtrack.Environment.vars.get_table`.
 
 See :ref:`Table class <table-api-reference>` in the Reference guide for the base
-table API, and :ref:`Survey <survey-api-reference>` for the API of
-``line.survey()``.
+table API.
 
 Table objects offer several capabilities to access data, for example by selecting
 rows and columns in various ways. This is illustrated in the following example:

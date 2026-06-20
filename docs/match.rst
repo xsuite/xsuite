@@ -119,6 +119,8 @@ how to use octupole magnets to control the detuning with amplitude coefficients
 .. literalinclude:: generated_code_snippets/match_action.py
    :language: python
 
+.. _match-interactive-user-guide:
+
 Interactive match
 -----------------
 
