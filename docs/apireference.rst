@@ -758,8 +758,13 @@ Vary and Target
     :member-order: bysource
 
 
+.. _trajectory-correction-api-reference:
+
 Trajectory correction
 =====================
+
+See :ref:`Closed orbit and trajectory correction
+<trajectory-correction-user-guide>` in the User's guide for examples.
 
 .. autoclass:: xtrack.TrajectoryCorrection
     :members:

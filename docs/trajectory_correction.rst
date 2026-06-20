@@ -1,3 +1,5 @@
+.. _trajectory-correction-user-guide:
+
 ======================================
 Closed orbit and trajectory correction
 ======================================
@@ -18,6 +20,11 @@ after which the closed orbit search can be performed.
 
 The following sections illustrate the capabilities of the Xsuite trajectory
 correction module.
+
+See :ref:`Trajectory correction <trajectory-correction-api-reference>` in the
+API reference and :ref:`Line.correct_trajectory
+<line-api-matching-and-corrections-method-correct-trajectory>` for the
+corresponding API documentation.
 
 .. contents:: Table of Contents
     :depth: 3
@@ -125,4 +132,3 @@ The following example shows how to correct the beam trajectory in a transfer lin
     :align: center
 
     Trajectory correction for one of the LHC injection lines (TI2).
-
