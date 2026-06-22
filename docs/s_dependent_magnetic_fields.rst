@@ -18,6 +18,7 @@ method has second-order convergence in the number of integration steps (the
 global discretization error scales as ``n_steps**-2``). Although it is not
 strictly symplectic, it preserves phase-space volume and its symplectic deviation
 decreases quadratically with the number of integration steps. See the
+``Spatial Boris Integrator`` chapter of the
 :doc:`Physics Guide <physicsguide>` for a description of the algorithm and its
 main properties.
 
