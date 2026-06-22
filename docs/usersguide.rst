@@ -11,7 +11,6 @@
    environment
    tables
    lattice_model
-   s_dependent_magnetic_fields
    survey
    twiss
    match
@@ -19,6 +18,7 @@
    particlesmanip
    trajectory_correction
    spin_polarization
+   s_dependent_magnetic_fields
    collective
    collimation
    external_material_codes

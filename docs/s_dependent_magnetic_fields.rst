@@ -10,7 +10,7 @@ Overview
 
 The :class:`xtrack.SplineBoris` element models a thick magnetic element whose
 field varies along the longitudinal coordinate. It is suited to devices such
-as undulators, wigglers, and solenoids, for which a constant multipolar
+as undulators, wigglers, fringe field and solenoids, for which a constant multipolar
 description is not sufficient.
 
 Within each element, the longitudinal dependence of the field is represented
@@ -42,6 +42,12 @@ producing the corresponding ``Spline4`` data for each longitudinal region.
 .. literalinclude:: generated_code_snippets/splineboris_build_undulator.py
    :language: python
 
+.. figure:: figures/splineboris_undulator_trajectory.png
+   :width: 90%
+   :align: center
+
+   Horizontal and vertical trajectories through the corrected undulator.
+
 Installing the undulator in a ring
 ----------------------------------
 
@@ -53,3 +59,9 @@ and included in a four-dimensional Twiss calculation.
 .. literalinclude:: generated_code_snippets/splineboris_undulators_in_sls_ring.py
    :language: python
 
+.. figure:: figures/splineboris_sls_closed_orbit.png
+   :width: 90%
+   :align: center
+
+   Horizontal and vertical closed orbit in the SLS ring with the undulators
+   installed.
