@@ -13,6 +13,14 @@ field varies along the longitudinal coordinate. It is suited to devices such
 as undulators, wigglers, fringe field and solenoids, for which a constant multipolar
 description is not sufficient.
 
+Internally, particles are tracked using a spatial Boris-like integrator. The
+method has second-order convergence in the number of integration steps (the
+global discretization error scales as ``n_steps**-2``). Although it is not
+strictly symplectic, it preserves phase-space volume and its symplectic deviation
+decreases quadratically with the number of integration steps. See the
+:doc:`Physics Guide <physicsguide>` for a description of the algorithm and its
+main properties.
+
 Within each element, the longitudinal dependence of the field is represented
 by fourth-order polynomials and the Lorentz force is integrated with a Boris
 stepper. The field data are provided through :class:`xtrack.Spline4` objects.
@@ -35,9 +43,9 @@ longitudinal regions. Each fitted region is converted to a ``SplineBoris``
 element. Thin correctors are then inserted near the ends of the resulting line
 and matched to close the trajectory through the device.
 
-The ``FieldFitter`` used here is an example-specific helper. For a different
-field-map format or fitting strategy, the same workflow can be used after
-producing the corresponding ``Spline4`` data for each longitudinal region.
+The ``FieldFitter`` used here is an example-specific helper. Users can apply
+their own fitting procedure to produce the corresponding ``Spline4`` data for
+each longitudinal region.
 
 .. literalinclude:: generated_code_snippets/splineboris_build_undulator.py
    :language: python
