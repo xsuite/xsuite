@@ -170,6 +170,10 @@ SplineBoris
     :members:
     :member-order: bysource
 
+.. autoclass:: xtrack.Spline4
+    :members:
+    :member-order: bysource
+
 BorisSpatialIntegrator
 ----------------------
 
