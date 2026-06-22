@@ -316,6 +316,10 @@ snippet_files = {
         'generated_code_snippets/monte_carlo_polarization.py',
     'xtrack/examples/monitor_multi_element/000_multi_element_monitor.py':
         'generated_code_snippets/multi_element_monitor.py',
+    'xtrack/examples/splineboris/004a_build_undulator.py':
+        'generated_code_snippets/splineboris_build_undulator.py',
+    'xtrack/examples/splineboris/004b_undulators_in_sls_ring.py':
+        'generated_code_snippets/splineboris_undulators_in_sls_ring.py',
     
 }
 

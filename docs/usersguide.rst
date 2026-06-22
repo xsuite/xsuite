@@ -11,6 +11,7 @@
    environment
    tables
    lattice_model
+   s_dependent_magnetic_fields
    survey
    twiss
    match
