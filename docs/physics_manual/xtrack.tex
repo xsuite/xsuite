@@ -3865,6 +3865,120 @@ It is possible to set $\phi_\text{RF}$ to place a fixed point of either family i
 It can be shown that, to have a stable fixed point in $\zeta=0$, one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (above transition).
 
 
+\section{RF-frequency change modeled as a shift in $\zeta$}
+
+The standard cavity map is synchronized with the reference particle on every
+turn. Consequently, changing the frequency in this map changes the variation of
+the RF phase within the bunch, but does not by itself introduce the turn-by-turn
+phase slip associated with an RF-frequency change. This phase slip can be
+represented by a shift in $\zeta$.
+
+Let $m$ be the turn number and let
+\begin{equation}
+T_0=\frac{C}{\beta_0 c}=\frac{1}{f_0}.
+\end{equation}
+At a cavity located at $s=s_{RF}$, the definition
+\begin{equation}
+\zeta=s-\beta_0c\left(t-mT_0\right)
+\end{equation}
+gives
+\begin{equation}
+t=\frac{s_{RF}-\zeta}{\beta_0c}+mT_0.
+\end{equation}
+The energy kick from a cavity with frequency $f_{RF}$ can therefore be written as
+\begin{align}
+\Delta E
+&=qV_{RF}\sin\left(2\pi f_{RF}t+\widetilde{\phi}_{RF}\right)\\
+&=qV_{RF}\sin\left(
+-2\pi f_{RF}\frac{\zeta}{\beta_0c}
++2\pi m\frac{f_{RF}}{f_0}+\phi_{RF}\right),
+\label{eq:rf_kick_absolute_time}
+\end{align}
+where the phase at the cavity location has been absorbed into
+\begin{equation}
+\phi_{RF}=\widetilde{\phi}_{RF}
++2\pi f_{RF}\frac{s_{RF}}{\beta_0c}.
+\end{equation}
+
+For $f_{RF}=h_{RF}f_0$, with integer $h_{RF}$, the turn-dependent term in
+Eq.~\ref{eq:rf_kick_absolute_time} is an integer multiple of $2\pi$ and the
+standard cavity map is recovered:
+\begin{equation}
+\Delta E=qV_{RF}
+\sin\left(-2\pi f_{RF}\frac{\zeta}{\beta_0c}+\phi_{RF}\right).
+\label{eq:standard_cavity_map_rf_frequency}
+\end{equation}
+Consider instead the frequency change
+\begin{equation}
+f_{RF}=h_{RF}f_0+\Delta f_{RF}.
+\end{equation}
+Substituting this expression into Eq.~\ref{eq:rf_kick_absolute_time} gives
+\begin{align}
+\Delta E
+&=qV_{RF}\sin\left(
+-2\pi f_{RF}\frac{\zeta}{\beta_0c}
++2\pi m\frac{h_{RF}f_0+\Delta f_{RF}}{f_0}
++\phi_{RF}\right)\\
+&=qV_{RF}\sin\left(
+-2\pi f_{RF}\frac{\zeta}{\beta_0c}
++2\pi m h_{RF}
++2\pi m\frac{\Delta f_{RF}}{f_0}
++\phi_{RF}\right)\\
+&=qV_{RF}\sin\left(
+-2\pi f_{RF}\frac{\zeta}{\beta_0c}
++2\pi m\frac{\Delta f_{RF}}{f_0}
++\phi_{RF}\right).
+\label{eq:rf_kick_frequency_offset}
+\end{align}
+where the third line follows from $m,h_{RF}\in\mathbb{Z}$ and the
+$2\pi$-periodicity of the sine. We define
+\begin{equation}
+\boxed{
+\Delta\zeta_{RF}
+=\frac{\beta_0c}{f_0}\frac{\Delta f_{RF}}{f_{RF}}
+=C\frac{\Delta f_{RF}}{f_{RF}}.}
+\label{eq:zeta_shift_from_rf_frequency}
+\end{equation}
+Replacing Eq.~\ref{eq:zeta_shift_from_rf_frequency} in
+Eq.~\ref{eq:rf_kick_frequency_offset} gives
+\begin{equation}
+\Delta E=qV_{RF}\sin\left[
+-2\pi f_{RF}\frac{\zeta-m\Delta\zeta_{RF}}{\beta_0c}
++\phi_{RF}\right].
+\end{equation}
+We therefore find that the RF phase slip accumulated over $m$ turns is
+equivalent to applying the following transformation once per turn, immediately
+before a cavity using the standard relative-time map:
+\begin{equation}
+\boxed{\zeta\longleftarrow\zeta-\Delta\zeta_{RF}.}
+\label{eq:zeta_shift_map_rf_frequency}
+\end{equation}
+In Xtrack, the \texttt{TimeDelay} element implements this transformation. Its
+\texttt{shift\_zeta} parameter is set to $\Delta\zeta_{RF}$.
+
+For a small frequency change,
+\begin{equation}
+\Delta\zeta_{RF}
+\simeq C\frac{\Delta f_{RF}}{h_{RF}f_0}.
+\end{equation}
+Since the RF frequency and revolution frequency have the same fractional change,
+the definition of the slip factor gives
+\begin{equation}
+\frac{\Delta f_{RF}}{f_{RF}}
+=\frac{\Delta f}{f_0}
+=-\eta\delta.
+\end{equation}
+The corresponding equilibrium momentum offset is therefore
+\begin{equation}
+\boxed{
+\delta=-\frac{1}{\eta}\frac{\Delta f_{RF}}{f_{RF}},}
+\end{equation}
+and Eq.~\ref{eq:zeta_shift_from_rf_frequency} can equivalently be written as
+\begin{equation}
+\Delta\zeta_{RF}=-\eta C\delta.
+\end{equation}
+
+
 \chapter{Counter-rotating beams}
 
 In machines having counter-rotating beams, such as the LHC, it is useful to be able
