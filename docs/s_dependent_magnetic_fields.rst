@@ -30,6 +30,10 @@ an interval, together with its mean value. The ``bx`` and ``by`` arguments can
 also contain tuples of ``Spline4`` objects describing successive transverse
 derivatives of the field.
 
+The reconstruction of the three-dimensional field from these on-axis data is
+described in the ``Field expansion for s-dependent magnetic field`` chapter
+of the :doc:`Physics Guide <physicsguide>`.
+
 An extended field map is typically represented by a line containing several
 ``SplineBoris`` elements, with one element for each longitudinal region over
 which a polynomial representation is used. The ``n_steps`` parameter controls

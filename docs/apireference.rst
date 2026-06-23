@@ -170,6 +170,10 @@ SplineBoris
     :members:
     :member-order: bysource
 
+The reconstruction of the three-dimensional field from the on-axis field data
+is described in the ``Field expansion for s-dependent magnetic field`` chapter
+of the :doc:`Physics Guide <physicsguide>`.
+
 .. autoclass:: xtrack.Spline4
     :members:
     :member-order: bysource
