@@ -91,7 +91,7 @@ can be found in the :ref:`element misalignment section <misalignment_label>`.
    * - :math:`\alpha_\text{diff} = \alpha_\text{out} - \alpha_\text{in}`
      - ``rbend_angle_diff``
    * - :math:`x_\text{mid}`
-     - ``rbend_shift`` (+ half of the sagitta if ``rbend_compensate_sagitta`` is ``True``)
+     - ``-rbend_shift`` (+ half of the sagitta if ``rbend_compensate_sagitta`` is ``True``)
    * - :math:`e_1`
      - ``edge_entry_angle``
    * - :math:`e_2`
