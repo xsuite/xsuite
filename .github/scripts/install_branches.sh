@@ -24,8 +24,6 @@ if [ "${install_mpi:-false}" == "true" ]; then
   pip install mpi4py
 fi
 
-pip install --no-deps -v -e "${xsuite_prefix}/xsuite"
-
 # Clone the repos and install them in the correct branch
 for project in "${repos[@]}"; do
   branch_varname="${project//-/_}_branch"
@@ -43,3 +41,5 @@ for project in "${repos[@]}"; do
 
     pip install -e "${xsuite_prefix}/${project}[tests]"
 done
+
+pip install --no-deps -v -e "${xsuite_prefix}/xsuite"
