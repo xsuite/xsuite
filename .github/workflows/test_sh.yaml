@@ -43,6 +43,16 @@ on:
         required: false
         type: boolean
         default: false
+      forbid_compile:
+        description: set XOBJECTS_FORBID_COMPILE to forbid compilation during tests?
+        required: false
+        type: boolean
+        default: false
+      precompile_kernels:
+        description: precompile kernels when building the test image?
+        required: false
+        type: boolean
+        default: false
       timeout_minutes:
         description: timeout for run-tests job in minutes
         required: false
@@ -89,6 +99,7 @@ jobs:
             --build-arg xcoll_branch=${{ fromJson(inputs.locations).xcoll_location }} \
             --build-arg xwakes_branch=${{ fromJson(inputs.locations).xwakes_location }} \
             --build-arg install_mpi=${{ inputs.with_mpi }} \
+            --build-arg precompile_kernels=${{ inputs.precompile_kernels }} \
             --build-arg with_gpu=${with_gpu} \
             --build-arg cuda_version=${CUDA_VERSION} \
             -t $IMAGE .
@@ -130,6 +141,7 @@ jobs:
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
           --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
+          ${{ inputs.forbid_compile && '--env XOBJECTS_FORBID_COMPILE=1' || '' }} \
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
           ${{ needs.build-test-image.outputs.image_id }} \
           /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
@@ -141,6 +153,7 @@ jobs:
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
           --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
+          ${{ inputs.forbid_compile && '--env XOBJECTS_FORBID_COMPILE=1' || '' }} \
           ${{ needs.build-test-image.outputs.image_id }} \
           mpiexec \
             --allow-run-as-root \
