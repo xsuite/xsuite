@@ -18,6 +18,7 @@ ARG xwakes_branch=xsuite:main
 ARG xsuite_branch=xsuite:main
 ARG cuda_version=""
 ARG install_mpi=false
+ARG precompile_kernels=false
 ARG with_gpu
 
 # If an Nvidia GPU is available, nvidia-container-toolkit takes care of
