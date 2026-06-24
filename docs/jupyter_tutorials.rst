@@ -13,3 +13,4 @@ lectures and tutorials based on Xsuite:
 - `Spin tracking and polarization <https://github.com/xsuite/tutorial_spin>`_
 - `Basic beam dynamics and lattice design <https://github.com/xsuite/tutorial_introduction_rome2025>`_
 - `Clic damping ring - survey, twiss, radiation <https://github.com/xsuite/tutorial_clic_damping_ring>`_
+- `Transfer line + ring lattice design <https://github.com/xsuite/tutorial_line_plus_ring>`_
