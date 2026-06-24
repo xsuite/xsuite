@@ -48,12 +48,13 @@ RUN cat /sys/class/drm/card*/device/vendor | grep 0x1002; \
 WORKDIR /opt
 
 # Install mamba and set up an environment
-RUN curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-RUN bash Miniforge3-Linux-x86_64.sh -b -p /opt/miniforge
-RUN rm Miniforge3-Linux-x86_64.sh
+RUN echo "::group::Installing Miniforge" \
+    && curl -OL https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
+    && bash Miniforge3-Linux-x86_64.sh -b -p /opt/miniforge \
+    && rm Miniforge3-Linux-x86_64.sh \
+    && echo "::endgroup::"
 
 ENV PATH /opt/miniforge/bin:$PATH
-RUN mamba install python=3.12 && mamba shell init -s bash && echo "mamba activate base" >> ~/.bashrc
 
 # Install dependencies (compilers, OpenCL and CUDA packages, test requirements)
 # - mako is an optional requirement of pyopencl that we need
@@ -61,12 +62,19 @@ RUN mamba install python=3.12 && mamba shell init -s bash && echo "mamba activat
 # - cython is needed for cffi
 # - pytest-html for generating html reports
 # - gpyfft is a clfft wrapper that can only be installed from source or .deb
-RUN mamba install git pip compilers openmp && mamba clean -afy
-RUN pip install --no-cache-dir cython gitpython pytest-html \
+RUN echo "::group::Setting up Python environment" \
+    && mamba install python=3.12 \
+    && mamba shell init -s bash \
+    && echo "mamba activate base" >> ~/.bashrc \
+    && mamba install git pip compilers openmp \
+    && mamba clean -afy \
+    && pip install --no-cache-dir cython gitpython pytest-html \
     && dnf clean all \
-    && rm -rf /var/cache/yum
+    && rm -rf /var/cache/yum \
+    && echo "::endgroup::"
 
-RUN if [[ "$with_gpu" == true ]]; then \
+RUN echo "::group::Installing GPU libraries" \
+    && if [[ "$with_gpu" == true ]]; then \
         if [[ -n "$cuda_version" ]]; then \
             mamba install -y cuda-version=${cuda_version} cuda-cudart cuda-nvrtc cuda-nvcc cupy; \
         fi \
@@ -75,7 +83,8 @@ RUN if [[ "$with_gpu" == true ]]; then \
         && pip install --no-cache-dir pyopencl mako \
         && git clone --depth 1 https://github.com/geggo/gpyfft.git \
         && pip install ./gpyfft; \
-    fi
+    fi \
+    && echo "::endgroup::"
 
 # Install all the Xsuite packages in the required versions
 WORKDIR /opt/xsuite
