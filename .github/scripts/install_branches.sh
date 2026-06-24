@@ -20,8 +20,10 @@ if [ "${precompile_kernels:-false}" == "false" ]; then
 fi
 
 if [ "${install_mpi:-false}" == "true" ]; then
+  echo "::group::Installing MPI"
   mamba install -y openmpi
   pip install mpi4py
+  echo "::endgroup::"
 fi
 
 # Clone the repos and install them in the correct branch
@@ -33,13 +35,18 @@ for project in "${repos[@]}"; do
   user="${parts[0]}"
   branch="${parts[1]}"
 
+  echo "::group::Installing ${project} (${user}:${branch})"
+  echo "::notice::Installing ${project} from ${user}:${branch}"
   cd "$xsuite_prefix"
   git clone \
     --recursive \
     --single-branch -b "$branch" \
     "https://github.com/${user}/${project}.git"
 
-    pip install -e "${xsuite_prefix}/${project}[tests]"
+  pip install -e "${xsuite_prefix}/${project}[tests]"
+  echo "::endgroup::"
 done
 
+echo "::group::Installing xsuite"
 pip install --no-deps -v -e "${xsuite_prefix}/xsuite"
+echo "::endgroup::"
