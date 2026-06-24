@@ -218,6 +218,13 @@ The definition of the misalignment parameters (``rot_s_rad``,
 ``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)
 can be found in the :ref:`element misalignment section <misalignment_label>`.
 
+ReferenceEnergyChange
+---------------------
+
+.. autoclass:: xtrack.ReferenceEnergyChange
+    :members:
+    :member-order: bysource
+
 ReferenceEnergyIncrease
 -----------------------
 
