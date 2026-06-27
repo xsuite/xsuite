@@ -60,8 +60,9 @@ def _allow_no_prebuilt_kernel(context=None):
 
 def _allow_jit_message():
     return (
-        'To allow just-in-time compilation instead (can take some time on '
-        'startup), set the environment variable '
+        'To allow just-in-time compilation instead, as in previous Xsuite '
+        'versions (which may require lengthy compilation whenever a different '
+        'kernel is needed), set the environment variable '
         '`XSUITE_ALLOW_NO_PREBUILT_KERNELS`, set '
         '`xobjects.context_cpu.allow_no_prebuilt_kernel = True`, or set '
         '`context.allow_no_prebuilt_kernel = True`.'
