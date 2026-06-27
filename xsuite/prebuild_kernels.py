@@ -4,6 +4,7 @@
 # ######################################### #
 import json
 import os
+import sysconfig
 import warnings
 from multiprocessing import get_context
 from pathlib import Path
@@ -33,6 +34,38 @@ CONTEXT_SUFFIXES = {
     SERIAL_CONTEXT: '_cpu_serial',
     OPENMP_CONTEXT: '_cpu_openmp',
 }
+
+
+class PrebuiltKernelNotFoundError(RuntimeError):
+    pass
+
+
+def _current_package_versions():
+    return {
+        'xtrack': xt.__version__,
+        'xfields': xf.__version__,
+        'xcoll': xc.__version__,
+        'xobjects': xo.__version__,
+    }
+
+
+def _allow_no_prebuilt_kernel(context=None):
+    if os.environ.get('XSUITE_ALLOW_NO_PREBUILT_KERNELS') is not None:
+        return True
+    context_cpu_module = getattr(xo, 'context_cpu', None)
+    if getattr(context_cpu_module, 'allow_no_prebuilt_kernel', False):
+        return True
+    return getattr(context, 'allow_no_prebuilt_kernel', False)
+
+
+def _allow_jit_message():
+    return (
+        'To allow just-in-time compilation instead (can take some time on '
+        'startup), set the environment variable '
+        '`XSUITE_ALLOW_NO_PREBUILT_KERNELS`, set '
+        '`xobjects.context_cpu.allow_no_prebuilt_kernel = True`, or set '
+        '`context.allow_no_prebuilt_kernel = True`.'
+    )
 
 
 def _context_key_from_cli(context: Optional[str]) -> Optional[str]:
@@ -100,6 +133,153 @@ def _iter_kernel_metadata_files():
         yield metadata_file
 
 
+def _kernel_binary_file(module_name, location=XSK_PREBUILT_KERNELS_LOCATION):
+    suffix = sysconfig.get_config_var('EXT_SUFFIX')
+    if suffix is None:
+        suffix = '.so'
+    return Path(location) / f'{module_name}{suffix}'
+
+
+def _kernel_binary_exists(module_name, location=XSK_PREBUILT_KERNELS_LOCATION):
+    return _kernel_binary_file(module_name, location=location).exists()
+
+
+def _read_kernel_metadata(metadata_file):
+    module_name = metadata_file.stem
+
+    with metadata_file.open('r') as fd:
+        kernel_metadata = json.load(fd)
+
+    base_module_name = kernel_metadata.get('base_module_name')
+    if base_module_name is None:
+        base_module_name, _ = _split_module_name(module_name)
+        kernel_metadata['base_module_name'] = base_module_name
+
+    explicit_context = 'context' in kernel_metadata
+    context_key = _context_key_from_metadata(kernel_metadata)
+    kernel_metadata['context'] = context_key
+
+    return module_name, kernel_metadata, explicit_context
+
+
+def _format_list(items, limit=5):
+    items = list(items)
+    formatted = [f'- {item}' for item in items[:limit]]
+    if len(items) > limit:
+        formatted.append(f'- ... and {len(items) - limit} more')
+    return '\n'.join(formatted)
+
+
+def _format_update_or_regenerate_message():
+    return (
+        'Suggested fixes: update xsuite with `pip install --upgrade xsuite` '
+        '(usually faster), or regenerate the kernels with '
+        '`xsuite-prebuild regenerate` (can take some time).'
+    )
+
+
+def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
+    metadata_files = list(_iter_kernel_metadata_files())
+    if not metadata_files:
+        return (
+            'Could not find a suitable Xsuite prebuilt kernel.\n'
+            f'Reason: xsuite is installed, but no cached kernels were found in '
+            f'`{XSK_PREBUILT_KERNELS_LOCATION}`.\n'
+            f'{_format_update_or_regenerate_message()}\n'
+            f'{_allow_jit_message()}'
+        )
+
+    kernel_order = {name: idx for idx, (name, _) in enumerate(kernel_definitions)}
+    have_versions = _current_package_versions()
+    known_metadata_count = 0
+    version_mismatch_details = []
+    compatible_metadata_count = 0
+    unknown_metadata = []
+    missing_binary_details = []
+
+    for metadata_file in metadata_files:
+        try:
+            module_name, kernel_metadata, _ = _read_kernel_metadata(metadata_file)
+        except Exception as err:
+            unknown_metadata.append(
+                f'`{metadata_file.name}` could not be read ({err}).'
+            )
+            continue
+
+        base_module_name = kernel_metadata['base_module_name']
+        if base_module_name not in kernel_order:
+            unknown_metadata.append(
+                f'`{module_name}` is not a known kernel for this xsuite version.'
+            )
+            continue
+
+        if not _kernel_binary_exists(module_name):
+            missing_binary_details.append(
+                f'`{module_name}` metadata exists, but '
+                f'`{_kernel_binary_file(module_name).name}` was not found.'
+            )
+            continue
+
+        known_metadata_count += 1
+        kernel_has_version_mismatch = False
+        for package, need in kernel_metadata.get('versions', {}).items():
+            have = have_versions.get(package, 'not installed')
+            if need == have:
+                continue
+            kernel_has_version_mismatch = True
+            version_mismatch_details.append(
+                f'`{module_name}` needs {package}=={need}, but the current '
+                f'environment has {package}=={have}.'
+            )
+
+        if not kernel_has_version_mismatch:
+            compatible_metadata_count += 1
+
+    if missing_binary_details and known_metadata_count == 0:
+        return (
+            'Could not find a suitable Xsuite prebuilt kernel.\n'
+            'Reason: xsuite is installed, but no compiled cached kernels were '
+            'found for this Python/platform.\n'
+            f'{_format_list(missing_binary_details)}\n'
+            f'{_format_update_or_regenerate_message()}\n'
+            f'{_allow_jit_message()}'
+        )
+
+    if known_metadata_count and compatible_metadata_count == 0:
+        return (
+            'Could not find a suitable Xsuite prebuilt kernel.\n'
+            'Reason: cached kernels were found, but their package versions do '
+            'not match the installed packages.\n'
+            f'{_format_list(version_mismatch_details)}\n'
+            f'{_format_update_or_regenerate_message()}\n'
+            f'{_allow_jit_message()}'
+        )
+
+    reason = (
+        'Reason: no cached kernel matches the requested configuration, '
+        'context, or element classes.'
+    )
+    details = []
+    if requested_context is not None:
+        details.append(f'Requested context: `{requested_context}`.')
+    if rejection_reasons:
+        details.append(_format_list(rejection_reasons))
+    elif unknown_metadata:
+        details.append(_format_list(unknown_metadata))
+
+    details_text = '\n'.join(details)
+    if details_text:
+        details_text = f'\n{details_text}'
+
+    return (
+        'Could not find a suitable Xsuite prebuilt kernel.\n'
+        f'{reason}{details_text}\n'
+        'This can happen with a wrong or unsupported configuration. If this is '
+        'not expected, please contact the developers.\n'
+        f'{_allow_jit_message()}'
+    )
+
+
 def save_kernel_metadata(
         module_name: str,
         base_module_name: str,
@@ -118,12 +298,7 @@ def save_kernel_metadata(
         'config': config.data,
         'tracker_element_classes': [cls._DressingClass.__name__ for cls in tracker_element_classes],
         'classes': [getattr(cls, '_DressingClass', cls).__name__ for cls in all_classes],
-        'versions': {
-            'xtrack': xt.__version__,
-            'xfields': xf.__version__,
-            'xcoll': xc.__version__,
-            'xobjects': xo.__version__,
-        }
+        'versions': _current_package_versions()
     }
 
     with out_file.open('w') as fd:
@@ -138,35 +313,29 @@ def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
     kernel_order = {name: idx for idx, (name, _) in enumerate(kernel_definitions)}
     candidates = []
     for metadata_file in _iter_kernel_metadata_files():
-        module_name = metadata_file.stem
-
-        with metadata_file.open('r') as fd:
-            kernel_metadata = json.load(fd)
-
-        base_module_name = kernel_metadata.get('base_module_name')
-        if base_module_name is None:
-            base_module_name, _ = _split_module_name(module_name)
-            kernel_metadata['base_module_name'] = base_module_name
-
-        explicit_context = 'context' in kernel_metadata
-        context_key = _context_key_from_metadata(kernel_metadata)
-        kernel_metadata['context'] = context_key
+        module_name, kernel_metadata, explicit_context = _read_kernel_metadata(
+            metadata_file
+        )
+        base_module_name = kernel_metadata['base_module_name']
 
         if base_module_name not in kernel_order:
             continue
 
+        if not _kernel_binary_exists(module_name):
+            if verbose:
+                _print(
+                    f'Compiled kernel `{_kernel_binary_file(module_name).name}` '
+                    f'not found for metadata `{metadata_file.name}`.'
+                )
+            continue
+
         needed_versions = kernel_metadata['versions']
-        have_versions = {
-            'xtrack': xt.__version__,
-            'xfields': xf.__version__,
-            'xcoll': xc.__version__,
-            'xobjects': xo.__version__,
-        }
+        have_versions = _current_package_versions()
 
         version_mismatch = False
         for package in needed_versions.keys():
             need = needed_versions[package]
-            have = have_versions[package]
+            have = have_versions.get(package, 'not installed')
             if need == have:
                 continue
 
@@ -219,6 +388,7 @@ def get_suitable_kernel(
     ]
     requested_class_names = [getattr(cls, '_DressingClass', cls).__name__ for cls in classes]
     requested_context = _context_key_from_runtime(context)
+    rejection_reasons = []
 
     for module_name, kernel_metadata in enumerate_kernels(verbose=verbose):
         if verbose:
@@ -226,6 +396,10 @@ def get_suitable_kernel(
 
         kernel_context = _context_key_from_metadata(kernel_metadata)
         if requested_context is not None and kernel_context != requested_context:
+            rejection_reasons.append(
+                f'`{module_name}` was built for context `{kernel_context}`, '
+                f'but context `{requested_context}` was requested.'
+            )
             if verbose:
                 print(f'The kernel `{module_name}` is unsuitable. Its context '
                       f'is `{kernel_context}`, but the requested one is '
@@ -233,12 +407,17 @@ def get_suitable_kernel(
             continue
 
         if kernel_metadata['config'] != config:
+            lhs = kernel_metadata['config']
+            rhs = config
+            config_diff = {kk: (lhs.get(kk), rhs.get(kk))
+                           for kk in set(lhs.keys()) | set(rhs.keys())
+                           if lhs.get(kk) != rhs.get(kk)}
+            rejection_reasons.append(
+                f'`{module_name}` has a different configuration '
+                f'({len(config_diff)} differing key(s): '
+                f'{", ".join(sorted(config_diff.keys())) or "none"}).'
+            )
             if verbose:
-                lhs = kernel_metadata['config']
-                rhs = config
-                config_diff = {kk: (lhs.get(kk), rhs.get(kk))
-                               for kk in set(lhs.keys()) | set(rhs.keys())
-                               if lhs.get(kk) != rhs.get(kk)}
                 print(f'The kernel `{module_name}` is unsuitable. Its config '
                       f'(left) and the requested one (right) differ at the '
                       f'following keys:\n'
@@ -254,8 +433,12 @@ def get_suitable_kernel(
         module_class_names = kernel_metadata['classes']
 
         if not set(requested_tracker_class_names) <= set(module_tracker_element_names):
+            class_diff = set(requested_tracker_class_names) - set(module_tracker_element_names)
+            rejection_reasons.append(
+                f'`{module_name}` is missing requested tracker element '
+                f'class(es): {", ".join(sorted(class_diff))}.'
+            )
             if verbose:
-                class_diff = set(requested_tracker_class_names) - set(module_tracker_element_names)
                 print(f'The kernel `{module_name}` is unsuitable. It does not '
                       f'provide the following requested classes: '
                       f'{", ".join(class_diff)}.')
@@ -263,8 +446,12 @@ def get_suitable_kernel(
 
         all_class_names = set(module_tracker_element_names) | set(module_class_names)
         if not set(requested_class_names) <= all_class_names:
+            class_diff = set(requested_class_names) - all_class_names
+            rejection_reasons.append(
+                f'`{module_name}` is missing requested class(es): '
+                f'{", ".join(sorted(class_diff))}.'
+            )
             if verbose:
-                class_diff = set(requested_class_names) - all_class_names
                 print(f'The kernel `{module_name}` is unsuitable. It does not '
                       f'provide the following requested classes: '
                       f'{", ".join(class_diff)}.')
@@ -285,6 +472,16 @@ def get_suitable_kernel(
 
     if verbose:
         print('==> No suitable precompiled kernel found.')
+
+    if _allow_no_prebuilt_kernel(context=context):
+        return None
+
+    raise PrebuiltKernelNotFoundError(
+        _build_no_suitable_kernel_message(
+            requested_context=requested_context,
+            rejection_reasons=rejection_reasons,
+        )
+    )
 
 
 def regenerate_kernels(

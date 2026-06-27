@@ -6,4 +6,8 @@
 from importlib.metadata import version
 __version__ = version(__name__)
 
-from .prebuild_kernels import get_suitable_kernel, XSK_PREBUILT_KERNELS_LOCATION
+from .prebuild_kernels import (
+    PrebuiltKernelNotFoundError,
+    get_suitable_kernel,
+    XSK_PREBUILT_KERNELS_LOCATION,
+)
