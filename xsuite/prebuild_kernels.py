@@ -133,14 +133,16 @@ def _iter_kernel_metadata_files():
         yield metadata_file
 
 
-def _kernel_binary_file(module_name, location=XSK_PREBUILT_KERNELS_LOCATION):
+def _kernel_binary_file(module_name, location=None):
+    if location is None:
+        location = XSK_PREBUILT_KERNELS_LOCATION
     suffix = sysconfig.get_config_var('EXT_SUFFIX')
     if suffix is None:
         suffix = '.so'
     return Path(location) / f'{module_name}{suffix}'
 
 
-def _kernel_binary_exists(module_name, location=XSK_PREBUILT_KERNELS_LOCATION):
+def _kernel_binary_exists(module_name, location=None):
     return _kernel_binary_file(module_name, location=location).exists()
 
 
