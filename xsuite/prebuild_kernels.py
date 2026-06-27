@@ -194,7 +194,7 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
     kernel_order = {name: idx for idx, (name, _) in enumerate(kernel_definitions)}
     have_versions = _current_package_versions()
     known_metadata_count = 0
-    version_mismatch_details = []
+    version_mismatches = set()
     compatible_metadata_count = 0
     unknown_metadata = []
     missing_binary_details = []
@@ -229,10 +229,7 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
             if need == have:
                 continue
             kernel_has_version_mismatch = True
-            version_mismatch_details.append(
-                f'`{module_name}` needs {package}=={need}, but the current '
-                f'environment has {package}=={have}.'
-            )
+            version_mismatches.add((package, need, have))
 
         if not kernel_has_version_mismatch:
             compatible_metadata_count += 1
@@ -248,6 +245,11 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
         )
 
     if known_metadata_count and compatible_metadata_count == 0:
+        version_mismatch_details = [
+            f'cached kernels need {package}=={need}, but the current '
+            f'environment has {package}=={have}.'
+            for package, need, have in sorted(version_mismatches)
+        ]
         return (
             'Could not find a suitable Xsuite prebuilt kernel.\n'
             'Reason: cached kernels were found, but their package versions do '
