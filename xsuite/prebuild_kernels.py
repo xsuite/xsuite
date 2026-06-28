@@ -49,26 +49,6 @@ def _current_package_versions():
     }
 
 
-def _allow_no_prebuilt_kernel(context=None):
-    if os.environ.get('XSUITE_ALLOW_NO_PREBUILT_KERNELS') is not None:
-        return True
-    context_cpu_module = getattr(xo, 'context_cpu', None)
-    if getattr(context_cpu_module, 'allow_no_prebuilt_kernel', False):
-        return True
-    return getattr(context, 'allow_no_prebuilt_kernel', False)
-
-
-def _allow_jit_message():
-    return (
-        'To allow just-in-time compilation instead, as in older Xsuite '
-        'versions, set the environment variable '
-        '`XSUITE_ALLOW_NO_PREBUILT_KERNELS`, set '
-        '`xobjects.context_cpu.allow_no_prebuilt_kernel = True`, or set '
-        '`context.allow_no_prebuilt_kernel = True`. This may require lengthy '
-        'compilation whenever a different kernel is needed.'
-    )
-
-
 def _context_key_from_cli(context: Optional[str]) -> Optional[str]:
     if context is None:
         return None
@@ -181,7 +161,7 @@ def _format_update_or_regenerate_message():
     )
 
 
-def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
+def _build_no_suitable_kernel_message(requested_context, closest_rejection_reason):
     metadata_files = list(_iter_kernel_metadata_files())
     if not metadata_files:
         return (
@@ -189,7 +169,7 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
             f'Reason: xsuite is installed, but no cached kernels were found in '
             f'`{XSK_PREBUILT_KERNELS_LOCATION}`.\n'
             f'{_format_update_or_regenerate_message()}\n'
-            f'{_allow_jit_message()}'
+            f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
         )
 
     kernel_order = {name: idx for idx, (name, _) in enumerate(kernel_definitions)}
@@ -242,7 +222,7 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
             'found for this Python/platform.\n'
             f'{_format_list(missing_binary_details)}\n'
             f'{_format_update_or_regenerate_message()}\n'
-            f'{_allow_jit_message()}'
+            f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
         )
 
     if known_metadata_count and compatible_metadata_count == 0:
@@ -257,7 +237,7 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
             'not match the installed packages.\n'
             f'{_format_list(version_mismatch_details)}\n'
             f'{_format_update_or_regenerate_message()}\n'
-            f'{_allow_jit_message()}'
+            f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
         )
 
     reason = (
@@ -267,8 +247,8 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
     details = []
     if requested_context is not None:
         details.append(f'Requested context: `{requested_context}`.')
-    if rejection_reasons:
-        details.append(_format_list(rejection_reasons))
+    if closest_rejection_reason:
+        details.append(f'Closest cached kernel: {closest_rejection_reason}')
     elif unknown_metadata:
         details.append(_format_list(unknown_metadata))
 
@@ -281,7 +261,7 @@ def _build_no_suitable_kernel_message(requested_context, rejection_reasons):
         f'{reason}{details_text}\n'
         'This can happen with a wrong or unsupported configuration. If this is '
         'not expected, please contact the developers.\n'
-        f'{_allow_jit_message()}'
+        f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
     )
 
 
@@ -402,8 +382,11 @@ def get_suitable_kernel(
         kernel_context = _context_key_from_metadata(kernel_metadata)
         if requested_context is not None and kernel_context != requested_context:
             rejection_reasons.append(
-                f'`{module_name}` was built for context `{kernel_context}`, '
-                f'but context `{requested_context}` was requested.'
+                (
+                    (1000, module_name),
+                    f'`{module_name}` was built for context `{kernel_context}`, '
+                    f'but context `{requested_context}` was requested.'
+                )
             )
             if verbose:
                 print(f'The kernel `{module_name}` is unsuitable. Its context '
@@ -418,9 +401,12 @@ def get_suitable_kernel(
                            for kk in set(lhs.keys()) | set(rhs.keys())
                            if lhs.get(kk) != rhs.get(kk)}
             rejection_reasons.append(
-                f'`{module_name}` has a different configuration '
-                f'({len(config_diff)} differing key(s): '
-                f'{", ".join(sorted(config_diff.keys())) or "none"}).'
+                (
+                    (len(config_diff), module_name),
+                    f'`{module_name}` has a different configuration '
+                    f'({len(config_diff)} differing key(s): '
+                    f'{", ".join(sorted(config_diff.keys())) or "none"}).'
+                )
             )
             if verbose:
                 print(f'The kernel `{module_name}` is unsuitable. Its config '
@@ -440,8 +426,11 @@ def get_suitable_kernel(
         if not set(requested_tracker_class_names) <= set(module_tracker_element_names):
             class_diff = set(requested_tracker_class_names) - set(module_tracker_element_names)
             rejection_reasons.append(
-                f'`{module_name}` is missing requested tracker element '
-                f'class(es): {", ".join(sorted(class_diff))}.'
+                (
+                    (100 + len(class_diff), module_name),
+                    f'`{module_name}` is missing requested tracker element '
+                    f'class(es): {", ".join(sorted(class_diff))}.'
+                )
             )
             if verbose:
                 print(f'The kernel `{module_name}` is unsuitable. It does not '
@@ -453,8 +442,11 @@ def get_suitable_kernel(
         if not set(requested_class_names) <= all_class_names:
             class_diff = set(requested_class_names) - all_class_names
             rejection_reasons.append(
-                f'`{module_name}` is missing requested class(es): '
-                f'{", ".join(sorted(class_diff))}.'
+                (
+                    (100 + len(class_diff), module_name),
+                    f'`{module_name}` is missing requested class(es): '
+                    f'{", ".join(sorted(class_diff))}.'
+                )
             )
             if verbose:
                 print(f'The kernel `{module_name}` is unsuitable. It does not '
@@ -478,13 +470,15 @@ def get_suitable_kernel(
     if verbose:
         print('==> No suitable precompiled kernel found.')
 
-    if _allow_no_prebuilt_kernel(context=context):
+    if xo.context_cpu.allow_no_prebuilt_kernel_enabled(context=context):
         return None
 
     raise PrebuiltKernelNotFoundError(
         _build_no_suitable_kernel_message(
             requested_context=requested_context,
-            rejection_reasons=rejection_reasons,
+            closest_rejection_reason=(
+                min(rejection_reasons)[1] if rejection_reasons else None
+            ),
         )
     )
 
