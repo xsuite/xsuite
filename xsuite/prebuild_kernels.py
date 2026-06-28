@@ -470,7 +470,7 @@ def get_suitable_kernel(
     if verbose:
         print('==> No suitable precompiled kernel found.')
 
-    if xo.context_cpu.allow_no_prebuilt_kernel_enabled(context=context):
+    if not xo.context_cpu.require_prebuilt_kernel(context=context):
         return None
 
     raise PrebuiltKernelNotFoundError(
