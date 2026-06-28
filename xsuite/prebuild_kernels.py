@@ -383,7 +383,7 @@ def get_suitable_kernel(
         if requested_context is not None and kernel_context != requested_context:
             rejection_reasons.append(
                 (
-                    (1000, module_name),
+                    (3000, module_name),
                     f'`{module_name}` was built for context `{kernel_context}`, '
                     f'but context `{requested_context}` was requested.'
                 )
@@ -402,7 +402,7 @@ def get_suitable_kernel(
                            if lhs.get(kk) != rhs.get(kk)}
             rejection_reasons.append(
                 (
-                    (len(config_diff), module_name),
+                    (2000 + len(config_diff), module_name),
                     f'`{module_name}` has a different configuration '
                     f'({len(config_diff)} differing key(s): '
                     f'{", ".join(sorted(config_diff.keys())) or "none"}).'
@@ -427,7 +427,7 @@ def get_suitable_kernel(
             class_diff = set(requested_tracker_class_names) - set(module_tracker_element_names)
             rejection_reasons.append(
                 (
-                    (100 + len(class_diff), module_name),
+                    (1000 + len(class_diff), module_name),
                     f'`{module_name}` is missing requested tracker element '
                     f'class(es): {", ".join(sorted(class_diff))}.'
                 )
@@ -443,7 +443,7 @@ def get_suitable_kernel(
             class_diff = set(requested_class_names) - all_class_names
             rejection_reasons.append(
                 (
-                    (100 + len(class_diff), module_name),
+                    (1000 + len(class_diff), module_name),
                     f'`{module_name}` is missing requested class(es): '
                     f'{", ".join(sorted(class_diff))}.'
                 )
