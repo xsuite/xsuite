@@ -109,7 +109,12 @@ def _iter_kernel_metadata_files():
 
 
 def _kernel_binary_file(module_name, location=None):
-    """Return the ABI-specific extension-module path for a kernel module."""
+    """
+    Return the ABI-specific extension-module path for a kernel module.
+
+    For example, ``_kernel_binary_file("default_cpu_serial", path)`` returns
+    a path like ``path / "default_cpu_serial.cpython-313-darwin.so"``.
+    """
     if location is None:
         location = XSK_PREBUILT_KERNELS_LOCATION
     suffix = sysconfig.get_config_var('EXT_SUFFIX')
