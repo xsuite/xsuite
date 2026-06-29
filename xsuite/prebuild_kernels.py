@@ -52,7 +52,14 @@ def _current_package_versions():
 
 
 def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
-    """Normalize a CLI context argument into unique internal context keys."""
+    """
+    Convert the ``xsuite-prebuild`` context option to context keys.
+
+    Examples: ``None`` returns ``None``, ``"serial"`` returns
+    ``("serial",)``, ``"serial,openmp"`` returns ``("serial", "openmp")``,
+    and ``("openmp", "openmp")`` returns ``("openmp",)``. Duplicate entries
+    are removed while preserving order.
+    """
     if context is None:
         return None
 
