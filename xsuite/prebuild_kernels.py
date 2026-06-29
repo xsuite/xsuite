@@ -51,15 +51,6 @@ def _current_package_versions():
     }
 
 
-def _context_key_from_cli(context: Optional[str]) -> Optional[str]:
-    """Normalize one CLI context name to an internal context key."""
-    if context is None:
-        return None
-    if context not in (SERIAL_CONTEXT, OPENMP_CONTEXT):
-        raise ValueError(f'Unsupported prebuild context `{context}`.')
-    return context
-
-
 def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
     """Normalize a CLI context argument into unique internal context keys."""
     if context is None:
@@ -76,7 +67,9 @@ def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
     for raw_context in raw_contexts:
         if raw_context is None:
             continue
-        context_key = _context_key_from_cli(raw_context.strip())
+        context_key = raw_context.strip()
+        if context_key not in (SERIAL_CONTEXT, OPENMP_CONTEXT):
+            raise ValueError(f'Unsupported prebuild context `{context_key}`.')
         if context_key not in context_keys:
             context_keys.append(context_key)
 
@@ -86,33 +79,12 @@ def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
     return tuple(context_keys)
 
 
-def _context_key_from_runtime(context) -> Optional[str]:
-    """Return the prebuild context key matching a runtime xobjects context."""
-    if context is None:
-        return None
-    if not isinstance(context, xo.ContextCpu):
-        return None
-    if context.openmp_enabled:
-        return OPENMP_CONTEXT
-    return SERIAL_CONTEXT
-
-
-def _context_key_from_metadata(kernel_metadata: dict) -> str:
-    """Read a kernel context from metadata, defaulting legacy files to serial."""
-    return kernel_metadata.get('context', SERIAL_CONTEXT)
-
-
 def _split_module_name(module_name: str) -> Tuple[str, str]:
     """Split a context-suffixed module name into base module name and context."""
     for context_key, suffix in CONTEXT_SUFFIXES.items():
         if module_name.endswith(suffix):
             return module_name[:-len(suffix)], context_key
     return module_name, SERIAL_CONTEXT
-
-
-def _module_name_for_context(base_module_name: str, context_key: str) -> str:
-    """Build the concrete module name for a base kernel and context."""
-    return f'{base_module_name}{CONTEXT_SUFFIXES[context_key]}'
 
 
 def _iter_kernel_metadata_files():
@@ -133,11 +105,6 @@ def _kernel_binary_file(module_name, location=None):
     return Path(location) / f'{module_name}{suffix}'
 
 
-def _kernel_binary_exists(module_name, location=None):
-    """Check whether the compiled extension exists for the current Python ABI."""
-    return _kernel_binary_file(module_name, location=location).exists()
-
-
 def _read_kernel_metadata(metadata_file):
     """Load metadata and fill in legacy fields needed by current lookup logic."""
     module_name = metadata_file.stem
@@ -151,7 +118,7 @@ def _read_kernel_metadata(metadata_file):
         kernel_metadata['base_module_name'] = base_module_name
 
     explicit_context = 'context' in kernel_metadata
-    context_key = _context_key_from_metadata(kernel_metadata)
+    context_key = kernel_metadata.get('context', SERIAL_CONTEXT)
     kernel_metadata['context'] = context_key
 
     return module_name, kernel_metadata, explicit_context
@@ -211,7 +178,7 @@ def _build_no_suitable_kernel_message(requested_context, closest_rejection_reaso
             )
             continue
 
-        if not _kernel_binary_exists(module_name):
+        if not _kernel_binary_file(module_name).exists():
             missing_binary_details.append(
                 f'`{module_name}` metadata exists, but '
                 f'`{_kernel_binary_file(module_name).name}` was not found.'
@@ -322,7 +289,7 @@ def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
         if base_module_name not in kernel_order:
             continue
 
-        if not _kernel_binary_exists(module_name):
+        if not _kernel_binary_file(module_name).exists():
             if verbose:
                 _print(
                     f'Compiled kernel `{_kernel_binary_file(module_name).name}` '
@@ -388,14 +355,16 @@ def get_suitable_kernel(
         cls._DressingClass.__name__ for cls in tracker_element_classes
     ]
     requested_class_names = [getattr(cls, '_DressingClass', cls).__name__ for cls in classes]
-    requested_context = _context_key_from_runtime(context)
+    requested_context = None
+    if isinstance(context, xo.ContextCpu):
+        requested_context = OPENMP_CONTEXT if context.openmp_enabled else SERIAL_CONTEXT
     rejection_reasons = []
 
     for module_name, kernel_metadata in enumerate_kernels(verbose=verbose):
         if verbose:
             print(f"==> Considering the precompiled kernel `{module_name}`...")
 
-        kernel_context = _context_key_from_metadata(kernel_metadata)
+        kernel_context = kernel_metadata.get('context', SERIAL_CONTEXT)
         if requested_context is not None and kernel_context != requested_context:
             rejection_reasons.append(
                 (
@@ -527,7 +496,7 @@ def regenerate_kernels(
             if kernels is not None and base_module_name not in kernels:
                 continue
             for context_key in context_keys:
-                module_name = _module_name_for_context(base_module_name, context_key)
+                module_name = f'{base_module_name}{CONTEXT_SUFFIXES[context_key]}'
                 kernels_to_build.append((base_module_name, module_name, metadata, context_key))
 
         if n_threads == 0:
