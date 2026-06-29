@@ -37,10 +37,12 @@ CONTEXT_SUFFIXES = {
 
 
 class PrebuiltKernelNotFoundError(RuntimeError):
+    """Raised when serial CPU execution requires a prebuilt kernel but none matches."""
     pass
 
 
 def _current_package_versions():
+    """Return the package versions that prebuilt kernels are tied to."""
     return {
         'xtrack': xt.__version__,
         'xfields': xf.__version__,
@@ -50,6 +52,7 @@ def _current_package_versions():
 
 
 def _context_key_from_cli(context: Optional[str]) -> Optional[str]:
+    """Normalize one CLI context name to an internal context key."""
     if context is None:
         return None
     if context not in (SERIAL_CONTEXT, OPENMP_CONTEXT):
@@ -58,6 +61,7 @@ def _context_key_from_cli(context: Optional[str]) -> Optional[str]:
 
 
 def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
+    """Normalize a CLI context argument into unique internal context keys."""
     if context is None:
         return None
 
@@ -83,6 +87,7 @@ def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
 
 
 def _context_key_from_runtime(context) -> Optional[str]:
+    """Return the prebuild context key matching a runtime xobjects context."""
     if context is None:
         return None
     if not isinstance(context, xo.ContextCpu):
@@ -93,10 +98,12 @@ def _context_key_from_runtime(context) -> Optional[str]:
 
 
 def _context_key_from_metadata(kernel_metadata: dict) -> str:
+    """Read a kernel context from metadata, defaulting legacy files to serial."""
     return kernel_metadata.get('context', SERIAL_CONTEXT)
 
 
 def _split_module_name(module_name: str) -> Tuple[str, str]:
+    """Split a context-suffixed module name into base module name and context."""
     for context_key, suffix in CONTEXT_SUFFIXES.items():
         if module_name.endswith(suffix):
             return module_name[:-len(suffix)], context_key
@@ -104,10 +111,12 @@ def _split_module_name(module_name: str) -> Tuple[str, str]:
 
 
 def _module_name_for_context(base_module_name: str, context_key: str) -> str:
+    """Build the concrete module name for a base kernel and context."""
     return f'{base_module_name}{CONTEXT_SUFFIXES[context_key]}'
 
 
 def _iter_kernel_metadata_files():
+    """Yield user-visible kernel metadata files from the prebuilt-kernel cache."""
     for metadata_file in sorted(XSK_PREBUILT_KERNELS_LOCATION.glob('*.json')):
         if metadata_file.name.startswith('_'):
             continue
@@ -115,6 +124,7 @@ def _iter_kernel_metadata_files():
 
 
 def _kernel_binary_file(module_name, location=None):
+    """Return the ABI-specific extension-module path for a kernel module."""
     if location is None:
         location = XSK_PREBUILT_KERNELS_LOCATION
     suffix = sysconfig.get_config_var('EXT_SUFFIX')
@@ -124,10 +134,12 @@ def _kernel_binary_file(module_name, location=None):
 
 
 def _kernel_binary_exists(module_name, location=None):
+    """Check whether the compiled extension exists for the current Python ABI."""
     return _kernel_binary_file(module_name, location=location).exists()
 
 
 def _read_kernel_metadata(metadata_file):
+    """Load metadata and fill in legacy fields needed by current lookup logic."""
     module_name = metadata_file.stem
 
     with metadata_file.open('r') as fd:
@@ -146,6 +158,7 @@ def _read_kernel_metadata(metadata_file):
 
 
 def _format_list(items, limit=5):
+    """Format a short bullet list, truncating after ``limit`` entries."""
     items = list(items)
     formatted = [f'- {item}' for item in items[:limit]]
     if len(items) > limit:
@@ -154,6 +167,7 @@ def _format_list(items, limit=5):
 
 
 def _format_update_or_regenerate_message():
+    """Return the standard remediation message for stale or missing kernels."""
     return (
         'Suggested fixes: update xsuite with `pip install --upgrade xsuite` '
         '(usually faster), or regenerate the kernels with '
@@ -162,6 +176,7 @@ def _format_update_or_regenerate_message():
 
 
 def _build_no_suitable_kernel_message(requested_context, closest_rejection_reason):
+    """Build the error text explaining why no cached kernel can be used."""
     metadata_files = list(_iter_kernel_metadata_files())
     if not metadata_files:
         return (
@@ -274,6 +289,7 @@ def save_kernel_metadata(
         all_classes,
         location,
 ):
+    """Write the JSON metadata that lets runtime lookup validate a kernel."""
     location = Path(location)
     out_file = location / f'{module_name}.json'
 
@@ -549,6 +565,7 @@ def regenerate_kernels(
 def build_single_kernel(
         idx, total, location, metadata, module_name, base_module_name, context_key,
 ):
+    """Build one configured kernel module and save its matching metadata."""
     _print(f'[{idx + 1}/{total}] Building `{module_name}`...')
 
     config = metadata['config']
@@ -622,6 +639,7 @@ def clear_kernels(
         location=XSK_PREBUILT_KERNELS_LOCATION,
         context=None,
 ):
+    """Delete generated kernel artifacts matching optional name/context filters."""
     if kernels is not None and (
             isinstance(kernels, str) or not hasattr(kernels, '__iter__')):
         kernels = [kernels]
