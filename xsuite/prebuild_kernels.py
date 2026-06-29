@@ -35,6 +35,12 @@ CONTEXT_SUFFIXES = {
     OPENMP_CONTEXT: '_cpu_openmp',
 }
 
+UPDATE_OR_REGENERATE_MESSAGE = (
+    'Suggested fixes: update xsuite with `pip install --upgrade xsuite` '
+    '(usually faster), or regenerate the kernels with '
+    '`xsuite-prebuild regenerate` (can take some time).'
+)
+
 
 class PrebuiltKernelNotFoundError(RuntimeError):
     """Raised when serial CPU execution requires a prebuilt kernel but none matches."""
@@ -124,7 +130,14 @@ def _kernel_binary_file(module_name, location=None):
 
 
 def _read_kernel_metadata(metadata_file):
-    """Load metadata and fill in legacy fields needed by current lookup logic."""
+    """
+    Load one kernel metadata JSON file and normalize older metadata.
+
+    Older metadata may not contain ``base_module_name`` or ``context``. In
+    that case they are inferred from the filename; for example,
+    ``default_cpu_openmp.json`` gives base module ``default`` and context
+    ``openmp``.
+    """
     module_name = metadata_file.stem
 
     with metadata_file.open('r') as fd:
@@ -151,15 +164,6 @@ def _format_list(items, limit=5):
     return '\n'.join(formatted)
 
 
-def _format_update_or_regenerate_message():
-    """Return the standard remediation message for stale or missing kernels."""
-    return (
-        'Suggested fixes: update xsuite with `pip install --upgrade xsuite` '
-        '(usually faster), or regenerate the kernels with '
-        '`xsuite-prebuild regenerate` (can take some time).'
-    )
-
-
 def _build_no_suitable_kernel_message(requested_context, closest_rejection_reason):
     """Build the error text explaining why no cached kernel can be used."""
     metadata_files = list(_iter_kernel_metadata_files())
@@ -168,7 +172,7 @@ def _build_no_suitable_kernel_message(requested_context, closest_rejection_reaso
             'Could not find a suitable Xsuite prebuilt kernel.\n'
             f'Reason: xsuite is installed, but no cached kernels were found in '
             f'`{XSK_PREBUILT_KERNELS_LOCATION}`.\n'
-            f'{_format_update_or_regenerate_message()}\n'
+            f'{UPDATE_OR_REGENERATE_MESSAGE}\n'
             f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
         )
 
@@ -221,7 +225,7 @@ def _build_no_suitable_kernel_message(requested_context, closest_rejection_reaso
             'Reason: xsuite is installed, but no compiled cached kernels were '
             'found for this Python/platform.\n'
             f'{_format_list(missing_binary_details)}\n'
-            f'{_format_update_or_regenerate_message()}\n'
+            f'{UPDATE_OR_REGENERATE_MESSAGE}\n'
             f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
         )
 
@@ -236,7 +240,7 @@ def _build_no_suitable_kernel_message(requested_context, closest_rejection_reaso
             'Reason: cached kernels were found, but their package versions do '
             'not match the installed packages.\n'
             f'{_format_list(version_mismatch_details)}\n'
-            f'{_format_update_or_regenerate_message()}\n'
+            f'{UPDATE_OR_REGENERATE_MESSAGE}\n'
             f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
         )
 
