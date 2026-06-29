@@ -73,7 +73,7 @@ import xpart
 import xdeps
 import xwakes
 
-# Regenerate line API page at every docs build.
+# Regenerate line API page at every docs build. The generated file should be included in `.gitignore`.
 print("Generating line API page...")
 _docs_dir = os.path.dirname(os.path.abspath(__file__))
 _line_rst = os.path.join(_docs_dir, "line_api.rst")
@@ -81,11 +81,19 @@ with open(_line_rst, "w") as _fid:
     _fid.write(xtrack.Line._generate_doc_rst())
 print("Done.")
 
-# Regenerate environment API page at every docs build.
+# Regenerate environment API page at every docs build. The generated file should be included in `.gitignore`.
 print("Generating environment API page...")
 _environment_rst = os.path.join(_docs_dir, "environment_api.rst")
 with open(_environment_rst, "w") as _fid:
     _fid.write(xtrack.Environment._generate_doc_rst())
+print("Done.")
+
+# Regenerate aperture API page at every docs build. The generated file should be included in `.gitignore`.
+print("Generating aperture API page...")
+from xtrack.aperture.aperture import Aperture as _Aperture
+_aperture_rst = os.path.join(_docs_dir, "aperture_api.rst")
+with open(_aperture_rst, "w") as _fid:
+    _fid.write(_Aperture._generate_doc_rst())
 print("Done.")
 
 ### GENERATE code snippets

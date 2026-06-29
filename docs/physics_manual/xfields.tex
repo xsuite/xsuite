@@ -2266,6 +2266,147 @@ As the longitudinal wake is a real function, the conrresponding impedance satisf
 -\operatorname{Im}\left\{ Z_{s}( \omega) \right\}
 \end{align}
 
+\section{Integrated wakefields}
+
+We consider the horizontal dipolar wake term. The corresponding contribution to
+the horizontal kick is:
+\begin{equation}
+    \Delta p_x^\mathrm{dip}(z) =
+    \frac{q^2 e^2}{m_0 \gamma \beta_0^2 c^2}
+    \int_{-\infty}^{+\infty}
+    \lambda(z')\bar{x}(z')W_x^{1,0,0,0}(z-z')\, dz' .
+    \label{eq:wake_dipx_kick}
+\end{equation}
+In the following we keep the normalization factor outside the discretization and
+define:
+\begin{equation}
+    K_x^\mathrm{dip}(z) =
+    \int_{-\infty}^{+\infty}
+    \lambda(z')\bar{x}(z')W_x^{1,0,0,0}(z-z')\, dz' .
+    \label{eq:wake_dipx_conv}
+\end{equation}
+
+We sample the bunch on a uniform grid:
+\begin{equation}
+    z_n = n\Delta z .
+\end{equation}
+Splitting the integral into bins centered on $z_j$, the convolution evaluated at
+the grid point $z_i$ can be written as:
+\begin{equation}
+    K_{x,i}^\mathrm{dip} =
+    \sum_j
+    \int_{z_j-\frac{\Delta z}{2}}^{z_j+\frac{\Delta z}{2}}
+    \lambda(z')\bar{x}(z')W_x^{1,0,0,0}(z_i-z')\, dz',
+    \label{eq:wake_dipx_split_bins}
+\end{equation}
+where $K_{x,i}^\mathrm{dip}=K_x^\mathrm{dip}(z_i)$.
+
+\subsection*{Conventional discretization}
+
+If both the source term $\lambda(z)\bar{x}(z)$ and the wakefield
+$W_x^{1,0,0,0}(z)$ are sufficiently smooth over a bin of size $\Delta z$, they
+can both be replaced by their values at the bin centers:
+\begin{equation}
+    \lambda(z')\bar{x}(z') \simeq \lambda_j\bar{x}_j,\qquad
+    W_x^{1,0,0,0}(z_i-z') \simeq W_x^{1,0,0,0}(z_i-z_j).
+\end{equation}
+Equation\,\eqref{eq:wake_dipx_split_bins} then becomes:
+\begin{equation}
+    K_{x,i}^\mathrm{dip} \simeq
+    \Delta z
+    \sum_j
+    \lambda_j\bar{x}_j W_x^{1,0,0,0}(z_i-z_j)
+    =
+    \Delta z
+    \sum_j
+    \lambda_j\bar{x}_j W_{x,i-j}^{1,0,0,0,\mathrm{sample}},
+    \label{eq:wake_dipx_disc_pointwise}
+\end{equation}
+where:
+\begin{equation}
+    W_{x,k}^{1,0,0,0,\mathrm{sample}} =
+    W_x^{1,0,0,0}(z_k).
+\end{equation}
+
+With this approach the bin size has to be small enough to resolve both the
+variation of the source term $\lambda(z)\bar{x}(z)$ and the variation of the
+wakefield $W_x^{1,0,0,0}(z)$. For short-range wakes this approximation may
+require a very small bin size, even when the bunch density and the horizontal
+centroid are slowly varying.
+
+\subsection*{Integrated wakefield}
+
+When the wakefield varies much faster than the bunch density and centroid, one
+can keep only the source term constant within each bin:
+\begin{equation}
+    \lambda(z')\bar{x}(z') \simeq \lambda_j\bar{x}_j,
+\end{equation}
+while retaining the variation of the wakefield inside the bin.
+Equation\,\eqref{eq:wake_dipx_split_bins} becomes:
+\begin{equation}
+    K_{x,i}^\mathrm{dip} \simeq
+    \sum_j \lambda_j\bar{x}_j
+    \int_{z_j-\frac{\Delta z}{2}}^{z_j+\frac{\Delta z}{2}}
+    W_x^{1,0,0,0}(z_i-z')\, dz' .
+\end{equation}
+We now work on the integral that remains. With the change of variable:
+\begin{equation}
+    u = z_i-z',
+\end{equation}
+we have $dz'=-du$. The lower and upper limits in $z'$ become:
+\begin{align}
+    z' = z_j-\frac{\Delta z}{2}
+    &\quad\Rightarrow\quad
+    u = \left(i-j+\frac{1}{2}\right)\Delta z,\\
+    z' = z_j+\frac{\Delta z}{2}
+    &\quad\Rightarrow\quad
+    u = \left(i-j-\frac{1}{2}\right)\Delta z .
+\end{align}
+The minus sign from $dz'=-du$ reverses these limits, giving:
+\begin{equation}
+    \int_{z_j-\frac{\Delta z}{2}}^{z_j+\frac{\Delta z}{2}}
+    W_x^{1,0,0,0}(z_i-z')\, dz'
+    =
+    \int_{\left(i-j-\frac{1}{2}\right)\Delta z}
+         ^{\left(i-j+\frac{1}{2}\right)\Delta z}
+    W_x^{1,0,0,0}(u)\, du.
+\end{equation}
+We define the integrated horizontal dipolar wakefield as:
+\begin{equation}
+    W_{x,k}^{1,0,0,0,\mathrm{int}} =
+    \frac{1}{\Delta z}
+    \int_{\left(k-\frac{1}{2}\right)\Delta z}
+         ^{\left(k+\frac{1}{2}\right)\Delta z}
+    W_x^{1,0,0,0}(u)\, du ,
+    \label{eq:wake_dipx_int_def}
+\end{equation}
+or, equivalently:
+\begin{equation}
+    \int_{\left(k-\frac{1}{2}\right)\Delta z}
+         ^{\left(k+\frac{1}{2}\right)\Delta z}
+    W_x^{1,0,0,0}(u)\, du
+    =
+    \Delta z\,W_{x,k}^{1,0,0,0,\mathrm{int}}.
+\end{equation}
+Therefore the sampled kick is again a discrete convolution:
+\begin{equation}
+    K_{x,i}^\mathrm{dip} \simeq
+    \Delta z
+    \sum_j
+    \lambda_j\bar{x}_j
+    W_{x,i-j}^{1,0,0,0,\mathrm{int}}.
+    \label{eq:wake_dipx_disc_integrated}
+\end{equation}
+
+With the integrated wakefield approach the bin size $\Delta z$ needs only to
+resolve the variation of the source term $\lambda(z)\bar{x}(z)$. The possibly
+much faster variation of the wakefield is accounted for by the bin integral in
+Eq.\,\eqref{eq:wake_dipx_int_def}.
+
+The same derivation can be used for the other wake components by replacing the
+source term and wakefield with the ones corresponding to the term being
+discretized.
+
 \section{Analytical wakes}
 \subsection*{Resonator}
 Ultra-relativistic resonator with shunt impedance $R$, quality factor $Q>1$ and resonant frequency $f_r$

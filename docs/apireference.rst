@@ -673,6 +673,39 @@ of the features offered by Table objects.
     :inherited-members:
     :member-order: alphabetical
 
+.. _aperture-api-reference:
+
+xt.Aperture class
+=================
+
+The :class:`xtrack.Aperture` class represents the physical aperture model of a
+beam line: a set of transverse cross-section profiles (pipes) placed along the
+survey of a :class:`xtrack.Line`. It provides methods to build the model from
+different data sources, to query aperture cross-sections, to compute the maximum
+number of beam sigmas that fit inside the aperture, and to visualise the results.
+
+.. contents::
+    :depth: 2
+    :local:
+
+.. include:: aperture_api.rst
+
+.. _aperture-builder-api-reference:
+
+xt.ApertureBuilder class
+========================
+
+The :class:`xtrack.ApertureBuilder` class provides a programmatic interface to
+construct an :class:`xtrack.Aperture` model by defining named profiles and
+pipes and installing them at positions in the survey. Once all components are
+registered, :meth:`~xtrack.ApertureBuilder.build` materialises the model into
+an :class:`xtrack.aperture.structures.ApertureModel` object that can be passed
+to :class:`xtrack.Aperture`.
+
+.. autoclass:: xtrack.ApertureBuilder
+    :members:
+    :member-order: bysource
+
 .. _track_method_label:
 
 Track
