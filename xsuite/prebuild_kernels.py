@@ -87,7 +87,13 @@ def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
 
 
 def _split_module_name(module_name: str) -> Tuple[str, str]:
-    """Split a context-suffixed module name into base module name and context."""
+    """
+    Split a context-suffixed module name into base module name and context.
+
+    For example, ``"default_cpu_openmp"`` returns
+    ``("default", "openmp")``. Names without a known suffix are treated as
+    legacy serial kernels, so ``"default"`` returns ``("default", "serial")``.
+    """
     for context_key, suffix in CONTEXT_SUFFIXES.items():
         if module_name.endswith(suffix):
             return module_name[:-len(suffix)], context_key
