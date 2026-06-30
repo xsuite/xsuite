@@ -202,7 +202,7 @@ def get_suitable_kernel(
 
     for module_name, kernel_metadata in enumerate_kernels(
         verbose=verbose,
-        diagnostics=diagnostics,
+        diagnostics=diagnostics,  # Collect skip reasons while scanning once.
     ):
         if verbose:
             print(f"==> Considering the precompiled kernel `{module_name}`...")
@@ -211,7 +211,8 @@ def get_suitable_kernel(
         if requested_context is not None and kernel_context != requested_context:
             rejection_reasons.append(
                 (
-                    (3000, module_name),
+                    (3000, module_name), # Used for sorting the rejection reasons
+                                         # to ease reporting
                     f'`{module_name}` was built for context `{kernel_context}`, '
                     f'but context `{requested_context}` was requested.'
                 )
