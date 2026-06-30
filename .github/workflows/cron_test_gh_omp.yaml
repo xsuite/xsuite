@@ -13,3 +13,4 @@ jobs:
     uses: ./.github/workflows/test_gh.yaml
     with:
       xobjects_test_contexts: "ContextCpu:auto"
+      allow_no_prebuilt_kernels: true

@@ -16,3 +16,5 @@ jobs:
       test_contexts: 'ContextCpu;ContextCpu:auto'
       platform: 'alma-cpu-smaller'
       suites: '["xmask"]'
+      forbid_compile: true
+      precompile_kernels: true

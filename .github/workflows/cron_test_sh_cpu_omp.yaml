@@ -16,3 +16,4 @@ jobs:
       test_contexts: 'ContextCpu:auto'
       platform: 'alma-cpu-2'
       suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll", "xwakes"]'
+      allow_no_prebuilt_kernels: true

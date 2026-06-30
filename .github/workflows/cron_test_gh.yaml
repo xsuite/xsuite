@@ -18,3 +18,4 @@ jobs:
     with:
       precompile_kernels: true
       xobjects_test_contexts: "ContextCpu"
+      allow_no_prebuilt_kernels: true
