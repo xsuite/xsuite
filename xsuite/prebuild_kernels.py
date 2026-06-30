@@ -72,90 +72,13 @@ def save_kernel_metadata(
     with out_file.open('w') as fd:
         json.dump(kernel_metadata, fd, indent=4)
 
-def enumerate_kernels(verbose=False, diagnostics=None) -> Iterator[Tuple[str, dict]]:
+def enumerate_kernels(verbose=False) -> Iterator[Tuple[str, dict]]:
     """
     Iterate over the prebuilt kernels compatible with the current version of
     xsuite. The first element of the tuple is the name of the kernel module
     and the second is a dictionary with the kernel metadata.
-
-    If ``diagnostics`` is provided, it is filled with information about
-    skipped metadata files, missing binaries, and version mismatches. This lets
-    callers build an error message without scanning the cache a second time.
     """
-    kernel_order = {name: idx for idx, (name, _) in enumerate(kernel_definitions)}
-    candidates = []
-    for metadata_file in _iter_kernel_metadata_files():
-        if diagnostics is not None:
-            diagnostics['metadata_file_count'] += 1
-
-        try:
-            module_name, kernel_metadata, explicit_context = _read_kernel_metadata(
-                metadata_file
-            )
-        except Exception as err:
-            if diagnostics is not None:
-                diagnostics['unknown_metadata'].append(
-                    f'`{metadata_file.name}` could not be read ({err}).'
-                )
-            continue
-
-        base_module_name = kernel_metadata['base_module_name']
-
-        if base_module_name not in kernel_order:
-            if diagnostics is not None:
-                diagnostics['unknown_metadata'].append(
-                    f'`{module_name}` is not a known kernel for this xsuite '
-                    f'version.'
-                )
-            continue
-
-        if not _kernel_binary_file(module_name).exists():
-            if diagnostics is not None:
-                diagnostics['missing_binary_details'].append(
-                    f'`{module_name}` metadata exists, but '
-                    f'`{_kernel_binary_file(module_name).name}` was not found.'
-                )
-            if verbose:
-                _print(
-                    f'Compiled kernel `{_kernel_binary_file(module_name).name}` '
-                    f'not found for metadata `{metadata_file.name}`.'
-                )
-            continue
-
-        needed_versions = kernel_metadata['versions']
-        have_versions = _current_package_versions()
-        if diagnostics is not None:
-            diagnostics['known_metadata_count'] += 1
-
-        version_mismatch = False
-        for package in needed_versions.keys():
-            need = needed_versions[package]
-            have = have_versions.get(package, 'not installed')
-            if need == have:
-                continue
-
-            version_mismatch = True
-            if diagnostics is not None:
-                diagnostics['version_mismatches'].add((package, need, have))
-            if verbose:
-                _print(
-                    f'Version mismatch for kernel `{module_name}`: needs '
-                    f'{package}=={need}, but have {package}=={have}.'
-                )
-
-        if version_mismatch:
-            continue
-
-        if diagnostics is not None:
-            diagnostics['compatible_metadata_count'] += 1
-
-        candidates.append((
-            kernel_order[base_module_name],
-            0 if explicit_context else 1,
-            module_name,
-            kernel_metadata,
-        ))
-
+    candidates, _ = _find_kernel_candidates(verbose=verbose)
     for _, _, module_name, kernel_metadata in sorted(candidates):
         yield module_name, kernel_metadata
 
@@ -191,19 +114,9 @@ def get_suitable_kernel(
     if isinstance(context, xo.ContextCpu):
         requested_context = OPENMP_CONTEXT if context.openmp_enabled else SERIAL_CONTEXT
     rejection_reasons = []
-    diagnostics = {
-        'metadata_file_count': 0,
-        'known_metadata_count': 0,
-        'compatible_metadata_count': 0,
-        'version_mismatches': set(),
-        'unknown_metadata': [],
-        'missing_binary_details': [],
-    }
+    candidates, diagnostics = _find_kernel_candidates(verbose=verbose)
 
-    for module_name, kernel_metadata in enumerate_kernels(
-        verbose=verbose,
-        diagnostics=diagnostics,  # Collect skip reasons while scanning once.
-    ):
+    for _, _, module_name, kernel_metadata in sorted(candidates):
         if verbose:
             print(f"==> Considering the precompiled kernel `{module_name}`...")
 
@@ -488,6 +401,92 @@ def _current_package_versions():
         'xcoll': xc.__version__,
         'xobjects': xo.__version__,
     }
+
+
+def _find_kernel_candidates(verbose=False):
+    """
+    Scan the cache once and return usable candidates plus skip diagnostics.
+
+    Candidates are compatible with the current xsuite package versions and
+    have a compiled binary for the current Python ABI. Diagnostics explain
+    metadata files skipped before config/class matching.
+    """
+    diagnostics = {
+        'metadata_file_count': 0,
+        'known_metadata_count': 0,
+        'compatible_metadata_count': 0,
+        'version_mismatches': set(),
+        'unknown_metadata': [],
+        'missing_binary_details': [],
+    }
+
+    kernel_order = {name: idx for idx, (name, _) in enumerate(kernel_definitions)}
+    candidates = []
+    for metadata_file in _iter_kernel_metadata_files():
+        diagnostics['metadata_file_count'] += 1
+
+        try:
+            module_name, kernel_metadata, explicit_context = _read_kernel_metadata(
+                metadata_file
+            )
+        except Exception as err:
+            diagnostics['unknown_metadata'].append(
+                f'`{metadata_file.name}` could not be read ({err}).'
+            )
+            continue
+
+        base_module_name = kernel_metadata['base_module_name']
+
+        if base_module_name not in kernel_order:
+            diagnostics['unknown_metadata'].append(
+                f'`{module_name}` is not a known kernel for this xsuite '
+                f'version.'
+            )
+            continue
+
+        if not _kernel_binary_file(module_name).exists():
+            diagnostics['missing_binary_details'].append(
+                f'`{module_name}` metadata exists, but '
+                f'`{_kernel_binary_file(module_name).name}` was not found.'
+            )
+            if verbose:
+                _print(
+                    f'Compiled kernel `{_kernel_binary_file(module_name).name}` '
+                    f'not found for metadata `{metadata_file.name}`.'
+                )
+            continue
+
+        needed_versions = kernel_metadata['versions']
+        have_versions = _current_package_versions()
+        diagnostics['known_metadata_count'] += 1
+
+        version_mismatch = False
+        for package in needed_versions.keys():
+            need = needed_versions[package]
+            have = have_versions.get(package, 'not installed')
+            if need == have:
+                continue
+
+            version_mismatch = True
+            diagnostics['version_mismatches'].add((package, need, have))
+            if verbose:
+                _print(
+                    f'Version mismatch for kernel `{module_name}`: needs '
+                    f'{package}=={need}, but have {package}=={have}.'
+                )
+
+        if version_mismatch:
+            continue
+
+        diagnostics['compatible_metadata_count'] += 1
+        candidates.append((
+            kernel_order[base_module_name],
+            0 if explicit_context else 1,
+            module_name,
+            kernel_metadata,
+        ))
+
+    return candidates, diagnostics
 
 
 def _context_keys_from_cli(context) -> Optional[Tuple[str, ...]]:
