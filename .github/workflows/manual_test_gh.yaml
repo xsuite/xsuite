@@ -27,6 +27,16 @@ on:
         type: boolean
         default: false
         required: true
+      forbid_compile:
+        description: set XOBJECTS_FORBID_COMPILE to forbid compilation during tests?
+        required: false
+        type: boolean
+        default: false
+      allow_no_prebuilt_kernels:
+        description: set XSUITE_ALLOW_NO_PREBUILT_KERNELS to allow running without prebuilt kernels?
+        required: false
+        type: boolean
+        default: false
       xobjects_test_contexts:
         description: xobjects test contexts
         default: "ContextCpu;ContextCpu:auto"
@@ -40,4 +50,6 @@ jobs:
     with:
       locations: ${{ inputs.locations }}
       precompile_kernels: ${{ inputs.precompile_kernels }}
+      forbid_compile: ${{ inputs.forbid_compile }}
+      allow_no_prebuilt_kernels: ${{ inputs.allow_no_prebuilt_kernels }}
       xobjects_test_contexts: ${{ inputs.xobjects_test_contexts }}

@@ -18,3 +18,5 @@ jobs:
       suites: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xcoll"]'
       pytest_options: '-m context_dependent'
       timeout_minutes: 2880  # 48h
+      forbid_compile: true # force use of precompiled kernels in CPU, GPU kernels still compiles
+      precompile_kernels: true

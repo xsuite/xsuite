@@ -18,4 +18,5 @@ jobs:
       with_mpi: true
       platform: 'alma-cpu-small-1'
       suites: '["xwakes"]'
-      allow_no_prebuilt_kernels: true
+      forbid_compile: true
+      precompile_kernels: true

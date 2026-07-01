@@ -40,6 +40,21 @@ on:
         required: true
         type: string
         default: '["xobjects", "xdeps", "xpart", "xtrack", "xfields", "xmask", "xcoll", "xwakes"]'
+      precompile_kernels:
+        description: precompile kernels?
+        required: false
+        type: boolean
+        default: false
+      forbid_compile:
+        description: set XOBJECTS_FORBID_COMPILE to forbid compilation during tests?
+        required: false
+        type: boolean
+        default: false
+      allow_no_prebuilt_kernels:
+        description: set XSUITE_ALLOW_NO_PREBUILT_KERNELS to allow running without prebuilt kernels?
+        required: false
+        type: boolean
+        default: false
 
 # This workflow calls the test_sh.yaml workflow passing the specified
 # branches as inputs
@@ -53,3 +68,6 @@ jobs:
       test_contexts: ${{ inputs.test_contexts }}
       platform: ${{ inputs.platform }}
       suites: ${{ inputs.suites }}
+      precompile_kernels: ${{ inputs.precompile_kernels }}
+      forbid_compile: ${{ inputs.forbid_compile }}
+      allow_no_prebuilt_kernels: ${{ inputs.allow_no_prebuilt_kernels }}
