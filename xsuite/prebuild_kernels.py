@@ -110,6 +110,7 @@ def get_suitable_kernel(
         cls._DressingClass.__name__ for cls in tracker_element_classes
     ]
     requested_class_names = [getattr(cls, '_DressingClass', cls).__name__ for cls in classes]
+    requested_classes = list(tracker_element_classes) + list(classes)
     requested_context = None
     if isinstance(context, xo.ContextCpu):
         requested_context = OPENMP_CONTEXT if context.openmp_enabled else SERIAL_CONTEXT
@@ -212,7 +213,8 @@ def get_suitable_kernel(
     if verbose:
         print('==> No suitable precompiled kernel found.')
 
-    if not xo.context_cpu.require_prebuilt_kernel(context=context):
+    if not xo.context_cpu.require_prebuilt_kernel(
+            context=context, classes=requested_classes):
         return None
 
     raise PrebuiltKernelNotFoundError(
