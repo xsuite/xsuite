@@ -38,6 +38,9 @@ def make_flag(pkg):
         show_default=True,
     )
 
+def gh_bool(value):
+    return 'true' if value else 'false'
+
 @click.command()
 @make_flag('xo')
 @make_flag('xd')
@@ -155,12 +158,14 @@ def run(
         'test_contexts': ';'.join(fmt_contexts),
         'platform': platform,
         'suites': json.dumps(fmt_suites),
-        'with_mpi': with_mpi,
-        'precompile_kernels': precompile_kernels,
-        'forbid_compile': forbid_compile,
-        'allow_no_prebuilt_kernels': allow_no_prebuilt_kernels,
-        'timeout_minutes': timeout_minutes,
+        'precompile_kernels': gh_bool(precompile_kernels),
+        'forbid_compile': gh_bool(forbid_compile),
+        'allow_no_prebuilt_kernels': gh_bool(allow_no_prebuilt_kernels),
     }
+    if with_mpi:
+        parameters['with_mpi'] = gh_bool(with_mpi)
+    if timeout_minutes != 1380:
+        parameters['timeout_minutes'] = str(timeout_minutes)
 
     print('Scheduling')
     print(json.dumps(parameters, indent=2))

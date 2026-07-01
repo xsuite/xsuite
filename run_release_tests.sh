@@ -1,11 +1,11 @@
 set -e # Exit immediately if a command exits with a non-zero status.
 
-WF_BRANCH="main" # xsuite branch
+WF_BRANCH="no_compile" # xsuite branch
 
-XOBJECTS=xsuite:main
+XOBJECTS=xsuite:no_compile
    XPART=xsuite:main
    XDEPS=xsuite:main
-  XTRACK=xsuite:main
+  XTRACK=xsuite:no_compile
  XFIELDS=xsuite:main
    XMASK=xsuite:main
    XCOLL=xsuite:main
