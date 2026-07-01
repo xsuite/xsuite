@@ -88,7 +88,38 @@ def make_flag(pkg):
     help='Commandline options to pass to pytest.',
     show_default=True,
 )
-def run(xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch, pytest_opts):
+@click.option(
+    '--with-mpi',
+    is_flag=True,
+    help='Install and run MPI tests.',
+)
+@click.option(
+    '--precompile-kernels',
+    is_flag=True,
+    help='Precompile kernels before running tests.',
+)
+@click.option(
+    '--forbid-compile',
+    is_flag=True,
+    help='Set XOBJECTS_FORBID_COMPILE during tests.',
+)
+@click.option(
+    '--allow-no-prebuilt-kernels',
+    is_flag=True,
+    help='Set XSUITE_ALLOW_NO_PREBUILT_KERNELS during tests.',
+)
+@click.option(
+    '--timeout-minutes',
+    default=1380,
+    type=int,
+    help='Timeout for the run-tests job in minutes.',
+    show_default=True,
+)
+def run(
+    xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch,
+    pytest_opts, with_mpi, precompile_kernels, forbid_compile,
+    allow_no_prebuilt_kernels, timeout_minutes,
+):
     """Schedule a test run of Xsuite on a self-hosted runner.
 
     Example:
@@ -124,6 +155,11 @@ def run(xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch, pytes
         'test_contexts': ';'.join(fmt_contexts),
         'platform': platform,
         'suites': json.dumps(fmt_suites),
+        'with_mpi': with_mpi,
+        'precompile_kernels': precompile_kernels,
+        'forbid_compile': forbid_compile,
+        'allow_no_prebuilt_kernels': allow_no_prebuilt_kernels,
+        'timeout_minutes': timeout_minutes,
     }
 
     print('Scheduling')
