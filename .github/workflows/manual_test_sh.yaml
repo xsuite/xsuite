@@ -82,4 +82,4 @@ jobs:
       precompile_kernels: ${{ inputs.precompile_kernels }}
       forbid_compile: ${{ inputs.forbid_compile }}
       allow_no_prebuilt_kernels: ${{ inputs.allow_no_prebuilt_kernels }}
-      timeout_minutes: ${{ inputs.timeout_minutes }}
+      timeout_minutes: ${{ fromJSON(inputs.timeout_minutes) }}
