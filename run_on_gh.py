@@ -38,6 +38,9 @@ def make_flag(pkg):
         show_default=True,
     )
 
+def gh_bool(value):
+    return 'true' if value else 'false'
+
 @click.command()
 @make_flag('xo')
 @make_flag('xd')
@@ -88,7 +91,38 @@ def make_flag(pkg):
     help='Commandline options to pass to pytest.',
     show_default=True,
 )
-def run(xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch, pytest_opts):
+@click.option(
+    '--with-mpi',
+    is_flag=True,
+    help='Install and run MPI tests.',
+)
+@click.option(
+    '--precompile-kernels',
+    is_flag=True,
+    help='Precompile kernels before running tests.',
+)
+@click.option(
+    '--forbid-compile',
+    is_flag=True,
+    help='Set XOBJECTS_FORBID_COMPILE during tests.',
+)
+@click.option(
+    '--allow-no-prebuilt-kernels',
+    is_flag=True,
+    help='Set XSUITE_ALLOW_NO_PREBUILT_KERNELS during tests.',
+)
+@click.option(
+    '--timeout-minutes',
+    default=1380,
+    type=int,
+    help='Timeout for the run-tests job in minutes.',
+    show_default=True,
+)
+def run(
+    xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch,
+    pytest_opts, with_mpi, precompile_kernels, forbid_compile,
+    allow_no_prebuilt_kernels, timeout_minutes,
+):
     """Schedule a test run of Xsuite on a self-hosted runner.
 
     Example:
@@ -124,7 +158,14 @@ def run(xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch, pytes
         'test_contexts': ';'.join(fmt_contexts),
         'platform': platform,
         'suites': json.dumps(fmt_suites),
+        'precompile_kernels': gh_bool(precompile_kernels),
+        'forbid_compile': gh_bool(forbid_compile),
+        'allow_no_prebuilt_kernels': gh_bool(allow_no_prebuilt_kernels),
     }
+    if with_mpi:
+        parameters['with_mpi'] = gh_bool(with_mpi)
+    if timeout_minutes != 1380:
+        parameters['timeout_minutes'] = str(timeout_minutes)
 
     print('Scheduling')
     print(json.dumps(parameters, indent=2))

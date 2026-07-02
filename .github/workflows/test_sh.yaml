@@ -43,6 +43,11 @@ on:
         required: false
         type: boolean
         default: false
+      allow_no_prebuilt_kernels:
+        description: set XSUITE_ALLOW_NO_PREBUILT_KERNELS to allow running without prebuilt kernels?
+        required: false
+        type: boolean
+        default: false
       forbid_compile:
         description: set XOBJECTS_FORBID_COMPILE to forbid compilation during tests?
         required: false
@@ -141,6 +146,7 @@ jobs:
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
           --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
+          ${{ inputs.allow_no_prebuilt_kernels && '--env XSUITE_ALLOW_NO_PREBUILT_KERNELS=1' || '' }} \
           ${{ inputs.forbid_compile && '--env XOBJECTS_FORBID_COMPILE=1' || '' }} \
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
           ${{ needs.build-test-image.outputs.image_id }} \
@@ -153,6 +159,7 @@ jobs:
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
           --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
+          ${{ inputs.allow_no_prebuilt_kernels && '--env XSUITE_ALLOW_NO_PREBUILT_KERNELS=1' || '' }} \
           ${{ inputs.forbid_compile && '--env XOBJECTS_FORBID_COMPILE=1' || '' }} \
           ${{ needs.build-test-image.outputs.image_id }} \
           mpiexec \
