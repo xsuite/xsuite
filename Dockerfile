@@ -19,6 +19,7 @@ ARG xsuite_branch=xsuite:main
 ARG cuda_version=""
 ARG install_mpi=false
 ARG precompile_kernels=false
+ARG install_from_pypi=false
 ARG with_gpu
 
 # If an Nvidia GPU is available, nvidia-container-toolkit takes care of

@@ -112,6 +112,11 @@ def gh_bool(value):
     help='Set XSUITE_ALLOW_NO_PREBUILT_KERNELS during tests.',
 )
 @click.option(
+    '--install-from-pypi',
+    is_flag=True,
+    help='Install xsuite and dependencies from PyPI instead of editable git repos.',
+)
+@click.option(
     '--timeout-minutes',
     default=1380,
     type=int,
@@ -121,7 +126,7 @@ def gh_bool(value):
 def run(
     xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch,
     pytest_opts, with_mpi, precompile_kernels, forbid_compile,
-    allow_no_prebuilt_kernels, timeout_minutes,
+    allow_no_prebuilt_kernels, install_from_pypi, timeout_minutes,
 ):
     """Schedule a test run of Xsuite on a self-hosted runner.
 
@@ -164,6 +169,8 @@ def run(
     }
     if with_mpi:
         parameters['with_mpi'] = gh_bool(with_mpi)
+    if install_from_pypi:
+        parameters['install_from_pypi'] = gh_bool(install_from_pypi)
     if timeout_minutes != 1380:
         parameters['timeout_minutes'] = str(timeout_minutes)
 

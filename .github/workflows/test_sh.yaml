@@ -58,6 +58,11 @@ on:
         required: false
         type: boolean
         default: false
+      install_from_pypi:
+        description: install xsuite and dependencies from PyPI instead of editable git repos?
+        required: false
+        type: boolean
+        default: false
       timeout_minutes:
         description: timeout for run-tests job in minutes
         required: false
@@ -105,6 +110,7 @@ jobs:
             --build-arg xwakes_branch=${{ fromJson(inputs.locations).xwakes_location }} \
             --build-arg install_mpi=${{ inputs.with_mpi }} \
             --build-arg precompile_kernels=${{ inputs.precompile_kernels }} \
+            --build-arg install_from_pypi=${{ inputs.install_from_pypi }} \
             --build-arg with_gpu=${with_gpu} \
             --build-arg cuda_version=${CUDA_VERSION} \
             -t $IMAGE .
