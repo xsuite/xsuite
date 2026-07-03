@@ -6,7 +6,7 @@
 set -xe
 
 repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xwakes)
-xsuite_prefix="${xsuite_prefix:-.}"
+xsuite_prefix="$(cd "${xsuite_prefix:-.}" && pwd)"
 
 # Expects the following environment variables:
 # - $prefix, where to clone the packages
