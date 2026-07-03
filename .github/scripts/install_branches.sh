@@ -5,11 +5,11 @@
 # ######################################### #
 set -xe
 
-repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xwakes)
-xsuite_prefix="$(cd "${xsuite_prefix:-.}" && pwd)"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/ci_common.sh"
 
 # Expects the following environment variables:
-# - $prefix, where to clone the packages
+# - $xsuite_prefix, where to clone the packages
 # - ${repo}_branch, where $repo is one of the repos above (replace - with _)
 # - $precompile_kernels set to "true" or "false"
 # - $install_mpi set to "true" or "false"
@@ -26,29 +26,6 @@ if [ "${install_mpi:-false}" == "true" ]; then
   pip install mpi4py
   echo "::endgroup::"
 fi
-
-# Clone one Xsuite package into the requested prefix.
-# The git ref is read from the matching environment variable, for example
-# xtrack_branch=xsuite:main for project=xtrack.
-# The cloned repository path is exposed as $cloned_project_path for callers.
-clone_project() {
-  project="$1"
-  target_prefix="$2"
-  branch_varname="${project//-/_}_branch"
-  project_branch=${!branch_varname}  # get value of the variable [project]_branch
-
-  IFS=':' read -r -a parts <<< "$project_branch"
-  user="${parts[0]}"
-  branch="${parts[1]}"
-
-  echo "::notice::Cloning ${project} from ${user}:${branch}"
-  cd "$target_prefix"
-  git clone \
-    --recursive \
-    --single-branch -b "$branch" \
-    "https://github.com/${user}/${project}.git"
-  cloned_project_path="${target_prefix}/${project}"
-}
 
 if [ "${install_from_pypi:-false}" == "true" ]; then
   echo "::group::Installing test dependencies from source repos"
