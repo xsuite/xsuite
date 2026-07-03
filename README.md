@@ -1,4 +1,12 @@
 # Xsuite
+
+
+Suite of python packages for multiparticle simulations for particle accelerators.
+
+Documentation available at : <https://xsuite.web.cern.ch>
+
+### Status from nightly checks
+
 Check that PyPI installation gives version number consistent with GitHub repos:<br>
 [![Check PyPI versions](https://github.com/xsuite/xsuite/actions/workflows/check_pypi_versions.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/check_pypi_versions.yaml)
 
@@ -22,6 +30,3 @@ Run test suite on GPU:<br>
 
 
 
-Suite of python packages for multiparticle simulations for particle accelerators.
-
-Documentation is on: <https://xsuite.readthedocs.io/en/latest/>.
