@@ -4,8 +4,8 @@ requires = [
     'setuptools-scm[toml]>=8',
     "xtrack==0.107.4",
     "xfields==0.25.19",
-    "xcoll==0.11.2",
-    "xobjects==0.6.4",
+    "xcoll==0.11.4",
+    "xobjects==0.6.5",
     "xdeps==0.10.19",
     "xpart==0.23.13",
     "numpy",
@@ -28,8 +28,8 @@ license-files = ["LICENSE"]
 dependencies = [
     "xtrack==0.107.4",
     "xfields==0.25.19",
-    "xcoll==0.11.2",
-    "xobjects==0.6.4",
+    "xcoll==0.11.4",
+    "xobjects==0.6.5",
     "xdeps==0.10.19",
     "xpart==0.23.13",
 ]
