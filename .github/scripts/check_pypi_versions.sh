@@ -8,7 +8,6 @@ set -xe
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${script_dir}/ci_common.sh"
 
-xsuite_source_path="$xsuite_prefix"
 component_source_prefix="$(mktemp -d)"
 
 for project in "${repos[@]}"; do
@@ -16,10 +15,10 @@ for project in "${repos[@]}"; do
 done
 
 python -m pip install --upgrade pip
-python -m pip install packaging setuptools-scm
+python -m pip install packaging
 python -m pip install --force-reinstall xsuite xmask xwakes
 
-python - "$xsuite_source_path" "$component_source_prefix" <<'PY'
+python - "$component_source_prefix" <<'PY'
 import ast
 import importlib.metadata
 import re
@@ -27,12 +26,9 @@ import sys
 from pathlib import Path
 
 from packaging.version import Version
-from setuptools_scm import get_version
 
-xsuite_source_path = Path(sys.argv[1])
-component_source_prefix = Path(sys.argv[2])
+component_source_prefix = Path(sys.argv[1])
 packages = [
-    "xsuite",
     "xobjects",
     "xdeps",
     "xpart",
@@ -67,9 +63,6 @@ def read_pyproject_version(path):
 
 
 def source_version(package):
-    if package == "xsuite":
-        return get_version(root=xsuite_source_path)
-
     package_path = component_source_prefix / package
     version_file = package_path / package / "_version.py"
     if version_file.exists():
