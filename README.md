@@ -6,9 +6,13 @@
 
 [![Daily test (self-hosted, CPU OpenMP)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_omp.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_omp.yaml)
 
+[![Daily test (self-hosted, xmask)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xmask.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xmask.yaml)
+
+[![Daily test (Xwakes, MPI)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xwakes_mpi.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xwakes_mpi.yaml)
+
 [![Daily test (self-hosted, CUDA)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml)
 
-[![Daily test (self-hosted, xmask)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xmask.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xmask.yaml)
+
 
 Suite of python packages for multiparticle simulations for particle accelerators.
 
