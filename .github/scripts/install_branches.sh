@@ -41,7 +41,9 @@ if [ "${install_from_pypi:-false}" == "true" ]; then
   echo "::endgroup::"
 
   echo "::group::Installing xsuite from PyPI"
-  pip install --force-reinstall xsuite xmask xwakes
+  pip uninstall -y xsuite "${repos[@]}"
+  pip install --upgrade xsuite xmask xwakes
+  pip check
   echo "::endgroup::"
 
   exit 0
