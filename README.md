@@ -10,7 +10,7 @@ Documentation available at : <https://xsuite.web.cern.ch>
 Check that PyPI installation gives version number consistent with GitHub repos:<br>
 [![Check PyPI versions](https://github.com/xsuite/xsuite/actions/workflows/check_pypi_versions.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/check_pypi_versions.yaml)
 
-Run test suite without runtime compilations (serial, install from PyPI):
+Run test suite without runtime compilations (serial, install from PyPI):<br>
 [![Daily test (self-hosted, CPU no compile, PyPI)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile_pypi.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile_pypi.yaml)
 
 Run test suite without runtime compilations (serial, install from repo):<br>
