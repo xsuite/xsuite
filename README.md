@@ -22,14 +22,14 @@ Run test suite with runtime compilations (serial, install from repo):<br>
 Run test suite with runtime compilations (OpenMP, install from repo):<br>
 [![Daily test (self-hosted, CPU OpenMP)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_omp.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_omp.yaml)
 
-Run xmask test suite:<br>
+Run xmask test suite (install from repo):<br>
 [![Daily test (self-hosted, xmask, install from repo)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xmask.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xmask.yaml)
 
-Run MPI tests for Xwakes:<br>
-[![Daily test (Xwakes, MPI, install from repo)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xwakes_mpi.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xwakes_mpi.yaml)
+Run MPI tests for Xwakes (install from repo):<br>
+[![Daily test (Xwakes, PI)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xwakes_mpi.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_xwakes_mpi.yaml)
 
-Run test suite on GPU:<br>
-[![Daily test (self-hosted, CUDA, install from repo)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml)
+Run test suite on GPU (install from repo):<br>
+[![Daily test (self-hosted, CUDA)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_gpu_cuda.yaml)
 
 
 
