@@ -657,6 +657,27 @@ User's guide for tutorial examples on building and inspecting lines.
 
 .. include:: line_api.rst
 
+Line containers
+---------------
+
+.. autoclass:: xcoll.line_tools.XcollLineAPI
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xcoll.line_tools.XcollScatteringAPI
+    :members:
+    :inherited-members:
+    :member-order: bysource
+
+.. autoclass:: xcoll.line_tools.XcollCollimatorAPI
+    :members:
+    :inherited-members:
+    :member-order: bysource
+
+.. autoclass:: xpart.line_tools.XpartLineAPI
+    :members:
+    :member-order: bysource
+
 .. _linetable-api-reference:
 
 LineTable class
