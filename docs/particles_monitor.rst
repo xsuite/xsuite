@@ -309,11 +309,19 @@ Whole-beam statistics
 ~~~~~~~~~~~~~~~~~~~~~
 
 The following example records statistics for the full beam over a subset of
-turns and plots ``mean_x`` and ``mean_zeta`` as a function of turn. No
-``zeta_range`` or ``num_slices`` is needed.
+turns in a PIMMS lattice with an RF cavity added, and plots ``mean_x`` and
+``mean_zeta`` as a function of turn. No ``zeta_range`` or ``num_slices`` is
+needed.
 
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_basic_bunched.py
    :language: python
+
+.. figure:: figures/beam_stats_monitor_basic_bunched.png
+   :width: 80%
+   :align: center
+
+   Evolution of the horizontal and longitudinal beam centroids recorded with
+   ``BeamStatsMonitor``.
 
 Selected bunch slots
 ~~~~~~~~~~~~~~~~~~~~
