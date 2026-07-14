@@ -305,18 +305,18 @@ axis to machine turns, ``monitor.zeta_centers`` gives the slice coordinates
 when slices are available, and each requested statistic is available both as an
 attribute and through ``monitor.get("stat_name")``.
 
-Whole-beam statistics
-~~~~~~~~~~~~~~~~~~~~~
+Whole-beam stats
+~~~~~~~~~~~~~~~~
 
-The following example records statistics for the full beam over a subset of
+The following example records stats for the full beam over a subset of
 turns in a PIMMS lattice with an RF cavity added, and plots ``mean_x`` and
 ``mean_zeta`` as a function of turn. No ``zeta_range`` or ``num_slices`` is
 needed.
 
-.. literalinclude:: generated_code_snippets/beam_stats_monitor_basic_bunched.py
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_beam_stats.py
    :language: python
 
-.. figure:: figures/beam_stats_monitor_basic_bunched.png
+.. figure:: figures/beam_stats_monitor_beam_stats.png
    :width: 80%
    :align: center
 
