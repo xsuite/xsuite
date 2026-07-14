@@ -323,6 +323,25 @@ needed.
    Evolution of the horizontal and longitudinal beam centroids recorded with
    ``BeamStatsMonitor``.
 
+Bunch-by-bunch stats
+~~~~~~~~~~~~~~~~~~~~
+
+The following example records stats for a bunch train generated from a matched
+Gaussian bunch. A sinusoidal horizontal offset is applied to the initial bunch
+centroids, and the recorded arrays are inspected and plotted as
+bunch-by-bunch profiles over consecutive turns. No ``zeta_range`` or
+``num_slices`` is needed.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_bunch_by_bunch_stats.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_bunch_by_bunch_stats.png
+   :width: 80%
+   :align: center
+
+   Horizontal bunch centroids over consecutive turns, recorded with
+   ``BeamStatsMonitor``.
+
 Selected bunch slots
 ~~~~~~~~~~~~~~~~~~~~
 
