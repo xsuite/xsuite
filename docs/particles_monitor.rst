@@ -253,38 +253,63 @@ I.e. ``monitor.x_intensity[0,:]`` is the first recorded profile and ``monitor.x_
 Beam statistics monitor
 -----------------------
 
-The :class:`xtrack.BeamStatsMonitor` records weighted beam statistics on a
-longitudinal slicing grid. It is intended for slice-by-slice diagnostics such
-as intensity, centroids, beam sizes, covariances, and projected emittances.
+The :class:`xtrack.BeamStatsMonitor` records weighted beam statistics for the
+whole beam, per bunch, or per longitudinal slice. It is intended for diagnostics
+such as intensity, centroids, beam sizes, covariances, and projected
+emittances.
 
 The quantity ``num_particles`` is the sum of ``particles.weight`` in each bin,
 not the number of macroparticles. All derived quantities are computed with the
 same weights.
 
-For bunched beams, recorded arrays have shape:
+The monitor exposes the most detailed level available from its constructor
+inputs. With no bunch or slice inputs, recorded arrays have shape:
+
+.. code-block:: text
+
+    (n_logged_turns,)
+
+With bunch inputs and no slice inputs, recorded arrays have shape:
+
+.. code-block:: text
+
+    (n_logged_turns, n_selected_slots)
+
+With slice inputs, recorded arrays have shape:
 
 .. code-block:: text
 
     (n_logged_turns, n_selected_slots, num_slices)
 
-For coasting beams, the artificial selected-slot axis is hidden by default:
+For coasting slice mode, the artificial selected-slot axis is hidden by
+default:
 
 .. code-block:: text
 
     (n_logged_turns, num_slices)
 
-It can be kept explicitly with ``monitor.get(..., keep_bunch_axis=True)``.
+The ``level`` argument of :meth:`xtrack.BeamStatsMonitor.get` selects a
+reduction level:
+
+.. code-block:: python
+
+    monitor.get("mean_x", level="beam")
+    monitor.get("mean_x", level="bunch", slot=3)
+    monitor.get("mean_x", level="slice", slot=3, slice_index=12)
+
 The examples below also show the main inspection tools:
-``monitor.stats`` lists the recorded quantities, ``monitor.turns`` maps the
-first array axis to machine turns, ``monitor.zeta_centers`` gives the slice
-coordinates, and each requested statistic is available both as an attribute
-and through ``monitor.get("stat_name")``.
+``monitor.stats`` lists the recorded quantities, ``monitor.available_levels``
+lists the available aggregation levels, ``monitor.default_level`` gives the
+level returned by statistic attributes, ``monitor.turns`` maps the first array
+axis to machine turns, ``monitor.zeta_centers`` gives the slice coordinates
+when slices are available, and each requested statistic is available both as an
+attribute and through ``monitor.get("stat_name")``.
 
-Basic bunched-beam slicing
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Whole-beam statistics
+~~~~~~~~~~~~~~~~~~~~~
 
-The following example records a single bunch over a subset of turns. The first
-axis of the output arrays corresponds to ``monitor.turns``.
+The following example records statistics for the full beam over a subset of
+turns. No ``zeta_range`` or ``num_slices`` is needed.
 
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_basic_bunched.py
    :language: python
@@ -293,8 +318,10 @@ Selected bunch slots
 ~~~~~~~~~~~~~~~~~~~~
 
 For multibunch simulations, ``filled_slots`` gives the physical slots present
-in the beam, while ``selected_slots`` chooses the subset to record. This is
-useful, for example, when different MPI ranks handle different bunches.
+in the beam, while ``selected_slots`` chooses the subset to record. Without
+``zeta_range`` and ``num_slices``, the monitor records bunch-by-bunch
+statistics. This is useful, for example, when different MPI ranks handle
+different bunches.
 
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_selected_slots.py
    :language: python
