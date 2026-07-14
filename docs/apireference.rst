@@ -427,6 +427,13 @@ BeamSizeMonitor
     :members:
     :member-order: bysource
 
+BeamStatsMonitor
+----------------
+
+.. autoclass:: xtrack.BeamStatsMonitor
+    :members:
+    :member-order: bysource
+
 
 
 Beam elements (xfields)

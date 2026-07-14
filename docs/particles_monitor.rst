@@ -3,7 +3,7 @@
 Monitors
 ========
 
-See also: :class:`xtrack.ParticlesMonitor`, :class:`xtrack.LastTurnsMonitor`, :class:`xtrack.BeamPositionMonitor`, :class:`xtrack.BeamProfileMonitor`, :class:`xtrack.BeamSizeMonitor`.
+See also: :class:`xtrack.ParticlesMonitor`, :class:`xtrack.LastTurnsMonitor`, :class:`xtrack.BeamPositionMonitor`, :class:`xtrack.BeamProfileMonitor`, :class:`xtrack.BeamSizeMonitor`, :class:`xtrack.BeamStatsMonitor`.
 
 The easy way
 ------------
@@ -249,6 +249,88 @@ Like the :ref:`MonitorBPM` also the beam profile monitor is based on particle ar
 The recorded profiles are 2D arrays of shape ``(sample_size, n)``
 where ``sample_size = round(( stop_at_turn - start_at_turn ) * sampling_frequency / frev)``.
 I.e. ``monitor.x_intensity[0,:]`` is the first recorded profile and ``monitor.x_intensity[-1,:]`` the last.
+
+Beam statistics monitor
+-----------------------
+
+The :class:`xtrack.BeamStatsMonitor` records weighted beam statistics on a
+longitudinal slicing grid. It is intended for slice-by-slice diagnostics such
+as intensity, centroids, beam sizes, covariances, and projected emittances.
+
+The quantity ``num_particles`` is the sum of ``particles.weight`` in each bin,
+not the number of macroparticles. All derived quantities are computed with the
+same weights.
+
+For bunched beams, recorded arrays have shape:
+
+.. code-block:: text
+
+    (n_logged_turns, n_selected_slots, num_slices)
+
+For coasting beams, the artificial selected-slot axis is hidden by default:
+
+.. code-block:: text
+
+    (n_logged_turns, num_slices)
+
+It can be kept explicitly with ``monitor.get(..., keep_bunch_axis=True)``.
+The examples below also show the main inspection tools:
+``monitor.stats`` lists the recorded quantities, ``monitor.turns`` maps the
+first array axis to machine turns, ``monitor.zeta_centers`` gives the slice
+coordinates, and each requested statistic is available both as an attribute
+and through ``monitor.get("stat_name")``.
+
+Basic bunched-beam slicing
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following example records a single bunch over a subset of turns. The first
+axis of the output arrays corresponds to ``monitor.turns``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_basic_bunched.py
+   :language: python
+
+Selected bunch slots
+~~~~~~~~~~~~~~~~~~~~
+
+For multibunch simulations, ``filled_slots`` gives the physical slots present
+in the beam, while ``selected_slots`` chooses the subset to record. This is
+useful, for example, when different MPI ranks handle different bunches.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_selected_slots.py
+   :language: python
+
+Coasting beams
+~~~~~~~~~~~~~~
+
+For a coasting beam, use one longitudinal domain covering the desired range,
+typically the full circumference, and set ``coasting=True``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_coasting.py
+   :language: python
+
+Projected emittances
+~~~~~~~~~~~~~~~~~~~~
+
+Projected geometric and normalized emittances can be requested with the
+``_projected`` suffix. For example, ``gemitt_x_projected`` is computed from the
+``(x, px)`` covariance block and ``nemitt_x_projected`` is multiplied by
+``beta0 * gamma0``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_projected_emittance.py
+   :language: python
+
+Plotting slice statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The recorded arrays are ordinary NumPy arrays, so they can be plotted directly.
+For example, the following script displays the horizontal centroid as a
+turn-by-slice map.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_plot_slice_stats.py
+   :language: python
+
+The current implementation stores records in memory. File output and coupled
+normal-mode emittances are reserved for a later extension.
 
 Multi-element monitor
 ---------------------

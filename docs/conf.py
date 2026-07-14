@@ -190,6 +190,16 @@ snippet_files = {
         'generated_code_snippets/monitors_as_beam_elements.py',
     'xtrack/examples/monitor/004_monitor_standalone.py':
         'generated_code_snippets/monitor_standalone.py',
+    'xtrack/examples/beam_stats_monitor/000_basic_bunched.py':
+        'generated_code_snippets/beam_stats_monitor_basic_bunched.py',
+    'xtrack/examples/beam_stats_monitor/001_selected_slots.py':
+        'generated_code_snippets/beam_stats_monitor_selected_slots.py',
+    'xtrack/examples/beam_stats_monitor/002_coasting.py':
+        'generated_code_snippets/beam_stats_monitor_coasting.py',
+    'xtrack/examples/beam_stats_monitor/003_projected_emittance.py':
+        'generated_code_snippets/beam_stats_monitor_projected_emittance.py',
+    'xtrack/examples/beam_stats_monitor/004_plot_slice_stats.py':
+        'generated_code_snippets/beam_stats_monitor_plot_slice_stats.py',
     'xtrack/examples/radiation/005_radiation_example.py':
         'generated_code_snippets/radiation.py',
     'xtrack/examples/element_internal_record/000_internal_record.py':
