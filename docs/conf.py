@@ -196,8 +196,6 @@ snippet_files = {
         'generated_code_snippets/beam_stats_monitor_bunch_by_bunch_stats.py',
     'xtrack/examples/beam_stats_monitor/002_selected_slots.py':
         'generated_code_snippets/beam_stats_monitor_selected_slots.py',
-    'xtrack/examples/beam_stats_monitor/003_coasting.py':
-        'generated_code_snippets/beam_stats_monitor_coasting.py',
     'xtrack/examples/beam_stats_monitor/004_projected_emittance.py':
         'generated_code_snippets/beam_stats_monitor_projected_emittance.py',
     'xtrack/examples/beam_stats_monitor/005_plot_slice_stats.py':

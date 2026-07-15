@@ -281,13 +281,6 @@ With slice inputs, recorded arrays have shape:
 
     (n_logged_turns, n_selected_slots, num_slices)
 
-For coasting slice mode, the artificial selected-slot axis is hidden by
-default:
-
-.. code-block:: text
-
-    (n_logged_turns, num_slices)
-
 The ``level`` argument of :meth:`xtrack.BeamStatsMonitor.get` selects a
 reduction level:
 
@@ -352,15 +345,6 @@ statistics. This is useful, for example, when different MPI ranks handle
 different bunches.
 
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_selected_slots.py
-   :language: python
-
-Coasting beams
-~~~~~~~~~~~~~~
-
-For a coasting beam, use one longitudinal domain covering the desired range,
-typically the full circumference, and set ``coasting=True``.
-
-.. literalinclude:: generated_code_snippets/beam_stats_monitor_coasting.py
    :language: python
 
 Projected emittances
