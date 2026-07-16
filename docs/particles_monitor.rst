@@ -335,18 +335,6 @@ bunch-by-bunch profiles over consecutive turns. No ``zeta_range`` or
    Horizontal bunch centroids over consecutive turns, recorded with
    ``BeamStatsMonitor``.
 
-Selected bunch slots
-~~~~~~~~~~~~~~~~~~~~
-
-For multibunch simulations, ``filled_slots`` gives the physical slots present
-in the beam, while ``selected_slots`` chooses the subset to record. Without
-``zeta_range`` and ``num_slices``, the monitor records bunch-by-bunch
-statistics. This is useful, for example, when different MPI ranks handle
-different bunches.
-
-.. literalinclude:: generated_code_snippets/beam_stats_monitor_selected_slots.py
-   :language: python
-
 Slice-by-slice stats
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -362,27 +350,6 @@ whole-beam statistics remain available through
 ``monitor.get(..., level="bunch")`` and ``monitor.get(..., level="beam")``.
 
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_slice_by_slice_stats.py
-   :language: python
-
-Projected emittances
-~~~~~~~~~~~~~~~~~~~~
-
-Projected geometric and normalized emittances can be requested with the
-``_projected`` suffix. For example, ``gemitt_x_projected`` is computed from the
-``(x, px)`` covariance block and ``nemitt_x_projected`` is multiplied by
-``beta0 * gamma0``.
-
-.. literalinclude:: generated_code_snippets/beam_stats_monitor_projected_emittance.py
-   :language: python
-
-Plotting slice statistics
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The recorded arrays are ordinary NumPy arrays, so they can be plotted directly.
-For example, the following script displays the horizontal centroid as a
-turn-by-slice map.
-
-.. literalinclude:: generated_code_snippets/beam_stats_monitor_plot_slice_stats.py
    :language: python
 
 The current implementation stores records in memory. File output and coupled
