@@ -347,6 +347,23 @@ different bunches.
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_selected_slots.py
    :language: python
 
+Slice-by-slice stats
+~~~~~~~~~~~~~~~~~~~~
+
+Providing ``zeta_range`` and ``num_slices`` enables slice mode. This can be
+combined with ``filled_slots``, ``selected_slots``, and
+``bunch_spacing_zeta`` to record slice-by-slice statistics for multiple
+physical bunch slots. In this mode the most detailed recorded arrays have axes
+``(turn, selected slot, slice)``. The following example generates a
+multi-bunch beam, imposes a horizontal sinusoidal pattern with a wavelength
+comparable to the bunch spacing, and plots ``mean_x * num_particles`` versus
+absolute ``zeta`` for a few consecutive bunches and turns. Per-bunch and
+whole-beam statistics remain available through
+``monitor.get(..., level="bunch")`` and ``monitor.get(..., level="beam")``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_slice_by_slice_stats.py
+   :language: python
+
 Projected emittances
 ~~~~~~~~~~~~~~~~~~~~
 
