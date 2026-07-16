@@ -196,6 +196,10 @@ snippet_files = {
         'generated_code_snippets/beam_stats_monitor_bunch_by_bunch_stats.py',
     'xtrack/examples/beam_stats_monitor/002_slice_by_slice_stats.py':
         'generated_code_snippets/beam_stats_monitor_slice_by_slice_stats.py',
+    'xtrack/examples/beam_stats_monitor/003_save_to_file_during_simulation.py':
+        'generated_code_snippets/beam_stats_monitor_save_to_file.py',
+    'xtrack/examples/beam_stats_monitor/004_save_to_file_with_new_frame.py':
+        'generated_code_snippets/beam_stats_monitor_save_new_frame.py',
     'xtrack/examples/radiation/005_radiation_example.py':
         'generated_code_snippets/radiation.py',
     'xtrack/examples/element_internal_record/000_internal_record.py':

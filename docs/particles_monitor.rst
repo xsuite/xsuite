@@ -259,8 +259,8 @@ such as intensity, centroids, beam sizes, covariances, and projected
 emittances.
 
 The quantity ``num_particles`` is the sum of ``particles.weight`` in each bin,
-not the number of macroparticles. All derived quantities are computed with the
-same weights.
+not the number of macroparticles. All statistics are computed with the same
+weights.
 
 The monitor exposes the most detailed level available from its constructor
 inputs. With no bunch or slice inputs, recorded arrays have shape:
@@ -359,8 +359,42 @@ whole-beam statistics remain available through
    Slice-by-slice horizontal dipole moment recorded for three bunches with
    ``BeamStatsMonitor``.
 
-The current implementation stores records in memory. File output and coupled
-normal-mode emittances are reserved for a later extension.
+Saving to file during a simulation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The monitor can also write the requested statistics to an HDF5 file.
+When ``output_file`` is passed to the constructor, the file is initialized in
+write mode immediately. Calling :meth:`xtrack.BeamStatsMonitor.save_to_file`
+during tracking appends only the records that have not already been written,
+while the full configured monitor frame remains available in memory.
+
+The saved HDF5 file is a flat time series. The recorded turns are stored in
+``/turns`` and the statistics are stored under ``/stats/<level>/<stat>``. Since
+each save operation flushes and closes the file, another script can reopen it
+between saves to inspect partial results. The following example uses a
+bunch-by-bunch monitor, tracks in chunks, saves after each chunk, and reads
+both the reduced beam-level data from ``/stats/beam`` and the bunch-level data
+from ``/stats/bunch``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_save_to_file.py
+   :language: python
+
+Saving long simulations with frame reuse
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For simulations where a full run would be too large to keep in one monitor
+allocation, the user can save one frame, clear the in-memory arrays, and reuse
+the same monitor for the next turn interval with
+:meth:`xtrack.BeamStatsMonitor.start_new_frame`. The HDF5 file remains unaware
+of frames: each call to :meth:`xtrack.BeamStatsMonitor.save_to_file` appends the
+new records to the same flat ``/turns`` and ``/stats`` datasets.
+
+The following example keeps only 20 turns in memory at a time while saving 60
+turns to the file. After the loop, the monitor contains the last frame only,
+whereas the file contains all saved turns.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_save_new_frame.py
+   :language: python
 
 Multi-element monitor
 ---------------------
