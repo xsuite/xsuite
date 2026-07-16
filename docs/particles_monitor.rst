@@ -352,6 +352,13 @@ whole-beam statistics remain available through
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_slice_by_slice_stats.py
    :language: python
 
+.. figure:: figures/beam_stats_monitor_slice_by_slice_stats.png
+   :width: 80%
+   :align: center
+
+   Slice-by-slice horizontal dipole moment recorded for three bunches with
+   ``BeamStatsMonitor``.
+
 The current implementation stores records in memory. File output and coupled
 normal-mode emittances are reserved for a later extension.
 
