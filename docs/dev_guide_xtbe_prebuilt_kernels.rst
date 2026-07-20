@@ -10,7 +10,7 @@ kernel shared objects contain the required code.
 The definitions live in two places:
 
 * package-local ``prebuilt_kernel_definitions`` modules, which expose element
-  classes and optional constructor defaults;
+  classes;
 * ``xsuite/kernel_definitions.py``, which combines those package-local lists
   into the actual prebuilt kernel configurations built by ``xsuite-prebuild``.
 
@@ -29,29 +29,11 @@ exports:
         NO_SYNRAD_ELEMENTS,
         NON_TRACKING_ELEMENTS,
     )
-    from .element_inits import XTRACK_ELEMENTS_INIT_DEFAULTS
-
 The element-type module contains the classes to make available in prebuilt
 kernels. Tracking elements go in the lists used as ``classes`` in
 ``xsuite/kernel_definitions.py``. Helper structures and elements that are not
 part of the line, but whose APIs or extra kernels need to be present, go in
 ``extra_classes`` through a package-local list such as ``NON_TRACKING_ELEMENTS``.
-
-Some classes cannot be instantiated with an empty constructor. For those,
-provide minimal build-time arguments in the package-local
-``*_ELEMENTS_INIT_DEFAULTS`` dictionary:
-
-.. code-block:: python
-
-    XTRACK_ELEMENTS_INIT_DEFAULTS = {
-        'LimitPolygon': {
-            'x_vertices': np.array([0, 1, 1, 0]),
-            'y_vertices': np.array([0, 0, 1, 1]),
-        },
-    }
-
-These objects are only used to build representative trackers for kernel
-generation. Keep the defaults as small and inert as possible.
 
 Adding a class to Xsuite kernels
 --------------------------------
@@ -74,8 +56,9 @@ Each entry has this shape:
     }),
 
 ``classes``
-    Beam elements that are placed in the temporary ``xt.Line`` used to build the
-    tracker kernel.
+    Beam element classes compiled into the tracker kernel switch. Xsuite
+    classifies these with ``issubclass(..., xt.BeamElement)``; non-beam-element
+    entries are compiled as extra classes.
 
 ``extra_classes``
     Xobjects classes that are not line elements for this configuration, but

@@ -15,18 +15,12 @@ import xcoll as xc
 import xfields as xf
 import xobjects as xo
 import xtrack as xt
-from xcoll.prebuilt_kernel_definitions import XCOLL_ELEMENTS_INIT_DEFAULTS
-from xfields.prebuilt_kernel_definitions import XFIELDS_ELEMENTS_INIT_DEFAULTS
 from xtrack.general import _print
-from xtrack.prebuilt_kernel_definitions import XTRACK_ELEMENTS_INIT_DEFAULTS
 
 import xsuite as xs
 from xsuite.kernel_definitions import kernel_definitions, NAME_CLASS_MAP
 
 XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
-
-BEAM_ELEMENTS_INIT_DEFAULTS = XTRACK_ELEMENTS_INIT_DEFAULTS| XFIELDS_ELEMENTS_INIT_DEFAULTS \
-                            | XCOLL_ELEMENTS_INIT_DEFAULTS
 
 SERIAL_CONTEXT = 'serial'
 OPENMP_CONTEXT = 'openmp'
@@ -308,58 +302,45 @@ def build_single_kernel(
         # We still include deprecated elements in the kernels, so silence the warnings
         warnings.filterwarnings('ignore', category=FutureWarning)
 
-        elements = []
-        buffer = build_context.new_buffer()
-        for cls in element_classes:
-            if cls.__name__ in BEAM_ELEMENTS_INIT_DEFAULTS:
-                element = cls(**BEAM_ELEMENTS_INIT_DEFAULTS[cls.__name__],
-                              _buffer=buffer)
-            else:
-                element = cls(_buffer=buffer)
-            elements.append(element)
+        tracker_element_classes, non_tracker_classes = _split_tracker_classes(
+            element_classes)
 
-    line = xt.Line(elements=elements)
-    tracker = xt.Tracker(
-        line=line,
-        compile=False,
-        _context=build_context,
-        _prebuilding_kernels=True,
-    )
-    assert tracker.iscollective == False
-    tracker.config.clear()
-    tracker.config.update(config)
-    tracker_classes = tracker._tracker_data_base.kernel_element_classes
-    expected_classes = [getattr(el, '_XoStruct', el) for el in element_classes]
-    all_extra_classes = extra_classes + [ee for ee in expected_classes if ee not in tracker_classes]
+        tracker_config = xt.tracker.TrackerConfig()
+        tracker_config.update(config)
 
-    # Get all kernels in the elements
-    extra_kernels = {}
-    extra_xostructs = [getattr(el, '_XoStruct', el) for el in all_extra_classes]
-
-    all_classes = tracker._tracker_data_base.kernel_element_classes + extra_xostructs
-
-    assert len(set(all_classes)) == len(all_classes), 'Duplicate classes in kernel definition.'
-
-    for el in all_classes:
-        extra_kernels.update(el._kernels)
-
-    tracker._build_kernel(
-        module_name=module_name,
-        containing_dir=location,
-        compile='force',
-        extra_classes=extra_xostructs,
-        extra_kernels=extra_kernels,
-    )
+        kernel_info = xt.Tracker._build_kernel_from_classes(
+            context=build_context,
+            config=tracker_config,
+            tracker_element_classes=tracker_element_classes,
+            extra_classes=[*extra_classes, *non_tracker_classes],
+            module_name=module_name,
+            containing_dir=location,
+            compile='force',
+        )
 
     save_kernel_metadata(
         module_name=module_name,
         base_module_name=base_module_name,
         context_key=context_key,
-        config=tracker.config,
-        tracker_element_classes=tracker._tracker_data_base.kernel_element_classes,
-        all_classes=all_classes,
+        config=tracker_config,
+        tracker_element_classes=kernel_info['tracker_element_classes'],
+        all_classes=kernel_info['all_classes'],
         location=location,
     )
+
+
+def _split_tracker_classes(classes):
+    tracker_element_classes = []
+    extra_classes = []
+
+    for cls in classes:
+        dressing_class = getattr(cls, '_DressingClass', cls)
+        if issubclass(dressing_class, xt.BeamElement):
+            tracker_element_classes.append(cls)
+        else:
+            extra_classes.append(cls)
+
+    return tracker_element_classes, extra_classes
 
 
 def clear_kernels(
