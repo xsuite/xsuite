@@ -56,9 +56,7 @@ Each entry has this shape:
     }),
 
 ``classes``
-    Beam element classes compiled into the tracker kernel switch. Xsuite
-    classifies these with ``issubclass(..., xt.BeamElement)``; non-beam-element
-    entries are compiled as extra classes.
+    Beam element classes compiled into the tracker kernel switch.
 
 ``extra_classes``
     Xobjects classes that are not line elements for this configuration, but

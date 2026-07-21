@@ -292,7 +292,7 @@ def build_single_kernel(
     _print(f'[{idx + 1}/{total}] Building `{module_name}`...')
 
     config = metadata['config']
-    element_classes = metadata['classes']
+    tracker_element_classes = metadata['classes']
     extra_classes = metadata.get('extra_classes', [])
     build_context = xo.ContextCpu() if context_key == SERIAL_CONTEXT else xo.ContextCpu(
         omp_num_threads='auto'
@@ -302,9 +302,6 @@ def build_single_kernel(
         # We still include deprecated elements in the kernels, so silence the warnings
         warnings.filterwarnings('ignore', category=FutureWarning)
 
-        tracker_element_classes, non_tracker_classes = _split_tracker_classes(
-            element_classes)
-
         tracker_config = xt.tracker.TrackerConfig()
         tracker_config.update(config)
 
@@ -312,7 +309,7 @@ def build_single_kernel(
             context=build_context,
             config=tracker_config,
             tracker_element_classes=tracker_element_classes,
-            extra_classes=[*extra_classes, *non_tracker_classes],
+            extra_classes=extra_classes,
             module_name=module_name,
             containing_dir=location,
             compile='force',
@@ -327,20 +324,6 @@ def build_single_kernel(
         all_classes=kernel_info['all_classes'],
         location=location,
     )
-
-
-def _split_tracker_classes(classes):
-    tracker_element_classes = []
-    extra_classes = []
-
-    for cls in classes:
-        dressing_class = getattr(cls, '_DressingClass', cls)
-        if issubclass(dressing_class, xt.BeamElement):
-            tracker_element_classes.append(cls)
-        else:
-            extra_classes.append(cls)
-
-    return tracker_element_classes, extra_classes
 
 
 def clear_kernels(
