@@ -44,6 +44,10 @@ class CustomBuildExtCommand(build_ext):
         else:
             n_threads = None
 
+        # Ensure source-tree distribution metadata exists and reflects
+        # the version already resolved by setuptools/setuptools-scm.
+        self.run_command("egg_info")
+
         # Modern setuptools/pip don't guarantee that building happens in the
         # package directory. As we need the kernel generation code here, we
         # add the package directory to the path to be able to import it.
