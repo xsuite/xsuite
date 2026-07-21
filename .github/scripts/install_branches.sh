@@ -58,5 +58,5 @@ for project in "${repos[@]}"; do
 done
 
 echo "::group::Installing xsuite"
-pip install --no-deps -v -e "${xsuite_prefix}/xsuite"
+pip install --no-build-isolation --no-deps -v -e "${xsuite_prefix}/xsuite"
 echo "::endgroup::"
