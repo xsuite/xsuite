@@ -2891,12 +2891,16 @@ W^T S W = S
 with $S$ defined as
 \begin{align}
 S&=\left(
-\begin{array}{ccc}
-0 & 1  &  \\
--1 & 0  &  \\
-&    & \ddots \\
+\begin{array}{cccccc}
+0 & 1 & 0 & 0 & 0 & 0\\
+-1 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & -1 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 1\\
+0 & 0 & 0 & 0 & -1 & 0
 \end{array} 
 \right)
+\label{eq:symplectic_matrix}
 \end{align}
 which is equivalent to:
 \begin{align}\label{opt:eqn:2:3}
@@ -3213,6 +3217,7 @@ E =
 0 & 0 & 0 & 0 & \varepsilon_\zeta & 0\\
 0 & 0 & 0 & 0 & 0 & \varepsilon_\zeta
 \end{array}\right).
+\label{eq:covariance_emittance_matrix}
 \end{equation}
 Since $W$ is a linear transformation, Eq.~\ref{eq:norm_coord} gives
 \begin{equation}
@@ -3241,7 +3246,15 @@ Multiplying Eq.~\ref{eq:sigma_wewt} by $S$ on the right gives
 \Sigma S = W E W^T S = W E S W^{-1}.
 \label{eq:sigma_s_similarity}
 \end{equation}
-Thus $\Sigma S$ is similar to $E S$ and has the same eigenvalues. Explicitly,
+Thus $\Sigma S$ is obtained from $ES$ by a change of basis with matrix $W$.
+This implies that the two matrices have the same eigenvalues: if $q$ is an
+eigenvector of $ES$ with eigenvalue $\lambda$, then
+\begin{equation}
+\Sigma S\, Wq = W E S W^{-1} Wq = W E S q = \lambda Wq.
+\end{equation}
+Therefore $Wq$ is an eigenvector of $\Sigma S$ with the same eigenvalue
+$\lambda$. Combining Eqs.~\ref{eq:covariance_emittance_matrix} and
+\ref{eq:symplectic_matrix} gives
 \begin{equation}
 E S =
 \left(\begin{array}{cccccc}
