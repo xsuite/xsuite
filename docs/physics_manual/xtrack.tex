@@ -2795,22 +2795,22 @@ We define $z$ as the vector of $2 k$ coordinates,
 \begin{align}\label{opt:eqn:1}
 z&=(z_1,\ldots,z_{2k})^T=(x-x_0,p_x-p_{x0},y-y_0,p_y-p_{y0},\zeta-\zeta_0,p_\zeta-p_{\zeta0})^T
 \end{align}
-one can define linear transfer maps (e.g. $M_{1\to 2}$ that propagates coordinates between two points $s_1$, $s_2$) and the one-turn map (e.g. $M_1$ that combines the effects for one turn starting from $s_1$):
+one can define linear transfer maps (e.g. $R_{1\to 2}$ that propagates coordinates between two points $s_1$, $s_2$) and the one-turn map (e.g. $R_1$ that combines the effects for one turn starting from $s_1$):
 \begin{align}\label{opt:eqn:2}
-z(s_2)&= M_{1\to 2} z(s_1) & z(C+s_1) &= M_1 z(s_1).
+z(s_2)&= R_{1\to 2} z(s_1) & z(C+s_1) &= R_1 z(s_1).
 \end{align}
 In the following we will describe the optics calculation based on the Ripken formalism described in \cite{willeke88}. A good summary is also given in the MAD8 physics manual \cite{mad8phys}.
 
 \section{Linear normal form}
 \label{opt:sec:1}
-Since the matrices derive from symplectic maps, the eigenvalue spectrum of the one-turn map $M$ consists of 2$k$ distinct eigenvalues and linearly independent eigenvectors. In addition, for the motion to be stable the eigenvalues $\lambda_k^{\pm}$ with eigenvectors $v_k^{\pm}$ have to be complex \cite{willeke88}:
+Since the matrices derive from symplectic maps, the eigenvalue spectrum of the one-turn map $R$ consists of 2$k$ distinct eigenvalues and linearly independent eigenvectors. In addition, for the motion to be stable the eigenvalues $\lambda_k^{\pm}$ with eigenvectors $v_k^{\pm}$ have to be complex \cite{willeke88}:
 \begin{align}
-M v_k^\pm  =  \lambda_k^\pm v_k^\pm, \ k=1,\ldots, 3 \\
+R v_k^\pm  =  \lambda_k^\pm v_k^\pm, \ k=1,\ldots, 3 \\
 v_k^+=(v_k^-)^*, \quad \lambda_k^+=(\lambda_k^-)^*, \quad |\lambda_k^{\pm}|=1
 \end{align}
-As the eigenvectors are linearly independent $M$ can be diagonalized with
+As the eigenvectors are linearly independent $R$ can be diagonalized with
 \begin{align}
-M &= V \Lambda V^{-1},
+R &= V \Lambda V^{-1},
 \end{align}
 where $V$ consists of the eigenvectors and $\Lambda$ of the eigenvalues:
 \begin{align}
@@ -2839,11 +2839,11 @@ v_k^\pm &= a_k\pm ib_k, & \lambda_k^\pm &= \cos \mu_k \pm i \sin \mu_k, &
 \end{align}
 such that:
 \begin{align}\label{eq:lin_norm_form}
-M=&W R W^{-1}
+R=&W R_{\mathrm{rot}} W^{-1}
 \end{align}
 with
 \begin{align}
-R=R(\mu_k)=&\left(
+R_{\mathrm{rot}}=R_{\mathrm{rot}}(\mu_k)=&\left(
 \begin{array}{ccccc}
 \cos \mu_1 & \sin \mu_1  &  & &\\
 -\sin \mu_1 & \cos \mu_1 &  & &\\
@@ -2861,8 +2861,8 @@ a_{1,6} & b_{1,6} & \cdots & a_{3,6} & b_{3,6} \\
 \end{array}
 \right)
 \end{align}
-Equation~\ref{eq:lin_norm_form} is called the linear normal form of the one-turn map $M$.
-The matrix $R$ describes a rotation in the 3 planes by angles $\mu_k$.
+Equation~\ref{eq:lin_norm_form} is called the linear normal form of the one-turn map $R$.
+The matrix $R_{\mathrm{rot}}$ describes a rotation in the 3 planes by angles $\mu_k$.
 
 Usually $\mu_k$ is written as $\mu_k=2\pi Q_k$, where $Q_k$ is then the tune of the mode $k$.
 By convention, the eigenvectors and values are normalized, sorted and rotated so that the following three conditions are fulfilled:
@@ -2920,7 +2920,7 @@ b_k(s) \sin \left(\phi_{k,0} + \phi_k(s)\right)
 \end{align}
 and
 \begin{align}
-z(s_2)&=W(s_2)R(\phi_k)W(s_1)^{-1}z(s_1), \\
+z(s_2)&=W(s_2)R_{\mathrm{rot}}(\phi_k)W(s_1)^{-1}z(s_1), \\
 &\hspace{30pt} \text{ with } \phi_k=\phi_k(s_2)-\phi_k(s_1)\nonumber
 \end{align}
 This implies that one turn is simply a rotation by $\phi_k=2\pi Q_k$ where $Q_k$ is the tune of the mode $k$. In the transverse plane the tune ($Q_{I,II}$) is usually positive and the particles rotate clockwise, while in the longitudinal plane the tune ($Q_{III}$) is negative above $\gamma_T$ leading to an anticlockwise rotation.
@@ -2929,9 +2929,9 @@ For the derivation the following steps are needed:
 \begin{enumerate}
 \item The effect of one turn on the normalized variable $\tilde z(s)=W^{-1}(s) z(s)$ is a rotation:
 \begin{align}\label{opt:eqn:3:1}
-\tilde z(C+s) = W^{-1}z(s+C)\overset{(\rm Eqn.\ref{eq:lin_norm_form})}{=}W^{-1}WRW^{-1}z(s)= R\tilde z(s),
+\tilde z(C+s) = W^{-1}z(s+C)\overset{(\rm Eqn.\ref{eq:lin_norm_form})}{=}W^{-1}W R_{\mathrm{rot}} W^{-1}z(s)= R_{\mathrm{rot}}\tilde z(s),
 \end{align}
-As $M$ and $R$ are symplectic also $W$ is symplectic, and its inverse is thus given by $S^{-1}W^{T}S$, explicitly:
+As $R$ and $R_{\mathrm{rot}}$ are symplectic also $W$ is symplectic, and its inverse is thus given by $S^{-1}W^{T}S$, explicitly:
 \begin{align}
 W^{-1}&=
 \left(
@@ -2948,10 +2948,10 @@ b_{32} & - b_{31} &   b_{34} & - b_{33} &   b_{36} & - b_{35}\\
 \end{align}
 \item The one-turn map and $W$-matrix can be propagated from $s_1$ to $s_2$ by
 \begin{align}
-M_2&=M_{1 \to 2} M_1 M^{-1}_{1 \to 2}  &
-W_2&=M_{1 \to 2} W_1
+R_2&=R_{1 \to 2} R_1 R^{-1}_{1 \to 2}  &
+W_2&=R_{1 \to 2} W_1
 \end{align}
-As Eqn.~\ref{opt:eqn:3:1} represents a similarity transformation, the eigenvalues are thus independent of the position $s$ and as the rotation matrix $R$ consists of the eigenvalues of $M$, the angle of the rotation $\mu_k=2\pi Q_k$ is thus also independent of $s$.
+As Eqn.~\ref{opt:eqn:3:1} represents a similarity transformation, the eigenvalues are thus independent of the position $s$ and as the rotation matrix $R_{\mathrm{rot}}$ consists of the eigenvalues of $R$, the angle of the rotation $\mu_k=2\pi Q_k$ is thus also independent of $s$.
 
 \item As Eqn.~\ref{eq:lin_norm_form} represents a basis transformation from the standard $\mathbb{R}^2$ basis to the eigenvector basis, the vectors $a_k$ and $b_k$ are projected onto (Eqn.~\ref{opt:eqn:2:3}):
 \begin{align}\label{opt:eqn:3:2}
@@ -3289,16 +3289,16 @@ Their relation to the action variables is discussed in the following section.
 \label{opt:sec:covariance_eigenvectors}
 
 The eigenvectors of $\Sigma S$ are the same eigenvectors as those of the
-one-turn matrix $M$. This can be seen mode by mode. First work in normalized
-coordinates, where both $R$ and $ES$ are block diagonal. Let $q_k^+$ be the
-vector whose only non-zero normal-mode block is
+one-turn matrix $R$. This can be seen mode by mode. First work in normalized
+coordinates, where both $R_{\mathrm{rot}}$ and $ES$ are block diagonal. Let
+$q_k^+$ be the vector whose only non-zero normal-mode block is
 \begin{equation}
 \left(\begin{array}{c}
 1\\
 i
 \end{array}\right)
 \end{equation}
-in plane $k$. In this plane, the corresponding block of $R$ is
+in plane $k$. In this plane, the corresponding block of $R_{\mathrm{rot}}$ is
 \begin{equation}
 \left(\begin{array}{cc}
 \cos \mu_k & \sin \mu_k\\
@@ -3327,7 +3327,7 @@ i
 i
 \end{array}\right).
 \end{equation}
-Therefore $R q_k^+ = \exp(i\mu_k)q_k^+$. The corresponding block of $ES$ is
+Therefore $R_{\mathrm{rot}} q_k^+ = \exp(i\mu_k)q_k^+$. The corresponding block of $ES$ is
 \begin{equation}
 \left(\begin{array}{cc}
 0 & \varepsilon_k\\
@@ -3357,17 +3357,17 @@ i
 \end{array}\right).
 \end{equation}
 Therefore $ESq_k^+ = i\varepsilon_k q_k^+$. Hence $q_k^+$ is an eigenvector of
-both $R$ and $ES$, with different eigenvalues.
+both $R_{\mathrm{rot}}$ and $ES$, with different eigenvalues.
 
 Using
 \begin{equation}
-M = W R W^{-1}, \qquad \Sigma S = W E S W^{-1},
+R = W R_{\mathrm{rot}} W^{-1}, \qquad \Sigma S = W E S W^{-1},
 \end{equation}
 define $v_k^+=W q_k^+$. Then
 \begin{align}
-M v_k^+
-&= W R W^{-1} W q_k^+ \nonumber\\
-&= W R q_k^+ \nonumber\\
+R v_k^+
+&= W R_{\mathrm{rot}} W^{-1} W q_k^+ \nonumber\\
+&= W R_{\mathrm{rot}} q_k^+ \nonumber\\
 &= W \exp(i\mu_k) q_k^+ \nonumber\\
 &= \exp(i\mu_k) v_k^+,
 \end{align}
@@ -3379,7 +3379,7 @@ and, in the same way,
 &= W i\varepsilon_k q_k^+ \nonumber\\
 &= i\varepsilon_k v_k^+.
 \end{align}
-Thus the same physical vector $v_k^+$ is an eigenvector of both $M$ and
+Thus the same physical vector $v_k^+$ is an eigenvector of both $R$ and
 $\Sigma S$. The $W$ matrix can therefore be obtained from the eigenvectors of
 $\Sigma S$ by applying the same sorting, phase, and symplectic-normalization
 conventions described in Section~\ref{opt:sec:1}. Once this $W$ is known, the
