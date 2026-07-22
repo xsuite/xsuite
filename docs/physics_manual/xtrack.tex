@@ -3066,16 +3066,17 @@ which simplifies in the 2D case to:
 
 \section{Transformation to normalized coordinates}
 
-The $W$ matrix can be used to transform normalized coordinates into physical coordinates and vice versa:
+The $W$ matrix can be used to transform normalized coordinates into physical
+coordinates relative to the closed orbit and vice versa:
 
 \begin{equation}
 \left(\begin{array}{l}
-x \\
-p_x \\
-y \\
-p_y \\
-\zeta \\
-p_\zeta
+x - x_0\\
+p_x - p_{x0}\\
+y - y_0\\
+p_y - p_{y0}\\
+\zeta - \zeta_0\\
+p_\zeta - p_{\zeta0}
 \end{array}\right)
 =
 W
@@ -3099,11 +3100,169 @@ W
 \end{array}\right)
 \label{eq:norm_coord}
 \end{equation}
-where 
+where the subscript $0$ denotes the closed orbit at the observation point, and
 \begin{equation}
 \left(\begin{array}{llllll}\tilde{x} & \tilde{p}_x & \tilde{y} & \tilde{p}_y & \tilde{\zeta} & \tilde{p}_\zeta\end{array}\right)
 \end{equation}
 are normalized coordinates in sigmas and $\varepsilon_x$, $\varepsilon_y$ and $\varepsilon_\zeta$ are the geometric emittances.
+
+\subsection{Covariance matrix and normal-mode emittances}
+\label{opt:sec:covariance}
+
+The beam covariance matrix is defined from the central second moments of the
+phase-space coordinates
+\begin{equation}
+z =
+\left(\begin{array}{llllll}
+x & p_x & y & p_y & \zeta & p_\zeta
+\end{array}\right)^T
+\end{equation}
+as
+\begin{equation}
+\Sigma = \left<\left(z-\left<z\right>\right)
+\left(z-\left<z\right>\right)^T\right>.
+\label{eq:covariance_definition}
+\end{equation}
+The subtraction of the centroid makes $\Sigma$ independent of the closed-orbit
+offset of the distribution.
+
+Let
+\begin{equation}
+\hat{z} =
+\left(\begin{array}{llllll}
+\hat{x} & \hat{p}_x & \hat{y} & \hat{p}_y &
+\hat{\zeta} & \hat{p}_\zeta
+\end{array}\right)^T
+\end{equation}
+be the normalized coordinates appearing in Eq.~\ref{eq:norm_coord}, so that
+$z-z_0=W\hat{z}$, where $z_0$ is the closed orbit. For a beam matched to the
+linear optics, with independent normal modes and no preferred phase in each
+mode, the covariance of the normalized coordinates is
+\begin{equation}
+\left<\left(\hat{z}-\left<\hat{z}\right>\right)
+\left(\hat{z}-\left<\hat{z}\right>\right)^T\right> = E,
+\label{eq:covariance_normalized_coordinates}
+\end{equation}
+where
+\begin{equation}
+E =
+\left(\begin{array}{cccccc}
+\varepsilon_x & 0 & 0 & 0 & 0 & 0\\
+0 & \varepsilon_x & 0 & 0 & 0 & 0\\
+0 & 0 & \varepsilon_y & 0 & 0 & 0\\
+0 & 0 & 0 & \varepsilon_y & 0 & 0\\
+0 & 0 & 0 & 0 & \varepsilon_\zeta & 0\\
+0 & 0 & 0 & 0 & 0 & \varepsilon_\zeta
+\end{array}\right).
+\end{equation}
+Since $W$ is a linear transformation, Eq.~\ref{eq:norm_coord} gives
+\begin{equation}
+z-\left<z\right> = W\left(\hat{z}-\left<\hat{z}\right>\right).
+\end{equation}
+Substituting this expression in Eq.~\ref{eq:covariance_definition} gives
+\begin{align}
+\Sigma
+&= \left< W\left(\hat{z}-\left<\hat{z}\right>\right)
+\left(W\left(\hat{z}-\left<\hat{z}\right>\right)\right)^T \right>\nonumber\\
+&= W\left<\left(\hat{z}-\left<\hat{z}\right>\right)
+\left(\hat{z}-\left<\hat{z}\right>\right)^T\right>W^T\nonumber\\
+&= W E W^T.
+\label{eq:sigma_wewt}
+\end{align}
+Since $W$ is symplectic,
+\begin{equation}
+W^T S W = S,
+\end{equation}
+and therefore
+\begin{equation}
+W^T S = S W^{-1}.
+\end{equation}
+Multiplying Eq.~\ref{eq:sigma_wewt} by $S$ on the right gives
+\begin{equation}
+\Sigma S = W E W^T S = W E S W^{-1}.
+\label{eq:sigma_s_similarity}
+\end{equation}
+Thus $\Sigma S$ is similar to $E S$ and has the same eigenvalues. Explicitly,
+\begin{equation}
+E S =
+\left(\begin{array}{cccccc}
+0 & \varepsilon_x & 0 & 0 & 0 & 0\\
+-\varepsilon_x & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & \varepsilon_y & 0 & 0\\
+0 & 0 & -\varepsilon_y & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & \varepsilon_\zeta\\
+0 & 0 & 0 & 0 & -\varepsilon_\zeta & 0
+\end{array}\right),
+\end{equation}
+which is block diagonal, with one block
+\begin{equation}
+\left(\begin{array}{cc}
+0 & \varepsilon_k\\
+-\varepsilon_k & 0
+\end{array}\right)
+\end{equation}
+for each normal mode $k=x,y,\zeta$. Each block has eigenvalues
+$\pm i\varepsilon_k$. The eigenvalues of $\Sigma S$ are therefore
+\begin{equation}
+\lambda_k^\pm = \pm i \varepsilon_k.
+\end{equation}
+The geometric normal-mode emittances are therefore obtained from the eigenvalues
+with positive imaginary part:
+\begin{equation}
+\varepsilon_k = \operatorname{Im}\lambda_k^+.
+\label{eq:emittance_from_sigma_s}
+\end{equation}
+The $\varepsilon_k$ obtained in this way are the same geometric emittances used
+in Eq.~\ref{eq:norm_coord}: in each normal-mode plane,
+Eq.~\ref{eq:covariance_normalized_coordinates} gives equal second moments
+$\varepsilon_k$ for the two conjugate normalized coordinates and zero
+cross-correlation between them. Dividing each conjugate pair by
+$\sqrt{\varepsilon_k}$ gives the coordinates measured in sigmas used in
+Eq.~\ref{eq:norm_coord}.
+
+The corresponding eigenvectors can be used to reconstruct the $W$ matrix. Let
+$u_k^+$ be the eigenvector of $\Sigma S$ associated with
+$\lambda_k^+=i\varepsilon_k$. From Eq.~\ref{eq:sigma_s_similarity},
+\begin{equation}
+u_k^+ = c_k \left(a_k + i b_k\right),
+\end{equation}
+where $c_k$ is an arbitrary complex scale factor. The phase of $u_k^+$ is first
+chosen according to the same convention used for the normal form of the
+one-turn map, namely the coordinate associated with the mode is made real:
+\begin{equation}
+\operatorname{angle}\left(u_{x,1}^+\right)=0,\quad
+\operatorname{angle}\left(u_{y,3}^+\right)=0,\quad
+\operatorname{angle}\left(u_{\zeta,5}^+\right)=0.
+\end{equation}
+Writing the resulting eigenvector as
+\begin{equation}
+u_k^+ = a_k + i b_k,
+\end{equation}
+the remaining real scale is fixed by the symplectic normalization
+\begin{equation}
+a_k^T S b_k = 1.
+\end{equation}
+Equivalently, before normalization one computes
+\begin{equation}
+n_k = \frac{1}{\sqrt{a_k^T S b_k}},
+\end{equation}
+and replaces
+\begin{equation}
+a_k \rightarrow n_k a_k,\qquad b_k \rightarrow n_k b_k.
+\end{equation}
+The normalizing matrix reconstructed from the measured covariance is then
+\begin{equation}
+W =
+\left(\begin{array}{cccccc}
+| & | & | & | & | & |\\
+a_x & b_x & a_y & b_y & a_\zeta & b_\zeta\\
+| & | & | & | & | & |
+\end{array}\right),
+\end{equation}
+after sorting the three modes according to the same horizontal, vertical, and
+longitudinal convention used in Section~\ref{opt:sec:1}. Once this $W$ is
+known, the Twiss parameters and dispersions are obtained from the expressions
+in Sections~\ref{opt:sec:4} and \ref{opt:sec:dispersion_crab_dispersion}.
 
 \section{Action, amplitude and emittance}
 
@@ -3135,6 +3294,7 @@ where the emittance $\varepsilon_x$ is
 
 
 \section{Dispersion and crab dispersion}
+\label{opt:sec:dispersion_crab_dispersion}
 
 For a particle having no betatron amplitude ($\hat{x} = \hat{p}_x =\hat{y} =\hat{p}_y=0$) we can write:
 
