@@ -3135,15 +3135,71 @@ Let
 \end{array}\right)^T
 \end{equation}
 be the normalized coordinates appearing in Eq.~\ref{eq:norm_coord}, so that
-$z-z_0=W\hat{z}$, where $z_0$ is the closed orbit. For a beam matched to the
-linear optics, with independent normal modes and no preferred phase in each
-mode, the covariance of the normalized coordinates is
+$z-z_0=W\hat{z}$, where $z_0$ is the closed orbit. We define
+$\Delta\hat{z}=\hat{z}-\left<\hat{z}\right>$ and group the normalized
+coordinates by mode as
 \begin{equation}
-\left<\left(\hat{z}-\left<\hat{z}\right>\right)
-\left(\hat{z}-\left<\hat{z}\right>\right)^T\right> = E,
+\Delta\hat{z}_x =
+\left(\begin{array}{c}
+\Delta\hat{x}\\
+\Delta\hat{p}_x
+\end{array}\right),\quad
+\Delta\hat{z}_y =
+\left(\begin{array}{c}
+\Delta\hat{y}\\
+\Delta\hat{p}_y
+\end{array}\right),\quad
+\Delta\hat{z}_\zeta =
+\left(\begin{array}{c}
+\Delta\hat{\zeta}\\
+\Delta\hat{p}_\zeta
+\end{array}\right).
+\end{equation}
+For a beam matched to the linear optics and with independent normal modes, the
+cross-covariances between different modes vanish:
+\begin{equation}
+\left<\Delta\hat{z}_j\Delta\hat{z}_k^T\right> = 0,
+\qquad j\ne k.
+\end{equation}
+No preferred phase in a normal-mode plane means that the covariance in that
+plane is invariant under rotations. For mode $k$, let
+\begin{equation}
+C_k = \left<\Delta\hat{z}_k\Delta\hat{z}_k^T\right>
+=
+\left(\begin{array}{cc}
+a_k & c_k\\
+c_k & b_k
+\end{array}\right).
+\end{equation}
+Invariance under a rotation by $\pi/2$ gives
+\begin{equation}
+C_k =
+\left(\begin{array}{cc}
+0 & 1\\
+-1 & 0
+\end{array}\right)
+C_k
+\left(\begin{array}{cc}
+0 & -1\\
+1 & 0
+\end{array}\right)
+=
+\left(\begin{array}{cc}
+b_k & -c_k\\
+-c_k & a_k
+\end{array}\right).
+\end{equation}
+Therefore $a_k=b_k$ and $c_k=0$, namely each normal-mode block is proportional
+to the identity. Writing the common second moment as $\varepsilon_k$ gives
+\begin{equation}
+C_k = \varepsilon_k I.
+\end{equation}
+It follows that the covariance of the normalized coordinates is
+\begin{equation}
+\left<\Delta\hat{z}\Delta\hat{z}^T\right> = E,
 \label{eq:covariance_normalized_coordinates}
 \end{equation}
-where
+with
 \begin{equation}
 E =
 \left(\begin{array}{cccccc}
@@ -3206,19 +3262,13 @@ $\pm i\varepsilon_k$. The eigenvalues of $\Sigma S$ are therefore
 \begin{equation}
 \lambda_k^\pm = \pm i \varepsilon_k.
 \end{equation}
-The geometric normal-mode emittances are therefore obtained from the eigenvalues
-with positive imaginary part:
+The geometric normal-mode emittances are defined from the eigenvalues with
+positive imaginary part:
 \begin{equation}
 \varepsilon_k = \operatorname{Im}\lambda_k^+.
 \label{eq:emittance_from_sigma_s}
 \end{equation}
-The $\varepsilon_k$ obtained in this way are the same geometric emittances used
-in Eq.~\ref{eq:norm_coord}: in each normal-mode plane,
-Eq.~\ref{eq:covariance_normalized_coordinates} gives equal second moments
-$\varepsilon_k$ for the two conjugate normalized coordinates and zero
-cross-correlation between them. Dividing each conjugate pair by
-$\sqrt{\varepsilon_k}$ gives the coordinates measured in sigmas used in
-Eq.~\ref{eq:norm_coord}.
+Their relation to the action variables is discussed in the following section.
 
 The eigenvectors of $\Sigma S$ are the same eigenvectors as those of the
 one-turn matrix $M$. This can be seen mode by mode. First work in normalized
@@ -3341,10 +3391,50 @@ A Gaussian distribution is defined such that the density with respect to each ac
 \begin{equation}
 f(J_x) = K e^{-J_x/\varepsilon_x}
 \end{equation}
-where the emittance $\varepsilon_x$ is
+The parameter $\varepsilon_x$ is the same emittance defined from the eigenvalues
+of $\Sigma S$ in Eq.~\ref{eq:emittance_from_sigma_s}. This can be seen from the
+covariance in normalized coordinates. Let
+$\Delta\hat{x}=\hat{x}-\left<\hat{x}\right>$ and
+$\Delta\hat{p}_x=\hat{p}_x-\left<\hat{p}_x\right>$. The $x$-mode block of
+Eq.~\ref{eq:covariance_normalized_coordinates} is
 \begin{equation}
-\varepsilon_x = <J_x> = \int J_x f(J_x) \,dJ_x
+\left<
+\left(\begin{array}{c}
+\Delta\hat{x}\\
+\Delta\hat{p}_x
+\end{array}\right)
+\left(\begin{array}{cc}
+\Delta\hat{x} & \Delta\hat{p}_x
+\end{array}\right)
+\right>
+=
+\left(\begin{array}{cc}
+\varepsilon_x & 0\\
+0 & \varepsilon_x
+\end{array}\right).
 \end{equation}
+Reading the entries of this matrix gives
+\begin{equation}
+\left<\Delta\hat{x}^2\right> = \varepsilon_x,\qquad
+\left<\Delta\hat{p}_x^2\right> = \varepsilon_x,\qquad
+\left<\Delta\hat{x}\Delta\hat{p}_x\right> = 0.
+\end{equation}
+Therefore
+\begin{align}
+\left<\frac{\Delta\hat{x}^2+\Delta\hat{p}_x^2}{2}\right>
+&= \frac{\left<\Delta\hat{x}^2\right>
++\left<\Delta\hat{p}_x^2\right>}{2}\nonumber\\
+&= \varepsilon_x.
+\end{align}
+For a distribution centered on the closed orbit, this is simply
+$\left<J_x\right>=\varepsilon_x$. If the beam centroid is offset, the emittance
+is obtained from the centroid-subtracted action above, while the raw average
+action also contains the coherent centroid contribution.
+Equivalently, for the exponential action density above,
+\begin{equation}
+\varepsilon_x = \left<J_x\right> = \int J_x f(J_x) \,dJ_x.
+\end{equation}
+The same argument applies to the other two normal modes.
 
 
 \section{Dispersion and crab dispersion}
