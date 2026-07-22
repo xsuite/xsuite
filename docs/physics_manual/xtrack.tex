@@ -3221,33 +3221,98 @@ $\sqrt{\varepsilon_k}$ gives the coordinates measured in sigmas used in
 Eq.~\ref{eq:norm_coord}.
 
 The eigenvectors of $\Sigma S$ are the same eigenvectors as those of the
-one-turn matrix $M$. To see this, let $q_k^+$ be the vector in normalized
-coordinates whose $k$-th normal-mode block is $(1\quad i)^T$ and whose other
-components are zero. The corresponding block of the rotation matrix $R$ in
-Eq.~\ref{eq:lin_norm_form} is
+one-turn matrix $M$. This can be seen mode by mode. First work in normalized
+coordinates, where both $R$ and $ES$ are block diagonal. Let $q_k^+$ be the
+vector whose only non-zero normal-mode block is
+\begin{equation}
+\left(\begin{array}{c}
+1\\
+i
+\end{array}\right)
+\end{equation}
+in plane $k$. In this plane, the corresponding block of $R$ is
 \begin{equation}
 \left(\begin{array}{cc}
 \cos \mu_k & \sin \mu_k\\
 -\sin \mu_k & \cos \mu_k
 \end{array}\right),
 \end{equation}
-and the corresponding block of $ES$ has the same eigenvector. Therefore
+and
 \begin{equation}
-R q_k^+ = \exp(i\mu_k) q_k^+,\qquad
-E S q_k^+ = i\varepsilon_k q_k^+.
+\left(\begin{array}{cc}
+\cos \mu_k & \sin \mu_k\\
+-\sin \mu_k & \cos \mu_k
+\end{array}\right)
+\left(\begin{array}{c}
+1\\
+i
+\end{array}\right)
+=
+\left(\begin{array}{c}
+\cos \mu_k+i\sin \mu_k\\
+-\sin \mu_k+i\cos \mu_k
+\end{array}\right)
+=
+\exp(i\mu_k)
+\left(\begin{array}{c}
+1\\
+i
+\end{array}\right).
 \end{equation}
+Therefore $R q_k^+ = \exp(i\mu_k)q_k^+$. The corresponding block of $ES$ is
+\begin{equation}
+\left(\begin{array}{cc}
+0 & \varepsilon_k\\
+-\varepsilon_k & 0
+\end{array}\right),
+\end{equation}
+and
+\begin{equation}
+\left(\begin{array}{cc}
+0 & \varepsilon_k\\
+-\varepsilon_k & 0
+\end{array}\right)
+\left(\begin{array}{c}
+1\\
+i
+\end{array}\right)
+=
+\left(\begin{array}{c}
+i\varepsilon_k\\
+-\varepsilon_k
+\end{array}\right)
+=
+i\varepsilon_k
+\left(\begin{array}{c}
+1\\
+i
+\end{array}\right).
+\end{equation}
+Therefore $ESq_k^+ = i\varepsilon_k q_k^+$. Hence $q_k^+$ is an eigenvector of
+both $R$ and $ES$, with different eigenvalues.
+
 Using
 \begin{equation}
 M = W R W^{-1}, \qquad \Sigma S = W E S W^{-1},
 \end{equation}
-the physical vector $v_k^+=W q_k^+$ satisfies
-\begin{equation}
-M v_k^+ = \exp(i\mu_k) v_k^+,\qquad
-\Sigma S v_k^+ = i\varepsilon_k v_k^+.
-\end{equation}
-Thus the eigenvectors obtained from $\Sigma S$ are the same physical
-eigenvectors as those of the one-turn map $M$, up to arbitrary complex scale
-factors. The $W$ matrix can therefore be obtained from the eigenvectors of
+define $v_k^+=W q_k^+$. Then
+\begin{align}
+M v_k^+
+&= W R W^{-1} W q_k^+ \nonumber\\
+&= W R q_k^+ \nonumber\\
+&= W \exp(i\mu_k) q_k^+ \nonumber\\
+&= \exp(i\mu_k) v_k^+,
+\end{align}
+and, in the same way,
+\begin{align}
+\Sigma S v_k^+
+&= W E S W^{-1} W q_k^+ \nonumber\\
+&= W E S q_k^+ \nonumber\\
+&= W i\varepsilon_k q_k^+ \nonumber\\
+&= i\varepsilon_k v_k^+.
+\end{align}
+Thus the same physical vector $v_k^+$ is an eigenvector of both $M$ and
+$\Sigma S$. The $W$ matrix can therefore be obtained from the eigenvectors of
 $\Sigma S$ by applying the same sorting, phase, and symplectic-normalization
 conventions described in Section~\ref{opt:sec:1}. Once this $W$ is known, the
 Twiss parameters and dispersions are obtained from the expressions in
