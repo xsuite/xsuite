@@ -235,21 +235,20 @@ whole-beam statistics remain available through
 Emittance and optics from covariance
 ------------------------------------
 
-Requesting ``normal_mode_emittances`` or ``covariance_optics`` makes
+Requesting normal-mode emittance or covariance-optics quantities makes
 ``BeamStatsMonitor`` store the full 6D covariance moment set in the canonical
-coordinate order ``(x, px, y, py, zeta, pzeta)``. The tracking kernel still
+coordinate order ``(x, px, y, py, zeta, pzeta)``. These quantities can be
+requested explicitly and combined with ordinary beam statistics such as
+``mean_x`` and ``sigma_x`` in the same monitor. The tracking kernel still
 records only weighted primitive moments; normal-mode emittances, beta
 functions, alpha functions, and dispersions are computed afterwards from the
 measured covariance matrix.
 
 The following example generates a matched Gaussian bunch, records the
 covariance-derived quantities turn by turn, and compares the measured beta
-functions at the monitor location with the model Twiss values. The grouped
-aliases are expanded at construction time, so the corresponding scalar arrays
-are available as ordinary monitor attributes such as ``monitor.nemitt_x`` and
-``monitor.betx``. The scalar method
-:meth:`xtrack.BeamStatsMonitor.optics_from_covariance` can also be used to
-inspect the covariance matrix and diagnostic status for one selected turn.
+functions at the monitor location with the model Twiss values. The requested
+scalar arrays are available as ordinary monitor attributes such as
+``monitor.mean_x``, ``monitor.nemitt_x``, and ``monitor.betx``.
 
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_emittance_and_optics.py
    :language: python
