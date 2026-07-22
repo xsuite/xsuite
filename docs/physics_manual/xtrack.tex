@@ -3110,7 +3110,7 @@ where the subscript $0$ denotes the closed orbit at the observation point, and
 \end{equation}
 are normalized coordinates in sigmas and $\varepsilon_x$, $\varepsilon_y$ and $\varepsilon_\zeta$ are the geometric emittances.
 
-\subsection{Covariance matrix and normal-mode emittances}
+\section{Covariance matrix}
 \label{opt:sec:covariance}
 
 The beam covariance matrix is defined from the central second moments of the
@@ -3129,6 +3129,8 @@ as
 \end{equation}
 The subtraction of the centroid makes $\Sigma$ independent of the closed-orbit
 offset of the distribution.
+
+\subsection{Normal-mode emittances}
 
 Let
 \begin{equation}
@@ -3274,17 +3276,17 @@ which is block diagonal, with one block
 \end{array}\right)
 \end{equation}
 for each normal mode $k=x,y,\zeta$. Each block has eigenvalues
-$\pm i\varepsilon_k$. The eigenvalues of $\Sigma S$ are therefore
+$\pm i\varepsilon_k$. The eigenvalues of $ES$ in normalized coordinates, and
+equivalently of $\Sigma S$ in physical coordinates, are therefore
 \begin{equation}
-\lambda_k^\pm = \pm i \varepsilon_k.
-\end{equation}
-The geometric normal-mode emittances are defined from the eigenvalues with
-positive imaginary part:
-\begin{equation}
-\varepsilon_k = \operatorname{Im}\lambda_k^+.
+\lambda_k^\pm(ES) = \lambda_k^\pm(\Sigma S) = \pm i \varepsilon_k.
 \label{eq:emittance_from_sigma_s}
 \end{equation}
+The quantities $\varepsilon_k$ are called \textbf{normal-mode emittances}.
 Their relation to the action variables is discussed in the following section.
+
+\subsection{Eigenvectors of the covariance matrix}
+\label{opt:sec:covariance_eigenvectors}
 
 The eigenvectors of $\Sigma S$ are the same eigenvectors as those of the
 one-turn matrix $M$. This can be seen mode by mode. First work in normalized
