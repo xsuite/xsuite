@@ -3155,44 +3155,47 @@ coordinates by mode as
 \Delta\hat{p}_\zeta
 \end{array}\right).
 \end{equation}
-For a beam matched to the linear optics and with independent normal modes, the
+For a beam matched to the linear optics, the particles are distributed in each
+normal-mode plane with no preferred betatron phase. We write the
+centroid-subtracted coordinates of mode $k$ as
+\begin{equation}
+\Delta\hat{q}_k = A_k \cos\phi_k,\qquad
+\Delta\hat{p}_k = -A_k \sin\phi_k,
+\end{equation}
+where $(\Delta\hat{q}_k,\Delta\hat{p}_k)$ stands for
+$(\Delta\hat{x},\Delta\hat{p}_x)$,
+$(\Delta\hat{y},\Delta\hat{p}_y)$, or
+$(\Delta\hat{\zeta},\Delta\hat{p}_\zeta)$. The phase-mixing assumption is
+\begin{equation}
+\left<\cos^2\phi_k\right> = \left<\sin^2\phi_k\right> = \frac{1}{2},
+\qquad
+\left<\sin\phi_k\cos\phi_k\right> = 0,
+\end{equation}
+with $\phi_k$ independent of $A_k$. Therefore the covariance block of mode $k$
+is
+\begin{align}
+C_k
+&= \left<\Delta\hat{z}_k\Delta\hat{z}_k^T\right>\nonumber\\
+&=
+\left(\begin{array}{cc}
+\left<A_k^2\cos^2\phi_k\right> &
+-\left<A_k^2\sin\phi_k\cos\phi_k\right>\\
+-\left<A_k^2\sin\phi_k\cos\phi_k\right> &
+\left<A_k^2\sin^2\phi_k\right>
+\end{array}\right)\nonumber\\
+&=
+\frac{\left<A_k^2\right>}{2}
+\left(\begin{array}{cc}
+1 & 0\\
+0 & 1
+\end{array}\right).
+\end{align}
+Writing $\varepsilon_k=\left<A_k^2\right>/2$, each normal-mode block is
+$C_k=\varepsilon_k I$. If the normal modes are independent, the
 cross-covariances between different modes vanish:
 \begin{equation}
 \left<\Delta\hat{z}_j\Delta\hat{z}_k^T\right> = 0,
 \qquad j\ne k.
-\end{equation}
-No preferred phase in a normal-mode plane means that the covariance in that
-plane is invariant under rotations. For mode $k$, let
-\begin{equation}
-C_k = \left<\Delta\hat{z}_k\Delta\hat{z}_k^T\right>
-=
-\left(\begin{array}{cc}
-a_k & c_k\\
-c_k & b_k
-\end{array}\right).
-\end{equation}
-Invariance under a rotation by $\pi/2$ gives
-\begin{equation}
-C_k =
-\left(\begin{array}{cc}
-0 & 1\\
--1 & 0
-\end{array}\right)
-C_k
-\left(\begin{array}{cc}
-0 & -1\\
-1 & 0
-\end{array}\right)
-=
-\left(\begin{array}{cc}
-b_k & -c_k\\
--c_k & a_k
-\end{array}\right).
-\end{equation}
-Therefore $a_k=b_k$ and $c_k=0$, namely each normal-mode block is proportional
-to the identity. Writing the common second moment as $\varepsilon_k$ gives
-\begin{equation}
-C_k = \varepsilon_k I.
 \end{equation}
 It follows that the covariance of the normalized coordinates is
 \begin{equation}
