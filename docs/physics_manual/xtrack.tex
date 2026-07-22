@@ -3220,49 +3220,38 @@ cross-correlation between them. Dividing each conjugate pair by
 $\sqrt{\varepsilon_k}$ gives the coordinates measured in sigmas used in
 Eq.~\ref{eq:norm_coord}.
 
-The corresponding eigenvectors can be used to reconstruct the $W$ matrix. Let
-$u_k^+$ be the eigenvector of $\Sigma S$ associated with
-$\lambda_k^+=i\varepsilon_k$. From Eq.~\ref{eq:sigma_s_similarity},
+The eigenvectors of $\Sigma S$ are the same eigenvectors as those of the
+one-turn matrix $M$. To see this, let $q_k^+$ be the vector in normalized
+coordinates whose $k$-th normal-mode block is $(1\quad i)^T$ and whose other
+components are zero. The corresponding block of the rotation matrix $R$ in
+Eq.~\ref{eq:lin_norm_form} is
 \begin{equation}
-u_k^+ = c_k \left(a_k + i b_k\right),
-\end{equation}
-where $c_k$ is an arbitrary complex scale factor. The phase of $u_k^+$ is first
-chosen according to the same convention used for the normal form of the
-one-turn map, namely the coordinate associated with the mode is made real:
-\begin{equation}
-\operatorname{angle}\left(u_{x,1}^+\right)=0,\quad
-\operatorname{angle}\left(u_{y,3}^+\right)=0,\quad
-\operatorname{angle}\left(u_{\zeta,5}^+\right)=0.
-\end{equation}
-Writing the resulting eigenvector as
-\begin{equation}
-u_k^+ = a_k + i b_k,
-\end{equation}
-the remaining real scale is fixed by the symplectic normalization
-\begin{equation}
-a_k^T S b_k = 1.
-\end{equation}
-Equivalently, before normalization one computes
-\begin{equation}
-n_k = \frac{1}{\sqrt{a_k^T S b_k}},
-\end{equation}
-and replaces
-\begin{equation}
-a_k \rightarrow n_k a_k,\qquad b_k \rightarrow n_k b_k.
-\end{equation}
-The normalizing matrix reconstructed from the measured covariance is then
-\begin{equation}
-W =
-\left(\begin{array}{cccccc}
-| & | & | & | & | & |\\
-a_x & b_x & a_y & b_y & a_\zeta & b_\zeta\\
-| & | & | & | & | & |
+\left(\begin{array}{cc}
+\cos \mu_k & \sin \mu_k\\
+-\sin \mu_k & \cos \mu_k
 \end{array}\right),
 \end{equation}
-after sorting the three modes according to the same horizontal, vertical, and
-longitudinal convention used in Section~\ref{opt:sec:1}. Once this $W$ is
-known, the Twiss parameters and dispersions are obtained from the expressions
-in Sections~\ref{opt:sec:4} and \ref{opt:sec:dispersion_crab_dispersion}.
+and the corresponding block of $ES$ has the same eigenvector. Therefore
+\begin{equation}
+R q_k^+ = \exp(i\mu_k) q_k^+,\qquad
+E S q_k^+ = i\varepsilon_k q_k^+.
+\end{equation}
+Using
+\begin{equation}
+M = W R W^{-1}, \qquad \Sigma S = W E S W^{-1},
+\end{equation}
+the physical vector $v_k^+=W q_k^+$ satisfies
+\begin{equation}
+M v_k^+ = \exp(i\mu_k) v_k^+,\qquad
+\Sigma S v_k^+ = i\varepsilon_k v_k^+.
+\end{equation}
+Thus the eigenvectors obtained from $\Sigma S$ are the same physical
+eigenvectors as those of the one-turn map $M$, up to arbitrary complex scale
+factors. The $W$ matrix can therefore be obtained from the eigenvectors of
+$\Sigma S$ by applying the same sorting, phase, and symplectic-normalization
+conventions described in Section~\ref{opt:sec:1}. Once this $W$ is known, the
+Twiss parameters and dispersions are obtained from the expressions in
+Sections~\ref{opt:sec:4} and \ref{opt:sec:dispersion_crab_dispersion}.
 
 \section{Action, amplitude and emittance}
 
