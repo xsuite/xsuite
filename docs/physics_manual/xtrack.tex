@@ -3165,14 +3165,14 @@ centroid-subtracted coordinates of mode $k$ as
 where $(\Delta\hat{q}_k,\Delta\hat{p}_k)$ stands for
 $(\Delta\hat{x},\Delta\hat{p}_x)$,
 $(\Delta\hat{y},\Delta\hat{p}_y)$, or
-$(\Delta\hat{\zeta},\Delta\hat{p}_\zeta)$. The phase-mixing assumption is
+$(\Delta\hat{\zeta},\Delta\hat{p}_\zeta)$. If the phase distribution is uniform
+and independent of the amplitude, then
 \begin{equation}
 \left<\cos^2\phi_k\right> = \left<\sin^2\phi_k\right> = \frac{1}{2},
 \qquad
 \left<\sin\phi_k\cos\phi_k\right> = 0,
 \end{equation}
-with $\phi_k$ independent of $A_k$. Therefore the covariance block of mode $k$
-is
+and the covariance block of mode $k$ is
 \begin{align}
 C_k
 &= \left<\Delta\hat{z}_k\Delta\hat{z}_k^T\right>\nonumber\\
@@ -3190,9 +3190,9 @@ C_k
 0 & 1
 \end{array}\right).
 \end{align}
-Writing $\varepsilon_k=\left<A_k^2\right>/2$, each normal-mode block is
-$C_k=\varepsilon_k I$. If the normal modes are independent, the
-cross-covariances between different modes vanish:
+Defining $\varepsilon_k=\left<A_k^2\right>/2$, each normal-mode block is
+$C_k=\varepsilon_k I$. If the normal-mode variables are statistically
+independent, then the cross-covariances between different modes vanish:
 \begin{equation}
 \left<\Delta\hat{z}_j\Delta\hat{z}_k^T\right> = 0,
 \qquad j\ne k.
