@@ -60,6 +60,11 @@ on:
         required: false
         type: boolean
         default: false
+      install_from_pypi:
+        description: install xsuite and dependencies from PyPI instead of editable git repos?
+        required: false
+        type: boolean
+        default: false
       timeout_minutes:
         description: timeout for run-tests job in minutes
         required: false
@@ -82,4 +87,5 @@ jobs:
       precompile_kernels: ${{ inputs.precompile_kernels }}
       forbid_compile: ${{ inputs.forbid_compile }}
       allow_no_prebuilt_kernels: ${{ inputs.allow_no_prebuilt_kernels }}
+      install_from_pypi: ${{ inputs.install_from_pypi }}
       timeout_minutes: ${{ fromJSON(inputs.timeout_minutes) }}

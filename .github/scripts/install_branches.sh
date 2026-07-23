@@ -5,14 +5,15 @@
 # ######################################### #
 set -xe
 
-repos=(xobjects xdeps xpart xtrack xfields xmask xcoll xwakes)
-xsuite_prefix="${xsuite_prefix:-.}"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${script_dir}/ci_common.sh"
 
 # Expects the following environment variables:
-# - $prefix, where to clone the packages
+# - $xsuite_prefix, where to clone the packages
 # - ${repo}_branch, where $repo is one of the repos above (replace - with _)
 # - $precompile_kernels set to "true" or "false"
 # - $install_mpi set to "true" or "false"
+# - $install_from_pypi set to "true" or "false"
 
 # Expect Xsuite already cloned by the main workflow
 if [ "${precompile_kernels:-false}" == "false" ]; then
@@ -26,27 +27,36 @@ if [ "${install_mpi:-false}" == "true" ]; then
   echo "::endgroup::"
 fi
 
+if [ "${install_from_pypi:-false}" == "true" ]; then
+  echo "::group::Installing test dependencies from source repos"
+  test_source_prefix=$(mktemp -d)
+  for project in "${repos[@]}"; do
+    clone_project "$project" "$test_source_prefix"
+    pip install "${cloned_project_path}[tests]"
+
+    mkdir -p "${xsuite_prefix}/${project}"
+    cp -a "${cloned_project_path}/." "${xsuite_prefix}/${project}/"
+    rm -rf "${xsuite_prefix:?}/${project}/.git" "${xsuite_prefix:?}/${project}/${project}"
+  done
+  echo "::endgroup::"
+
+  echo "::group::Installing xsuite from PyPI"
+  pip uninstall -y xsuite "${repos[@]}"
+  pip install --upgrade xsuite xmask xwakes
+  pip check
+  echo "::endgroup::"
+
+  exit 0
+fi
+
 # Clone the repos and install them in the correct branch
 for project in "${repos[@]}"; do
-  branch_varname="${project//-/_}_branch"
-  project_branch=${!branch_varname}  # get value of the variable [project]_branch
-
-  IFS=':' read -r -a parts <<< "$project_branch"
-  user="${parts[0]}"
-  branch="${parts[1]}"
-
-  echo "::group::Installing ${project} (${user}:${branch})"
-  echo "::notice::Installing ${project} from ${user}:${branch}"
-  cd "$xsuite_prefix"
-  git clone \
-    --recursive \
-    --single-branch -b "$branch" \
-    "https://github.com/${user}/${project}.git"
-
-  pip install -e "${xsuite_prefix}/${project}[tests]"
+  echo "::group::Installing ${project}"
+  clone_project "$project" "$xsuite_prefix"
+  pip install -e "${cloned_project_path}[tests]"
   echo "::endgroup::"
 done
 
 echo "::group::Installing xsuite"
-pip install --no-deps -v -e "${xsuite_prefix}/xsuite"
+pip install --no-build-isolation --no-deps -v -e "${xsuite_prefix}/xsuite"
 echo "::endgroup::"

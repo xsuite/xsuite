@@ -1,0 +1,66 @@
+# This workflow checks that source repo versions match the packages on PyPI.
+name: Check PyPI versions
+
+on:
+  schedule:
+    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+  workflow_dispatch:
+    inputs:
+      locations:
+        description: 'Branch locations (JSON array string)'
+        default: '{
+          "xobjects_location":"xsuite:main",
+          "xdeps_location":"xsuite:main",
+          "xpart_location":"xsuite:main",
+          "xtrack_location":"xsuite:main",
+          "xfields_location":"xsuite:main",
+          "xmask_location":"xsuite:main",
+          "xcoll_location":"xsuite:main",
+          "xwakes_location":"xsuite:main"
+        }'
+        required: false
+        type: string
+
+jobs:
+  check-pypi-versions:
+    if: github.repository == 'xsuite/xsuite'
+    runs-on: ubuntu-latest
+    env:
+      LOCATIONS: ${{ inputs.locations || '{"xobjects_location":"xsuite:main","xdeps_location":"xsuite:main","xpart_location":"xsuite:main","xtrack_location":"xsuite:main","xfields_location":"xsuite:main","xmask_location":"xsuite:main","xcoll_location":"xsuite:main","xwakes_location":"xsuite:main"}' }}
+
+    steps:
+      - name: Checkout xsuite
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Export branch locations
+        run: |
+          python - <<'PY'
+          import json
+          import os
+
+          locations = json.loads(os.environ["LOCATIONS"])
+          names = {
+              "xobjects_location": "xobjects_branch",
+              "xdeps_location": "xdeps_branch",
+              "xpart_location": "xpart_branch",
+              "xtrack_location": "xtrack_branch",
+              "xfields_location": "xfields_branch",
+              "xmask_location": "xmask_branch",
+              "xcoll_location": "xcoll_branch",
+              "xwakes_location": "xwakes_branch",
+          }
+
+          with open(os.environ["GITHUB_ENV"], "a") as fid:
+              for location_name, env_name in names.items():
+                  fid.write(f"{env_name}={locations[location_name]}\n")
+          PY
+
+      - name: Check PyPI versions
+        run: bash .github/scripts/check_pypi_versions.sh

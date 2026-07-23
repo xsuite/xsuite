@@ -24,6 +24,10 @@ XOBJECTS=xsuite:no_compile
 #   --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --xw $XWAKES --branch $WF_BRANCH \
 #   --forbid-compile --precompile-kernels
 
+python run_on_gh.py --suites xp,xt,xf,xc,xw --platform alma-cpu-3 --ctx cpu \
+  --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --xw $XWAKES --branch $WF_BRANCH \
+  --forbid-compile --install-from-pypi
+
 python run_on_gh.py --suites xm --platform alma-cpu-small-1 --ctx cpu,cpu:auto \
   --xo $XOBJECTS --xp $XPART --xd $XDEPS --xt $XTRACK --xf $XFIELDS --xm $XMASK --xc $XCOLL --xw $XWAKES --branch $WF_BRANCH \
   --forbid-compile --precompile-kernels
