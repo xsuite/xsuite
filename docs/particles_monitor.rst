@@ -263,6 +263,44 @@ slice centroids with unwrapped time coordinates.
    Coasting-beam horizontal centroid recorded over multiple turns with
    ``BeamStatsMonitor``.
 
+Beam profiles
+-------------
+
+The same monitor can also record weighted beam profiles. Pass a ``profiles``
+dictionary whose keys are particle coordinates and whose values define the
+profile ``range`` and ``num_bins``. The key is the coordinate to histogram; for
+example ``"x"`` records the horizontal profile and ``"delta"`` records the
+momentum-deviation profile.
+
+Profile counts are weighted in the same way as ``num_particles``. The bin
+metadata and counts are available through dictionaries keyed by coordinate:
+
+.. code-block:: python
+
+    monitor.profile_bin_edges["x"]
+    monitor.profile_bin_centers["x"]
+    monitor.profiles["x"]
+
+The profile arrays use the same leading axes as the most detailed statistics,
+with one additional trailing profile-bin axis. For example, whole-beam profile
+data have shape ``(turn, profile_bin)``, bunched slice profile data have shape
+``(turn, selected slot, slice, profile_bin)``, and coasting profile data have
+shape ``(turn, slice, profile_bin)``.
+
+The following example records scalar beam statistics together with horizontal
+and momentum profiles. A horizontal offset is applied to the bunch before
+tracking, and the recorded horizontal profile is plotted at selected turns.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_beam_profiles.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_beam_profiles.png
+   :width: 80%
+   :align: center
+
+   Horizontal beam profiles recorded at selected turns with
+   ``BeamStatsMonitor``.
+
 Emittance and optics from covariance
 ------------------------------------
 
