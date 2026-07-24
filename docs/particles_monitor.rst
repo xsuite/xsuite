@@ -236,22 +236,22 @@ Coasting-beam stats
 -------------------
 
 For a coasting beam, pass ``coasting=True`` together with ``num_slices``. The
-monitor slices the full machine turn periodically, with one pseudo-bunch per
-logged turn. In this mode no ``zeta_range``, filling scheme, selected slots, or
+monitor slices the full machine turn periodically. In this mode no
+``zeta_range``, filling scheme, selected slots, or
 ``bunch_spacing_zeta`` is needed. Particles whose ``zeta`` coordinate is
 outside one circumference are wrapped into the corresponding recorded turn.
 
-The default recorded arrays have axes ``(turn, 1, slice)``. Since the physical
+The default recorded arrays have axes ``(turn, slice)``. Since the physical
 slice coordinates depend on the machine circumference, ``monitor.zeta_centers``
-is ``None`` in coasting mode. Use
+is ``None`` in coasting mode and no bunch level is exposed. Use
 :meth:`xtrack.BeamStatsMonitor.time_centers` or
 :meth:`xtrack.BeamStatsMonitor.zeta_centers_unwrapped` with the line length to
 plot data over multiple turns.
 
 The following example uses the PIMMS lattice, creates a coasting distribution
-spanning one turn, imposes a sinusoidal horizontal offset as a function of
-``zeta``, tracks the beam for several turns, and plots the recorded slice
-centroids with unwrapped time coordinates.
+spanning one turn, imposes a tune-matched sinusoidal horizontal modulation as a
+function of ``zeta``, tracks the beam for several turns, and plots the recorded
+slice centroids with unwrapped time coordinates.
 
 .. literalinclude:: generated_code_snippets/beam_stats_monitor_coasting_beam_stats.py
    :language: python
