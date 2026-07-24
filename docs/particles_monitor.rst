@@ -327,9 +327,10 @@ Saving long simulations with frame reuse
 For simulations where a full run would be too large to keep in one monitor
 allocation, the user can save one frame, clear the in-memory arrays, and reuse
 the same monitor for the next turn interval with
-:meth:`xtrack.BeamStatsMonitor.start_new_frame`. The HDF5 file remains unaware
-of frames: each call to :meth:`xtrack.BeamStatsMonitor.save_to_file` appends the
-new records to the same flat ``/turns`` and ``/stats`` datasets.
+:meth:`xtrack.BeamStatsMonitor.start_new_frame`. This frame-reuse helper is not
+available in coasting mode. The HDF5 file remains unaware of frames: each call
+to :meth:`xtrack.BeamStatsMonitor.save_to_file` appends the new records to the
+same flat ``/turns`` and ``/stats`` datasets.
 
 The following example keeps only 20 turns in memory at a time while saving 60
 turns to the file. After the loop, the monitor contains the last frame only,
