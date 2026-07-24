@@ -202,6 +202,8 @@ snippet_files = {
         'generated_code_snippets/beam_stats_monitor_save_new_frame.py',
     'xtrack/examples/beam_stats_monitor/005_emittance_and_optics.py':
         'generated_code_snippets/beam_stats_monitor_emittance_and_optics.py',
+    'xtrack/examples/beam_stats_monitor/006_coasting_beam_stats.py':
+        'generated_code_snippets/beam_stats_monitor_coasting_beam_stats.py',
     'xtrack/examples/radiation/005_radiation_example.py':
         'generated_code_snippets/radiation.py',
     'xtrack/examples/element_internal_record/000_internal_record.py':
