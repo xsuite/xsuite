@@ -131,6 +131,9 @@ whole beam, per bunch, or per longitudinal slice. It is intended for diagnostics
 such as intensity, centroids, beam sizes, covariances, and projected
 emittances.
 
+See also: :ref:`BeamStatsMonitor API reference
+<beamstatsmonitor-api-reference>`.
+
 The quantity ``num_particles`` is the sum of ``particles.weight`` in each bin,
 not the number of macroparticles. All statistics are computed with the same
 weights.

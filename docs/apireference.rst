@@ -427,8 +427,13 @@ BeamSizeMonitor
     :members:
     :member-order: bysource
 
+.. _beamstatsmonitor-api-reference:
+
 BeamStatsMonitor
 ----------------
+
+See also: :ref:`Beam Statistics Monitor <beam-statistics-monitor>` in the
+User's guide.
 
 .. autoclass:: xtrack.BeamStatsMonitor
     :members:
