@@ -138,6 +138,24 @@ The quantity ``num_particles`` is the sum of ``particles.weight`` in each bin,
 not the number of macroparticles. All statistics are computed with the same
 weights.
 
+In this monitor, ``slot`` means a bunch position on the bunch pattern grid,
+where adjacent slots are separated in ``zeta`` by ``bunch_spacing_zeta``.
+Note that ``bunch_spacing_zeta`` is distinct from an RF bucket, which can be
+finer than the bunch spacing.
+
+The bunch pattern to be monitored can be specified using either
+``filling_scheme`` or ``filled_slots``. For example,
+``filling_scheme=[1, 0, 1, 1]`` is equivalent to
+``filled_slots=[0, 2, 3]``. The ``selected_slots`` argument can be used to
+record only a subset of the filled slots. A ``slice`` is a longitudinal
+subdivision inside a bunch, or a full-turn subdivision in coasting mode.
+
+Whole-beam statistics are available through
+``monitor.get(..., level="beam")``. They are computed from all accepted
+particles for the same effective turn. In bunched and sliced modes, this means
+summing the recorded weighted sums over the selected slots and slices; filled
+slots that are not selected do not contribute.
+
 The monitor exposes the most detailed level available from its constructor
 inputs. With no bunch or slice inputs, recorded arrays have shape:
 
