@@ -4,6 +4,7 @@ The following people contributed to the development of this package:
 CERN contributors:
  - A. Abramov
  - H. Bartosik
+ - G. Broggi
  - X. Buffat
  - R. De Maria
  - P. Hermes
