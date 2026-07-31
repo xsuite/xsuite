@@ -137,6 +137,9 @@ See also: :ref:`BeamStatsMonitor API reference
 The quantity ``num_particles`` is the sum of ``particles.weight`` in each bin,
 not the number of macroparticles. All statistics are computed with the same
 weights.
+Particle species diagnostics can be requested with ``sum_charge_ratio``,
+``mean_charge_ratio``, ``sum_mass_ratio``, and ``mean_mass_ratio``; these
+quantities use the same ``particles.weight`` weighting.
 
 In this monitor, ``slot`` means a bunch position on the bunch pattern grid,
 where adjacent slots are separated in ``zeta`` by ``bunch_spacing_zeta``.
