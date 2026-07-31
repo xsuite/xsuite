@@ -140,6 +140,9 @@ weights.
 Particle species diagnostics can be requested with ``sum_charge_ratio``,
 ``mean_charge_ratio``, ``sum_mass_ratio``, and ``mean_mass_ratio``; these
 quantities use the same ``particles.weight`` weighting.
+The optional ``particle_id_range=(start, stop)`` argument restricts recording
+to particles with ``particle_id`` in the inclusive-lower, exclusive-upper
+range ``[start, stop)``.
 
 In this monitor, ``slot`` means a bunch position on the bunch pattern grid,
 where adjacent slots are separated in ``zeta`` by ``bunch_spacing_zeta``.
