@@ -5,7 +5,8 @@
 import logging
 
 from xtrack.prebuilt_kernel_definitions import (ONLY_XTRACK_ELEMENTS,
-                                    NO_SYNRAD_ELEMENTS, NON_TRACKING_ELEMENTS)
+                                    NO_SYNRAD_ELEMENTS, NON_TRACKING_ELEMENTS,
+                                    TPSA_SUPPORTED_ELEMENTS)
 from xcoll.prebuilt_kernel_definitions import DEFAULT_XCOLL_ELEMENTS, EXTRA_XCOLL_ELEMENTS
 from xfields.prebuilt_kernel_definitions import DEFAULT_XFIELDS_ELEMENTS
 from xfields.prebuilt_kernel_definitions import NON_TRACKING_ELEMENTS as XFIELDS_NON_TRACKING_ELEMENTS
@@ -40,6 +41,12 @@ kernel_definitions = [
         'config': BASE_CONFIG,
         'classes': XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
         'extra_classes': [xt.Particles] + EXTRA_XCOLL_ELEMENTS,
+    }),
+    ('tpsa_base_config', {
+        'config': {**BASE_CONFIG, 'XTRACK_TPSA_TRACK': True},
+        'classes': TPSA_SUPPORTED_ELEMENTS,
+        'extra_classes': [],
+        'include_monitors': False,
     }),
     ('all_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
