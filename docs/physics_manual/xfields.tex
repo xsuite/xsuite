@@ -3128,7 +3128,11 @@ parameters:
 Here $N_b$ is the bunch population, $c$ the speed of light in vacuum, $\gamma$
 the Lorentz factor, $\sigma_z$ the RMS bunch length, $\sigma_\delta$ the RMS
 relative momentum spread, and $I_0$ the modified Bessel function of the first
-kind of order zero. The RMS transverse beam sizes are
+kind of order zero. In the implementation the integral is evaluated with the
+change of variable $\tau=\tan^2 k$, so that
+$d\tau=2\tan k(1+\tan^2 k)\,dk$; the corresponding factor of 2 appears in the
+numerical prefactor multiplying the $k$-integral. The RMS transverse beam sizes
+are
 \begin{equation}
     \sigma_x = \sqrt{\varepsilon_x \beta_x + D_x^2 \sigma_\delta^2},
     \qquad
@@ -3150,6 +3154,9 @@ where $\beta = v/c$. The local momentum acceptance (LMA) is the largest momentum
 deviation that a particle can sustain at a given longitudinal position without
 being lost. It is in general not symmetric, and is therefore described by a
 negative and a positive limit, $\delta_N < 0$ and $\delta_P > 0$.
+In the implementation, Eq.~\eqref{eq:touschek_piwinski_rate} is evaluated
+separately for $\delta_a = |\delta_N|$ and $\delta_a = \delta_P$, and the two
+contributions are averaged to obtain the local Piwinski rate.
 
 The auxiliary quantities $B_1$ and $B_2$ are defined as
 \begin{equation}
@@ -3302,8 +3309,12 @@ The sampled phase-space volume appearing in Eq.~\eqref{eq:touschek_mc_rate} is
 
 Each sampled pair is boosted from the laboratory frame to its centre-of-mass
 frame. The two remaining random numbers define the polar scattering angle
-$\theta^*$, drawn uniformly in $(0, \pi/2]$, and the azimuthal angle $\phi^*$,
-drawn uniformly in $[0, 2\pi]$.
+$\theta^*$, drawn uniformly in
+$[\theta_{\min}, \theta_{\max}]$, with
+$\theta_{\min}=0.00005\pi$ and $\theta_{\max}=0.99995\pi$, and the azimuthal
+angle $\phi^*$, drawn uniformly in $[0, \pi]$. The small exclusion around
+$0$ and $\pi$ avoids the forward/backward divergence of the M\o ller
+cross-section.
 
 The momenta are then rotated by $(\theta^*, \phi^*)$ in the c.m.\ frame and
 boosted back to the laboratory frame.
@@ -3356,14 +3367,23 @@ Each scattered macroparticle generated at the element, carrying the local
 contribution $r_i$ of Eq.~\eqref{eq:touschek_mc_rate}, is then assigned the
 weight
 \begin{equation}
-    w_i = \frac{r_i}{\sum_j r_j} \; \overline{R}_P ,
+    w_i = \frac{r_i}{\sum_{j\in S} r_j} \; \overline{R}_P ,
     \label{eq:touschek_weight}
 \end{equation}
-so that the ensemble of macroparticles produced at each scattering element
-reproduces the total scattering rate originating from the corresponding section
-of the machine. Summed over all sections, Eq.~\eqref{eq:touschek_integrated_rate}
-reproduces by construction the ring-averaged Piwinski rate of
-Eq.~\eqref{eq:touschek_piwinski_lifetime}.
+where $S$ is the full set of particles selected by
+Eq.~\eqref{eq:touschek_selection}. By default, only the highest-weight subset
+$S_{\mathrm{tr}}\subseteq S$ is returned for tracking: the retained particles are
+chosen such that their cumulative contribution is approximately
+$(1-p_{\mathrm{ign}})\sum_{j\in S} r_j$, where $p_{\mathrm{ign}}$ is the
+\texttt{ignored\_portion} parameter. For particles in $S_{\mathrm{tr}}$ the
+weights are still normalised with the denominator in
+Eq.~\eqref{eq:touschek_weight}, i.e.\ with the full selected set $S$ rather than
+with the retained subset. Therefore, for $p_{\mathrm{ign}}=0$ the returned
+ensemble reproduces the total scattering rate from the corresponding section,
+while for $p_{\mathrm{ign}}>0$ it reproduces the retained fraction of that rate.
+Summed over all sections, Eq.~\eqref{eq:touschek_integrated_rate} reproduces by
+construction the ring-averaged Piwinski rate of
+Eq.~\eqref{eq:touschek_piwinski_lifetime} when no particles are discarded.
 
 The full beam-loss profile is obtained by tracking the scattered macroparticles
 from the location of their scattering element and histogramming the loss
