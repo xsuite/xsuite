@@ -3374,13 +3374,13 @@ where $S$ is the full set of particles selected by
 Eq.~\eqref{eq:touschek_selection}. By default, only the highest-weight subset
 $S_{\mathrm{tr}}\subseteq S$ is returned for tracking: the retained particles are
 chosen such that their cumulative contribution is approximately
-$(1-p_{\mathrm{ign}})\sum_{j\in S} r_j$, where $p_{\mathrm{ign}}$ is the
-\texttt{ignored\_portion} parameter. For particles in $S_{\mathrm{tr}}$ the
+$f_{\mathrm{ret}}\sum_{j\in S} r_j$, where $f_{\mathrm{ret}}$ is the
+\texttt{weight\_retention\_fraction} parameter. For particles in $S_{\mathrm{tr}}$ the
 weights are still normalised with the denominator in
 Eq.~\eqref{eq:touschek_weight}, i.e.\ with the full selected set $S$ rather than
-with the retained subset. Therefore, for $p_{\mathrm{ign}}=0$ the returned
+with the retained subset. Therefore, for $f_{\mathrm{ret}}=1$ the returned
 ensemble reproduces the total scattering rate from the corresponding section,
-while for $p_{\mathrm{ign}}>0$ it reproduces the retained fraction of that rate.
+while for $f_{\mathrm{ret}}<1$ it reproduces the retained fraction of that rate.
 Summed over all sections, Eq.~\eqref{eq:touschek_integrated_rate} reproduces by
 construction the ring-averaged Piwinski rate of
 Eq.~\eqref{eq:touschek_piwinski_lifetime} when no particles are discarded.
