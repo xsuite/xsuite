@@ -3016,8 +3016,7 @@ Here \(R\) is a random number from the standard normal distribution; \(p_u\) and
 
 Touschek scattering originates from single Coulomb scattering events between two
 relativistic leptons belonging to the same bunch~\cite{PRL:Bernardini:TouschekAdA}.
-In such a collision transverse momentum can be converted into longitudinal
-momentum. If the resulting momentum deviation exceeds the momentum acceptance of
+If the resulting momentum deviation exceeds the momentum acceptance of
 the machine, or if the induced closed-orbit and betatron oscillations exceed the
 physical or dynamic aperture, the particles are lost from the beam. In modern
 low-emittance $e^{\pm}$ storage rings the Touschek effect is typically the
@@ -3061,7 +3060,7 @@ In the c.m.\ frame,
     \label{eq:touschek_rate_cm}
 \end{equation}
 where $|v^*|$ is the relative velocity of the two particles and
-$\rho(\vec{x}_i^{\,*})$ the single-particle phase-space density. The volume
+$\rho(\vec{x}_i^{\,*})$ the beam phase-space density. The volume
 element $dV^*$ spans the phase space of both particles, and $\sigma^*$ is the
 total M\o ller cross-section
 \begin{equation}
@@ -3125,14 +3124,23 @@ parameters:
     \end{aligned}
     \label{eq:touschek_piwinski_rate}
 \end{equation}
-Here $N_b$ is the bunch population, $c$ the speed of light in vacuum, $\gamma$
+Here $N_b$ is the bunch intensity, $c$ the speed of light in vacuum, $\gamma$
 the Lorentz factor, $\sigma_z$ the RMS bunch length, $\sigma_\delta$ the RMS
 relative momentum spread, and $I_0$ the modified Bessel function of the first
 kind of order zero. In the implementation the integral is evaluated with the
 change of variable $\tau=\tan^2 k$, so that
-$d\tau=2\tan k(1+\tan^2 k)\,dk$; the corresponding factor of 2 appears in the
-numerical prefactor multiplying the $k$-integral. The RMS transverse beam sizes
-are
+$d\tau=2\tan k(1+\tan^2 k)\,dk$. This maps the semi-infinite
+interval $\tau\in[\tau_m,\infty)$ to the finite interval
+$k\in[\arctan\sqrt{\tau_m},\pi/2)$, which is more convenient for numerical
+quadrature of the logarithmic, exponential, and Bessel-function terms appearing
+in the integrand. The Jacobian is included in the numerical integrand: the
+factor
+\[
+    \frac{\sqrt{\tau}}{\sqrt{1+\tau}}\,d\tau
+    =
+    2\tau\sqrt{1+\tau}\,dk
+\]
+is obtained after the substitution. The RMS transverse beam sizes are
 \begin{equation}
     \sigma_x = \sqrt{\varepsilon_x \beta_x + D_x^2 \sigma_\delta^2},
     \qquad
@@ -3285,7 +3293,7 @@ Eq.~\eqref{eq:touschek_same_point},
     \label{eq:touschek_particle2}
 \end{equation}
 
-The Gaussian phase-space density of each of the two particles is
+The Gaussian phase-space density at the particles coordinates is
 \begin{multline}
     \rho = \frac{N_b}{8\pi^3 \varepsilon_x \varepsilon_y \varepsilon_z}
     \exp\left( -\frac{z^2}{2\sigma_z^2} - \frac{\delta^2}{2\sigma_\delta^2} \right) \\
