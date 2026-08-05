@@ -14,13 +14,14 @@ The xfields Touschek workflow has three main steps:
 - compute the local momentum acceptance at those locations;
 - configure a :class:`xfields.TouschekStudy` with
   ``line.xfields.touschek_configure(...)`` and call ``run(...)`` to obtain
-  rates, lifetime, generated scattered particles, and, when tracking is enabled,
-  a weighted loss map.
+  scattering rates and lifetimes, and, when tracking is enabled, tracking-based
+  loss rates and lifetimes. Generated particle samples are retained in the
+  result only when ``keep_particles=True`` is passed to ``run(...)``.
 
 The following example builds a small electron ring, inserts Touschek scattering
 markers, computes the local momentum acceptance, configures the Touschek study
 through the ``line.xfields`` facade, tracks the generated scattered particles,
-and plots the resulting loss map.
+keeps the particle sample, and plots the resulting loss map.
 
 See also: :doc:`Physics guide <physicsguide>`,
 :class:`xfields.TouschekStudy`, and :class:`xfields.TouschekScattering`.
