@@ -13,6 +13,8 @@ Collective effects
 
 .. include:: beambeam.rst
 
+.. include:: intrabeam_scattering.rst
+
 .. include:: combined_cpu_gpu.rst
 
 .. include:: pipeline.rst
