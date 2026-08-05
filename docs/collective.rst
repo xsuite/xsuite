@@ -15,6 +15,8 @@ Collective effects
 
 .. include:: intrabeam_scattering.rst
 
+.. include:: touschek.rst
+
 .. include:: combined_cpu_gpu.rst
 
 .. include:: pipeline.rst

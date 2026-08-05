@@ -312,6 +312,8 @@ snippet_files = {
         'generated_code_snippets/ibs_steady_state_emittances_coupling.py',
     'xfields/examples/005_ibs/006_steady_state_emittances_excitation.py':
         'generated_code_snippets/ibs_steady_state_emittances_excitation.py',
+    'xfields/examples/006_touschek/000_touschek_toy_ring.py':
+        'generated_code_snippets/touschek_toy_ring.py',
     'xtrack/examples/orbit_and_tracjectory_correction/000_closed_orbit_correction_basic.py':
         'generated_code_snippets/closed_orbit_correction_basic.py',
     'xtrack/examples/orbit_and_tracjectory_correction/001_closed_orbit_correction_micado.py':

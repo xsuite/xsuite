@@ -484,6 +484,21 @@ Intra-Beam Scattering Kicks
     :members:
     :member-order: bysource
 
+Touschek Scattering
+-------------------
+
+.. autoclass:: xfields.TouschekScattering
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xfields.TouschekStudy
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xfields.TouschekResult
+    :members:
+    :member-order: bysource
+
 .. _xwakes_section:
 
 Beam elements (xwakes)
