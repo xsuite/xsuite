@@ -655,6 +655,17 @@ of the features offered by Table objects.
     :inherited-members:
     :member-order: alphabetical
 
+Line composition
+----------------
+
+.. autoclass:: xtrack.Composer
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.Place
+    :members:
+    :member-order: bysource
+
 .. _line-api-reference:
 
 xtrack.Line class
