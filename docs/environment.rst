@@ -515,8 +515,17 @@ reference anchor can be written compactly in ``from_`` or supplied separately:
 
 Here the anchor of ``q2`` is placed 2 m downstream of the end of ``q1``.
 References may point forward or backward in the component list, provided the
-dependencies do not form a cycle. Missing references and cycles are reported
-separately and include the affected component indices.
+dependencies do not form a cycle. By default, an unresolved dependency raises
+a short error. Detailed diagnostics can be requested when constructing a line:
+
+.. code-block:: python
+
+   line = env.new_line(components=components, diagnostics=True)
+
+This distinguishes missing references from cycles and includes the affected
+component indices. A composer can instead be checked explicitly with
+``composer.validate()``. In compose mode, enable the same diagnostics when
+finalizing the line with ``line.end_compose(diagnostics=True)``.
 
 Positive gaps between resolved components are filled automatically with drifts.
 Overlapping thick elements are rejected. Thin elements can share a longitudinal
