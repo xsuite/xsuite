@@ -93,7 +93,7 @@ def get_suitable_kernel(
     env_var = os.environ.get("XSUITE_PREBUILT_KERNELS")
     if env_var and env_var == '0':
         if verbose:
-            print('Skipping the search for a suitable kernel, as the '
+            _print('Skipping the search for a suitable kernel, as the '
                    'environment variable XSUITE_PREBUILT_KERNELS == "0".')
         return
 
@@ -113,7 +113,8 @@ def get_suitable_kernel(
 
     for _, _, module_name, kernel_metadata in sorted(candidates):
         if verbose:
-            print(f"==> Considering the precompiled kernel `{module_name}`...")
+            _print(
+                f"==> Considering the precompiled kernel `{module_name}`...")
 
         kernel_context = kernel_metadata.get('context', SERIAL_CONTEXT)
         if requested_context is not None and kernel_context != requested_context:
@@ -126,9 +127,10 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. Its context '
-                      f'is `{kernel_context}`, but the requested one is '
-                      f'`{requested_context}`.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. Its context '
+                    f'is `{kernel_context}`, but the requested one is '
+                    f'`{requested_context}`.')
             continue
 
         if kernel_metadata['config'] != config:
@@ -146,16 +148,18 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. Its config '
-                      f'(left) and the requested one (right) differ at the '
-                      f'following keys:\n'
-                      f'{pformat(config_diff)}')
-                print(f'Skipping class compatibility check for `{module_name}`.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. Its config '
+                    f'(left) and the requested one (right) differ at the '
+                    f'following keys:\n'
+                    f'{pformat(config_diff)}')
+                _print(
+                    f'Skipping class compatibility check for `{module_name}`.')
 
             continue
 
         if verbose:
-            print(f'The kernel `{module_name}` has the right config.')
+            _print(f'The kernel `{module_name}` has the right config.')
 
         module_tracker_element_names = kernel_metadata['tracker_element_classes']
         module_class_names = kernel_metadata['classes']
@@ -170,9 +174,10 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. It does not '
-                      f'provide the following requested classes: '
-                      f'{", ".join(class_diff)}.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. It does not '
+                    f'provide the following requested classes: '
+                    f'{", ".join(class_diff)}.')
             continue
 
         all_class_names = set(module_tracker_element_names) | set(module_class_names)
@@ -186,9 +191,10 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. It does not '
-                      f'provide the following requested classes: '
-                      f'{", ".join(class_diff)}.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. It does not '
+                    f'provide the following requested classes: '
+                    f'{", ".join(class_diff)}.')
             continue
 
         tracker_element_classes = []
@@ -198,14 +204,14 @@ def get_suitable_kernel(
                 raise ValueError(f'Class `{ccnn}` from kernel `{module_name}` is not available in the current version of xsuite.')
             tracker_element_classes.append(cc)
         if verbose:
-            print(f'Found suitable prebuilt kernel `{module_name}`.')
+            _print(f'Found suitable prebuilt kernel `{module_name}`.')
         return {
             'module_name': module_name,
             'tracker_element_classes': tracker_element_classes,
         }
 
     if verbose:
-        print('==> No suitable precompiled kernel found.')
+        _print('==> No suitable precompiled kernel found.')
 
     if not xo.context_cpu.require_prebuilt_kernel(
             context=context, classes=requested_classes):
@@ -360,7 +366,7 @@ def clear_kernels(
         file.unlink()
 
         if verbose:
-            print(f'Removed `{file}`.')
+            _print(f'Removed `{file}`.')
 
 
 def _current_package_versions():
