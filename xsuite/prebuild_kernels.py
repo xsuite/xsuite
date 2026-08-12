@@ -88,6 +88,9 @@ def get_suitable_kernel(
     the name of a suitable prebuilt kernel module together with the list of
     element classes that were used to build it. Set `verbose` to True, to
     obtain a justification of the choice (or lack thereof) on standard output.
+    When `verbose` is None, diagnostics are controlled by
+    `xobjects.settings.show_kernel_diagnostics`, or equivalently the
+    environment variable `XSUITE_SHOW_KERNEL_DIAGNOSTICS`.
     """
     if verbose is None:
         verbose = xo.settings.show_kernel_diagnostics
@@ -95,7 +98,10 @@ def get_suitable_kernel(
     if xo.settings.force_kernel_compilation:
         if verbose:
             _print('Skipping prebuilt-kernel lookup because kernel '
-                   'compilation is forced by the Xsuite settings.')
+                   'compilation is forced by '
+                   'xobjects.settings.force_kernel_compilation, or '
+                   'equivalently the environment variable '
+                   'XSUITE_FORCE_KERNEL_COMPILATION.')
         return
 
     requested_tracker_class_names = [
