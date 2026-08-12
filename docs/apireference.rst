@@ -6,6 +6,16 @@ Reference guide
     :depth: 3
 
 
+Settings (``xt.settings``)
+==========================
+
+The ``xt.settings`` object controls process-wide Xsuite behavior, with an
+equivalent environment variable available for each setting.
+
+.. autodata:: xtrack.settings
+    :no-value:
+
+
 Beam elements (xtrack)
 ======================
 
