@@ -43,13 +43,13 @@ on:
         required: false
         type: boolean
         default: false
-      allow_no_prebuilt_kernels:
-        description: set XSUITE_ALLOW_NO_PREBUILT_KERNELS to allow running without prebuilt kernels?
+      allow_kernel_compilation:
+        description: set XSUITE_ALLOW_KERNEL_COMPILATION during tests?
         required: false
         type: boolean
         default: false
       forbid_compile:
-        description: set XOBJECTS_FORBID_COMPILE to forbid compilation during tests?
+        description: set XSUITE_CFFI_FORBID_COMPILE to forbid compilation during tests?
         required: false
         type: boolean
         default: false
@@ -150,10 +150,10 @@ jobs:
         mkdir -p reports/${{ matrix.test-suite }}
         exec podman run --rm \
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
-          --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
+          --env XSUITE_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
-          ${{ inputs.allow_no_prebuilt_kernels && '--env XSUITE_ALLOW_NO_PREBUILT_KERNELS=1' || '' }} \
-          ${{ inputs.forbid_compile && '--env XOBJECTS_FORBID_COMPILE=1' || '' }} \
+          ${{ inputs.allow_kernel_compilation && '--env XSUITE_ALLOW_KERNEL_COMPILATION=1' || '' }} \
+          ${{ inputs.forbid_compile && '--env XSUITE_CFFI_FORBID_COMPILE=1' || '' }} \
           -v $PWD/reports/${{ matrix.test-suite }}:/opt/reports:Z \
           ${{ needs.build-test-image.outputs.image_id }} \
           /opt/run_tests.sh /opt/xsuite/${{ matrix.test-suite }}/tests
@@ -163,10 +163,10 @@ jobs:
       run: |
         exec podman run --rm \
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
-          --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
+          --env XSUITE_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
-          ${{ inputs.allow_no_prebuilt_kernels && '--env XSUITE_ALLOW_NO_PREBUILT_KERNELS=1' || '' }} \
-          ${{ inputs.forbid_compile && '--env XOBJECTS_FORBID_COMPILE=1' || '' }} \
+          ${{ inputs.allow_kernel_compilation && '--env XSUITE_ALLOW_KERNEL_COMPILATION=1' || '' }} \
+          ${{ inputs.forbid_compile && '--env XSUITE_CFFI_FORBID_COMPILE=1' || '' }} \
           ${{ needs.build-test-image.outputs.image_id }} \
           mpiexec \
             --allow-run-as-root \

@@ -104,12 +104,12 @@ def gh_bool(value):
 @click.option(
     '--forbid-compile',
     is_flag=True,
-    help='Set XOBJECTS_FORBID_COMPILE during tests.',
+    help='Set XSUITE_CFFI_FORBID_COMPILE during tests.',
 )
 @click.option(
-    '--allow-no-prebuilt-kernels',
+    '--allow-kernel-compilation',
     is_flag=True,
-    help='Set XSUITE_ALLOW_NO_PREBUILT_KERNELS during tests.',
+    help='Set XSUITE_ALLOW_KERNEL_COMPILATION during tests.',
 )
 @click.option(
     '--install-from-pypi',
@@ -126,7 +126,7 @@ def gh_bool(value):
 def run(
     xo, xd, xp, xt, xf, xm, xc, xw, platform, ctx, suites, wf, branch,
     pytest_opts, with_mpi, precompile_kernels, forbid_compile,
-    allow_no_prebuilt_kernels, install_from_pypi, timeout_minutes,
+    allow_kernel_compilation, install_from_pypi, timeout_minutes,
 ):
     """Schedule a test run of Xsuite on a self-hosted runner.
 
@@ -165,7 +165,7 @@ def run(
         'suites': json.dumps(fmt_suites),
         'precompile_kernels': gh_bool(precompile_kernels),
         'forbid_compile': gh_bool(forbid_compile),
-        'allow_no_prebuilt_kernels': gh_bool(allow_no_prebuilt_kernels),
+        'allow_kernel_compilation': gh_bool(allow_kernel_compilation),
     }
     if with_mpi:
         parameters['with_mpi'] = gh_bool(with_mpi)

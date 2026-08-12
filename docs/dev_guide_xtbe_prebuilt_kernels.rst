@@ -112,6 +112,6 @@ After changing definitions, regenerate the prebuilt kernels locally:
 The ``--kind`` option limits kernel regeneration to the requested context kind.
 If omitted, ``xsuite-prebuild regenerate`` builds only ``serial`` kernels.
 
-Set ``XSUITE_VERBOSE`` when checking runtime selection. With this environment
-variable set, Xsuite prints which prebuilt kernels it considers and why each
-candidate is accepted or rejected.
+Set ``XSUITE_SHOW_KERNEL_DIAGNOSTICS=1`` when checking runtime selection. With
+this environment variable set, Xsuite prints which prebuilt kernels it
+considers and why each candidate is accepted or rejected.

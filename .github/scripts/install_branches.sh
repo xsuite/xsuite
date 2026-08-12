@@ -17,7 +17,7 @@ source "${script_dir}/ci_common.sh"
 
 # Expect Xsuite already cloned by the main workflow
 if [ "${precompile_kernels:-false}" == "false" ]; then
-  export SKIP_KERNEL_BUILD=1
+  export XSUITE_SKIP_KERNEL_BUILD=1
 fi
 
 if [ "${install_mpi:-false}" == "true" ]; then

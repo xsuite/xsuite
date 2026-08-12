@@ -12,11 +12,11 @@ jobs:
   run-tests-cron-gh:
     uses: ./.github/workflows/test_gh.yaml
     with:
-      xobjects_test_contexts: "ContextCpu"
-      allow_no_prebuilt_kernels: true
+      test_contexts: "ContextCpu"
+      allow_kernel_compilation: true
   run-tests-cron-gh-precompiled:
     uses: ./.github/workflows/test_gh.yaml
     with:
       precompile_kernels: true
-      xobjects_test_contexts: "ContextCpu"
-      allow_no_prebuilt_kernels: true
+      test_contexts: "ContextCpu"
+      allow_kernel_compilation: true
