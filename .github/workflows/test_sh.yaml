@@ -150,7 +150,7 @@ jobs:
         mkdir -p reports/${{ matrix.test-suite }}
         exec podman run --rm \
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
-          --env XSUITE_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
+          --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
           ${{ inputs.allow_kernel_compilation && '--env XSUITE_ALLOW_KERNEL_COMPILATION=1' || '' }} \
           ${{ inputs.forbid_compile && '--env XSUITE_CFFI_FORBID_COMPILE=1' || '' }} \
@@ -163,7 +163,7 @@ jobs:
       run: |
         exec podman run --rm \
           ${{ env.with_gpu == 'true' && '--device nvidia.com/gpu=all' || '' }} \
-          --env XSUITE_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
+          --env XOBJECTS_TEST_CONTEXTS="${{ inputs.test_contexts }}" \
           --env PYTEST_ADDOPTS="${{ inputs.pytest_options }}" \
           ${{ inputs.allow_kernel_compilation && '--env XSUITE_ALLOW_KERNEL_COMPILATION=1' || '' }} \
           ${{ inputs.forbid_compile && '--env XSUITE_CFFI_FORBID_COMPILE=1' || '' }} \

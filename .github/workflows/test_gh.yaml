@@ -109,7 +109,7 @@ jobs:
       run: conda list
     - name: Run tests (${{ matrix.test-suite }})
       env:
-        XSUITE_TEST_CONTEXTS: ${{ inputs.test_contexts }}
+        XOBJECTS_TEST_CONTEXTS: ${{ inputs.test_contexts }}
         XSUITE_ALLOW_KERNEL_COMPILATION: ${{ inputs.allow_kernel_compilation && '1' || '0' }}
         XSUITE_CFFI_FORBID_COMPILE: ${{ inputs.forbid_compile && '1' || '0' }}
       run: |
