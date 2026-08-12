@@ -3,11 +3,11 @@ requires = [
     'setuptools>=77',
     'setuptools-scm[toml]>=8',
     "xtrack==0.111.0",
-    "xfields==0.27.0",
+    "xfields==0.27.1",
     "xcoll==0.12.1",
-    "xobjects==0.6.8",
-    "xdeps==0.10.19",
-    "xpart==0.23.17",
+    "xobjects==0.6.9",
+    "xdeps==0.10.20",
+    "xpart==0.23.18",
     "numpy",
 ]
 build-backend = 'setuptools.build_meta'
@@ -27,11 +27,11 @@ license = "Apache-2.0"
 license-files = ["LICENSE"]
 dependencies = [
     "xtrack==0.111.0",
-    "xfields==0.27.0",
+    "xfields==0.27.1",
     "xcoll==0.12.1",
-    "xobjects==0.6.8",
-    "xdeps==0.10.19",
-    "xpart==0.23.17",
+    "xobjects==0.6.9",
+    "xdeps==0.10.20",
+    "xpart==0.23.18",
 ]
 dynamic = ["version"]
 
