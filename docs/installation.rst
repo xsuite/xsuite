@@ -48,6 +48,17 @@ machine. To install WSL, follow the `steps outlined by Microsoft <https://learn.
 PowerShell or CMD prompt and follow the instructions).
 
 
+Update xsuite
+=============
+
+We recommend keeping your Xsuite installation up to date. You can update it
+using pip:
+
+.. code-block:: bash
+
+    pip install --upgrade xsuite
+
+
 Developer installation
 ======================
 
