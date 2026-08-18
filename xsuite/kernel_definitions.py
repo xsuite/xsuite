@@ -46,7 +46,7 @@ kernel_definitions = [
         'config': {**BASE_CONFIG, 'XTRACK_TPSA_TRACK': True},
         'classes': TPSA_SUPPORTED_ELEMENTS,
         'extra_classes': [],
-        'include_monitors': False,
+        'include_monitors': True,
     }),
     ('all_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
