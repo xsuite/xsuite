@@ -164,11 +164,14 @@ the position and canonical-momentum signals are
        \cos\!\left(\Phi_j+\chi_{p_qj}\right),
  \label{eq:mr-momentum}
 \end{align}
-where $\chi_{p_qj}=\arg(W_{p_q,2j-1}+\ii W_{p_q,2j})$.  Therefore the spectral amplitudes are
+where $\chi_{p_qj}=\arg(W_{p_q,2j-1}+\ii W_{p_q,2j})$.  To avoid confusion
+with the ET normalizing matrices $A_q$, let $\mathcal A_u(Q_j)$ denote the
+amplitude of the Fourier line at tune $Q_j$ in a signal $u(N)$.  The position
+and canonical-momentum line amplitudes are therefore
 \begin{equation}
- A_{qj}=\sqrt{2J_j\beta_{qj}},
+ \mathcal A_q(Q_j)=\sqrt{2J_j\beta_{qj}},
  \qquad
- A_{p_qj}=\sqrt{2J_j\gamma_{qj}}.
+ \mathcal A_{p_q}(Q_j)=\sqrt{2J_j\gamma_{qj}}.
  \label{eq:mr-line-amplitudes}
 \end{equation}
 
@@ -424,9 +427,6 @@ phase-gauged blocks obey
  }
  \label{eq:w-blocks-normalized}
 \end{equation}
-Thus $\mathcal C$ is obtained directly by applying the ET normalization to a
-cross-plane block of $W$.
-
 For later use, define
 \begin{equation}
  u\equiv\det\mathcal C
@@ -439,7 +439,9 @@ $\rho^2=\cos^2\phi$, where $\phi$ is the Teng rotation angle.
 
 \subsection{Relation between Edwards--Teng and Mais--Ripken functions}
 
-Taking the quadratic projections of \cref{eq:w-factorization} gives
+Using the definition $\Sigma_{qj}=W_{qj}W_{qj}^T$ from
+\cref{eq:mr-sigma} and substituting the four blocks of $W$ from
+\cref{eq:w-factorization} gives
 \begin{align}
  \Sigma_{x1}&=\rho^2 A_xA_x^T,
  &\Sigma_{x2}&=A_x\mathcal C\mathcal C^TA_x^T,
@@ -702,33 +704,33 @@ The four basic combinations are summarized in \cref{tab:rdt-combinations}.
 \centering
 \caption{RDT combinations controlling the cross-plane mode projection.}
 \label{tab:rdt-combinations}
-\begin{tabular}{@{}lll@{}}
+\begin{tabular}{@{}ll@{}}
 \toprule
-Observable & Cross-mode complex coefficient & Half lattice-amplitude ratio\\
+Observable & Cross-mode complex coefficient\\
 \midrule
-$x$ from mode 2 & $f-g^{*}$ & $|f-g^{*}|$\\
-$\widetilde p_x$ from mode 2 & $f+g^{*}$ & $|f+g^{*}|$\\
-$y$ from mode 1 & $(f-g)^{*}$ & $|f-g|$\\
-$\widetilde p_y$ from mode 1 & $(f+g)^{*}$ & $|f+g|$\\
+$x$ from mode 2 & $f-g^{*}$\\
+$\widetilde p_x$ from mode 2 & $f+g^{*}$\\
+$y$ from mode 1 & $(f-g)^{*}$\\
+$\widetilde p_y$ from mode 1 & $(f+g)^{*}$\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 For a particle carrying both mode actions, the measured position-line ratios are therefore
 \begin{align}
- \frac{A_x(Q_2)}{A_x(Q_1)}
+ \frac{\mathcal A_x(Q_2)}{\mathcal A_x(Q_1)}
  &=2\sqrt{\frac{I_y}{I_x}}\,|f-g^{*}|,
  \label{eq:measured-x-rdt-ratio}\\
- \frac{A_y(Q_1)}{A_y(Q_2)}
+ \frac{\mathcal A_y(Q_1)}{\mathcal A_y(Q_2)}
  &=2\sqrt{\frac{I_x}{I_y}}\,|f-g|.
  \label{eq:measured-y-rdt-ratio}
 \end{align}
 The corresponding normalized-momentum ratios are
 \begin{align}
- \frac{A_{\widetilde p_x}(Q_2)}{A_{\widetilde p_x}(Q_1)}
+ \frac{\mathcal A_{\widetilde p_x}(Q_2)}{\mathcal A_{\widetilde p_x}(Q_1)}
  &=2\sqrt{\frac{I_y}{I_x}}\,|f+g^{*}|,
  \label{eq:measured-px-rdt-ratio}\\
- \frac{A_{\widetilde p_y}(Q_1)}{A_{\widetilde p_y}(Q_2)}
+ \frac{\mathcal A_{\widetilde p_y}(Q_1)}{\mathcal A_{\widetilde p_y}(Q_2)}
  &=2\sqrt{\frac{I_x}{I_y}}\,|f+g|.
  \label{eq:measured-py-rdt-ratio}
 \end{align}
@@ -737,10 +739,10 @@ The corresponding normalized-momentum ratios are
 
 From \cref{eq:mr-line-amplitudes},
 \begin{align}
- \frac{A_x(Q_2)}{A_x(Q_1)}
+ \frac{\mathcal A_x(Q_2)}{\mathcal A_x(Q_1)}
  &=\sqrt{\frac{J_2}{J_1}}
    \sqrt{\frac{\beta_{x2}}{\beta_{x1}}},\\
- \frac{A_y(Q_1)}{A_y(Q_2)}
+ \frac{\mathcal A_y(Q_1)}{\mathcal A_y(Q_2)}
  &=\sqrt{\frac{J_1}{J_2}}
    \sqrt{\frac{\beta_{y1}}{\beta_{y2}}}.
 \end{align}
@@ -809,10 +811,10 @@ Consequently, even a relatively small $f_{1010}$ produces a first-order modulati
 
 The MR functions give directly
 \begin{align}
- \frac{A_{p_x}(Q_2)}{A_{p_x}(Q_1)}
+ \frac{\mathcal A_{p_x}(Q_2)}{\mathcal A_{p_x}(Q_1)}
  &=\sqrt{\frac{J_2}{J_1}}
    \sqrt{\frac{\gamma_{x2}}{\gamma_{x1}}},\\
- \frac{A_{p_y}(Q_1)}{A_{p_y}(Q_2)}
+ \frac{\mathcal A_{p_y}(Q_1)}{\mathcal A_{p_y}(Q_2)}
  &=\sqrt{\frac{J_1}{J_2}}
    \sqrt{\frac{\gamma_{y1}}{\gamma_{y2}}}.
 \end{align}
@@ -903,50 +905,78 @@ Combining \cref{eq:sigmax-factorization,eq:sigmay-factorization} with
 immediately yields the exact amplitude identities in
 \cref{eq:rx-main,eq:ry-main,eq:rpx-rdt,eq:rpy-rdt}.
 
-\subsection{Recovery of complex RDTs from MR functions}
-\label{sec:recover-rdts}
+\subsection{Direct extraction of the coupling RDTs from the normal-form matrix}
+\label{sec:direct-rdts-from-w}
 
-The complete scalar MR set contains the phase-sensitive quadratic information
-needed to reconstruct $f$ and $g$ generically.  First obtain $\rho$ from
-\cref{eq:rho-from-mr} and the ET modal Twiss parameters from
-\cref{eq:et-from-main-mr}.  Then construct
+The matrix-equivalent RDTs can be obtained directly from $W$ without first
+reconstructing all four real entries of $\mathcal C$.  Assume the coordinate
+order $(x,p_x,y,p_y)$ and that columns 3 and 4 of $W$ belong to the
+vertical-like mode 2.
+
+First form the complex mode-2 eigenvector
 \begin{equation}
- X=A_x^{-1}\Sigma_{x2}(A_x^{-1})^T=\mathcal C\mathcal C^T,
+ \mat v_2^{(0)}=W_{:,3}+\ii W_{:,4}.
+\end{equation}
+Fix its phase by requiring its physical $y$ component to be real and positive:
+\begin{equation}
+ \mat v_2
+ =\mat v_2^{(0)}
+  \exp\!\left[-\ii\arg\!\left(v_{2,y}^{(0)}\right)\right],
+ \qquad v_{2,y}>0.
+ \label{eq:v2-et-phase-gauge}
+\end{equation}
+This selects the mode-2 part of the ET phase gauge discussed in
+\cref{eq:D-phase-rotations}.  The mode-1 phase does not enter the following
+calculation because its MR functions are phase invariant.
+
+Next obtain $\rho$ from the principal horizontal MR functions and recover the
+horizontal ET Twiss parameters:
+\begin{align}
+ \rho^2
+ &=\sqrt{\beta_{x1}\gamma_{x1}-\alpha_{x1}^2},
+ &\rho&=\sqrt{\rho^2},
+ \label{eq:direct-rho-from-w}\\
+ \beta_x&=\frac{\beta_{x1}}{\rho^2},
+ &\alpha_x&=\frac{\alpha_{x1}}{\rho^2}.
+ \label{eq:direct-et-twiss-from-w}
+\end{align}
+The quantities $\beta_{x1}$, $\alpha_{x1}$, and $\gamma_{x1}$ are obtained
+from the first two columns of $W$ through
+\cref{eq:mr-functions-from-w}.
+
+Apply the inverse horizontal ET normalizer to the horizontal components of
+$\mat v_2$:
+\begin{equation}
+ \begin{pmatrix}u_x\\u_{p_x}\end{pmatrix}
+ =A_x^{-1}
+ \begin{pmatrix}v_{2,x}\\v_{2,p_x}\end{pmatrix}
+ =\begin{pmatrix}
+  v_{2,x}/\sqrt{\beta_x}\\[0.3em]
+  (\alpha_xv_{2,x}+\beta_xv_{2,p_x})/\sqrt{\beta_x}
+ \end{pmatrix}.
+ \label{eq:direct-normalized-v2}
+\end{equation}
+By \cref{eq:w-blocks-normalized}, $A_x^{-1}W_{x2}=\mathcal C$, so these two
+complex numbers are
+\begin{equation}
+ u_x=c_{11}+\ii c_{12},
  \qquad
- Y=A_y^{-1}\Sigma_{y1}(A_y^{-1})^T
- =\mathcal C^{\sharp}(\mathcal C^{\sharp})^T.
- \label{eq:XY-def}
+ u_{p_x}=c_{21}+\ii c_{22}.
+ \label{eq:direct-c-rows}
 \end{equation}
-Then
+Substitution into \cref{eq:f1001-from-c,eq:f1010-from-c} finally gives
 \begin{align}
- |f|^2&=
- \frac{\Tr X+2(1-\rho^2)}{16\rho^2},
- \label{eq:fmod-from-mr}\\
- |g|^2&=
- \frac{\Tr X-2(1-\rho^2)}{16\rho^2},
- \label{eq:gmod-from-mr}\\
- fg&=
- \frac{X_{22}-X_{11}+2\ii X_{12}}{16\rho^2},
- \label{eq:fg-from-mr}\\
- fg^{*}&=
- \frac{Y_{22}-Y_{11}-2\ii Y_{12}}{16\rho^2}.
- \label{eq:fgstar-from-mr}
+ \boxed{
+ f_{1001}=\frac{u_{p_x}+\ii u_x}{4\rho}
+ }
+ \label{eq:direct-f1001-from-w}\\
+ \boxed{
+ f_{1010}=\frac{(u_{p_x}-\ii u_x)^{*}}{4\rho}.
+ }
+ \label{eq:direct-f1010-from-w}
 \end{align}
-If
-\begin{equation}
- P=fg,
- \qquad Q=fg^{*},
-\end{equation}
-then, whenever both RDTs are nonzero,
-\begin{align}
- \arg f&=\frac12\left(\arg P+\arg Q\right)\pmod{\pi},\\
- \arg g&=\frac12\left(\arg P-\arg Q\right)\pmod{\pi}.
-\end{align}
-The scalar MR functions therefore determine $(f,g)$ up to the common transformation
-\begin{equation}
- (f,g)\longrightarrow(-f,-g),
-\end{equation}
-which leaves all quadratic observables invariant.  The full phase-gauged $W$ matrix, continuity along $s$, or a known source sign fixes this branch.  When $g\to0$, both phase-bearing products $P$ and $Q$ vanish; reconstruction of $\arg f$ from scalar MR functions becomes singular even though $|f|$ remains well determined.
+This is the direct route used by an implementation based on the complex
+mode-2 eigenvector of $W$.
 
 \subsection{Perturbative and matrix-equivalent RDTs}
 
