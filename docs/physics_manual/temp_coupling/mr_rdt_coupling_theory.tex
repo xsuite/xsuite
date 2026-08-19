@@ -19,7 +19,6 @@
 \newcommand{\Imm}{\operatorname{Im}}
 \newcommand{\diag}{\operatorname{diag}}
 \newcommand{\mat}[1]{\bm{#1}}
-\newcommand{\sharpconj}[1]{#1^{\sharp}}
 \newcommand{\fminus}{f_{1001}}
 \newcommand{\fplus}{f_{1010}}
 
@@ -54,11 +53,12 @@ with symplectic matrix
  \qquad
  \mat J=\begin{pmatrix}0&1\\-1&0\end{pmatrix}.
 \end{equation}
-The one-turn map is assumed stable and symplectic.  Mode 1 is labeled horizontal-like and mode 2 vertical-like.  A superscript $*$ denotes complex conjugation.  For a real $2\times2$ matrix $A$, the symbol
+The one-turn map is assumed stable and symplectic.  Mode 1 is labeled horizontal-like and mode 2 vertical-like.  A superscript $*$ denotes complex conjugation.  Following the notation of the Xsuite physics manual, for a real $2\times2$ matrix $A$ we write
 \begin{equation}
- A^{\sharp}\equiv-\mat J A^T\mat J
+ \bar A\equiv-\mat J A^T\mat J
 \end{equation}
-denotes its symplectic conjugate; it must not be confused with complex conjugation.
+for its symplectic conjugate; the overbar must not be confused with complex
+conjugation.
 
 The exact matrix relations below apply to a purely transverse $4\times4$ symplectic problem.  Longitudinal coupling, radiation damping, non-symplectic maps, and the distinction between canonical momentum and geometric slope require additional terms.  The complex-variable and RDT signs follow the Xsuite physics-manual convention~\cite{XsuiteManual}.
 
@@ -67,14 +67,15 @@ The exact matrix relations below apply to a purely transverse $4\times4$ symplec
 
 \subsection{Linear normal form and the $W$ matrix}
 
-At observation point $s$, let $M(s)$ be the one-turn map.  Its real linear normal form is written as
+At observation point $s$, let $R(s)$ be the one-turn map.  Its real linear normal form is written as
 \begin{equation}
- M(s)=W(s)\,R(\mu_1,\mu_2)\,W^{-1}(s),
+ R(s)=W(s)\,R_{\mathrm{rot}}(\mu_1,\mu_2)\,W^{-1}(s),
  \label{eq:normal-form}
 \end{equation}
 where
 \begin{equation}
- R(\mu_1,\mu_2)=\diag\!\left(R_2(\mu_1),R_2(\mu_2)\right),
+ R_{\mathrm{rot}}(\mu_1,\mu_2)
+ =\diag\!\left(R_2(\mu_1),R_2(\mu_2)\right),
  \qquad
  R_2(\mu)=
  \begin{pmatrix}
@@ -181,48 +182,266 @@ and canonical-momentum line amplitudes are therefore
 \subsection{Decoupled modal maps}
 
 The Edwards--Teng construction decouples the physical four-dimensional map
-into two stable two-dimensional modal maps.  We denote the horizontal-like
-modal map by $M_x$ (mode 1) and the vertical-like modal map by $M_y$ (mode 2).
+into two stable two-dimensional modal maps.  As in the Xsuite physics manual,
+partition the one-turn map as
+\begin{equation}
+ R=\begin{pmatrix}A&B\\C&D\end{pmatrix},
+\end{equation}
+and denote the horizontal-like and vertical-like decoupled maps by $E$ and
+$F$, respectively.  The purpose of the Edwards--Teng transformation is to
+find a symplectic matrix $T_{\mathrm{ET}}$ such that
+\begin{equation}
+ T_{\mathrm{ET}}^{-1}RT_{\mathrm{ET}}
+ =\begin{pmatrix}E&0\\0&F\end{pmatrix},
+ \label{eq:et-decoupled-map}
+\end{equation}
+or, equivalently,
+\begin{equation}
+ R=T_{\mathrm{ET}}
+ \begin{pmatrix}E&0\\0&F\end{pmatrix}
+ T_{\mathrm{ET}}^{-1}.
+ \label{eq:et-map-reconstruction}
+\end{equation}
+Thus $E$ and $F$ are the diagonal blocks of the transformed, decoupled map;
+in a coupled lattice they are not the physical diagonal blocks $A$ and $D$ of
+$R$.
+
 Here and below,
 \begin{equation}
  I_2=\begin{pmatrix}1&0\\0&1\end{pmatrix}
 \end{equation}
 denotes the $2\times2$ identity matrix.  In the Edwards--Teng convention used
-here~\cite{EdwardsTeng}, the decoupling matrix is
+here~\cite{EdwardsTeng}, the decoupling matrix is parametrized as
 \begin{equation}
  T_{\mathrm{ET}}
- =\rho
+ =g
  \begin{pmatrix}
-  I_2&R_{\mathrm{ET}}^{\sharp}\\
+  I_2&\bar R_{\mathrm{ET}}\\
   -R_{\mathrm{ET}}&I_2
  \end{pmatrix},
  \qquad
- \rho=\frac{1}{\sqrt{1+\det R_{\mathrm{ET}}}}>0.
+ g=\frac{1}{\sqrt{1+\det R_{\mathrm{ET}}}}>0.
  \label{eq:tet}
 \end{equation}
-Let $T_{\mathrm{ET}}$ map modal coordinates $\mat z_{\mathrm{ET}}$ to physical
-coordinates $\mat z$:
+We now derive $R_{\mathrm{ET}}$ from the physical map.  Extend the symplectic
+conjugate to the full four-dimensional map.  Since $R$ is symplectic,
+\begin{equation}
+ \overline R\equiv-\mat S R^T\mat S=R^{-1}.
+\end{equation}
+For any real $2\times2$ matrix $Z$,
+\begin{equation}
+ Z+\bar Z=(\Tr Z)I_2,
+ \qquad
+ \bar Z Z=Z\bar Z=(\det Z)I_2.
+ \label{eq:two-by-two-conjugate-identities}
+\end{equation}
+The reason for considering $R+\overline R$ is that it exposes the ET modal
+planes.  Indeed, using \cref{eq:et-map-reconstruction} and
+$\overline R=R^{-1}$ gives
+\begin{equation}
+ R+\overline R
+ =T_{\mathrm{ET}}
+  \begin{pmatrix}
+   E+E^{-1}&0\\0&F+F^{-1}
+  \end{pmatrix}
+  T_{\mathrm{ET}}^{-1}.
+ \label{eq:R-plus-Rbar-et-basis}
+\end{equation}
+Because $E$ and $F$ are $2\times2$ symplectic matrices,
+\cref{eq:two-by-two-conjugate-identities} implies
+\begin{equation}
+ E+E^{-1}=(\Tr E)I_2,
+ \qquad
+ F+F^{-1}=(\Tr F)I_2.
+ \label{eq:modal-map-plus-inverse}
+\end{equation}
+Consequently, provided $\Tr E\ne\Tr F$, the two eigenspaces of
+$R+\overline R$ are precisely the two ET modal planes.  The first block
+column of \cref{eq:tet} shows that every vector in the horizontal-like plane
+has the form
+\begin{equation}
+ T_{\mathrm{ET}}
+ \begin{pmatrix}\mat x\\0\end{pmatrix}
+ =g\begin{pmatrix}\mat x\\-R_{\mathrm{ET}}\mat x\end{pmatrix}.
+ \label{eq:first-et-plane-from-tet}
+\end{equation}
+Thus, if an eigenvector of $R+\overline R$ in this plane is written as
+$(\mat x,\mat y)^T$, its two blocks satisfy
+\begin{equation}
+ \mat y=-R_{\mathrm{ET}}\mat x.
+ \label{eq:ret-as-modal-plane-slope}
+\end{equation}
+We can therefore obtain $R_{\mathrm{ET}}$ by calculating the same eigenspace
+directly from the physical blocks of $R$ and comparing its $\mat y$ and
+$\mat x$ components.
+
+Therefore, on defining
+\begin{equation}
+ a\equiv\Tr A,
+ \qquad d\equiv\Tr D,
+ \qquad X\equiv C+\bar B,
+ \label{eq:et-a-d-X}
+\end{equation}
+one obtains
+\begin{equation}
+ R+\overline R
+ =\begin{pmatrix}
+   A+\bar A&B+\bar C\\
+   C+\bar B&D+\bar D
+  \end{pmatrix}
+ =\begin{pmatrix}
+   aI_2&\bar X\\X&dI_2
+  \end{pmatrix}.
+ \label{eq:R-plus-Rbar}
+\end{equation}
+
+Let $\Lambda$ be an eigenvalue of $R+\overline R$ and write a corresponding
+two-block eigenvector as $(\mat x,\mat y)^T$.  Equation~\eqref{eq:R-plus-Rbar}
+gives
+\begin{align}
+ (a-\Lambda)\mat x+\bar X\mat y&=0,
+ \label{eq:et-eigenvector-upper}\\
+ X\mat x+(d-\Lambda)\mat y&=0.
+ \label{eq:et-eigenvector-lower}
+\end{align}
+For $\Lambda\ne d$, the second equation gives
+\begin{equation}
+ \mat y=\frac{X}{\Lambda-d}\mat x.
+ \label{eq:y-from-x-et}
+\end{equation}
+Substitution into the first equation, together with
+$\bar X X=(\det X)I_2$, yields the scalar characteristic equation
+\begin{equation}
+ (a-\Lambda)(d-\Lambda)-\det X=0.
+ \label{eq:et-lambda-characteristic}
+\end{equation}
+Expanding the product makes this an ordinary quadratic equation in
+$\Lambda$:
+\begin{equation}
+ \Lambda^2-(a+d)\Lambda+ad-\det X=0.
+ \label{eq:et-lambda-quadratic}
+\end{equation}
+The quadratic formula therefore gives
+\begin{align}
+ \Lambda_{\pm}
+ &=\frac{a+d\mathbin{\pm}
+  \sqrt{(a+d)^2-4(ad-\det X)}}{2} \notag\\
+ &=\frac{a+d}{2}\mathbin{\pm}\sqrt{\Delta},
+ \qquad
+ \Delta\equiv\frac14(a-d)^2+\det X,
+ \label{eq:et-delta}
+\end{align}
+where the second line follows because
+\begin{equation}
+ (a+d)^2-4(ad-\det X)
+ =(a-d)^2+4\det X
+ =4\Delta.
+ \label{eq:et-discriminant}
+\end{equation}
+
+The horizontal-like root must approach $a=\Tr A$ when the coupling block
+$X$ tends to zero.  In that limit $\det X\to0$ and hence
+\begin{equation}
+ \sqrt{\Delta}\longrightarrow\frac{|a-d|}{2}.
+ \label{eq:et-uncoupled-discriminant}
+\end{equation}
+Consequently, the sign that selects the horizontal-like root depends on
+the ordering of $a$ and $d$:
+\begin{equation}
+ \begin{aligned}
+  a>d:&\qquad \Lambda_+\longrightarrow a,
+                    &\Lambda_-\longrightarrow d,\\
+  a<d:&\qquad \Lambda_-\longrightarrow a,
+                    &\Lambda_+\longrightarrow d.
+ \end{aligned}
+ \label{eq:et-uncoupled-root-selection}
+\end{equation}
+Both cases are encoded by $\operatorname{sign}(a-d)$.  Thus, for $a\ne d$,
+\begin{equation}
+ \begin{aligned}
+  \Lambda_1
+  &=\frac{a+d}{2}
+    +\operatorname{sign}(a-d)\sqrt{\Delta},
+  &\Lambda_1-d
+  &=\frac{a-d}{2}
+    +\operatorname{sign}(a-d)\sqrt{\Delta},\\
+  \Lambda_2
+  &=\frac{a+d}{2}
+    -\operatorname{sign}(a-d)\sqrt{\Delta},
+  &\Lambda_2-a
+  &=\frac{d-a}{2}
+    -\operatorname{sign}(a-d)\sqrt{\Delta}.
+ \end{aligned}
+ \label{eq:horizontal-et-root}
+\end{equation}
+The first modal subspace in $T_{\mathrm{ET}}$ consists of vectors
+$(\mat x,-R_{\mathrm{ET}}\mat x)^T$.  Comparing this with
+\cref{eq:y-from-x-et} for $\Lambda=\Lambda_1$ therefore gives
+\begin{equation}
+ \boxed{
+ R_{\mathrm{ET}}
+ =-\left[
+  \frac12\left(\Tr A-\Tr D\right)
+  +\operatorname{sign}\!\left(\Tr A-\Tr D\right)\sqrt{\Delta}
+ \right]^{-1}
+ \left(C+\bar B\right).
+ }
+ \label{eq:ret-from-map-blocks}
+\end{equation}
+
+This eigenvector construction also proves the block diagonalization.  Indeed,
+$R$ commutes with $R+R^{-1}$, so each nondegenerate eigenspace of
+$R+R^{-1}$ is invariant under $R$.  Writing $K=R_{\mathrm{ET}}$, invariance
+of the first subspace gives
+\begin{equation}
+ R\begin{pmatrix}I_2\\-K\end{pmatrix}
+ =\begin{pmatrix}I_2\\-K\end{pmatrix}E,
+ \qquad
+ E=A-BK,
+ \label{eq:first-et-invariant-subspace}
+\end{equation}
+whose lower block is the matrix Riccati equation
+\begin{equation}
+ C+KA-DK-KBK=0.
+ \label{eq:et-riccati}
+\end{equation}
+The second modal eigenspace similarly gives
+\begin{equation}
+ R\begin{pmatrix}\bar K\\I_2\end{pmatrix}
+ =\begin{pmatrix}\bar K\\I_2\end{pmatrix}F,
+ \qquad
+ F=D+C\bar K=D+KB.
+ \label{eq:second-et-invariant-subspace}
+\end{equation}
+The equality $C\bar K=KB$ follows from
+$K=-X/(\Lambda_1-d)$ and $\det B=\det C$.  The latter is itself an immediate
+consequence of the symplectic block identities
+$A\bar A+B\bar B=I_2=A\bar A+C\bar C$ and
+\cref{eq:two-by-two-conjugate-identities}.
+The two block columns in these equations are precisely the two block columns
+of $T_{\mathrm{ET}}/g$, so together they imply
+\cref{eq:et-decoupled-map}.  Moreover,
+\begin{equation}
+ \left(\frac{T_{\mathrm{ET}}}{g}\right)^T
+ \mat S
+ \left(\frac{T_{\mathrm{ET}}}{g}\right)
+ =\left(1+\det K\right)\mat S,
+\end{equation}
+which explains the normalization $g=(1+\det K)^{-1/2}$ in
+\cref{eq:tet}.  At a degeneracy the separation into the two modal subspaces
+is not unique, and the branch must instead be selected by continuity from a
+neighboring lattice point.
+By construction, $T_{\mathrm{ET}}$ maps modal coordinates
+$\mat z_{\mathrm{ET}}$ to physical coordinates $\mat z$:
 \begin{equation}
  \mat z=T_{\mathrm{ET}}\mat z_{\mathrm{ET}}.
 \end{equation}
-It block-diagonalizes the physical one-turn map $M$ according to
-\begin{equation}
- T_{\mathrm{ET}}^{-1}MT_{\mathrm{ET}}
- =\begin{pmatrix}M_x&0\\0&M_y\end{pmatrix},
- \label{eq:et-decoupled-map}
-\end{equation}
-or, equivalently,
-\begin{equation}
- M=T_{\mathrm{ET}}
- \begin{pmatrix}M_x&0\\0&M_y\end{pmatrix}
- T_{\mathrm{ET}}^{-1}.
-\end{equation}
-Thus $M_x$ and $M_y$ are the diagonal blocks of the transformed, decoupled
-map; in a coupled lattice they are not the physical diagonal blocks of $M$.
 
-For $q\in\{x,y\}$, write
+Write the two stable modal maps as
 \begin{equation}
- M_q=A_qR_2(\mu_q)A_q^{-1},
+ E=A_xR_2(\mu_1)A_x^{-1},
+ \qquad
+ F=A_yR_2(\mu_2)A_y^{-1},
  \label{eq:et-modal-map}
 \end{equation}
 where $R_2$ is the rotation matrix defined above and
@@ -234,9 +453,44 @@ where $R_2$ is the rotation matrix defined above and
  \end{pmatrix}.
  \label{eq:Aq}
 \end{equation}
-The parameters $(\beta_x,\alpha_x)$ are therefore the Edwards--Teng Twiss
-parameters of the horizontal-like mode, and $(\beta_y,\alpha_y)$ are those of
-the vertical-like mode.  They are not the projected Mais--Ripken functions
+For $q\in\{x,y\}$, set $\gamma_q=(1+\alpha_q^2)/\beta_q$.  The entries of
+the horizontal-like map are then
+\begin{equation}
+ E=
+ \begin{pmatrix}
+  E_{11}&E_{12}\\E_{21}&E_{22}
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+  \cos\mu_1+\alpha_x\sin\mu_1&\beta_x\sin\mu_1\\
+  -\gamma_x\sin\mu_1&\cos\mu_1-\alpha_x\sin\mu_1
+ \end{pmatrix}.
+ \label{eq:E-twiss-form}
+\end{equation}
+Consequently, its phase advance and Twiss parameters can be recovered
+directly from $E$:
+\begin{align}
+ \cos\mu_1
+ &=\frac12\Tr E,
+ \label{eq:cosmu1-from-E}\\
+ \sin\mu_1
+ &=\operatorname{sign}(E_{12})
+   \sqrt{-E_{12}E_{21}
+   -\left(\frac{E_{11}-E_{22}}{2}\right)^2},
+ \label{eq:sinmu1-from-E}\\
+ \beta_x&=\frac{E_{12}}{\sin\mu_1},
+ &\gamma_x&=-\frac{E_{21}}{\sin\mu_1},
+ &\alpha_x&=\frac{E_{11}-E_{22}}{2\sin\mu_1}.
+ \label{eq:et-twiss-from-E}
+\end{align}
+The vertical-like quantities follow from the same equations with
+$E\to F$, $(\beta_x,\alpha_x,\gamma_x)\to
+(\beta_y,\alpha_y,\gamma_y)$, and $\mu_1\to\mu_2$.
+
+Following the propagation subsection of the Xsuite physics manual, the
+Edwards--Teng Twiss parameters are denoted by $(\beta_x,\alpha_x)$ for the
+horizontal-like mode and $(\beta_y,\alpha_y)$ for the vertical-like mode.
+They are not the projected Mais--Ripken functions
 $(\beta_{x1},\alpha_{x1})$ and $(\beta_{y2},\alpha_{y2})$.
 
 Its inverse is
@@ -289,24 +543,25 @@ Both $U$ and $W$ reduce the physical map to the same block rotation.  To see
 this explicitly, use $U^{-1}=\mathcal A^{-1}T_{\mathrm{ET}}^{-1}$ and substitute
 the ET block-diagonalization from \cref{eq:et-decoupled-map}:
 \begin{align}
- U^{-1}MU
+ U^{-1}RU
  &=\mathcal A^{-1}T_{\mathrm{ET}}^{-1}
-   MT_{\mathrm{ET}}\mathcal A
+   RT_{\mathrm{ET}}\mathcal A
  \nonumber\\
- &=\mathcal A^{-1}\diag(M_x,M_y)\mathcal A
+ &=\mathcal A^{-1}\diag(E,F)\mathcal A
  \nonumber\\
- &=\diag(A_x^{-1}M_xA_x,A_y^{-1}M_yA_y)
+ &=\diag(A_x^{-1}EA_x,A_y^{-1}FA_y)
  \nonumber\\
  &=\diag(R_2(\mu_1),R_2(\mu_2))
  \nonumber\\
- &=R(\mu_1,\mu_2).
- \label{eq:U-normalizes-M}
+ &=R_{\mathrm{rot}}(\mu_1,\mu_2).
+ \label{eq:U-normalizes-R}
 \end{align}
 The penultimate equality follows directly from
-$M_q=A_qR_2(\mu_q)A_q^{-1}$ in \cref{eq:et-modal-map}.
+$E=A_xR_2(\mu_1)A_x^{-1}$ and $F=A_yR_2(\mu_2)A_y^{-1}$ in
+\cref{eq:et-modal-map}.
 Likewise, \cref{eq:normal-form} gives
 \begin{equation}
- W^{-1}MW=R(\mu_1,\mu_2).
+ W^{-1}RW=R_{\mathrm{rot}}(\mu_1,\mu_2).
 \end{equation}
 Consequently, the matrix
 \begin{equation}
@@ -315,7 +570,8 @@ Consequently, the matrix
 \end{equation}
 commutes with the block rotation:
 \begin{equation}
- DR(\mu_1,\mu_2)=R(\mu_1,\mu_2)D.
+ DR_{\mathrm{rot}}(\mu_1,\mu_2)
+ =R_{\mathrm{rot}}(\mu_1,\mu_2)D.
 \end{equation}
 For distinct, nondegenerate tunes and a fixed ordering of the two modes, a
 symplectic matrix with this property consists of an independent phase rotation
@@ -353,15 +609,15 @@ Substituting the explicit ET matrix from \cref{eq:tet} into
 \begin{equation}
  \begin{aligned}
  W
- &=\rho
+ &=g
  \begin{pmatrix}
-  I_2&R_{\mathrm{ET}}^{\sharp}\\
+  I_2&\bar R_{\mathrm{ET}}\\
   -R_{\mathrm{ET}}&I_2
  \end{pmatrix}
  \begin{pmatrix}A_x&0\\0&A_y\end{pmatrix}\\
  &=\begin{pmatrix}
-  \rho A_x&\rho R_{\mathrm{ET}}^{\sharp}A_y\\
-  -\rho R_{\mathrm{ET}}A_x&\rho A_y
+  g A_x&g\bar R_{\mathrm{ET}}A_y\\
+  -g R_{\mathrm{ET}}A_x&g A_y
  \end{pmatrix}.
  \end{aligned}
  \label{eq:w-et-block-product}
@@ -370,34 +626,34 @@ To factor the modal normalizers $A_x$ and $A_y$ from the left, define the
 ET-normalized coupling matrix
 \begin{equation}
  \boxed{
- \mathcal C=\rho A_x^{-1}R_{\mathrm{ET}}^{\sharp}A_y.
+ \mathcal C=g A_x^{-1}\bar R_{\mathrm{ET}}A_y.
  }
  \label{eq:c-from-ret}
 \end{equation}
 The upper-right block in \cref{eq:w-et-block-product} is consequently
 \begin{equation}
- A_x\mathcal C=\rho R_{\mathrm{ET}}^{\sharp}A_y.
+ A_x\mathcal C=g\bar R_{\mathrm{ET}}A_y.
 \end{equation}
 For the lower-left block, use
 \begin{equation}
- (PQ)^{\sharp}=Q^{\sharp}P^{\sharp},
+ \overline{PQ}=\bar Q\,\bar P,
  \qquad
- (R_{\mathrm{ET}}^{\sharp})^{\sharp}=R_{\mathrm{ET}},
+ \overline{\bar R_{\mathrm{ET}}}=R_{\mathrm{ET}},
  \qquad
- A_q^{\sharp}=A_q^{-1},
+ \bar A_q=A_q^{-1},
 \end{equation}
 where the last identity follows because $A_q$ is symplectic.  Taking the
 symplectic conjugate of \cref{eq:c-from-ret} gives
 \begin{align}
- \mathcal C^{\sharp}
- &=\rho
- \left(A_x^{-1}R_{\mathrm{ET}}^{\sharp}A_y\right)^{\sharp}
+ \bar{\mathcal C}
+ &=g
+ \overline{A_x^{-1}\bar R_{\mathrm{ET}}A_y}
  \nonumber\\
- &=\rho A_y^{-1}R_{\mathrm{ET}}A_x,
+ &=g A_y^{-1}R_{\mathrm{ET}}A_x,
 \end{align}
 and therefore
 \begin{equation}
- A_y\mathcal C^{\sharp}=\rho R_{\mathrm{ET}}A_x.
+ A_y\bar{\mathcal C}=g R_{\mathrm{ET}}A_x.
 \end{equation}
 Using these two block identities, \cref{eq:w-et-block-product} becomes
 \begin{equation}
@@ -405,25 +661,25 @@ Using these two block identities, \cref{eq:w-et-block-product} becomes
  W=
  \begin{pmatrix}A_x&0\\0&A_y\end{pmatrix}
  \begin{pmatrix}
-  \rho I_2&\mathcal C\\
-  -\mathcal C^{\sharp}&\rho I_2
+  g I_2&\mathcal C\\
+  -\bar{\mathcal C}&g I_2
  \end{pmatrix}.
  }
  \label{eq:w-factorization}
 \end{equation}
 Symplecticity requires
 \begin{equation}
- \rho^2+\det\mathcal C=1.
- \label{eq:rho-c-condition}
+ g^2+\det\mathcal C=1.
+ \label{eq:g-c-condition}
 \end{equation}
 Equivalently, if $W$ is partitioned as in \cref{eq:w-factorization}, its
 phase-gauged blocks obey
 \begin{equation}
  \boxed{
- A_x^{-1}W_{x1}=\rho I_2,\qquad
+ A_x^{-1}W_{x1}=g I_2,\qquad
  A_x^{-1}W_{x2}=\mathcal C,\qquad
- A_y^{-1}W_{y1}=-\mathcal C^{\sharp},\qquad
- A_y^{-1}W_{y2}=\rho I_2.
+ A_y^{-1}W_{y1}=-\bar{\mathcal C},\qquad
+ A_y^{-1}W_{y2}=g I_2.
  }
  \label{eq:w-blocks-normalized}
 \end{equation}
@@ -431,11 +687,11 @@ For later use, define
 \begin{equation}
  u\equiv\det\mathcal C
  =\frac{\det R_{\mathrm{ET}}}{1+\det R_{\mathrm{ET}}}
- =1-\rho^2.
+ =1-g^2.
  \label{eq:u-def}
 \end{equation}
 For the ordinary trigonometric ET branch, $u=\sin^2\phi$ and
-$\rho^2=\cos^2\phi$, where $\phi$ is the Teng rotation angle.
+$g^2=\cos^2\phi$, where $\phi$ is the Teng rotation angle.
 
 \subsection{Relation between Edwards--Teng and Mais--Ripken functions}
 
@@ -443,53 +699,47 @@ Using the definition $\Sigma_{qj}=W_{qj}W_{qj}^T$ from
 \cref{eq:mr-sigma} and substituting the four blocks of $W$ from
 \cref{eq:w-factorization} gives
 \begin{align}
- \Sigma_{x1}&=\rho^2 A_xA_x^T,
+ \Sigma_{x1}&=g^2 A_xA_x^T,
  &\Sigma_{x2}&=A_x\mathcal C\mathcal C^TA_x^T,
  \label{eq:sigmax-factorization}\\
- \Sigma_{y1}&=A_y\mathcal C^{\sharp}(\mathcal C^{\sharp})^TA_y^T,
- &\Sigma_{y2}&=\rho^2 A_yA_y^T.
+ \Sigma_{y1}&=A_y\bar{\mathcal C}(\bar{\mathcal C})^TA_y^T,
+ &\Sigma_{y2}&=g^2 A_yA_y^T.
  \label{eq:sigmay-factorization}
 \end{align}
-With
-\begin{equation}
- \gamma_x=\frac{1+\alpha_x^2}{\beta_x},
- \qquad
- \gamma_y=\frac{1+\alpha_y^2}{\beta_y},
-\end{equation}
-the principal MR functions are therefore
+The principal MR functions are therefore
 \begin{align}
- \beta_{x1}&=\rho^2\beta_x,
- &\alpha_{x1}&=\rho^2\alpha_x,
- &\gamma_{x1}&=\rho^2\gamma_x,
+ \beta_{x1}&=g^2\beta_x,
+ &\alpha_{x1}&=g^2\alpha_x,
+ &\gamma_{x1}&=g^2\gamma_x,
  \label{eq:mr-et-main-x}\\
- \beta_{y2}&=\rho^2\beta_y,
- &\alpha_{y2}&=\rho^2\alpha_y,
- &\gamma_{y2}&=\rho^2\gamma_y.
+ \beta_{y2}&=g^2\beta_y,
+ &\alpha_{y2}&=g^2\alpha_y,
+ &\gamma_{y2}&=g^2\gamma_y.
  \label{eq:mr-et-main-y}
 \end{align}
 The determinant of either principal projected block is therefore
 \begin{equation}
  \beta_{x1}\gamma_{x1}-\alpha_{x1}^2
  =\beta_{y2}\gamma_{y2}-\alpha_{y2}^2
- =\rho^4.
+ =g^4.
  \label{eq:main-determinants}
 \end{equation}
-Consequently, $\rho$ is obtained directly from the principal MR functions:
+Consequently, $g$ is obtained directly from the principal MR functions:
 \begin{equation}
  \boxed{
- \rho^2
+ g^2
  =\sqrt{\beta_{x1}\gamma_{x1}-\alpha_{x1}^2}
  =\sqrt{\beta_{y2}\gamma_{y2}-\alpha_{y2}^2}.
  }
- \label{eq:rho-from-mr}
+ \label{eq:g-from-mr}
 \end{equation}
-The ET modal Twiss parameters then follow by division by $\rho^2$:
+The ET modal Twiss parameters then follow by division by $g^2$:
 \begin{equation}
  \boxed{
- \beta_x=\frac{\beta_{x1}}{\rho^2},\quad
- \alpha_x=\frac{\alpha_{x1}}{\rho^2},\qquad
- \beta_y=\frac{\beta_{y2}}{\rho^2},\quad
- \alpha_y=\frac{\alpha_{y2}}{\rho^2}.
+ \beta_x=\frac{\beta_{x1}}{g^2},\quad
+ \alpha_x=\frac{\alpha_{x1}}{g^2},\qquad
+ \beta_y=\frac{\beta_{y2}}{g^2},\quad
+ \alpha_y=\frac{\alpha_{y2}}{g^2}.
  }
  \label{eq:et-from-main-mr}
 \end{equation}
@@ -520,7 +770,7 @@ Then
 \end{align}
 and, since
 \begin{equation}
- -\mathcal C^{\sharp}
+ -\bar{\mathcal C}
  =
  \begin{pmatrix}
   -c_{22}&c_{12}\\
@@ -548,10 +798,75 @@ The cross-plane projected determinants satisfy
  \begin{aligned}
  \beta_{x2}\gamma_{x2}-\alpha_{x2}^2
  &=\beta_{y1}\gamma_{y1}-\alpha_{y1}^2\\
- &=(1-\rho^2)^2.
+ &=(1-g^2)^2.
  \end{aligned}
  \label{eq:cross-determinants}
 \end{equation}
+
+\subsection{Propagation of Edwards--Teng parameters}
+\label{sec:et-propagation}
+
+Let the transfer map from location $a$ to location $b$ be partitioned as
+\begin{equation}
+ R^{ab}=
+ \begin{pmatrix}
+  A^{ab}&B^{ab}\\C^{ab}&D^{ab}
+ \end{pmatrix}.
+ \label{eq:Rab-blocks}
+\end{equation}
+Given the ET quantities $E^a$, $F^a$, and $R_{\mathrm{ET}}^a$ at $a$, define
+the two effective modal transfer matrices
+\begin{align}
+ E^{ab}&=A^{ab}-B^{ab}R_{\mathrm{ET}}^a,
+ \label{eq:Eab-definition}\\
+ F^{ab}&=D^{ab}+C^{ab}\bar R_{\mathrm{ET}}^a.
+ \label{eq:Fab-definition}
+\end{align}
+The decoupled one-turn maps and the ET coupling matrix at $b$ are then
+\begin{align}
+ E^b
+ &=E^{ab}E^a\bar E^{ab}/\det E^{ab},
+ \label{eq:E-propagation}\\
+ F^b
+ &=F^{ab}F^a\bar F^{ab}/\det F^{ab},
+ \label{eq:F-propagation}\\
+ R_{\mathrm{ET}}^b
+ &=-\left(C^{ab}-D^{ab}R_{\mathrm{ET}}^a\right)
+   \bar E^{ab}/\det E^{ab}.
+ \label{eq:ret-propagation}
+\end{align}
+The factors $\bar E^{ab}/\det E^{ab}$ and
+$\bar F^{ab}/\det F^{ab}$ are simply $(E^{ab})^{-1}$ and
+$(F^{ab})^{-1}$, respectively.
+
+Writing $E^{ab}_{ij}$ for the entries of $E^{ab}$, the horizontal ET Twiss
+parameters and phase propagate according to
+\begin{align}
+ \beta_x^b
+ &=\frac{
+   \left(E^{ab}_{11}\beta_x^a-E^{ab}_{12}\alpha_x^a\right)^2
+   +\left(E^{ab}_{12}\right)^2
+  }{\det(E^{ab})\,\beta_x^a},
+ \label{eq:et-beta-propagation}\\
+ \alpha_x^b
+ &=-\frac{1}{\det(E^{ab})\,\beta_x^a}
+ \Big[
+  \left(E^{ab}_{21}\beta_x^a-E^{ab}_{22}\alpha_x^a\right)
+  \left(E^{ab}_{11}\beta_x^a-E^{ab}_{12}\alpha_x^a\right)
+  +E^{ab}_{12}E^{ab}_{22}
+ \Big],
+ \label{eq:et-alpha-propagation}\\
+ \mu_1^b
+ &=\mu_1^a+operatorname{atan2}\!\left(
+  E^{ab}_{12},
+  E^{ab}_{11}\beta_x^a-E^{ab}_{12}\alpha_x^a
+ \right),
+ \label{eq:et-mu-propagation}\\
+ \gamma_x^b&=\frac{1+(\alpha_x^b)^2}{\beta_x^b}.
+ \label{eq:et-gamma-propagation}
+\end{align}
+The vertical formulas follow by replacing $E^{ab}$ with $F^{ab}$,
+$x$ with $y$, and mode 1 with mode 2.
 
 \section{Turn-by-turn motion in the RDT formalism}
 \label{sec:rdt}
@@ -644,24 +959,20 @@ Hence
  }
  \label{eq:rdt-conjugates}
 \end{equation}
-Only terms with $j>0$ enter $h_{x,-}$, whereas only terms with $l>0$ enter $h_{y,-}$.  With
-\begin{equation}
- f\equiv f_{1001},
- \qquad
- g\equiv f_{1010},
-\end{equation}
-\cref{eq:general-hx-rdt,eq:general-hy-rdt} give
+Only terms with $j>0$ enter $h_{x,-}$, whereas only terms with $l>0$ enter
+$h_{y,-}$.  Equations~\eqref{eq:general-hx-rdt} and
+\eqref{eq:general-hy-rdt} give
 \begin{align}
  \boxed{
  h_{x,-}=\sqrt{2I_x}\e^{\ii\Phi_x}
  -2\ii\sqrt{2I_y}
- \left(f\e^{\ii\Phi_y}+g\e^{-\ii\Phi_y}\right)
+ \left(\fminus\e^{\ii\Phi_y}+\fplus\e^{-\ii\Phi_y}\right)
  }
  \label{eq:hx-linear-coupling}\\
  \boxed{
  h_{y,-}=\sqrt{2I_y}\e^{\ii\Phi_y}
  -2\ii\sqrt{2I_x}
- \left(f^{*}\e^{\ii\Phi_x}+g\e^{-\ii\Phi_x}\right).
+ \left(\fminus^{*}\e^{\ii\Phi_x}+\fplus\e^{-\ii\Phi_x}\right).
  }
  \label{eq:hy-linear-coupling}
 \end{align}
@@ -677,12 +988,12 @@ Using $\widetilde q=\Ree h_{q,-}$ and $\widetilde p_q=-\Imm h_{q,-}$, the horizo
  \widetilde x(N)
  &=\sqrt{2I_x}\cos\Phi_x
  +2\sqrt{2I_y}\,
- \Imm\!\left[(f-g^{*})\e^{\ii\Phi_y}\right],
+ \Imm\!\left[(\fminus-\fplus^{*})\e^{\ii\Phi_y}\right],
  \label{eq:xtilde-rdt}\\
  \widetilde p_x(N)
  &=-\sqrt{2I_x}\sin\Phi_x
  +2\sqrt{2I_y}\,
- \Ree\!\left[(f+g^{*})\e^{\ii\Phi_y}\right].
+ \Ree\!\left[(\fminus+\fplus^{*})\e^{\ii\Phi_y}\right].
  \label{eq:pxtilde-rdt}
 \end{align}
 Similarly,
@@ -690,12 +1001,12 @@ Similarly,
  \widetilde y(N)
  &=\sqrt{2I_y}\cos\Phi_y
  +2\sqrt{2I_x}\,
- \Imm\!\left[(f^{*}-g^{*})\e^{\ii\Phi_x}\right],
+ \Imm\!\left[(\fminus^{*}-\fplus^{*})\e^{\ii\Phi_x}\right],
  \label{eq:ytilde-rdt}\\
  \widetilde p_y(N)
  &=-\sqrt{2I_y}\sin\Phi_y
  +2\sqrt{2I_x}\,
- \Ree\!\left[(f^{*}+g^{*})\e^{\ii\Phi_x}\right].
+ \Ree\!\left[(\fminus^{*}+\fplus^{*})\e^{\ii\Phi_x}\right].
  \label{eq:pytilde-rdt}
 \end{align}
 The four basic combinations are summarized in \cref{tab:rdt-combinations}.
@@ -708,10 +1019,10 @@ The four basic combinations are summarized in \cref{tab:rdt-combinations}.
 \toprule
 Observable & Cross-mode complex coefficient\\
 \midrule
-$x$ from mode 2 & $f-g^{*}$\\
-$\widetilde p_x$ from mode 2 & $f+g^{*}$\\
-$y$ from mode 1 & $(f-g)^{*}$\\
-$\widetilde p_y$ from mode 1 & $(f+g)^{*}$\\
+$x$ from mode 2 & $\fminus-\fplus^{*}$\\
+$\widetilde p_x$ from mode 2 & $\fminus+\fplus^{*}$\\
+$y$ from mode 1 & $(\fminus-\fplus)^{*}$\\
+$\widetilde p_y$ from mode 1 & $(\fminus+\fplus)^{*}$\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -719,19 +1030,19 @@ $\widetilde p_y$ from mode 1 & $(f+g)^{*}$\\
 For a particle carrying both mode actions, the measured position-line ratios are therefore
 \begin{align}
  \frac{\mathcal A_x(Q_2)}{\mathcal A_x(Q_1)}
- &=2\sqrt{\frac{I_y}{I_x}}\,|f-g^{*}|,
+ &=2\sqrt{\frac{I_y}{I_x}}\,|\fminus-\fplus^{*}|,
  \label{eq:measured-x-rdt-ratio}\\
  \frac{\mathcal A_y(Q_1)}{\mathcal A_y(Q_2)}
- &=2\sqrt{\frac{I_x}{I_y}}\,|f-g|.
+ &=2\sqrt{\frac{I_x}{I_y}}\,|\fminus-\fplus|.
  \label{eq:measured-y-rdt-ratio}
 \end{align}
 The corresponding normalized-momentum ratios are
 \begin{align}
  \frac{\mathcal A_{\widetilde p_x}(Q_2)}{\mathcal A_{\widetilde p_x}(Q_1)}
- &=2\sqrt{\frac{I_y}{I_x}}\,|f+g^{*}|,
+ &=2\sqrt{\frac{I_y}{I_x}}\,|\fminus+\fplus^{*}|,
  \label{eq:measured-px-rdt-ratio}\\
  \frac{\mathcal A_{\widetilde p_y}(Q_1)}{\mathcal A_{\widetilde p_y}(Q_2)}
- &=2\sqrt{\frac{I_x}{I_y}}\,|f+g|.
+ &=2\sqrt{\frac{I_x}{I_y}}\,|\fminus+\fplus|.
  \label{eq:measured-py-rdt-ratio}
 \end{align}
 
@@ -799,10 +1110,10 @@ Thus the position projection selects the difference of the two complex coupling 
 
 The interference structure is explicit:
 \begin{align}
- r_x^2&=|f|^2+|g|^2-2\Ree(fg),\\
- r_{\widetilde p_x}^2&=|f|^2+|g|^2+2\Ree(fg),\\
- r_y^2&=|f|^2+|g|^2-2\Ree(fg^{*}),\\
- r_{\widetilde p_y}^2&=|f|^2+|g|^2+2\Ree(fg^{*}).
+ r_x^2&=|\fminus|^2+|\fplus|^2-2\Ree(\fminus\fplus),\\
+ r_{\widetilde p_x}^2&=|\fminus|^2+|\fplus|^2+2\Ree(\fminus\fplus),\\
+ r_y^2&=|\fminus|^2+|\fplus|^2-2\Ree(\fminus\fplus^{*}),\\
+ r_{\widetilde p_y}^2&=|\fminus|^2+|\fplus|^2+2\Ree(\fminus\fplus^{*}).
  \label{eq:interference-identities}
 \end{align}
 Consequently, even a relatively small $f_{1010}$ produces a first-order modulation of an MR position ratio around $|f_{1001}|$.
@@ -823,14 +1134,14 @@ Because $p_q=(\widetilde p_q-\alpha_q\widetilde q)/\sqrt{\beta_q}$, the pure RDT
  \boxed{
  \frac12\sqrt{\frac{\gamma_{x2}}{\gamma_{x1}}}
  =\frac{
-  \left|f+g^{*}+\ii\alpha_x(f-g^{*})\right|
+  \left|\fminus+\fplus^{*}+\ii\alpha_x(\fminus-\fplus^{*})\right|
  }{\sqrt{1+\alpha_x^2}}
  }
  \label{eq:physical-px-ratio}\\
  \boxed{
  \frac12\sqrt{\frac{\gamma_{y1}}{\gamma_{y2}}}
  =\frac{
-  \left|f+g-\ii\alpha_y(f-g)\right|
+  \left|\fminus+\fplus-\ii\alpha_y(\fminus-\fplus)\right|
  }{\sqrt{1+\alpha_y^2}}
  .}
  \label{eq:physical-py-ratio}
@@ -842,7 +1153,7 @@ At an ET waist, where $\alpha_q=0$, the physical and normalized momentum ratios 
 
 \subsection{Definition from the normalized coupling matrix}
 
-The Edwards--Teng construction in \cref{sec:et-twiss} provides $\rho$ and the
+The Edwards--Teng construction in \cref{sec:et-twiss} provides $g$ and the
 normalized coupling matrix $\mathcal C$ directly from $W$, before any RDT is
 introduced.  In the Xsuite RDT convention, the corresponding exact
 matrix-equivalent linear coupling RDTs are
@@ -850,58 +1161,59 @@ matrix-equivalent linear coupling RDTs are
  \boxed{
  f_{1001}=\frac{
   c_{21}-c_{12}+\ii(c_{11}+c_{22})
- }{4\rho}
+ }{4g}
  }
  \label{eq:f1001-from-c}\\
  \boxed{
  f_{1010}=\frac{
   c_{12}+c_{21}+\ii(c_{11}-c_{22})
- }{4\rho}.
+ }{4g}.
  }
  \label{eq:f1010-from-c}
 \end{align}
 Relative to the convention used in the original matrix--Hamiltonian formulas of Calaga, Tom\'as, and Franchi~\cite{CalagaTomasFranchi}, the Xsuite convention applies an overall minus complex conjugation to each of these two RDTs.
 
-Conversely, with $f=f_{1001}$ and $g=f_{1010}$,
+Conversely,
 \begin{equation}
  \boxed{
- \mathcal C=2\rho
+ \mathcal C=2g
  \begin{pmatrix}
-  \Imm(f+g)&\Ree(g-f)\\
-  \Ree(f+g)&\Imm(f-g)
+  \Imm(\fminus+\fplus)&\Ree(\fplus-\fminus)\\
+  \Ree(\fminus+\fplus)&\Imm(\fminus-\fplus)
  \end{pmatrix}.
  }
  \label{eq:c-from-rdts}
 \end{equation}
 Its complex row combinations are
 \begin{align}
- c_{11}+\ii c_{12}&=-2\ii\rho(f-g^{*}),
+ c_{11}+\ii c_{12}&=-2\ii g(\fminus-\fplus^{*}),
  \label{eq:c-row1-complex}\\
- c_{21}+\ii c_{22}&= 2\rho(f+g^{*}),
+ c_{21}+\ii c_{22}&= 2g(\fminus+\fplus^{*}),
  \label{eq:c-row2-complex}\\
- (-\mathcal C^{\sharp})_{11}
- +\ii(-\mathcal C^{\sharp})_{12}
- &=-2\ii\rho(f^{*}-g^{*}),
- \label{eq:csharp-row1-complex}\\
- (-\mathcal C^{\sharp})_{21}
- +\ii(-\mathcal C^{\sharp})_{22}
- &=2\rho(f^{*}+g^{*}).
- \label{eq:csharp-row2-complex}
+ (-\bar{\mathcal C})_{11}
+ +\ii(-\bar{\mathcal C})_{12}
+ &=-2\ii g(\fminus^{*}-\fplus^{*}),
+ \label{eq:cbar-row1-complex}\\
+ (-\bar{\mathcal C})_{21}
+ +\ii(-\bar{\mathcal C})_{22}
+ &=2g(\fminus^{*}+\fplus^{*}).
+ \label{eq:cbar-row2-complex}
 \end{align}
 These four identities are the matrix counterpart of \cref{eq:xtilde-rdt,eq:pxtilde-rdt,eq:ytilde-rdt,eq:pytilde-rdt}.
 
-Equation~\eqref{eq:rho-c-condition} becomes
+Equation~\eqref{eq:g-c-condition} becomes
 \begin{equation}
- \det\mathcal C=4\rho^2\left(|f|^2-|g|^2\right),
+ \det\mathcal C=4g^2\left(|\fminus|^2-|\fplus|^2\right),
  \qquad
  \boxed{
- \rho^2=\frac{1}{1+4(|f|^2-|g|^2)}.
+ g^2=\frac{1}{1+4(|\fminus|^2-|\fplus|^2)}.
  }
- \label{eq:rho-from-rdts}
+ \label{eq:g-from-rdts}
 \end{equation}
-Thus $\rho=1+\mathcal O(f^2,g^2)$, explaining why it is absent in the first-order orbit formulas while canceling exactly from the amplitude ratios.
+Thus $g=1+\mathcal O(\fminus^2,\fplus^2)$, explaining why it is absent in the
+first-order orbit formulas while canceling exactly from the amplitude ratios.
 Combining \cref{eq:sigmax-factorization,eq:sigmay-factorization} with
-\cref{eq:c-row1-complex,eq:c-row2-complex,eq:csharp-row1-complex,eq:csharp-row2-complex}
+\cref{eq:c-row1-complex,eq:c-row2-complex,eq:cbar-row1-complex,eq:cbar-row2-complex}
 immediately yields the exact amplitude identities in
 \cref{eq:rx-main,eq:ry-main,eq:rpx-rdt,eq:rpy-rdt}.
 
@@ -929,20 +1241,23 @@ This selects the mode-2 part of the ET phase gauge discussed in
 \cref{eq:D-phase-rotations}.  The mode-1 phase does not enter the following
 calculation because its MR functions are phase invariant.
 
-Next obtain $\rho$ from the principal horizontal MR functions and recover the
+Next obtain $g$ from the principal horizontal MR functions and recover the
 horizontal ET Twiss parameters:
 \begin{align}
- \rho^2
+ g^2
  &=\sqrt{\beta_{x1}\gamma_{x1}-\alpha_{x1}^2},
- &\rho&=\sqrt{\rho^2},
- \label{eq:direct-rho-from-w}\\
- \beta_x&=\frac{\beta_{x1}}{\rho^2},
- &\alpha_x&=\frac{\alpha_{x1}}{\rho^2}.
+ &g&=\sqrt{g^2},
+ \label{eq:direct-g-from-w}\\
+ \beta_x&=\frac{\beta_{x1}}{g^2},
+ &\alpha_x&=\frac{\alpha_{x1}}{g^2}.
  \label{eq:direct-et-twiss-from-w}
 \end{align}
 The quantities $\beta_{x1}$, $\alpha_{x1}$, and $\gamma_{x1}$ are obtained
 from the first two columns of $W$ through
-\cref{eq:mr-functions-from-w}.
+\cref{eq:mr-functions-from-w}.  In the implementation, the variables
+\texttt{rho2} and \texttt{rho} store the quantities denoted here by $g^2$ and
+$g$, while \texttt{beta\_a} and \texttt{alpha\_a} store $\beta_x$ and
+$\alpha_x$.
 
 Apply the inverse horizontal ET normalizer to the horizontal components of
 $\mat v_2$:
@@ -967,11 +1282,11 @@ complex numbers are
 Substitution into \cref{eq:f1001-from-c,eq:f1010-from-c} finally gives
 \begin{align}
  \boxed{
- f_{1001}=\frac{u_{p_x}+\ii u_x}{4\rho}
+ f_{1001}=\frac{u_{p_x}+\ii u_x}{4g}
  }
  \label{eq:direct-f1001-from-w}\\
  \boxed{
- f_{1010}=\frac{(u_{p_x}-\ii u_x)^{*}}{4\rho}.
+ f_{1010}=\frac{(u_{p_x}-\ii u_x)^{*}}{4g}.
  }
  \label{eq:direct-f1010-from-w}
 \end{align}
@@ -982,7 +1297,7 @@ mode-2 eigenvector of $W$.
 
 The source sum in \cref{eq:general-local-rdt} is a first-order perturbative quantity.  The definitions in \cref{eq:f1001-from-c,eq:f1010-from-c} are exact algebraic coordinates of the linear symplectic coupling matrix.  In weak coupling,
 \begin{equation}
- \rho=1+\mathcal O(K_{1s}^2),
+ g=1+\mathcal O(K_{1s}^2),
  \qquad
  \mathcal C=\mathcal O(K_{1s}),
 \end{equation}
