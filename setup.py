@@ -21,11 +21,25 @@ class BinaryDistribution(Distribution):
         return True
 
 
+def _environment_boolean(name):
+    value = os.environ.get(name)
+    if value is None:
+        return False
+    normalized = value.strip().lower()
+    if normalized in ('1', 'true', 'yes', 'on'):
+        return True
+    if normalized in ('0', 'false', 'no', 'off'):
+        return False
+    raise ValueError(
+        f'Invalid boolean value {value!r} for {name}; expected one of '
+        '1, 0, true, false, yes, no, on, or off.')
+
+
 class CustomBuildExtCommand(build_ext):
     """Custom build_ext that generates kernel binaries to be added to bdist.
 
     The building of the kernels can be skipped by setting the environment
-    variable SKIP_KERNEL_BUILD to a non-empty value. This is useful when
+    variable XSUITE_SKIP_KERNEL_BUILD to a true value. This is useful when
     performing an editable install, as the kernels pip runs the build script in
     a temporary environment and the kernels in such case might not be compatible
     with the currently installed packages (e.g. packages with potentially
@@ -34,13 +48,13 @@ class CustomBuildExtCommand(build_ext):
     def run(self):
         super().run()
 
-        if os.environ.get('SKIP_KERNEL_BUILD', False):
+        if _environment_boolean('XSUITE_SKIP_KERNEL_BUILD'):
             print('Skipping kernel build as requested by environment variable.')
             return
 
         # Override number of threads for parallel building
-        if os.environ.get('XSK_N_THREADS', None) is not None:
-            n_threads = int(os.environ['XSK_N_THREADS'])
+        if os.environ.get('XSUITE_KERNEL_BUILD_THREADS') is not None:
+            n_threads = int(os.environ['XSUITE_KERNEL_BUILD_THREADS'])
         else:
             n_threads = None
 

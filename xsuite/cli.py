@@ -6,7 +6,7 @@ import argparse
 from importlib.metadata import version
 
 from xsuite.prebuild_kernels import (
-    clear_kernels, regenerate_kernels, XSK_PREBUILT_KERNELS_LOCATION,
+    clear_kernels, regenerate_kernels, PREBUILT_KERNELS_LOCATION,
     SERIAL_CONTEXT, OPENMP_CONTEXT,
 )
 
@@ -24,7 +24,7 @@ def clean_command(args):
 def info_command(args):
     version_str = version("xsuite")
     print(f'Xsuite version {version_str}')
-    print(f'Kernels location: {XSK_PREBUILT_KERNELS_LOCATION}')
+    print(f'Kernels location: {PREBUILT_KERNELS_LOCATION}')
 
 
 def parse_kind_argument(value):

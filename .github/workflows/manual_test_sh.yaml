@@ -51,12 +51,12 @@ on:
         type: boolean
         default: false
       forbid_compile:
-        description: set XOBJECTS_FORBID_COMPILE to forbid compilation during tests?
+        description: set XSUITE_CFFI_FORBID_COMPILE to forbid compilation during tests?
         required: false
         type: boolean
         default: false
-      allow_no_prebuilt_kernels:
-        description: set XSUITE_ALLOW_NO_PREBUILT_KERNELS to allow running without prebuilt kernels?
+      allow_kernel_compilation:
+        description: set XSUITE_ALLOW_KERNEL_COMPILATION during tests?
         required: false
         type: boolean
         default: false
@@ -86,6 +86,6 @@ jobs:
       with_mpi: ${{ inputs.with_mpi }}
       precompile_kernels: ${{ inputs.precompile_kernels }}
       forbid_compile: ${{ inputs.forbid_compile }}
-      allow_no_prebuilt_kernels: ${{ inputs.allow_no_prebuilt_kernels }}
+      allow_kernel_compilation: ${{ inputs.allow_kernel_compilation }}
       install_from_pypi: ${{ inputs.install_from_pypi }}
       timeout_minutes: ${{ fromJSON(inputs.timeout_minutes) }}

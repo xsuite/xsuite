@@ -1,0 +1,94 @@
+\chapter{Field expansion for s-dependent magnetic field}
+\label{chapter:splineboris-field-expansion}
+
+The \texttt{SplineBoris} element reconstructs a three-dimensional static
+magnetic field from the field components and their transverse derivatives on
+the reference axis. This chapter describes the expansion used for that
+reconstruction. The derivation follows the method presented in
+Ref.~\cite{VanDerSchueren2024}, specialized to the straight reference frame
+supported by \texttt{SplineBoris}.
+
+\section{Scalar-potential representation}
+
+Inside a current-free aperture, a static magnetic field satisfies
+\[
+\nabla\times\bm B=0,
+\qquad
+\nabla\cdot\bm B=0.
+\]
+Locally, the first equation allows the field to be written as the gradient of
+a scalar potential. We use the sign convention employed by the symbolic field
+generator,
+\begin{equation}
+\bm B=\nabla\Phi.
+\label{field-expansion:B-from-phi}
+\end{equation}
+The opposite convention, \(\bm B=-\nabla\Phi\), is equivalent after changing
+the sign of \(\Phi\). The divergence equation then gives Laplace's equation,
+\begin{equation}
+\nabla^2\Phi=0.
+\label{field-expansion:laplace}
+\end{equation}
+
+The local coordinates \((x,y,s)\) form a straight Cartesian frame, with \(s\)
+along the reference axis. Expand the potential in powers of \(y\),
+\begin{equation}
+\Phi(x,y,s)=\sum_{n=0}^{\infty}\phi_n(x,s)\frac{y^n}{n!}.
+\label{field-expansion:phi-series}
+\end{equation}
+Substitution into Eq.~\eqref{field-expansion:laplace} gives
+\begin{equation}
+\phi_{n+2}(x,s)
+=-\left(\partial_x^2+\partial_s^2\right)\phi_n(x,s).
+\label{field-expansion:recurrence}
+\end{equation}
+Therefore only \(\phi_0\) and \(\phi_1\) are independent; every higher
+coefficient follows from the recurrence. For example,
+\begin{align}
+\Phi={}&\phi_0+y\phi_1
+-\frac{y^2}{2!}\left(\partial_x^2+\partial_s^2\right)\phi_0
+-\frac{y^3}{3!}\left(\partial_x^2+\partial_s^2\right)\phi_1
++\cdots .
+\label{field-expansion:first-terms}
+\end{align}
+This form also makes clear that the even powers of \(y\) are determined by
+\(\phi_0\), while the odd powers are determined by \(\phi_1\).
+
+\section{Independent longitudinal functions}
+
+The two independent functions are expanded in \(x\) as
+\begin{align}
+\phi_0(x,s)
+&=c_0(s)+\sum_{m=1}^{\infty}a_m(s)\frac{x^m}{m!},
+\label{field-expansion:phi0}\\
+\phi_1(x,s)
+&=\sum_{m=1}^{\infty}b_m(s)\frac{x^{m-1}}{(m-1)!},
+\label{field-expansion:phi1}
+\end{align}
+where \(c_0'(s)=b_s(s)\). Applying
+Eq.~\eqref{field-expansion:B-from-phi} on the plane \(y=0\) gives
+\begin{align}
+B_x(x,0,s)
+&=\sum_{m=1}^{\infty}a_m(s)\frac{x^{m-1}}{(m-1)!},\\
+B_y(x,0,s)
+&=\sum_{m=1}^{\infty}b_m(s)\frac{x^{m-1}}{(m-1)!},\\
+B_s(0,0,s)&=b_s(s).
+\end{align}
+Consequently, the longitudinal input functions have a direct interpretation:
+\begin{align}
+a_m(s)
+&=\left.\frac{\partial^{m-1}B_x}{\partial x^{m-1}}
+\right|_{x=y=0},
+\label{field-expansion:am}\\
+b_m(s)
+&=\left.\frac{\partial^{m-1}B_y}{\partial x^{m-1}}
+\right|_{x=y=0},
+\label{field-expansion:bm}\\
+b_s(s)&=B_s(0,0,s).
+\label{field-expansion:bs}
+\end{align}
+Thus, knowledge of \(B_s\) on axis and of the successive transverse
+derivatives of \(B_x\) and \(B_y\) on axis is sufficient to reconstruct all
+three field components around the reference axis. Since the reconstructed
+field is obtained from a harmonic scalar potential, it satisfies both static
+Maxwell equations used above.

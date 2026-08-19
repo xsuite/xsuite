@@ -20,5 +20,5 @@ def __getattr__(name: str):
 from .prebuild_kernels import (
     PrebuiltKernelNotFoundError,
     get_suitable_kernel,
-    XSK_PREBUILT_KERNELS_LOCATION,
+    PREBUILT_KERNELS_LOCATION,
 )

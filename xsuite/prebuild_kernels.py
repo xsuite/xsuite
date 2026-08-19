@@ -3,7 +3,6 @@
 # Copyright (c) CERN, 2025.                 #
 # ######################################### #
 import json
-import os
 import sysconfig
 import warnings
 from multiprocessing import get_context
@@ -20,7 +19,7 @@ from xtrack.general import _print
 import xsuite as xs
 from xsuite.kernel_definitions import kernel_definitions, NAME_CLASS_MAP
 
-XSK_PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
+PREBUILT_KERNELS_LOCATION = Path(xs.__file__).parent / 'lib'
 
 SERIAL_CONTEXT = 'serial'
 OPENMP_CONTEXT = 'openmp'
@@ -82,23 +81,28 @@ def get_suitable_kernel(
         tracker_element_classes,
         classes,
         context=None,
-        verbose=False,
+        verbose=None,
 ) -> Optional[Tuple[str, list]]:
     """
     Given a configuration and a list of element classes, return a tuple with
     the name of a suitable prebuilt kernel module together with the list of
     element classes that were used to build it. Set `verbose` to True, to
     obtain a justification of the choice (or lack thereof) on standard output.
+    When `verbose` is None, diagnostics are controlled by
+    `xobjects.settings.show_kernel_diagnostics`, or equivalently the
+    environment variable `XSUITE_SHOW_KERNEL_DIAGNOSTICS`.
     """
-    env_var = os.environ.get("XSUITE_PREBUILT_KERNELS")
-    if env_var and env_var == '0':
-        if verbose:
-            print('Skipping the search for a suitable kernel, as the '
-                   'environment variable XSUITE_PREBUILT_KERNELS == "0".')
-        return
+    if verbose is None:
+        verbose = xo.settings.show_kernel_diagnostics
 
-    if os.environ.get("XSUITE_VERBOSE", None) is not None:
-        verbose = True
+    if xo.settings.force_kernel_compilation:
+        if verbose:
+            _print('Skipping prebuilt-kernel lookup because kernel '
+                   'compilation is forced by '
+                   'xobjects.settings.force_kernel_compilation, or '
+                   'equivalently the environment variable '
+                   'XSUITE_FORCE_KERNEL_COMPILATION.')
+        return
 
     requested_tracker_class_names = [
         cls._DressingClass.__name__ for cls in tracker_element_classes
@@ -113,7 +117,8 @@ def get_suitable_kernel(
 
     for _, _, module_name, kernel_metadata in sorted(candidates):
         if verbose:
-            print(f"==> Considering the precompiled kernel `{module_name}`...")
+            _print(
+                f"==> Considering the precompiled kernel `{module_name}`...")
 
         kernel_context = kernel_metadata.get('context', SERIAL_CONTEXT)
         if requested_context is not None and kernel_context != requested_context:
@@ -126,9 +131,10 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. Its context '
-                      f'is `{kernel_context}`, but the requested one is '
-                      f'`{requested_context}`.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. Its context '
+                    f'is `{kernel_context}`, but the requested one is '
+                    f'`{requested_context}`.')
             continue
 
         if kernel_metadata['config'] != config:
@@ -146,16 +152,18 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. Its config '
-                      f'(left) and the requested one (right) differ at the '
-                      f'following keys:\n'
-                      f'{pformat(config_diff)}')
-                print(f'Skipping class compatibility check for `{module_name}`.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. Its config '
+                    f'(left) and the requested one (right) differ at the '
+                    f'following keys:\n'
+                    f'{pformat(config_diff)}')
+                _print(
+                    f'Skipping class compatibility check for `{module_name}`.')
 
             continue
 
         if verbose:
-            print(f'The kernel `{module_name}` has the right config.')
+            _print(f'The kernel `{module_name}` has the right config.')
 
         module_tracker_element_names = kernel_metadata['tracker_element_classes']
         module_class_names = kernel_metadata['classes']
@@ -170,9 +178,10 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. It does not '
-                      f'provide the following requested classes: '
-                      f'{", ".join(class_diff)}.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. It does not '
+                    f'provide the following requested classes: '
+                    f'{", ".join(class_diff)}.')
             continue
 
         all_class_names = set(module_tracker_element_names) | set(module_class_names)
@@ -186,9 +195,10 @@ def get_suitable_kernel(
                 )
             )
             if verbose:
-                print(f'The kernel `{module_name}` is unsuitable. It does not '
-                      f'provide the following requested classes: '
-                      f'{", ".join(class_diff)}.')
+                _print(
+                    f'The kernel `{module_name}` is unsuitable. It does not '
+                    f'provide the following requested classes: '
+                    f'{", ".join(class_diff)}.')
             continue
 
         tracker_element_classes = []
@@ -198,14 +208,14 @@ def get_suitable_kernel(
                 raise ValueError(f'Class `{ccnn}` from kernel `{module_name}` is not available in the current version of xsuite.')
             tracker_element_classes.append(cc)
         if verbose:
-            print(f'Found suitable prebuilt kernel `{module_name}`.')
+            _print(f'Found suitable prebuilt kernel `{module_name}`.')
         return {
             'module_name': module_name,
             'tracker_element_classes': tracker_element_classes,
         }
 
     if verbose:
-        print('==> No suitable precompiled kernel found.')
+        _print('==> No suitable precompiled kernel found.')
 
     if not xo.context_cpu.require_prebuilt_kernel(
             context=context, classes=requested_classes):
@@ -224,7 +234,7 @@ def get_suitable_kernel(
 
 def regenerate_kernels(
         kernels=None,
-        location=XSK_PREBUILT_KERNELS_LOCATION,
+        location=PREBUILT_KERNELS_LOCATION,
         n_threads=None,
         context='serial',
 ):
@@ -242,45 +252,40 @@ def regenerate_kernels(
     # Delete existing kernels to avoid accidentally loading in existing C code
     clear_kernels(kernels=kernels, location=location, context=context)
 
-    old_prebuilt_env = os.environ.get("XSUITE_PREBUILT_KERNELS")
-    os.environ["XSUITE_PREBUILT_KERNELS"] = "0"
-    try:
-        kernels_to_build = []
-        for base_module_name, metadata in kernel_definitions:
-            if kernels is not None and base_module_name not in kernels:
-                continue
-            for context_key in context_keys:
-                module_name = f'{base_module_name}{CONTEXT_SUFFIXES[context_key]}'
-                kernels_to_build.append((base_module_name, module_name, metadata, context_key))
+    kernels_to_build = []
+    for base_module_name, metadata in kernel_definitions:
+        if kernels is not None and base_module_name not in kernels:
+            continue
+        for context_key in context_keys:
+            module_name = f'{base_module_name}{CONTEXT_SUFFIXES[context_key]}'
+            kernels_to_build.append(
+                (base_module_name, module_name, metadata, context_key))
 
-        if n_threads == 0:
-            for idx, (base_module_name, module_name, metadata, context_key) in enumerate(kernels_to_build):
-                build_single_kernel(
-                    idx, len(kernels_to_build), location, metadata, module_name,
-                    base_module_name, context_key,
-                )
-        else:
-            thread_pool = get_context('spawn').Pool(processes=n_threads)
-            results = []
-            for idx, (base_module_name, module_name, metadata, context_key) in enumerate(kernels_to_build):
-                args = (
-                    idx, len(kernels_to_build), location, metadata, module_name,
-                    base_module_name, context_key,
-                )
-                result = thread_pool.apply_async(build_single_kernel, args=args)
-                results.append(result)
+    if n_threads == 0:
+        for idx, item in enumerate(kernels_to_build):
+            base_module_name, module_name, metadata, context_key = item
+            build_single_kernel(
+                idx, len(kernels_to_build), location, metadata, module_name,
+                base_module_name, context_key,
+            )
+    else:
+        thread_pool = get_context('spawn').Pool(processes=n_threads)
+        results = []
+        for idx, item in enumerate(kernels_to_build):
+            base_module_name, module_name, metadata, context_key = item
+            args = (
+                idx, len(kernels_to_build), location, metadata, module_name,
+                base_module_name, context_key,
+            )
+            result = thread_pool.apply_async(build_single_kernel, args=args)
+            results.append(result)
 
-            thread_pool.close()
-            thread_pool.join()
+        thread_pool.close()
+        thread_pool.join()
 
-            # Ensure no errors
-            for result in results:
-                result.get()
-    finally:
-        if old_prebuilt_env is None:
-            del os.environ["XSUITE_PREBUILT_KERNELS"]
-        else:
-            os.environ["XSUITE_PREBUILT_KERNELS"] = old_prebuilt_env
+        # Ensure no errors
+        for result in results:
+            result.get()
 
     _print(f'Built {len(kernels_to_build)} kernels.')
 
@@ -333,7 +338,7 @@ def build_single_kernel(
 def clear_kernels(
         kernels=None,
         verbose=False,
-        location=XSK_PREBUILT_KERNELS_LOCATION,
+        location=PREBUILT_KERNELS_LOCATION,
         context=None,
 ):
     """Delete generated kernel artifacts matching optional name/context filters."""
@@ -360,7 +365,7 @@ def clear_kernels(
         file.unlink()
 
         if verbose:
-            print(f'Removed `{file}`.')
+            _print(f'Removed `{file}`.')
 
 
 def _current_package_versions():
@@ -510,7 +515,7 @@ def _split_module_name(module_name: str) -> Tuple[str, str]:
 
 def _iter_kernel_metadata_files():
     """Yield user-visible kernel metadata files from the prebuilt-kernel cache."""
-    for metadata_file in sorted(XSK_PREBUILT_KERNELS_LOCATION.glob('*.json')):
+    for metadata_file in sorted(PREBUILT_KERNELS_LOCATION.glob('*.json')):
         if metadata_file.name.startswith('_'):
             continue
         yield metadata_file
@@ -524,7 +529,7 @@ def _kernel_binary_file(module_name, location=None):
     a path like ``path / "default_cpu_serial.cpython-313-darwin.so"``.
     """
     if location is None:
-        location = XSK_PREBUILT_KERNELS_LOCATION
+        location = PREBUILT_KERNELS_LOCATION
     suffix = sysconfig.get_config_var('EXT_SUFFIX')
     if suffix is None:
         suffix = '.so'
@@ -576,9 +581,9 @@ def _build_no_suitable_kernel_message(
         return (
             'Could not find a suitable Xsuite prebuilt kernel.\n'
             f'Reason: xsuite is installed, but no cached kernels were found in '
-            f'`{XSK_PREBUILT_KERNELS_LOCATION}`.\n'
+            f'`{PREBUILT_KERNELS_LOCATION}`.\n'
             f'{UPDATE_OR_REGENERATE_MESSAGE}\n'
-            f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
+            f'{xo.context_cpu.kernel_compilation_help_message()}'
         )
 
     if (diagnostics['missing_binary_details']
@@ -589,7 +594,7 @@ def _build_no_suitable_kernel_message(
             'found for this Python/platform.\n'
             f'{_format_list(diagnostics["missing_binary_details"])}\n'
             f'{UPDATE_OR_REGENERATE_MESSAGE}\n'
-            f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
+            f'{xo.context_cpu.kernel_compilation_help_message()}'
         )
 
     if (diagnostics['known_metadata_count']
@@ -605,7 +610,7 @@ def _build_no_suitable_kernel_message(
             'not match the installed packages.\n'
             f'{_format_list(version_mismatch_details)}\n'
             f'{UPDATE_OR_REGENERATE_MESSAGE}\n'
-            f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
+            f'{xo.context_cpu.kernel_compilation_help_message()}'
         )
 
     reason = (
@@ -629,7 +634,7 @@ def _build_no_suitable_kernel_message(
         f'{reason}{details_text}\n'
         'This can happen with a wrong or unsupported configuration. If this is '
         'not expected, please contact the developers.\n'
-        f'{xo.context_cpu.no_prebuilt_kernel_jit_message()}'
+        f'{xo.context_cpu.kernel_compilation_help_message()}'
     )
 
 

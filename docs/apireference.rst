@@ -6,6 +6,16 @@ Reference guide
     :depth: 3
 
 
+Settings (``xt.settings``)
+==========================
+
+The ``xt.settings`` object controls process-wide Xsuite behavior, with an
+equivalent environment variable available for each setting.
+
+.. autodata:: xtrack.settings
+    :no-value:
+
+
 Beam elements (xtrack)
 ======================
 
@@ -427,6 +437,18 @@ BeamSizeMonitor
     :members:
     :member-order: bysource
 
+.. _beamstatsmonitor-api-reference:
+
+BeamStatsMonitor
+----------------
+
+See also: :ref:`Beam Statistics Monitor <beam-statistics-monitor>` in the
+User's guide.
+
+.. autoclass:: xtrack.BeamStatsMonitor
+    :members:
+    :member-order: bysource
+
 
 
 Beam elements (xfields)
@@ -469,6 +491,21 @@ Intra-Beam Scattering Kicks
     :member-order: bysourcef
 
 .. autoclass:: xfields.IBSKineticKick
+    :members:
+    :member-order: bysource
+
+Touschek Scattering
+-------------------
+
+.. autoclass:: xfields.TouschekScattering
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xfields.TouschekStudy
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xfields.TouschekResult
     :members:
     :member-order: bysource
 
@@ -627,6 +664,17 @@ of the features offered by Table objects.
     :members:
     :inherited-members:
     :member-order: alphabetical
+
+Line composition
+----------------
+
+.. autoclass:: xtrack.Composer
+    :members:
+    :member-order: bysource
+
+.. autoclass:: xtrack.Place
+    :members:
+    :member-order: bysource
 
 .. _line-api-reference:
 

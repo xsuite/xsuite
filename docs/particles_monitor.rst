@@ -1,9 +1,12 @@
 .. _monitors:
+.. _particles-monitors:
 
-Monitors
-========
+Particles Monitors
+==================
 
-See also: :class:`xtrack.ParticlesMonitor`, :class:`xtrack.LastTurnsMonitor`, :class:`xtrack.BeamPositionMonitor`, :class:`xtrack.BeamProfileMonitor`, :class:`xtrack.BeamSizeMonitor`.
+The :class:`xtrack.ParticlesMonitor` records particle coordinates over selected
+turns. It can be used through the default turn-by-turn monitor, configured as a
+custom monitor, or inserted as a beam element.
 
 The easy way
 ------------
@@ -105,6 +108,310 @@ in stand-alone mode as illustrated in the following example.
         line.track(particles)
 
 
+Multi-element monitor
+---------------------
+
+It is possible to log particle coordinates at multiple selected elements in the
+beamline for all tracked turns. This can be activated by adding the argument
+``multi_element_monitor_at`` when calling the track method of the Line object.
+This is illustrated in the following example, where the coordinates are recorded
+at all BPMs of a ring.
+
+.. literalinclude:: generated_code_snippets/multi_element_monitor.py
+   :language: python
+
+
+.. _beam-statistics-monitor:
+
+Beam Statistics Monitor
+=======================
+
+The :class:`xtrack.BeamStatsMonitor` records weighted beam statistics for the
+whole beam, per bunch, or per longitudinal slice. It is intended for diagnostics
+such as intensity, centroids, beam sizes, covariances, and projected
+emittances.
+
+See also: :ref:`BeamStatsMonitor API reference
+<beamstatsmonitor-api-reference>`.
+
+The quantity ``num_particles`` is the sum of ``particles.weight`` in each bin,
+not the number of macroparticles. All statistics are computed with the same
+weights.
+Particle species diagnostics can be requested with ``sum_charge_ratio``,
+``mean_charge_ratio``, ``sum_mass_ratio``, and ``mean_mass_ratio``; these
+quantities use the same ``particles.weight`` weighting.
+The optional ``particle_id_range=(start, stop)`` argument restricts recording
+to particles with ``particle_id`` in the inclusive-lower, exclusive-upper
+range ``[start, stop)``.
+
+In this monitor, ``slot`` means a bunch position on the bunch pattern grid,
+where adjacent slots are separated in ``zeta`` by ``bunch_spacing_zeta``.
+Note that ``bunch_spacing_zeta`` is distinct from an RF bucket, which can be
+finer than the bunch spacing.
+
+The bunch pattern to be monitored can be specified using either
+``filling_scheme`` or ``filled_slots``. For example,
+``filling_scheme=[1, 0, 1, 1]`` is equivalent to
+``filled_slots=[0, 2, 3]``. The ``selected_slots`` argument can be used to
+record only a subset of the filled slots. A ``slice`` is a longitudinal
+subdivision inside a bunch, or a full-turn subdivision in coasting mode.
+
+Whole-beam statistics are available through
+``monitor.get(..., level="beam")``. They are computed from all accepted
+particles for the same effective turn. In bunched and sliced modes, this means
+summing the recorded weighted sums over the selected slots and slices; filled
+slots that are not selected do not contribute.
+
+The monitor exposes the most detailed level available from its constructor
+inputs. With no bunch or slice inputs, recorded arrays have shape:
+
+.. code-block:: text
+
+    (n_logged_turns,)
+
+With bunch inputs and no slice inputs, recorded arrays have shape:
+
+.. code-block:: text
+
+    (n_logged_turns, n_selected_slots)
+
+With slice inputs, recorded arrays have shape:
+
+.. code-block:: text
+
+    (n_logged_turns, n_selected_slots, num_slices)
+
+The ``level`` argument of :meth:`xtrack.BeamStatsMonitor.get` selects a
+reduction level:
+
+.. code-block:: python
+
+    monitor.get("mean_x", level="beam")
+    monitor.get("mean_x", level="bunch", slot=3)
+    monitor.get("mean_x", level="slice", slot=3, slice_index=12)
+
+The examples below also show the main inspection tools:
+``monitor.stats`` lists the recorded quantities, ``monitor.available_levels``
+lists the available aggregation levels, ``monitor.default_level`` gives the
+level returned by statistic attributes, ``monitor.turns`` maps the first array
+axis to machine turns, ``monitor.zeta_centers`` gives the slice coordinates
+when slices are available, and each requested statistic is available both as an
+attribute and through ``monitor.get("stat_name")``.
+
+Whole-beam stats
+----------------
+
+The following example records stats for the full beam over a subset of
+turns in a PIMMS lattice with an RF cavity added, and plots ``mean_x`` and
+``mean_zeta`` as a function of turn. No ``zeta_range`` or ``num_slices`` is
+needed.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_beam_stats.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_beam_stats.png
+   :width: 80%
+   :align: center
+
+   Evolution of the horizontal and longitudinal beam centroids recorded with
+   ``BeamStatsMonitor``.
+
+Bunch-by-bunch stats
+--------------------
+
+The following example records stats for a bunch train generated from a matched
+Gaussian bunch. A sinusoidal horizontal offset is applied to the initial bunch
+centroids, and the recorded arrays are inspected and plotted as
+bunch-by-bunch profiles over consecutive turns. No ``zeta_range`` or
+``num_slices`` is needed.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_bunch_by_bunch_stats.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_bunch_by_bunch_stats.png
+   :width: 80%
+   :align: center
+
+   Horizontal bunch centroids over consecutive turns, recorded with
+   ``BeamStatsMonitor``.
+
+Slice-by-slice stats
+--------------------
+
+Providing ``zeta_range`` and ``num_slices`` enables slice mode. This can be
+combined with ``filled_slots``, ``selected_slots``, and
+``bunch_spacing_zeta`` to record slice-by-slice statistics for multiple
+physical bunch slots. In this mode the most detailed recorded arrays have axes
+``(turn, selected slot, slice)``. The following example generates a
+multi-bunch beam, imposes a horizontal sinusoidal pattern with a wavelength
+comparable to the bunch spacing, and plots ``mean_x * num_particles`` versus
+absolute ``zeta`` for a few consecutive bunches and turns. Per-bunch and
+whole-beam statistics remain available through
+``monitor.get(..., level="bunch")`` and ``monitor.get(..., level="beam")``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_slice_by_slice_stats.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_slice_by_slice_stats.png
+   :width: 80%
+   :align: center
+
+   Slice-by-slice horizontal dipole moment recorded for three bunches with
+   ``BeamStatsMonitor``.
+
+Coasting-beam stats
+-------------------
+
+For a coasting beam, pass ``coasting=True`` together with ``num_slices``. The
+monitor slices the full machine turn periodically. In this mode no
+``zeta_range``, filling scheme, selected slots, or
+``bunch_spacing_zeta`` is needed. Particles whose ``zeta`` coordinate is
+outside one circumference are wrapped into the corresponding recorded turn.
+
+The default recorded arrays have axes ``(turn, slice)``. Since the physical
+slice coordinates depend on the machine circumference, ``monitor.zeta_centers``
+is ``None`` in coasting mode and no bunch level is exposed. Use
+:meth:`xtrack.BeamStatsMonitor.time_centers` or
+:meth:`xtrack.BeamStatsMonitor.zeta_centers_unwrapped` with the line length to
+plot data over multiple turns.
+
+The following example uses the PIMMS lattice, creates a coasting distribution
+spanning one turn, imposes a tune-matched sinusoidal horizontal modulation as a
+function of ``zeta``, tracks the beam for several turns, and plots the recorded
+slice centroids with unwrapped time coordinates.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_coasting_beam_stats.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_coasting_beam_stats.png
+   :width: 80%
+   :align: center
+
+   Coasting-beam horizontal centroid recorded over multiple turns with
+   ``BeamStatsMonitor``.
+
+Beam profiles
+-------------
+
+The same monitor can also record weighted beam profiles. Pass a ``profiles``
+dictionary whose keys are particle coordinates and whose values define the
+profile ``range`` and ``num_bins``. The key is the coordinate to histogram; for
+example ``"x"`` records the horizontal profile and ``"delta"`` records the
+momentum-deviation profile.
+
+Profile counts are weighted in the same way as ``num_particles``. The bin
+metadata and counts are available through dictionaries keyed by coordinate:
+
+.. code-block:: python
+
+    monitor.profile_bin_edges["x"]
+    monitor.profile_bin_centers["x"]
+    monitor.profiles["x"]
+
+The profile arrays use the same leading axes as the most detailed statistics,
+with one additional trailing profile-bin axis. For example, whole-beam profile
+data have shape ``(turn, profile_bin)``, bunched slice profile data have shape
+``(turn, selected slot, slice, profile_bin)``, and coasting profile data have
+shape ``(turn, slice, profile_bin)``.
+
+The following example records scalar beam statistics together with horizontal
+and momentum profiles. A horizontal offset is applied to the bunch before
+tracking, and the recorded horizontal profile is plotted at selected turns.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_beam_profiles.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_beam_profiles.png
+   :width: 80%
+   :align: center
+
+   Horizontal beam profiles recorded at selected turns with
+   ``BeamStatsMonitor``.
+
+Emittance and optics from covariance
+------------------------------------
+
+Requesting normal-mode emittance or covariance-optics quantities makes
+``BeamStatsMonitor`` store the full 6D covariance moment set in the canonical
+coordinate order ``(x, px, y, py, zeta, pzeta)``. These quantities can be
+requested explicitly, combined with projected emittances such as
+``nemitt_x_projected``, and mixed with ordinary beam statistics such as
+``mean_x`` and ``sigma_x`` in the same monitor. The tracking kernel still
+records only weighted primitive moments; normal-mode emittances, beta
+functions, alpha functions, and dispersions are computed afterwards from the
+measured covariance matrix.
+
+The normal-mode emittances, for example ``nemitt_x``, are obtained from the
+full coupled 6D covariance matrix. The projected emittances, for example
+``nemitt_x_projected``, are instead computed from the corresponding 2D
+coordinate-plane covariance. The normalized projected emittance is obtained by
+multiplying the geometric projected emittance by the weighted average of
+``beta0 * gamma0``. The same convention is used for ``y`` and for the
+longitudinal ``(zeta, pzeta)`` plane.
+
+The following example generates a matched Gaussian bunch, records the
+covariance-derived quantities turn by turn, and compares the measured beta
+functions at the monitor location with the model Twiss values. The requested
+scalar arrays are available as ordinary monitor attributes such as
+``monitor.mean_x``, ``monitor.nemitt_x``,
+``monitor.nemitt_x_projected``, and ``monitor.betx``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_emittance_and_optics.py
+   :language: python
+
+.. figure:: figures/beam_stats_monitor_emittance_and_optics.png
+   :width: 80%
+   :align: center
+
+   Normal-mode emittances and beta functions reconstructed turn by turn from
+   the covariance measured with ``BeamStatsMonitor``.
+
+Saving to file during a simulation
+----------------------------------
+
+The monitor can also write the requested statistics to an HDF5 file.
+When ``output_file`` is passed to the constructor, the file is initialized in
+write mode immediately. Calling :meth:`xtrack.BeamStatsMonitor.save_to_file`
+during tracking appends only the records that have not already been written,
+while the full configured monitor frame remains available in memory.
+
+The saved HDF5 file is a flat time series. The recorded turns are stored in
+``/turns`` and the statistics are stored under ``/stats/<level>/<stat>``. Since
+each save operation flushes and closes the file, another script can reopen it
+between saves to inspect partial results. The following example uses a
+bunch-by-bunch monitor, tracks in chunks, saves after each chunk, and reads
+both the reduced beam-level data from ``/stats/beam`` and the bunch-level data
+from ``/stats/bunch``.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_save_to_file.py
+   :language: python
+
+Saving long simulations with frame reuse
+----------------------------------------
+
+For simulations where a full run would be too large to keep in one monitor
+allocation, the user can save one frame, clear the in-memory arrays, and reuse
+the same monitor for the next turn interval with
+:meth:`xtrack.BeamStatsMonitor.start_new_frame`. This frame-reuse helper is not
+available in coasting mode. The HDF5 file remains unaware of frames: each call
+to :meth:`xtrack.BeamStatsMonitor.save_to_file` appends the new records to the
+same flat ``/turns`` and ``/stats`` datasets.
+
+The following example keeps only 20 turns in memory at a time while saving 60
+turns to the file. After the loop, the monitor contains the last frame only,
+whereas the file contains all saved turns.
+
+.. literalinclude:: generated_code_snippets/beam_stats_monitor_save_new_frame.py
+   :language: python
+
+
+.. _legacy-monitors:
+
+Legacy monitors
+===============
+
+The monitors below are kept for compatibility with existing workflows. For new
+beam-statistics use cases, prefer :class:`xtrack.BeamStatsMonitor`.
 
 Last turns monitor
 ------------------
@@ -218,7 +525,6 @@ Like the :ref:`MonitorBPM` also the beam size monitor is based on particle arriv
     print(monitor.x_var)   # waveform of horizontal position variances
 
 
-
 Beam profile monitor
 --------------------
 
@@ -249,15 +555,3 @@ Like the :ref:`MonitorBPM` also the beam profile monitor is based on particle ar
 The recorded profiles are 2D arrays of shape ``(sample_size, n)``
 where ``sample_size = round(( stop_at_turn - start_at_turn ) * sampling_frequency / frev)``.
 I.e. ``monitor.x_intensity[0,:]`` is the first recorded profile and ``monitor.x_intensity[-1,:]`` the last.
-
-Multi-element monitor
----------------------
-
-It is possible to log particle coordinates at multiple selected elements in the
-beamline for all tracked turns. This can be activated by adding the argument
-``multi_element_monitor_at`` when calling the track method of the Line object.
-This is illustrated in the following example, where the coordinates are recorded
-at all BPMs of a ring.
-
-.. literalinclude:: generated_code_snippets/multi_element_monitor.py
-   :language: python

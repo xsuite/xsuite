@@ -482,6 +482,58 @@ relative to other elements:
    # ||drift_4           11.6          11.8            12
    # _end_point            12            12            12
 
+Placement model and anchors
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``components`` argument accepts element names, :class:`xtrack.Place`
+objects returned by ``env.place(...)``, lines, composers, and nested Python
+iterables containing these objects. Nested lines and iterables are expanded
+before positions are resolved. A component without ``at`` is placed immediately
+after the preceding component.
+
+The ``anchor`` argument selects which point of the component is positioned. For
+an element of length ``L``, the available anchors are ``start`` (offset ``0``),
+``center`` or ``centre`` (offset ``L/2``), and ``end`` (offset ``L``). The
+default is ``center``. For example:
+
+.. code-block:: python
+
+   env.place('q1', at=5)                  # q1 center is at s=5
+   env.place('q1', at=5, anchor='start')  # q1 starts at s=5
+   env.place('q1', at=5, anchor='end')    # q1 ends at s=5
+
+Without ``from_``, ``at`` is measured from the start of the line. With
+``from_``, it is an offset from the selected anchor of another component. The
+reference anchor can be written compactly in ``from_`` or supplied separately:
+
+.. code-block:: python
+
+   env.place('q2', at=2, from_='q1@end')
+
+   # Equivalent explicit form:
+   env.place('q2', at=2, from_='q1', from_anchor='end')
+
+Here the anchor of ``q2`` is placed 2 m downstream of the end of ``q1``.
+References may point forward or backward in the component list, provided the
+dependencies do not form a cycle. By default, an unresolved dependency raises
+a short error. Detailed diagnostics can be requested when constructing a line:
+
+.. code-block:: python
+
+   line = env.new_line(components=components, diagnostics=True)
+
+This distinguishes missing references from cycles and includes the affected
+component indices. A composer can instead be checked explicitly with
+``composer.validate()``. In compose mode, enable the same diagnostics when
+finalizing the line with ``line.end_compose(diagnostics=True)``.
+
+Positive gaps between resolved components are filled automatically with drifts.
+Overlapping thick elements are rejected. Thin elements can share a longitudinal
+coordinate; references to ``start`` are ordered before the referenced element,
+while references to ``end`` are ordered after it. Input ``Place`` objects are
+treated as specifications and are not modified while the line is built or
+regenerated.
+
 Elements can also be created and placed with a single instruction:
 
 .. code-block:: python

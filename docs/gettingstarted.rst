@@ -278,4 +278,5 @@ The data can be retrieved as follows:
     # etc...
 
 For more information about the Xsuite monitoring capabilities, please refer to
-the :ref:`Monitors section <monitors>`.
+the :ref:`Particles Monitors <monitors>` and
+:ref:`Beam Statistics Monitor <beam-statistics-monitor>` sections.

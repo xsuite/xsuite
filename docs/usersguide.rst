@@ -23,7 +23,6 @@
    collimation
    external_material_codes
    synchrotron_radiation
-   intrabeam_scattering
    footprint
    xsuite_data_management
    dev_guide_xtbe_lost_part_codes

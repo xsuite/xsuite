@@ -1,13 +1,9 @@
-=====================
 Intra-Beam Scattering
 =====================
 
-.. contents:: Table of Contents
-    :depth: 3
-
 
 Analytical Growth Rates
-=======================
+-----------------------
 
 The following example illustrates how to obtain Intra-Beam Scattering growth rates in Xsuite.
 The functionality is exposed directly through `xtrack.TwissTable` and can make use of two different formalism: ``Nagaitsev`` and ``Bjorken-Mtingwa``.
@@ -19,7 +15,7 @@ See also: :meth:`xtrack.twiss.TwissTable.get_ibs_growth_rates`
    :language: python
 
 Amplitude and Emittance Conventions
------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For consistency with the computed Synchrotron Radiation damping times, in Xsuite the IBS *amplitude growth rates* are computed.
 The following short example shows how to switch between the amplitude and emittance growth rates should one need to.
@@ -29,7 +25,7 @@ The following short example shows how to switch between the amplitude and emitta
 
 
 Steady State Emittances in the Presence of Synchrotron Radiation, Quantum Excitation and Intra-Beam Scattering
-==============================================================================================================
+--------------------------------------------------------------------------------------------------------------
 
 The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where the combined effect of these three phenomena balances each other out.
 These emittances can be calculated in `Xsuite` by numerically solving a system of ordinary differential equations while enforcing constraints on the transverse emittances.
@@ -59,7 +55,7 @@ Notice how this time a specific factor between transverse emittances is respecte
 
 
 IBS Kicks for Tracking
-======================
+----------------------
 
 When trying to study the interplay of IBS effects with others such as space charge, e-cloud, beamb-beam etc. analytical growth rates are not enough and tracking becomes necessary.
 In Xfields beam elements are provided to model IBS tracking, which apply momenta kicks to particles.

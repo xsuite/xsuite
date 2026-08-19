@@ -3011,6 +3011,407 @@ From these coefficients, each particle is given a momentum kick in each dimensio
 Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density as defined previously (see \ref{subsection:analytical_kicks}).
 
 
+\chapter{Touschek scattering}
+\label{chapter:touschek}
+
+Touschek scattering originates from single Coulomb scattering events between two
+relativistic leptons belonging to the same bunch~\cite{PRL:Bernardini:TouschekAdA}.
+If the resulting momentum deviation exceeds the momentum acceptance of
+the machine, or if the induced closed-orbit and betatron oscillations exceed the
+physical or dynamic aperture, the particles are lost from the beam. In modern
+low-emittance $e^{\pm}$ storage rings the Touschek effect is typically the
+dominant limitation to the beam lifetime.
+
+Unlike intra-beam scattering, which describes the cumulative effect of many
+small-angle Coulomb collisions on the beam emittances,
+the Touschek effect is a \emph{single-event}, large-momentum-transfer process.
+
+The model described in this chapter follows the approach of Xiao and
+Borland~\cite{PRSTAB:Xiao:TouschekMonteCarlo}, originally developed for
+\texttt{elegant}~\cite{Borland:elegant}, and is described in more detail in
+Ref.~\cite{Broggi:PhDthesis}.
+
+\section{Touschek scattering rate}
+\label{section:touschek_scattering_rate}
+
+In the c.m.\ frame the probability that one of the two interacting particles is
+scattered into the element of solid angle $d\Omega^*$ is given by the M\o ller
+differential cross-section~\cite{Moller:1932,PRSTAB:Xiao:TouschekMonteCarlo}
+\begin{equation}
+    \frac{d\sigma^{*}}{d\Omega^{*}}(\theta^{*})
+    = \frac{r_{e}^{2}}{4 \gamma^{*2}}
+    \left[
+    \left( 1 + \frac{1}{\beta^{*2}} \right)^{2}
+    \frac{4 - 3 \sin^{2}\theta^{*}}{\sin^{4}\theta^{*}}
+    + \frac{4}{\sin^{2}\theta^{*}} + 1
+    \right] ,
+    \label{eq:touschek_moller}
+\end{equation}
+where $r_e$ is the classical electron radius, $\gamma^*$ and $\beta^*$ are the
+relativistic factors in the c.m.\ frame, $\theta^*$ is the c.m.\ polar scattering
+angle, $\phi^*$ the azimuthal angle, and
+$d\Omega^* = \sin\theta^*\, d\theta^*\, d\phi^*$.
+
+The total Touschek scattering rate is obtained by integrating over all scattering
+angles and over all particles in the bunch~\cite{PRSTAB:Xiao:TouschekMonteCarlo}.
+In the c.m.\ frame,
+\begin{equation}
+    R^{*} = 2 \int |v^{*}|\, \sigma^{*}\, \rho(\vec{x}_{1}^{\,*})\, \rho(\vec{x}_{2}^{\,*})\, dV^{*} ,
+    \label{eq:touschek_rate_cm}
+\end{equation}
+where $|v^*|$ is the relative velocity of the two particles and
+$\rho(\vec{x}_i^{\,*})$ the beam phase-space density. The volume
+element $dV^*$ spans the phase space of both particles, and $\sigma^*$ is the
+total M\o ller cross-section
+\begin{equation}
+    \sigma^{*} = \int_{0}^{2\pi}\!\!\int_{0}^{\pi/2}
+    \frac{d\sigma^{*}}{d\Omega^{*}}\, \sin\theta^{*}\, d\theta^{*}\, d\phi^{*} .
+    \label{eq:touschek_sigma_tot_cm}
+\end{equation}
+Transforming to the laboratory frame~\cite{PRSTAB:Xiao:TouschekMonteCarlo},
+\begin{equation}
+    |v|\,\sigma = \frac{|v^{*}|}{\gamma}\,\frac{\sigma^{*}}{\gamma} ,
+    \qquad
+    R = 2 \int |v|\, \sigma\, \rho(\vec{x}_{1})\, \rho(\vec{x}_{2})\, dV ,
+    \label{eq:touschek_rate_lab}
+\end{equation}
+with
+\begin{equation*}
+    dV = dx_{\beta}\, dy_{\beta}\, dz\, dx'_{\beta 1}\, dx'_{\beta 2}\,
+         dy'_{\beta 1}\, dy'_{\beta 2}\, d\delta_{1}\, d\delta_{2} ,
+\end{equation*}
+where $(x_\beta, x'_\beta)$ and $(y_\beta, y'_\beta)$ denote the betatron
+coordinates (i.e.\ with the dispersive contribution removed) and
+$\delta_i = \Delta p_i / p_0$ the relative momentum deviations. Combining
+Eqs.~\eqref{eq:touschek_sigma_tot_cm} and~\eqref{eq:touschek_rate_lab}, the
+Touschek scattering rate in the laboratory frame can be written in the expanded
+form
+\begin{equation}
+    R = 2 \int\!\!\int_{0}^{2\pi}\!\!\int_{0}^{\pi/2}
+    \frac{|v^{*}|}{\gamma^{2}}
+    \, \frac{d\sigma^{*}}{d\Omega^{*}}
+    \, \sin\theta^{*}\,
+    \rho(\vec{x}_{1})\, \rho(\vec{x}_{2})
+    \, d\theta^{*}\, d\phi^{*}\, dV .
+    \label{eq:touschek_rate_expanded}
+\end{equation}
+
+\section{Piwinski formula}
+\label{section:touschek_piwinski}
+
+For a Gaussian bunch, Piwinski~\cite{Piwinski:TouschekEffect} evaluated
+Eq.~\eqref{eq:touschek_rate_expanded} in closed form, obtaining an expression for
+the Touschek scattering rate in terms of the linear optics functions and the beam
+parameters:
+\begin{equation}
+    \begin{aligned}
+        R_P = &
+        \; \frac{r_e^2 c N_b^2}{8 \pi \gamma^2 \sigma_z
+        \sqrt{\sigma_x^2 \sigma_y^2 - \sigma_\delta^4 D_x^2 D_y^2}}
+        \, \sqrt{\pi (B_1^2 - B_2^2)} \, \\
+        & \times \int_{\tau_m}^{\infty}
+        \Bigg[
+        \left( 2 + \frac{1}{\tau} \right)^2
+        \left( \frac{\tau / \tau_m}{1 + \tau} - 1 \right)
+        + 1
+        - \frac{\sqrt{1 + \tau}}{\sqrt{\tau / \tau_m}} \\
+        & \qquad\quad - \frac{1}{2\tau}
+        \left( 4 + \frac{1}{\tau} \right)
+        \ln \frac{\tau / \tau_m}{1 + \tau}
+        \Bigg]
+        e^{-B_1 \tau} I_0 (B_2 \tau)
+        \frac{\sqrt{\tau} \, d\tau}{\sqrt{1 + \tau}} .
+    \end{aligned}
+    \label{eq:touschek_piwinski_rate}
+\end{equation}
+Here $N_b$ is the bunch intensity, $c$ the speed of light in vacuum, $\gamma$
+the Lorentz factor, $\sigma_z$ the RMS bunch length, $\sigma_\delta$ the RMS
+relative momentum spread, and $I_0$ the modified Bessel function of the first
+kind of order zero. In the implementation the integral is evaluated with the
+change of variable $\tau=\tan^2 k$, so that
+$d\tau=2\tan k(1+\tan^2 k)\,dk$. This maps the semi-infinite
+interval $\tau\in[\tau_m,\infty)$ to the finite interval
+$k\in[\arctan\sqrt{\tau_m},\pi/2)$, which is more convenient for numerical
+quadrature of the logarithmic, exponential, and Bessel-function terms appearing
+in the integrand. The Jacobian is included in the numerical integrand: the
+factor
+\[
+    \frac{\sqrt{\tau}}{\sqrt{1+\tau}}\,d\tau
+    =
+    2\tau\sqrt{1+\tau}\,dk
+\]
+is obtained after the substitution. The RMS transverse beam sizes are
+\begin{equation}
+    \sigma_x = \sqrt{\varepsilon_x \beta_x + D_x^2 \sigma_\delta^2},
+    \qquad
+    \sigma_y = \sqrt{\varepsilon_y \beta_y + D_y^2 \sigma_\delta^2},
+    \label{eq:touschek_beam_sizes}
+\end{equation}
+while $\sigma_{x\beta} = \sqrt{\varepsilon_x \beta_x}$ and
+$\sigma_{y\beta} = \sqrt{\varepsilon_y \beta_y}$ denote the betatron beam sizes,
+with $\varepsilon_{x,y}$ the geometric emittances and $D_{x,y}$ the dispersion
+functions.
+
+The lower integration limit is related to the local momentum acceptance
+$\delta_a$ through
+\begin{equation}
+    \tau_m = \beta^2 \delta_a^2 ,
+    \label{eq:touschek_taum}
+\end{equation}
+where $\beta = v/c$. The local momentum acceptance (LMA) is the largest momentum
+deviation that a particle can sustain at a given longitudinal position without
+being lost. It is in general not symmetric, and is therefore described by a
+negative and a positive limit, $\delta_N < 0$ and $\delta_P > 0$.
+In the implementation, Eq.~\eqref{eq:touschek_piwinski_rate} is evaluated
+separately for $\delta_a = |\delta_N|$ and $\delta_a = \delta_P$, and the two
+contributions are averaged to obtain the local Piwinski rate.
+
+The auxiliary quantities $B_1$ and $B_2$ are defined as
+\begin{equation}
+    B_1 =
+    \frac{\beta_x^2}{2\beta^2\gamma^2\sigma_{x\beta}^2}
+    \left( 1 - \frac{\sigma_h^2 \widetilde{D}_x^2}{\sigma_{x\beta}^2} \right)
+    + \frac{\beta_y^2}{2\beta^2\gamma^2\sigma_{y\beta}^2}
+    \left( 1 - \frac{\sigma_h^2 \widetilde{D}_y^2}{\sigma_{y\beta}^2} \right) ,
+    \label{eq:touschek_B1}
+\end{equation}
+\begin{equation}
+    B_2^2 = B_1^2 -
+    \frac{\beta_x^2 \beta_y^2 \sigma_h^2}
+         {\beta^4\gamma^4 \sigma_{x\beta}^4 \sigma_{y\beta}^4 \sigma_\delta^2}
+         \left(\sigma_x^2 \sigma_y^2 - \sigma_\delta^4 D_x^2 D_y^2\right) ,
+    \label{eq:touschek_B2}
+\end{equation}
+with
+\begin{equation}
+    \widetilde{D}_x = \alpha_x D_x + \beta_x D'_x ,
+    \qquad
+    \widetilde{D}_y = \alpha_y D_y + \beta_y D'_y ,
+    \label{eq:touschek_Dtilde}
+\end{equation}
+and
+\begin{equation}
+    \frac{1}{\sigma_h^2} =
+    \frac{1}{\sigma_\delta^2} +
+    \frac{D_x^2 + \widetilde{D}_x^2}{\sigma_{x\beta}^2} +
+    \frac{D_y^2 + \widetilde{D}_y^2}{\sigma_{y\beta}^2} .
+    \label{eq:touschek_sigmah}
+\end{equation}
+
+\section{Monte Carlo evaluation of the scattering rate}
+\label{section:touschek_montecarlo}
+
+The Piwinski formula gives the local scattering rate, but not the phase-space
+distribution of the scattered particles, which is what is needed in a particle
+tracking code to evaluate the beam loss distribution from Touschek scattering.
+In Xsuite the distribution of scattered particles is obtained
+by Monte Carlo integration of Eq.~\eqref{eq:touschek_rate_expanded}.
+
+Using the general Monte Carlo approximation of an integral,
+\begin{equation}
+    \int_V f(\vec{x})\, d\vec{x} \approx \frac{V}{N} \sum_{i=1}^{N} f(\vec{x}_i) ,
+    \label{eq:touschek_mc_integral}
+\end{equation}
+the Touschek scattering rate for particles ending up outside the local momentum
+acceptance can be written as
+\begin{equation}
+    R_{\mathrm{MC}} = \frac{V}{N} \sum_{i=1}^{M}
+    \left[ \frac{|v^{*}|}{\gamma^{2}} \frac{d\sigma^{*}}{d\Omega^{*}}
+    \sin\theta^{*}\, \rho(\vec{x}_1) \rho(\vec{x}_2) \right]_i
+    = \sum_{i=1}^{M} r_i ,
+    \label{eq:touschek_mc_rate}
+\end{equation}
+where $V$ is the sampled phase-space volume, $N$ the total number of simulated
+scattering events, and $M$ the number of scattered particles falling outside the
+acceptance.\footnote{A single scattering event can produce one or two such
+particles; each is counted individually in Eq.~\eqref{eq:touschek_mc_rate}.} The
+term $r_i$ is the contribution of the $i$-th selected particle to the total rate.
+For sufficiently large $N$, $R_{\mathrm{MC}}$ converges to the true rate.
+
+\subsection{Sampling of the scattering pair}
+\label{section:touschek_sampling}
+
+The sampling is performed in normalised phase space, assuming a Gaussian bunch
+and no $x$--$y$ coupling. The longitudinal plane is treated on the same footing
+as the transverse ones by defining
+\begin{equation}
+    \varepsilon_z = \sigma_z \sigma_\delta ,
+    \qquad
+    \beta_z = \frac{\sigma_z}{\sigma_\delta} ,
+    \qquad
+    \alpha_z = 0 .
+    \label{eq:touschek_long_optics}
+\end{equation}
+
+Eleven uniformly distributed random numbers are drawn per scattering event.
+Six of them
+define the normalised coordinates
+$(X_1, X_1', Y_1, Y_1', Z_1, \Delta_1)$ of the first particle, drawn uniformly
+in
+\begin{equation}
+    \left[ -n_u \sqrt{\varepsilon_u},\; +n_u \sqrt{\varepsilon_u} \right] ,
+    \qquad u = x, y, z ,
+    \label{eq:touschek_sampling_range}
+\end{equation}
+where $n_x$, $n_y$ and $n_z$ are user-defined truncation parameters (default
+$n_x = n_y = n_z = 3$, i.e.\ sampling up to three beam sigmas). Three further
+random numbers define the normalised slopes and momentum deviation of the second
+particle, $(X_2', Y_2', \Delta_2)$; the two particles are assumed to collide at
+the same point, so their spatial coordinates coincide,
+\begin{equation}
+    x_2 = x_1 , \qquad y_2 = y_1 , \qquad z_2 = z_1 .
+    \label{eq:touschek_same_point}
+\end{equation}
+The last two random numbers define the scattering angles, as described
+in Section~\ref{section:touschek_kinematics}.
+
+The physical longitudinal coordinates follow from the normalised ones as
+$z_1 = \sqrt{\beta_z}\, Z_1$ and $\delta_i = \Delta_i / \sqrt{\beta_z}$, so that
+$z_1$ and $\delta_i$ are sampled uniformly within $\pm n_z \sigma_z$ and
+$\pm n_z \sigma_\delta$, respectively.
+
+Applying the transformation from normalised to physical coordinates and adding
+the dispersive contribution gives, for the first particle,
+\begin{equation}
+    \begin{cases}
+        x_1 = \sqrt{\beta_x}\, X_1 + \delta_1 D_x , \\[3pt]
+        x_1' = \dfrac{X_1' - \alpha_x X_1}{\sqrt{\beta_x}} + \delta_1 D_x' , \\[6pt]
+        y_1 = \sqrt{\beta_y}\, Y_1 + \delta_1 D_y , \\[3pt]
+        y_1' = \dfrac{Y_1' - \alpha_y Y_1}{\sqrt{\beta_y}} + \delta_1 D_y' ,
+    \end{cases}
+    \label{eq:touschek_particle1}
+\end{equation}
+and, for the second particle, whose physical position is imposed by
+Eq.~\eqref{eq:touschek_same_point},
+\begin{equation}
+    \begin{cases}
+        X_2 = \dfrac{x_1 - \delta_2 D_x}{\sqrt{\beta_x}} , \\[6pt]
+        x_2' = \dfrac{X_2' - \alpha_x X_2}{\sqrt{\beta_x}} + \delta_2 D_x' , \\[6pt]
+        Y_2 = \dfrac{y_1 - \delta_2 D_y}{\sqrt{\beta_y}} , \\[6pt]
+        y_2' = \dfrac{Y_2' - \alpha_y Y_2}{\sqrt{\beta_y}} + \delta_2 D_y' .
+    \end{cases}
+    \label{eq:touschek_particle2}
+\end{equation}
+
+The Gaussian phase-space density at the particles coordinates is
+\begin{multline}
+    \rho = \frac{N_b}{8\pi^3 \varepsilon_x \varepsilon_y \varepsilon_z}
+    \exp\left( -\frac{z^2}{2\sigma_z^2} - \frac{\delta^2}{2\sigma_\delta^2} \right) \\
+    \times \exp\left( -\frac{x_\beta^2 + (\alpha_x x_\beta + \beta_x x'_\beta)^2}{2\sigma_{x\beta}^2}
+    - \frac{y_\beta^2 + (\alpha_y y_\beta + \beta_y y'_\beta)^2}{2\sigma_{y\beta}^2} \right) ,
+    \label{eq:touschek_density}
+\end{multline}
+where the subscript $\beta$ again denotes betatron coordinates.
+
+The sampled phase-space volume appearing in Eq.~\eqref{eq:touschek_mc_rate} is
+\begin{equation}
+    V = \frac{\pi^2}{\sqrt{\beta_x \beta_y \beta_z}}
+    \left( 2 n_x \sqrt{\varepsilon_x} \right)^3
+    \left( 2 n_y \sqrt{\varepsilon_y} \right)^3
+    \left( 2 n_z \sqrt{\varepsilon_z} \right)^3 .
+    \label{eq:touschek_volume}
+\end{equation}
+
+\subsection{Scattering kinematics}
+\label{section:touschek_kinematics}
+
+Each sampled pair is boosted from the laboratory frame to its centre-of-mass
+frame. The two remaining random numbers define the polar scattering angle
+$\theta^*$, drawn uniformly in
+$[\theta_{\min}, \theta_{\max}]$, with
+$\theta_{\min}=0.00005\pi$ and $\theta_{\max}=0.99995\pi$, and the azimuthal
+angle $\phi^*$, drawn uniformly in $[0, \pi]$. The small exclusion around
+$0$ and $\pi$ avoids the forward/backward divergence of the M\o ller
+cross-section.
+
+The momenta are then rotated by $(\theta^*, \phi^*)$ in the c.m.\ frame and
+boosted back to the laboratory frame.
+
+The weight of the event is finally computed
+as the integrand of Eq.~\eqref{eq:touschek_mc_rate}, i.e.\ the product of the two
+densities, $\sin\theta^*$, the M\o ller cross-section evaluated at $\theta^*$,
+and the kinematic factor $\beta^*/\gamma^2$.
+
+\subsection{Selection of the particles to be tracked}
+\label{section:touschek_selection}
+
+After the boost back to the laboratory frame the pair is ordered so that particle
+1 carries the smaller momentum deviation. A particle is retained as a candidate
+for tracking only if its momentum deviation falls outside the local momentum
+acceptance,
+\begin{equation}
+    \delta_1 < \delta_N \qquad \text{or} \qquad \delta_2 > \delta_P .
+    \label{eq:touschek_selection}
+\end{equation}
+Particles that remain inside the acceptance cannot be lost and are discarded.
+
+The acceptance used in Eq.~\eqref{eq:touschek_selection} is the LMA scaled by a
+safety factor smaller than one. This accounts for the fact that particles with
+non-zero betatron amplitude can be lost at momentum deviations smaller than the
+on-orbit acceptance, and therefore prevents potentially lost particles from being
+missed.
+
+\subsection{Weighting of the scattered macroparticles}
+\label{section:touschek_weights}
+
+A lumped-element approach is used to model the losses: the lattice is divided
+into a series of sections by placing scattering elements at different locations,
+chosen such that the optics functions vary slowly between adjacent elements.
+Evaluating the local scattering rate by Monte Carlo integration everywhere in the
+machine would be computationally expensive. Instead, the Piwinski formula is used
+to estimate rapidly the total Touschek scattering rate over each lattice section,
+and this is used to normalise the Monte Carlo distribution.
+
+The Piwinski rate $R_P(s)$ is evaluated at each scattering element and integrated
+with the trapezoidal rule over the lattice section between the current and the
+preceding scattering element. Normalising to the machine circumference $C$ gives
+the contribution of that section to the ring-averaged scattering rate,
+\begin{equation}
+    \overline{R}_P = \frac{1}{C}
+    \int_{s_{k-1}}^{s_k} R_P(s)\, ds .
+    \label{eq:touschek_integrated_rate}
+\end{equation}
+Each scattered macroparticle generated at the element, carrying the local
+contribution $r_i$ of Eq.~\eqref{eq:touschek_mc_rate}, is then assigned the
+weight
+\begin{equation}
+    w_i = \frac{r_i}{\sum_{j\in S} r_j} \; \overline{R}_P ,
+    \label{eq:touschek_weight}
+\end{equation}
+where $S$ is the full set of particles selected by
+Eq.~\eqref{eq:touschek_selection}. By default, only the highest-weight subset
+$S_{\mathrm{tr}}\subseteq S$ is returned for tracking: the retained particles are
+chosen such that their cumulative contribution is approximately
+$f_{\mathrm{ret}}\sum_{j\in S} r_j$, where $f_{\mathrm{ret}}$ is the
+\texttt{weight\_retention\_fraction} parameter. For particles in $S_{\mathrm{tr}}$ the
+weights are still normalised with the denominator in
+Eq.~\eqref{eq:touschek_weight}, i.e.\ with the full selected set $S$ rather than
+with the retained subset. Therefore, for $f_{\mathrm{ret}}=1$ the returned
+ensemble reproduces the total scattering rate from the corresponding section,
+while for $f_{\mathrm{ret}}<1$ it reproduces the retained fraction of that rate.
+Summed over all sections, Eq.~\eqref{eq:touschek_integrated_rate} reproduces by
+construction the ring-averaged Piwinski rate of
+Eq.~\eqref{eq:touschek_piwinski_lifetime} when no particles are discarded.
+
+The full beam-loss profile is obtained by tracking the scattered macroparticles
+from the location of their scattering element and histogramming the loss
+positions weighted by $w_i$. The total Touschek loss rate is the sum of the
+weights of the lost particles, from which the Touschek lifetime
+follows as
+\begin{equation}
+    \tau_T = \frac{N_b}{\sum_i w_i} .
+    \label{eq:touschek_lifetime}
+\end{equation}
+For reference, the corresponding analytical estimate from the Piwinski formula is
+obtained by averaging the local rate over the machine
+circumference~\cite{Piwinski:TouschekEffect},
+\begin{equation}
+    \frac{1}{\tau_T} = \left\langle \frac{R_P}{N_b} \right\rangle
+    = \frac{1}{C} \oint_C \frac{R_P(s)}{N_b} \, ds .
+    \label{eq:touschek_piwinski_lifetime}
+\end{equation}
+
+
 \chapter{FFT solvers and convolutions}
 
 \section{Notation for Discrete Fourier Transform}

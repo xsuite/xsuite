@@ -190,6 +190,22 @@ snippet_files = {
         'generated_code_snippets/monitors_as_beam_elements.py',
     'xtrack/examples/monitor/004_monitor_standalone.py':
         'generated_code_snippets/monitor_standalone.py',
+    'xtrack/examples/beam_stats_monitor/000_beam_stats.py':
+        'generated_code_snippets/beam_stats_monitor_beam_stats.py',
+    'xtrack/examples/beam_stats_monitor/001_bunch_by_bunch_stats.py':
+        'generated_code_snippets/beam_stats_monitor_bunch_by_bunch_stats.py',
+    'xtrack/examples/beam_stats_monitor/002_slice_by_slice_stats.py':
+        'generated_code_snippets/beam_stats_monitor_slice_by_slice_stats.py',
+    'xtrack/examples/beam_stats_monitor/003_save_to_file_during_simulation.py':
+        'generated_code_snippets/beam_stats_monitor_save_to_file.py',
+    'xtrack/examples/beam_stats_monitor/004_save_to_file_with_new_frame.py':
+        'generated_code_snippets/beam_stats_monitor_save_new_frame.py',
+    'xtrack/examples/beam_stats_monitor/005_emittance_and_optics.py':
+        'generated_code_snippets/beam_stats_monitor_emittance_and_optics.py',
+    'xtrack/examples/beam_stats_monitor/006_coasting_beam_stats.py':
+        'generated_code_snippets/beam_stats_monitor_coasting_beam_stats.py',
+    'xtrack/examples/beam_stats_monitor/007_beam_profiles.py':
+        'generated_code_snippets/beam_stats_monitor_beam_profiles.py',
     'xtrack/examples/radiation/005_radiation_example.py':
         'generated_code_snippets/radiation.py',
     'xtrack/examples/element_internal_record/000_internal_record.py':
@@ -296,6 +312,8 @@ snippet_files = {
         'generated_code_snippets/ibs_steady_state_emittances_coupling.py',
     'xfields/examples/005_ibs/006_steady_state_emittances_excitation.py':
         'generated_code_snippets/ibs_steady_state_emittances_excitation.py',
+    'xfields/examples/006_touschek/000_touschek_toy_ring.py':
+        'generated_code_snippets/touschek_toy_ring.py',
     'xtrack/examples/orbit_and_tracjectory_correction/000_closed_orbit_correction_basic.py':
         'generated_code_snippets/closed_orbit_correction_basic.py',
     'xtrack/examples/orbit_and_tracjectory_correction/001_closed_orbit_correction_micado.py':
