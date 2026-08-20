@@ -1,45 +1,5 @@
-\documentclass[11pt,a4paper]{article}
-
-\usepackage[margin=2.25cm]{geometry}
-\usepackage{amsmath,amssymb,mathtools,bm}
-\usepackage{booktabs}
-\usepackage{array}
-\usepackage{microtype}
-\usepackage[hidelinks]{hyperref}
-\usepackage[nameinlink,noabbrev]{cleveref}
-
-\allowdisplaybreaks
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
-
-\newcommand{\ii}{\mathrm{i}}
-\newcommand{\e}{\mathrm{e}}
-\newcommand{\Tr}{\operatorname{tr}}
-\newcommand{\Ree}{\operatorname{Re}}
-\newcommand{\Imm}{\operatorname{Im}}
-\newcommand{\diag}{\operatorname{diag}}
-\newcommand{\mat}[1]{\bm{#1}}
-\newcommand{\fminus}{f_{1001}}
-\newcommand{\fplus}{f_{1010}}
-
-\title{Relation Between Mais--Ripken Lattice Functions and Linear-Coupling Resonance Driving Terms}
-\author{}
-\date{\today}
-
-\begin{document}
-\maketitle
-
-\begin{abstract}
-We collect, in one set of conventions, the description of stable linear transverse coupling by the Mais--Ripken (MR) lattice functions, by the linear normal-form matrix $W$, and by the coupling resonance driving terms (RDTs) $f_{1001}$ and $f_{1010}$.  The turn-by-turn orbit is written in both formalisms.  Position and momentum spectral-line ratios are derived, including the interference between the difference- and sum-resonance terms.  An exact algebraic correspondence is then given between the Edwards--Teng normalized coupling matrix and matrix-equivalent linear RDTs.  This correspondence yields the exact identities
-\[
- \frac12\sqrt{\frac{\beta_{x2}}{\beta_{x1}}}
-   =\left|f_{1001}-f_{1010}^{*}\right|,
- \qquad
- \frac12\sqrt{\frac{\beta_{y1}}{\beta_{y2}}}
-   =\left|f_{1001}-f_{1010}\right|,
-\]
-and analogous relations for normalized momenta with the plus signs.  The perturbative RDTs obtained from a sum over lattice sources coincide with the matrix-equivalent quantities to first order in the coupling.  The derivation assumes stable, on-momentum, four-dimensional symplectic motion in canonical coordinates $(x,p_x,y,p_y)$ and adopts the Xsuite convention for complex Courant--Snyder variables and RDTs.
-\end{abstract}
+\chapter{Linear coupling}
+\label{ch:linear-coupling}
 
 \section{Scope and conventions}
 
@@ -60,7 +20,7 @@ The one-turn map is assumed stable and symplectic.  Mode 1 is labeled horizontal
 for its symplectic conjugate; the overbar must not be confused with complex
 conjugation.
 
-The exact matrix relations below apply to a purely transverse $4\times4$ symplectic problem.  Longitudinal coupling, radiation damping, non-symplectic maps, and the distinction between canonical momentum and geometric slope require additional terms.  The complex-variable and RDT signs follow the Xsuite physics-manual convention~\cite{XsuiteManual}.
+The exact matrix relations below apply to a purely transverse $4\times4$ symplectic problem.  Longitudinal coupling, radiation damping, non-symplectic maps, and the distinction between canonical momentum and geometric slope require additional terms.  The complex-variable and RDT signs follow the convention introduced in \cref{ch:rdt}.
 
 \section{Turn-by-turn motion in the Mais--Ripken formalism}
 \label{sec:mr}
@@ -120,7 +80,7 @@ Then the complete turn-by-turn orbit is
 \end{equation}
 This form is independent of the phase gauge used for each eigenvector, provided the same gauge is used consistently in $W$ and in $\Phi_j$.
 
-\subsection{MR lattice functions from $W$}
+\subsection{Mais--Ripken lattice functions from $W$}
 
 Partition $W$ into $2\times2$ blocks by physical plane and normal mode,
 \begin{equation}
@@ -176,13 +136,56 @@ and canonical-momentum line amplitudes are therefore
  \label{eq:mr-line-amplitudes}
 \end{equation}
 
+\subsection{Closest-tune-approach indicator}
+
+A commonly used global coupling indicator can be obtained from the relative
+amplitudes and phases of the two tune lines~\cite{luo2004phase,Jones:2020hhl}.
+For the horizontal-like and vertical-like modes, respectively, define
+\begin{equation}
+ r_1\equiv
+ \frac{\mathcal A_y(Q_1)}{\mathcal A_x(Q_1)}
+ =\sqrt{\frac{\beta_{y1}}{\beta_{x1}}},
+ \qquad
+ r_2\equiv
+ \frac{\mathcal A_x(Q_2)}{\mathcal A_y(Q_2)}
+ =\sqrt{\frac{\beta_{x2}}{\beta_{y2}}},
+\end{equation}
+and the cross-plane phase differences
+\begin{equation}
+ \Delta\phi_1=\chi_{y1}-\chi_{x1},
+ \qquad
+ \Delta\phi_2=\chi_{x2}-\chi_{y2}.
+\end{equation}
+The closest-tune-approach magnitude is then~\cite{Jones:2020hhl}
+\begin{equation}
+ \left|C^-\right|
+ =\frac{2\sqrt{r_1r_2}\,|Q_1-Q_2|}{1+r_1r_2}.
+ \label{eq:cmin}
+\end{equation}
+Together with $\chi(s)=\Delta\phi_1(s)$, this defines the local complex
+quantity
+\begin{equation}
+ C^-(s)=|C^-|\e^{\ii\chi(s)}.
+\end{equation}
+Only its phase depends on the observation point $s$.  In first-order
+perturbation theory it is related to the skew-quadrupole distribution by
+\begin{equation}
+ C^-=\frac{1}{2\pi}\int_0^L
+ \sqrt{\beta_x\beta_y}\,k_s
+ \e^{\ii[\Phi_x-\Phi_y-2\pi\Delta s/L]}\,\dee l,
+\end{equation}
+where $\Delta$ is the difference of the uncoupled fractional tunes.  For a
+more robust scalar estimate, \cref{eq:cmin} can be evaluated at every
+observation point and averaged around the ring~\cite{tobias_coupling_note}.
+
 \section{Edwards--Teng decoupling and modal Twiss parameters}
 \label{sec:et-twiss}
 
 \subsection{Decoupled modal maps}
 
 The Edwards--Teng construction decouples the physical four-dimensional map
-into two stable two-dimensional modal maps.  As in the Xsuite physics manual,
+into two stable two-dimensional modal maps~\cite{EdwardsTeng,laurent_coupling_1,laurent_coupling_2}.
+Following the notation used throughout this manual,
 partition the one-turn map as
 \begin{equation}
  R=\begin{pmatrix}A&B\\C&D\end{pmatrix},
@@ -515,9 +518,31 @@ horizontal and vertical Courant--Snyder Twiss parameters.
 \subsection{Relation between $W$ and the Edwards--Teng transformation}
 
 The matrix $A_q^{-1}$ maps modal coordinates to normalized coordinates,
-whereas $A_q$ performs the inverse operation.  At this point it is important
-not to assume that the normalized coordinates associated with $W$ and with
-the ET construction have the same phase gauge.  Denote them separately by
+whereas $A_q$ performs the inverse operation.  Throughout this subsection and
+all that follows, we assume that the phases of the two transverse eigenvectors
+of $W$ have already been chosen such that $v_{1,x}$ and $v_{2,y}$ are real and
+positive.  With
+\begin{equation}
+ \mat v_1=W_{:,1}+\ii W_{:,2},
+ \qquad
+ \mat v_2=W_{:,3}+\ii W_{:,4},
+\end{equation}
+this means explicitly
+\begin{equation}
+ \Imm(v_{1,x})=0,
+ \qquad
+ \Ree(v_{1,x})>0,
+ \qquad
+ \Imm(v_{2,y})=0,
+ \qquad
+ \Ree(v_{2,y})>0.
+ \label{eq:et-rephasing-of-w}
+\end{equation}
+This is the Edwards--Teng phase gauge used in the implementation.
+
+We shall now prove that this phase choice makes the normalized coordinates
+associated with $W$ and with the ET construction identical.  Initially denote
+them separately by
 \begin{equation}
  \widehat{\mat z}_W=W^{-1}\mat z,
  \qquad
@@ -540,8 +565,9 @@ equivalent to
 \end{equation}
 
 Both $U$ and $W$ reduce the physical map to the same block rotation.  To see
-this explicitly, use $U^{-1}=\mathcal A^{-1}T_{\mathrm{ET}}^{-1}$ and substitute
-the ET block-diagonalization from \cref{eq:et-decoupled-map}:
+this explicitly, use
+$U^{-1}=\mathcal A^{-1}T_{\mathrm{ET}}^{-1}$ and substitute the ET
+block-diagonalization from \cref{eq:et-decoupled-map}:
 \begin{align}
  U^{-1}RU
  &=\mathcal A^{-1}T_{\mathrm{ET}}^{-1}
@@ -563,11 +589,21 @@ Likewise, \cref{eq:normal-form} gives
 \begin{equation}
  W^{-1}RW=R_{\mathrm{rot}}(\mu_1,\mu_2).
 \end{equation}
-Consequently, the matrix
+Define the change of normalized basis
 \begin{equation}
  D\equiv U^{-1}W
  \label{eq:D-definition}
 \end{equation}
+so that $W=UD$.  Substituting this relation into the preceding normal-form
+equation gives
+\begin{align}
+ R_{\mathrm{rot}}(\mu_1,\mu_2)
+ &=W^{-1}RW \nonumber\\
+ &=(UD)^{-1}R(UD) \nonumber\\
+ &=D^{-1}(U^{-1}RU)D \nonumber\\
+ &=D^{-1}R_{\mathrm{rot}}(\mu_1,\mu_2)D.
+\end{align}
+Multiplication from the left by $D$ therefore shows explicitly that $D$
 commutes with the block rotation:
 \begin{equation}
  DR_{\mathrm{rot}}(\mu_1,\mu_2)
@@ -577,7 +613,7 @@ For distinct, nondegenerate tunes and a fixed ordering of the two modes, a
 symplectic matrix with this property consists of an independent phase rotation
 in each mode:
 \begin{equation}
- D=\diag\!\left(R_2(\theta_1),R_2(\theta_2)\right).
+ D=\diag\!\left(R_2(\delta_1),R_2(\delta_2)\right).
  \label{eq:D-phase-rotations}
 \end{equation}
 It follows from $W=UD$ that the two normalized vectors are related by
@@ -585,17 +621,40 @@ It follows from $W=UD$ that the two normalized vectors are related by
  \widehat{\mat z}_{\mathrm{ET}}=D\widehat{\mat z}_W.
  \label{eq:normalized-coordinate-gauges}
 \end{equation}
-Thus they differ only by shifts of the two normal-mode phases.  These shifts
-do not alter the actions or the physical orbit.
+It remains to use the phase convention in \cref{eq:et-rephasing-of-w} to
+determine $D$.
 
-The columns of $W$ may now be phase-rotated so that
-$D=\diag(I_2,I_2)$.  This choice is
-the Edwards--Teng phase gauge.  In this gauge
+Substituting the explicit form of $T_{\mathrm{ET}}$ from \cref{eq:tet} into
+the definition of $U$ in \cref{eq:U-definition} shows that its upper-left and
+lower-right blocks are $gA_x$ and $gA_y$, respectively.
+Because the first row of each $A_q$ is $(\sqrt{\beta_q},0)$, the corresponding
+complex position components of $U$ are the positive real numbers
+$g\sqrt{\beta_x}$ and $g\sqrt{\beta_y}$.  Right multiplication of a real
+column pair by $R_2(\delta)$ multiplies its associated complex vector by
+$e^{\ii\delta}$.  Since $W=UD$, it follows that
 \begin{equation}
- \widehat{\mat z}_{\mathrm{ET}}=\widehat{\mat z}_W
- \equiv\widehat{\mat z},
+ v_{1,x}=g\sqrt{\beta_x}\,e^{\ii\delta_1},
+ \qquad
+ v_{2,y}=g\sqrt{\beta_y}\,e^{\ii\delta_2}.
+ \label{eq:principal-components-with-D}
 \end{equation}
-and \cref{eq:U-definition} gives
+The factors $g\sqrt{\beta_x}$ and $g\sqrt{\beta_y}$ are positive.  Since the
+left-hand sides are also real and positive by \cref{eq:et-rephasing-of-w},
+\begin{equation}
+ e^{\ii\delta_1}=e^{\ii\delta_2}=1,
+ \qquad
+ D=\diag(I_2,I_2).
+ \label{eq:et-gauge-fixes-D}
+\end{equation}
+Therefore $W=UD=U$, and \cref{eq:normalized-coordinate-gauges} gives
+\begin{equation}
+ \boxed{
+ \widehat{\mat z}_{\mathrm{ET}}=\widehat{\mat z}_W
+ \equiv\widehat{\mat z}.
+ }
+ \label{eq:equal-normalized-coordinates}
+\end{equation}
+Finally, $W=U$ and \cref{eq:U-definition} give
 \begin{equation}
  \boxed{
  W=T_{\mathrm{ET}}\diag(A_x,A_y).
@@ -603,7 +662,7 @@ and \cref{eq:U-definition} gives
  \label{eq:w-from-tet}
 \end{equation}
 All equations below that involve the individual columns or blocks of $W$ use
-this phase gauge.
+this explicitly rephased matrix.
 Substituting the explicit ET matrix from \cref{eq:tet} into
 \cref{eq:w-from-tet} first gives
 \begin{equation}
@@ -706,7 +765,7 @@ Using the definition $\Sigma_{qj}=W_{qj}W_{qj}^T$ from
  &\Sigma_{y2}&=g^2 A_yA_y^T.
  \label{eq:sigmay-factorization}
 \end{align}
-The principal MR functions are therefore
+The principal Mais--Ripken functions are therefore
 \begin{align}
  \beta_{x1}&=g^2\beta_x,
  &\alpha_{x1}&=g^2\alpha_x,
@@ -724,7 +783,7 @@ The determinant of either principal projected block is therefore
  =g^4.
  \label{eq:main-determinants}
 \end{equation}
-Consequently, $g$ is obtained directly from the principal MR functions:
+Consequently, $g$ is obtained directly from the principal Mais--Ripken functions:
 \begin{equation}
  \boxed{
  g^2
@@ -744,7 +803,7 @@ The ET modal Twiss parameters then follow by division by $g^2$:
  \label{eq:et-from-main-mr}
 \end{equation}
 
-To make the remaining MR functions equally explicit, write
+To make the remaining Mais--Ripken functions equally explicit, write
 \begin{equation}
  \mathcal C=
  \begin{pmatrix}
@@ -928,7 +987,7 @@ The coefficient $h_{w,jklm}$ is the corresponding Hamiltonian coefficient of sou
 \[
  K_{1s,w}\sqrt{\beta_{x,w}\beta_{y,w}}/4;
 \]
-their different global behavior comes from their phase factors and resonance denominators~\cite{XsuiteManual}.
+their different global behavior comes from their phase factors and resonance denominators in \cref{eq:rdt_def}.
 
 In particular,
 \begin{align}
@@ -1046,7 +1105,7 @@ The corresponding normalized-momentum ratios are
  \label{eq:measured-py-rdt-ratio}
 \end{align}
 
-\subsection{MR--RDT amplitude identities}
+\subsection{Mais--Ripken and RDT amplitude identities}
 
 From \cref{eq:mr-line-amplitudes},
 \begin{align}
@@ -1076,7 +1135,7 @@ The normalized momentum in plane $q$ is
 \begin{equation}
  \widetilde p_q=\frac{\alpha_q q+\beta_q p_q}{\sqrt{\beta_q}}.
 \end{equation}
-Using the MR matrices, define
+Using the Mais--Ripken projection matrices, define
 \begin{align}
  r_{\widetilde p_x}
  &\equiv\frac12
@@ -1116,11 +1175,11 @@ The interference structure is explicit:
  r_{\widetilde p_y}^2&=|\fminus|^2+|\fplus|^2+2\Ree(\fminus\fplus^{*}).
  \label{eq:interference-identities}
 \end{align}
-Consequently, even a relatively small $f_{1010}$ produces a first-order modulation of an MR position ratio around $|f_{1001}|$.
+Consequently, even a relatively small $f_{1010}$ produces a first-order modulation of a Mais--Ripken position ratio around $|f_{1001}|$.
 
 \subsection{Physical canonical-momentum ratios}
 
-The MR functions give directly
+The Mais--Ripken functions give directly
 \begin{align}
  \frac{\mathcal A_{p_x}(Q_2)}{\mathcal A_{p_x}(Q_1)}
  &=\sqrt{\frac{J_2}{J_1}}
@@ -1223,25 +1282,19 @@ immediately yields the exact amplitude identities in
 The matrix-equivalent RDTs can be obtained directly from $W$ without first
 reconstructing all four real entries of $\mathcal C$.  Assume the coordinate
 order $(x,p_x,y,p_y)$ and that columns 3 and 4 of $W$ belong to the
-vertical-like mode 2.
+vertical-like mode 2.  As stated in \cref{eq:et-rephasing-of-w}, $W$ is already
+assumed to be in the ET phase gauge.
 
-First form the complex mode-2 eigenvector
+The complex mode-2 eigenvector is therefore
 \begin{equation}
- \mat v_2^{(0)}=W_{:,3}+\ii W_{:,4}.
-\end{equation}
-Fix its phase by requiring its physical $y$ component to be real and positive:
-\begin{equation}
- \mat v_2
- =\mat v_2^{(0)}
-  \exp\!\left[-\ii\arg\!\left(v_{2,y}^{(0)}\right)\right],
- \qquad v_{2,y}>0.
+ \mat v_2=W_{:,3}+\ii W_{:,4},
+ \qquad v_{2,y}>0,
  \label{eq:v2-et-phase-gauge}
 \end{equation}
-This selects the mode-2 part of the ET phase gauge discussed in
-\cref{eq:D-phase-rotations}.  The mode-1 phase does not enter the following
-calculation because its MR functions are phase invariant.
+with a real, positive physical $y$ component.  The mode-1 phase does not enter
+the following calculation because its Mais--Ripken functions are phase invariant.
 
-Next obtain $g$ from the principal horizontal MR functions and recover the
+Next obtain $g$ from the principal horizontal Mais--Ripken functions and recover the
 horizontal ET Twiss parameters:
 \begin{align}
  g^2
@@ -1254,10 +1307,7 @@ horizontal ET Twiss parameters:
 \end{align}
 The quantities $\beta_{x1}$, $\alpha_{x1}$, and $\gamma_{x1}$ are obtained
 from the first two columns of $W$ through
-\cref{eq:mr-functions-from-w}.  In the implementation, the variables
-\texttt{rho2} and \texttt{rho} store the quantities denoted here by $g^2$ and
-$g$, while \texttt{beta\_a} and \texttt{alpha\_a} store $\beta_x$ and
-$\alpha_x$.
+\cref{eq:mr-functions-from-w}.
 
 Apply the inverse horizontal ET normalizer to the horizontal components of
 $\mat v_2$:
@@ -1292,62 +1342,3 @@ Substitution into \cref{eq:f1001-from-c,eq:f1010-from-c} finally gives
 \end{align}
 This is the direct route used by an implementation based on the complex
 mode-2 eigenvector of $W$.
-
-\subsection{Perturbative and matrix-equivalent RDTs}
-
-The source sum in \cref{eq:general-local-rdt} is a first-order perturbative quantity.  The definitions in \cref{eq:f1001-from-c,eq:f1010-from-c} are exact algebraic coordinates of the linear symplectic coupling matrix.  In weak coupling,
-\begin{equation}
- g=1+\mathcal O(K_{1s}^2),
- \qquad
- \mathcal C=\mathcal O(K_{1s}),
-\end{equation}
-so the two definitions agree at first order.  At stronger coupling, or very close to resonance, one should state explicitly whether $f_{1001}$ and $f_{1010}$ denote source-summed perturbative RDTs or matrix-equivalent RDTs extracted from the exact one-turn map.
-
-\section{Conclusions}
-
-The MR and RDT descriptions encode the same linear coupled motion, but emphasize different objects.  The MR functions are quadratic projections of the exact normal-mode eigenvectors and directly give physical position and momentum amplitudes.  The RDTs separate the difference- and sum-resonance content and expose their phases.  Their observable combinations are not $|f_{1001}|$ alone:
-\begin{equation}
- \begin{array}{c|c}
- \text{projection}&\text{controlling complex combination}\\ \hline
- x\leftarrow\text{mode 2}&f_{1001}-f_{1010}^{*}\\
- \widetilde p_x\leftarrow\text{mode 2}&f_{1001}+f_{1010}^{*}\\
- y\leftarrow\text{mode 1}&f_{1001}-f_{1010}\\
- \widetilde p_y\leftarrow\text{mode 1}&f_{1001}+f_{1010}
- \end{array}
-\end{equation}
-This explains both the phase-dependent modulation of MR cross-plane beta ratios and the possible appearance of coupling in momentum while the corresponding position projection remains small.
-
-\begin{thebibliography}{99}
-
-\bibitem{MaisRipken}
-H.~Mais and G.~Ripken,
-\emph{Theory of Coupled Synchro-Betatron Oscillations I},
-DESY Report DESY-M-82-05 (1982).
-
-\bibitem{EdwardsTeng}
-D.~A.~Edwards and L.~C.~Teng,
-``Parametrization of linear coupled motion in periodic systems,''
-\emph{IEEE Trans. Nucl. Sci.} \textbf{20}, 885--888 (1973),
-\href{https://doi.org/10.1109/TNS.1973.4327279}{doi:10.1109/TNS.1973.4327279}.
-
-\bibitem{LebedevBogacz}
-V.~A.~Lebedev and S.~A.~Bogacz,
-``Betatron motion with coupling of horizontal and vertical degrees of freedom,''
-\emph{JINST} \textbf{5}, P10010 (2010),
-\href{https://doi.org/10.1088/1748-0221/5/10/P10010}{doi:10.1088/1748-0221/5/10/P10010},
-\href{https://arxiv.org/abs/1207.5526}{arXiv:1207.5526}.
-
-\bibitem{CalagaTomasFranchi}
-R.~Calaga, R.~Tom\'as, and A.~Franchi,
-``Betatron coupling: Merging Hamiltonian and matrix approaches,''
-\emph{Phys. Rev. ST Accel. Beams} \textbf{8}, 034001 (2005),
-\href{https://doi.org/10.1103/PhysRevSTAB.8.034001}{doi:10.1103/PhysRevSTAB.8.034001}.
-
-\bibitem{XsuiteManual}
-Xsuite Collaboration,
-\emph{Xsuite Physics Manual}, Chapters 3--4,
-\url{https://xsuite.github.io/xsuite/docs/physics_manual/physics_man.pdf}.
-
-\end{thebibliography}
-
-\end{document}
