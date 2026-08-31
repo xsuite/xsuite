@@ -299,6 +299,7 @@ def build_single_kernel(
     config = metadata['config']
     tracker_element_classes = metadata['classes']
     extra_classes = metadata.get('extra_classes', [])
+    include_monitors = metadata.get('include_monitors', True)
     build_context = xo.ContextCpu() if context_key == SERIAL_CONTEXT else xo.ContextCpu(
         omp_num_threads='auto'
     )
@@ -313,11 +314,10 @@ def build_single_kernel(
         kernel_info = xt.Tracker._compile_kernel_from_classes(
             context=build_context,
             config=tracker_config,
-            tracker_element_classes=[
-                *tracker_element_classes,
-                xt.ParticlesMonitor,
-                xt.MultiElementMonitor,
-            ],
+            tracker_element_classes=(
+                [*tracker_element_classes, xt.ParticlesMonitor, xt.MultiElementMonitor]
+                if include_monitors else tracker_element_classes
+            ),
             extra_classes=extra_classes,
             module_name=module_name,
             containing_dir=location,
