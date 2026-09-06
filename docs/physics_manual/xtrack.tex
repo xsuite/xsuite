@@ -1283,7 +1283,7 @@ where $L$ is the length of the modelled multipole element.
 
 The other coordinates ($x$, $y$, $\delta$, $\zeta$) remain unchanged.
 
-\subsection{Dipole fringe field}
+\subsection{Dipole fringe field} \label{sec:DipoleFringeField}
 
 The dipole fringe field map used in Xsuite is based on \cite{forest-fringe-1}.
 Additional information can be found in \cite{silke_cap, silke_fringe}.
@@ -1356,16 +1356,12 @@ p_{y,0}^{(0)} = p_{y,1}
 \end{equation}
 
 After each improved estimate of $p_{y,0}$, the function $\phi$ is recomputed.
-This PR currently performs a single iteration. More iterations could be added if
-needed; in tests, three iterations were enough to reach machine precision even
-for a very strong edge.
 
 The code will iterate a maximum of 10 times and will continue iterating until the
 relative tolerance between the new and old $p_{y,0}$ is less than $10^{-13}$. This
 can make the map extremely slow for very strong edges, but we do not currently envision
 significant use of the backtracking version of this map, so have sacrificed performance
 for precision and accuracy.
-
 
 
 \subsection{Dipole wedge} \label{sec:DipoleWedge}
@@ -1435,6 +1431,60 @@ p_y &= p_y^f - \frac{p_x^f (\partial_y f^x) + p_y^f (\partial_y f^y)}{1+\delta} 
 \end{subequations}
 It is solved by inverting Eqs.~\eqref{eq:fringe_px} and \eqref{eq:fringe_py}
 simultaneously to obtain the final transverse momenta.
+
+\subsubsection{Backtracking}
+As for the dipole fringe field (Sec.~\ref{sec:DipoleFringeField}), the map relates the
+entrance and exit coordinates implicitly, here in $x$ and $y$ rather than in $p_y$, and so
+cannot be inverted analytically. As before, we describe the coordinates before entering the
+fringe map as $(x_0, p_{x,0}, y_0, p_{y,0})$ and the coordinates after the fringe map as
+$(x_1, p_{x,1}, y_1, p_{y,1})$.
+
+The functions $f^x$, $f^y$ and their derivatives are evaluated at the entrance position
+$(x_0, y_0)$, which need to be recovered when backtracking. Since Eqs.~\eqref{eq:xf} and \eqref{eq:yf}
+couple the two planes through $f^x(x_0,y_0)$ and $f^y(x_0,y_0)$, they cannot be inverted one at a time as
+in the dipole fringe case, and we must instead solve the coupled system
+\begin{equation}
+\vec{F}(x_0, y_0) =
+\begin{pmatrix}
+x_0 - \dfrac{f^x(x_0,y_0)}{1+\delta} - x_1 \\[1.5ex]
+y_0 - \dfrac{f^y(x_0,y_0)}{1+\delta} - y_1
+\end{pmatrix}
+= 0
+\label{eq:mult_fringe_residual}
+\end{equation}
+for $(x_0, y_0)$, with $(x_1, y_1)$ known. Its Jacobian is
+\begin{equation}
+J = \frac{\partial \vec{F}}{\partial (x_0, y_0)} =
+\begin{pmatrix}
+1 - \dfrac{\partial_x f^x}{1+\delta} & -\dfrac{\partial_y f^x}{1+\delta} \\[1.5ex]
+-\dfrac{\partial_x f^y}{1+\delta} & 1 - \dfrac{\partial_y f^y}{1+\delta}
+\end{pmatrix},
+\label{eq:mult_fringe_jacobian}
+\end{equation}
+which is the Jacobian of the forward position map, so that Eq.~\eqref{eq:mult_fringe_residual}
+is solved by the Newton iteration
+\begin{equation}
+\begin{pmatrix} x_0 \\ y_0 \end{pmatrix}^{(n+1)}
+=
+\begin{pmatrix} x_0 \\ y_0 \end{pmatrix}^{(n)}
+- \left. J^{-1} \vec{F} \right|^{(n)},
+\qquad
+(x_0, y_0)^{(0)} = (x_1, y_1),
+\end{equation}
+where $f^x$, $f^y$ and $J$ are re-evaluated at $(x_0, y_0)^{(n)}$ at every step.
+
+Once $(x_0, y_0)$ has converged, the entrance momenta follow from Eqs.~\eqref{eq:fringe_px}
+and~\eqref{eq:fringe_py}, which in matrix form read
+\begin{equation}
+\begin{pmatrix} p_{x,0} \\ p_{y,0} \end{pmatrix}
+= J^\top
+\begin{pmatrix} p_{x,1} \\ p_{y,1} \end{pmatrix},
+\end{equation}
+with $J$ evaluated at the recovered entrance position.
+
+The iteration is capped at 10 steps and is taken as converged when the change in both $x_0$ and
+$y_0$ between successive steps falls below a relative tolerance of $10^{-13}$. If the iteration
+does not converge, an error is raised.
 
 \subsection{Quadrupolar correction for wedge and Y rotation}
 
