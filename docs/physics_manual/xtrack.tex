@@ -1303,7 +1303,7 @@ with:
 \begin{equation}
 \psi = K_0 \tan \left[
 \arctan \left( \frac{x'}{1 + y'^2} \right)
-- g K_0 F \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) p_s 
+- g K_0 F \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) / p_s 
 \right]
 \end{equation}
 where $K_0$ is the normalized magnetic field, $g$ is the magnet gap and $F$ is
@@ -1311,6 +1311,8 @@ the fringe field integral:
 \begin{equation}
 F = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(K_0 - b(s)\bigr)}{g K_0^{2}} \, ds
 \end{equation}
+
+A factor $1/p_s^2$ difference can be observed in the generating function with respect to the original PTC implementation, to be consistent with equation (34) in the paper in lowest order and obtain the correct momentum dependence.
 
 \subsection{Dipole wedge} \label{sec:DipoleWedge}
 
