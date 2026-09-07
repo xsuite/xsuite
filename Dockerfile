@@ -64,7 +64,7 @@ ENV PATH /opt/miniforge/bin:$PATH
 # - pytest-html for generating html reports
 # - gpyfft is a clfft wrapper that can only be installed from source or .deb
 RUN echo "::group::Setting up Python environment" \
-    && mamba install python=3.12 \
+    && mamba install python=3.13 \
     && mamba shell init -s bash \
     && echo "mamba activate base" >> ~/.bashrc \
     && mamba install git pip compilers openmp \
