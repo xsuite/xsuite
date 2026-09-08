@@ -462,6 +462,13 @@ Beam-beam Bi-Gaussian 2D
     :members:
     :member-order: bysource
 
+Beam-beam rigid-bunch Bi-Gaussian 2D
+------------------------------------
+
+.. autoclass:: xfields.BeamBeamBiGaussianRigidBunch2D
+    :members:
+    :member-order: bysource
+
 Beam-beam Bi-Gaussian 3D
 ------------------------
 
@@ -506,6 +513,42 @@ Touschek Scattering
     :member-order: bysource
 
 .. autoclass:: xfields.TouschekResult
+    :members:
+    :member-order: bysource
+
+
+.. _beambeam-configuration-api-reference:
+
+Beam-beam configuration and rigid-bunch studies (xfields)
+==========================================================
+
+Beam-beam interactions are installed and configured through the Xfields
+accessor of an :class:`xtrack.Environment`, available as ``env.xfields``.
+The configuration method returns a :class:`xfields.BeamBeamRigidBunchStudy`
+when the interactions were installed with ``mode='rigid_bunch'``.
+
+.. automethod:: xfields.XfieldsEnvironmentAPI.install_beambeam_interactions
+
+.. automethod:: xfields.XfieldsEnvironmentAPI.configure_beambeam_interactions
+
+BeamBeamRigidBunchStudy
+-----------------------
+
+.. autoclass:: xfields.BeamBeamRigidBunchStudy
+    :members:
+    :member-order: bysource
+
+RigidBunchTwiss
+---------------
+
+.. autoclass:: xfields.RigidBunchTwiss
+    :members:
+    :member-order: bysource
+
+BunchTwiss
+----------
+
+.. autoclass:: xfields.BunchTwiss
     :members:
     :member-order: bysource
 
