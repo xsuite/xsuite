@@ -10,8 +10,8 @@ Xfields provides three complementary beam-beam workflows:
   Xfields provides both a soft-Gaussian model and a particle-in-cell (PIC)
   model.
 * In the **rigid-bunch** model, every bunch in both beams is represented by a
-  coherent centroid. This is the model intended for self-consistent
-  bunch-to-bunch orbit and tune studies with realistic filling patterns.
+  coherent centroid for self-consistent
+  bunch-to-bunch orbit and optics studies.
 
 The weak-strong and strong-strong examples below describe the interaction of
 one bunch from each beam. A complete collider can contain many such
