@@ -234,7 +234,7 @@ snippet_files = {
         'generated_code_snippets/stabilitydiagram.py',
     'xfields/examples/002_beambeam/010_beambeam2d_weakstrong.py':
         'generated_code_snippets/beambeamws.py',
-    'xfields/examples/beambeam_rigid_bunch/002_lhc_rigid_bunch.py':
+    'xfields/examples/beambeam_rigid_bunch/002_lhc_rigid_bunch_full_lattice.py':
         'generated_code_snippets/lhc_rigid_bunch.py',
     'xtrack/examples/dynamic_aperture/000_tracking_for_da.py':
         'generated_code_snippets/tracking_for_da.py',
