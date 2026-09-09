@@ -100,6 +100,34 @@ For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.b
                other_beam_beta0 = particles_b1.beta0[0],
                config_for_update = config_for_update_b2_IP1)
 
+Rigid-bunch mode
+----------------
+
+The rigid-bunch mode computes the coherent, self-consistent closed orbit and
+linear optics of every filled bunch in two counter-rotating beams. Each bunch
+is represented by a single transverse bi-Gaussian distribution: its centroid
+moves coherently, while its internal particle distribution is not tracked.
+This makes the mode suitable for studying bunch-to-bunch orbit and tune
+variations produced by a collider's filling pattern.
+
+The beam-beam interactions are installed on the two lines with
+``mode='rigid_bunch'``. Configuring them returns a
+:class:`xfields.BeamBeamRigidBunchStudy`, which stores the filling patterns and
+provides :meth:`~xfields.BeamBeamRigidBunchStudy.solve` for the self-consistent
+two-beam solution. The result contains separate ``cw`` and ``acw`` per-bunch
+tables; individual bunches can be selected by filling slot, and their ordinary
+:class:`xtrack.TwissTable` can be inspected with the standard table API. See
+the :ref:`beam-beam configuration API reference
+<beambeam-configuration-api-reference>` for all available operations.
+
+The following example runs this workflow on the full, thick LHC lattice. It
+uses a prepared subset of an operational filling pattern to keep the runtime
+manageable, then illustrates how to inspect tunes, closed orbits and
+per-element results.
+
+.. literalinclude:: generated_code_snippets/lhc_multibunch_bb.py
+   :language: python
+
 Poisson Solver
 --------------
 
