@@ -1108,17 +1108,24 @@ BeamBeamRigidBunchStudy
     :members:
     :member-order: bysource
 
-RigidBunchTwiss
-~~~~~~~~~~~~~~~
+BeamBeamRigidBunchTwiss
+~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: xfields.RigidBunchTwiss
+.. autoclass:: xfields.BeamBeamRigidBunchTwiss
     :members:
     :member-order: bysource
 
-BunchTwiss
-~~~~~~~~~~
+BeamBeamRigidBunchSolution
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. autoclass:: xfields.BunchTwiss
+.. autoclass:: xfields.BeamBeamRigidBunchSolution
+    :members:
+    :member-order: bysource
+
+MultiBunchTwiss
+~~~~~~~~~~~~~~~
+
+.. autoclass:: xfields.MultiBunchTwiss
     :members:
     :member-order: bysource
 
