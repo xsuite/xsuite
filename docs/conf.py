@@ -236,6 +236,8 @@ snippet_files = {
         'generated_code_snippets/beambeamws.py',
     'xfields/examples/beambeam_rigid_bunch/000_lhc_rigid_bunch_full_lattice.py':
         'generated_code_snippets/lhc_rigid_bunch.py',
+    'xfields/examples/beambeam_rigid_bunch/001_lhc_rigid_bunch_reduced_model.py':
+        'generated_code_snippets/lhc_rigid_bunch_reduced_model.py',
     'xtrack/examples/dynamic_aperture/000_tracking_for_da.py':
         'generated_code_snippets/tracking_for_da.py',
     'xtrack/examples/toy_ring/003_slicing.py':

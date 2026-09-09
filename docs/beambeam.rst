@@ -120,12 +120,23 @@ tables; individual bunches can be selected by filling slot, and their ordinary
 the :ref:`beam-beam configuration API reference
 <beambeam-configuration-api-reference>` for all available operations.
 
-The following example runs this workflow on the full, thick LHC lattice. It
-uses a prepared subset of an operational filling pattern to keep the runtime
-manageable, then illustrates how to inspect tunes, closed orbits and
-per-element results.
+**Full-lattice example.** The following example runs this workflow on the
+full, thick LHC lattice. It uses a prepared subset of an operational filling
+pattern to keep the runtime manageable, then illustrates how to inspect tunes,
+closed orbits and per-element results.
 
 .. literalinclude:: generated_code_snippets/lhc_rigid_bunch.py
+   :language: python
+
+**Reduced-model example.** For faster calculations, the lattice regions
+between consecutive beam-beam encounters can be replaced by second-order
+maps, while the beam-beam elements remain exact. The reduced study is a new
+object, leaving the full-lattice study untouched. After solving the reduced
+problem, :meth:`~xfields.BeamBeamRigidBunchStudy.load_solution` transfers its
+beam-beam state back to the full lattice. The following example mirrors the
+full-lattice workflow above and highlights these additional steps.
+
+.. literalinclude:: generated_code_snippets/lhc_rigid_bunch_reduced_model.py
    :language: python
 
 Poisson Solver
