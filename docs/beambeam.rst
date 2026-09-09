@@ -1,107 +1,188 @@
 Beam-beam
 =========
 
-Weak-strong 2D
---------------
+Xfields provides three complementary beam-beam workflows:
 
-The example below shows how to introduce a 2D beam-beam element in a line and perform few studies based on tracking. The 2D beam-beam element provides a kick based on the Basseti-Erskine formula neglecting any longitudinal varitations of the beam-beam force.
+* In the **weak-strong** model, tracked particles receive the field of a
+  prescribed opposing bunch. The opposing distribution does not react to the
+  tracked bunch.
+* In the **strong-strong** model, both bunches evolve during the collision.
+  Xfields provides both a soft-Gaussian model and a particle-in-cell (PIC)
+  model.
+* In the **rigid-bunch** model, every bunch in both beams is represented by a
+  coherent centroid. This is the model intended for self-consistent
+  bunch-to-bunch orbit and tune studies with realistic filling patterns.
+
+The weak-strong and strong-strong examples below describe the interaction of
+one bunch from each beam. A complete collider can contain many such
+interactions. The rigid-bunch workflow instead treats the filled bunch trains
+as part of the model itself.
+
+
+Weak-strong
+-----------
+
+The analytical weak-strong elements model the opposing bunch as a
+bi-Gaussian charge distribution. Since its moments are fixed, only the
+particles in the tracked (weak) bunch are updated.
+
+
+2D element
+~~~~~~~~~~
+
+:class:`xfields.BeamBeamBiGaussian2D` applies the Bassetti-Erskine transverse
+kick. It neglects longitudinal variation of the beam-beam force and is
+therefore useful for long-range encounters and simplified head-on studies.
+The following example constructs the element, plots its force, computes a
+footprint and tracks through a simple lattice.
 
 .. literalinclude:: generated_code_snippets/beambeamws.py
    :language: python
 
-
 .. figure:: figures/footprint_HO2D.png
-    :width: 80%
-    :align: center
+   :width: 80%
+   :align: center
 
 .. figure:: figures/beambeamkick.png
-    :width: 80%
-    :align: center
-
+   :width: 80%
+   :align: center
 
 .. figure:: figures/phasespacedistortion.png
-    :width: 80%
-    :align: center
+   :width: 80%
+   :align: center
 
-Weak-strong 3D
---------------
 
-The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method) handled by the :class:`xfields.beam_elements.TempSlicer`.
+3D element
+~~~~~~~~~~
+
+:class:`xfields.BeamBeamBiGaussian3D` includes the longitudinal variation of
+the interaction, including hourglass and crossing-angle effects. The opposing
+bunch is divided into longitudinal slices, commonly generated with
+:class:`xfields.TempSlicer`. The element receives the population, longitudinal
+position and transverse covariance matrix of every slice. For example:
 
 .. code-block:: python
 
-   # Number of longitudinal slices
-   n_slices = 21
-   # Slicer used to determine the position and charge of the slices
-   # based on an optimised algorithm by D. Shatilov. (other options are also possible)
-   slicer = xf.TempSlicer(n_slices=n_slices, sigma_z=sigma_z, mode="shatilov")
-   bbeam = xf.BeamBeamBiGaussian3D(
-               _context=context,
-               other_beam_q0 = particles.q0,
-               # Full crossing angle at the IP in rad
-               phi = 500.0E-2,
-               # Roll angle of the crossing angle in rad (0 -> horizontal, pi/2 -> vertical)
-               alpha = 0.0,
-               # charge in each slice
-               slices_other_beam_num_particles = slicer.bin_weights * bunch_intensity,
-               # longitudinal position of the slice
-               slices_other_beam_zeta_center = slicer.bin_centers,
-               # transverse sizes of the slices at the IP (squarred)
-               slices_other_beam_Sigma_11 = np.zeros(n_slices,dtype=float)+physemit_x*beta_x,
-               slices_other_beam_Sigma_12 = np.zeros(n_slices,dtype=float),
-               slices_other_beam_Sigma_13 = np.zeros(n_slices,dtype=float),
-               slices_other_beam_Sigma_14 = np.zeros(n_slices,dtype=float),
-               slices_other_beam_Sigma_22 = np.zeros(n_slices,dtype=float)+physemit_x/beta_x,
-               slices_other_beam_Sigma_23 = np.zeros(n_slices,dtype=float),
-               slices_other_beam_Sigma_24 = np.zeros(n_slices,dtype=float),
-               slices_other_beam_Sigma_33 = np.zeros(n_slices,dtype=float)+physemit_y*beta_y,
-               slices_other_beam_Sigma_34 = np.zeros(n_slices,dtype=float),
-               slices_other_beam_Sigma_44 = np.zeros(n_slices,dtype=float)+physemit_y/beta_y)
+   slicer = xf.TempSlicer(
+       n_slices=21, sigma_z=sigma_z, mode='shatilov')
 
-Strong-strong (soft-Gaussian)
------------------------------
+   beambeam = xf.BeamBeamBiGaussian3D(
+       other_beam_q0=particles.q0,
+       phi=250e-6,       # half crossing angle [rad]
+       alpha=0,          # crossing plane [rad]
+       slices_other_beam_num_particles=
+           slicer.bin_weights * bunch_intensity,
+       slices_other_beam_zeta_center=slicer.bin_centers,
+       slices_other_beam_Sigma_11=np.full(21, sigma_x**2),
+       slices_other_beam_Sigma_12=np.zeros(21),
+       slices_other_beam_Sigma_22=np.full(21, sigma_px**2),
+       slices_other_beam_Sigma_33=np.full(21, sigma_y**2),
+       slices_other_beam_Sigma_34=np.zeros(21),
+       slices_other_beam_Sigma_44=np.full(21, sigma_py**2),
+   )
 
-Strong-strong simulations can be performed using the :doc:`pipeline`, as in the example below.
 
-.. literalinclude:: generated_code_snippets/pipeline.py
+Configuring a collider
+~~~~~~~~~~~~~~~~~~~~~~
+
+For a two-line collider, the environment beam-beam configuration tools place
+all head-on and long-range interactions consistently in the two reference
+frames. First install the inactive elements, then build the trackers and
+configure the strong-beam intensity and emittances:
+
+.. code-block:: python
+
+   env.xfields.install_beambeam_interactions(
+       clockwise_line='lhcb1',
+       anticlockwise_line='lhcb2',
+       ip_names=['ip1', 'ip2', 'ip5', 'ip8'],
+       delay_at_ips_slots=[0, 891, 0, 2670],
+       num_long_range_encounters_per_side=25,
+       num_slices_head_on=11,
+       harmonic_number=35640,
+       bunch_spacing_buckets=10,
+       sigmaz=0.075,
+       mode='particles',
+   )
+
+   env.build_trackers()
+
+   env.xfields.configure_beambeam_interactions(
+       num_particles=1.15e11,
+       nemitt_x=2.5e-6,
+       nemitt_y=2.5e-6,
+   )
+
+By default all installed interactions are active. To track a bunch in a
+realistic filling, select the bunch and mask encounters with
+:meth:`xfields.XfieldsEnvironmentAPI.apply_filling_pattern`:
+
+.. code-block:: python
+
+   env.xfields.apply_filling_pattern(
+       filling_pattern_cw=filling_pattern_cw,
+       filling_pattern_acw=filling_pattern_acw,
+       i_bunch_cw=0,
+       i_bunch_acw=0,
+   )
+
+The installation, configuration and filling operations are documented in the
+:ref:`beam-beam configuration API reference
+<beambeam-configuration-api-reference>`.
+
+
+Strong-strong
+-------------
+
+Strong-strong simulations track both colliding bunches and exchange their
+state through the :doc:`pipeline`. Each beam is represented by a separate
+line and particle set, and the lines are advanced together by an
+:class:`xtrack.PipelineMultiTracker`.
+
+
+Soft-Gaussian model
+~~~~~~~~~~~~~~~~~~~
+
+The soft-Gaussian model represents both bunches with macroparticles, but uses
+the measured slice centroids and covariance matrices to compute analytical
+bi-Gaussian kicks. A :class:`xfields.ConfigForUpdateBeamBeamBiGaussian3D`
+connects each beam-beam element to its opposing bunch and controls how often
+the moments are updated.
+
+.. literalinclude:: generated_code_snippets/beambeam_strongstrong.py
    :language: python
 
 .. figure:: figures/beambeam_sigmapi.png
-    :width: 80%
-    :align: center
+   :width: 80%
+   :align: center
 
-In collisions featuring a low disruption (i.e. the beam moments do not vary significantly during the interaction), the quasi-strong-strong (aka frozen-strong-strong) model may be enabled by setting the argument 'quasistrongstrong
-= True' in :class:`xfields.beam_elements.ConfigForUpdate*`. In this configuration, the beam moments are computed once at the start of the collison and kept constant throught the collison, thus reducing the computing load. The argument 'update_every' allows to further reduce the computing load by keeping the moments for the given amount of turns. This model is suitable for effects that build up over may turns. (more details in https://accelconf.web.cern.ch/eefact2022/papers/wezat0102.pdf)
+For collisions with low disruption, ``quasistrongstrong=True`` freezes the
+opposing-beam moments after their first computation. ``update_every`` can keep
+the same moments for several turns. These options reduce the cost when the
+beam distribution changes slowly. The corresponding 2D workflow uses
+:class:`xfields.ConfigForUpdateBeamBeamBiGaussian2D` together with
+:class:`xfields.BeamBeamBiGaussian2D`.
 
-For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.beam_elements.ConfigForUpdate*` have to be redifined as in the example below.
 
-.. code-block:: python
+Particle-in-cell model
+~~~~~~~~~~~~~~~~~~~~~~
 
-   config_for_update_b1_IP1=xf.ConfigForUpdateBeamBeamBiGaussian2D(
-      pipeline_manager=pipeline_manager,
-      element_name='IP1',
-      partner_particles_name = 'B2b1',
-      update_every=1
-      )
-   config_for_update_b2_IP1=xf.ConfigForUpdateBeamBeamBiGaussian2D(
-      pipeline_manager=pipeline_manager,
-      element_name='IP1',
-      partner_particles_name = 'B1b1',
-      update_every=1
-      )
-   bbeamIP1_b1 = xf.BeamBeamBiGaussian2D(
-               _context=context,
-               other_beam_q0 = particles_b2.q0,
-               other_beam_beta0 = particles_b2.beta0[0],
-               config_for_update = config_for_update_b1_IP1)
-   bbeamIP1_b2 = xf.BeamBeamBiGaussian2D(
-               _context=context,
-               other_beam_q0 = particles_b1.q0,
-               other_beam_beta0 = particles_b1.beta0[0],
-               config_for_update = config_for_update_b2_IP1)
+:class:`xfields.BeamBeamPIC3D` provides a fully self-consistent 3D
+particle-in-cell model. At each collision step, the macroparticle charge is
+deposited on a mesh, the Poisson equation is solved, and the resulting field
+is applied to the opposing bunch. The two PIC elements exchange their bunch
+state through the same pipeline mechanism used by the soft-Gaussian model.
 
-Rigid-bunch mode
-----------------
+The following CPU example builds a PIC element for each beam, connects the
+two elements through a pipeline, tracks one collision, and compares the kicks
+against the analytical 3D model.
+
+.. literalinclude:: generated_code_snippets/beambeam_pic.py
+   :language: python
+
+
+Rigid-bunch
+-----------
 
 The rigid-bunch mode computes the coherent, self-consistent closed orbit and
 linear optics of every filled bunch in two counter-rotating beams. Each bunch
@@ -138,53 +219,3 @@ full-lattice workflow above and highlights these additional steps.
 
 .. literalinclude:: generated_code_snippets/lhc_rigid_bunch_reduced_model.py
    :language: python
-
-Poisson Solver
---------------
-
-Particle-in-cell simulations using a Poisson solver for the beam-beam interaction is currently not implemented in xfields
-
-Beam-beam in a real lattice
----------------------------
-
-Identically to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup of beam-beam interactions in a collider lattice: :doc:`xmask`.
-An example snippet is shown below where an xtrack lattice in json format is loaded and a weakstrong beam-beam element is inserted at the marker "ip.1". 
-
-.. code-block:: python
-
-   path     = "/path/to/lattice"
-   seq_name = "lattice.json"
-   seq_path = os.path.join(path, seq_name)
-
-    with open(seq_path, 'r') as f:
-        line = xt.Line.from_dict(json.load(f))
-
-   # define slicer
-   slicer = xf.TempSlicer(n_slices=n_slices, sigma_z=sigma_z, mode=binning_mode)
-
-   # define weakstrong beambeam element (n*[x] yields a list with n elements each of which is x, e.g. 3*[5]=[5,5,5])
-   el_beambeam = xf.BeamBeamBiGaussian3D(
-            _context=context,
-            config_for_update = None,
-            other_beam_q0=other_beam_q0,
-            phi=phi, # half-crossing angle in radians
-            alpha=alpha, # crossing plane in radians
-            # slice intensity [num. real particles] number of slices inferred from the length of this list
-            slices_other_beam_num_particles = slicer.bin_weights * nb,
-            # unboosted opposing (strong) beam moments
-            slices_other_beam_zeta_center = slicer.bin_centers,
-            slices_other_beam_Sigma_11    = n_slices*[ sigma_x**2], # Beam sizes for the other beam, assuming the same value for all slices
-            slices_other_beam_Sigma_22    = n_slices*[sigma_px**2],
-            slices_other_beam_Sigma_33    = n_slices*[ sigma_y**2],
-            slices_other_beam_Sigma_44    = n_slices*[sigma_py**2],
-            # only if beamstrahlung on
-            slices_other_beam_zeta_bin_width_star_beamstrahlung = None if not beamstrahlung_on else slicer.bin_widths_beamstrahlung / np.cos(phi),  # boosted dz
-            # has to be set (0 in most cases) if config_for_update = None
-            slices_other_beam_Sigma_12     = n_slices*[0],
-            slices_other_beam_Sigma_34     = n_slices*[0],
-            slices_other_beam_pzeta_center = n_slices*[pzeta], # important when tapering (FCC-ee specific)
-        )
-
-   element_name = "ip.1"  # this is the marker name of an IP in the lattice where the beam-beam element will be inserted
-   element_line_index = line.element_names.index(element_name)  # get the array index of the element "ip.1"
-   line.insert_element(index=element_line_index, element=el_beambeam, name='beambeam')

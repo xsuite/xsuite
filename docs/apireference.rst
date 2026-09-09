@@ -476,6 +476,20 @@ Beam-beam Bi-Gaussian 3D
     :members:
     :member-order: bysource
 
+Beam-beam PIC 3D
+----------------
+
+.. autoclass:: xfields.BeamBeamPIC3D
+    :members:
+    :member-order: bysource
+
+Beam-beam longitudinal slicer
+-----------------------------
+
+.. autoclass:: xfields.TempSlicer
+    :members:
+    :member-order: bysource
+
 Space Charge Bi-Gaussian
 ------------------------
 
@@ -1100,6 +1114,15 @@ when the interactions were installed with ``mode='rigid_bunch'``.
 .. automethod:: xfields.XfieldsEnvironmentAPI.install_beambeam_interactions
 
 .. automethod:: xfields.XfieldsEnvironmentAPI.configure_beambeam_interactions
+
+.. automethod:: xfields.XfieldsEnvironmentAPI.apply_filling_pattern
+
+Soft-Gaussian strong-strong configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: xfields.ConfigForUpdateBeamBeamBiGaussian2D
+
+.. autoclass:: xfields.ConfigForUpdateBeamBeamBiGaussian3D
 
 BeamBeamRigidBunchStudy
 ~~~~~~~~~~~~~~~~~~~~~~~
