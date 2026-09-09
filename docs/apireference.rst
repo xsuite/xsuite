@@ -1089,8 +1089,8 @@ Configuration tools
 
 .. _beambeam-configuration-api-reference:
 
-Beam-beam configuration and rigid-bunch studies (xfields)
-----------------------------------------------------------
+Beam-beam config tools
+----------------------
 
 Beam-beam interactions are installed and configured through the Xfields
 accessor of an :class:`xtrack.Environment`, available as ``env.xfields``.
