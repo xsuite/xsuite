@@ -125,7 +125,7 @@ uses a prepared subset of an operational filling pattern to keep the runtime
 manageable, then illustrates how to inspect tunes, closed orbits and
 per-element results.
 
-.. literalinclude:: generated_code_snippets/lhc_multibunch_bb.py
+.. literalinclude:: generated_code_snippets/lhc_rigid_bunch.py
    :language: python
 
 Poisson Solver
