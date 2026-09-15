@@ -313,11 +313,7 @@ def build_single_kernel(
         kernel_info = xt.Tracker._compile_kernel_from_classes(
             context=build_context,
             config=tracker_config,
-            tracker_element_classes=[
-                *tracker_element_classes,
-                xt.ParticlesMonitor,
-                xt.MultiElementMonitor,
-            ],
+            tracker_element_classes=tracker_element_classes,
             extra_classes=extra_classes,
             module_name=module_name,
             containing_dir=location,

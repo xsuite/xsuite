@@ -926,6 +926,43 @@ objects, see the :doc:`Particles section in the user's guide <particlesmanip>`).
     :member-order: bysource
 
 
+ParticlesTpsa class
+===================
+
+.. warning::
+
+    ``xtrack.ParticlesTpsa`` is experimental. Its API may change, and it may
+    still contain bugs.
+
+``ParticlesTpsa`` represents a single 6D truncated-power-series map for TPSA
+tracking. Construct it with the same reference-particle arguments as
+``xtrack.Particles``. Coordinates passed at construction set the constant parts
+around which the initial identity map is expanded:
+
+.. code-block:: pycon
+
+    >>> particles = xt.ParticlesTpsa(
+    ...     order=2,
+    ...     x=1e-4,
+    ...     px=2e-5,
+    ...     p0c=7e12,
+    ...     mass0=xt.PROTON_MASS_EV,
+    ... )
+    >>> type(particles.x)
+    <class 'madng_tpsa.tpsa.Tpsa'>
+    >>> particles.x.format()
+    '0.0001 + x'
+    >>> particles.y.format()
+    'y'
+
+The coordinate series are available as ``particles.x``, ``particles.px``,
+``particles.y``, ``particles.py``, ``particles.zeta``, and ``particles.delta``.
+
+.. autoclass:: xtrack.ParticlesTpsa
+    :members:
+    :member-order: bysource
+
+
 Generation of particles distributions
 =====================================
 
