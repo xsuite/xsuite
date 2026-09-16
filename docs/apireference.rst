@@ -838,6 +838,22 @@ of the features offered by Table objects.
     :inherited-members:
     :member-order: alphabetical
 
+.. _frame-api-reference:
+
+Frame class
+-----------
+
+The :class:`xtrack.Frame` class represents a local survey reference frame. Its
+homogeneous transformation matrix maps local ``(x, y, s)`` coordinates to
+global ``(X, Y, Z)`` coordinates. Translation, rotation, and arc methods
+update the frame in place and return it, allowing transformations to be
+chained.
+
+.. autoclass:: xtrack.Frame
+    :members:
+    :special-members: __matmul__
+    :member-order: bysource
+
 Match
 =====
 
