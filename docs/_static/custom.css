@@ -1,3 +1,14 @@
+/* Leave more room for navigation below the sidebar logo. */
+.bd-sidebar-primary .navbar-brand .logo__image {
+    width: 80%;
+    height: auto;
+}
+
+/* Soften the logo against the light page background. */
+html[data-theme="light"] .bd-sidebar-primary .navbar-brand .logo__image {
+    opacity: 0.85;
+}
+
 /* Keep in-page contents lists on the page background without a box. */
 nav.contents,
 div.topic.contents {
@@ -7,4 +18,11 @@ div.topic.contents {
     /* The theme marks its topic shadow as important. */
     box-shadow: none !important;
     padding: 0;
+}
+
+/* Use burgundy for strings in the light syntax palette. */
+html[data-theme="light"] .highlight :is(
+    .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss
+) {
+    color: #a31515;
 }

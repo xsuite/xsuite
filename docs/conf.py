@@ -475,13 +475,15 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 html_theme = 'sphinx_book_theme'
-html_logo = "figures/xsuite_logo.png"
+html_logo = "figures/xsuite_logo_muted_blue.png"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'pygments_light_style': 'tango',
+    'pygments_light_style': 'rainbow_dash',
+    'max_navbar_depth': 3,
+    'footer_content_items': ['copyright.html', 'last-updated.html', 'extra-footer.html'],
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -681,5 +683,26 @@ class AutoAutoSummary(Autosummary):
         finally:
             return super(AutoAutoSummary, self).run()
 
+def add_sidebar_sections(app, pagename, templatename, context, doctree):
+    from bs4 import BeautifulSoup
+    from pydata_sphinx_theme.toctree import add_collapse_checkboxes
+
+    def sidebar_with_sections():
+        # The theme's generator strips section links even with titles_only=False.
+        html = context['toctree'](
+            maxdepth=app.config.html_theme_options['max_navbar_depth'],
+            collapse=False, includehidden=True, titles_only=False)
+        soup = BeautifulSoup(html, 'html.parser')
+        for item in soup.select('li.current'):
+            item['class'].append('active')
+        for items in soup.find_all('ul', recursive=False):
+            items['class'] = [*items.get('class', []), 'nav', 'bd-sidenav']
+        add_collapse_checkboxes(soup)
+        return str(soup)
+
+    context['sidebar_with_sections'] = sidebar_with_sections
+
+
 def setup(app):
     app.add_directive('autoautosummary', AutoAutoSummary)
+    app.connect('html-page-context', add_sidebar_sections)
