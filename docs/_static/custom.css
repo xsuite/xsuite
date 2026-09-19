@@ -9,6 +9,11 @@ html[data-theme="light"] .bd-sidebar-primary .navbar-brand .logo__image {
     opacity: 0.85;
 }
 
+/* Render the transparent logo in white on the dark page background. */
+html[data-theme="dark"] .bd-sidebar-primary .navbar-brand .logo__image {
+    filter: brightness(0) invert(1);
+}
+
 /* Keep in-page contents lists on the page background without a box. */
 nav.contents,
 div.topic.contents {
