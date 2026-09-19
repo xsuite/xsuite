@@ -1,0 +1,10 @@
+/* Keep in-page contents lists on the page background without a box. */
+nav.contents,
+div.topic.contents {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    /* The theme marks its topic shadow as important. */
+    box-shadow: none !important;
+    padding: 0;
+}
