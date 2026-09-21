@@ -11,7 +11,7 @@ Check that PyPI installation gives version number consistent with GitHub repos:<
 [![Check PyPI versions](https://github.com/xsuite/xsuite/actions/workflows/check_pypi_versions.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/check_pypi_versions.yaml)
 
 Run test suite without runtime compilations (serial, install from PyPI):<br>
-[![Daily test (self-hosted, CPU no compile, PyPI)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile_pypi.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile_pypi.yaml)
+[![Daily test (self-hosted, CPU no compile, PyPI)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile_pypi.yaml/badge.svg?event=schedule)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile_pypi.yaml)
 
 Run test suite without runtime compilations (serial, install from repo):<br>
 [![Daily test (self-hosted, CPU no compile)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile.yaml/badge.svg)](https://github.com/xsuite/xsuite/actions/workflows/cron_test_sh_cpu_no_compile.yaml)
