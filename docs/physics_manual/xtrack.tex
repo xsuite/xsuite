@@ -3758,31 +3758,11 @@ from which:
 = \frac{q V_{RF}}{\beta_0^2E_0}\sin\left(-2 \pi f_{RF} \frac{\zeta}{\beta_0 c} + \phi_{RF}\right)
 \end{align}
 
-\section{Momentum compaction and slip factor for different particle species}
+\section{Turn slippage for different particle species}
 \label{sec:synchrotron_different_species}
 
-Momentum compaction and slip factor can be defined for any particle species
-admitting a family of closed orbits. For fixed mass $m$, charge $q$, and lattice
-fields, their local definitions at an operating momentum $P_*$ are
-\begin{align}
-\alpha_{c,*}
-&= \left.\frac{P}{C}\frac{\partial C}{\partial P}\right|_{P=P_*,\,m,q},
-\\
-\eta_*
-&= \left.\frac{P}{T}\frac{\partial T}{\partial P}\right|_{P=P_*,\,m,q}
-= -\left.\frac{P}{f}\frac{\partial f}{\partial P}\right|_{P=P_*,\,m,q}
-= \alpha_{c,*}-\frac{1}{\gamma_*^2}.
-\label{eq:species_local_slip_factor}
-\end{align}
-Here $C$, $T$, and $f=1/T$ are the closed-orbit length, revolution period, and
-revolution frequency of that species. We assume a static magnetic lattice with
-constant momentum around the orbit, so that $T=C/(\beta c)$. The last equality
-follows from $d\ln\beta=d\ln P/\gamma^2$ at fixed mass. The coefficients and
-$\gamma_*$ must be evaluated at the chosen species' operating point.
-
-When comparing different species to the original reference particle, one must
-distinguish the Xsuite momentum coordinate from the magnetic rigidity offset.
-Recalling the definitions
+For a particle with mass $m$ and charge $q$ different from those of the reference
+particle, the turn slippage depends on both $\delta$ and $\chi$. Recalling
 \begin{equation}
 1+\delta=\frac{P}{P_0}\frac{m_0}{m},
 \qquad
@@ -3795,9 +3775,28 @@ the relative rigidity offset is exactly
 =\frac{1+\delta}{\chi}-1.
 \label{eq:species_rigidity_offset}
 \end{equation}
-In a static magnetic lattice, the closed-orbit geometry depends on $P/q$,
-whereas the speed depends on $P/m$. In particular, $\delta=0$ implies
-$\beta=\beta_0$, but does not imply the reference rigidity unless $\chi=1$.
+We assume a static magnetic lattice with constant momentum around the orbit.
+The magnetic force changes the direction of the momentum but not its magnitude.
+In a transverse magnetic field, the local bending radius satisfies
+$\rho=P/(|q|B_\perp)$, while the sign of $q$ determines the bending direction.
+The closed-orbit length $C$ is therefore determined by
+$P/q$. In Xsuite coordinates, this ratio is
+\begin{equation*}
+\frac{P}{q}=\frac{P_0}{q_0}\frac{1+\delta}{\chi}.
+\end{equation*}
+
+The speed, on the other hand, follows from $P=mc\beta\gamma$, or
+\begin{equation*}
+\beta=\frac{P/(mc)}{\sqrt{1+[P/(mc)]^2}},
+\qquad
+\frac{P}{m}=\frac{P_0}{m_0}(1+\delta).
+\end{equation*}
+It therefore depends on $P/m$, independently of the charge: particles with
+the same $\delta$ have the same speed, even if their masses and charges differ.
+In particular, at $\delta=0$ the speed is $\beta_0 c$, but the rigidity differs
+from the reference value when $\chi\ne1$. Such a particle can take a different
+time to complete a turn because its closed orbit has a different length.
+Both effects enter the revolution period $T=C/(\beta c)$ and frequency $f=1/T$.
 
 Let $C_0$ be the reference closed-orbit length, $T_0=C_0/(\beta_0 c)$, and
 $f_0=1/T_0$. Denote by $\alpha_{c0}$ and
@@ -3811,29 +3810,44 @@ species on that orbit. To first order in both $\delta$ and $\chi-1$,
 \frac{\beta-\beta_0}{\beta_0}
 &\simeq\frac{\delta}{\gamma_0^2}.
 \end{align}
-It follows that
+Combining the changes in orbit length and speed gives
 \begin{equation}
+\boxed{
 \frac{T-T_0}{T_0}
 \simeq-\frac{f-f_0}{f_0}
-\simeq\eta_0\delta-\alpha_{c0}(\chi-1),
+\simeq\eta_0\delta-\alpha_{c0}(\chi-1).}
 \label{eq:species_revolution_time_offset}
 \end{equation}
 and the slippage over one turn is
 \begin{equation}
+\boxed{
 \Delta\zeta=-\beta_0 c(T-T_0)
-\simeq-C_0\big[\eta_0\delta-\alpha_{c0}(\chi-1)\big].
+\simeq-C_0\big[\eta_0\delta-\alpha_{c0}(\chi-1)\big].}
 \label{eq:species_turn_slippage}
 \end{equation}
 
+The momentum offset for which the particle has the same revolution period as
+the reference particle is obtained by setting $T=T_0$, or equivalently
+$\Delta\zeta=0$:
+\begin{equation}
+\boxed{
+\delta_{T=T_0}\simeq\frac{\alpha_{c0}}{\eta_0}(\chi-1)
+=\frac{\alpha_{c0}}{\eta_0}
+\left(\frac{q}{q_0}\frac{m_0}{m}-1\right).}
+\label{eq:species_equal_revolution_period}
+\end{equation}
+This result requires $\eta_0\ne0$ and a sufficiently small resulting $\delta$.
+At transition ($\eta_0=0$), the term proportional to $\delta$ in the first-order
+slippage vanishes, so this approximation cannot determine the required
+momentum offset.
+
 For $\chi=1$, the usual first-order expressions for orbit length and slippage
 therefore apply even when $m\ne m_0$ and $q\ne q_0$, provided mass and charge
-scale by the same factor. For $\chi\ne1$, there is generally an orbit-length
-and revolution-time offset already at $\delta=0$. Consequently, the ratios
-$(C-C_0)/(C_0\delta)$ and $-(f-f_0)/(f_0\delta)$ are not the local momentum
-compaction and slip factor of that species. For offsets outside the range of
-the linear expansion, one must use the species' own closed orbit and the
-local definitions in Eq.~\eqref{eq:species_local_slip_factor}, with momentum
-deviations measured relative to $P_*$.
+scale by the same factor. For $\chi\ne1$, a particle at $\delta=0$ has the
+reference speed but a different rigidity, giving a turn slippage through the
+change in orbit length. These expressions require both $|\delta|\ll1$ and
+$|\chi-1|\ll1$; larger offsets require evaluating the actual closed-orbit
+length and revolution period.
 
 \section{Linearized motion}
 
