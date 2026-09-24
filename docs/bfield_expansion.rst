@@ -39,7 +39,10 @@ axis. At :math:`y=0`, their convention is
 
 Row zero of ``knc`` is the normal dipole profile, row one is its quadrupole
 gradient, and row two is its sextupole second derivative. The factorial in
-the transverse expansion is applied internally. Columns contain ascending
+the transverse expansion is applied internally: ``knc[i, 0]`` has the same
+normalization as Xtrack's ``k0``, ``k1``, ``k2``, and higher-order strengths.
+These are local strengths, not longitudinal integrals; the latter are
+available in ``knl``. Columns contain ascending
 powers of ``s`` in metres, with no longitudinal factorial and no rescaling by
 the element length. Thus ``knc[i, j]`` and ``ksc[i, j]`` have units
 :math:`\mathrm{m}^{-(i+j+1)}`, and ``ksol[j]`` has units
@@ -52,10 +55,26 @@ scalar potential stores its integral using the same polynomial degree. For
 example, a constant longitudinal field needs ``ksol=[ks, 0]`` and at least two
 columns in both transverse matrices.
 
-The required parameter ``ny`` controls the truncation of the expansion in
-the vertical coordinate. It is independent of the longitudinal polynomial
-degree, which is inferred from the coefficient arrays. Check convergence in
-``ny`` over the transverse aperture of interest.
+The optional ``num_phi`` parameter controls the vertical truncation order
+of the scalar-potential reconstruction. Its default, ``'auto'``, uses the
+coefficient array shapes and longitudinal polynomial degree to retain the
+complete straight-field polynomial expansion, including the vector potential.
+It accounts for initially zero coefficients that may be changed later,
+including through deferred expressions. The transverse row count alone is
+insufficient to choose the order, since longitudinal derivatives also
+generate higher powers of the vertical coordinate.
+
+For curved geometry, ``'auto'`` adds two orders to retain every term through
+first order in ``h``. A curved expansion generally does not terminate, and
+terms of higher order in ``h`` are not generally complete. When these terms
+matter, construct elements with successively larger explicit nonnegative
+integer values of ``num_phi`` and check convergence over the transverse
+aperture of interest.
+
+The resolved integer is stored in ``element.num_phi`` and is fixed at
+construction. Fields are evaluated through ``y**num_phi``; an additional
+scalar-potential coefficient is stored internally for the derivative giving
+``By``.
 
 For example, a straight element with a varying dipole, a quadrupole gradient,
 and a longitudinal field can be constructed and tracked as follows:
@@ -68,11 +87,12 @@ and a longitudinal field can be constructed and tracked as follows:
    magnet = xt.BFieldExpansion(
        length=0.8,
        h=0.0,
+       s_start=0.15,               # Track the polynomial over s in [0.15, 0.95] m
        knc=[[0.05, 0.04, 0.07],     # Normal dipole: 0.05 + 0.04*s + 0.07*s**2
             [0.40, -0.10, 0.0]],   # Normal quadrupole: 0.40 - 0.10*s
        ksc=[[0.0, 0.0, 0.0]],
        ksol=[0.10, 0.02, 0.0],     # On-axis longitudinal field: 0.10 + 0.02*s
-       ny=5,
+       num_phi='auto',
        nstep=40,
        pkin_const=True,
    )
@@ -84,11 +104,11 @@ Longitudinal coordinate and geometry
 ------------------------------------
 
 ``length`` is the path length along the reference trajectory, in metres.
-Tracking evaluates the polynomial from ``sstart`` to ``sstart + length``;
-``sstart`` defaults to zero. This polynomial coordinate is independent of
+Tracking evaluates the polynomial from ``s_start`` to ``s_start + length``;
+``s_start`` defaults to zero. This polynomial coordinate is independent of
 the particle's accumulated ``s`` in a line. When fitting separate polynomial
-segments, either use a common coordinate and set ``sstart`` accordingly, or
-express each polynomial in its own local coordinate and use ``sstart=0``.
+segments, either use a common coordinate and set ``s_start`` accordingly, or
+express each polynomial in its own local coordinate and use ``s_start=0``.
 For SciPy piecewise polynomials, coefficients are usually in descending
 powers of the coordinate relative to each interval's left endpoint; reverse
 their order before passing them to ``BFieldExpansion``.
@@ -108,20 +128,20 @@ normal dipole field equal to the reference curvature:
 
    bend = xt.BFieldExpansion(
        length=1.0, h=0.2, knc=[[0.2]], ksc=[[0.0]], ksol=[0.0],
-       ny=5, nstep=40,
+       nstep=40,  # num_phi defaults to 'auto'
    )
    print(bend.angle)  # 0.2 rad
 
 Evaluating fields and potentials
 --------------------------------
 
-:meth:`~xtrack.BFieldExpansion.get_field` accepts scalars or broadcastable
-arrays, with all three coordinates in metres. For a parent
-``BFieldExpansion``, ``s`` is the polynomial coordinate: the entrance is at
-``sstart``. The method evaluates the polynomial at the requested points
-without clipping to the tracked
-interval. In curved geometry, the coordinate axis ``1 + h*x = 0`` is singular
-and is rejected.
+:meth:`~xtrack.BFieldExpansion.get_field` takes ``x``, ``y``, and ``s_local``
+as scalars or broadcastable arrays, with all three coordinates in metres.
+``s_local`` is measured from the element's entrance: zero is the entrance
+and ``length`` is the exit, even when ``s_start`` is nonzero. The polynomial
+is evaluated at ``s = s_start + s_local``, as in tracking, without clipping
+to the tracked interval. In curved geometry, the coordinate axis
+``1 + h*x = 0`` is singular and is rejected.
 
 The result is a structured NumPy array with the broadcast input shape
 (including a zero-dimensional array for scalar inputs). Its fields are
@@ -133,13 +153,14 @@ The result is returned on the CPU even when the element uses a GPU context.
 
 .. code-block:: python
 
-   s = np.linspace(magnet.sstart, magnet.sstart + magnet.length, 101)
-   field = magnet.get_field(x=0.003, y=0.002, s=s)
+   s_local = np.linspace(0.0, magnet.length, 101)
+   field = magnet.get_field(x=0.003, y=0.002, s_local=s_local)
    by_tesla = field['By'] * particles.rigidity0[0]
    bs_tesla = field['Bs'] * particles.rigidity0[0]
 
    # Broadcasting: evaluate two horizontal offsets along the same interval.
-   grid = magnet.get_field(x=np.array([[0.0], [0.01]]), y=0.002, s=s)
+   grid = magnet.get_field(x=np.array([[0.0], [0.01]]), y=0.002,
+                           s_local=s_local)
    print(grid.shape)  # (2, 101)
 
 Integration and boundary momenta
@@ -178,7 +199,7 @@ using the entrance potential:
    canonical_particles = xt.Particles(p0c=1e9, x=0.003, y=0.002, px=0.001)
    entrance = canonical_magnet.get_field(
        canonical_particles.x, canonical_particles.y,
-       s=canonical_magnet.sstart,
+       s_local=0.0,
    )
    canonical_particles.px += entrance['Ax']
    canonical_particles.py += entrance['Ay']
@@ -190,7 +211,7 @@ For a piecewise field model, convergence of the on-axis profile alone does
 not establish convergence of the off-axis field. Its higher longitudinal
 derivatives contribute to the expansion, and discontinuities of the vector
 potential make the boundary convention relevant. Refine the field model
-and ``ny`` separately from ``nstep``. In particular, increasing ``nstep``
+and ``num_phi`` separately from ``nstep``. In particular, increasing ``nstep``
 cannot recover high-order fringe terms omitted by a low-degree polynomial fit.
 
 Updating coefficients and using an Environment
@@ -214,9 +235,9 @@ Direct reassignment such as ``magnet.knc = coefficients`` is prohibited.
 Construct a new element to change the coefficient shapes or expansion order.
 
 The read-only arrays ``knl`` and ``ksl`` contain the normal and skew profiles
-integrated over ``[sstart, sstart + length]``, with one entry per transverse
+integrated over ``[s_start, s_start + length]``, with one entry per transverse
 derivative order. ``ksoll`` is a one-entry array containing the integrated
-longitudinal profile. They also update when ``sstart`` or ``length`` changes.
+longitudinal profile. They also update when ``s_start`` or ``length`` changes.
 
 :ref:`xtrack.Environment <environment-api-reference>` accepts coefficient
 matrices containing numbers and deferred expressions through ``new`` and ``set``:
@@ -225,13 +246,17 @@ matrices containing numbers and deferred expressions through ``new`` and ``set``
 
    env = xt.Environment()
    env['k1'] = 0.4
-   env.new('q', 'BFieldExpansion', length=0.3, ny=5, nstep=40,
+   env.new('q', 'BFieldExpansion', length=0.3, num_phi='auto', nstep=40,
            knc=[[0.0, 0.0], ['k1', 0.0]],
            ksc=[[0.0, 0.0]], ksol=[0.0, 0.0])
    env['k1'] = 0.45
    env.set('q', knc=[[0.0, 0.0], ['2*k1', 0.0]])
    line = env.new_line(components=['q'])
    line.get_table(attr=True).cols['element_type length angle k1l'].show()
+
+``num_phi`` is fixed when the expansion cache is allocated and cannot be a
+deferred expression. Updating coefficients within their allocated shapes
+does not change the resolved order.
 
 Thick slicing
 -------------
@@ -256,13 +281,17 @@ A slice with weight ``w`` uses ``max(1, ceil(parent.nstep * w))`` RK4 steps.
 Rounding can increase the total number of steps. Uniform slicing with a
 parent step count divisible by the number of slices retains the original
 integration grid. Each slice's integrated strengths are computed over its
-own interval, rather than by scaling the parent's integral. Unlike the
-parent method, a slice's ``get_field(x, y, s)`` takes ``s`` relative to the
-slice entrance and adds the slice's ``sstart`` internally.
+own interval, rather than by scaling the parent's integral. Both parents
+and slices use entrance-relative ``s_local`` in ``get_field(x, y, s_local)``.
+For a slice, the polynomial coordinate is
+``parent.s_start + slice.slice_offset + s_local``; the slice's ``s_start``
+already includes the parent's origin and its own offset.
 
-Thin slicing, element rotations and shifts, radiation tracking, and spin
-tracking are currently unsupported. Tracking and field evaluation support
-CPU, CuPy, and PyOpenCL contexts.
+Thin slicing, element rotations and shifts, and spin tracking are currently
+unsupported. ``BFieldExpansion`` and its slices do not radiate, even when
+radiation is enabled for the line; tracking continues without radiation
+effects in these elements. Tracking and field evaluation support CPU, CuPy,
+and PyOpenCL contexts.
 
 Comparing convergence and speed with SplineBoris
 ------------------------------------------------

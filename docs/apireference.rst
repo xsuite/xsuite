@@ -191,7 +191,7 @@ of the :doc:`Physics Guide <physicsguide>`.
 BFieldExpansion
 ---------------
 
-.. py:class:: xtrack.BFieldExpansion(length, ksc, knc, ksol, ny, h=0, nstep=10, sstart=0, **kwargs)
+.. py:class:: xtrack.BFieldExpansion(length, ksc, knc, ksol, num_phi='auto', h=0, nstep=10, s_start=0, **kwargs)
 
     Thick magnetic-field expansion in a straight or curved reference frame,
     tracked with classical fourth-order Runge--Kutta.
@@ -200,17 +200,25 @@ BFieldExpansion
     :param ksc: Skew coefficients with shape ``(na, deg + 1)``. Entry ``[i, j]``
         multiplies ``s**j`` in the on-axis i-th x derivative of ``Bx/(B rho)``.
     :param knc: Normal coefficients with shape ``(nb, deg + 1)``, using the same
-        convention as ``ksc`` for ``By/(B rho)``.
+        convention as ``ksc`` for ``By/(B rho)``. ``knc[i, 0]`` has the same
+        normalization and factorial convention as Xtrack's ``k0``, ``k1``,
+        ``k2``, and higher-order strengths; these are not integrated strengths.
     :param ksol: On-axis ``Bs/(B rho)`` coefficients in ascending powers of
         ``s``, with shape ``(deg + 1,)``. The final coefficient must be zero
         so the integral fits in the scalar-potential polynomial.
-    :param int ny: Vertical expansion truncation order.
+    :param num_phi: Nonnegative integer vertical truncation order, or ``'auto'``
+        (default). The automatic order uses the coefficient shapes and
+        longitudinal degree to retain the complete straight-field polynomial
+        expansion, including the vector potential and later updates to
+        initially zero coefficients. Curved geometry adds two orders to
+        retain all terms through first order in ``h``. Higher-order curvature
+        terms require convergence checks with larger explicit orders.
     :param float h: Reference curvature in inverse metres. Zero selects
         straight geometry; curved geometry requires ``h > 1e-4``. The
         geometry mode is fixed at construction. Default is zero.
     :param int nstep: Positive number of RK4 integration steps. Default is 10.
-    :param float sstart: Polynomial coordinate at the entrance, in metres.
-        Default is zero.
+    :param float s_start: Polynomial coordinate at the entrance, in metres.
+        Tracking covers ``[s_start, s_start + length]``. Default is zero.
     :param bool pkin_const: Keyword selecting the boundary-momentum convention.
         ``False`` preserves canonical momenta at interfaces; ``True``
         preserves kinetic momenta when changing the vector potential and
@@ -222,11 +230,23 @@ BFieldExpansion
     ``s`` in metres without factorials. Update coefficient entries or slices
     in place to rebuild the expansion; array shapes remain fixed.
 
+    ``num_phi`` stores the resolved integer and is fixed at construction;
+    it cannot be a deferred expression. Fields are evaluated through
+    ``y**num_phi``, with one extra scalar-potential coefficient stored for
+    the derivative giving ``By``.
+
     ``knl`` and ``ksl`` are read-only arrays of strengths integrated over the
     tracked interval. ``ksoll`` contains the integrated longitudinal profile
     in a one-entry array. ``straight`` and ``angle`` are read-only; the latter
     is ``length * h``. ``ds`` is updated to ``length / nstep`` when the length
     or step count changes.
+
+    ``get_field(x, y, s_local)`` uses the distance from the element entrance
+    and evaluates the polynomial at ``s_start + s_local``. The same local
+    coordinate convention applies to thick slices.
+
+    This element and its thick slices do not radiate, even when radiation
+    is enabled for the line. Spin tracking is unsupported.
 
 .. automethod:: xtrack.BFieldExpansion.get_field
 
