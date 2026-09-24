@@ -188,6 +188,52 @@ of the :doc:`Physics Guide <physicsguide>`.
     :members:
     :member-order: bysource
 
+BFieldExpansion
+---------------
+
+.. py:class:: xtrack.BFieldExpansion(length, ksc, knc, ksol, ny, h=0, nstep=10, sstart=0, **kwargs)
+
+    Thick magnetic-field expansion in a straight or curved reference frame,
+    tracked with classical fourth-order Runge--Kutta.
+
+    :param float length: Path length along the reference trajectory, in metres.
+    :param ksc: Skew coefficients with shape ``(na, deg + 1)``. Entry ``[i, j]``
+        multiplies ``s**j`` in the on-axis i-th x derivative of ``Bx/(B rho)``.
+    :param knc: Normal coefficients with shape ``(nb, deg + 1)``, using the same
+        convention as ``ksc`` for ``By/(B rho)``.
+    :param ksol: On-axis ``Bs/(B rho)`` coefficients in ascending powers of
+        ``s``, with shape ``(deg + 1,)``. The final coefficient must be zero
+        so the integral fits in the scalar-potential polynomial.
+    :param int ny: Vertical expansion truncation order.
+    :param float h: Reference curvature in inverse metres. Zero selects
+        straight geometry; curved geometry requires ``h > 1e-4``. The
+        geometry mode is fixed at construction. Default is zero.
+    :param int nstep: Positive number of RK4 integration steps. Default is 10.
+    :param float sstart: Polynomial coordinate at the entrance, in metres.
+        Default is zero.
+    :param bool pkin_const: Keyword selecting the boundary-momentum convention.
+        ``False`` preserves canonical momenta at interfaces; ``True``
+        preserves kinetic momenta when changing the vector potential and
+        returns to zero transverse vector potential at exit. Default is
+        ``False``. Neither option makes RK4 exactly symplectic.
+
+    Coefficients are normalized by the signed reference magnetic rigidity.
+    Transverse powers include ``1/i!`` internally; longitudinal powers use
+    ``s`` in metres without factorials. Update coefficient entries or slices
+    in place to rebuild the expansion; array shapes remain fixed.
+
+    ``knl`` and ``ksl`` are read-only arrays of strengths integrated over the
+    tracked interval. ``ksoll`` contains the integrated longitudinal profile
+    in a one-entry array. ``straight`` and ``angle`` are read-only; the latter
+    is ``length * h``. ``ds`` is updated to ``length / nstep`` when the length
+    or step count changes.
+
+.. automethod:: xtrack.BFieldExpansion.get_field
+
+See :doc:`bfield_expansion` for the coefficient and unit conventions,
+straight and curved geometry, integration and boundary-momentum settings,
+field evaluation, and thick slicing.
+
 BorisSpatialIntegrator
 ----------------------
 
