@@ -24,7 +24,8 @@ All input fields are normalized by the signed reference magnetic rigidity
 therefore describe :math:`\mathbf{B}/(B\rho)`, rather than a field in tesla.
 
 The arrays ``knc`` and ``ksc`` specify transverse derivatives on the reference
-axis. At :math:`y=0`, their convention is
+axis. With the additional scalar and integrated strengths set to zero and
+``kscale=1``, their convention at :math:`y=0` is
 
 .. math::
 
@@ -41,16 +42,25 @@ Row zero of ``knc`` is the normal dipole profile, row one is its quadrupole
 gradient, and row two is its sextupole second derivative. The factorial in
 the transverse expansion is applied internally: ``knc[i, 0]`` has the same
 normalization as Xtrack's ``k0``, ``k1``, ``k2``, and higher-order strengths.
-These are local strengths, not longitudinal integrals; the latter are
-available in ``knl``. Columns contain ascending
-powers of ``s`` in metres, with no longitudinal factorial and no rescaling by
-the element length. Thus ``knc[i, j]`` and ``ksc[i, j]`` have units
+Use :meth:`~xtrack.BFieldExpansion.get_total_knl_ksl` for the longitudinal
+integrals, including the additional strengths and scale described below.
+Columns contain ascending powers of ``s`` in metres, with no longitudinal
+factorial and no rescaling by the element length. Thus ``knc[i, j]`` and
+``ksc[i, j]`` have units
 :math:`\mathrm{m}^{-(i+j+1)}`, and ``ksol[j]`` has units
 :math:`\mathrm{m}^{-(j+1)}`.
 
-Both coefficient matrices must have the same number of columns as the length
-of ``ksol``; their numbers of rows may differ. Pad unused coefficients with
-zeros. In particular, **the last coefficient of ``ksol`` must be zero**: the
+Coefficient arrays are optional: omitted, ``None``, or empty arrays are filled
+with zeros at construction. Nonempty ``knc``, ``ksc``, and ``ksol`` must agree
+in the number of longitudinal coefficients; transverse row counts may differ.
+Missing transverse matrices receive enough rows for the highest supplied
+order in ``knc``, ``ksc``, ``knl``, or ``ksl``. Missing ``knl`` and ``ksl``
+match their corresponding matrix's row count. When all arrays are omitted,
+``knc`` and ``ksc`` have shape ``(1, 1)`` and the remaining arrays have one
+entry. Nonempty inputs retain their shapes.
+
+Pad unused coefficients with zeros. In particular,
+**the last coefficient of ``ksol`` must be zero**: the
 scalar potential stores its integral using the same polynomial degree. For
 example, a constant longitudinal field needs ``ksol=[ks, 0]`` and at least two
 columns in both transverse matrices.
@@ -59,10 +69,13 @@ The optional ``num_phi`` parameter controls the vertical truncation order
 of the scalar-potential reconstruction. Its default, ``'auto'``, uses the
 coefficient array shapes and longitudinal polynomial degree to retain the
 complete straight-field polynomial expansion, including the vector potential.
-It accounts for initially zero coefficients that may be changed later,
-including through deferred expressions. The transverse row count alone is
-insufficient to choose the order, since longitudinal derivatives also
-generate higher powers of the vertical coordinate.
+It accounts for the allocated integrated-strength arrays and initially zero
+coefficients that may be changed later, including through deferred expressions.
+It also reserves capacity for all eight scalar strengths, ``k0`` through
+``k3`` and ``k0s`` through ``k3s``, even when the profiles have fewer rows.
+The automatic order is at least 5 in straight geometry. The transverse row
+count alone is insufficient to choose the order, since longitudinal
+derivatives also generate higher powers of the vertical coordinate.
 
 For curved geometry, ``'auto'`` adds two orders to retain every term through
 first order in ``h``. A curved expansion generally does not terminate, and
@@ -93,12 +106,54 @@ and a longitudinal field can be constructed and tracked as follows:
        ksc=[[0.0, 0.0, 0.0]],
        ksol=[0.10, 0.02, 0.0],     # On-axis longitudinal field: 0.10 + 0.02*s
        num_phi='auto',
-       nstep=40,
+       num_integration_steps=40,
        pkin_const=True,
    )
    particles = xt.Particles(p0c=1e9, x=0.003, y=0.002, px=0.001)
    magnet.track(particles)
    print(particles.x, particles.kin_px, particles.y, particles.kin_py)
+
+Additional strengths and scaling
+--------------------------------
+
+``k0``, ``k1``, ``k2``, and ``k3`` add uniform normal dipole through octupole
+strengths; ``k0s``, ``k1s``, ``k2s``, and ``k3s`` add the corresponding skew
+strengths. All default to zero and use the usual Xtrack normalization.
+They are independent of the polynomial profiles and of the reference
+curvature ``h``.
+
+The writable arrays ``knl`` and ``ksl`` add integrated hard-edge strengths.
+Their contributions to the local field are ``knl[i] / length`` and
+``ksl[i] / length``. These contributions leave the polynomial input arrays
+unchanged and add no extra fringe at the element boundaries. The arrays may
+contain higher multipole orders than the profiles. Nonzero ``knl`` or ``ksl``
+requires nonzero ``length``; changing the length preserves these integrated
+inputs and recomputes their field densities.
+
+For normal order :math:`i`, the combined local strength is
+
+.. math::
+
+   K_i(s) = \mathrm{kscale}\left(
+       k_i + \sum_j \mathrm{knc}_{ij}s^j
+       + \frac{\mathrm{knl}_i}{L}\right).
+
+The skew convention is analogous. Missing array entries and scalar orders
+above octupole contribute zero. ``kscale`` defaults to 1 and multiplies all
+field components, including the longitudinal field, reconstructed potentials,
+derivatives, and integrated strengths. It leaves the input strengths and
+reference geometry unchanged: zero switches off the field, and a negative
+value reverses it.
+
+.. code-block:: python
+
+   combined = xt.BFieldExpansion(
+       length=0.8, knc=[[0.05, 0.02], [0.40, 0.0]],
+       k1=0.10, knl=[0.004, 0.008], kscale=0.5,
+       num_integration_steps=40,
+   )  # Omitted skew and longitudinal profiles are zero-filled.
+   normal, skew = combined.get_total_knl_ksl()
+   print(normal[1])  # 0.5 * ((0.40 + 0.10) * 0.8 + 0.008) = 0.204 1/m
 
 Longitudinal coordinate and geometry
 ------------------------------------
@@ -127,8 +182,7 @@ normal dipole field equal to the reference curvature:
 .. code-block:: python
 
    bend = xt.BFieldExpansion(
-       length=1.0, h=0.2, knc=[[0.2]], ksc=[[0.0]], ksol=[0.0],
-       nstep=40,  # num_phi defaults to 'auto'
+       length=1.0, h=0.2, k0=0.2, num_integration_steps=40,
    )
    print(bend.angle)  # 0.2 rad
 
@@ -149,6 +203,9 @@ The result is a structured NumPy array with the broadcast input shape
 ``dAx_dy``, ``dAx_ds``, ``dAs_dx``, ``dAs_dy``, and ``dAs_ds``. Magnetic
 fields are normalized by :math:`B\rho`; the scalar and vector potentials
 use the same rigidity normalization, and ``Ay`` is zero in the chosen gauge.
+All returned quantities include ``kscale``. Coordinates and field components
+refer to the element's local frame; shifts and rotations do not change the
+result of ``get_field`` at the same local coordinates.
 The result is returned on the CPU even when the element uses a GPU context.
 
 .. code-block:: python
@@ -167,11 +224,14 @@ Integration and boundary momenta
 --------------------------------
 
 Both geometry modes integrate Hamilton's equations with classical
-fourth-order Runge--Kutta (RK4). ``nstep`` is a positive integer, defaults
-to 10, and sets the step size ``ds = length / nstep``. Updating ``length``
-or ``nstep`` updates ``ds``. For a fixed, sufficiently smooth field model,
-the global integration error is expected to decrease as ``nstep**-4`` until
-other errors dominate. RK4 is not an exactly symplectic integrator.
+fourth-order Runge--Kutta (RK4). ``integrator='rk4'`` is the default and the
+only supported scheme; ``get_available_integrators()`` returns ``['rk4']``.
+``num_integration_steps`` is a positive integer, defaults to 10, and sets the
+read-only step size ``ds = length / num_integration_steps``. Changing the
+length or step count changes ``ds``. For a fixed, sufficiently smooth field
+model, the global integration error is expected to decrease as
+``num_integration_steps**-4`` until other errors dominate. RK4 is not an
+exactly symplectic integrator.
 
 ``pkin_const`` controls the handling of the vector potential at element
 boundaries; it does not change the integration method:
@@ -211,8 +271,9 @@ For a piecewise field model, convergence of the on-axis profile alone does
 not establish convergence of the off-axis field. Its higher longitudinal
 derivatives contribute to the expansion, and discontinuities of the vector
 potential make the boundary convention relevant. Refine the field model
-and ``num_phi`` separately from ``nstep``. In particular, increasing ``nstep``
-cannot recover high-order fringe terms omitted by a low-degree polynomial fit.
+and ``num_phi`` separately from ``num_integration_steps``. Increasing the
+step count cannot recover high-order fringe terms omitted by a low-degree
+polynomial fit.
 
 Updating coefficients and using an Environment
 ----------------------------------------------
@@ -232,12 +293,24 @@ rebuild the cached expansion and integrated strengths automatically:
    magnet.knc[...] = coefficients
 
 Direct reassignment such as ``magnet.knc = coefficients`` is prohibited.
-Construct a new element to change the coefficient shapes or expansion order.
+``knl`` and ``ksl`` also support in-place updates, and accept whole-array
+assignment when the shape is unchanged. Updating a scalar strength or
+``kscale`` rebuilds the shared expansion from the unscaled inputs.
+Construct a new element to change the coefficient shapes or ``num_phi``.
+The read-only ``order`` is ``max(knc.shape[0], ksc.shape[0]) - 1`` and reports
+the allocated polynomial multipole order, regardless of which coefficients
+are nonzero. Independent scalar or integrated strengths may have higher
+orders. ``na``, ``nb``, and ``deg`` are read-only profile dimensions.
 
-The read-only arrays ``knl`` and ``ksl`` contain the normal and skew profiles
-integrated over ``[s_start, s_start + length]``, with one entry per transverse
-derivative order. ``ksoll`` is a one-entry array containing the integrated
-longitudinal profile. They also update when ``s_start`` or ``length`` changes.
+``get_total_knl_ksl()`` sums the profile integrals over
+``[s_start, s_start + length]``, the scalar strengths times ``length``, and
+the additional ``knl``/``ksl`` inputs, then multiplies the sum by ``kscale``.
+The result is a pair of detached
+NumPy arrays padded to the same length, with at least four entries.
+``line.get_table(attr=True)`` and Twiss strength columns report these totals.
+The read-only one-entry array ``ksoll`` contains the integral of ``ksol``
+over the same interval, including ``kscale``. These computed quantities
+reflect changes to the strengths, scale, polynomial origin, and length.
 
 :ref:`xtrack.Environment <environment-api-reference>` accepts coefficient
 matrices containing numbers and deferred expressions through ``new`` and ``set``:
@@ -246,7 +319,10 @@ matrices containing numbers and deferred expressions through ``new`` and ``set``
 
    env = xt.Environment()
    env['k1'] = 0.4
-   env.new('q', 'BFieldExpansion', length=0.3, num_phi='auto', nstep=40,
+   env['field_scale'] = 0.8
+   env.new('q', 'BFieldExpansion', length=0.3, num_phi='auto',
+           num_integration_steps=40, integrator='rk4',
+           k1='0.1*k1', kscale='field_scale', knl=[0.0, 0.01],
            knc=[[0.0, 0.0], ['k1', 0.0]],
            ksc=[[0.0, 0.0]], ksol=[0.0, 0.0])
    env['k1'] = 0.45
@@ -254,9 +330,30 @@ matrices containing numbers and deferred expressions through ``new`` and ``set``
    line = env.new_line(components=['q'])
    line.get_table(attr=True).cols['element_type length angle k1l'].show()
 
-``num_phi`` is fixed when the expansion cache is allocated and cannot be a
-deferred expression. Updating coefficients within their allocated shapes
-does not change the resolved order.
+``num_phi`` is fixed when the expansion cache is allocated. Neither
+``num_phi`` nor ``integrator`` can be a deferred expression. Updating
+coefficients within their allocated shapes does not change the resolved
+expansion order.
+
+Misalignments
+-------------
+
+``BFieldExpansion`` supports the standard Xtrack shifts and rotations,
+including ``shift_x``, ``shift_y``, ``shift_s``, ``rot_x_rad``, ``rot_y_rad``,
+``rot_s_rad``, ``rot_s_rad_no_frame``, and ``rot_shift_anchor``. Their
+definitions are given in :ref:`misalignment_label`. For example:
+
+.. code-block:: python
+
+   misaligned_magnet = magnet.copy()
+   misaligned_magnet.shift_x = 1e-3
+   misaligned_magnet.rot_s_rad = 0.02
+
+Tracking uses the standard entrance and exit transformations, including
+their field-free propagation convention for pitch, yaw, and longitudinal
+shifts. These transformations do not integrate the field between tilted
+boundary planes. ``get_field`` continues to evaluate in the local frame.
+Thick slices inherit the parent's misalignment settings.
 
 Thick slicing
 -------------
@@ -277,18 +374,22 @@ all slices; slice lengths and offsets follow changes in the parent length.
    sliced_particles = xt.Particles(p0c=1e9, x=0.003, y=0.002, px=0.001)
    sliced_line.track(sliced_particles)
 
-A slice with weight ``w`` uses ``max(1, ceil(parent.nstep * w))`` RK4 steps.
+A slice with weight ``w`` uses
+``max(1, ceil(parent.num_integration_steps * w))`` RK4 steps and inherits
+the parent's ``integrator``.
 Rounding can increase the total number of steps. Uniform slicing with a
 parent step count divisible by the number of slices retains the original
-integration grid. Each slice's integrated strengths are computed over its
-own interval, rather than by scaling the parent's integral. Both parents
+integration grid. A slice's ``get_total_knl_ksl()`` integrates the profiles
+over its own interval, adds the scalar contributions over its length and
+its weight times the parent's ``knl``/``ksl``, and includes ``kscale``.
+These totals also appear in the line and Twiss strength columns. Both parents
 and slices use entrance-relative ``s_local`` in ``get_field(x, y, s_local)``.
 For a slice, the polynomial coordinate is
 ``parent.s_start + slice.slice_offset + s_local``; the slice's ``s_start``
 already includes the parent's origin and its own offset.
 
-Thin slicing, element rotations and shifts, and spin tracking are currently
-unsupported. ``BFieldExpansion`` and its slices do not radiate, even when
+Thin slicing and spin tracking are currently unsupported.
+``BFieldExpansion`` and its slices do not radiate, even when
 radiation is enabled for the line; tracking continues without radiation
 effects in these elements. Tracking and field evaluation support CPU, CuPy,
 and PyOpenCL contexts.

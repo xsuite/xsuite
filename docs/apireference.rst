@@ -191,7 +191,7 @@ of the :doc:`Physics Guide <physicsguide>`.
 BFieldExpansion
 ---------------
 
-.. py:class:: xtrack.BFieldExpansion(length, ksc, knc, ksol, num_phi='auto', h=0, nstep=10, s_start=0, **kwargs)
+.. py:class:: xtrack.BFieldExpansion(length, ksc=None, knc=None, ksol=None, num_phi='auto', h=0, s_start=0, knl=None, ksl=None, kscale=1.0, k0=0.0, k1=0.0, k2=0.0, k3=0.0, k0s=0.0, k1s=0.0, k2s=0.0, k3s=0.0, integrator='rk4', num_integration_steps=10, pkin_const=False, **kwargs)
 
     Thick magnetic-field expansion in a straight or curved reference frame,
     tracked with classical fourth-order Runge--Kutta.
@@ -203,20 +203,42 @@ BFieldExpansion
         convention as ``ksc`` for ``By/(B rho)``. ``knc[i, 0]`` has the same
         normalization and factorial convention as Xtrack's ``k0``, ``k1``,
         ``k2``, and higher-order strengths; these are not integrated strengths.
+    :param knl: Additional integrated normal hard-edge strengths. The density
+        ``knl[i] / length`` is added to the constant normal profile at order i,
+        without modifying ``knc`` or adding extra boundary fringes. Defaults to zero.
+    :param ksl: Additional integrated skew hard-edge strengths, analogous to
+        ``knl``. Defaults to zero. Nonzero ``knl`` or ``ksl`` requires nonzero
+        length. Changing length preserves these integrated inputs.
+    :param float k0: Additional uniform normal dipole strength, default zero.
+    :param float k1: Additional uniform normal quadrupole strength, default zero.
+    :param float k2: Additional uniform normal sextupole strength, default zero.
+    :param float k3: Additional uniform normal octupole strength, default zero.
+    :param float k0s: Additional uniform skew dipole strength, default zero.
+    :param float k1s: Additional uniform skew quadrupole strength, default zero.
+    :param float k2s: Additional uniform skew sextupole strength, default zero.
+    :param float k3s: Additional uniform skew octupole strength, default zero.
     :param ksol: On-axis ``Bs/(B rho)`` coefficients in ascending powers of
         ``s``, with shape ``(deg + 1,)``. The final coefficient must be zero
         so the integral fits in the scalar-potential polynomial.
+    :param float kscale: Common multiplier for all field components,
+        potentials, derivatives, and integrated strengths. Defaults to 1.
+        Includes scalar, polynomial, and integrated hard-edge inputs while
+        leaving those inputs and the reference geometry unchanged.
     :param num_phi: Nonnegative integer vertical truncation order, or ``'auto'``
         (default). The automatic order uses the coefficient shapes and
         longitudinal degree to retain the complete straight-field polynomial
         expansion, including the vector potential and later updates to
-        initially zero coefficients. Curved geometry adds two orders to
-        retain all terms through first order in ``h``. Higher-order curvature
-        terms require convergence checks with larger explicit orders.
+        initially zero coefficients. Allocation covers the integrated input
+        arrays and all scalar strengths through octupole. Curved geometry adds
+        two orders to retain all terms through first order in ``h``. Higher-order
+        curvature terms require convergence checks with larger explicit orders.
     :param float h: Reference curvature in inverse metres. Zero selects
         straight geometry; curved geometry requires ``h > 1e-4``. The
         geometry mode is fixed at construction. Default is zero.
-    :param int nstep: Positive number of RK4 integration steps. Default is 10.
+    :param str integrator: Integration scheme. Only ``'rk4'`` is supported
+        (the default).
+    :param int num_integration_steps: Positive number of integration steps.
+        Default is 10.
     :param float s_start: Polynomial coordinate at the entrance, in metres.
         Tracking covers ``[s_start, s_start + length]``. Default is zero.
     :param bool pkin_const: Keyword selecting the boundary-momentum convention.
@@ -227,28 +249,53 @@ BFieldExpansion
 
     Coefficients are normalized by the signed reference magnetic rigidity.
     Transverse powers include ``1/i!`` internally; longitudinal powers use
-    ``s`` in metres without factorials. Update coefficient entries or slices
-    in place to rebuild the expansion; array shapes remain fixed.
+    ``s`` in metres without factorials. Omitted, ``None``, and empty arrays
+    are filled with zeros at construction. Nonempty ``knc``, ``ksc``, and
+    ``ksol`` must agree in the number of longitudinal coefficients. Missing
+    transverse matrices cover the highest supplied array order; missing
+    integrated arrays match the corresponding profile row count. With all
+    arrays omitted, the matrices have shape ``(1, 1)`` and vectors have one entry.
+
+    Array shapes remain fixed after construction. Updates to entries or slices
+    rebuild the expansion. ``knl`` and ``ksl`` also accept whole-array assignment
+    with the same shape; ``knc``, ``ksc``, and ``ksol`` cannot be reassigned.
+    Scalar strength and ``kscale`` updates also rebuild the shared field cache.
 
     ``num_phi`` stores the resolved integer and is fixed at construction;
-    it cannot be a deferred expression. Fields are evaluated through
+    it cannot be a deferred expression. ``integrator`` also requires a literal
+    value. Fields are evaluated through
     ``y**num_phi``, with one extra scalar-potential coefficient stored for
     the derivative giving ``By``.
 
-    ``knl`` and ``ksl`` are read-only arrays of strengths integrated over the
-    tracked interval. ``ksoll`` contains the integrated longitudinal profile
-    in a one-entry array. ``straight`` and ``angle`` are read-only; the latter
-    is ``length * h``. ``ds`` is updated to ``length / nstep`` when the length
-    or step count changes.
+    ``get_total_knl_ksl()`` returns the scaled sum of profile integrals, scalar
+    strengths times length, and the ``knl``/``ksl`` inputs. Line and Twiss
+    strength columns use these totals. ``ksoll`` is a read-only one-entry
+    array containing the scaled integrated longitudinal profile.
+    ``straight`` and ``angle`` are read-only; the latter is ``length * h``.
+    ``ds`` is the read-only ``length / num_integration_steps``.
+
+    ``order`` is the read-only highest polynomial multipole order,
+    ``max(knc.shape[0], ksc.shape[0]) - 1``. It describes the allocated profile
+    shapes, independent of current nonzero values; scalar and integrated
+    strengths may include higher orders. ``na``, ``nb``, and ``deg`` are
+    read-only profile row counts and longitudinal degree.
 
     ``get_field(x, y, s_local)`` uses the distance from the element entrance
     and evaluates the polynomial at ``s_start + s_local``. The same local
-    coordinate convention applies to thick slices.
+    coordinate convention applies to thick slices. Field evaluation includes
+    ``kscale`` and uses the local element frame, independently of misalignments.
+
+    Tracking supports the standard Xtrack shifts and rotations, inherited by
+    thick slices. See :ref:`misalignment_label` for their definitions.
 
     This element and its thick slices do not radiate, even when radiation
     is enabled for the line. Spin tracking is unsupported.
 
 .. automethod:: xtrack.BFieldExpansion.get_field
+
+.. automethod:: xtrack.BFieldExpansion.get_total_knl_ksl
+
+.. automethod:: xtrack.BFieldExpansion.get_available_integrators
 
 See :doc:`bfield_expansion` for the coefficient and unit conventions,
 straight and curved geometry, integration and boundary-momentum settings,
