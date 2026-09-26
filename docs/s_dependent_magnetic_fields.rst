@@ -8,6 +8,11 @@ Modeling s-dependent magnetic fields
 Overview
 --------
 
+For polynomial field profiles in a straight or curved reference frame,
+:class:`xtrack.BFieldExpansion` is also available. See
+:doc:`bfield_expansion` for its coefficient conventions and a comparison of
+the integrators at a common tracking accuracy.
+
 The :class:`xtrack.SplineBoris` element models a thick magnetic element whose
 field varies along the longitudinal coordinate. It is suited to devices such
 as undulators, wigglers, fringe field and solenoids, for which a constant multipolar
