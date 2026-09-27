@@ -299,7 +299,7 @@ BFieldExpansion
 
 See :doc:`bfield_expansion` for the coefficient and unit conventions,
 straight and curved geometry, integration and boundary-momentum settings,
-field evaluation, and thick slicing.
+and field evaluation.
 
 BorisSpatialIntegrator
 ----------------------
