@@ -19,6 +19,7 @@
    trajectory_correction
    spin_polarization
    s_dependent_magnetic_fields
+   bfield_expansion
    collective
    collimation
    external_material_codes
