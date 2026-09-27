@@ -155,27 +155,86 @@ Expand the potential in the vertical coordinate,
  \psi(x,y,s)=\sum_{i=0}^{\infty}\psi_i(x,s)\frac{y^i}{i!}.
  \label{bfe:series}
 \end{equation}
-The input profiles determine the two independent seeds:
+\subsection{Deriving the two seed functions}
+
+The first two Taylor coefficients are the potential and its first vertical
+derivative on the plane \(y=0\):
+\begin{equation}
+ \psi_0(x,s)=\psi(x,0,s),\qquad
+ \psi_1(x,s)=\left.\partial_y\psi(x,y,s)\right|_{y=0}.
+\end{equation}
+The physical field components in the local orthonormal frame are
+\begin{equation}
+ b_x=-\partial_x\psi,\qquad b_y=-\partial_y\psi,\qquad
+ b_s=-\frac{1}{w}\partial_s\psi.
+ \label{bfe:field}
+\end{equation}
+The vertical field on \(y=0\) therefore determines \(\psi_1\) directly:
+\begin{equation}
+ -\psi_1(x,s)=b_y(x,0,s)=\sum_{n\geq0}N_n(s)\frac{x^n}{n!}.
+\end{equation}
+Similarly, the horizontal field gives
+\begin{equation}
+ -\partial_x\psi_0(x,s)=b_x(x,0,s)
+                       =\sum_{n\geq0}S_n(s)\frac{x^n}{n!}.
+\end{equation}
+Integrating with respect to \(x\) yields
+\begin{equation}
+ \psi_0(x,s)=C(s)-\sum_{n\geq0}S_n(s)\frac{x^{n+1}}{(n+1)!}.
+\end{equation}
+The integration constant can depend on \(s\), since the integration was
+only over \(x\). The longitudinal field on the reference axis determines
+this function: at \(x=y=0\), \(w=1\) and \(\psi=C(s)\), hence
+\begin{equation}
+ K_s(s)=b_s(0,0,s)=-C'(s),\qquad
+ C(s)=-\int^s K_s(u)\,\dee u+C_0.
+\end{equation}
+The constant \(C_0\) has no effect on the field and can be set to zero.
+The input profiles thus determine the two seed functions:
 \begin{align}
  \psi_0(x,s)&=-\int^s K_s(u)\,\dee u
               -\sum_{n\geq0}S_n(s)\frac{x^{n+1}}{(n+1)!},\\
  \psi_1(x,s)&=-\sum_{n\geq0}N_n(s)\frac{x^n}{n!}.
  \label{bfe:seeds}
 \end{align}
-An additive constant in \(\psi_0\) has no effect. Laplace's equation
-then determines all higher coefficients:
+\subsection{Why two seeds determine the expansion}
+
+Laplace's equation is second order in \(y\). It can be written as
 \begin{equation}
- \boxed{\psi_{i+2}=-\mathcal D_h\psi_i,\qquad
+ \partial_y^2\psi=-\mathcal D_h\psi,\qquad
  \mathcal D_h=\partial_x^2+\frac{h}{w}\partial_x
-                         +\frac{1}{w^2}\partial_s^2.}
+                         +\frac{1}{w^2}\partial_s^2.
+\end{equation}
+The operator \(\mathcal D_h\) differentiates only in \(x\) and \(s\),
+and its coefficients do not depend on \(y\). Inserting the Taylor series
+\eqref{bfe:series} on both sides gives
+\begin{equation}
+ \sum_{i=0}^{\infty}\psi_{i+2}(x,s)\frac{y^i}{i!}
+ =\sum_{i=0}^{\infty}(-\mathcal D_h\psi_i(x,s))\frac{y^i}{i!}.
+\end{equation}
+Differentiating twice in \(y\) shifts the coefficient index by two;
+equating coefficients of each power of \(y\) therefore gives
+\begin{equation}
+ \boxed{\psi_{i+2}=-\mathcal D_h\psi_i.}
  \label{bfe:recurrence}
 \end{equation}
-The physical components in the local orthonormal frame are
+For example,
+\begin{align}
+ \psi_2&=-\mathcal D_h\psi_0, & \psi_3&=-\mathcal D_h\psi_1,\\
+ \psi_4&=\mathcal D_h^2\psi_0, & \psi_5&=\mathcal D_h^2\psi_1.
+\end{align}
+The potential consequently starts as
 \begin{equation}
- b_x=-\partial_x\psi,\qquad b_y=-\partial_y\psi,\qquad
- b_s=-\frac{1}{w}\partial_s\psi.
- \label{bfe:field}
+ \psi=\psi_0+y\psi_1
+ -\frac{y^2}{2!}\mathcal D_h\psi_0
+ -\frac{y^3}{3!}\mathcal D_h\psi_1
+ +\frac{y^4}{4!}\mathcal D_h^2\psi_0+\cdots.
 \end{equation}
+Thus \(\psi_0\) determines every even coefficient, and \(\psi_1\) every
+odd coefficient. The two independent inputs are functions of \(x\) and
+\(s\), rather than two numbers. They determine the local field wherever
+the resulting series converges.
+
 Longitudinal derivatives of the transverse profiles therefore generate
 longitudinal fringe fields and higher transverse orders automatically.
 
@@ -193,7 +252,9 @@ This is the coefficient recurrence used to build the curved expansion.
 
 \section{Vector potential and gauge}
 
-Tracking requires a vector potential as well as the magnetic field.
+Tracking in \texttt{BFieldExpansion} uses canonical momenta and therefore
+requires a vector potential as well as the magnetic field. Direct
+integration of the Lorentz force would require only the magnetic field.
 The implementation chooses \(a_y=0\), \(a_x(x,0,s)=0\), and
 \(a_s(0,0,s)=0\). In this gauge a vector potential for the untruncated
 field is
@@ -211,8 +272,69 @@ The curl in these coordinates is
  b_s=-\partial_y a_x.
  \label{bfe:curl}
 \end{equation}
-Equation~\eqref{bfe:vector-potential} gives the first and third identities
-directly. Laplace's equation and the seed \(\psi_1\) give the second.
+These expressions follow by integrating the curl equations and fixing the
+integration constants with the stated gauge conditions.
+
+\subsection{Constructing the vector potential}
+
+First, equate the longitudinal field in Eq.~\eqref{bfe:curl} to that from
+the scalar potential:
+\begin{equation}
+ -\partial_y a_x=-\frac{1}{w}\partial_s\psi.
+\end{equation}
+Integrating in \(y\), using \(a_x(x,0,s)=0\), gives
+\begin{equation}
+ a_x(x,y,s)=\frac{1}{w}\int_0^y\partial_s\psi(x,v,s)\,\dee v.
+\end{equation}
+The factor \(1/w\) can be taken outside the integral because \(w\) does
+not depend on \(y\).
+
+Next, the horizontal field requires
+\begin{equation}
+ \partial_y a_s=-\partial_x\psi.
+\end{equation}
+Integration in \(y\) gives
+\begin{equation}
+ a_s(x,y,s)=C(x,s)-\int_0^y\partial_x\psi(x,v,s)\,\dee v,
+\end{equation}
+where \(C(x,s)=a_s(x,0,s)\) is still to be determined.
+
+The vertical field on \(y=0\) fixes this function. Since
+\(a_x(x,0,s)=0\) for every \(s\), its longitudinal derivative is also
+zero on that plane. Equation~\eqref{bfe:curl} then gives
+\begin{equation}
+ b_y(x,0,s)=-\frac{1}{w}\partial_x(wC)=-\psi_1(x,s),
+\end{equation}
+or \(\partial_x(wC)=w\psi_1\). Integrating in \(x\) and imposing
+\(C(0,s)=a_s(0,0,s)=0\) yields
+\begin{equation}
+ C(x,s)=\frac{1}{w}\int_0^x(1+hu)\psi_1(u,s)\,\dee u.
+\end{equation}
+Substitution gives the expression for \(a_s\) in
+Eq.~\eqref{bfe:vector-potential}.
+
+\subsection{Checking the vertical field away from the midplane}
+
+The construction already reproduces \(b_x\) and \(b_s\) everywhere,
+and \(b_y\) on \(y=0\). To check \(b_y\) away from that plane,
+substitute the potentials into the remaining curl component:
+\begin{equation}
+ (\nabla\times\bm a)_y
+ =-\psi_1(x,s)+\int_0^y\mathcal D_h\psi(x,v,s)\,\dee v.
+\end{equation}
+Laplace's equation gives \(\mathcal D_h\psi=-\partial_y^2\psi\), so
+\begin{align}
+ (\nabla\times\bm a)_y
+ &=-\psi_1(x,s)
+   -\left[\partial_y\psi(x,y,s)-\partial_y\psi(x,0,s)\right]\\
+ &=-\partial_y\psi(x,y,s)=b_y(x,y,s),
+\end{align}
+where \(\partial_y\psi(x,0,s)=\psi_1(x,s)\). Thus all three field
+components agree. This proof uses Laplace's equation exactly, which is why
+the expressions above refer to the untruncated field.
+
+\subsection{Evaluation and elementary examples}
+
 The code evaluates the series for the potentials and
 their derivatives analytically, rather than differentiating sampled field
 values numerically.
