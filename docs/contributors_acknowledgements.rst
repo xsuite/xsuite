@@ -27,6 +27,7 @@ From CERN:
  - Colas Droin
  - Pascal Hermes
  - Lorenzo Giacomel
+ - Joshua Gray
  - Giovanni Iadarola
  - Peter Kicsiny
  - Andrea Latina
@@ -46,6 +47,7 @@ From CERN:
  - Elias Waagaard
 
 From other institutes:
+ - Joshua Appleby (Oxford university) - SyncTime improvements
  - Philippe Balanger (TRIUMF, Canada) - Development of wire beam element and Tracker.survey
  - Manon Boucard (EPFL, Switzwerland) - Development of the electron lens beam element
  - Kiel Hock (BNL, USA) - Development of spin tracking
