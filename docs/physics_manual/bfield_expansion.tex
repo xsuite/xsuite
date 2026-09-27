@@ -1,0 +1,309 @@
+\chapter{Magnetic fields with BFieldExpansion}
+\label{chapter:bfield-expansion}
+
+The \texttt{BFieldExpansion} element models a static magnetic field with
+polynomial longitudinal profiles in a straight or curved reference frame.
+It reconstructs a scalar magnetic potential from on-axis field data,
+constructs a vector potential, and advances the canonical particle
+coordinates with classical fourth-order Runge--Kutta integration (RK4).
+Applications include combined-function magnets, fringe fields, and solenoids.
+
+The scalar-potential construction follows the approach of
+Ref.~\cite{VanDerSchueren2024}. Its straight-frame form is closely related to
+the reconstruction used by \texttt{SplineBoris} in
+Chap.~\ref{chapter:splineboris-field-expansion}. The conventions and tracking
+algorithm below are those of \texttt{BFieldExpansion}. The present RK4
+implementation is not a symplectic integrator.
+
+\section{Coordinates and field normalization}
+
+Let \(s\) be arc length along a planar reference trajectory of constant
+curvature \(h\), and let \(x\) and \(y\) be the horizontal and vertical
+coordinates. Define
+\begin{equation}
+ w(x)=1+hx, \qquad
+ \dee\ell^2=\dee x^2+\dee y^2+w^2\dee s^2.
+\end{equation}
+The straight case has \(h=0\). The following expressions describe the
+regular coordinate region around the reference axis, with \(w>0\).
+The surface \(w=0\) is a coordinate singularity. Curvature specifies the
+reference frame, independently of the field; it does not set the dipole
+strength. The current implementation selects straight geometry for \(h=0\)
+and supports curved geometry for \(h>10^{-4}\,\mathrm{m}^{-1}\).
+
+We use the signed reference rigidity \(B\rho=P_0/q_0\) and write
+\begin{equation}
+ \bm b=\frac{\bm B}{B\rho}, \qquad
+ \bm a=\frac{\bm A}{B\rho}, \qquad
+ \bm b=-\nabla\psi.
+ \label{bfe:normalization}
+\end{equation}
+Thus \(\bm b\) has units of inverse metres, while \(\bm a\) and the
+normalized scalar magnetic potential \(\psi\) are dimensionless.
+The quantities returned as \texttt{Bx}, \texttt{By}, \texttt{Bs},
+\texttt{Ax}, \texttt{Ay}, \texttt{As}, and \texttt{phi} by
+\texttt{get\_field} use this normalization. The minus sign in
+Eq.~\eqref{bfe:normalization} is opposite to the convention in
+Chap.~\ref{chapter:splineboris-field-expansion}; it changes the potential,
+not the physical field. This magnetic scalar potential is unrelated to the
+electric potential in the general particle Hamiltonian.
+
+The polynomial coordinate runs from \texttt{s\_start} to
+\(\texttt{s\_start}+L\), where \(L\) is the element length. It need not
+coincide with the accumulated particle coordinate \texttt{s} in a line.
+The field-evaluation argument \texttt{s\_local} is entrance-relative, so
+that the profiles are evaluated at
+\(s=\texttt{s\_start}+\texttt{s\_local}\).
+
+\section{Input profiles and scalar-potential reconstruction}
+
+Denote the total normal, skew, and longitudinal profiles by
+\(N_n(s)\), \(S_n(s)\), and \(K_s(s)\). Their on-axis interpretation is
+\begin{align}
+ b_y(x,0,s)&=\sum_{n\geq0}N_n(s)\frac{x^n}{n!}, &
+ b_x(x,0,s)&=\sum_{n\geq0}S_n(s)\frac{x^n}{n!}, &
+ b_s(0,0,s)&=K_s(s).
+ \label{bfe:profiles}
+\end{align}
+With only polynomial input coefficients and unit scale,
+\begin{equation}
+ N_n(s)=\sum_{j=0}^{d}\texttt{knc}_{nj}s^j,\qquad
+ S_n(s)=\sum_{j=0}^{d}\texttt{ksc}_{nj}s^j,\qquad
+ K_s(s)=\sum_{j=0}^{d-1}\texttt{ksol}_{j}s^j.
+ \label{bfe:coefficients}
+\end{equation}
+The transverse factorial is included in Eq.~\eqref{bfe:profiles}; there
+is no longitudinal factorial in Eq.~\eqref{bfe:coefficients}.
+
+Uniform scalar strengths and integrated strengths are incorporated before
+constructing the potential. For example,
+\begin{equation}
+ N_n(s)=\texttt{kscale}\left[
+ \sum_j\texttt{knc}_{nj}s^j+k_n+\frac{\texttt{knl}_n}{L}\right],
+ \label{bfe:total-profile}
+\end{equation}
+with the analogous expression for the skew profile. The independent
+\(k_n\) and skew scalar strengths exist through octupole order; missing
+entries contribute zero. The factor \texttt{kscale} also multiplies
+\(K_s\), all reconstructed fields, and both potentials. Nonzero integrated
+strengths require \(L\ne0\).
+
+Inside a current-free aperture the magnetostatic Maxwell equations give
+\(\nabla\times\bm b=0\) and \(\nabla\cdot\bm b=0\). With
+Eq.~\eqref{bfe:normalization}, the latter becomes
+\begin{equation}
+ \nabla^2\psi=
+ \partial_x^2\psi+\frac{h}{w}\partial_x\psi
+ +\partial_y^2\psi+\frac{1}{w^2}\partial_s^2\psi=0.
+ \label{bfe:laplace}
+\end{equation}
+Expand the potential in the vertical coordinate,
+\begin{equation}
+ \psi(x,y,s)=\sum_{i=0}^{\infty}\psi_i(x,s)\frac{y^i}{i!}.
+ \label{bfe:series}
+\end{equation}
+The input profiles determine the two independent seeds:
+\begin{align}
+ \psi_0(x,s)&=-\int^s K_s(u)\,\dee u
+              -\sum_{n\geq0}S_n(s)\frac{x^{n+1}}{(n+1)!},\\
+ \psi_1(x,s)&=-\sum_{n\geq0}N_n(s)\frac{x^n}{n!}.
+ \label{bfe:seeds}
+\end{align}
+An additive constant in \(\psi_0\) has no effect. Laplace's equation
+then determines all higher coefficients:
+\begin{equation}
+ \boxed{\psi_{i+2}=-\mathcal D_h\psi_i,\qquad
+ \mathcal D_h=\partial_x^2+\frac{h}{w}\partial_x
+                         +\frac{1}{w^2}\partial_s^2.}
+ \label{bfe:recurrence}
+\end{equation}
+The physical components in the local orthonormal frame are
+\begin{equation}
+ b_x=-\partial_x\psi,\qquad b_y=-\partial_y\psi,\qquad
+ b_s=-\frac{1}{w}\partial_s\psi.
+ \label{bfe:field}
+\end{equation}
+Longitudinal derivatives of the transverse profiles therefore generate
+longitudinal fringe fields and higher transverse orders automatically.
+
+For \(h=0\), Eq.~\eqref{bfe:recurrence} reduces to
+\(-\partial_x^2-\partial_s^2\), and repeated differentiation of polynomial
+seeds eventually terminates. For \(h\ne0\), the implementation uses powers
+of \(w\), including negative powers generated by the recurrence. Writing
+\(\psi_i=\sum_m c_{i,m}(s)w^m\) gives
+\begin{equation}
+ c_{i+2,m}(s)=-\left[\frac{\dee^2}{\dee s^2}
+                         +h^2(m+2)^2\right]c_{i,m+2}(s).
+ \label{bfe:curved-coefficients}
+\end{equation}
+This is the coefficient recurrence used to build the curved expansion.
+
+\section{Vector potential and gauge}
+
+Tracking requires a vector potential as well as the magnetic field.
+The implementation chooses \(a_y=0\), \(a_x(x,0,s)=0\), and
+\(a_s(0,0,s)=0\). In this gauge a vector potential for the untruncated
+field is
+\begin{align}
+ a_x(x,y,s)&=\frac{1}{w}\int_0^y\partial_s\psi(x,v,s)\,\dee v,\\
+ a_y(x,y,s)&=0,\\
+ a_s(x,y,s)&=\frac{1}{w}\int_0^x(1+hu)\psi_1(u,s)\,\dee u
+                -\int_0^y\partial_x\psi(x,v,s)\,\dee v.
+ \label{bfe:vector-potential}
+\end{align}
+The curl in these coordinates is
+\begin{equation}
+ b_x=\partial_y a_s,\qquad
+ b_y=\frac{\partial_s a_x-\partial_x(w a_s)}{w},\qquad
+ b_s=-\partial_y a_x.
+ \label{bfe:curl}
+\end{equation}
+Equation~\eqref{bfe:vector-potential} gives the first and third identities
+directly. Laplace's equation and the seed \(\psi_1\) give the second.
+The code evaluates the series for the potentials and
+their derivatives analytically, rather than differentiating sampled field
+values numerically.
+
+Two elementary cases fix the signs and normalization. A uniform vertical
+field \(b_y=K\) has
+\begin{equation}
+ \psi=-Ky,\qquad a_x=a_y=0,\qquad
+ a_s=-K\frac{x+hx^2/2}{1+hx}.
+\end{equation}
+In a straight frame this reduces to \(a_s=-Kx\). A uniform straight
+solenoid, \(b_s=K_s\), has \(\psi=-K_s s\), \(a_x=-K_s y\), and
+\(a_y=a_s=0\). Its nonzero transverse vector potential illustrates why
+canonical and kinetic momenta must be distinguished even in a uniform field.
+
+\section{Expansion order and convergence}
+
+The parameter \texttt{num\_phi} specifies the maximum retained power of
+\(y\) in field evaluation. An additional scalar-potential coefficient is
+stored to obtain \(b_y\) by differentiation; vector potentials are evaluated
+through the requested order. For a nonterminating expansion, the
+infinite-series identities above hold only to the orders retained by the
+corresponding series. Finite truncation is an approximation to the
+three-dimensional Maxwell field.
+
+The default \texttt{num\_phi='auto'} retains the complete polynomial
+reconstruction, including the vector potential, in straight geometry. Its
+choice accounts for allocated polynomial degrees and transverse orders,
+as well as the independent scalar strengths, including coefficients that
+are initially zero. In curved geometry it adds two vertical orders, retaining
+the full expansion through first order in \(h\). Higher powers of \(h\)
+are generally incomplete: the curved recurrence need not terminate.
+Increasing an explicit \texttt{num\_phi} and checking convergence over the
+aperture of interest is therefore necessary when higher curvature terms matter.
+
+There are three separate approximations to control: the input profile fit,
+the transverse expansion order, and the integration step size. Higher
+longitudinal derivatives enter Eq.~\eqref{bfe:recurrence}, so agreement of
+an on-axis fit alone does not establish off-axis accuracy. Increasing the
+number of tracking steps cannot restore fringe terms absent from the field
+model. For piecewise profiles, derivatives and vector-potential matching at
+the joins also need to be checked.
+
+\section{Hamiltonian and equations of motion}
+
+We use the canonical variables \(z=(x,p_x,y,p_y,\tau,p_\tau)\) defined in
+Eqs.~\eqref{eq:coord1}--\eqref{eq:coord2}, with
+\(\tau=\zeta/\beta_0=s/\beta_0-ct\), and the species factor
+\(\chi=(q/q_0)(m_0/m)\). Let
+\begin{equation}
+ \begin{aligned}
+ D&=1+\delta=\sqrt{1+2p_\tau/\beta_0+p_\tau^2}, &
+ \pi_s&=\sqrt{D^2-\pi_x^2-\pi_y^2},\\
+ \pi_x&=p_x-\chi a_x, & \pi_y&=p_y-\chi a_y.
+ \end{aligned}
+ \label{bfe:kinetic-momentum}
+\end{equation}
+Here \(\bm\pi\) is the normalized kinetic momentum. The forward branch
+\(\pi_s>0\) is used, away from longitudinal turning points.
+Specializing the accelerator Hamiltonian
+\eqref{eq:hamiltonian_htau} to a static magnetic field gives
+\begin{equation}
+ H=\frac{p_\tau}{\beta_0}-w(\pi_s+\chi a_s).
+ \label{bfe:hamiltonian}
+\end{equation}
+The Hamiltonian formalism and canonical normalization are discussed in
+Ref.~\cite{wolski2014beam}. No paraxial expansion of the square root is
+made here.
+
+In the implemented gauge \(a_y=0\), Hamilton's equations are
+\begin{align}
+ \frac{\dee x}{\dee s}&=w\frac{\pi_x}{\pi_s}, &
+ \frac{\dee y}{\dee s}&=w\frac{\pi_y}{\pi_s},\\
+ \frac{\dee p_x}{\dee s}&=h(\pi_s+\chi a_s)
+   +w\chi\left(\frac{\pi_x}{\pi_s}\partial_x a_x+\partial_x a_s\right), &
+ \frac{\dee p_y}{\dee s}&=w\chi\left(
+       \frac{\pi_x}{\pi_s}\partial_y a_x+\partial_y a_s\right),\\
+ \frac{\dee\tau}{\dee s}&=\frac{1}{\beta_0}
+                -w\frac{p_\tau+1/\beta_0}{\pi_s}, &
+ \frac{\dee p_\tau}{\dee s}&=0.
+ \label{bfe:equations}
+\end{align}
+Energy, and hence \(D\), is constant because there is no electric field.
+The spatial Hamiltonian itself can depend explicitly on \(s\) and need
+not be constant along the trajectory.
+
+\section{Numerical integration}
+
+Both geometries use classical RK4~\cite{HairerNorsettWanner1993}. For
+\(\dee z/\dee s=f(s,z)\), a step of length
+\(\Delta s=L/\texttt{num\_integration\_steps}\) is
+\begin{align}
+ k_1&=f(s_n,z_n),\\
+ k_2&=f(s_n+\Delta s/2,z_n+\Delta s\,k_1/2),\\
+ k_3&=f(s_n+\Delta s/2,z_n+\Delta s\,k_2/2),\\
+ k_4&=f(s_n+\Delta s,z_n+\Delta s\,k_3),\\
+ z_{n+1}&=z_n+\frac{\Delta s}{6}(k_1+2k_2+2k_3+k_4).
+\end{align}
+The potential and its derivatives are reevaluated at every stage. For a
+fixed smooth field and a trajectory bounded away from \(\pi_s=0\), the
+local integration error is \(\mathcal O(\Delta s^5)\), and the global
+error over a fixed length is \(\mathcal O(\Delta s^4)\). This statement
+concerns integration error, separately from field truncation and fitting.
+
+Classical RK4 does not preserve the symplectic form exactly, even when
+applied to Hamilton's equations. Nor does it generally preserve phase-space
+volume exactly. The distinction between Hamiltonian flow and a symplectic
+discrete map is discussed in Ref.~\cite{HairerLubichWanner2006}.
+Here \(p_\tau\) remains constant because its right-hand side is identically
+zero; this fact alone does not imply symplecticity. Backtracking reverses
+\(\Delta s\) and the integration interval, but RK4 is not exactly reversible
+at finite step size.
+
+\section{Canonical and kinetic momenta at boundaries}
+
+The flag \texttt{pkin\_const} selects how transverse momenta are transferred
+between vector-potential conventions at the entrance and exit. It does not
+change RK4 or its order of accuracy. Let
+\(\alpha_{x,y}=\chi a_{x,y}\); the particle attributes \texttt{ax} and
+\texttt{ay} store these species-scaled quantities. Then
+\(\pi_{x,y}=p_{x,y}-\alpha_{x,y}\), as exposed by
+\texttt{kin\_px} and \texttt{kin\_py}.
+
+With \texttt{pkin\_const=False}, the default, the entrance canonical
+momenta are used without conversion. At the exit, the element leaves the
+momenta in its gauge and stores the exit \(\alpha_x,\alpha_y\).
+Consequently, keeping \(p_x,p_y\) fixed while changing the transverse
+vector potential at a join changes the kinetic momenta. To initialize a
+particle with prescribed kinetic momenta inside a nonzero field, use
+\begin{equation}
+ p_x=\pi_x+\chi a_x(x,y,s_{\mathrm{in}}),\qquad
+ p_y=\pi_y+\chi a_y(x,y,s_{\mathrm{in}}),
+\end{equation}
+and set the stored \texttt{ax}, \texttt{ay} consistently.
+
+With \texttt{pkin\_const=True}, the entrance conversion is
+\begin{equation}
+ p_{x,y}^{\mathrm{in}}=p_{x,y}^{\mathrm{old}}
+          +\chi a_{x,y}^{\mathrm{in}}-\alpha_{x,y}^{\mathrm{old}}.
+\end{equation}
+At the exit the element subtracts \(\chi a_{x,y}^{\mathrm{out}}\) and
+sets the stored transverse vector potential to zero. These conversions
+preserve kinetic momenta across the changes of potential convention.
+They do not supply missing physical fringe fields or make the finite-step
+map symplectic. For a smooth piecewise magnetic model, the field profiles,
+their derivatives, and the choice of boundary convention must describe a
+consistent physical join.

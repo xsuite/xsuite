@@ -12,6 +12,10 @@ the off-axis field, including longitudinal components associated with fringe
 fields. It can be used for dipoles, combined-function magnets, quadrupole
 fringes, and solenoids.
 
+The scalar and vector potentials, curved-coordinate expansion, and tracking
+equations are derived in the ``Magnetic fields with BFieldExpansion`` chapter
+of the :doc:`Physics Guide <physicsguide>`.
+
 .. contents:: On this page
    :local:
    :depth: 2

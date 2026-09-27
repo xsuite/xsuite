@@ -22,7 +22,8 @@ multipolar description is not sufficient.
   field evaluation, and integration settings.
 
 The reconstruction of the three-dimensional field is described in the
-``Field expansion for s-dependent magnetic field`` chapter of the
+``Field expansion for s-dependent magnetic field`` and
+``Magnetic fields with BFieldExpansion`` chapters of the
 :doc:`Physics Guide <physicsguide>`.
 
 .. toctree::
