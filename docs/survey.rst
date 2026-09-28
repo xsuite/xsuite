@@ -4,7 +4,7 @@
 Survey
 ======
 
-Xtrack provides a survey method associated to the line that can be used to
+Xtrack provides a survey method associated with the line that can be used to
 compute the position and orientation of the local reference frame in a global
 coordinate system. The returned table contains, among other quantities, the
 global coordinates ``X``, ``Y`` and ``Z`` and the orientation angles ``theta``,

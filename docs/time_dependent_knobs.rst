@@ -1,7 +1,7 @@
 Time dependent knobs
 --------------------
 
-To simulate the effect of time-changing properties of the beam-line it is possible
+To simulate the effect of time-changing properties of the beam line it is possible
 to control any lattice element attribute with a time-dependent function.
 For this purpose, the variable ``t_turn_s`` provides the time in seconds since
 the start of the simulation and is updated automatically every turn during tracking:
@@ -24,7 +24,7 @@ function is shown in the following example.
     :width: 99%
     :align: center
 
-    Orbit bump behavior as obained from the twiss for different settings of
+    Orbit bump behavior as obtained from the twiss for different settings of
     ``t_turn_s``.
 
 .. figure:: figures/time_dep_knob_sin_tracking.png
@@ -46,7 +46,7 @@ can be obtained with the following code:
     :width: 99%
     :align: center
 
-    Orbit bump behavior as obained from the twiss for different settings of
+    Orbit bump behavior as obtained from the twiss for different settings of
     ``t_turn_s``.
 
 .. figure:: figures/time_dep_knob_pwlin_tracking.png

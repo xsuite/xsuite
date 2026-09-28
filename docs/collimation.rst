@@ -17,7 +17,7 @@ Collimator objects
 
 BaseCollimator
 --------------
-Since :class:`xcoll.EverestCollimator`, :class:`xcoll.EverestCrystal` and :class:`xcoll.BlackAbsorber` describes different kinds of collimators they all inherit from the abstract class :class:`BaseCollimator` which contains all the basic attributes of a collimator. Some of these attributes, or fields, are made accessible to the C tracking code as seen in the code block below. 
+Since :class:`xcoll.EverestCollimator`, :class:`xcoll.EverestCrystal` and :class:`xcoll.BlackAbsorber` describe different kinds of collimators, they all inherit from the abstract class :class:`BaseCollimator` which contains all the basic attributes of a collimator. Some of these attributes, or fields, are made accessible to the C tracking code as seen in the code block below. 
 
 .. code-block:: python
 
@@ -44,9 +44,9 @@ Since :class:`xcoll.EverestCollimator`, :class:`xcoll.EverestCrystal` and :class
            'active':         xo.Int8
        }
 
-However, to make things more user-friendly the :class:`BaseCollimator` has more properties defined in the class itself. These properties uses the fields from the code block above to define properties such as :meth:`jaw_LU`, :meth:`angle` and :meth:`tilt`. 
+However, to make things more user-friendly the :class:`BaseCollimator` has more properties defined in the class itself. These properties use the fields from the code block above to define properties such as :meth:`jaw_LU`, :meth:`angle` and :meth:`tilt`. 
 
-The collimator jaws are separated into the left and the right jaw, as seen defined in the code block above as well. In the figure below, you can see how 'jaw_L' and 'jaw_R' are defined. However, sometimes it is necessary to know, or change, the position of the corners of the collimator. The first pair of corners are called :meth:`jaw_LU` and :meth:`jaw_RU`, where the 'U' stands for upstream. The two remaining corners are defined as :meth:`jaw_LD` and :meth:`jaw_RD`, where the 'D' stands for downstream. Note that when setting the value of e.g. :meth:`jaw_RU` then :meth:`jaw_RD` is kept fixed while both 'jaw_R' and the tilt changes. 
+The collimator jaws are separated into the left and the right jaw, as seen defined in the code block above as well. In the figure below, you can see how 'jaw_L' and 'jaw_R' are defined. However, sometimes it is necessary to know, or change, the position of the corners of the collimator. The first pair of corners are called :meth:`jaw_LU` and :meth:`jaw_RU`, where the 'U' stands for upstream. The two remaining corners are defined as :meth:`jaw_LD` and :meth:`jaw_RD`, where the 'D' stands for downstream. Note that when setting the value of e.g. :meth:`jaw_RU` then :meth:`jaw_RD` is kept fixed while both 'jaw_R' and the tilt change. 
 
 .. code-block:: python
 
@@ -143,7 +143,7 @@ BlackAbsorber
 
 BaseBlock and EverestBlock
 ==========================
-:class:`xcoll.EverestBlock`, which inherit :class:`xcoll.BaseBlock`, describes a block with an infinite transversal length. This class has the fields:
+:class:`xcoll.EverestBlock`, which inherits from :class:`xcoll.BaseBlock`, describes a block with an infinite transverse length. This class has the fields:
 
 .. code-block:: python
 
@@ -163,7 +163,7 @@ Furthermore, :class:`xcoll.EverestBlock` needs a material, which is an instance 
 
 Creating a Collimator or Block object
 =====================================
-A collimator (or block) object can be created in two different ways; either directly with the class or by loading from file. 
+A collimator (or block) object can be created in two different ways: either directly with the class or by loading from file. 
 For example:
 
 .. code-block:: python
@@ -175,7 +175,7 @@ For example:
 	collimator_crystal = xc.EverestCrystal(length=1., material=xc.materials.SiliconCrystal)
 	black_absorber = xc.BlackAbsorber(length=1., material=xc.materials.Graphite)
 
-Or, by using the CollimationManager to load from file:
+Or, by using the CollimatorManager to load from file:
 
 .. code-block:: python
 
@@ -189,7 +189,7 @@ Or, by using the CollimationManager to load from file:
 
 Generating particles on a collimator
 ====================================
-For some collimation studies it is convenient to generate a initial pencil distribution on a collimator. Xcoll has its own function for this :meth:`xcoll.generate_pencil_on_collimator`. An example is shown below.
+For some collimation studies it is convenient to generate an initial pencil distribution on a collimator. Xcoll has its own function for this: :meth:`xcoll.generate_pencil_on_collimator`. An example is shown below.
 
 .. code-block:: python
 
@@ -235,9 +235,9 @@ For some collimation studies it is convenient to generate a initial pencil distr
 	part = xc.generate_pencil_on_collimator(line=line, emittance=emittance, beta_gamma_rel=bet, 
                                               collimator_name=tcp, num_particles=num_particles)
 	
-Lossmaps
-========
-Lossmaps are created as instances of :class:`xcoll.LossMap`. The lossmap itself and its summary are calculated when the object is created. It is also possible to save both the lossmap and summary to file with :meth:`xcoll.LossMap.to_json` and :meth:`xcoll.LossMap.save_summary`. For example: 
+Loss maps
+=========
+Loss maps are created as instances of :class:`xcoll.LossMap`. The loss map itself and its summary are calculated when the object is created. It is also possible to save both the loss map and summary to file with :meth:`xcoll.LossMap.to_json` and :meth:`xcoll.LossMap.save_summary`. For example: 
 
 .. literalinclude:: generated_code_snippets/lhc_run3_lossmap.py
    :language: python
@@ -249,7 +249,7 @@ In Xtrack simulations particles are lost at defined aperture elements (e.g.
 :class:`xtrack.LimitRect`, :class:`xtrack.LimitEllipse`, :class:`xtrack.LimitRectEllipse`,
 :class:`xtrack.LimitPolygon`). A more accurate estimate of the loss locations can be
 obtained after the tracking is finished using the
-:class:`xtrack.LossLocationRefinement` tool . The tool builds
+:class:`xtrack.LossLocationRefinement` tool. The tool builds
 an interpolated aperture model between the aperture elements and backtracks the
 particles in order to identify the impact point. The following example illustrates
 how to use this feature.
@@ -300,11 +300,11 @@ or from the database using their name or aliases:
     print(mat1 == mat3)
 
 Note that the collimators in the LHC are made of CFC (``xc.materials.CarbonFibreCarbon``) and not just
-plain carbon (as it is colloquially named). Hence, refrain from using (``xc.materials.Carbon``) as a
+plain carbon (as it is colloquially named). Hence, refrain from using ``xc.materials.Carbon`` as a
 collimator material (unless this is the explicit purpose), as it does not yet support full Everest
 scattering (see below).
 
-When a material is known to FLUKA or Geant4, it has a ``fluka_name`` resp ``geant4_name`` attribute:
+When a material is known to FLUKA or Geant4, it has a ``fluka_name`` or ``geant4_name`` attribute, respectively:
 
 .. code-block:: python
 
@@ -318,6 +318,7 @@ When defining a new elemental material (i.e. an allotrope), the fields
 ``'Z'``, ``'A'``, and ``'density'`` are required:
 
 .. code-block:: python
+
     WhitePhosphorus = xc.Material(Z=15, A=123.895/4, density=1.823, name='WhitePhosphorus',
                                   state='solid', info="P4, but defined as element instead of compound.")
 
@@ -398,7 +399,7 @@ Everest Compatibility
 ---------------------
 Not all materials are 100% compatible with Everest. Multiple Coulomb scattering and ionisation loss are
 always supported, but nuclear interactions are only supported for materials known to Everest.
-This can be checeked with the ``full_everest_supported`` attribute:
+This can be checked with the ``full_everest_supported`` attribute:
 
 .. code-block:: python
 
@@ -413,7 +414,7 @@ Xtrack includes an interface to ease the modeling of beam-matter interaction
 (collimators, beam-gas, collisions with another beam),
 including the loss of the impacting particles and the production of secondary
 particles, which need to be tracked together with the surviving beam.
-Such interface can be used to create a link with other programs for the modeling
+Such an interface can be used to create a link with other programs for the modeling
 of these effects,  e.g. GuineaPig. Note that although this approach was originally
 used to link Xcoll to Geant4 and FLUKA, these codes are currently linked
 more directly with dedicated beam elements (see :ref:`external_material_codes`).
@@ -422,7 +423,7 @@ The interaction is defined as an object that provides a ``.interact(particles)``
 method, which sets to zero or negative the ``state`` flag for the particles that are lost and
 returns a dictionary with the coordinates of the secondary particles that are
 emitted. The interaction process is embedded in one or multiple
-:class:`xtrack.BeamInteraction` beam elements that can be included in Xtrack line.
+:class:`xtrack.BeamInteraction` beam elements that can be included in an Xtrack line.
 
 This is illustrated by the following example:
 
@@ -432,13 +433,13 @@ This is illustrated by the following example:
 
 .. _external_material_codes:
 
-Linking external codes for material Interactions
+Linking external codes for material interactions
 ================================================
 
 
 Xcoll's internal material interaction model ``Everest`` is adequate for simulating
 proton beams. In this model, no secondary particles are generated, and scattering
-processes are modelled semi-continously to limit computation time. In case one is
+processes are modelled semi-continuously to limit computation time. In case one is
 performing simulations with heavy ions or electrons, where the production of secondary
 particles becomes important as they could survive significant distances in the
 accelerator, or if one requires a more accurate description of the scattering processes,
@@ -524,7 +525,7 @@ The following options can be set:
 
 The return flags can be combined arbitrarily to select which particle types should be
 returned to Xsuite after the interaction. In particular, ``return_none`` and ``return_all``
-can be used to specify only a few particles that will resp. won't be returned.
+can be used to specify only a few particle types that will or won't be returned, respectively.
 
 Note that it is important that only one instance of the engine is active at any
 given time, as multiple instances could lead to conflicts in the communication with
@@ -537,7 +538,7 @@ Geant4 via BDSIM
 ----------------
 
 To use Geant4 as external code for material interactions in Xcoll, we use the `Beam Delivery SIMulation (BDSIM) <https://bdsim-collaboration.github.io/web/>`_, which is a Geant4-based particle
-interaction code, which wraps around Geant4 and is specifically designed for accelerator applications.
+interaction code that wraps around Geant4 and is specifically designed for accelerator applications.
 To link Xcoll to BDSIM/Geant4, a full installation of both is required. The easiest way to install BDSIM is via `Conda/Mamba <https://docs.conda.io/en/latest/>`_.
 After installing Conda, one can create a dedicated environment for BDSIM/Geant4 and install it via:
 

@@ -12,7 +12,7 @@ response matrix (least squares solution) or the
 `MICADO <https://cds.cern.ch/record/790199/>`_ algorithm.
 
 In the case of rings, in order to proceed with the correction with the approach described above,
-it is in necessary to successfully measure the closed orbit before the correction.
+it is necessary to successfully measure the closed orbit before the correction.
 In certain cases, when strong lattice perturbations are present (e.g. field errors
 or large element misalignments), the closed orbit search might fail. In such cases,
 the user can use a threading capability to perform a first correction of the trajectory,
@@ -101,7 +101,7 @@ Threading
 See also: :meth:`xtrack.Line.correct_trajectory`
 
 In order to proceed with the correction with the approach described above,
-it is in necessary to successfully measure the closed orbit before the correction.
+it is necessary to successfully measure the closed orbit before the correction.
 In certain cases, when strong lattice perturbations are present (e.g. field errors
 or large element misalignments), the closed orbit search might fail. In such cases,
 the user can use a threading capability to perform a first correction of the trajectory,

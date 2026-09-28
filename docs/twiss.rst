@@ -4,7 +4,7 @@
 Twiss
 =====
 
-Xtrack provides a twiss method associated to the line that can be used to
+Xtrack provides a twiss method associated with the line that can be used to
 obtain the lattice functions and other quantities like tunes, chromaticities,
 slip factor, etc. This is illustrated in the following examples. For a complete
 description of all available options and output quantities, please refer to the
@@ -55,7 +55,7 @@ examples:
 Off-momentum twiss
 ==================
 
-The 4d mode of the twiss can be used providing in input the initial momentum.
+The 4d mode of the twiss can be used by providing the initial momentum as input.
 This feature can be used to measure the non-linear momentum detuning of a ring
 as shown in the following example:
 
@@ -70,7 +70,7 @@ Twiss with "initial" conditions
 ===============================
 
 The twiss calculation can be performed with initial conditions provided by the
-users or extracted from an existing twiss table, as illustrated in the
+user or extracted from an existing twiss table, as illustrated in the
 following example:
 
 .. literalinclude:: generated_code_snippets/twiss_range.py
@@ -128,11 +128,11 @@ into normalized coordinates. This can be done with the method
 Reverse reference frame
 =======================
 
-The `reverse`` flag, allows getting the output of the twiss in the counter-rotating
-reference system. When `reverse` is True, the ordering of the elements is reversed,
-the zero of the `s`` coordinate and of the phase advances is set at the new start,
-the sign of the coordinates  `s`` and `x`` is inverted, while the sign of the
-coordinate `y` is unchanged. This is illustrated in the following example:
+The ``reverse`` flag allows getting the output of the twiss in the counter-rotating
+reference system. When ``reverse`` is True, the ordering of the elements is reversed,
+the zero of the ``s`` coordinate and of the phase advances is set at the new start,
+the sign of the coordinates ``s`` and ``x`` is inverted, while the sign of the
+coordinate ``y`` is unchanged. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/twiss_reverse.py
    :language: python
@@ -141,7 +141,7 @@ coordinate `y` is unchanged. This is illustrated in the following example:
     :width: 80%
     :align: center
 
-    Closed Orbit of the two LHC beams in the same reference frame. This is
+    Closed orbit of the two LHC beams in the same reference frame. This is
     obtained setting ``reverse=True`` on the twiss of beam 2.
 
 Twiss defaults

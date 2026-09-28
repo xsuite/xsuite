@@ -56,7 +56,7 @@ def main():
         dest='command',
     )
 
-    # `regenerate` commend
+    # `regenerate` command
     regenerate_parser = subparsers.add_parser(
         'regenerate',
         aliases=['r'],

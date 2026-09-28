@@ -6,7 +6,7 @@
 from importlib.metadata import version
 
 # Enable lazy loading of the version: during package build Xsuite might not be
-# installed, leading to a PackageNotFind error when `version` is called. This
+# installed, leading to a PackageNotFoundError when `version` is called. This
 # allows us to import Xsuite even if it's not installed. As long as `__version__`
 # is not needed, there will be no errors.
 def __getattr__(name: str):

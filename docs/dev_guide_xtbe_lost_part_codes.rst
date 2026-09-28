@@ -40,7 +40,7 @@ Alive particle state codes
 ==========================
 As long as particles are alive in the simulation, they have ``Particles.state > 0``.
 Normally, alive particles always have state `1`, but specific studies might need
-different alive states (like, to track secondary particles in collimation
+different alive states (e.g. to track secondary particles in collimation
 simulations as in `this example <https://github.com/xsuite/xcoll/blob/main/examples/lossmap_identify_primary_losses.py>`__).
 
 ========= ==================================  ==============================================================================

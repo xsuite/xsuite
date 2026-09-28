@@ -15,7 +15,7 @@ also an "xobject" that can be optionally stored on GPU and made accessible to
 the C code used in the implementation.
 
 The set of attributes accessible in C and the corresponding types can be found in
-the ``xofields`` dictionary attached to the class. For example:
+the ``_xofields`` dictionary attached to the class. For example:
 
 .. code-block:: python
 
@@ -74,7 +74,7 @@ of the array as real numpy array (but modifications will not be possible).
 .. code-block:: python
 
     # only for CPU context:
-    np.sum(m.knl) # will throw an exception on PyOpenCl context
+    np.sum(m.knl) # will throw an exception on PyOpenCL context
 
     # only for GPU context:
     np.sum(m.knl.get()) # get a numpy array as copy
@@ -89,7 +89,7 @@ Contexts and buffers
 The xobjects are allocated in memory buffers managed by the xobjects package.
 Buffers can be allocated on the GPU or on the CPU memory depending on the context.
 
-For example the following code creates two buffer in a GPU memory:
+For example the following code creates two buffers in the GPU memory:
 
 .. code-block:: python
 
@@ -134,7 +134,7 @@ The buffer and context of an object can be inspected using the ``_buffer`` and
 Move and copy operations
 ========================
 
-Xsuite objects have a ``copy`` method tha can be used copy the objects across
+Xsuite objects have a ``copy`` method that can be used to copy the objects across
 buffers and contexts. For example:
 
 .. code-block:: python
@@ -154,12 +154,12 @@ buffers and contexts. For example:
     buffer_gpu = context_gpu.new_buffer()
     mult2_gpu = mult2.copy(_buffer=buffer_gpu)
 
-    # It no argument is passed to the copy method, the copy is made in the same
+    # If no argument is passed to the copy method, the copy is made in the same
     # context as the original object (a new buffer is created).
     another_copy = mult2_gpu.copy()
 
 
-Similarly, the ``move`` method can be used move objects across buffers and contexts.
+Similarly, the ``move`` method can be used to move objects across buffers and contexts.
 For example:
 
 .. code-block:: python
@@ -182,7 +182,7 @@ For example:
 Memory management in xtrack trackers
 ====================================
 
-When the tracker is build, all beam elements are moved to one
+When the tracker is built, all beam elements are moved to one
 buffer in the context specified when the tracker is created. For example:
 
 .. code-block:: python
@@ -202,7 +202,7 @@ buffer in the context specified when the tracker is created. For example:
     # we create a tracker with the above line
     context = xobjects.ContextCupy()
     line.build_tracker(_context=context)
-    # the tracker can be instpected in line.tracker
+    # the tracker can be inspected in line.tracker
 
     # this creates a new buffer in the memory associated to the context
     # (accessible as line.tracker._buffer) and moves all the elements to this
@@ -213,8 +213,8 @@ buffer in the context specified when the tracker is created. For example:
 References
 ==========
 
-References can be used to have fields of different objects to point to the same
-data. To do so all both the referencing objects and the referenced objects must
+References can be used to have fields of different objects point to the same
+data. To do so, both the referencing objects and the referenced objects must
 be in the same buffer. For example:
 
 .. code-block:: python
@@ -260,7 +260,7 @@ Advanced memory behaviours with HybridClass
 When instantiating, moving, copying, or assigning values to fields of a
 ``HybridClass``, especially if such a class contains references, in some
 advanced cases the expected behaviour of such operations is not obvious.
-Below we present comprehensive set of scenarios that demonstrate when values
+Below we present a comprehensive set of scenarios that demonstrate when values
 are copied, and which operations are disallowed.
 
 We shall use the following example classes throughout this section:
@@ -300,7 +300,7 @@ Initialising nested objects
 
 Below ``Outer`` is instantiated in the same buffer as ``Inner``, and so
 the reference field ``outer.ref`` is bound to the same xobject as ``inner``.
-Therefore, any changes to one are applied to another.
+Therefore, any changes to one are applied to the other.
 
 .. code-block:: python
 
@@ -318,7 +318,7 @@ Therefore, any changes to one are applied to another.
     print(outer.inner.num)  # (=> 42) but not the copied outer.inner
 
 Since a reference to an object in a different buffer to the one owning the
-reference is disallowed, below, when  ``Outer`` is instantiated with an
+reference is disallowed, below, when ``Outer`` is instantiated with an
 ``inner`` object coming from a different buffer, an error is produced.
 
 .. code-block:: python
@@ -330,7 +330,7 @@ reference is disallowed, below, when  ``Outer`` is instantiated with an
     #                     buffer.
 
 
-Same behaviour can be observed when instantiating ``Outer`` with an ``inner``
+The same behaviour can be observed when instantiating ``Outer`` with an ``inner``
 coming from a different context (and therefore a different buffer):
 
 .. code-block:: python
@@ -437,7 +437,7 @@ The same holds true for moving objects between contexts:
     whereis(inner1)		# => context=ContextCupy, buffer=11, offset=0
     whereis(inner2)		# => context=ContextCupy, buffer=11, offset=8
 
-It is important to know, that some of the types will be different between
+It is important to know that some of the types will be different between
 contexts. This applies in particular to arrays:
 
 .. code-block:: python
@@ -470,7 +470,7 @@ Xobject always accepts a combination of `_context`, `_buffer`, `_offset` to iden
 -------------------------- ----------------------------------------------------------------------------------
 _context  _buffer  _offset  xobject
 ======== ======== ======== ==================================================================================
-  None     None     None    `ContextCPU` is used to allocate an new buffer, allocate new memory at 0 offset
+  None     None     None    `ContextCpu` is used to allocate a new buffer, allocate new memory at 0 offset
 not None   None     None    `_context` is used to allocate a new buffer and allocate new memory at 0 offset
   None   not None   None    `_buffer` is used to allocate new memory at the first free offset
   None   not None not None  memory at `_offset` in `_buffer` is used without allocation

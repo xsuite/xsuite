@@ -86,7 +86,7 @@ def get_suitable_kernel(
     """
     Given a configuration and a list of element classes, return a tuple with
     the name of a suitable prebuilt kernel module together with the list of
-    element classes that were used to build it. Set `verbose` to True, to
+    element classes that were used to build it. Set `verbose` to True to
     obtain a justification of the choice (or lack thereof) on standard output.
     When `verbose` is None, diagnostics are controlled by
     `xobjects.settings.show_kernel_diagnostics`, or equivalently the

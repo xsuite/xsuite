@@ -102,7 +102,7 @@ The constant-magnitude constraint
 \[
 P_z = +\sqrt{P^2 - P_x^2 - P_y^2}
 \]
-is enforced algebraically at each sub-step on the forward branch.
+is enforced algebraically at each substep on the forward branch.
 
 The motion is advanced over a spatial step \(\Delta z\) by a symmetric
 Boris-type composition.
@@ -142,7 +142,7 @@ The total time is updated as \(t' = t + \Delta t\).
 
 \subsubsection{Step 3: Rotation from \(B_z\)}
 
-During this sub-step, \(B_x=B_y=0\) and only \(B_z\) acts.
+During this substep, \(B_x=B_y=0\) and only \(B_z\) acts.
 The transverse equations become
 \begin{equation}
 \totder{P_x}{z} = \frac{qB_z}{P_z} P_y, \qquad
@@ -225,7 +225,7 @@ z' = z + \Delta z.
 \label{boris:sec:volumepreservation}
 
 The spatial Boris step preserves volume exactly in both the reduced mechanical
-variables and in the extended accelerator variables:
+variables and the extended accelerator variables:
 \[
 \boxed{
 \begin{gathered}
@@ -1154,7 +1154,7 @@ dx\,dy\,dz\,dP_x\,dP_y\,dP_z.
 Thus the canonical and mechanical coordinates give the same volume element.
 
 Now fix the energy, equivalently the momentum magnitude \(P\), and use \(z\)
-as independent variable on the branch \(P_z>0\).  The exact reduced spatial
+as the independent variable on the branch \(P_z>0\).  The exact reduced spatial
 system in \(X=(x,y,P_x,P_y)\) is
 \[
 \totder{x}{z}=\frac{P_x}{P_z},
@@ -1439,7 +1439,7 @@ with respect to the initial condition \(U\) are bounded by \(Ch^3\), uniformly
 on the compact region under consideration.
 This \(C^1\) version is the expansion used in Sec.~\ref{boris:sec:accuracy}.
 
-\subsection{Discrete Gronwall Lemma}
+\subsection{Discrete Gronwall lemma}
 \label{boris:sec:gronwall}
 
 For completeness we record the elementary discrete estimate used in the proof

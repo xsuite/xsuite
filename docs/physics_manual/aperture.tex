@@ -247,14 +247,14 @@ The beam-envelope calculation uses:
 \end{itemize}
 In particular, \lstinline{halo_params} define the following beam parameters:
 \begin{itemize}
-	\item \lstinline{emitx_norm} ($\varepsilon_{x,\mathrm{n}}$) and \lstinline{emity_norm} ($\varepsilon_{y,\mathrm{n}}$) -- normalised emmittances (unitless),
+	\item \lstinline{emitx_norm} ($\varepsilon_{x,\mathrm{n}}$) and \lstinline{emity_norm} ($\varepsilon_{y,\mathrm{n}}$) -- normalised emittances (unitless),
     \item \lstinline{delta_rms} ($\delta_\mathrm{rms}$) -- root-mean-square relative momentum spread (unitless),
     \item \lstinline{tol_co} ($r_\mathrm{co}$) -- closed orbit error (in metres),
     \item \lstinline{tol_disp} ($f_D$) -- dispersion tolerance scaling factor (unitless),
     \item \lstinline{tol_disp_ref} ($D_\mathrm{ref}$) -- reference dispersion error (in metres),
     \item \lstinline{tol_disp_ref_beta} ($\beta_{D,\mathrm{ref}}$) -- reference beta for dispersion scaling (in metres),
-    \item \lstinline{tol_beta_beating} ($f_\beta$) -- beta beating tolerance scaling factor (unitless).
-    \item $h_x := \frac{\text{\lstinline{halo_x}}}{\text{\lstinline{halo_primary}}}$, $h_y := \frac{\text{\lstinline{halo_y}}}{\text{\lstinline{halo_primary}}}$, and $h_r := \frac{\text{\lstinline{halo_r}}}{\text{\lstinline{halo_primary}}}$ -- reference horizontal, vertical, and radial size of the beam in the units of betatron sigma.
+    \item \lstinline{tol_beta_beating} ($f_\beta$) -- beta beating tolerance scaling factor (unitless),
+    \item $h_x := \frac{\text{\lstinline{halo_x}}}{\text{\lstinline{halo_primary}}}$, $h_y := \frac{\text{\lstinline{halo_y}}}{\text{\lstinline{halo_primary}}}$, and $h_r := \frac{\text{\lstinline{halo_r}}}{\text{\lstinline{halo_primary}}}$ -- reference horizontal, vertical, and radial size of the beam in units of betatron sigma.
 \end{itemize}
 The optical beam sizes for a one-betatron sigma beam are given by
 \[
@@ -329,16 +329,16 @@ Since racetracks are closed under convolution, we can represent our beam envelop
 Depending on the algorithm this representation will be converted to a polygon (beam envelope generation functions, bisection method for computing the max aperture sigma) or will be used directly for analytic calculations.
 
 In aperture calculations we must further include the orbit shift error induced by correlated dispersion, also referred to as \emph{model} dispersion.
-In the case of converting to a polygon, we can further include the  in the resulting shape by `stretching' it.
-We can convolve $\text{\lstinline{envelope}}(n)$ with the line segment segment $[-\mathbf{v}_{D,\mathrm{model}}, \mathbf{v}_{D,\mathrm{model}}]$, where
+In the case of converting to a polygon, we can further include this orbit shift in the resulting shape by `stretching' it.
+We can convolve $\text{\lstinline{envelope}}(n)$ with the line segment $[-\mathbf{v}_{D,\mathrm{model}}, \mathbf{v}_{D,\mathrm{model}}]$, where
 \[
 	\mathbf{v}_{D,\mathrm{model}} := \begin{bmatrix}
 	  D_x \delta_\mathrm{rms} \\
 	  D_y \delta_\mathrm{rms}
 	\end{bmatrix},
 \]
-to obtain an $n$-sigma beam envelope including the error related to correlated dispersion, as well us uncorrelated dispersion error, aperture tolerance, and the close orbit tolerance errors.
-In case of analytic methods, we will usually separately consider two envelopes shifted by $\pm\mathbf{v}_{D,\mathrm{model}}$ instead.
+to obtain an $n$-sigma beam envelope including the error related to correlated dispersion, as well as uncorrelated dispersion error, aperture tolerance, and closed-orbit tolerance errors.
+In the case of analytic methods, we will usually separately consider two envelopes shifted by $\pm\mathbf{v}_{D,\mathrm{model}}$ instead.
 
 \section{Algorithms}
 
@@ -350,10 +350,10 @@ For any installed profile let (where by pose we mean the position and orientatio
 	\item $M_T$ be the pose of the pipe's origin $(x, y, s) = (0, 0, 0)$ relative to the survey reference point,
 	\item $M_P$ be the pose representing the installed profile's position within the pipe frame.
 \end{itemize}
-Then, the $M_{P,\mathrm{world}} = M_S \, M_T \, M_P$ represents the position and orientation of the installed profile in world coordinates (survey frame).
+Then, $M_{P,\mathrm{world}} = M_S \, M_T \, M_P$ represents the position and orientation of the installed profile in world coordinates (survey frame).
 In order to calculate the locations of the installed profiles in the survey frame, we perform the intersection of the profile plane (local $s = 0$ in the $M_{P,\mathrm{world}}$ frame) with the survey curve.
 Each segment of the survey is defined as either a line segment or an arc segment, and we work our way outwards from the survey reference point testing for intersection, until a valid $s$ is found.
-The bounds $s_\mathrm{start}$ and $s_\mathrm{end}$ are computed by projecting each 3D polygon point of a given installed profile onto the survey curve and taking the minimum, and the maximum values.
+The bounds $s_\mathrm{start}$ and $s_\mathrm{end}$ are computed by projecting each 3D polygon point of a given installed profile onto the survey curve and taking the minimum and maximum values.
 
 As mentioned in this chapter's introduction, aperture bounds are used for checking the validity of the model as well as for aperture interpolation.
 Since $s_i$ (for some aperture $i$) is calculated as an aperture-plane--survey-curve intersection, and $s_{\textrm{min},i}$ and $s_{\textrm{max},i}$ are aperture extremes projected onto the survey curve, if for any aperture $s_i \not\in [s_{\textrm{min},i}, s_{\textrm{max},i}]$, we know the model is invalid as the aperture sits outside of the machine.
@@ -562,9 +562,9 @@ The \emph{rays} method is much faster than bisection at $O(\text{number of rays}
 The \emph{exact} method is similar to \emph{rays} in that it evaluates $n_1$ using analytically obtained distances.
 Instead of scanning a single set of rays, the search is performed along two sets of rays, as visualised in Fig.~\ref{fig:aperture-exact}.
 First, the beam centroids are computed along one set of rays, using the \verb|halo_racetrack| and including the dispersion-related orbit shift.
-Then, for each centroid position, another set of rays is emitted to calculate $d_\text{aper}$, the distance to aperture from that point, and $d_\text{envelope}$, the distance to the boundary of $\text{\lstinline{envelope}}(1)$.
-One the most pessimistic case is found, $n_1 := \frac{d_\text{aper}}{d_\text{envelope}}$.
-This method is slower than \emph{rays}, as the complexity is $O((\text{number of rays})^2)$, it is nevertheless more performant than bisection.
+Then, for each centroid position, another set of rays is emitted to calculate $d_\text{aper}$, the distance to the aperture from that point, and $d_\text{envelope}$, the distance to the boundary of $\text{\lstinline{envelope}}(1)$.
+Once the most pessimistic case is found, $n_1 := \frac{d_\text{aper}}{d_\text{envelope}}$.
+This method is slower than \emph{rays}, as the complexity is $O((\text{number of rays})^2)$; it is nevertheless more performant than bisection.
 
 \begin{figure}
 	\centering

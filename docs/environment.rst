@@ -201,7 +201,7 @@ To understand dependencies, fetch the reference and ask for its xdeps.info:
 Renaming variables
 ------------------
 
-Variables can renamed as follows
+Variables can be renamed as follows:
 
 .. code-block:: python
 
@@ -566,7 +566,7 @@ Elements can also be created and placed with a single instruction:
 "compose" mode
 --------------
 
-When the line contains many element, it is inconvenient to have to specify all
+When the line contains many elements, it is inconvenient to have to specify all
 components in a single Python statement. In this case, it is possible to use the
 "compose" mode, where each component is added by a separate instruction, as
 illustrated in the following example:
@@ -641,7 +641,7 @@ Also in compose mode, elements can be created inline while placing them:
 Placing sub-lines at given s positions
 --------------------------------------
 
-As for normal elements, it is possible to place sublines at given s positions
+As for normal elements, it is possible to place sub-lines at given s positions
 within a longer line. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/place_line_at_s.py
@@ -748,14 +748,14 @@ Insert elements
 ---------------
 
 It is possible to insert elements in a line also after its creation. The position
-of the new elements can be specified as absolute s position or as relative to
+of the new elements can be specified as an absolute s position or relative to
 an existing element. This is illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/insert_element.py
    :language: python
 
 Insert custom elements and elements instantiated by the user
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible to insert elements that are created by the user using the class
 directly instead of using the `Environment.new` method. This can be done in a single
@@ -766,7 +766,7 @@ inserting it in the line. This is illustrated in the following example:
    :language: python
 
 Insert a line into another line
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is also possible to insert entire lines, as illustrated in the following example:
 
@@ -774,7 +774,7 @@ It is also possible to insert entire lines, as illustrated in the following exam
    :language: python
 
 Simplified syntax for single insertion
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A compact syntax is available to perform a single insertion in a line. Note that
 when multiple insertions need to be made, it is significantly faster to install
@@ -815,7 +815,7 @@ illustrated in the following example:
 Slice elements in a line
 ------------------------
 
-It is possible to slice thick element with thin or thick slices, using the Uniform
+It is possible to slice thick elements with thin or thick slices, using the Uniform
 or the `Teapot <https://cds.cern.ch/record/165372>`_ scheme. This is illustrated
 in the following example:
 
@@ -826,7 +826,7 @@ Cut line elements at given s positions
 --------------------------------------
 
 The method :meth:`xtrack.Line.cut_at_s` allows for cutting the line elements at the
-specified s positions. In the example before we take the same toy ring introduced
+specified s positions. In the example below we take the same toy ring introduced
 in the :ref:`earlier example<createline>` and we cut it into 100 equal length slices:
 
 .. literalinclude:: generated_code_snippets/cut_at_s.py

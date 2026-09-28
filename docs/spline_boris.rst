@@ -11,7 +11,7 @@ Overview
 
 The :class:`xtrack.SplineBoris` element models a thick magnetic element whose
 field varies along the longitudinal coordinate. It is suited to devices such
-as undulators, wigglers, fringe field and solenoids, for which a constant multipolar
+as undulators, wigglers, fringe fields and solenoids, for which a constant multipolar
 description is not sufficient.
 
 Internally, particles are tracked using a spatial Boris-like integrator. The

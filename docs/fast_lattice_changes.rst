@@ -10,7 +10,7 @@ memory addresses of the quantities to be changed and performs the changes with a
 compiled kernel, using multithreading when allowed by the context.
 
 The following example shows how to use the ``MultiSetter`` to apply a sinusoidal
-ripple to the strength of several quadropoles of a synchrotron.
+ripple to the strength of several quadrupoles of a synchrotron.
 
 See also: :class:`xtrack.MultiSetter`
 

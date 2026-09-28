@@ -4,13 +4,13 @@ Freeze longitudinal coordinates
 In certain studies, it is convenient to track particles updating only the
 transverse coordinates, while keeping the longitudinal coordinates fixed (frozen).
 Xsuite offers the possibility to freeze the longitudinal coordinates within a
-single method or changing the state of the Line, as illustrated in the following
+single method call or by changing the state of the Line, as illustrated in the following
 sections.
 
-Freezing longitudinal when calling methods
-------------------------------------------
+Freezing longitudinal coordinates when calling methods
+------------------------------------------------------
 
-The ``Line.twiss`` and ``Line.track`` can work with frozen longitudinal
+The ``Line.twiss`` and ``Line.track`` methods can work with frozen longitudinal
 coordinates. This is done by setting the ``freeze_longitudinal`` argument to
 ``True``, as shown in the following example:
 
@@ -22,7 +22,7 @@ Freezing longitudinal coordinates within a ``with`` block
 
 A context manager is also available to freeze the longitudinal coordinates within
 a ``with`` block. The normal tracking mode, updating the longitudinal
-coordinates, is automatically restored when exiting the ``with`` block, as it is
+coordinates, is automatically restored when exiting the ``with`` block, as
 illustrated in the following example:
 
 .. literalinclude:: generated_code_snippets/freeze_freeze_context_manager.py

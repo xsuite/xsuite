@@ -4,7 +4,7 @@
 Installation
 ============
 
-We assume that you have a recent python installation (python 3.8+). It this is not the case you can make one following the dedicated section on :ref:`how to get a miniforge installation<miniforge>`.
+We assume that you have a recent python installation (python 3.8+). If this is not the case you can make one following the dedicated section on :ref:`how to get a miniforge installation<miniforge>`.
 
 .. contents:: Table of Contents
     :depth: 3
@@ -24,7 +24,7 @@ installed using pip:
 
 This installation allows using Xsuite on CPU in most scenarios. In order
 to handle more complicated cases it may be necessary to install compilers with
-``conda install compilers``. To use Xsuite on GPU, with the cupy and/or pyopencl
+``conda install compilers``. To use Xsuite on GPU with cupy and/or pyopencl,
 you need to install the corresponding packages, as described in the
 :ref:`dedicated section<gpuinst>`.
 
@@ -33,7 +33,7 @@ you need to install the corresponding packages, as described in the
     kernels are automatically downloaded and installed with the ``xsuite`` package.
     However, it is possible to additionally prebuild multithreaded OpenMP kernels
     using ``xsuite-prebuild regenerate --kind openmp``.
-    See the :ref:`relevant section<prebuiltkernels>` of the developer guide for more details.
+    See the :ref:`relevant section<prebuiltkernels>` below for more details.
 
 
 Usage in Microsoft Windows
@@ -48,7 +48,7 @@ machine. To install WSL, follow the `steps outlined by Microsoft <https://learn.
 PowerShell or CMD prompt and follow the instructions).
 
 
-Update xsuite
+Update Xsuite
 =============
 
 We recommend keeping your Xsuite installation up to date. You can update it
@@ -83,7 +83,7 @@ If you need to develop Xsuite, you can clone the packages from GitHub and instal
     pip install -e xcoll
     pip install xsuite --no-deps --no-binary=xsuite
 
-This installation allows using Xsuite on CPU. To use Xsuite on GPU, with the cupy and/or pyopencl you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
+This installation allows using Xsuite on CPU. To use Xsuite on GPU with cupy and/or pyopencl, you need to install the corresponding packages, as described in the :ref:`dedicated section<gpuinst>`.
 
 The installation of Xsuite in the last line provides the prebuilt kernels. Note that, here, Xsuite is pulled from PyPI instead of being installed locally, while the kernels are being built using the local packages (as requested with the ``--no-binary`` flag). This is the correct use-case for the typical developer, as it ensures the kernels are stored in the Python environment (conda, venv, ...) instead of the local folder (which would cause difficult-to-recognise kernel conflicts if more than one environment uses this local installation). In case one wants to develop code directly related to the Xsuite prebuilt kernel mechanism (and only in that case), it makes sense to install it locally (while also making sure only a single environment uses it) with pip in editable mode:
 
@@ -97,11 +97,11 @@ Testing
 -------
 
 If all of the optional dependencies have also been installed, we can
-verify our installation. To install test dependencies for an xsuite
+verify our installation. To install test dependencies for an Xsuite
 package, one can replace the ``pip install -e some_package`` commands in
 the above snippet with ``pip install -e 'some_package[tests]'``. Once
 the test dependencies are also installed, we can run the tests to check
-if xsuite works correctly:
+if Xsuite works correctly:
 
 .. code:: bash
 
@@ -158,7 +158,7 @@ Optional dependencies
 MAD-X and cpymad
 ----------------
 
-To import MAD-X lattices you will need the cpymad package, which can be installed as follow:
+To import MAD-X lattices you will need the cpymad package, which can be installed as follows:
 
 .. code-block:: bash
 
@@ -167,7 +167,7 @@ To import MAD-X lattices you will need the cpymad package, which can be installe
 Sixtracktools
 -------------
 
-To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you will need the sixtracktools package, which can be installed as follow:
+To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you will need the sixtracktools package, which can be installed as follows:
 
 .. code-block:: bash
 
@@ -212,7 +212,6 @@ Installation of cupy
 In order to use the :doc:`cupy context<contexts>`, the cupy package needs to be installed.
 
 In Anaconda or Miniconda/Miniforge (if you don't have Anaconda or Miniconda/Miniforge, see dedicated section on :ref:`how to get a miniforge installation<miniforge>`)
-
 this can be done as follows:
 
 .. code-block:: bash
@@ -222,7 +221,7 @@ this can be done as follows:
     mamba install cudatoolkit=11.8.0
 
 Installation of CuPy on ROCm
-------------------
+----------------------------
 
 In order to use the :doc:`cupy context<contexts>` on AMD GPUs the installation procedure for the cupy package changes.
 
@@ -332,7 +331,7 @@ environment:
 Installing AMD-CuPy
 ~~~~~~~~~~~~~~~~~~~
 
-If you have a GPU that is officially supported ROCm 7+, it is recommended to install that version of ROCm 
+If you have a GPU that is officially supported by ROCm 7+, it is recommended to install that version of ROCm 
 and use AMD's prebuilt CuPy wheel available from AMD's PyPI index:
 
 .. code-block:: bash
@@ -348,7 +347,7 @@ Installation of PyOpenCL
 ------------------------
 
 In order to use the :doc:`pyopencl context<contexts>`, the PyOpenCL package needs to be installed.
-In Anacoda or Miniconda/Miniforge this can be done as follows:
+In Anaconda or Miniconda/Miniforge this can be done as follows:
 
 .. code-block:: bash
 
@@ -429,11 +428,11 @@ Installation of OpenMP
 ----------------------
 
 On Linux and on Apple Silicon Macs OpenMP support should automatically be
-provided with the conda-forge's ``compilers`` package. However, on Intel Macs
+provided with the conda-forge ``compilers`` package. However, on Intel Macs
 it may be necessary to separately install the ``llvm-openmp`` package with
 ``conda install llvm-openmp``. Similarly, should a manual installation on Linux
 be needed, the same functionality (for GCC) is provided by the ``libgomp``
-package for GCC.
+package.
 
 
 .. _miniforge:
@@ -461,7 +460,7 @@ On Linux
     pip install cpymad # to load MAD-X lattices (optional)
     pip install xsuite
 
-On MacOS
+On macOS
 --------
 
 We recommend installing Xsuite inside a conda environment:
@@ -493,7 +492,7 @@ Once you have WSL installed, you can follow the Linux instructions above.
 Miniforge vs Miniconda
 ----------------------
 
-A miniforge installation is recommended against a miniconda installation as miniforge uses by default the "conda-forge" channel
+A miniforge installation is recommended over a miniconda installation as miniforge uses by default the "conda-forge" channel
 while miniconda uses the "default" channel (https://repo.anaconda.com/pkgs/). While the "default" channel can require a paid license 
 depending on its usage, the "conda-forge" channel is free for all to use (see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/channels.html).
 
@@ -574,6 +573,6 @@ like so:
    ``activate_clang:69: read-only file system: /meson_cross_file.txt'``.
    These may be ignored.
 
-After carrying out the above steps, you can install xsuite using the
+After carrying out the above steps, you can install Xsuite using the
 usual commands, following either the basic or a developer installation
 guide, as given at the top of this page.
