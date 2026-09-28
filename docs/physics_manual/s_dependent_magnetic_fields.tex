@@ -1,0 +1,381 @@
+\chapter{Modeling s-dependent magnetic fields}
+\label{chapter:s-dependent-magnetic-fields}
+
+The \texttt{SplineBoris} and \texttt{BFieldExpansion} elements reconstruct
+three-dimensional static magnetic fields from longitudinal profiles of the
+field and its transverse derivatives on the reference axis. Applications
+include undulators, wigglers, combined-function magnets, fringe fields,
+and solenoids.
+
+This chapter first develops the shared scalar-potential reconstruction in
+straight and curved reference frames, following
+Ref.~\cite{VanDerSchueren2024}, and derives a vector potential for canonical
+tracking. It then describes the two implementations. \texttt{SplineBoris}
+uses dimensional spline data in a straight frame and a second-order spatial
+Boris integrator. \texttt{BFieldExpansion} uses rigidity-normalized polynomial
+coefficients in a straight or curved frame and classical fourth-order
+Runge--Kutta integration. Their field conventions and integration properties
+are stated separately below.
+
+\section{Coordinates and field normalization}
+
+Let \(s\) be arc length along a planar reference trajectory of constant
+curvature \(h\), and let \(x\) and \(y\) be the horizontal and vertical
+coordinates. Define \(w(x)=1+hx\).
+The straight case has \(h=0\). The following expressions describe the
+regular coordinate region around the reference axis, with \(w>0\).
+The surface \(w=0\) is a coordinate singularity. Curvature specifies the
+reference frame, independently of the field; it does not set the dipole
+strength.
+
+\subsection{Line element and differential operators}
+
+Let \(\bm r_0(s)\) be the reference trajectory and
+\((\bm e_x,\bm e_y,\bm e_s)\) its local orthonormal frame, with
+\(\bm e_x\) pointing outward from a positive bend. A nearby point is
+\begin{equation}
+ \bm r(x,y,s)=\bm r_0(s)+x\bm e_x(s)+y\bm e_y.
+\end{equation}
+For a planar reference trajectory, the frame satisfies
+\begin{equation}
+ \frac{\dee\bm r_0}{\dee s}=\bm e_s,\qquad
+ \frac{\dee\bm e_x}{\dee s}=h\bm e_s,\qquad
+ \frac{\dee\bm e_y}{\dee s}=0.
+\end{equation}
+Differentiating the position and taking its squared length gives
+\begin{align}
+ \dee\bm r&=\bm e_x\,\dee x+\bm e_y\,\dee y+w\bm e_s\,\dee s,\\
+ \dee\ell^2&=\dee\bm r\cdot\dee\bm r
+             =\dee x^2+\dee y^2+w^2\dee s^2.
+ \label{bfe:line-element}
+\end{align}
+The cross terms vanish because the frame is orthonormal. Equivalently,
+in a circular bend of radius \(\rho=1/h\), an angular increment
+\(\dee\theta\) spans \(\dee s=\rho\,\dee\theta\) on the reference
+trajectory and \((\rho+x)\dee\theta=w\,\dee s\) at horizontal offset \(x\).
+
+For a scalar function \(f\), the identity
+\(\dee f=\nabla f\cdot\dee\bm r\) then gives
+\begin{equation}
+ \nabla f=\bm e_x\,\partial_x f+\bm e_y\,\partial_y f
+                         +\bm e_s\,\frac{1}{w}\partial_s f.
+ \label{bfe:gradient}
+\end{equation}
+Write a vector in physical components along the unit vectors as
+\(\bm V=V_x\bm e_x+V_y\bm e_y+V_s\bm e_s\).
+A small coordinate cell has volume \(w\,\dee x\,\dee y\,\dee s\).
+Its face areas normal to \(x\), \(y\), and \(s\) are respectively
+\(w\,\dee y\,\dee s\), \(w\,\dee x\,\dee s\), and
+\(\dee x\,\dee y\). Dividing the net outward flux by the volume gives
+\begin{align}
+ \nabla\cdot\bm V
+ &=\frac{1}{w}\left[\partial_x(wV_x)+\partial_y(wV_y)
+                                      +\partial_s V_s\right]\\
+ &=\partial_x V_x+\partial_y V_y+\frac{1}{w}\partial_s V_s
+                                      +\frac{h}{w}V_x.
+ \label{bfe:divergence}
+\end{align}
+Similarly, circulation around the coordinate faces, divided by their
+areas, gives the curl. In the right-handed frame
+\(\bm e_x\times\bm e_y=\bm e_s\), its physical components are
+\begin{equation}
+ \begin{aligned}
+ (\nabla\times\bm V)_x
+   &=\frac{1}{w}\left[\partial_y(wV_s)-\partial_s V_y\right],\\
+ (\nabla\times\bm V)_y
+   &=\frac{1}{w}\left[\partial_s V_x-\partial_x(wV_s)\right],\\
+ (\nabla\times\bm V)_s
+   &=\partial_x V_y-\partial_y V_x.
+ \end{aligned}
+ \label{bfe:curl-operator}
+\end{equation}
+Combining the gradient and divergence, for the constant curvature assumed here,
+\begin{equation}
+ \nabla^2 f=\nabla\cdot\nabla f
+ =\partial_x^2 f+\frac{h}{w}\partial_x f+\partial_y^2 f
+                                      +\frac{1}{w^2}\partial_s^2 f.
+ \label{bfe:scalar-laplacian}
+\end{equation}
+
+\subsection{Field normalization}
+
+We use the signed reference rigidity \(B\rho=P_0/q_0\) and write
+\begin{equation}
+ \bm b=\frac{\bm B}{B\rho}, \qquad
+ \bm a=\frac{\bm A}{B\rho}, \qquad
+ \bm b=-\nabla\phi.
+ \label{bfe:normalization}
+\end{equation}
+Thus \(\bm b\) has units of inverse metres, while \(\bm a\) and the
+normalized scalar magnetic potential \(\phi\) are dimensionless.
+This convention is used for the shared derivation and directly matches
+\texttt{BFieldExpansion}. The conversion to the dimensional field and the
+opposite scalar-potential sign used by \texttt{SplineBoris} is given in
+Sec.~\ref{sec:splineboris-field-representation}. The magnetic scalar
+potential is unrelated to the electric potential in the particle Hamiltonian.
+
+\section{Field profiles and scalar-potential reconstruction}
+\label{sec:magnetic-field-reconstruction}
+
+Denote the total normal, skew, and longitudinal profiles by
+\(N_n(s)\), \(S_n(s)\), and \(K_s(s)\). Their on-axis interpretation is
+\begin{align}
+ b_y(x,0,s)&=\sum_{n\geq0}N_n(s)\frac{x^n}{n!}, &
+ b_x(x,0,s)&=\sum_{n\geq0}S_n(s)\frac{x^n}{n!}, &
+ b_s(0,0,s)&=K_s(s).
+ \label{bfe:profiles}
+\end{align}
+In particular, \(N_n\) and \(S_n\) are the \(n\)-th horizontal
+derivatives of \(b_y\) and \(b_x\) on the reference axis. The field
+representation is specified by these functions and \(K_s\); their
+parametrization for each element is described below.
+
+Inside a current-free aperture the magnetostatic Maxwell equations give
+\(\nabla\times\bm b=0\) and \(\nabla\cdot\bm b=0\). With
+Eqs.~\eqref{bfe:normalization} and \eqref{bfe:scalar-laplacian}, the latter becomes
+\begin{equation}
+ \nabla^2\phi=
+ \partial_x^2\phi+\frac{h}{w}\partial_x\phi
+ +\partial_y^2\phi+\frac{1}{w^2}\partial_s^2\phi=0.
+ \label{bfe:laplace}
+\end{equation}
+Expand the potential in the vertical coordinate,
+\begin{equation}
+ \phi(x,y,s)=\sum_{i=0}^{\infty}\phi_i(x,s)\frac{y^i}{i!}.
+ \label{bfe:series}
+\end{equation}
+\subsection{Deriving the two seed functions}
+
+The first two Taylor coefficients are the potential and its first vertical
+derivative on the plane \(y=0\):
+\begin{equation}
+ \phi_0(x,s)=\phi(x,0,s),\qquad
+ \phi_1(x,s)=\left.\partial_y\phi(x,y,s)\right|_{y=0}.
+\end{equation}
+The physical field components in the local orthonormal frame are
+\begin{equation}
+ b_x=-\partial_x\phi,\qquad b_y=-\partial_y\phi,\qquad
+ b_s=-\frac{1}{w}\partial_s\phi.
+ \label{bfe:field}
+\end{equation}
+The vertical field on \(y=0\) therefore determines \(\phi_1\) directly:
+\begin{equation}
+ -\phi_1(x,s)=b_y(x,0,s)=\sum_{n\geq0}N_n(s)\frac{x^n}{n!}.
+\end{equation}
+Similarly, the horizontal field gives
+\begin{equation}
+ -\partial_x\phi_0(x,s)=b_x(x,0,s)
+                       =\sum_{n\geq0}S_n(s)\frac{x^n}{n!}.
+\end{equation}
+Integrating with respect to \(x\) yields
+\begin{equation}
+ \phi_0(x,s)=C(s)-\sum_{n\geq0}S_n(s)\frac{x^{n+1}}{(n+1)!}.
+\end{equation}
+The integration constant can depend on \(s\), since the integration was
+only over \(x\). The longitudinal field on the reference axis determines
+this function: at \(x=y=0\), \(w=1\) and \(\phi=C(s)\), hence
+\begin{equation}
+ K_s(s)=b_s(0,0,s)=-C'(s),\qquad
+ C(s)=-\int^s K_s(u)\,\dee u+C_0.
+\end{equation}
+The constant \(C_0\) has no effect on the field and can be set to zero.
+The input profiles thus determine the two seed functions:
+\begin{align}
+ \phi_0(x,s)&=-\int^s K_s(u)\,\dee u
+              -\sum_{n\geq0}S_n(s)\frac{x^{n+1}}{(n+1)!},\\
+ \phi_1(x,s)&=-\sum_{n\geq0}N_n(s)\frac{x^n}{n!}.
+ \label{bfe:seeds}
+\end{align}
+\subsection{Why two seeds determine the expansion}
+
+Laplace's equation is second order in \(y\). It can be written as
+\begin{equation}
+ \partial_y^2\phi=-\mathcal D_h\phi,\qquad
+ \mathcal D_h=\partial_x^2+\frac{h}{w}\partial_x
+                         +\frac{1}{w^2}\partial_s^2.
+\end{equation}
+The operator \(\mathcal D_h\) differentiates only in \(x\) and \(s\),
+and its coefficients do not depend on \(y\). Inserting the Taylor series
+\eqref{bfe:series} on both sides gives
+\begin{equation}
+ \sum_{i=0}^{\infty}\phi_{i+2}(x,s)\frac{y^i}{i!}
+ =\sum_{i=0}^{\infty}(-\mathcal D_h\phi_i(x,s))\frac{y^i}{i!}.
+\end{equation}
+Differentiating twice in \(y\) shifts the coefficient index by two;
+equating coefficients of each power of \(y\) therefore gives
+\begin{equation}
+ \boxed{\phi_{i+2}=-\mathcal D_h\phi_i.}
+ \label{bfe:recurrence}
+\end{equation}
+For example,
+\begin{align}
+ \phi_2&=-\mathcal D_h\phi_0, & \phi_3&=-\mathcal D_h\phi_1,\\
+ \phi_4&=\mathcal D_h^2\phi_0, & \phi_5&=\mathcal D_h^2\phi_1.
+\end{align}
+The potential consequently starts as
+\begin{equation}
+ \phi=\phi_0+y\phi_1
+ -\frac{y^2}{2!}\mathcal D_h\phi_0
+ -\frac{y^3}{3!}\mathcal D_h\phi_1
+ +\frac{y^4}{4!}\mathcal D_h^2\phi_0+\cdots.
+\end{equation}
+Thus \(\phi_0\) determines every even coefficient, and \(\phi_1\) every
+odd coefficient. The two independent inputs are functions of \(x\) and
+\(s\), rather than two numbers. They determine the local field wherever
+the resulting series converges.
+
+Longitudinal derivatives of the transverse profiles therefore generate
+longitudinal fringe fields and higher transverse orders automatically.
+
+\subsection{Coefficient recurrence in a curved frame}
+
+For \(h=0\), the operator in Eq.~\eqref{bfe:recurrence} is
+\(-\mathcal D_0=-\partial_x^2-\partial_s^2\), and repeated differentiation
+of polynomial seeds eventually terminates. For \(h\ne0\),
+\texttt{BFieldExpansion} instead represents the coefficients using powers
+of \(w=1+hx\):
+\begin{equation}
+ \phi_i(x,s)=\sum_p c_{i,p}(s)w^p.
+\end{equation}
+The seed polynomials in \(x\) can be expressed in this basis by substituting
+\(x=(w-1)/h\). The recurrence can then generate negative powers of \(w\).
+
+To derive the coefficient update, consider one term \(c_{i,p}(s)w^p\).
+Since \(\partial_xw=h\), the horizontal derivatives give
+\begin{align}
+ \partial_x^2(c_{i,p}w^p)&=h^2p(p-1)c_{i,p}w^{p-2},\\
+ \frac{h}{w}\partial_x(c_{i,p}w^p)&=h^2p\,c_{i,p}w^{p-2}.
+\end{align}
+Their sum contains \(p(p-1)+p=p^2\). Also, \(w\) is independent of
+\(s\) for the constant curvature assumed here, so
+\begin{equation}
+ \frac{1}{w^2}\partial_s^2(c_{i,p}w^p)
+ =c_{i,p}''(s)w^{p-2}.
+\end{equation}
+Thus applying \(\mathcal D_h\) lowers the power of \(w\) by two:
+\begin{equation}
+ \mathcal D_h(c_{i,p}w^p)
+ =\left[c_{i,p}''(s)+h^2p^2c_{i,p}(s)\right]w^{p-2}.
+\end{equation}
+Substitution into \(\phi_{i+2}=-\mathcal D_h\phi_i\) yields
+\begin{equation}
+ \phi_{i+2}(x,s)
+ =-\sum_p\left[c_{i,p}''(s)+h^2p^2c_{i,p}(s)\right]w^{p-2}.
+\end{equation}
+To identify the coefficient of \(w^m\), set \(m=p-2\), or
+\(p=m+2\). Equating coefficients then gives
+\begin{equation}
+ c_{i+2,m}(s)=-\left[\frac{\dee^2}{\dee s^2}
+                         +h^2(m+2)^2\right]c_{i,m+2}(s).
+ \label{bfe:curved-coefficients}
+\end{equation}
+This is the coefficient recurrence used to build the curved expansion.
+For example, a term proportional to \(w^1\) with a nonzero constant
+coefficient generates a \(w^{-1}\) term, which in turn generates
+\(w^{-3}\), and so on. The curved expansion therefore need not terminate,
+even when its seeds are polynomials.
+
+\section{Vector potential and gauge}
+\label{sec:magnetic-vector-potential}
+
+Tracking in \texttt{BFieldExpansion} uses canonical momenta and therefore
+requires a vector potential as well as the magnetic field. Direct
+integration of the Lorentz force would require only the magnetic field.
+The implementation chooses \(a_y=0\), \(a_x(x,0,s)=0\), and
+\(a_s(0,0,s)=0\). In this gauge a vector potential for the untruncated
+field is
+\begin{align}
+ a_x(x,y,s)&=\frac{1}{w}\int_0^y\partial_s\phi(x,v,s)\,\dee v,\\
+ a_y(x,y,s)&=0,\\
+ a_s(x,y,s)&=\frac{1}{w}\int_0^x(1+hu)\phi_1(u,s)\,\dee u
+                -\int_0^y\partial_x\phi(x,v,s)\,\dee v.
+ \label{bfe:vector-potential}
+\end{align}
+Applying Eq.~\eqref{bfe:curl-operator} to \(\bm a\) with \(a_y=0\) gives
+\begin{equation}
+ b_x=\partial_y a_s,\qquad
+ b_y=\frac{\partial_s a_x-\partial_x(w a_s)}{w},\qquad
+ b_s=-\partial_y a_x.
+ \label{bfe:curl}
+\end{equation}
+These expressions follow by integrating the curl equations and fixing the
+integration constants with the stated gauge conditions.
+
+\subsection{Constructing the vector potential}
+
+First, equate the longitudinal field in Eq.~\eqref{bfe:curl} to that from
+the scalar potential:
+\begin{equation}
+ -\partial_y a_x=-\frac{1}{w}\partial_s\phi.
+\end{equation}
+Integrating in \(y\), using \(a_x(x,0,s)=0\), gives
+\begin{equation}
+ a_x(x,y,s)=\frac{1}{w}\int_0^y\partial_s\phi(x,v,s)\,\dee v.
+\end{equation}
+The factor \(1/w\) can be taken outside the integral because \(w\) does
+not depend on \(y\).
+
+Next, the horizontal field requires
+\begin{equation}
+ \partial_y a_s=-\partial_x\phi.
+\end{equation}
+Integration in \(y\) gives
+\begin{equation}
+ a_s(x,y,s)=C(x,s)-\int_0^y\partial_x\phi(x,v,s)\,\dee v,
+\end{equation}
+where \(C(x,s)=a_s(x,0,s)\) is still to be determined.
+
+The vertical field on \(y=0\) fixes this function. Since
+\(a_x(x,0,s)=0\) for every \(s\), its longitudinal derivative is also
+zero on that plane. Equation~\eqref{bfe:curl} then gives
+\begin{equation}
+ b_y(x,0,s)=-\frac{1}{w}\partial_x(wC)=-\phi_1(x,s),
+\end{equation}
+or \(\partial_x(wC)=w\phi_1\). Integrating in \(x\) and imposing
+\(C(0,s)=a_s(0,0,s)=0\) yields
+\begin{equation}
+ C(x,s)=\frac{1}{w}\int_0^x(1+hu)\phi_1(u,s)\,\dee u.
+\end{equation}
+Substitution gives the expression for \(a_s\) in
+Eq.~\eqref{bfe:vector-potential}.
+
+\subsection{Checking the vertical field away from the midplane}
+
+The construction already reproduces \(b_x\) and \(b_s\) everywhere,
+and \(b_y\) on \(y=0\). To check \(b_y\) away from that plane,
+substitute the potentials into the remaining curl component:
+\begin{equation}
+ (\nabla\times\bm a)_y
+ =-\phi_1(x,s)+\int_0^y\mathcal D_h\phi(x,v,s)\,\dee v.
+\end{equation}
+Laplace's equation gives \(\mathcal D_h\phi=-\partial_y^2\phi\), so
+\begin{align}
+ (\nabla\times\bm a)_y
+ &=-\phi_1(x,s)
+   -\left[\partial_y\phi(x,y,s)-\partial_y\phi(x,0,s)\right]\\
+ &=-\partial_y\phi(x,y,s)=b_y(x,y,s),
+\end{align}
+where \(\partial_y\phi(x,0,s)=\phi_1(x,s)\). Thus all three field
+components agree. This proof uses Laplace's equation exactly, which is why
+the expressions above refer to the untruncated field.
+
+\subsection{Evaluation and elementary examples}
+
+The code evaluates the series for the potentials and
+their derivatives analytically, rather than differentiating sampled field
+values numerically.
+
+Two elementary cases fix the signs and normalization. A uniform vertical
+field \(b_y=K\) has
+\begin{equation}
+ \phi=-Ky,\qquad a_x=a_y=0,\qquad
+ a_s=-K\frac{x+hx^2/2}{1+hx}.
+\end{equation}
+In a straight frame this reduces to \(a_s=-Kx\). A uniform straight
+solenoid, \(b_s=K_s\), has \(\phi=-K_s s\), \(a_x=-K_s y\), and
+\(a_y=a_s=0\). Its nonzero transverse vector potential illustrates why
+canonical and kinetic momenta must be distinguished even in a uniform field.
+
+\input{splineboris_field_expansion.tex}
+\input{spatial_boris.tex}
+\input{bfield_expansion.tex}

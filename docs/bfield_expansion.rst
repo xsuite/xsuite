@@ -13,7 +13,7 @@ fields. It can be used for dipoles, combined-function magnets, quadrupole
 fringes, and solenoids.
 
 The scalar and vector potentials, curved-coordinate expansion, and tracking
-equations are derived in the ``Magnetic fields with BFieldExpansion`` chapter
+equations are derived in the ``Modeling s-dependent magnetic fields`` chapter
 of the :doc:`Physics Guide <physicsguide>`.
 
 .. contents:: On this page

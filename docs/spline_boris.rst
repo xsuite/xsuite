@@ -19,7 +19,8 @@ method has second-order convergence in the number of integration steps (the
 global discretization error scales as ``n_steps**-2``). Although it is not
 strictly symplectic, it preserves phase-space volume and its symplectic deviation
 decreases quadratically with the number of integration steps. See the
-``Spatial Boris Integrator`` chapter of the
+``SplineBoris: spatial Boris integration`` section of the
+``Modeling s-dependent magnetic fields`` chapter in the
 :doc:`Physics Guide <physicsguide>` for a description of the algorithm and its
 main properties.
 
@@ -32,7 +33,7 @@ also contain tuples of ``Spline4`` objects describing successive transverse
 derivatives of the field.
 
 The reconstruction of the three-dimensional field from these on-axis data is
-described in the ``Field expansion for s-dependent magnetic field`` chapter
+described in the ``Modeling s-dependent magnetic fields`` chapter
 of the :doc:`Physics Guide <physicsguide>`.
 
 An extended field map is typically represented by a line containing several
