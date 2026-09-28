@@ -4,7 +4,7 @@ Definition of the tracking function
 Accessing beam-element data from C
 ----------------------------------
 
-The class definition from previous section automatically generates a set of functions (API) to access and manipulate in C the data spcified in ``_xofields``.
+The class definition from previous section automatically generates a set of functions (API) to access and manipulate in C the data specified in ``_xofields``.
 The C API for the defined class can be inspected as follows:
 
 .. code-block:: python

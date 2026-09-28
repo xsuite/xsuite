@@ -164,7 +164,7 @@ performed in parallel and the corresponding range (i.e. 0 <= ii < nelem).
 Compiling the kernel
 --------------------
 
-The Xobject contex that we have alredy created to allocate the object in memory can also be used to compile the C code and access it from Python. This can be done with the method ``add_kernels`` by providing the source code and the description of the kernels from the source code that we would like to access from Python:
+The Xobject context that we have already created to allocate the object in memory can also be used to compile the C code and access it from Python. This can be done with the method ``add_kernels`` by providing the source code and the description of the kernels from the source code that we would like to access from Python:
 
 .. code-block:: python
 

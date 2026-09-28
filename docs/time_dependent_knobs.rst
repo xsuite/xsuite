@@ -9,7 +9,7 @@ the start of the simulation and is updated automatically every turn during track
 .. math::
     \verb|t_turn_s| = \verb|at_turn| \times \frac{L_0}{\beta_0  c_0}
 
-where ``at_turn`` is the turn numer of the reference particle,
+where ``at_turn`` is the turn number of the reference particle,
 :math:`L_0` is the line length (design circumference), 
 :math:`\beta_0` is the relativistic beta factor of the particle tracked first
 and :math:`c_0` is the speed of light.

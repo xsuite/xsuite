@@ -55,7 +55,7 @@ MICADO correction
 See also: :meth:`xtrack.Line.correct_trajectory`
 
 The following example shows how to correct the closed orbit of a ring using the
-MICADO algorithm, to achive the best possible correction while using an assigned
+MICADO algorithm, to achieve the best possible correction while using an assigned
 number of correctors.
 
 .. literalinclude:: generated_code_snippets/closed_orbit_correction_micado.py

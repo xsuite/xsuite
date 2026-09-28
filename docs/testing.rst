@@ -114,7 +114,7 @@ guide, the Nvidia guide states that Docker is not supported under RHEL
 8/CentOS 8 (and so effectively Alma 8 as well), and that is why we will
 use Podman instead of Docker. Podman is a container environment similar
 to Docker, however it does not require a separate daemon to run
-containers, which makes it more lighweight.
+containers, which makes it more lightweight.
 
 Setup a user account
 --------------------

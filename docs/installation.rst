@@ -100,7 +100,7 @@ If all of the optional dependencies have also been installed, we can
 verify our installation. To install test dependencies for an xsuite
 package, one can replace the ``pip install -e some_package`` commands in
 the above snippet with ``pip install -e 'some_package[tests]'``. Once
-the test dependecies are also installed, we can run the tests to check
+the test dependencies are also installed, we can run the tests to check
 if xsuite works correctly:
 
 .. code:: bash

@@ -462,7 +462,7 @@ contexts. This applies in particular to arrays:
 Xobject conventions on memory initialization
 --------------------------------------------
 
-Xobject always accepts a combination of `_context`, `_buffer`, `_offset` to indentify and/or allocate the memory to which data is written:
+Xobject always accepts a combination of `_context`, `_buffer`, `_offset` to identify and/or allocate the memory to which data is written:
 
 
 ======== ======== ======== ==================================================================================

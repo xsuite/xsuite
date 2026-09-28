@@ -78,7 +78,7 @@ This is illustrated in the following example:
     :width: 80%
     :align: center
 
-    Longitudinal phase space from tracking. The backet is centered around the
+    Longitudinal phase space from tracking. The bucket is centered around the
     expected momentum.
 
 .. include:: optimize_for_tracking.rst

@@ -55,7 +55,7 @@ Now, ``line.record_last_track.x[3, 5]`` gives the x coordinates for the
 particle 3 (which has the id 8) and the
 recorded turn 5 (which is turn number 10)
 The particle ids that are recorded can be inspected in ``line.record_last_track.particle_id``
-and the turn indeces in ``line.record_last_track.at_turn``.
+and the turn indices in ``line.record_last_track.at_turn``.
 
 
 **Multi-frame particles monitor**

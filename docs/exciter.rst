@@ -7,7 +7,7 @@ By providing an array of samples, and the sampling frequency, the element can pr
 
 This can be used for RFKO slow extraction, excitation tune measurement, power supply ripples, etc.
 
-The given multipole components `knl` and `ksl` (normal and skew respectively) are multiplied according to an array of `samples` which allows for arbitrary time dependance:
+The given multipole components `knl` and `ksl` (normal and skew respectively) are multiplied according to an array of `samples` which allows for arbitrary time dependence:
 
 .. math::
     \verb|knl|(t) = \verb|knl| \times \verb|samples|(t)
