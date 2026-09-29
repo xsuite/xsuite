@@ -6,6 +6,7 @@ ENV PIP_ROOT_USER_ACTION=ignore
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 ENV PYOPENCL_COMPILER_OUTPUT=1
+ENV GIT_TERMINAL_PROMPT=0
 
 ARG xobjects_branch=xsuite:main
 ARG xdeps_branch=xsuite:main
@@ -74,7 +75,12 @@ RUN echo "::group::Setting up Python environment" \
     && rm -rf /var/cache/yum \
     && echo "::endgroup::"
 
-RUN echo "::group::Installing GPU libraries" \
+# GitHub can require authentication for public clones. Read the build secret
+# only when Git requests credentials; never store its value in an image layer.
+RUN git config --global credential.https://github.com.helper \
+    '!f() { if [ "$1" = get ] && [ -s /run/secrets/github_token ]; then printf "username=x-access-token\npassword=%s\n" "$(cat /run/secrets/github_token)"; fi; }; f'
+
+RUN --mount=type=secret,id=github_token echo "::group::Installing GPU libraries" \
     && if [[ "$with_gpu" == true ]]; then \
         if [[ -n "$cuda_version" ]]; then \
             mamba install -y cuda-version=${cuda_version} cuda-cudart cuda-nvrtc cuda-nvcc cupy; \
@@ -91,7 +97,7 @@ RUN echo "::group::Installing GPU libraries" \
 WORKDIR /opt/xsuite
 COPY ./ /opt/xsuite/xsuite/
 
-RUN chmod +x /opt/xsuite/xsuite/.github/scripts/install_branches.sh && bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
+RUN --mount=type=secret,id=github_token chmod +x /opt/xsuite/xsuite/.github/scripts/install_branches.sh && bash /opt/xsuite/xsuite/.github/scripts/install_branches.sh && pip cache purge
 
 WORKDIR /opt
 RUN ln -s /opt/xsuite/xsuite/.github/scripts/run_tests.sh /opt/ && chmod +x run_tests.sh \

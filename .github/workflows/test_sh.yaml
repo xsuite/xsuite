@@ -78,6 +78,8 @@ env:
 jobs:
   build-test-image:
     runs-on: [self-hosted, "${{ inputs.platform }}"]
+    permissions:
+      contents: read
     outputs:
       image_id: ${{ steps.build-image.outputs.image_id }}
     steps:
@@ -86,12 +88,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Check that git is installed
         run: |
           command -v git
           git --version
       - id: build-image
         name: Build the test image
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           IMAGE="xsuite-test-runner-$(cat /proc/sys/kernel/random/uuid)"
           CUDA_VERSION=$(nvidia-smi 2>/dev/null | sed -n 's/.*CUDA Version: \([0-9.]*\).*/\1/p' | head -n1 || true)
@@ -100,6 +105,7 @@ jobs:
             --rm \
             --network=host \
             --no-cache=true \
+            --secret id=github_token,env=GH_TOKEN \
             --build-arg xobjects_branch=${{ fromJson(inputs.locations).xobjects_location }} \
             --build-arg xdeps_branch=${{ fromJson(inputs.locations).xdeps_location }} \
             --build-arg xpart_branch=${{ fromJson(inputs.locations).xpart_location }} \
