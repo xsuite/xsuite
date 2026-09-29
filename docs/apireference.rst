@@ -276,7 +276,11 @@ BFieldExpansion
     ``get_total_knl_ksl()`` returns the scaled sum of profile integrals, scalar
     strengths times length, and the ``knl``/``ksl`` inputs. Line and Twiss
     strength columns use these totals. ``ksoll`` is a read-only one-entry
-    array containing the scaled integrated longitudinal profile.
+    array containing the scaled integrated longitudinal profile. In line and
+    Twiss tables, the ``ksoll`` column also reports ``ks * length`` for
+    ``Solenoid`` and ``UniformSolenoid`` and the endpoint-average strength
+    times length for ``VariableSolenoid``. Thick uniform-solenoid slices
+    report their own share of the integral.
     ``straight`` and ``angle`` are read-only; the latter is ``length * h``.
     ``ds`` is the read-only ``length / num_integration_steps``.
 

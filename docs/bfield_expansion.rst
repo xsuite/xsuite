@@ -327,6 +327,10 @@ NumPy arrays padded to the same length, with at least four entries.
 The read-only one-entry array ``ksoll`` contains the integral of ``ksolc``
 over the same interval, including ``kscale``. These computed quantities
 reflect changes to the strengths, scale, polynomial origin, and length.
+In line and Twiss tables, the ``ksoll`` column also includes ``ks * length``
+for ``Solenoid`` and ``UniformSolenoid``, and
+``0.5 * (ks_profile[0] + ks_profile[1]) * length`` for ``VariableSolenoid``.
+Thick uniform-solenoid slices report their own share of the integral.
 
 :ref:`xtrack.Environment <environment-api-reference>` accepts coefficient
 matrices containing numbers and deferred expressions through ``new`` and ``set``:
