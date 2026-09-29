@@ -85,7 +85,7 @@ the following section.
 Step-by-step description
 ========================
 
-In this sections we will discuss in some more detail the different steps
+In this section we will discuss in some more detail the different steps
 outlined in the example above.
 
 Getting the machine model
@@ -115,7 +115,7 @@ change the strength of the first quadrupole as follows:
 
     env['qf'].k1 = 0.15
 
-It is also possible to import a lattice from a MAD-X as discussed in the section
+It is also possible to import a lattice from MAD-X as discussed in the section
 :ref:`Loading MAD-X lattices <env_loading_madx_lattices>`.
 
 More information on how to import and manipulate lattices can be found in the
@@ -125,9 +125,9 @@ More information on how to import and manipulate lattices can be found in the
 Define reference particle
 -------------------------
 
-A reference particle can be associated to the line and is used to define the
+A reference particle can be associated with the line and is used to define the
 reference mass, charge and energy when generating other particle sets or when
-performing other calculation (e.g. computing twiss parameters, compensating the
+performing other calculations (e.g. computing twiss parameters, compensating the
 energy loss, etc.). The reference particle can be defined as follows:
 
 .. code-block:: python
@@ -139,7 +139,7 @@ energy loss, etc.). The reference particle can be defined as follows:
 Twiss
 -----
 
-The Twiss parameters of the lattice can be through the ``twiss`` method of the
+The Twiss parameters of the lattice can be computed through the ``twiss`` method of the
 line object:
 
 .. code-block:: python
@@ -164,7 +164,7 @@ Create a Context (CPU or GPU)
 -----------------------------
 
 To run tracking simulations with the created lattice, we can first choose the
-hardware on which the simulation will run as xsuite can run on different kinds
+hardware on which the simulation will run as Xsuite can run on different kinds
 of hardware (CPUs and GPUs). The user selects the hardware to be used by
 creating a :doc:`context object <contexts>`, that is then passed to all other
 Xsuite components.
@@ -179,7 +179,7 @@ the following instructions:
 
 This is the default context if none is specified.
 
-Similarly to run on CPU using multiple threads od on GPUs using cupy or pyopencl
+Similarly, to run on CPU using multiple threads or on GPUs using cupy or pyopencl,
 you can use one of the following:
 
 .. code-block:: python
@@ -198,7 +198,7 @@ you can use one of the following:
 Build tracker
 -------------
 
-An Xtrack tracker object needs to be associated to the line in order to track
+An Xtrack tracker object needs to be associated with the line in order to track
 particles on the chosen computing platform (defined by the context):
 
 .. code-block:: python
@@ -213,7 +213,7 @@ Generate particles to be tracked
 --------------------------------
 
 The particles to be tracked can be allocated on the chosen platform using
-the ``build_particles`` method of the line
+the ``build_particles`` method of the line:
 
 .. code-block:: python
 
@@ -231,7 +231,7 @@ the ``build_particles`` method of the line
 
 
 The coordinates of the particle object are accessible with the conventional
-python syntax. For example to access the *x* coordinate of the particle 20,
+python syntax. For example to access the *x* coordinate of particle 20,
 one can use the following instruction:
 
 .. code-block:: python
@@ -252,7 +252,7 @@ the specified lattice for an arbitrary number of turns:
     num_turns = 100
     line.track(particles, num_turns=num_turns)
 
-This returns the particles state after 100 revolutions over the lattice.
+This returns the state of the particles after 100 revolutions over the lattice.
 
 More information about Xsuite tracking capabilities can be found in the
 :doc:`Track section <track>`.
@@ -260,7 +260,7 @@ More information about Xsuite tracking capabilities can be found in the
 Record turn-by-turn data
 ------------------------
 
-Optionally the particles coordinates can be saved at each turn. This feature
+Optionally, the particle coordinates can be saved at each turn. This feature
 can be activated when calling the tracking method:
 
 .. code-block:: python

@@ -4,7 +4,7 @@ Beam-beam
 Weak-strong 2D
 --------------
 
-The example below shows how to introduce a 2D beam-beam element in a line and perform few studies based on tracking. The 2D beam-beam element provides a kick based on the Basseti-Erskine formula neglecting any longitudinal varitations of the beam-beam force.
+The example below shows how to introduce a 2D beam-beam element in a line and perform a few studies based on tracking. The 2D beam-beam element provides a kick based on the Bassetti-Erskine formula neglecting any longitudinal variations of the beam-beam force.
 
 .. literalinclude:: generated_code_snippets/beambeamws.py
    :language: python
@@ -26,7 +26,7 @@ The example below shows how to introduce a 2D beam-beam element in a line and pe
 Weak-strong 3D
 --------------
 
-The 3D beam-beam element can be used similarly, replacing the instanciation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method) handled by the :class:`xfields.beam_elements.TempSlicer`.
+The 3D beam-beam element can be used similarly, replacing the instantiation of the beam-beam element as in the example below. This element takes into account longitudinal variations of the beam-beam force (hourglass, crossing angle) based on a longitudinal slicing of the beam (Hirata's method) handled by the :class:`xfields.beam_elements.TempSlicer`.
 
 .. code-block:: python
 
@@ -71,9 +71,9 @@ Strong-strong simulations can be performed using the :doc:`pipeline`, as in the 
     :align: center
 
 In collisions featuring a low disruption (i.e. the beam moments do not vary significantly during the interaction), the quasi-strong-strong (aka frozen-strong-strong) model may be enabled by setting the argument 'quasistrongstrong
-= True' in :class:`xfields.beam_elements.ConfigForUpdate*`. In this configuration, the beam moments are computed once at the start of the collison and kept constant throught the collison, thus reducing the computing load. The argument 'update_every' allows to further reduce the computing load by keeping the moments for the given amount of turns. This model is suitable for effects that build up over may turns. (more details in https://accelconf.web.cern.ch/eefact2022/papers/wezat0102.pdf)
+= True' in :class:`xfields.beam_elements.ConfigForUpdate*`. In this configuration, the beam moments are computed once at the start of the collision and kept constant throughout the collision, thus reducing the computing load. The argument 'update_every' makes it possible to further reduce the computing load by keeping the moments for the given number of turns. This model is suitable for effects that build up over many turns. (more details in https://accelconf.web.cern.ch/eefact2022/papers/wezat0102.pdf)
 
-For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.beam_elements.ConfigForUpdate*` have to be redifined as in the example below.
+For 2D beam-beam interactions, the beam-beam element and the :class:`xfields.beam_elements.ConfigForUpdate*` have to be redefined as in the example below.
 
 .. code-block:: python
 
@@ -103,13 +103,13 @@ For a 2D beam-beam interactions, the beam-beam element and the :class:`xfields.b
 Poisson Solver
 --------------
 
-Particle-in-cell simulations using a Poisson solver for the beam-beam interaction is currently not implemented in xfields
+Particle-in-cell simulations using a Poisson solver for the beam-beam interaction are currently not implemented in Xfields.
 
 Beam-beam in a real lattice
 ---------------------------
 
-Identically to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup of beam-beam interactions in a collider lattice: :doc:`xmask`.
-An example snippet is shown below where an xtrack lattice in json format is loaded and a weakstrong beam-beam element is inserted at the marker "ip.1". 
+Similarly to the examples above, beam-beam elements can be introduced into the lattice of a full machine. Several tools exist to ease the setup of beam-beam interactions in a collider lattice: :doc:`xmask`.
+An example snippet is shown below where an Xtrack lattice in JSON format is loaded and a weak-strong beam-beam element is inserted at the marker "ip.1". 
 
 .. code-block:: python
 

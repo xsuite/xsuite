@@ -1,7 +1,7 @@
 Dynamic aperture
 ================
 
-The following example illustrate how to use Xsuite to study the Dynamic
+The following example illustrates how to use Xsuite to study the Dynamic
 Aperture of a ring.
 
 .. literalinclude:: generated_code_snippets/tracking_for_da.py

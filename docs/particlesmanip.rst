@@ -21,8 +21,8 @@ The following sections illustrate:
  - How to create Particles objects on CPU or GPU, providing the coordinates in
    the form of arrays or using the xpart generators to obtain specific
    distributions (e.g. Gaussian, halo, pencil);
- - How to copy Particles objects (optionally across contexts, e.g GPU to CPU);
- - How to transform Particle objects into dictionaries or pandas dataframes and
+ - How to copy Particles objects (optionally across contexts, e.g. GPU to CPU);
+ - How to transform Particles objects into dictionaries or pandas dataframes and
    back;
  - How to merge Particles objects;
  - How to filter Particles objects to select a subset of particles satisfying a
@@ -46,7 +46,7 @@ reference particle, which defines the particle type (charge and mass)
 and the reference energy and momentum.
 This can be accomplished using the :meth:`xpart.build_particles` function or
 its alias ``Line.build_particles``, which
-feature three different modes illustrated in the following.
+features three different modes illustrated in the following.
 
 The ``set`` mode
 ----------------
@@ -60,8 +60,8 @@ zero assumed as default). For example:
 .. literalinclude:: generated_code_snippets/build_particles_set.py
    :language: python
 
-Equivalently one can use the ``Line.build_particles`` function (automatically
-infers context and reference particle from the line):
+Equivalently one can use the ``Line.build_particles`` function (which automatically
+infers the context and reference particle from the line):
 
 .. literalinclude:: generated_code_snippets/build_particles_set_with_tracker.py
    :language: python
@@ -70,16 +70,16 @@ The ``shift`` mode
 ------------------
 
 If ``mode="shift"`` is passed to the function, reference quantities including
-quantities including `mass0`, `q0`, `p0c`, gamma0, etc. are taken from the
-provided reference particle, and  the other coordinates are set from the
+`mass0`, `q0`, `p0c`, gamma0, etc. are taken from the
+provided reference particle, and the other coordinates are set from the
 reference particle and shifted according to the provided input `x`, `px`, `y`,
 `py`, `zeta`, `delta` (with zero assumed as default). For example:
 
 .. literalinclude:: generated_code_snippets/build_particles_shift.py
    :language: python
 
-Equivalently one can use the `line.build_particles`` function (automatically
-infers context and reference particle from the line):
+Equivalently one can use the ``Line.build_particles`` function (which automatically
+infers the context and reference particle from the line):
 
 .. literalinclude:: generated_code_snippets/build_particles_shift_with_tracker.py
    :language: python
@@ -105,8 +105,8 @@ Generating particles distributions
 
 For several applications it is convenient to generate the transverse
 coordinates in the normalized phase space and then transform them to physical
-coordinates. Xpart provides functions to generate independently particles
-distributions in the three dimensions, which are then combined using the
+coordinates. Xpart provides functions to generate particle
+distributions independently in the three dimensions, which are then combined using the
 :meth:`xpart.build_particles` function. This is illustrated by the following
 examples.
 
@@ -139,7 +139,7 @@ The following example shows how to generate a distribution, which combines:
 
  - A `halo` distribution with an azimuthal cut in (x, px);
  - All particles on the closed orbit in (y, py);
- - All particles in the same point in (zeta, delta);
+ - All particles at the same point in (zeta, delta).
 
 .. literalinclude:: generated_code_snippets/halo.py
    :language: python
@@ -158,7 +158,7 @@ Example: Gaussian bunch
 
 The function :meth:`xpart.generate_matched_gaussian_bunch` can be used to
 generate a bunch having Gaussian distribution in all coordinates and matched to
-the non-linead RF bucket, as illustrated by the following example:
+the non-linear RF bucket, as illustrated by the following example:
 
 .. literalinclude:: generated_code_snippets/gaussian.py
    :language: python
@@ -174,7 +174,7 @@ the non-linead RF bucket, as illustrated by the following example:
 Matching distribution at custom location in the ring
 ----------------------------------------------------
 
-The functions :meth:`xtrack.Line.generate_matched_gaussian_bunch` can be used to
+The function :meth:`xtrack.Line.generate_matched_gaussian_bunch` can be used to
 match a particle distribution at a custom location in the ring, as illustrated
 by the following example:
 
@@ -201,7 +201,7 @@ transforming a Particles object into a dictionary or a pandas dataframe and
 back. By default the particles coordinates are transferred to CPU when using
 ``to_dict`` or ``to_pandas``.
 
-Such methods can be used to save or load particles coordinated to/from file as
+Such methods can be used to save or load particles coordinates to/from file as
 shown by the following examples:
 
 Save and load from dictionary
@@ -258,7 +258,7 @@ Although such arrays can be directly inspected to a large extent, several
 actions, notably plotting with matplotlib and saving to pickle or json files, are
 not possible without explicitly transferring the data to the CPU memory.
 
-For this purpose we recommend to use the specific functions provided by the
+For this purpose we recommend using the specific functions provided by the
 context in order to keep the code usable on different contexts. For example:
 
 .. code-block:: python

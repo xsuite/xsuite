@@ -47,22 +47,22 @@ From CERN:
  - Elias Waagaard
 
 From other institutes:
- - Joshua Appleby (Oxford university) - SyncTime improvements
+ - Joshua Appleby (Oxford University) - SyncTime improvements
  - Philippe Balanger (TRIUMF, Canada) - Development of wire beam element and Tracker.survey
- - Manon Boucard (EPFL, Switzwerland) - Development of the electron lens beam element
+ - Manon Boucard (EPFL, Switzerland) - Development of the electron lens beam element
  - Kiel Hock (BNL, USA) - Development of spin tracking
  - Sebastien Joly (Helmholtz-Zentrum, Berlin) - Development of IBS + SR equilibrium calculation
  - Philipp Niedermayer (GSI, Germany) - Improve apertures API and docstrings, implement
    `Line.from_sequence`, implement `LastTurnsMonitor`, implement `Exciter`,
    implement `BeamSizeMonitor`, implement `BeamProfileMonitor`,
    implement `BeamPositionMonitor`,
- - Leon Van Riesen-Haupt (EPFL, Switzwerland) checks on synchrotron radiation spectrum.
+ - Leon Van Riesen-Haupt (EPFL, Switzerland) - Checks on the synchrotron radiation spectrum.
 
 Accelerator physics software
 ----------------------------
 
 Xsuite is built on the experience of several pre-existing software packages
-(a great deal could be learnt from  documentation, examples and source code).
+(a great deal could be learnt from documentation, examples and source code).
 These include:
 
 - BMAD
@@ -83,4 +83,4 @@ These include:
 - PTC
 
 References to literature used in the development of the code can be found in
-bibliography of the :doc:`Xsuite Physics Guide <physicsguide>`.
+the bibliography of the :doc:`Xsuite Physics Guide <physicsguide>`.

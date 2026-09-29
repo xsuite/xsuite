@@ -7,7 +7,7 @@ exceptions for particle energies and momenta. The elementary charge :math:`e`
 is the unit charge, and :math:`c = 1` is assumed.
 
 .. note::
-   The following are general conventions adopted for Xsuite, however units
+   The following are general conventions adopted for Xsuite; however, units
    should always be documented on elements and APIs directly. This page should
    especially serve as a guideline for the creation of new elements and APIs.
 

@@ -2,13 +2,13 @@
 Continuous testing of xsuite
 ============================
 
-Since GitHub do not yet support GPU on their own Actions runners, we set up
+Since GitHub does not yet support GPUs on its own Actions runners, we set up
 our own self-hosted runner on OpenStack for this purpose. The configuration
 of the test workflow can be found in `.github/test_gpu.yaml` of the xsuite
 repository. However, the test machine needs to first be prepared. As we use
 Docker to run the tests in an isolated and controlled environment, some
-dependencies need to be installed. These are Docker and Nvidia drivers and
-Container Toolkit (assuming the test machine uses an Nvidia GPU). The steps
+dependencies need to be installed. These are Docker, the Nvidia drivers and the
+Nvidia Container Toolkit (assuming the test machine uses an Nvidia GPU). The steps
 to accomplish this are listed below.
 
 Setup of the test runner machine (Ubuntu)
@@ -56,7 +56,7 @@ provided by the Docker people, as described
 
 To be able to run containers with GPU support we need the Nvidia
 container toolkit. A prerequisite for that are the Nvidia drivers.
-The up-to-date install instructions for the toolking can be found
+The up-to-date install instructions for the toolkit can be found
 `here <https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html>`_.
 There is also a useful page available on the topic on the
 `CERN OpenStack guide <https://clouddocs.web.cern.ch/gpu/index.html>`_.
@@ -106,18 +106,18 @@ Setup of the test runner machine (Alma 8)
 Synopsis
 --------
 
-On the AlmaLinux 8 virtual machine (the “host”) will be running a GitHub
-runner executing Xsuite tests in a containerised environment. In order
+A GitHub runner executing Xsuite tests in a containerised environment will be
+running on the AlmaLinux 8 virtual machine (the “host”). In order
 to support GPU execution contexts, Nvidia drivers and the Nvidia
 Container Toolkit will need to be installed. At the time of writing this
 guide, the Nvidia guide states that Docker is not supported under RHEL
 8/CentOS 8 (and so effectively Alma 8 as well), and that is why we will
 use Podman instead of Docker. Podman is a container environment similar
-to Docker, however it does not require a separate daemon to run
-containers, which makes it more lighweight.
+to Docker; however, it does not require a separate daemon to run
+containers, which makes it more lightweight.
 
-Setup a user account
---------------------
+Set up a user account
+---------------------
 
 We can set up an appropriate GPU-capable OpenStack VM in the same way as
 in the previous section (Ubuntu), or simply by following the GUI wizard
@@ -160,14 +160,14 @@ that the workflows (which presume Docker) work on the new machine:
 Installing Nvidia drivers (can be skipped for CPU-only VM)
 ----------------------------------------------------------
 
-We will largely be following the official Nvidia guide [1]_, however
+We will largely be following the official Nvidia guide [1]_, but
 only as far as installing the drivers. CUDA is not necessary on the host
 machine, only inside the containers.
 
 First, some prerequisites are necessary. In this guide, we will be
 installing the drivers using the “network RPM” method in Nvidia’s guide.
 We will perform a DKMS installation, so that the drivers get recompiled
-whenever there is a kernel update, so that it does not need to be done
+whenever there is a kernel update and this does not need to be done
 manually. To this end, we need to install kernel headers:
 
 .. code:: bash
@@ -209,11 +209,11 @@ the available GPUs:
 Installing the Nvidia Container Toolkit (can be skipped for a CPU-only VM)
 --------------------------------------------------------------------------
 
-We will follow the instruction of the official Nvidia guide [2]_, the
+We will follow the instructions of the official Nvidia guide [2]_, the
 steps of which are summarised below.
 
 A container environment is a prerequisite for installing the NCT: earlier
-we have installed Podman.
+we installed Podman.
 
 Podman is compatible with the Container Device Interface specification,
 which means that only the base components of the Nvidia Container
@@ -268,8 +268,8 @@ Check that everything works with:
 
    podman run --rm --gpus all cupy/cupy:latest nvidia-smi
 
-Setup the GitHub runner
------------------------
+Set up the GitHub runner
+------------------------
 
 Navigate to *Settings > Actions > Runners* on GitHub and follow the
 instructions for creating the new runner. Once this is done, there are
@@ -282,9 +282,9 @@ with the chosen name of your runner.
 Set the right container format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since we are using a docker Dockerfile format, which is slightly
-different to the OCI format, to which podman defaults, we need to change
-the setting for podman to use the Docker format. To achieve this, we add
+Since we are using the Docker Dockerfile format, which is slightly
+different from the OCI format, to which Podman defaults, we need to change
+the setting for Podman to use the Docker format. To achieve this, we add
 an environment variable to the runner service file:
 
 .. code:: bash
@@ -335,8 +335,8 @@ listening for new jobs:
 .. note::
 
     **Troubleshooting Note**: The status of the runner service can
-    be checked with ``sudo ./svc.sh status`` which is an alias to
-    ``systemctl status actions.runner.xsuite-xsuite.{runner-name}``
+    be checked with ``sudo ./svc.sh status`` which is an alias for
+    ``systemctl status actions.runner.xsuite-xsuite.{runner-name}``.
     More logs for the service can be viewed with 
     ``sudo journalctl -x -u actions.runner.xsuite-xsuite.{runner-name}``.
     In case of errors it can be useful to also consult SELinux logs:

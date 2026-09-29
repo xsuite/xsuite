@@ -3,7 +3,7 @@ Interface to PyHEADTAIL
 
 PyHEADTAIL elements cannot be natively used by an Xsuite line due to different
 naming conventions for the particles coordinates. A specific interface has been
-introduced in Xsuite which indtroduces additional properties in the Particles
+introduced in Xsuite which introduces additional properties in the Particles
 objects in order to make them compatible with PyHEADTAIL beam elements.
 The interface can be enabled by calling the function
 ``enable_pyheadtail_interface`` right after importing xtrack, as illustrated

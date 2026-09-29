@@ -82,7 +82,7 @@ can be found in the :ref:`element misalignment section <misalignment_label>`.
     :align: center
     :width: 80%
 
-    Rectangular with arbitrary face angles and arbitrary placement with respect to
+    Rectangular bend with arbitrary face angles and arbitrary placement with respect to
     the reference trajectory.
 
 
@@ -544,14 +544,14 @@ LastTurnsMonitor
     :member-order: bysource
 
 BeamPositionMonitor
-----------------
+-------------------
 
 .. autoclass:: xtrack.BeamPositionMonitor
     :members:
     :member-order: bysource
 
 BeamProfileMonitor
-----------------
+------------------
 
 .. autoclass:: xtrack.BeamProfileMonitor
     :members:
@@ -579,7 +579,7 @@ User's guide.
 
 
 Beam elements (xfields)
-======================
+=======================
 
 
 Beam-beam Bi-Gaussian 2D
@@ -714,19 +714,19 @@ See also the :ref:`misalignment section <misalignment_example_label>` in User's 
     :align: center
     :width: 50%
 
-    Misalignment in the the x-y plane.
+    Misalignment in the x-y plane.
 
 .. figure:: ./physics_manual/figures/align_yaw.png
     :align: center
     :width: 70%
 
-    Misalignment in the the s-x plane.
+    Misalignment in the s-x plane.
 
 .. figure:: ./physics_manual/figures/align_pitch.png
     :align: center
     :width: 70%
 
-    Misalignment in the the s-y plane.
+    Misalignment in the s-y plane.
 
 
 .. _environment-api-reference:
@@ -1193,18 +1193,18 @@ CPU and GPU contexts
 
 See also :doc:`Getting Started Guide <singlepart>`
 
-Xsuite supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
-A context is initialized by instanciating objects from one of the context classes available Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
+Xsuite supports different platforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
+A context is initialized by instantiating objects from one of the context classes available in Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
 Contexts are interchangeable as they expose the same API.
 Custom kernel functions can be added to the contexts. General source code with annotations can be provided to define the kernels, which is then automatically specialized for the chosen platform (see :doc:`dedicated section <autogeneration>`).
 
 Three contexts are presently available:
 
- - The :ref:`Cupy context<cupy_context>`, based on `cupy`_-`cuda`_ to run on NVidia GPUs
- - The :ref:`Pyopencl context<pyopencl_context>`, bases on `PyOpenCL`_, to run on CPUs or GPUs throught PyOPENCL library.
+ - The :ref:`Cupy context<cupy_context>`, based on `cupy`_-`cuda`_ to run on NVIDIA GPUs
+ - The :ref:`Pyopencl context<pyopencl_context>`, based on `PyOpenCL`_, to run on CPUs or GPUs through the PyOpenCL library.
  - The :ref:`CPU context<cpu_context>`, to use conventional CPUs
 
-The corresponfig API is described in the following subsections.
+The corresponding API is described in the following subsections.
 
 .. _cupy: https://cupy.dev
 .. _cuda: https://developer.nvidia.com/cuda-zone
@@ -1244,7 +1244,7 @@ CPU context
 Configuration tools
 ===================
 
-xtrack.Multisetter class
+xtrack.MultiSetter class
 ------------------------
 
 See also: :doc:`Fast lattice changes<fast_lattice_changes>`

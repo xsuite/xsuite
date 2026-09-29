@@ -32,9 +32,9 @@ Linear rescale on knobs
 =======================
 
 In some cases the effects introducing the detuning also introduce other effects
-(e.g. coupling, or non-linear resonances) that disturb the particles tune
-measurement. In this case it is possible to rescale quantify the detuning for
-smaller values of the knobs associate to the detuning effects and rescale to
+(e.g. coupling, or non-linear resonances) that disturb the particles' tune
+measurement. In this case it is possible to quantify the detuning for
+smaller values of the knobs associated with the detuning effects and rescale to
 the actual value of the knob. This can be done by the `linear_rescale_on_knobs`
 option as illustrated in the following example for a case where the detuning
 with amplitude is introduced by beam-beam interactions.
@@ -48,13 +48,13 @@ See also: :meth:`xtrack.Line.get_footprint`
     :width: 80%
     :align: center
 
-    Footprints produced without rescaling beam-beam knob.
+    Footprints produced without rescaling the beam-beam knob.
 
 .. figure:: figures/footprint_bb_with_rescale.png
     :width: 80%
     :align: center
 
-    Footprints produced with rescaling beam-beam knob.
+    Footprints produced with rescaling the beam-beam knob.
 
 Stability diagram
 =================

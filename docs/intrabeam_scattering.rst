@@ -6,7 +6,7 @@ Analytical Growth Rates
 -----------------------
 
 The following example illustrates how to obtain Intra-Beam Scattering growth rates in Xsuite.
-The functionality is exposed directly through `xtrack.TwissTable` and can make use of two different formalism: ``Nagaitsev`` and ``Bjorken-Mtingwa``.
+The functionality is exposed directly through `xtrack.TwissTable` and can make use of two different formalisms: ``Nagaitsev`` and ``Bjorken-Mtingwa``.
 The former provides a computationally efficient approach but does not account for vertical dispersion, while the latter correctly accounts for it but is slower.
 
 See also: :meth:`xtrack.twiss.TwissTable.get_ibs_growth_rates`
@@ -28,8 +28,8 @@ Steady State Emittances in the Presence of Synchrotron Radiation, Quantum Excita
 --------------------------------------------------------------------------------------------------------------
 
 The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where the combined effect of these three phenomena balances each other out.
-These emittances can be calculated in `Xsuite` by numerically solving a system of ordinary differential equations while enforcing constraints on the transverse emittances.
-The ODE solved by the function are detailed in the :doc:`Physics guide<physicsguide>`.
+These emittances can be calculated in Xsuite by numerically solving a system of ordinary differential equations while enforcing constraints on the transverse emittances.
+The ODEs solved by the function are detailed in the :doc:`Physics guide<physicsguide>`.
 
 See also: :meth:`xtrack.twiss.TwissTable.get_ibs_and_synrad_emittance_evolution`
 
@@ -43,7 +43,7 @@ Notice how the coupling constraint of round beams (coupling factor = 1) is respe
     :width: 80%
     :align: center
 
-This example, quite similar, shows how to do the same but with an excitation constraint between the transvserse planes.
+This example, quite similar to the previous one, shows how to do the same but with an excitation constraint between the transverse planes.
 Notice how this time a specific factor between transverse emittances is respected through their evolution to the steady-state.
 
 .. literalinclude:: generated_code_snippets/ibs_steady_state_emittances_excitation.py
@@ -57,14 +57,14 @@ Notice how this time a specific factor between transverse emittances is respecte
 IBS Kicks for Tracking
 ----------------------
 
-When trying to study the interplay of IBS effects with others such as space charge, e-cloud, beamb-beam etc. analytical growth rates are not enough and tracking becomes necessary.
-In Xfields beam elements are provided to model IBS tracking, which apply momenta kicks to particles.
+When trying to study the interplay of IBS effects with others such as space charge, e-cloud, beam-beam etc. analytical growth rates are not enough and tracking becomes necessary.
+In Xfields, beam elements are provided to model IBS in tracking, which apply momentum kicks to particles.
 Two kick elements are available:
 
 - ``IBSAnalyticalKick`` (based on `R. Bruce <https://journals.aps.org/prab/abstract/10.1103/PhysRevSTAB.13.091001>`_) for kicks based on analytical growth rates;
 - ``IBSKineticKick`` (based on `P. Zenkevich <https://www.sciencedirect.com/science/article/abs/pii/S0168900206000465>`_, adapted by `M. Zampetakis <https://www.arxiv.org/abs/2310.03504>`_) for kicks based on diffusion and friction terms from the kinetic theory of gases.
 
-The following example illustrates how to create a kick element, inserting and configuring it for tracking.
+The following example illustrates how to create a kick element and insert and configure it for tracking.
 Refer to the :doc:`Reference manual<apireference>` for the full list of parameters and their explanation, and to the :doc:`Physics guide<physicsguide>` for full information.
 
 See also: :meth:`xtrack.Line.configure_intrabeam_scattering`

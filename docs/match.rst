@@ -14,9 +14,9 @@ full Optimizer API.
 Basic usage
 -----------
 
-The numerical optimizer can be used calling the method :meth:`xtrack.Line.match`.
-The optimization is define by a set of :ref:`Vary and Target objects  <vary_target_label>` defining the
-knobs to be varied and the targets to be matched. Arguments not specific of the
+The numerical optimizer can be used by calling the method :meth:`xtrack.Line.match`.
+The optimization is defined by a set of :ref:`Vary and Target objects  <vary_target_label>` defining the
+knobs to be varied and the targets to be matched. Arguments not specific to the
 match method are automatically dispatched to the underlying twiss calls.
 The following example shows how to match the tunes and chromaticities of a ring.
 
@@ -94,7 +94,7 @@ Callables and inequalities in targets
 See also :meth:`xtrack.Line.match`
 
 Targets can contain also callables and inequalities. This is illustrated in the
-following example, showing the match of crossing bump (as in the previous section)
+following example, showing the match of a crossing bump (as in the previous section)
 where we use a callable to match the average angle at the IP to zero and
 inequalities to impose a minimum and maximum value for the angle of one beam
 at the IP.
@@ -149,7 +149,7 @@ the result of an optimization. The user can specify a value for
 ``knob_value_start`` corresponding to the line state before the optimization,
 and a value for ``knob_value_end`` corresponding to the line state after the
 optimization. A linear interpolation is used when a different value of the knob
-is set. This shown by the following example, which shows how to build knobs
+is set. This is shown by the following example, which shows how to build knobs
 controlling the horizontal and vertical chromaticities of a line.
 
 .. literalinclude:: generated_code_snippets/match_knob.py
@@ -158,8 +158,8 @@ controlling the horizontal and vertical chromaticities of a line.
 Targets from variables and from line elements
 ---------------------------------------------
 
-Targets for optimization can be defined also from variables and from from the
-lines, as illustrated in the following example.
+Targets for optimization can be defined also from variables and from line
+elements, as illustrated in the following example.
 
 .. literalinclude:: generated_code_snippets/match_targets_from_vars_or_line.py
    :language: python

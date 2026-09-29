@@ -4,7 +4,7 @@ Definition of the tracking function
 Accessing beam-element data from C
 ----------------------------------
 
-The class definition from previous section automatically generates a set of functions (API) to access and manipulate in C the data spcified in ``_xofields``.
+The class definition from the previous section automatically generates a set of functions (API) to access and manipulate in C the data specified in ``_xofields``.
 The C API for the defined class can be inspected as follows:
 
 .. code-block:: python
@@ -12,7 +12,7 @@ The C API for the defined class can be inspected as follows:
     source = SRotation._XoStruct._gen_c_api().source
     print(source)
 
-By printing source we can see that C methods are available to set, get and get a pointer to the fields specified in ``_xofields``:
+By printing the source we can see that C methods are available to set, get and get a pointer to the fields specified in ``_xofields``:
 
 .. code-block:: c
 
@@ -31,13 +31,13 @@ use macros such as ``GPUFUN``, ``GPUGLMEM`` and ``RESTRICT``. This lets the
 compiler catch typos instead of silently ignoring misspelled magic comments.
 
 These methods can be used to write a C header file containing the tracking code for the beam element.
-The method takes two arguments, the element data in a data type called ``<ElementName>Data``, i.e. ``SRotationData`` in our example and a ``LocalParticle`` which is associated to methods to set and and get the particle coordinates.
+The tracking function takes two arguments: the element data, in a data type called ``<ElementName>Data``, i.e. ``SRotationData`` in our example, and a ``LocalParticle``, which is associated with methods to set and get the particle coordinates.
 The ``LocalParticle`` represents one particle of the particle set provided to the simulation.
 
 Writing the tracking code
 -------------------------
 
-For our example beam elements the tracking code can be written as follows:
+For our example beam element, the tracking code can be written as follows:
 
 .. code-block:: c
 
@@ -82,7 +82,7 @@ The ``GPUFUN`` macro specifies that the function is to be executed on the device
 
 The ``START_PER_PARTICLE_BLOCK(part0, part)`` and ``END_PER_PARTICLE_BLOCK`` macros map ``part0`` to ``part`` and introduce a loop over the particles when needed (i.e. for the CPU contexts). Parallelization over CPU cores is also applied if this is set in the context.
 
-Once ready the code needs to be associated to the class. This is done with the following instruction:
+Once ready, the code needs to be associated with the class. This is done with the following instruction:
 
 .. code-block:: python
 

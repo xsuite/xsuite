@@ -32,7 +32,7 @@ s &= \gamma_0 \left(s' +\beta_0 ct' \right)\label{lorD}
 
 
 
-The quantities $\left(c \rho, J_x, J_y, J_s\right)$ form a Lorentz 4-vector and therefore they are transformed between $K$ and $K'$ by relationships similar to the Eqs.~\ref{lorA}-\ref{lorY}~\cite{jackson}:
+The quantities $\left(c \rho, J_x, J_y, J_s\right)$ form a Lorentz 4-vector and therefore they are transformed between $K$ and $K'$ by relationships similar to Eqs.~\ref{lorA}-\ref{lorY}~\cite{jackson}:
 \begin{align}
 c\rho' \left(\textbf{r'}, t'\right)\ &= \gamma_0 \left[c \rho  \left(\textbf{r}\left(\textbf{r'}, t'\right), t\left(\textbf{r'}, t'\right)\right) -\beta_0 J_s \left(\textbf{r}\left(\textbf{r'}, t'\right), t\left(\textbf{r'}, t'\right)\right) \right]\label{lorrho}\\
 J_s' \left(\textbf{r'}, t'\right)\ &= \gamma_0 \left[J_s  \left(\textbf{r}\left(\textbf{r'}, t'\right), t\left(\textbf{r'}, t'\right)\right) -\beta_0 c \rho \left(\textbf{r}\left(\textbf{r'}, t'\right), t\left(\textbf{r'}, t'\right)\right) \right]\label{lorjs}
@@ -77,7 +77,7 @@ We now make the substitution:
 \begin{equation}
 \zeta = \frac{s'}{\gamma_0} \label{subst}
 \end{equation}
-obtained from Eq.~\ref{lorB}, which allows to rewrite Eq.~\ref{poissrho0} as:
+obtained from Eq.~\ref{lorB}, which allows us to rewrite Eq.~\ref{poissrho0} as:
 \begin{equation}
 \frac{\partial^2 \phi'}{\partial x^2} +  \frac{\partial^2 \phi'}{\partial y^2}+  \frac{1}{\gamma_0^2}\frac{\partial^2 \phi'}{\partial \zeta^2}=  -\frac{1}{\gamma_0\varepsilon_0}{\rho}_0 \left(x, y,\zeta\right) \label{modifpoiss}
 \end{equation}
@@ -91,7 +91,7 @@ The quantities $\left( \frac{\phi}{c}, A_x, A_y, A_s\right)$ form a Lorentz 4-ve
 \phi &= \gamma_0 \left( {\phi'} +  \beta_0 c A'_s\right)\\
 A_s &= \gamma_0 \left(A'_s +\beta_0 \frac{\phi'}{c}\right)
 \end{align}
-In the bunch frame the charges are at rest therefore $A'_x=A'_y=A'_s=0$ therefore:
+In the bunch frame the charges are at rest, therefore $A'_x=A'_y=A'_s=0$ and:
 \begin{align}
 \phi &= \gamma_0 \phi'\label{phiphip}\\
 A_s &= \gamma_0\beta_0 \frac{\phi'}{c} =  \frac{\beta_0}{c}\phi
@@ -194,7 +194,7 @@ where $\phi_\perp(x,y)$ is the solution of the following 2D Poisson equation:
 %\end{equation}
 
 \section{Lorentz force}
-We now compute the Lorentz force on the particles moving in the longitudinal directions, including particles of the bunch itself (space charge forces) and particles of a colliding bunch moving in the opposite directions (beam-beam forces).
+We now compute the Lorentz force on the particles moving in the longitudinal direction, including particles of the bunch itself (space charge forces) and particles of a colliding bunch moving in the opposite direction (beam-beam forces).
 The angles of such test particles are neglected as done in the usual thin-lens approximation. Therefore the velocity of a test particle can be written as:
 \begin{equation}
 \textbf{v} = \beta c\, \hat{\textbf{i}}_s
@@ -345,7 +345,7 @@ $\zeta_W(t)$ is the position of the test particle within the bunch generating th
 \label{eq:zetaw}
 \end{equation}
 
-In modulated-2D case (Eq.\,\ref{eq:factorized2d}), Eqs.\,\eqref{eq:bbfgenx}\,-\,\eqref{eq:bbfgeny} become:
+In the modulated-2D case (Eq.\,\ref{eq:factorized2d}), Eqs.\,\eqref{eq:bbfgenx}\,-\,\eqref{eq:bbfgeny} become:
 \begin{align}
 F_x(x, y, \zeta_W(t)) &=  -q q_{0S} (1+\beta_{0W}  \beta_{0S})
 \lambda_{0S}(\zeta_W(t))
@@ -440,14 +440,14 @@ In general the q-Gaussian is defined outside this range, but for smaller values 
 
 \section{Beam-beam interaction (6D model, Hirata method)}
 
-This chapter describes in detail the numerical method used for the simulation of beam-beam interactions in the weak-strong framework using the ``Synchro Beam Mapping'' 
-approach \cite{hirata, hirata_crossing_angle}.  This allows correctly modeling the coupling introduced by beam-beam between the longitudinal and transverse planes. The goal of this document is  in particular to provide in a compact, complete and self-consistent manner, the set of equations that are needed for the implementation in a numerical code. 
-Complementary information can be found in \cite{bb6dslides}, including graphical representations of the procedure presented in this note and several validation tests.
+This section describes in detail the numerical method used for the simulation of beam-beam interactions in the weak-strong framework using the ``Synchro Beam Mapping'' 
+approach \cite{hirata, hirata_crossing_angle}.  This allows correctly modeling the coupling introduced by beam-beam between the longitudinal and transverse planes. The goal of this section is  in particular to provide in a compact, complete and self-consistent manner, the set of equations that are needed for the implementation in a numerical code. 
+Complementary information can be found in \cite{bb6dslides}, including graphical representations of the procedure presented in this section and several validation tests.
 
 The effect of a ``crossing angle'' in an arbitrary ``crossing plane'' with respect to the assigned reference frame is taken into account with a suitable coordinate transformation following the approach described in \cite{hirata, beam_beam}. The employed description of the strong beam allows the correct inclusion of the hour-glass effect as well as the linear coupling at the interaction point, following the treatment presented in \cite{beam_beam}. 
 
 
-If not differently stated in an explicit way in the following, all coordinates are given in the reference system defined by the closed orbit of the weak beam, which is traveling with positive speed along the $s$ direction. The Interaction Point (IP) is located at $s$=0 and the crossing plane is defined by as the angle that the strong beam forms with the $s$-axis. In the presence of an offset between the beams (separation), the orientation of the reference system is defined by the closed orbit of the weak beam and the system is centered at the IP location as defined for the strong beam. Therefore the strong beam passes always through the origin of the reference frame.
+If not differently stated in an explicit way in the following, all coordinates are given in the reference system defined by the closed orbit of the weak beam, which is traveling with positive speed along the $s$ direction. The Interaction Point (IP) is located at $s$=0 and the crossing plane is defined by the angle that the strong beam forms with the $s$-axis. In the presence of an offset between the beams (separation), the orientation of the reference system is defined by the closed orbit of the weak beam and the system is centered at the IP location as defined for the strong beam. Therefore the strong beam always passes through the origin of the reference frame.
 
 
 \subsection{Direct Lorentz boost (for the weak beam)}
@@ -536,17 +536,17 @@ S = \frac{\sigma^*-\sigma^*_\textrm{sl}}{2}
 \label{eq:sdef}
 \end{equation}
 
-Here $\sigma^*$ is defined in the reference system of the weak beam ( $\sigma^*>0$ for particles at the head of the weak bunch) while $\sigma^*_\textrm{sl}$ is defined in the reference system of the strong beam ( $\sigma^*_\textrm{sl}>0$ for particles at the head of the strong bunch). $S$ is the coordinate of the collision point \underline{in the reference system of the weak beam} (from Eq.~\ref{eq:sdef}, we can see that particles at the head of the weak bunch, collide with particles at the tail of the strong bunch at $S>0$). 
+Here $\sigma^*$ is defined in the reference system of the weak beam ( $\sigma^*>0$ for particles at the head of the weak bunch) while $\sigma^*_\textrm{sl}$ is defined in the reference system of the strong beam ( $\sigma^*_\textrm{sl}>0$ for particles at the head of the strong bunch). $S$ is the coordinate of the collision point \underline{in the reference system of the weak beam} (from Eq.~\ref{eq:sdef}, we can see that particles at the head of the weak bunch collide with particles at the tail of the strong bunch at $S>0$). 
 ~\\
 
-\textit{N.B. Here we are making an approximation since we are assuming that particles are moving at the speed of light along z independently on their angles. This means that the presented approach works only for small particle angles. It is for this reason that we need to Lorentz boost to get rid of the crossing angle and we cannot just move to the reference of the strong beam using a rotation (in this case the weak beam would have large angles).}
+\textit{N.B. Here we are making an approximation since we are assuming that particles are moving at the speed of light along z independently of their angles. This means that the presented approach works only for small particle angles. It is for this reason that we need to Lorentz boost to get rid of the crossing angle and we cannot just move to the reference of the strong beam using a rotation (in this case the weak beam would have large angles).}
 
-We now evaluate the transverse position of the particle at the CP, with respect to the centroid of the slice, taking into account the particle angles :
+We now evaluate the transverse position of the particle at the CP, with respect to the centroid of the slice, taking into account the particle angles:
 \begin{align}
 \overline{x}^* &= x^* + p^*_x S - (x^*_\textrm{sl} - p^*_{x, \textrm{sl}} S)\\
 \overline{y}^* &= y^* + p^*_y S - (y^*_\textrm{sl} - p^*_{y, \textrm{sl}} S)
 \end{align}
-Here $x^*_\textrm{sl}$, $y^*_\textrm{sl}$, $p^*_{x, \textrm{sl}}$ and $p^*_{y, \textrm{sl}}$  are defined \underline{in the coordinate system of the weak beam}. The momenta of the strong slice appear with a negative sign since in the weak frame the strong slice is travelling "backwards".
+Here $x^*_\textrm{sl}$, $y^*_\textrm{sl}$, $p^*_{x, \textrm{sl}}$ and $p^*_{y, \textrm{sl}}$  are defined \underline{in the coordinate system of the weak beam}. The momenta of the strong slice appear with a negative sign since in the weak frame the strong slice is travelling ``backwards''.
 
 \subsection{Propagation of the strong beam to the collision point}
 
@@ -567,7 +567,7 @@ p_y
 \right)
 \end{equation}
 
-Points having same phase space density lie on hyper-elliptic manifolds defined by the equation:
+Points having the same phase space density lie on hyper-elliptic manifolds defined by the equation:
 \begin{equation}
 \eta^\mathrm{T}\Sigma^{-1}\eta = \mathrm{const.}
 \label{eqellipse}
@@ -589,7 +589,7 @@ We transform the $\Sigma$-matrix at the Interaction Point to take into account t
 \Sigma^{*0}_{44} &= \Sigma_{44} ^0/\cos^2 \phi\\
 \end{align}
 
-We transport the position part of the boosted $\Sigma$-matrix to the CP (here we are taking into account hourglass effect, assuming that we are in a drift space):
+We transport the position part of the boosted $\Sigma$-matrix to the CP (here we are taking into account the hourglass effect, assuming that we are in a drift space):
 \begin{align}
 \Sigma^*_{11} &= \Sigma_{11} ^{*0}+2 \Sigma_{12} ^{*0} S+\Sigma_{22} ^{*0} S^2 \label{eq:TranspSig11}\\
 \Sigma^*_{33} &= \Sigma_{33} ^{*0}+2 \Sigma_{34} ^{*0} S +\Sigma_{44} ^{*0} S^2\label{eq:TranspSig33}\\
@@ -618,7 +618,7 @@ W\left(S\right) &= \Sigma^*_{11} + \Sigma^*_{33}\\
 T\left( S \right) &= {R^2 + 4 {\Sigma^*_{13}}^2 } \label{eq:Tfun}
 \end{align}
 
-The following derivatives will be needed in the following:
+The following derivatives will be needed later:
 \begin{align}
 \frac{\partial R}{\partial S}  &= 2\left(\Sigma_{12} ^0 - \Sigma_{34}^0\right) + 2S\left(\Sigma_{22} ^0 - \Sigma_{44}^0\right) \\ 
 \frac{\partial W}{\partial S} &= 2\left(\Sigma_{12} ^0 + \Sigma_{34}^0\right) + 2S\left(\Sigma_{22} ^0 + \Sigma_{44}^0\right) \\
@@ -652,7 +652,7 @@ Or more synthetically:
 \label{eq:cos2theta}
 \end{equation}
 
-In the following we will need also the derivative of this quantity:
+In the following we will also need the derivative of this quantity:
 \begin{equation}
 \frac{\partial }{\partial S} \left[ \cos 2\theta \right] =  \textrm{sgn}(R)
 \left(\frac{\partial R}{\partial S} \frac{1}{\sqrt{T}}-\frac{R}{2\left( \sqrt{T}\right)^3}\frac{\partial T}{\partial S}\right)
@@ -672,7 +672,7 @@ The corresponding derivatives are given by:
 \frac{\partial }{\partial S} \sin \theta =& -\frac{1}{4 \sin \theta} \frac{\partial }{\partial S} \cos 2\theta \label{eq:dS_sintheta}
 \end{align}
 
-The squared beam sizes in the rotated (un-coupled) boosted frame are given by:
+The squared beam sizes in the rotated (uncoupled) boosted frame are given by:
 
 \begin{align}
 \hat{\Sigma}^*_{11} &= \frac{1}{2}\left[ \left(\Sigma^*_{11} + \Sigma^*_{33}\right) +\textrm{sgn}\left(\Sigma^*_{11} - \Sigma^*_{33}\right)\sqrt{\left(\Sigma^*_{11} - \Sigma^*_{33}\right)^2 + 4 {\Sigma^*_{13}}^2 }\right] \\
@@ -704,7 +704,7 @@ This happens when $\Sigma^*_{13}$=0, which implies $\sqrt{T}=\left| R \right|$ a
 \cos 2 \theta = \frac{\left| R \right|}{\sqrt{R^2+4 {\Sigma^*_{13}}^2}} = \frac{1}{\sqrt{1+4 \frac{{\Sigma^*_{13}}^2}{R^2}}} \simeq \frac{1}{1+2 \frac{{\Sigma^*_{13}}^2}{R^2}} \simeq 1-2 \frac{{\Sigma^*_{13}}^2}{R^2}
 \end{equation}
 
-Replacing these result in Eq.~\ref{eq:sincostheta} we obtain:
+Replacing this result in Eq.~\ref{eq:sincostheta} we obtain:
 
 \begin{equation}
 \sin \theta = \mathrm{sgn}(R)\mathrm{sgn}(\Sigma^*_{13})\frac{\left| \Sigma^*_{13} \right|}{\left| R \right|} = \frac{\Sigma^*_{13} }{ R } \label{eq:spacialsintheta}
@@ -771,7 +771,7 @@ Replacing Eq.~\ref{eq:Tapprox} in Eq.~\ref{eq:cos2theta} allows  removing the ap
 \label{eq:cost_spc}
 \end{equation}
 
-This can be derived obtaining:
+This can be differentiated, obtaining:
 \begin{align}
 \frac{\partial }{\partial S} \left[ \cos 2\theta \right] &= \mathrm{sgn}(2a+b \Delta S)\left[
 \frac{b}{\sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}}
@@ -786,7 +786,7 @@ Similarly, replacing Eq.~\ref{eq:Tapprox} in Eq.~\ref{eq:Sigmashat} we obtain:
 \hat{\Sigma}^*_{33} &= \frac{W}{2} - \frac{1}{2} \mathrm{sgn}\left(2a\Delta S + b \Delta S^2\right)\left| \Delta S\right| \sqrt{\left(2a +b \Delta S \right)^2 +4\left( c +d \Delta S\right)^2}\label{eq:SigmasSing}
 \end{align}
 
-This can be derived obtaining:
+This can be differentiated, obtaining:
 \begin{align}
 \frac{\partial }{\partial S} \left[\hat{\Sigma}^*_{11} \right] =& \frac{1}{2}\frac{\partial W }{\partial S}
 +\frac{1}{2}\mathrm{sgn}\left(2a\Delta S +b \Delta S^2 \right)\mathrm{sgn}(\Delta S)\left[
@@ -802,7 +802,7 @@ This can be derived obtaining:
 \right] 
 \end{align}
 
-In the implementation only the values at $\Delta S$=0 are needed. For this case the obtained results above can be simplified as:
+In the implementation only the values at $\Delta S$=0 are needed. For this case the results obtained above can be simplified as:
 \begin{equation}
 \cos 2 \theta = \frac{\left| 2a\right|}{2\sqrt{a^2 + c^2}}
 \end{equation}
@@ -826,7 +826,7 @@ In the implementation only the values at $\Delta S$=0 are needed. For this case 
 - \mathrm{sgn}(2a)\sqrt{a^2 + c^2 }
 \end{align}
 
-Eqs.~\ref{eq:sincostheta} and~\ref{eq:dS_sintheta} can still be used to evaluate $\sin \theta$ and $\cos \theta$ and the corresponding derivatives, once we assume that $\mathrm{sgn}(0) = 1$ and noticing from Eqs.~\ref{eq:specR} and \ref{eq:specS13} that for small $\Delta S$:
+Eqs.~\ref{eq:sincostheta} and~\ref{eq:dS_sintheta} can still be used to evaluate $\sin \theta$ and $\cos \theta$ and the corresponding derivatives, once we assume that $\mathrm{sgn}(0) = 1$ and notice from Eqs.~\ref{eq:specR} and \ref{eq:specS13} that for small $\Delta S$:
 \begin{equation}
 \mathrm{sgn}(R)\mathrm{sgn}(\Sigma^*_{13}) = \mathrm{sgn}(a)\mathrm{sgn}(c)
 \end{equation}
@@ -849,13 +849,13 @@ We notice from Eqs.~\ref{eq:specR} and \ref{eq:specS13} that for small $\Delta S
 \mathrm{sgn}(R)\mathrm{sgn}(\Sigma^*_{13}) = \mathrm{sgn}(a)\mathrm{sgn}(d)\mathrm{sgn}(\Delta S)\label{eq:signsin_sing}
 \end{equation}
 
-Replacing Eq.~\ref{eq:cos2theta_manip} and \ref{eq:signsin_sing} into in Eq.~\ref{eq:sincostheta}
+Replacing Eq.~\ref{eq:cos2theta_manip} and \ref{eq:signsin_sing} into Eq.~\ref{eq:sincostheta}
 we obtain:
 \begin{equation}
 \sin\theta =  \frac{d\Delta S}{2a} \left| 1 - \frac{b \Delta S}{2a}\right|
 \end{equation}
 
-which can be derived in $\Delta S = 0$ obtaining:
+which can be differentiated at $\Delta S = 0$, obtaining:
 \begin{equation}
 \frac{\partial }{\partial S} \sin \theta =\frac{d}{2a} 
 \end{equation}
@@ -885,7 +885,7 @@ and:
 
 which is a constant. Eqs. \ref{eq:sincostheta} and \ref{eq:dS_sintheta} can still be used to evaluate $\sin \theta$ and $\cos \theta$ while the corresponding derivatives vanish:
 
-This can be derived obtaining:
+This can be differentiated, obtaining:
 \begin{align}
 \frac{\partial }{\partial S} \cos \theta &= 0\\
 \frac{\partial }{\partial S} \sin \theta &= 0
@@ -906,14 +906,14 @@ and:
 \frac{\partial }{\partial S} \left[\hat{\Sigma}^*_{33} \right] =& \frac{1}{2}\frac{\partial W }{\partial S}
 \end{align}
 
-The case in which also $d=0$ is (or is equivalent to the uncoupled case) as $\Sigma^*_{13}$ is zero for all $S$.
+The case in which also $d=0$ is (or is equivalent to) the uncoupled case as $\Sigma^*_{13}$ is zero for all $S$.
 
 
 
 
 \subsection{Forces and kicks on weak beam particles}
 
-The positions of the weak beam particle in the un-coupled boosted frame are given by:
+The positions of the weak beam particle in the uncoupled boosted frame are given by:
 \begin{align}
 \hat{\overline{x}}^* &= \overline{x}^*\cos \theta  + \overline{y}^*\sin \theta \\
 \hat{\overline{y}}^* &= -\overline{x}^*\sin \theta  + \overline{y}^* \cos \theta
@@ -946,14 +946,14 @@ In this boosted, rotated and re-centered frame, closed formulas exist to evaluat
 %
 \hat{G}^*_y &= -K_{sl}\frac{\partial \hat{U}^*}{\partial \hat{\Sigma}^*_{33}}\left(\hat{\overline{x}}^*, \hat{\overline{y}}^* , \hat{\Sigma}^*_{33}, \hat{\Sigma}^*_{33} \right) \label{eq:lastf}
 \end{align}
-where $\hat{U}^*$ is the electric potential associated to the normalized transverse distribution and:
+where $\hat{U}^*$ is the electric potential associated with the normalized transverse distribution and:
 \begin{equation}
 K_{sl} = \frac{N_{sl} q_{sl} q_0}{P_0 c}
 \label{eq:factor}
 \end{equation}
-where $N_{sl}$ is the number of particles in the strong-beam slice, $q_{sl}$ and $q_0$ are the particle charges for the strong and weak beam respectively, $P_0$ is the reference momentum of the weak beam.
+where $N_{sl}$ is the number of particles in the strong-beam slice, $q_{sl}$ and $q_0$ are the particle charges for the strong and weak beam respectively, and $P_0$ is the reference momentum of the weak beam.
 
-The minus sign in the Eqs.~\ref{eq:firstf}-\ref{eq:lastf} comes from the definition of electric potential, i.e. $E=-\nabla U$.
+The minus sign in Eqs.~\ref{eq:firstf}-\ref{eq:lastf} comes from the definition of electric potential, i.e. $E=-\nabla U$.
 
 
 For a bi-Gaussian beam (elliptic) \cite{hirata}:
@@ -1024,7 +1024,7 @@ F^*_z  =  &\frac{1}{2}\left(
 \end{align}
 where all the terms have been evaluated before.
 
-The quantities evaluated so far can be used to compute the effect of the beam-beam interaction on the particles coordinates and momenta~\cite{hirata}:
+The quantities evaluated so far can be used to compute the effect of the beam-beam interaction on the particle coordinates and momenta~\cite{hirata}:
 \begin{align}
 x^*_{new} &= x^* - S {F}^*_x\\
 p^*_{x, new} &= p^*_{x} + {F}^*_x\\
@@ -1107,7 +1107,7 @@ p_x &= p_x^* \cos \phi + h \cos \alpha \tan \phi\\
 p_y &= p_y^* \cos \phi + h \sin \alpha \tan \phi
 \end{align}
 
-The longitudinal momentum can be calculated using directly Eq.~\ref{eq:delta}:
+The longitudinal momentum can be calculated directly using Eq.~\ref{eq:delta}:
 
 \begin{equation}
 \delta = \delta^* + p_x \cos \alpha \tan \phi + p_y \sin \alpha \tan \phi - h \tan^2 \phi
@@ -1117,7 +1117,7 @@ The longitudinal momentum can be calculated using directly Eq.~\ref{eq:delta}:
 
 
 
-\subsubsection{Detailed explanation of "the boost" transformation}
+\subsubsection{Detailed explanation of ``the boost'' transformation}
 \label{app:boost}
 The reference frame transformation used in Sec.~\ref{sec:directboost} can be written as \cite{hirata, beam_beam}:
 \begin{equation}
@@ -1215,7 +1215,7 @@ p_y
 \end{matrix} \right) 
 \end{equation}
 
-where the transformation from accelerator to Cartesian coordinates given by:
+where the transformation from accelerator to Cartesian coordinates is given by:
 
 \begin{equation}
 \left( \begin{matrix}
@@ -1238,7 +1238,7 @@ p_y
 \end{matrix} \right) 
 \end{equation}
 
-As explaned in Sec.\ref{sec:directboost} not all particles with $s=0$ are fixed points of the transformation, therefore a drift  back to s=0 needs to be performed as we are tracking w.r.t. $s$ and not w.r.t. time. The net effect of the transformation is to move from the reference frame of the weak beam to the boosted barycentric frame.
+As explained in Sec.\ref{sec:directboost} not all particles with $s=0$ are fixed points of the transformation, therefore a drift  back to s=0 needs to be performed as we are tracking w.r.t. $s$ and not w.r.t. time. The net effect of the transformation is to move from the reference frame of the weak beam to the boosted barycentric frame.
 
 %\section{Some equations for slides}
 
@@ -1274,7 +1274,7 @@ Replacing \ref{constsli} in \ref{cumul} we obtain:
 z^{\mathrm{cut}}_n = \sqrt{2} \sigma_z \mathrm{erf}^{-1}\left( \frac{2n}{N}-1\right)
 \end{equation}
 
-For each slice we need to find the longitudinal centroid position. For generic slice having edges $z_1$ and $z_2$ the centroid position can be written as:
+For each slice we need to find the longitudinal centroid position. For a generic slice having edges $z_1$ and $z_2$ the centroid position can be written as:
 
 \begin{equation}
 z^{centroid}= \frac{1}{Q(z_2) - Q(z_1)}\int_{z_1}^{z_2} z \lambda(z)dz = \frac{\sigma_z}{\sqrt{2\pi}\left(Q(z_2) - Q(z_1)\right)}\left(e^{-\frac{z_1^2}{2\sigma_z^2}}-e^{-\frac{z_2^2}{2\sigma_z^2}}\right)
@@ -1300,7 +1300,7 @@ Given the reduced $\Sigma$-matrix of the beam (including only position terms, no
 \rho(\textbf{x}) = \rho_0 e^{-\textbf{x}^{\mathrm{T}} \Sigma^{-1}\textbf{x}}
 \end{equation}
 
-Points having same density lie con ellipses defined by the equation:
+Points having the same density lie on ellipses defined by the equation:
 \begin{equation}
 \textbf{x}^\mathrm{T}\Sigma^{-1}\textbf{x} = \mathrm{const.}
 \label{eqellipse2}
@@ -1322,15 +1322,15 @@ W = \left(
 \right)
 \end{equation}
 
- $\textbf{V}$ is a unitary matrix (eigenvectors are ortho-normal):
+ $\textbf{V}$ is a unitary matrix (eigenvectors are orthonormal):
 \begin{equation}
 \textbf{V} \textbf{V}^{T} = \textbf{I} \Rightarrow \textbf{V}^{-1} = \textbf{V}^{T}
 \label{unitarity}
 \end{equation}
 
-\textbf{V} can be used to transform coordinates from the initial frame to the de-coupled frame:
+\textbf{V} can be used to transform coordinates from the initial frame to the decoupled frame:
 
-where $\hat{\textbf{x}}$ are the coordinates in the decoupled frame, i.e. the projections of of $\textbf{x}$ on the eigenvectors:
+where $\hat{\textbf{x}}$ are the coordinates in the decoupled frame, i.e. the projections of $\textbf{x}$ on the eigenvectors:
 \begin{equation}
 \hat{\textbf{x}}= \textbf{V}^{T}\textbf{x}
 \label{vartransform}
@@ -1362,7 +1362,7 @@ Once the $\Sigma$-matrix is assigned, the one-sigma ellipse can be drawn by the 
 \begin{equation}
 \textbf{A} = \textbf{V} \sqrt{\textbf{W}} \textbf{V}^{T}
 \end{equation}
-\item We generate a set of points in the unitary circle
+\item We generate a set of points on the unit circle
 \begin{equation}
 \textbf{z} = \left[
 \begin{matrix}
@@ -1403,7 +1403,7 @@ We simulate the interaction in discrete time intervals corresponding to the pass
 \label{eq:dtbbpic}
 \end{equation}
 
-We call $t_i$ the time at which the $i$-th slice is passing at the IP. The is is related to the $\zeta_i$ coordinate of the slice by the relation
+We call $t_i$ the time at which the $i$-th slice is passing at the IP. This is related to the $\zeta_i$ coordinate of the slice by the relation
 \begin{equation}
 t_i = \frac{s_\text{IP} - \zeta_i}{\beta_0 c}
 \end{equation}
@@ -1411,7 +1411,7 @@ t_i = \frac{s_\text{IP} - \zeta_i}{\beta_0 c}
 \subsection{Propagation of particles during the interaction}
 \label{sec:prop_bb_pic}
 
-From the conventional tracking using $s$ as independent variable we get for all particles the coordinates at the IP, which we call $x_\text{IP}$, $p_\text{x\,IP}$, $y_\text{IP}$, $p_\text{y\,IP}$, $zeta_\text{IP} = s_\text{y\,IP} - \beta_0 c t_\text{IP} $, where $t_\text{IP} $ is the time of arrival of the particle at the IP. Assuming the motion is in a drift space, for each time step, we propagate the particles from the IP to their positions at the time $t_i$:
+From the conventional tracking using $s$ as the independent variable we get for all particles the coordinates at the IP, which we call $x_\text{IP}$, $p_\text{x\,IP}$, $y_\text{IP}$, $p_\text{y\,IP}$, $zeta_\text{IP} = s_\text{y\,IP} - \beta_0 c t_\text{IP} $, where $t_\text{IP} $ is the time of arrival of the particle at the IP. Assuming the motion is in a drift space, for each time step, we propagate the particles from the IP to their positions at the time $t_i$:
 \begin{equation}
 x \left( t_i \right) = x_\text{IP} + \beta_x c\left( t_i -t_\text{IP}\right)
 =
@@ -1433,7 +1433,7 @@ With the coordinates of the propagated particles we can solve a Poisson problem 
 \subsection{Time relation between the two beams}
 For a particle of beam 1 having longitudinal coordinate $\zeta_\text{IP}^\text{B1}$ we want to know the longitudinal coordinate $\zeta_\text{IP}^\text{B2}$ corresponding to the section of beam 2 crossing the particle at time $t_i$.
 
-We assume that the reference systems of the two beams are antiparallel and coincident in transverse:
+We assume that the reference systems of the two beams are antiparallel and coincident in the transverse plane:
 \begin{align}
 &s^\text{B2} - s_\text{IP}^\text{B2} = 
 - \left( s^\text{B1} - s_\text{IP}^\text{B1}\right)
@@ -1442,7 +1442,7 @@ We assume that the reference systems of the two beams are antiparallel and coinc
 &y^\text{B2} = + x^\text{B1}
 \end{align}
 
-Similarly as done in Sec.\,\ref{sec:prop_bb_pic}, we can write the $s$ position at the time $t_i$ for the particles of beam 1 and beam 2:
+Similarly to what is done in Sec.\,\ref{sec:prop_bb_pic}, we can write the $s$ position at the time $t_i$ for the particles of beam 1 and beam 2:
 \begin{align}
 &s^\text{B1} \left( t_i \right)
 = s^\text{B1}_\text{IP} + \frac{\beta^\text{B1}_s}{\beta_0^\text{B1}}\left(\zeta^\text{B1}_\text{IP} -  \zeta^\text{B1}_i \right)
@@ -1452,7 +1452,7 @@ Similarly as done in Sec.\,\ref{sec:prop_bb_pic}, we can write the $s$ position 
 \label{eq:sprop_b2}
 \end{align}
 
-To find particles that are at the same $s$ at time $t_i$ we replace Eqs.\,\ref{eq:sprop_b1}-\ref{eq:sprop_b2} in \ref{eq:sb1b2} we obtain:
+To find particles that are at the same $s$ at time $t_i$ we replace Eqs.\,\ref{eq:sprop_b1}-\ref{eq:sprop_b2} in Eq.\,\ref{eq:sb1b2}, obtaining:
 
 \begin{equation}
 \zeta^\text{B2}_\text{IP}
@@ -1473,7 +1473,7 @@ The transverse kick at each time step can be written as:
 \Delta p^\text{B1}_x = \frac{\Delta P^\text{B1}_x}{P^\text{B1}_0} = \frac{F_x \Delta t}{P^\text{B1}_0}
 \end{equation}
 
-Using Eqs.\,\ref{eq:forcex} and~\ref{eq:dtbbpic}, taking onto account that the beams move in opposite directions, we obtain:
+Using Eqs.\,\ref{eq:forcex} and~\ref{eq:dtbbpic}, taking into account that the beams move in opposite directions, we obtain:
 \begin{equation}
 \Delta p^\text{B1}_x = 
 -\frac{q\Delta \zeta^\text{B1}}
@@ -1485,9 +1485,9 @@ Using Eqs.\,\ref{eq:forcex} and~\ref{eq:dtbbpic}, taking onto account that the b
 \section{Configuration of beam-beam lenses for tracking simulations (weak-strong)}
 
 The effects of the non-linear forces introduced by beam-beam interactions in the Large Hadron Collider~(LHC) are studied with tracking simulations using, for example, the SixTrack and sixtracklib codes\,\cite{sixtracksite, sixtracklibrepo}. In these simulations the beam-beam interactions are modeled by a set of ``thin'' non-linear lenses around the collision points.
- ``6D beam-beam lenses'' based on Hirata's synchro-beam method\,\cite{hirata, bb6dnote, bb6dslides} are used to model the Head-On (HO) interactions at the for interaction points (IPs) while simpler ``4D lenses'' are used to model parasitic Long-Range encounters\,\cite{casbeambeam}.
+ ``6D beam-beam lenses'' based on Hirata's synchro-beam method\,\cite{hirata, bb6dnote, bb6dslides} are used to model the Head-On (HO) interactions at the four interaction points (IPs) while simpler ``4D lenses'' are used to model parasitic Long-Range encounters\,\cite{casbeambeam}.
  
-This document describes a method to configure the beam-beam lenses in tracking simulations based on the model of the accelerator, which has been recently developed as an evolution of existing tools in MAD-X scripting language\,\cite{bbmacrorepo}\footnote{
+This section describes a method to configure the beam-beam lenses in tracking simulations based on the model of the accelerator, which has been recently developed as an evolution of existing tools in the MAD-X scripting language\,\cite{bbmacrorepo}\footnote{
 The authors would like to acknowledge all the colleagues who  have contributed to the development of the MAD-X tools for the configuration of tracking simulations, on which the present work is largely based, and have provided important input and support, in particular G.~Arduini, J.~Barranco~Garcia, R.~De~Maria, S.~Fartoukh, M.~Giovannozzi, S.~Kostoglou, E.~M\'etral,  Y.~Papaphippou, D.~Pellegrini, T.~Pieloni and F.~Van Der Veken.}
 
 In particular, in Sec.\,\ref{sec:posdir}, we discuss how to reconstruct the absolute position of the two beams with respect to the lab frame using the twiss and survey tables; in Sec.\,\ref{sec:separ} we discuss how to compute the separation between the two beams; in Sec.\,\ref{sec:xing} we describe how to identify the crossing plane and crossing angle; in Sec.\,\ref{sec:b4} we describe how to configure the anticlockwise beam (conventionally called beam~4)  from the MAD-X model based on two clockwise-oriented sequences; in Sec.\,\ref{sec:crab} we introduce the effect of crab cavities on the beam-beam configuration. 
@@ -1537,7 +1537,7 @@ The components of the unit vectors defining the local reference frame with respe
 \end{array}\right)   \, .
 \end{multline}
 
-The MAD-X twiss provides the transverse position of the beam in the local reference frame $(x^\text{tw}, y^\text{tw})$, so that the absolute position of the beam in the lab frame can written as
+The MAD-X twiss provides the transverse position of the beam in the local reference frame $(x^\text{tw}, y^\text{tw})$, so that the absolute position of the beam in the lab frame can be written as
 \begin{equation}
     \textbf{P} = \textbf{P}^\text{su} 
     + x^\text{tw} \hat{\textbf{e}}_x
@@ -1545,7 +1545,7 @@ The MAD-X twiss provides the transverse position of the beam in the local refere
     \, .
 \end{equation}
 
-At the beam-beam locations the local reference frames for the two beams are assumed to be aligned. This is not strictly the case in the regions between the separation-recombination magnets (D1 and D2), but also in that case that case the existing small divergence can be considered negligible.
+At the beam-beam locations the local reference frames for the two beams are assumed to be aligned. This is not strictly the case in the regions between the separation-recombination magnets (D1 and D2), but also in that case the existing small divergence can be considered negligible.
 The beam-beam module of pymask checks the conditions:
 \begin{align}
     ||\hat{\textbf{e}}_x^\text{b1} -  \hat{\textbf{e}}_x^\text{b2}|| \ll 1 \, ,\\
@@ -1567,7 +1567,7 @@ The beam-beam separations are defined as the transverse coordinates of the stron
 \end{align}
 where the superscripts identify the weak (W) and the strong (S) beam.
 
-Typically the accuracy of the survey table is insufficient to computed the separations correctly, especially for elements that are too far from the first element in the sequence, due to accumulation of errors along the sequence. A correction can be computed looking as the apparent displacement of the closest Interaction Point (IP) between the two surveys, as the IPs are supposed to coincide.
+Typically the accuracy of the survey table is insufficient to compute the separations correctly, especially for elements that are too far from the first element in the sequence, due to accumulation of errors along the sequence. A correction can be computed looking at the apparent displacement of the closest Interaction Point (IP) between the two surveys, as the IPs are supposed to coincide.
 
 \subsection{Crossing plane and crossing angle}
 \label{sec:xing}
@@ -1740,7 +1740,7 @@ The sign of $\theta$ is defined positive when the weak beam needs to rotate in t
 \end{center}
 which are consistent with the sign convention used in LHC operation.
 
-\subsection{Transformations for the counterclockwise beam (B4)}
+\subsection{Transformations for the anticlockwise beam (B4)}
 \label{sec:b4}
 
 The typically used MAD-X model of the LHC consists of two sequences both having clockwise (CW) orientation, conventionally called Beam 1 and Beam 2. To perform tracking simulations of the anticlockwise (ACW) beam, an anticlockwise sequence needs to be generated, which is conventionally called Beam~4. The beam-beam lenses in the Beam~4 sequence can be configured based on the beam-beam lenses defined in Beam~2, taking into account that the two are related by the following change of coordinates:
@@ -1786,7 +1786,7 @@ Assuming that the slices with $z_1 = z_2 = 0$ collide at s=0, the collision poin
     \label{eq:cp}
 \end{equation}
 
-In the absence of crab crossing, the transverse position of the two beams is independent from $z$:
+In the absence of crab crossing, the transverse position of the two beams is independent of $z$:
 \begin{align}
     x_1 &= +\phi s \, ,\\
     x_2 &= -\phi s \, .
@@ -1797,9 +1797,9 @@ Ideal crab cavities, in the linear approximation, introduce a z-dependent orbit 
     x_1(s) &= +\phi s + \phi_c z_1 \label{eq:x1} \, ,\\
     x_2(s) &= -\phi s - \phi_c z_2 \label{eq:x2} \, ,
 \end{align}
-where $\phi_c$ is the crabbing angle and we assume, without loss of generality, horizontal crabbing plane.
+where $\phi_c$ is the crabbing angle and we assume, without loss of generality, a horizontal crabbing plane.
 
-The separation of the two slices at their collision point is obtained replacing \eqref{eq:cp} into \eqref{eq:x1} and \eqref{eq:x2}:
+The separation of the two slices at their collision point is obtained by replacing \eqref{eq:cp} into \eqref{eq:x1} and \eqref{eq:x2}:
 \begin{equation}
     \Delta x(s_\text{CP}) = x_2(s_\text{CP}) - x_1(s_\text{CP}) = 
     - (\phi + \phi_c) (z_1 + z_2)  \, .
@@ -1836,7 +1836,7 @@ In particular, in the sequence of beam 1, the lens corresponding to a slice of t
 \end{equation}
 
 
-The position of the strong beam at the lens can be found replacing Eq.\,\eqref{eq:slens} into Eq.\,\eqref{eq:x2}:
+The position of the strong beam at the lens can be found by replacing Eq.\,\eqref{eq:slens} into Eq.\,\eqref{eq:x2}:
 \begin{equation}
    X_2 = - s_\text{lens} (\phi + 2 \phi_c)
    \, .
@@ -1856,14 +1856,14 @@ Taking into account the RF curvature coming from the crab cavity frequency, the 
 where $h_\text{CC}$ is the harmonic number of the crab cavity and $L_\text{ring}$ is the circumference of the ring.
 
 \subsection{Configuration of beam-beam lenses for beam 2}
-In the sequence of beam 2, we install the beam-beam lens for a slice of the strong beam (beam 1) having longitudinal coordinate $z_1=Z_1$ at the location where the slice encounters the synchronous particle of the weak beam, (see Eq.\,\eqref{eq:cp} with $z_2 = 0$):
+In the sequence of beam 2, we install the beam-beam lens for a slice of the strong beam (beam 1) having longitudinal coordinate $z_1=Z_1$ at the location where the slice encounters the synchronous particle of the weak beam (see Eq.\,\eqref{eq:cp} with $z_2 = 0$):
 \begin{equation}
     s_\text{lens} = \frac{Z_1}{2}
     \, .
     \label{eq:slensb2}
 \end{equation}
 
-The position of the strong beam at the lens can be found replacing Eq.\,\eqref{eq:slensb2} into\,Eq.\,\eqref{eq:x1}:
+The position of the strong beam at the lens can be found by replacing Eq.\,\eqref{eq:slensb2} into\,Eq.\,\eqref{eq:x1}:
 \begin{equation}
    X_1 = s_\text{lens} (\phi + 2 \phi_c)
    \, .
@@ -1891,7 +1891,7 @@ X^\text{crab}_1= -X^\text{crab}_2
 \subsubsection{Crab bump from twiss table}
 
 For a non-ideal crabbing, for example in the presence of a non-closure of the crab-bump, the realistic $z$-dependent  orbit distortion introduced by the crab cavities can be characterized using the twiss, by installing orbit correctors at the position of the crab cavities that introduce the crab cavity deflection as seen at a certain reference position along the bunch $z_\text{ref}$. 
-To obtain the effect on particles at different positions along bunch it is possible to apply the following scaling:
+To obtain the effect on particles at different positions along the bunch it is possible to apply the following scaling:
 \begin{equation}
 x\left(z\right) = x\left(z_\text{ref}\right)
  \cfrac
@@ -1902,7 +1902,7 @@ x\left(z\right) = x\left(z_\text{ref}\right)
 
 \subsection{Step-by-step configuration procedure}
 
-Based on the method introduced in the previous sections, the following procedure has been implemented in pymask to configure the beam-beam lenses in the sixtrack and sixtracklib tracking model:
+Based on the method introduced in the previous sections, the following procedure has been implemented in pymask to configure the beam-beam lenses in the SixTrack and sixtracklib tracking model:
 
 \begin{enumerate}
 \item Inactive beam-beam lenses (not configured) are installed in both clockwise sequences (Beam~1 and Beam~2) at the locations of the HO and LR beam-beam encounters. As discussed in Sec.\,\ref{sec:crab}, at each IP a set of lenses is installed to model the HO, one corresponding to each bunch slice.
@@ -1923,7 +1923,7 @@ for both clockwise sequences.
 \chapter{Bhabha scattering and beamstrahlung}
 
 \section{Bhabha scattering}
-In quantum electrodynamics (QED), the Coulomb attraction of two opposite charges (e.g. an electron and a positron) is called Bhabha scattering~\cite{Griffiths:111880}. The mathematical treatment of Bhabha scattering can be done using the method of equivalent photons (Weizsäcker-Williams approach)~\cite{Weizsacker1934, Williams:1935dka}. The essence of this method lies in the fact that the electromagnetic field of a relativistic charged particle, say the positron, is almost transversal and can therefore accurately be substituted by an appropriately chosen equivalent radiation field of photons. Thus, the cross section for the scattering of an electron with this positron (Bhabha scattering) can be approximated by that of the electron and an "equivalent" photon (Compton scattering). In this case, the equivalent photon corresponds to the exchanged virtual photon between the scattering primaries. The whole process, including the subsequent emission of bremsstrahlung photons can be treated in a numerical simulation as an inverse Compton scattering process~\cite{Schulte:331845}. In this, the virtual photons emitted by the positron will collide with the electron. Due to the relativistic dynamics of the participating leptons, the virtual photons have an energy which is often negligible compared to that of the leptons, thus we can treat them as real. The process is called inverse since here the electron will lose energy while the photons will gain energy, contrary to standard Compton scattering. The scattered photons are real and typically end up with an energy $E'_{\gamma}$ comparable to the initial lepton energy $E_e$~\cite{ARUTYUNIAN1963176}.
+In quantum electrodynamics (QED), the Coulomb attraction of two opposite charges (e.g. an electron and a positron) is called Bhabha scattering~\cite{Griffiths:111880}. The mathematical treatment of Bhabha scattering can be done using the method of equivalent photons (Weizsäcker-Williams approach)~\cite{Weizsacker1934, Williams:1935dka}. The essence of this method lies in the fact that the electromagnetic field of a relativistic charged particle, say the positron, is almost transversal and can therefore accurately be substituted by an appropriately chosen equivalent radiation field of photons. Thus, the cross section for the scattering of an electron with this positron (Bhabha scattering) can be approximated by that of the electron and an ``equivalent'' photon (Compton scattering). In this case, the equivalent photon corresponds to the exchanged virtual photon between the scattering primaries. The whole process, including the subsequent emission of bremsstrahlung photons, can be treated in a numerical simulation as an inverse Compton scattering process~\cite{Schulte:331845}. In this, the virtual photons emitted by the positron will collide with the electron. Due to the relativistic dynamics of the participating leptons, the virtual photons have an energy which is often negligible compared to that of the leptons, thus we can treat them as real. The process is called inverse since here the electron will lose energy while the photons will gain energy, contrary to standard Compton scattering. The scattered photons are real and typically end up with an energy $E'_{\gamma}$ comparable to the initial lepton energy $E_e$~\cite{ARUTYUNIAN1963176}.
 
 The generation of photons from radiative Bhabha scattering in Xsuite can be divided into 3 steps. First, the charge density of the opposite bunch slice at the location of the macroparticle in the soft-Gaussian approximation is computed~\cite{Bassetti:122227}. From this one computes the integrated luminosity of the collision of the macroparticle with the virtual photons represented by the slice, integrated over the time of passing through the slice. Second, a set of virtual photons is generated corresponding to the total energy of the opposite slice. Third, the code iterates over these virtual photons and simulates the bremsstrahlung process as a series of inverse Compton scattering events between the macroparticle and each virtual photon. 
 
@@ -1935,7 +1935,7 @@ The generation of photons from radiative Bhabha scattering in Xsuite can be divi
 	\caption{\small Schematic illustration of a single macroparticle from bunch 1 (blue) colliding with a single longitudinal slice of the opposing bunch 2 (red).  \label{fig:bhabha_1}}
 \end{figure}
 
-Figure~\ref{fig:bhabha_1} illustratres how \texttt{Xfields} computes the integrated luminosity in a collision of a single macroparticle from one beam with a single slice of the opposing beam\footnote{Note that this luminosity can be recorded in a table with the \textbf{flag\_luminosity} flag of the \texttt{BeamBeamGaussian3D} element and \textbf{lumitable} keyword in the \texttt{Xline} internal log. The recorded entries must be summed up to get the total integrated luminosity of the collision. This method has an uncertainty of $\pm10\%$ compared to the analytical formula.}. On the figure $x,y$ denote the transverse coordinates of a macroparticle in the boosted and uncoupled frame, at the collision point with a slice of the opposing bunch, corresponding to the notation $\hat{\overline{x}}^*, \hat{\overline{y}}^* $ in the previous sections. The centroid (mean) coordinate of the opposing slice, with a bunch intensity of $N_{b,s}$, is denoted by $x_c,y_c$, in the boosted, uncoupled, transported reference frame of its own bunch. \texttt{Xfields} models the charge density of a longitudinal slice as a 2D Gaussian distribution $\rho(x,y)$. Considering an infinitesimal area $\delta x \delta y$ around the transverse position $x,y$ of a given macroparticle at the collision point with the slice, one can write the number of charges with which this macroparticle will interact:
+Figure~\ref{fig:bhabha_1} illustrates how \texttt{Xfields} computes the integrated luminosity in a collision of a single macroparticle from one beam with a single slice of the opposing beam\footnote{Note that this luminosity can be recorded in a table with the \textbf{flag\_luminosity} flag of the \texttt{BeamBeamGaussian3D} element and \textbf{lumitable} keyword in the \texttt{Xline} internal log. The recorded entries must be summed up to get the total integrated luminosity of the collision. This method has an uncertainty of $\pm10\%$ compared to the analytical formula.}. In the figure $x,y$ denote the transverse coordinates of a macroparticle in the boosted and uncoupled frame, at the collision point with a slice of the opposing bunch, corresponding to the notation $\hat{\overline{x}}^*, \hat{\overline{y}}^* $ in the previous sections. The centroid (mean) coordinate of the opposing slice, with a bunch intensity of $N_{b,s}$, is denoted by $x_c,y_c$, in the boosted, uncoupled, transported reference frame of its own bunch. \texttt{Xfields} models the charge density of a longitudinal slice as a 2D Gaussian distribution $\rho(x,y)$. Considering an infinitesimal area $\delta x \delta y$ around the transverse position $x,y$ of a given macroparticle at the collision point with the slice, one can write the number of charges with which this macroparticle will interact:
 
 \begin{equation}
 	\begin{split}
@@ -1972,7 +1972,7 @@ where $n$ is a proportionality factor denoting the number of virtual photons cor
 
 where $\displaystyle x=\frac{\hbar\omega}{E_e}=\frac{E_\gamma}{E_e}$ is the total energy of the virtual photon normalized to the primary energy and $Q^2$ is the squared virtuality of the virtual photon~\cite{Halzen:1984mc}. 
 
-The virtual photon energies and virtualities can be drawn using the method of inverse CDF (Cumulative Distribution Function) sampling. The sampling algorithm in \texttt{Xsuite} has been adapted from \texttt{GUINEA-PIG}~\cite{guineapig}, a Particle In Cell (PIC) based single beam-beam collision simulation software. For each macroparticle in the beam, we first compute the total amount of equivalent photons using the energy of the opposite bunch slice. Subsequently, the energy and virtuality of each photon will be sampled. In the current implementation all virtual photons inherit the dynamical variables of the strong bunch slice centroid. Note that the virtual photons sampled this way will also be "macroparticles" in the sense that they represent the dynamics of all virtual photons generated by all charges in a primary macroparticle.
+The virtual photon energies and virtualities can be drawn using the method of inverse CDF (Cumulative Distribution Function) sampling. The sampling algorithm in \texttt{Xsuite} has been adapted from \texttt{GUINEA-PIG}~\cite{guineapig}, a Particle In Cell (PIC) based single beam-beam collision simulation software. For each macroparticle in the beam, we first compute the total number of equivalent photons using the energy of the opposite bunch slice. Subsequently, the energy and virtuality of each photon will be sampled. In the current implementation all virtual photons inherit the dynamical variables of the strong bunch slice centroid. Note that the virtual photons sampled this way will also be ``macroparticles'' in the sense that they represent the dynamics of all virtual photons generated by all charges in a primary macroparticle.
 
 \subsection{Inverse Compton Scattering of Virtual Photons}
 
@@ -2110,7 +2110,7 @@ Equations~\ref{eq:bs_10} are evaluated numerically with the below approximate fo
  	\label{eq:bs_13}
 \end{equation}
 
-For $y>165$ the model assumes no radiation. With these one can simulate beamstrahlung emission by first drawing a random uniform number $p$. The condition $p>p_0$ corresponds to region A on Fig.~\ref{fig:bs_1}, therefore no photons are emitted. In the other case a second random uniform number $v$ is drawn, and Eq.~\ref{eq:bs_1} is computed. If $p<p_0G(v,\xi)$ is satisfied (region C) a photon is emitted with an energy
+For $y>165$ the model assumes no radiation. With these one can simulate beamstrahlung emission by first drawing a random uniform number $p$. The condition $p>p_0$ corresponds to region A in Fig.~\ref{fig:bs_1}, therefore no photons are emitted. In the other case a second random uniform number $v$ is drawn, and Eq.~\ref{eq:bs_1} is computed. If $p<p_0G(v,\xi)$ is satisfied (region C) a photon is emitted with an energy
 
 \begin{equation}
 \frac{E_\gamma}{E} = \frac{\xi v^3}{1 - (1 - \xi)v^3},
@@ -2147,7 +2147,7 @@ The convolution can be obtained numerically using the method of Section \ref{sec
 
 
 
-The lower order terms of the summation are often called as:
+The lower order terms of the summation are often referred to as:
 \begin{itemize}
     \item $W_x^{0,0,0,0}$ constant x
     \item $W_y^{0,0,0,0}$ constant y
@@ -2256,7 +2256,7 @@ We can write the impedances also in terms of the wakefield expressed as a functi
     &Z_{s}(\omega) = \frac{1}{\beta_0 c} \int_{-\infty}^{+\infty} \ dz e^{j \omega \frac{z}{\beta_0 c}} W_{s}(z)\, .
 \end{align}
 
-As the longitudinal wake is a real function, the conrresponding impedance satisfies the following symmetry properties:
+As the longitudinal wake is a real function, the corresponding impedance satisfies the following symmetry properties:
 \begin{align}
 &\operatorname{Re}\left\{ Z_{s}( - \omega) \right\}
 =
@@ -2427,7 +2427,7 @@ Ultra-relativistic resonator with shunt impedance $R$, quality factor $Q>1$ and 
 where $\omega_r = 2\pi f_r$, $\widehat{\omega}_r = \omega_r \sqrt{1-\frac{1}{4Q^2}}$, $\alpha=\frac{\omega_r}{2Q}$. Ref: \cite[Section 2.2]{Mounet:Thesis}
 
 \subsection*{Cylindrical thick wall}
-Cylindrical resistive wall wake, based on the "classic thick wall formula" (see e.g. \cite[Chapter 2]{Chao:CollectiveInst}) with resistivity $\rho$, permeability $\mu$, radius r and length L:
+Cylindrical resistive wall wake, based on the ``classic thick wall formula'' (see e.g. \cite[Chapter 2]{Chao:CollectiveInst}) with resistivity $\rho$, permeability $\mu$, radius r and length L:
 \begin{itemize}
     \item Longitudinal:
     \begin{align}
@@ -2451,13 +2451,13 @@ Cylindrical resistive wall wake, based on the "classic thick wall formula" (see 
 \chapter{Intra-Beam Scattering}
 
 Intra-beam scattering (IBS) is the process of small angle, multiple Coulomb scattering of charged particles within the beam.
-It leads to a redistribution of the particle momenta in six-dimentional phase space.
+It leads to a redistribution of the particle momenta in six-dimensional phase space.
 
 \section{Analytical Growth Rates}
 \label{section:ibs_growth_rates}
 
 Theoretical models commonly characterize the effect of intra-beam scattering through growth rates, or growth times.
-The former is expressed in \(\left[s^{-1}\right]\)) and the latter in \(\left[s\right]\).
+The former is expressed in \(\left[s^{-1}\right]\) and the latter in \(\left[s\right]\).
 These govern the evolution of the rms beam sizes or rms emittances of the beam, depending on the convention used.
 \newline
 
@@ -2506,9 +2506,9 @@ The horizontal (\(K_x\)), vertical (\(K_y\)) and longitudinal (\(K_z\)) amplitud
 where (\(\tau_x\)), (\(\tau_y\)) and (\(\tau_z\)) are the amplitude growth times.
 \newline
 
-Currently two different formalism are available to compute these growth rates.
+Currently two different formalisms are available to compute these growth rates.
 Both assume transverse and longitudinal Gaussian bunch profiles.
-Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{xfields} is computed according to the expression in the Physics Vade Mecum~\cite{AIP:Anderson:Physics_Vade_Mecum}:
+Both rely on the computation of the Coulomb logarithm \(L_C\), which in \textit{Xfields} is computed according to the expression in the Physics Vade Mecum~\cite{AIP:Anderson:Physics_Vade_Mecum}:
 
 \begin{equation}
     L_C = \ln \left( \frac{r_{max}}{r_{min}} \right) \text{ .}
@@ -2593,7 +2593,7 @@ Using all the above the \(S_p, S_x\) and \(S_{xp}\) terms are computed according
     \label{equation:nagaitsev_spsxsxp}
 \end{equation}
 
-From these, one computes the integrals - called the \textit{Nagaitsev integrals} in the \textit{xfields} code base - \(I_x, I_y\) and \(I_z\):
+From these, one computes the integrals - called the \textit{Nagaitsev integrals} in the \textit{Xfields} code base - \(I_x, I_y\) and \(I_z\):
 
 \begin{equation}
     \begin{aligned}
@@ -2635,7 +2635,7 @@ For machines with vertical dispersion, the Bjorken-Mtingwa formalism presented b
 \label{subsection:bjorken_mtingwa_formalism}
 
 The IBS growth rates can also be computed according to the theory by Bjorken and Mtingwa~\cite{CERN:Bjorken_Mtingwa:Intrabeam_Scattering}.
-The specific implementation follows that of the MAD-X code, for which modifications to the terms of B\&M's theory have been made by Antoniou and Zimmermann to account for vertical dispersion non-ultrarelativistic beams~\cite{CERN:Antoniou:Revision_IBS_MADX}.
+The specific implementation follows that of the MAD-X code, for which modifications to the terms of B\&M's theory have been made by Antoniou and Zimmermann to account for vertical dispersion and non-ultrarelativistic beams~\cite{CERN:Antoniou:Revision_IBS_MADX}.
 \newline
 
 In this formalism, growth rates are computed at every element in the lattice and averaged over the machine.
@@ -2653,7 +2653,7 @@ in which \(N\) is the total beam intensity, \(r_0\) the classical particle radiu
 with \(\sigma_{\delta}\) the relative momentum spread and \(\sigma_z\) the bunch length.
 One should note the expression for \(\Gamma\) is corrected by a factor \(\sqrt{2}\) for coasting beams.
 
-In Eq~\eqref{equation:bjorken_mtingwa_original} \(\lambda\) is simply the integration variable, \(I\) is the 3x3 identity matrix, and \(L\) is the 3x3 matrix and the matrix \(L\) is defined as:
+In Eq~\eqref{equation:bjorken_mtingwa_original} \(\lambda\) is simply the integration variable, \(I\) is the 3x3 identity matrix, and \(L\) is a 3x3 matrix; the matrix \(L\) is defined as:
 
 \begin{equation}
     L = L^{(x)} + L^{(y)} + L^{(z)} \text{ ,}
@@ -2700,8 +2700,8 @@ and
     \label{equation:bm_h}
 \end{equation}
 
-In~\cite{CERN:Antoniou:Revision_IBS_MADX} a new expression was derived for each growth rates, which is the implemented approach.
-In \textit{xfields}, the computation of the growth rates takes the following steps.
+In~\cite{CERN:Antoniou:Revision_IBS_MADX} a new expression was derived for each growth rate, which is the implemented approach.
+In \textit{Xfields}, the computation of the growth rates takes the following steps.
 First the \(a, b, c, a_x, b_x, a_y, b_y, a_z\) and \(b_z\) terms are computed as defined below:
 
 \begin{equation}
@@ -2779,17 +2779,16 @@ Finally, the \textit{emittance growth rates} in the horizontal, vertical and lon
     \boxed{\frac{1}{\varepsilon_z} \frac{d \varepsilon_z}{dt} = \frac{N r_0^{2} c m^3 L_C \pi^2}{\gamma \Gamma} \left< \left[\frac{\gamma^2}{\sigma_{\delta}^{2}}\right] \int_0^{\infty} \frac{\lambda^{1/2} \left[a_z \lambda + b_z\right]}{\left(\lambda^3 + a \lambda^2 + b \lambda + c\right)} d \lambda \right>}
     \label{equation:bm_tz}
 \end{equation}
-where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signify the averaging over the lattice, given the terms contained inside are arrays with one value per element.
+where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled brackets signify the averaging over the lattice, given the terms contained inside are arrays with one value per element.
 \newline
 
 \textbf{Please note: Bjorken and Mtingwa's computations yield emittance growth rates}.
 In Xsuite these are computed as exposed above, and converted to amplitude growth rates before being returned to the user, as shown in Fig.~\ref{figure:ibs_convention_conversion}.
-where the constants in the common fraction term are the same as for Eq~\eqref{equation:bjorken_mtingwa_original}, \(\lambda\) is an integration variable and the angled bracket signifies the averaging over the lattice, given the terms contained inside are arrays with one value per element.
 
 \section{Steady-state emittances}
 \label{subsection:steady-state_emittances}
 
-The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where the combined effect of these three phenomena balances each other out. More specifically, the QE and SR are accounted for through the natural emittances and SR damping constants, the IBS is described by its growth rates.
+The steady-state emittances in the presence of Synchrotron Radiation (SR), Quantum Excitation (QE), and Intra-Beam Scattering (IBS) emerge from a dynamic equilibrium, where these three phenomena balance each other out. More specifically, the QE and SR are accounted for through the natural emittances and SR damping constants, the IBS is described by its growth rates.
 Each of these effects depends on the optical functions along the storage ring.
 All the following equations remain valid independently of which formalism (Nagaitsev or Bjorken-Mtingwa) is used when computing the IBS growth rates. In addition, the SR damping constants and IBS growth rates follow the amplitude convention as defined in Eq.~\eqref{eq:grate_rad_damp}.
 
@@ -2870,13 +2869,13 @@ In this scenario, the emittance evolution follows Eq.~\eqref{eq:emit_evol_coupli
 
 The approach of using analytical growth rates does not provide a way to study the interplay of IBS with arbitrary effects, such as space charge, electron clouds, beam-beam, etc.
 To do so, it is necessary to include IBS effects in tracking simulations together with other desired effects.
-In \textit{xfields} two elements are available to model IBS effects in tracking simulations, both providing momenta kicks to tracked particles according to a specific formalism.
+In \textit{Xfields} two elements are available to model IBS effects in tracking simulations, both providing momentum kicks to tracked particles according to a specific formalism.
 
 \subsection{Analytical Kicks}
 \label{subsection:analytical_kicks}
 
-A first element is available to provide momenta kicks based on analytical growth rates, according to the approach introduced by R. Bruce~\cite{PRAB:Bruce:IBSAnalyticalKick}.
-In \textit{xfields} the computation of the kick is done as follows.
+A first element is available to provide momentum kicks based on analytical growth rates, according to the approach introduced by R. Bruce~\cite{PRAB:Bruce:IBSAnalyticalKick}.
+In \textit{Xfields} the computation of the kick is done as follows.
 \newline
 
 First, the beam intensity \(N\), bunch length \(\sigma_z\), momentum deviation \(\sigma_{\delta}\), and geometric emittances \(\varepsilon_{x,y}\) are inferred from the tracked particles object.
@@ -2900,7 +2899,7 @@ It is obtained by binning the longitudinal plane of the particle distribution an
 \subsection{Kinetic Kicks}
 \label{subsection:kinetic_kicks}
 
-A second element is available to provide momenta kicks based on diffusion and friction terms from the kinetic theory of gases, as introduced by P. Zenkevich~\cite{NuclInstr:Zenkevich:IBSKineticKick}.
+A second element is available to provide momentum kicks based on diffusion and friction terms from the kinetic theory of gases, as introduced by P. Zenkevich~\cite{NuclInstr:Zenkevich:IBSKineticKick}.
 The momentum kick has a form similar to the Langevin equation:
 
 \begin{equation}
@@ -2910,7 +2909,7 @@ The momentum kick has a form similar to the Langevin equation:
 where \(K_u\) and \(C_u\) are functions of the friction and diffusion terms, respectively.
 \newline
 
-In \textit{xfields} the exact implementation makes use of terms from the Nagaitsev formalism (see \ref{subsection:nagaitsev_formalism}) as derived by M. Zampetakis~\cite{arXiv:Zampetakis:Interplay_SC_IBS_LHC_Chain}.
+In \textit{Xfields} the exact implementation makes use of terms from the Nagaitsev formalism (see Sec.~\ref{subsection:nagaitsev_formalism}) as derived by M. Zampetakis~\cite{arXiv:Zampetakis:Interplay_SC_IBS_LHC_Chain}.
 First the \(a_x, a_y, a_s, a_1\) and \(a_2\) terms are computed according to Eq~\eqref{equation:nagaitsev_step1}.
 Then the \(\lambda_1, \lambda_2\) and \(\lambda_3\) terms are computed according to Eq~\eqref{equation:nagaitsev_lambdas}, to obtain the \(R_1, R_2\) and \(R_3\) elliptic integrals according to Eq~\eqref{equation:nagaitsev_r1r2r3}.
 \newline
@@ -3008,7 +3007,7 @@ From these coefficients, each particle is given a momentum kick in each dimensio
     \label{equation:momentum_kick_kinetic}
 \end{equation}
 
-Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density as defined previously (see \ref{subsection:analytical_kicks}).
+Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density as defined previously (see Sec.~\ref{subsection:analytical_kicks}).
 
 
 \chapter{Touschek scattering}
@@ -3231,7 +3230,7 @@ For sufficiently large $N$, $R_{\mathrm{MC}}$ converges to the true rate.
 \subsection{Sampling of the scattering pair}
 \label{section:touschek_sampling}
 
-The sampling is performed in normalised phase space, assuming a Gaussian bunch
+The sampling is performed in normalized phase space, assuming a Gaussian bunch
 and no $x$--$y$ coupling. The longitudinal plane is treated on the same footing
 as the transverse ones by defining
 \begin{equation}
@@ -3245,7 +3244,7 @@ as the transverse ones by defining
 
 Eleven uniformly distributed random numbers are drawn per scattering event.
 Six of them
-define the normalised coordinates
+define the normalized coordinates
 $(X_1, X_1', Y_1, Y_1', Z_1, \Delta_1)$ of the first particle, drawn uniformly
 in
 \begin{equation}
@@ -3255,7 +3254,7 @@ in
 \end{equation}
 where $n_x$, $n_y$ and $n_z$ are user-defined truncation parameters (default
 $n_x = n_y = n_z = 3$, i.e.\ sampling up to three beam sigmas). Three further
-random numbers define the normalised slopes and momentum deviation of the second
+random numbers define the normalized slopes and momentum deviation of the second
 particle, $(X_2', Y_2', \Delta_2)$; the two particles are assumed to collide at
 the same point, so their spatial coordinates coincide,
 \begin{equation}
@@ -3265,12 +3264,12 @@ the same point, so their spatial coordinates coincide,
 The last two random numbers define the scattering angles, as described
 in Section~\ref{section:touschek_kinematics}.
 
-The physical longitudinal coordinates follow from the normalised ones as
+The physical longitudinal coordinates follow from the normalized ones as
 $z_1 = \sqrt{\beta_z}\, Z_1$ and $\delta_i = \Delta_i / \sqrt{\beta_z}$, so that
 $z_1$ and $\delta_i$ are sampled uniformly within $\pm n_z \sigma_z$ and
 $\pm n_z \sigma_\delta$, respectively.
 
-Applying the transformation from normalised to physical coordinates and adding
+Applying the transformation from normalized to physical coordinates and adding
 the dispersive contribution gives, for the first particle,
 \begin{equation}
     \begin{cases}
@@ -3293,7 +3292,7 @@ Eq.~\eqref{eq:touschek_same_point},
     \label{eq:touschek_particle2}
 \end{equation}
 
-The Gaussian phase-space density at the particles coordinates is
+The Gaussian phase-space density at the particles' coordinates is
 \begin{multline}
     \rho = \frac{N_b}{8\pi^3 \varepsilon_x \varepsilon_y \varepsilon_z}
     \exp\left( -\frac{z^2}{2\sigma_z^2} - \frac{\delta^2}{2\sigma_\delta^2} \right) \\
@@ -3315,7 +3314,7 @@ The sampled phase-space volume appearing in Eq.~\eqref{eq:touschek_mc_rate} is
 \subsection{Scattering kinematics}
 \label{section:touschek_kinematics}
 
-Each sampled pair is boosted from the laboratory frame to its centre-of-mass
+Each sampled pair is boosted from the laboratory frame to its center-of-mass
 frame. The two remaining random numbers define the polar scattering angle
 $\theta^*$, drawn uniformly in
 $[\theta_{\min}, \theta_{\max}]$, with
@@ -3360,11 +3359,11 @@ chosen such that the optics functions vary slowly between adjacent elements.
 Evaluating the local scattering rate by Monte Carlo integration everywhere in the
 machine would be computationally expensive. Instead, the Piwinski formula is used
 to estimate rapidly the total Touschek scattering rate over each lattice section,
-and this is used to normalise the Monte Carlo distribution.
+and this is used to normalize the Monte Carlo distribution.
 
 The Piwinski rate $R_P(s)$ is evaluated at each scattering element and integrated
 with the trapezoidal rule over the lattice section between the current and the
-preceding scattering element. Normalising to the machine circumference $C$ gives
+preceding scattering element. Normalizing to the machine circumference $C$ gives
 the contribution of that section to the ring-averaged scattering rate,
 \begin{equation}
     \overline{R}_P = \frac{1}{C}
@@ -3384,7 +3383,7 @@ $S_{\mathrm{tr}}\subseteq S$ is returned for tracking: the retained particles ar
 chosen such that their cumulative contribution is approximately
 $f_{\mathrm{ret}}\sum_{j\in S} r_j$, where $f_{\mathrm{ret}}$ is the
 \texttt{weight\_retention\_fraction} parameter. For particles in $S_{\mathrm{tr}}$ the
-weights are still normalised with the denominator in
+weights are still normalized with the denominator in
 Eq.~\eqref{eq:touschek_weight}, i.e.\ with the full selected set $S$ rather than
 with the retained subset. Therefore, for $f_{\mathrm{ret}}=1$ the returned
 ensemble reproduces the total scattering rate from the corresponding section,
@@ -3424,7 +3423,7 @@ The corresponding inverse transform is defined as:
 {a}_m = \text{DFT}^{-1}_M(\hat{a}_k) =  \frac{1}{M}\sum_{k=0}^{M-1} \hat{a}_k\, e^{j2\pi  \frac{km}{M}}  \quad \text{for } m \in 0, ..., M
 \end{equation}
 
-Multidimensional Discrete Fourier Transforms are obtained by applying sequentially 1D DFTs.. For example, in two dimensions:
+Multidimensional Discrete Fourier Transforms are obtained by applying 1D DFTs sequentially. For example, in two dimensions:
 
 \begin{equation}
 \begin{split}
@@ -3465,7 +3464,7 @@ where $\Pi_{[a,b]}(x)$ is a rectangular window function defined as:
 \end{cases}
 \end{equation}
 
-We are interested in the electric potential only the region occupied by the sources, so we can compute:
+We are interested in the electric potential only in the region occupied by the sources, so we can compute:
 \begin{equation}
 \phi_L(x) = \phi(x) \Pi_{[0, L]}\left(x\right)
 \label{eq:philim}
@@ -3614,7 +3613,7 @@ The function:
 \rho_{2LR}(x')\,G_{2LR}(x-x') dx'
 \label{eq:confin}
 \end{equation}
-is periodic of period $2L$. From it the potential of interest can be simply calculated by selecting the first half period $[0, L]$:
+is periodic with period $2L$. From it the potential of interest can be simply calculated by selecting the first half period $[0, L]$:
 \begin{equation}
 \phi_L(x) = 
 \Pi_{[0,L]}\left({x}\right)
@@ -3660,12 +3659,12 @@ obtaining simply:
 \label{eq:freqconv}
 \end{equation}
 
-I assume to have the functions $\rho_{2LR}(x)$ and  $G_{2LR}(x)$ sampled (or averaged) with step:
+We assume that the functions $\rho_{2LR}(x)$ and  $G_{2LR}(x)$ are sampled (or averaged) with step:
 \begin{equation}
 h_x = \frac{2L}{M} = \frac{L}{N}
 \end{equation}
 
-I can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
+We can approximate the integrals in Eqs.\,\eqref{eq:rhok} and\,\eqref{eq:Gk} as:
 \begin{align}
 \tilde{\rho}_k = \frac{1}{M}\sum_{n=0}^{M-1} \rho_{2LR}(x_n)\, e^{-j2\pi  \frac{kn}{M}}  
 = \frac{1}{M} \hat{\rho}_k
@@ -3723,7 +3722,7 @@ We call ``Integrated Green Function'' the quantity:
 \begin{equation}
 G_{2LR}(x_n) = h_x G_{2LR}(x_n)
 \end{equation}
-we introduce the corresponding Fourier transform:
+We introduce the corresponding Fourier transform:
 \begin{equation}
 \hat{G}_k^\text{int} = \text{DFT}_M\left\{ G_{2LR}^\text{int}(x_n)\right\}
 \end{equation}
@@ -3848,7 +3847,7 @@ G(x, y, z) = \frac{1}{4\pi\varepsilon_0}\frac{1}{
 }
 \end{equation}
 
-The corresponding integrated Green function~\cite{QIANG2004278}. can be written as:
+The corresponding integrated Green function~\cite{QIANG2004278} can be written as:
 \begin{align}
 G_{2LR}^\text{int}(x_{n_x}, y_{n_y}, z_{n_z}) =& 
 \int_{x_{n_x}-\frac{h_x}{2}}^{x_{n_x}+\frac{h_x}{2}} dx
@@ -3907,7 +3906,7 @@ where:
 \begin{equation}
 G(x, y) = -\frac{1}{4\pi\varepsilon_0} \log\left( \frac{x^2 + y^2}{r_0^2}\right)
 \end{equation}
-where $r_0$ is arbitrary constant which has no effect on the evaluated fields (changes the potential by an additive constant). 
+where $r_0$ is an arbitrary constant which has no effect on the evaluated fields (changes the potential by an additive constant). 
 
 The corresponding integrated Green function can be written as:
 \begin{align}
@@ -4136,7 +4135,7 @@ The function:
 \rho_{R}(x')\,G_{R}(x-x') dx'
 \label{eq:confin_gen}
 \end{equation}
-is periodic of period $2L$. Replacing in Eq.~\ref{eq:conv6_gen} we see that the potential of interest can be simply calculated by selecting the right interval $[c, d]$:
+is periodic with period $2L$. Replacing in Eq.~\ref{eq:conv6_gen} we see that the potential of interest can be simply calculated by selecting the right interval $[c, d]$:
 \begin{equation}
 \phi_{cd}(x) = 
 \Pi_{[c,d]}\left({x}\right)
@@ -4182,12 +4181,12 @@ obtaining simply:
 \label{eq:freqconv_gen}
 \end{equation}
 
-We assume to have the functions $\rho_{R}(x)$ and  $G_{R}(x)$ sampled (or averaged) with step:
+We assume that the functions $\rho_{R}(x)$ and  $G_{R}(x)$ are sampled (or averaged) with step:
 \begin{equation}
 h_x = \frac{2L}{M}
 \end{equation}
 
-We assume that all intervals have size multiple of $h_x$. So we can define:
+We assume that all intervals have a size multiple of $h_x$. So we can define:
 \begin{align}
 N_1 &= L_1 / h_x\\
 N_2 &= L_2 / h_x
@@ -4287,7 +4286,7 @@ We are interested in the potential in a set of intervals given by:
 %\label{eq:rholim_period}
 %\end{equation}
 
-The contribution of the j-th term of $\rho$ to  $\phi$ int the i-th interval:
+The contribution of the j-th term of $\rho$ to  $\phi$ in the i-th interval is:
 
 \begin{equation}
 \phi_{ij}(x) = 
@@ -4339,7 +4338,7 @@ obtaining:
 \rho^\text{loc}_j(x')\,G^\text{tr, loc}_{i-j}(x-x') dx'
 \end{equation}
 
-I explicit all the pies:
+We write all the window functions explicitly:
 \begin{equation}
 \phi_{ij}^\text{loc}(x) = \int_{-\infty}^{+\infty}
 \Pi_{[a,b]}(x')
@@ -4457,13 +4456,13 @@ The integrand is nonzero for:
 & c-b < x-x''< d-a
 \end{align}
 
-I subtract the first and the last:
+We subtract the first and the last:
 \begin{align}
 & a < x'' +(i-l-j)L_\text{aux}) < b\\
 & -b < -x''< -a
 \end{align}
 
-I flip the last
+We flip the last:
 \begin{align}
 & a < x'' +(i-l-j)L_\text{aux}) < b\\
 & a < x''< b
