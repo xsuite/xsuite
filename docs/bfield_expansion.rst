@@ -35,12 +35,15 @@ axis. With the additional scalar and integrated strengths set to zero and
 
    \frac{B_y(x,0,s)}{B\rho}
        &= \sum_{i=0}^{n_b-1}\frac{x^i}{i!}
-          \sum_{j=0}^{d} \mathrm{knc}_{ij}\,s^j, \\
+          \sum_{j=0}^{d_n} \mathrm{knc}_{ij}\,s^j, \\
    \frac{B_x(x,0,s)}{B\rho}
        &= \sum_{i=0}^{n_a-1}\frac{x^i}{i!}
-          \sum_{j=0}^{d} \mathrm{ksc}_{ij}\,s^j, \\
+          \sum_{j=0}^{d_s} \mathrm{ksc}_{ij}\,s^j, \\
    \frac{B_s(0,0,s)}{B\rho}
-       &= \sum_{j=0}^{d-1} \mathrm{ksol}_j\,s^j.
+       &= \sum_{j=0}^{d_\ell} \mathrm{ksolc}_j\,s^j.
+
+The suffix ``c`` denotes coefficients. The three profiles may have independent
+longitudinal degrees :math:`d_n`, :math:`d_s`, and :math:`d_\ell`.
 
 Row zero of ``knc`` is the normal dipole profile, row one is its quadrupole
 gradient, and row two is its sextupole second derivative. The factorial in
@@ -51,23 +54,22 @@ integrals, including the additional strengths and scale described below.
 Columns contain ascending powers of ``s`` in metres, with no longitudinal
 factorial and no rescaling by the element length. Thus ``knc[i, j]`` and
 ``ksc[i, j]`` have units
-:math:`\mathrm{m}^{-(i+j+1)}`, and ``ksol[j]`` has units
+:math:`\mathrm{m}^{-(i+j+1)}`, and ``ksolc[j]`` has units
 :math:`\mathrm{m}^{-(j+1)}`.
 
-Coefficient arrays are optional: omitted, ``None``, or empty arrays are filled
-with zeros at construction. Nonempty ``knc``, ``ksc``, and ``ksol`` must agree
-in the number of longitudinal coefficients; transverse row counts may differ.
-Missing transverse matrices receive enough rows for the highest supplied
-order in ``knc``, ``ksc``, ``knl``, or ``ksl``. Missing ``knl`` and ``ksl``
-match their corresponding matrix's row count. When all arrays are omitted,
-``knc`` and ``ksc`` have shape ``(1, 1)`` and the remaining arrays have one
-entry. Nonempty inputs retain their shapes.
+Coefficient arrays are optional: omitted, ``None``, or empty arrays remain
+empty and contribute no field. ``knc`` and ``ksc`` can have different row
+counts and widths, and ``ksolc`` can have an independent length. Ragged
+transverse rows are padded with zeros within their own matrix at construction;
+rectangular inputs retain their shapes. The integrated inputs ``knl`` and
+``ksl`` also have independent lengths and default to empty arrays.
 
-Pad unused coefficients with zeros. In particular,
-**the last coefficient of ``ksol`` must be zero**: the
-scalar potential stores its integral using the same polynomial degree. For
-example, a constant longitudinal field needs ``ksol=[ks, 0]`` and at least two
-columns in both transverse matrices.
+No manual padding is needed. Every coefficient in ``ksolc`` is retained,
+including its highest power: the scalar potential reserves the extra degree
+needed for the integral internally. A constant longitudinal field therefore
+only needs ``ksolc=[ks]``. Explicitly supplied zero coefficients retain storage
+for later updates or deferred expressions. To add coefficients later, supply
+the desired array shape at construction.
 
 The optional ``num_phi`` parameter controls the vertical truncation order
 of the scalar-potential reconstruction. Its default, ``'auto'``, uses the
@@ -91,7 +93,8 @@ aperture of interest.
 The resolved integer is stored in ``element.num_phi`` and is fixed at
 construction. Fields are evaluated through ``y**num_phi``; an additional
 scalar-potential coefficient is stored internally for the derivative giving
-``By``.
+``By``. Evaluation skips unused orders and degrees; the populated bounds are
+recomputed when coefficients or strengths change.
 
 For example, a straight element with a varying dipole, a quadrupole gradient,
 and a longitudinal field can be constructed and tracked as follows:
@@ -106,9 +109,8 @@ and a longitudinal field can be constructed and tracked as follows:
        h=0.0,
        s_start=0.15,               # Track the polynomial over s in [0.15, 0.95] m
        knc=[[0.05, 0.04, 0.07],     # Normal dipole: 0.05 + 0.04*s + 0.07*s**2
-            [0.40, -0.10, 0.0]],   # Normal quadrupole: 0.40 - 0.10*s
-       ksc=[[0.0, 0.0, 0.0]],
-       ksol=[0.10, 0.02, 0.0],     # On-axis longitudinal field: 0.10 + 0.02*s
+            [0.40, -0.10]],        # Normal quadrupole: 0.40 - 0.10*s
+       ksolc=[0.10, 0.02],         # On-axis longitudinal field: 0.10 + 0.02*s
        num_phi='auto',
        num_integration_steps=40,
        pkin_const=True,
@@ -155,7 +157,7 @@ value reverses it.
        length=0.8, knc=[[0.05, 0.02], [0.40, 0.0]],
        k1=0.10, knl=[0.004, 0.008], kscale=0.5,
        num_integration_steps=40,
-   )  # Omitted skew and longitudinal profiles are zero-filled.
+   )  # Omitted skew and longitudinal profiles are empty and contribute zero.
    normal, skew = combined.get_total_knl_ksl()
    print(normal[1])  # 0.5 * ((0.40 + 0.10) * 0.8 + 0.008) = 0.204 1/m
 
@@ -199,7 +201,9 @@ as scalars or broadcastable arrays, with all three coordinates in metres.
 and ``length`` is the exit, even when ``s_start`` is nonzero. The polynomial
 is evaluated at ``s = s_start + s_local``, as in tracking, without clipping
 to the tracked interval. In curved geometry, the coordinate axis
-``1 + h*x = 0`` is singular and is rejected.
+``1 + h*x = 0`` is singular: ``get_field`` raises ``ValueError`` there.
+Tracking marks a particle that reaches this axis as lost with state ``-43``
+without partially committing its coordinates for the element or slice.
 
 The result is a structured NumPy array with the broadcast input shape
 (including a zero-dimensional array for scalar inputs). Its fields are
@@ -288,7 +292,7 @@ rebuild the cached expansion and integrated strengths automatically:
 .. code-block:: python
 
    magnet.knc[1, 0] = 0.45
-   magnet.ksol[:] = [0.12, 0.02, 0.0]
+   magnet.ksolc[:] = [0.12, 0.02]
    magnet.knc *= 1.1
 
    # NumPy conversions are detached copies; write back to apply an edit.
@@ -304,7 +308,15 @@ Construct a new element to change the coefficient shapes or ``num_phi``.
 The read-only ``order`` is ``max(knc.shape[0], ksc.shape[0]) - 1`` and reports
 the allocated polynomial multipole order, regardless of which coefficients
 are nonzero. Independent scalar or integrated strengths may have higher
-orders. ``na``, ``nb``, and ``deg`` are read-only profile dimensions.
+orders. ``na`` and ``nb`` are the read-only skew and normal row counts.
+``deg`` is the largest input polynomial degree across the three profiles
+(zero when all are empty). The independent scalar strengths remain writable
+even when all coefficient arrays were omitted.
+
+The coefficient argument and attribute are named ``ksolc``, replacing
+``ksol``. Update constructor keywords, coefficient accesses, expression
+references, and the coefficient key in saved element dictionaries to the
+new name. The integrated quantity keeps its name ``ksoll``.
 
 ``get_total_knl_ksl()`` sums the profile integrals over
 ``[s_start, s_start + length]``, the scalar strengths times ``length``, and
@@ -312,9 +324,13 @@ the additional ``knl``/``ksl`` inputs, then multiplies the sum by ``kscale``.
 The result is a pair of detached
 NumPy arrays padded to the same length, with at least four entries.
 ``line.get_table(attr=True)`` and Twiss strength columns report these totals.
-The read-only one-entry array ``ksoll`` contains the integral of ``ksol``
+The read-only one-entry array ``ksoll`` contains the integral of ``ksolc``
 over the same interval, including ``kscale``. These computed quantities
 reflect changes to the strengths, scale, polynomial origin, and length.
+In line and Twiss tables, the ``ksoll`` column also includes ``ks * length``
+for ``Solenoid`` and ``UniformSolenoid``, and
+``0.5 * (ks_profile[0] + ks_profile[1]) * length`` for ``VariableSolenoid``.
+Thick uniform-solenoid slices report their own share of the integral.
 
 :ref:`xtrack.Environment <environment-api-reference>` accepts coefficient
 matrices containing numbers and deferred expressions through ``new`` and ``set``:
@@ -327,10 +343,9 @@ matrices containing numbers and deferred expressions through ``new`` and ``set``
    env.new('q', 'BFieldExpansion', length=0.3, num_phi='auto',
            num_integration_steps=40, integrator='rk4',
            k1='0.1*k1', kscale='field_scale', knl=[0.0, 0.01],
-           knc=[[0.0, 0.0], ['k1', 0.0]],
-           ksc=[[0.0, 0.0]], ksol=[0.0, 0.0])
+           knc=[[0.0], ['k1']])
    env['k1'] = 0.45
-   env.set('q', knc=[[0.0, 0.0], ['2*k1', 0.0]])
+   env.set('q', knc=[[0.0], ['2*k1']])
    line = env.new_line(components=['q'])
    line.get_table(attr=True).cols['element_type length angle k1l'].show()
 
