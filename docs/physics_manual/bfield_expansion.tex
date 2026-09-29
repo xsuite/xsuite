@@ -25,13 +25,28 @@ that the profiles are evaluated at
 
 With only polynomial input coefficients and unit scale,
 \begin{equation}
- N_n(s)=\sum_{j=0}^{d}\texttt{knc}_{nj}s^j,\qquad
- S_n(s)=\sum_{j=0}^{d}\texttt{ksc}_{nj}s^j,\qquad
- K_s(s)=\sum_{j=0}^{d-1}\texttt{ksol}_{j}s^j.
+ N_n(s)=\sum_{j=0}^{d_n}\texttt{knc}_{nj}s^j,\qquad
+ S_n(s)=\sum_{j=0}^{d_s}\texttt{ksc}_{nj}s^j,\qquad
+ K_s(s)=\sum_{j=0}^{d_\ell}\texttt{ksolc}_{j}s^j.
  \label{bfe:coefficients}
 \end{equation}
 The transverse factorial is included in Eq.~\eqref{bfe:profiles}; there
 is no longitudinal factorial in Eq.~\eqref{bfe:coefficients}.
+The suffix \texttt{c} denotes coefficients. The three polynomial degrees
+\(d_n\), \(d_s\), and \(d_\ell\) are independent. Transverse rows of
+different lengths are padded within their own matrix at construction;
+omitted profiles remain empty and contribute zero. Every supplied
+\texttt{ksolc} coefficient is used. Its scalar-potential seed is
+\begin{equation}
+ \phi_0^{\mathrm{sol}}(s)
+ =-\int_0^s K_s(u)\,\dee u
+ =-\sum_{j=0}^{d_\ell}\frac{\texttt{ksolc}_{j}}{j+1}s^{j+1}.
+\end{equation}
+The additional degree is reserved internally, so users do not pad the
+longitudinal profile or the transverse matrices for this integral.
+In particular, a constant longitudinal field needs only
+\texttt{ksolc=[ks]}. The read-only array \texttt{ksoll} contains its
+longitudinal integral over the element interval, including \texttt{kscale}.
 
 Uniform scalar strengths and integrated strengths are incorporated before
 constructing the potential. For example,
@@ -65,6 +80,10 @@ the full expansion through first order in \(h\). Higher powers of \(h\)
 are generally incomplete: the curved recurrence need not terminate.
 Increasing an explicit \texttt{num\_phi} and checking convergence over the
 aperture of interest is therefore necessary when higher curvature terms matter.
+The allocated shapes and truncation order remain fixed after construction,
+including capacity for explicitly supplied zero coefficients. Evaluation skips
+unused orders and degrees, with the populated bounds recomputed after input
+updates.
 
 There are three separate approximations to control: the input profile fit,
 the transverse expansion order, and the integration step size. Higher

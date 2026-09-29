@@ -191,15 +191,16 @@ of the :doc:`Physics Guide <physicsguide>`.
 BFieldExpansion
 ---------------
 
-.. py:class:: xtrack.BFieldExpansion(length, ksc=None, knc=None, ksol=None, num_phi='auto', h=0, s_start=0, knl=None, ksl=None, kscale=1.0, k0=0.0, k1=0.0, k2=0.0, k3=0.0, k0s=0.0, k1s=0.0, k2s=0.0, k3s=0.0, integrator='rk4', num_integration_steps=10, pkin_const=False, **kwargs)
+.. py:class:: xtrack.BFieldExpansion(length, ksc=None, knc=None, ksolc=None, num_phi='auto', h=0, s_start=0, knl=None, ksl=None, kscale=1.0, k0=0.0, k1=0.0, k2=0.0, k3=0.0, k0s=0.0, k1s=0.0, k2s=0.0, k3s=0.0, integrator='rk4', num_integration_steps=10, pkin_const=False, **kwargs)
 
     Thick magnetic-field expansion in a straight or curved reference frame,
     tracked with classical fourth-order Runge--Kutta.
 
     :param float length: Path length along the reference trajectory, in metres.
-    :param ksc: Skew coefficients with shape ``(na, deg + 1)``. Entry ``[i, j]``
+    :param ksc: Skew coefficient matrix or list of rows. Entry ``[i, j]``
         multiplies ``s**j`` in the on-axis i-th x derivative of ``Bx/(B rho)``.
-    :param knc: Normal coefficients with shape ``(nb, deg + 1)``, using the same
+        Ragged rows are padded with zeros within this matrix.
+    :param knc: Normal coefficient matrix or list of rows, using the same
         convention as ``ksc`` for ``By/(B rho)``. ``knc[i, 0]`` has the same
         normalization and factorial convention as Xtrack's ``k0``, ``k1``,
         ``k2``, and higher-order strengths; these are not integrated strengths.
@@ -217,9 +218,10 @@ BFieldExpansion
     :param float k1s: Additional uniform skew quadrupole strength, default zero.
     :param float k2s: Additional uniform skew sextupole strength, default zero.
     :param float k3s: Additional uniform skew octupole strength, default zero.
-    :param ksol: On-axis ``Bs/(B rho)`` coefficients in ascending powers of
-        ``s``, with shape ``(deg + 1,)``. The final coefficient must be zero
-        so the integral fits in the scalar-potential polynomial.
+    :param ksolc: One-dimensional array of on-axis ``Bs/(B rho)`` coefficients
+        in ascending powers of ``s``. Its length is independent of ``knc`` and
+        ``ksc``. Every coefficient is retained; no trailing zero is needed for
+        the scalar-potential integral. The suffix ``c`` denotes coefficients.
     :param float kscale: Common multiplier for all field components,
         potentials, derivatives, and integrated strengths. Defaults to 1.
         Includes scalar, polynomial, and integrated hard-edge inputs while
@@ -250,27 +252,35 @@ BFieldExpansion
     Coefficients are normalized by the signed reference magnetic rigidity.
     Transverse powers include ``1/i!`` internally; longitudinal powers use
     ``s`` in metres without factorials. Omitted, ``None``, and empty arrays
-    are filled with zeros at construction. Nonempty ``knc``, ``ksc``, and
-    ``ksol`` must agree in the number of longitudinal coefficients. Missing
-    transverse matrices cover the highest supplied array order; missing
-    integrated arrays match the corresponding profile row count. With all
-    arrays omitted, the matrices have shape ``(1, 1)`` and vectors have one entry.
+    remain empty and contribute zero. ``knc`` and ``ksc`` can have independent
+    row counts and widths, and ``ksolc``, ``knl``, and ``ksl`` have independent
+    lengths. Ragged transverse rows are zero-padded within their own matrix;
+    rectangular inputs retain their shapes. No manual padding is needed.
 
     Array shapes remain fixed after construction. Updates to entries or slices
     rebuild the expansion. ``knl`` and ``ksl`` also accept whole-array assignment
-    with the same shape; ``knc``, ``ksc``, and ``ksol`` cannot be reassigned.
+    with the same shape; ``knc``, ``ksc``, and ``ksolc`` cannot be reassigned.
     Scalar strength and ``kscale`` updates also rebuild the shared field cache.
+    Supply the desired array shape at construction when coefficients will be
+    set later; explicit zeros retain their storage. Scalar strengths remain
+    writable even when all arrays were omitted. The old coefficient name
+    ``ksol`` must be replaced with ``ksolc`` in code and saved dictionaries.
 
     ``num_phi`` stores the resolved integer and is fixed at construction;
     it cannot be a deferred expression. ``integrator`` also requires a literal
     value. Fields are evaluated through
     ``y**num_phi``, with one extra scalar-potential coefficient stored for
-    the derivative giving ``By``.
+    the derivative giving ``By``. Evaluation skips unused orders and degrees,
+    with the populated bounds recomputed on coefficient or strength updates.
 
     ``get_total_knl_ksl()`` returns the scaled sum of profile integrals, scalar
     strengths times length, and the ``knl``/``ksl`` inputs. Line and Twiss
     strength columns use these totals. ``ksoll`` is a read-only one-entry
-    array containing the scaled integrated longitudinal profile.
+    array containing the scaled integrated longitudinal profile. In line and
+    Twiss tables, the ``ksoll`` column also reports ``ks * length`` for
+    ``Solenoid`` and ``UniformSolenoid`` and the endpoint-average strength
+    times length for ``VariableSolenoid``. Thick uniform-solenoid slices
+    report their own share of the integral.
     ``straight`` and ``angle`` are read-only; the latter is ``length * h``.
     ``ds`` is the read-only ``length / num_integration_steps``.
 
@@ -278,12 +288,16 @@ BFieldExpansion
     ``max(knc.shape[0], ksc.shape[0]) - 1``. It describes the allocated profile
     shapes, independent of current nonzero values; scalar and integrated
     strengths may include higher orders. ``na``, ``nb``, and ``deg`` are
-    read-only profile row counts and longitudinal degree.
+    read-only profile row counts and largest input longitudinal degree (zero
+    when all profiles are empty).
 
     ``get_field(x, y, s_local)`` uses the distance from the element entrance
     and evaluates the polynomial at ``s_start + s_local``. The same local
     coordinate convention applies to thick slices. Field evaluation includes
     ``kscale`` and uses the local element frame, independently of misalignments.
+    At the singular curved axis ``1 + h*x = 0``, ``get_field`` raises
+    ``ValueError``. Tracking marks the particle lost with state ``-43`` before
+    committing any coordinate changes for the element or slice.
 
     Tracking supports the standard Xtrack shifts and rotations, inherited by
     thick slices. See :ref:`misalignment_label` for their definitions.
