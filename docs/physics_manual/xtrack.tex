@@ -1,7 +1,7 @@
 \chapter{Lattice modeling and particle coordinates}
 
 The modeling of lattice and beam particles used in Xsuite is largely based on the
-experience of the MAD~\cite{madsite, mad8phys} and Sixtrack~\cite{sixtrack_user_guide} programs.
+experience of the MAD~\cite{madsite, mad8phys} and SixTrack~\cite{sixtrack_user_guide} programs.
 
 More details on the derivation of the tracking maps and the Hamiltonian formalism
 can be found in the references
@@ -24,7 +24,7 @@ The beam line or ring to be studied is described as a sequence of beam elements
 placed sequentially along a reference trajectory.
 
 The reference trajectory consists of a series of straight line segments and circular arcs.
-The accompanying tripod, as shown in Fig. ~\ref{fig:local-frame}, spans a local curvilinear
+The accompanying tripod, as shown in Fig.~\ref{fig:local-frame}, spans a local curvilinear
 right-handed coordinate system $(x,y,s)$. The local $s$-axis is the tangent to the reference
 orbit and $x$ and $y$ are perpendicular to $s$. Typically, $x$ is horizontal and $y$ vertical.
 
@@ -65,8 +65,7 @@ The above quantities are defined more precisely as follows:
   \item $\theta$ is the angle of rotation (azimuth) about the global $Y$-axis, between the
         global $Z$-axis and the projection of the reference orbit onto the $( Z,X)$-plane.
         A positive angle $\theta$ forms a right-hand screw with the $Y$-axis.
-  \item $\phi$ is the elevation angle, i.e. the angle between the reference orbit and its pro-
-        jection onto the $( Z,X)$-plane. A positive angle $\phi$ corresponds to increasing
+  \item $\phi$ is the elevation angle, i.e. the angle between the reference orbit and its projection onto the $( Z,X)$-plane. A positive angle $\phi$ corresponds to increasing
         $Y$.
 
         If only horizontal bends are present, the reference orbit remains in the $( Z,
@@ -305,7 +304,7 @@ and the corresponding normalized multipole coefficients $K_n$ and $\hat{K}_n$ ar
   \hat{K}_n=\frac{A_n}{\mathrm{rig}_0}.
 \end{align}
 The field and potential expansions are more complex than in the straight case
-as they must satisfy \ref{eq:Bfield_from_a_curved} together with the definitions \eqref{eq:multipole_Bn}
+as they must satisfy Eq.~\ref{eq:Bfield_from_a_curved} together with the definitions \eqref{eq:multipole_Bn}
 and \eqref{eq:multipole_An}.
 
 For the special case where only $K_0$, $K_1$, and $K_2$ are non-zero, a truncated expansion
@@ -332,7 +331,7 @@ the coefficient:
   \chi = \frac{q}{q_0} \frac{m_0}{m}
 \end{align}
 
-In the "longitudinal plane", i.e. the space spanned by time and energy coordinates,
+In the ``longitudinal plane'', i.e. the space spanned by time and energy coordinates,
 we can use any of the following pairs of conjugate variables:
 \begin{align}
 \xi &= s \frac{\beta}{\beta_0} - \beta c t &
@@ -451,7 +450,7 @@ The full derivation of the Hamiltonian and equations of motion can be found in
 Wolski~\cite{wolski2014beam} (note the different notation, as the symbol $\delta$
 in~\cite{wolski2014beam} denotes the quantity that here we call $p_\tau$).
 
-\section{Expanded magnet body hamiltonian}
+\section{Expanded magnet body Hamiltonian}
 
 For a magnet with piece-wise constant multipole components and curvature $h$, we can
 set $a_x = 0$ and $a_y = 0$ in Eq.~\eqref{eq:hamiltonian_htau}:
@@ -467,9 +466,9 @@ where
   &H^\text{magn} = -(1+h x) \chi a_s
 \end{align}
 
-\subsection{Approximation of the kinetic part of the hamiltonian}
+\subsection{Approximation of the kinetic part of the Hamiltonian}
 
-Using \ref{eq:one_plus_delta_squared}, the kinetic part can be rewritten as follows:
+Using Eq.~\ref{eq:one_plus_delta_squared}, the kinetic part can be rewritten as follows:
 \begin{align}
   H^\text{kin}
     &= \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{ (1 + \delta)^2  - p_x^2 - p_y^2}\\
@@ -490,7 +489,7 @@ where
 \end{align}
 is the Hamiltonian of a straight drift.
 
-The hamiltonian for the drift can in turn be expanded as follows:
+The Hamiltonian for the drift can in turn be expanded as follows:
 \begin{align}
   H_D &= \frac{p_\tau}{\beta_0} - (1 + \delta)\sqrt{1  - \frac{p_x^2 + p_y^2}{(1 + \delta)^2}}\\
       &\simeq \frac{p_\tau}{\beta_0} - (1 + \delta) + \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}
@@ -506,7 +505,7 @@ yields the following expression for the kinetic part of the Hamiltonian:
     - h x \left(1 + \delta\right)
 \end{align}
 
-\subsection{Approximation of the magnetic part of the hamiltonian}
+\subsection{Approximation of the magnetic part of the Hamiltonian}
 
 For the common case where only $K_0$, $K_1$, and $K_2$ are non-zero, inserting
 the curved-magnet potential from Eq.~\eqref{eq:as_curved} in $H^\text{magn}$ yields:
@@ -536,7 +535,7 @@ Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yiel
 \section{Symplectic integrators and magnet models}
 
 In Xsuite, magnets are modeled using symplectic integrators, splitting the Hamiltonian
-in a `propagation' part and a `kick' part, for which closed-form solutions of the equations of motion
+into a `propagation' part and a `kick' part, for which closed-form solutions of the equations of motion
 are available.
 
 Hamiltonians for which closed-form solutions of the equations of motion exist and are
@@ -647,7 +646,7 @@ yoshida-8 & 15 & 16 & 8th &
     increasing the order or slicing will only increase the computational cost and
     numerical error.
 \item Otherwise (e.g.\ $K_1$, $K_2$, \dots, or skew components present),
-    prefer a higher-order integrator (\texttt{yoshida-6}, is typically best)
+    prefer a higher-order integrator (\texttt{yoshida-6} is typically best)
     with as few slices as possible over a low-order one
     (\texttt{uniform}, \texttt{teapot}) with many slices: increasing the
     order is roughly equivalent, in terms of accuracy, to increasing
@@ -671,7 +670,7 @@ Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.ht
 ~\\
 
 A drift is a straight, field-free region ($h(x,y)=0$, $V=0$ and
-$\mathbf{A}=0$).  The exact and expanded Hamiltonian for a drift space are
+$\mathbf{A}=0$).  The exact and expanded Hamiltonians for a drift space are
 \begin{align}
   H_\tau =
     \frac{p_\tau}{\beta_0}  - \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}
@@ -730,7 +729,7 @@ and the map relative to the exact Hamiltonian for a drift of length $L$ is:
 
 Used in the implementation of \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
 and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
-when model is ``rot-kick-rot''.
+when the model is ``rot-kick-rot''.
 ~\\
 This map is ported from PTC and MAD-NG source codes.
 ~\\
@@ -1097,9 +1096,9 @@ The last gives the usual equation for the sagitta of a bending magnet.
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}},
 \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} and
 \href{https://xsuite.readthedocs.io/en/latest/apireference.html#quadrupole}{\underline{Quadrupole}} elements,
-for ``mat-kick-mat'' model.
+for the ``mat-kick-mat'' model.
 ~\\
-This map is ported from MAD-X source code.
+This map is ported from the MAD-X source code.
 ~\\
 
 The following map is generated by the Hamiltonian:
@@ -1187,7 +1186,7 @@ p_{y1} &= \delta_+ \left(C S_y + D C_y\right).
 
 \subsubsection*{Path Length}
 
-Let $L_{\text{tot}}$ be the total path length travelled by the particle through the element.
+Let $L_{\text{tot}}$ be the total path length traveled by the particle through the element.
 
 \paragraph{Horizontal contribution}
 
@@ -1258,16 +1257,16 @@ Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.ht
 ~\\
 
 In a curvilinear reference system with a constant curvature $h$ in the
-horizontal plane a uniform magnetic field can be derived by the vector potential:
+horizontal plane a uniform magnetic field can be derived from the vector potential:
 \begin{align}
   A_x & = 0, & A_y & = 0, & A_s & =
   - B_y \left(x-\frac{h x^2}{2 (1+h x)}\right).
 \end{align}
 
-With the following normalization $K_0=\frac{q_0}{p} B_y$ is the inverse of the bending
+With the following normalization, $K_0=\frac{q_0}{p} B_y$ is the inverse of the bending
 radius of the reference particle.
 
-The exact and expanded Hamiltonian for a horizontal bending magnet is (eq. 2.12 in
+The exact and expanded Hamiltonians for a horizontal bending magnet are (eq. 2.12 in
 \cite{barber87})
 \begin{align}
   H &= \frac{p_\tau}{\beta_0}
@@ -1307,7 +1306,7 @@ The corresponding map is:
   p_x &\leftarrow p_x - \chi L\cdot\Re\left[\sum_{n=0} \frac{1}{n!} (K_n + i\hat K_n) (x+iy)^n \right], \\
   p_y &\leftarrow p_y + \chi L\cdot\Im\left[\sum_{n=0} \frac{1}{n!} (K_n + i\hat K_n) (x+iy)^n \right],
 \end{align}
-where $L$ is the length of the modelled multipole element.
+where $L$ is the length of the modeled multipole element.
 
 The other coordinates ($x$, $y$, $\delta$, $\zeta$) remain unchanged.
 
@@ -1390,7 +1389,7 @@ After each improved estimate of $p_{y,0}$, the function $\phi$ is recomputed.
 The code will iterate a maximum of 10 times and will continue iterating until the
 relative tolerance between the new and old $p_{y,0}$ is less than $10^{-13}$. This
 can make the map extremely slow for very strong edges, but we do not currently envision
-significant use of the backtracking version of this map, so have sacrificed performance
+significant use of the backtracking version of this map, so we have sacrificed performance
 for precision and accuracy.
 
 
@@ -1470,7 +1469,7 @@ fringe map as $(x_0, p_{x,0}, y_0, p_{y,0})$ and the coordinates after the fring
 $(x_1, p_{x,1}, y_1, p_{y,1})$.
 
 The functions $f^x$, $f^y$ and their derivatives are evaluated at the entrance position
-$(x_0, y_0)$, which need to be recovered when backtracking. Since Eqs.~\eqref{eq:xf} and \eqref{eq:yf}
+$(x_0, y_0)$, which needs to be recovered when backtracking. Since Eqs.~\eqref{eq:xf} and \eqref{eq:yf}
 couple the two planes through $f^x(x_0,y_0)$ and $f^y(x_0,y_0)$, they cannot be inverted one at a time as
 in the dipole fringe case, and we must instead solve the coupled system
 \begin{equation}
@@ -1542,7 +1541,7 @@ H_\tau = \frac{p_\tau}{\beta_0} - (1 + h x)
 \right)
 \label{eq:Htau}
 \end{equation}
-which we can split in perturbation theory in a drift-like part $H_0$ and a kick-like part $H_1$:
+which we can split in perturbation theory into a drift-like part $H_0$ and a kick-like part $H_1$:
 \begin{align}
 H_0 &= \frac{p_\tau}{\beta_0} - (1 + h x)\sqrt{(1+\delta)^2 - p_x^2 - p_y^2} + \left( x + \frac{h}{2}x^2 \right) K_0
 \label{eq:H1}
@@ -1551,7 +1550,7 @@ H_1 &= -(1 + h x) K_1 \frac{y^2}{2} + \left( K_1 h \frac{x^3}{3} + K_1 \frac{x^2
 \label{eq:H2}
 \end{align}
 
-The Hamiltonian $H_0$ leads to the dipole wedge \ref{sec:DipoleWedge} (or a dynamical rotation \ref{sec:Yrotation} if $b_0 = 0$) when taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ .
+The Hamiltonian $H_0$ leads to the dipole wedge of Sec.~\ref{sec:DipoleWedge} (or to a dynamical rotation, Sec.~\ref{sec:Yrotation}, if $b_0 = 0$) when taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ .
 The Hamiltonian $H_1$ has equations of motion:
 \begin{align}
 p_x' &= -\frac{\partial H_1}{\partial x}
@@ -1570,7 +1569,7 @@ p_x(s) &= p_x + h K_1 \frac{y^2}{2} s - h K_1 x^2 s - K_1 x s
 p_y(s) &= p_y + (1 + h x) K_1 y s
 \label{eq:pys}
 \end{align}
-Taking the limit to $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
+Taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole wedge we find the expressions for the quadrupole wedge.
 
 
 
@@ -1655,7 +1654,7 @@ This can be obtained knowing the general Hamiltonian
 \begin{equation}
   H = p_\zeta -\sqrt{(1 + \delta)^2 - (p_x - a_x)^2 - (p_y - a_y)^2} - a_z,
 \end{equation}
-we can extract the magnetic field potential and convince ourselves that $H$ describes a magnetic field with only the longitudinal component equal to $B_z$, as expected of a solenoid:
+from which we can extract the magnetic field potential and convince ourselves that $H$ describes a magnetic field with only the longitudinal component equal to $B_z$, as expected of a solenoid:
 \begin{equation}
   \mathbf{A} =
   \begin{bmatrix}
@@ -1730,7 +1729,7 @@ Then, using Hamilton's equations, we can solve for $\phi$:
   \frac{d \phi}{d z} = \frac{\partial K}{\partial J} \implies \phi(z) = \phi(0) + z \frac{\partial K}{\partial J} = \phi(0) - z\frac{|b_z|}{K}.
 \]
 Let $\omega := -b_z / K$. Keeping in mind that we are still in the realm of $\mathbf{X}_\text{new}$, we can compute $x_\text{new}$ and $y_\text{new}$ substituting the above into (\ref{eq:solenoid-x-px}).
-Note that we can drop the modulus on $b_z$ in both $\omega$ and the equations below, as $\cos$ is an even function, and while $\sin$ is an odd function and the signs of $\sin(\omega z)$ and $b_z$ will cancel out anyway.
+Note that we can drop the modulus on $b_z$ in both $\omega$ and the equations below, as $\cos$ is an even function and, while $\sin$ is an odd function, the signs of $\sin(\omega z)$ and $b_z$ will cancel out anyway.
 \begin{multline*}
   x = \sqrt{\frac{2J}{|b_z|}} \cos\left(\phi(0) + \left(- z\frac{|b_z|}{K}\right)\right) = \\
     \sqrt{\frac{2J}{|b_z|}} \cos\phi(0) \cos(\omega z) - \frac{\sqrt{2J|b_z|}}{|b_z|} \sin\phi(0) \sin\left(- z\frac{|b_z|}{K}\right) = \\
@@ -1777,7 +1776,7 @@ and therefore the whole solenoid map in $\mathbf{X}$ as follows (let $S := \sin(
   \end{bmatrix}
 \]
 
-In the tracking procedure of Xtrack (and MAD-X) the map is implemented with respect to a different quantity \verb|sk|, which we will denote with $k$, and which represents half of magnetic field strength $b_z$: $k = \frac{b_z}{2}$.
+In the tracking procedure of Xtrack (and MAD-X) the map is implemented with respect to a different quantity \verb|sk|, which we will denote with $k$, and which represents half of the magnetic field strength $b_z$: $k = \frac{b_z}{2}$.
 Let $s := \sin(\frac{z k}{H}) = \sin(\frac{\omega z}{2})$ and $c := \cos(\frac{\omega z}{2})$; then we can rewrite $M$ using the trigonometric identities:
 \begin{align*}
   \cos(2 \theta) = 2 \cos^2\theta - 1 = 1 - 2 \sin^2\theta &\implies c^2 = \frac{C + 1}{2} \text{ and } s^2 = \frac{1 - C}{2}, \\
@@ -1806,7 +1805,7 @@ where $p_z :=  \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y
 
 \subsubsection{Tilted solenoid}
 
-From solenoid frame (x'-z') to beam frame (x-z) we have the following transformation:
+From the solenoid frame (x'-z') to the beam frame (x-z) we have the following transformation:
 \begin{align}
 x &= x' \cos\theta - z' \sin\theta \\
 z &= x' \sin\theta + z' \cos\theta
@@ -1818,7 +1817,7 @@ x' &= x \cos\theta + z \sin\theta \\
 z' &= -x \sin\theta + z \cos\theta
 \end{align}
 
-We write the potential for solenoid with longitudinal field dependent on $z$:
+We write the potential for a solenoid with a longitudinal field dependent on $z$:
 \begin{align}
 A_{x'} &= -\frac{B_A(z')}{2} \, y' \\
 A_{y'} &= \frac{B_A(z')}{2} \, x' \\
@@ -1839,7 +1838,7 @@ Replacing the coordinates $x', y', z'$ we obtain:
 &A_z = -\frac{B_A(z\,/\cos \theta)}{2} \, y \sin\theta
 \end{align}
 
-I do a change of gauge:
+We perform a change of gauge:
 \begin{equation}
 \mathbf{A}_\text{new} = \mathbf{A} + \nabla f
 \end{equation}
@@ -1883,7 +1882,7 @@ and to express the vector potential:
 \subsubsection{Generalization to arbitrary tilt and dipolar components}
 
 If the tilt is not in the $x-z$ plane, and if additional dipolar components are present,
-we can generalize the above obtaining the following vector potential:
+we can generalize the above, obtaining the following vector potential:
 \begin{align}
 &\boxed{A_x = -\frac{B_{z0}(z)}{2} \, y}\\
 &\boxed{A_y = \frac{B_{z0}(z)}{2} \, x}\\
@@ -2003,14 +2002,14 @@ and
 \begin{equation}
 \theta_{\rm max} = \theta(R_2) = \frac{2LI_T(1\pm\beta_e\beta_p)}{4\pi\epsilon_0  \left(B\rho\right)_p\beta_e\beta_p c^2}\cdot\frac{1}{R_2}
 \end{equation}
-where $L$ is the length of the e-lens, $I_T$ the total electron beam current, $\beta_{e/p}$ the relativistic $\beta$ of electron/proton beam, $B\rho$ the magnetic rigidity, $c$ the speed of light and $\epsilon_0$ the vacuum permittivity. The $\pm$-sign represents the two cases of the electron beam traveling in the direction of the proton beam ($+$) or in the opposite direction ($-$). For hollow electron beam collimation, electron and proton beam travel in the same direction.
+where $L$ is the length of the e-lens, $I_T$ the total electron beam current, $\beta_{e/p}$ the relativistic $\beta$ of the electron/proton beam, $B\rho$ the magnetic rigidity, $c$ the speed of light and $\epsilon_0$ the vacuum permittivity. The $\pm$-sign represents the two cases of the electron beam traveling in the direction of the proton beam ($+$) or in the opposite direction ($-$). For hollow electron beam collimation, electron and proton beams travel in the same direction.
 
 The kick in $(x',y')$ can then be expressed as (note $\frac{x}{r}=\cos(\phi),\frac{y}{r}=\sin(\phi)$):
 \begin{align}
 x'&=x'-\theta_{\rm max}\cdot\frac{r_2}{r^2}\cdot f(r)\cdot x\\
 y'&=y'-\theta_{\rm max}\cdot\frac{r_2}{r^2}\cdot f(r)\cdot y
 \end{align}
-If the electron lens is offset by $(x_{\rm offset},y_{\rm offset})$, the coordinates $(x,y)$ are simply transferred to:
+If the electron lens is offset by $(x_{\rm offset},y_{\rm offset})$, the coordinates $(x,y)$ are simply transformed to:
 \begin{align}
 \tilde x&=x+x_{\rm offset}\\
 \tilde y&=y+y_{\rm offset}\\
@@ -2034,25 +2033,25 @@ The Parkhomchuk electron cooler in Xsuite applies a kick to the circulating ion 
 \label{eq: parkhomchuk}
 \end{equation}
 %
-Where \( \vec{F} \) is the friction force acting on the circulating particle, \( n_{e} \) is the electron density (per unit volume), \( q \) is the charge of the circulating particle, \( e \) is the elementary charge, \( m_e \) is the electron mass, \( d\vec{V} \) is the velocity difference between the circulating particle and the local electron velocity. \( \rho_{\max} \) and \( \rho_{\min} \) are the maximum and minimum impact parameters, respectively, and \( \rho_{\mathrm{L}} \) is Larmor radius of the electrons (also known as the radius of gyration). $V_{\text{tot}}$ represents the total velocity difference between the electrons and ion, which is given by:
+where \( \vec{F} \) is the friction force acting on the circulating particle, \( n_{e} \) is the electron density (per unit volume), \( q \) is the charge of the circulating particle, \( e \) is the elementary charge, \( m_e \) is the electron mass, \( d\vec{V} \) is the velocity difference between the circulating particle and the local electron velocity. \( \rho_{\max} \) and \( \rho_{\min} \) are the maximum and minimum impact parameters, respectively, and \( \rho_{\mathrm{L}} \) is the Larmor radius of the electrons (also known as the radius of gyration). $V_{\text{tot}}$ represents the total velocity difference between the electrons and ion, which is given by:
 %
 \begin{equation}
 V_{\text{tot}} = \sqrt{dV^2 + \Delta_{\parallel}^2 + \Delta_\text{magnet}^2},
 \label{eq: total_velocity_difference}
 \end{equation}
 %
-Where \( dV^2 = dV_x^2 + dV_y^2 + dV_z^2 \) is the squared norm of the relative velocity difference between the ion and electron. To prevent the cooling force from diverging as \( dV \to 0 \), regularization terms are added. The most logical approach is to add the temperatures as regularization terms because they provide the RMS velocity difference when \( dV = 0 \). This is why \( \Delta_{\parallel} \) the longitudinal electron velocity spread associated with their temperature is added to Equation~\eqref{eq: total_velocity_difference}. Lastly, \( \Delta_\text{magnet} \) is the additional velocity spread induced by imperfections in the magnetic field of the electron cooler solenoid, which is given by:
+where \( dV^2 = dV_x^2 + dV_y^2 + dV_z^2 \) is the squared norm of the relative velocity difference between the ion and electron. To prevent the cooling force from diverging as \( dV \to 0 \), regularization terms are added. The most logical approach is to add the temperatures as regularization terms because they provide the RMS velocity difference when \( dV = 0 \). This is why \( \Delta_{\parallel} \), the longitudinal electron velocity spread associated with their temperature, is added to Equation~\eqref{eq: total_velocity_difference}. Lastly, \( \Delta_\text{magnet} \) is the additional velocity spread induced by imperfections in the magnetic field of the electron cooler solenoid, which is given by:
 \begin{equation}
 \Delta_\text{magnet} = c \gamma \frac{B_\perp}{B_\parallel}
 \end{equation}
-Where \( \frac{B_\perp}{B_\parallel} \) is the ratio of the transverse component of the magnetic field with respect to the longitudinal component. The transverse temperature is not included in Equation~\eqref{eq: total_velocity_difference} because it is suppressed due to the gyration motion of the electrons in the magnetic field. The transverse temperature indirectly plays a role in the Parkhomchuk model via the Larmor radius \( \rho_\text{L} \), which is given by:
+where \( \frac{B_\perp}{B_\parallel} \) is the ratio of the transverse component of the magnetic field to the longitudinal component. The transverse temperature is not included in Equation~\eqref{eq: total_velocity_difference} because it is suppressed due to the gyration motion of the electrons in the magnetic field. The transverse temperature indirectly plays a role in the Parkhomchuk model via the Larmor radius \( \rho_\text{L} \), which is given by:
 %
 \begin{equation}
 \rho_{\text{L}} = \frac{m_e \Delta_{\perp}}{e B}
 \label{eq: larmor_radius}
 \end{equation}
 %
-Where \(\Delta_{\perp}\) is the transverse velocity due to the transverse electron temperature and \(B\) is the magnetic field.
+where \(\Delta_{\perp}\) is the transverse velocity due to the transverse electron temperature and \(B\) is the magnetic field.
 %
 The minimum impact parameter \( \rho_{\text{min}} \) is given by:
 \begin{equation}
@@ -2060,13 +2059,13 @@ The minimum impact parameter \( \rho_{\text{min}} \) is given by:
 \label{eq: minimum_impact_parameter}
 \end{equation}
 %
-The maximum impact parameter determines the maximum length scale at which a Coulomb interaction takes place, which can be limited by various physical effects, such as the Debye length and it is given by:
+The maximum impact parameter determines the maximum length scale at which a Coulomb interaction takes place, which can be limited by various physical effects, such as the Debye length, which is given by:
 %
 \begin{equation}
     \rho_d = \frac{\Delta_{\parallel}}{\omega_p},
 \end{equation}
 %
-Where the longitudinal velocity spread of the electrons \( \Delta_{\parallel}  \) is given by:
+where the longitudinal velocity spread of the electrons \( \Delta_{\parallel}  \) is given by:
 %
 \begin{equation}
    \Delta_{\parallel} = \sqrt{\frac{k_B T}{m_e}}
@@ -2107,7 +2106,7 @@ In addition to \( \rho_{\text{shield}} \), the maximum impact parameter can also
 \rho_{\text{interaction}} = V_{\text{tot}} \tau
 \end{equation}
 %
-Where \( \tau \) is \( \frac{L}{\beta_0 c \gamma_0} \), which is the time it takes for the ion to pass through the electron cooler.
+where \( \tau \) is \( \frac{L}{\beta_0 c \gamma_0} \), which is the time it takes for the ion to pass through the electron cooler.
 %
 Finally, the maximum impact parameter in the Xsuite implementation is the minimum of \( \rho_{\text{interaction}} \) and \( \rho_{\text{shield}} \), which is given by:
 %
@@ -2125,9 +2124,9 @@ An additional effect of electron cooling that needs to be taken into considerati
 \approx 1.2 \times 10^{-4} \frac{I}{\beta_0^3}\left(\frac{r}{r_{e-beam}}\right)^2
 \label{Eq:space_charge_electron_beam}
 \end{equation}
-Equation \ref{Eq:space_charge_electron_beam} says that the electrons at the edge electron beam have a larger momentum than the electrons at the center. This means that the ions at the edge of the beam pipe will reach a larger equilibrium momentum than the ions at the core because the ions will assume the momentum of the electrons.
+Equation \ref{Eq:space_charge_electron_beam} says that the electrons at the edge of the electron beam have a larger momentum than the electrons at the center. This means that the ions at the edge of the beam pipe will reach a larger equilibrium momentum than the ions at the core because the ions will assume the momentum of the electrons.
 
-The Xsuite electron cooler allows for the inclusion of an optional effect called "space charge neutralization," which is determined by the parameter "space charge factor." A value of 0 for this parameter indicates that there is no space charge in the electron beam, while a value of 1 indicates that the electron beam will follow a parabolic profile as described in Equation \ref{Eq:space_charge_electron_beam}.
+The Xsuite electron cooler allows for the inclusion of an optional effect called ``space charge neutralization,'' which is determined by the parameter ``space charge factor.'' A value of 0 for this parameter indicates that there is no space charge in the electron beam, while a value of 1 indicates that the electron beam will follow a parabolic profile as described in Equation \ref{Eq:space_charge_electron_beam}.
 
 An additional effect due to space charge is the rotation of the electron beam around the beam axis due to the magnetic field of the electron cooler. The angular velocity of the rotation is given by \cite{poth1990electron}:
 \begin{equation}
@@ -2137,12 +2136,12 @@ An additional effect due to space charge is the rotation of the electron beam ar
 \approx 60 \frac{I}{r_{\mathrm{e} \text {-beam }}^2 \beta \gamma^2 B_{\|}}
 \label{Eq:rotation_electron_beam}
 \end{equation}
-This effect can also be disabled by setting "space charge factor" to zero. A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
+This effect can also be disabled by setting ``space charge factor'' to zero. A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
 
 
 \subsection{Rotations}
 
-We assume the conventions for the directions of rotation for compatibility with \mbox{MAD-X}, as visualised in Fig.~\ref{fig:beam-rotations}, and give the maps to convert the particle coordinates to the reference frames rotated by $\phi$, $\theta$, and $\psi$, respectively.
+We assume the conventions for the directions of rotation for compatibility with \mbox{MAD-X}, as visualized in Fig.~\ref{fig:beam-rotations}, and give the maps to convert the particle coordinates to the reference frames rotated by $\phi$, $\theta$, and $\psi$, respectively.
 
 \begin{figure}[H]
 	\centering
@@ -2314,7 +2313,7 @@ which is very general, or alternatively add a special element that performs at e
 
 Acceleration can be achieved by renormalizing the relative variables using a new momentum reference. This has the side effect that the fields of the magnets (expressed in normalized strength) follow the energy ramp and that the cavity frequency (if expressed in terms of the harmonic number; NB we should perhaps change this in the Xtrack interface) is updated.
 
-The re-normalization if done once at each turn is:
+The re-normalization, if done once at each turn, is:
 
 \begin{align}
 p_{x,\rm new} &= p_{x,\rm old} \frac{P_{0,\rm old}}{P_{0,\rm new}} &
@@ -2350,7 +2349,7 @@ In the derivation we omit $\Delta$ in the naming of shifts and drifts and we cal
 the relative position of the anchor along the element of length $L$.
 
 Note that the rotation about the $y$ axis does not follow the classical right-handed approach:
-a positive $\phi$ rotation is clockwise when viewed from positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
+a positive $\phi$ rotation is clockwise when viewed from the positive $x$ side, i.e., it goes from the $s$ to the $y$ axis, as opposed to from $y$ to $s$.
 
 \begin{figure}
   \centering
@@ -2535,12 +2534,12 @@ Assuming a curved element of length $L$ that bends the reference frame by $\alph
 		\Delta s &= \rho \sin(\alpha) = L \mathrm{sinc}(\alpha).
 	\end{aligned}
 \end{equation}
-Note, that the second formulations of $\Delta x$ and $\Delta s$ let us avoid division by zero if $\alpha = 0$, catering also to the case of a straight element for a truly general case.
+Note that the second formulations of $\Delta x$ and $\Delta s$ let us avoid division by zero if $\alpha = 0$, catering also to the case of a straight element for a truly general case.
 
 Let us say that our element is misaligned at position $\Delta L$ along its length $L$.
 Then we can decompose our reference-frame-bending transformation $B$ into parts $B_f$ and $B_{1-f}$ so that $B = B_f B_{1-f}$.
-The respective bending angles of the two parts are simply $f \alpha$ and $(1 - f) \alpha$, where $f := \Delta L/L = \Delta L / (\rho \alpha)$ and $\rho$ is the curvature.
-Knowing these parameters, it is trivial to construct $B_f$ and $B_{1 - f}$ analogously to $B$, as shown in eq.~\ref{eq:curved-frame-change}.
+The respective bending angles of the two parts are simply $f \alpha$ and $(1 - f) \alpha$, where $f := \Delta L/L = \Delta L / (\rho \alpha)$ and $\rho$ is the radius of curvature.
+Knowing these parameters, it is trivial to construct $B_f$ and $B_{1 - f}$ analogously to $B$, as shown in Eq.~\ref{eq:curved-frame-change}.
 
 Then, we compute the following transformation, which will take us from the normal to the misaligned element entry frame:
 \[
@@ -2625,7 +2624,7 @@ and for the exit, $M_1 = T(x_1, y_1, s_1) R_y(\theta_1) R_x(\phi_1) R_s(\psi_1)$
 		s_1 &= M_{1,23}.
 	\end{aligned}
 \]
-Note that many decompositions are possible, and their order can lead to more or less clean closed formulae for the parameters; in this case, however, we do not expect any `nice' closed-form solutions (as opposed to the case of the subsequent section!)
+Note that many decompositions are possible, and their order can lead to more or less clean closed formulae for the parameters; in this case, however, we do not expect any `nice' closed-form solutions (as opposed to the case of the subsequent section!).
 The above decomposition corresponds to the following tracking sequence:
 \begin{itemize}
 	\item ($M_0$:) XYShift($x_0$, $y_0$), SShift($s_0$), YRot($\theta_0$), XRot($\phi_0$), SRot($\psi_0$),
@@ -2729,8 +2728,8 @@ whereas for returning to the normal frame from the exit
 	\end{aligned}
 \]
 
-It is intuitively obvious, that due to lack of curvature, the entry and exit transformations should be possible to simplify.
-Specifically, we would want $M_0$ to involve some translation followed by rotations $R_y(\theta) R_x(\phi) R_s(\psi)$, and $M_1$, since it `undoes' the effect of $M_0$, into rotations $R_s(-\psi) R_x(-\phi) R_y(-\theta)$ followed by some other translation.
+It is intuitively obvious that, due to the lack of curvature, the entry and exit transformations should be possible to simplify.
+Specifically, we would want $M_0$ to involve some translation followed by rotations $R_y(\theta) R_x(\phi) R_s(\psi)$, and $M_1$, since it `undoes' the effect of $M_0$, to involve rotations $R_s(-\psi) R_x(-\phi) R_y(-\theta)$ followed by some other translation.
 
 First we decompose the entry matrix $M_0 = T(x_0, y_0, s_0) R_y(\theta_0) R_x(\phi_0) R_s(\psi_0)$, i.e.~with the same method as in the previous section.
 After some algebra we observe that the angles and shifts indeed simplify:
@@ -2760,7 +2759,7 @@ We indeed observe the angles and shifts simplifying:
 		s_1 &= M_{tr,23} = (f - 1) L (\cos(\phi) \cos(\theta) - 1) - s.
 	\end{aligned}
 \]
-This way, our tracking procedure can be significantly less computationally expensive, compare to that of the preceding section, as no matrix operations are required:
+This way, our tracking procedure can be significantly less computationally expensive, compared to that of the preceding section, as no matrix operations are required:
 	\begin{itemize}
 	\item XYShift($x - L f \cos(\phi)\sin(\theta)$, $y - L f \sin(\phi)$)
 	\item SShift($s - L f (1 - \cos(\phi)\cos(\theta))$)
@@ -2785,7 +2784,7 @@ We consider a tilted curved element misaligned with respect to an arbitrary posi
 
 Compared with the earlier discussion of misaligned curved elements (see Section~\ref{section:curved-no-roll}), when considering a tilted element, we need to include the tilting in our transformation $B$ (which, as before, is decomposed as $B_f B_{1-f}$ in Figure~\ref{fig:bend-roll}).
 
-In order to include this effect we need to realise that in the previous case the curvature of the reference frame was only applied in the $s{-}x$ plane, whereas in the case of Figure~\ref{fig:bend-roll}, it will be applied in the plane obtained by tilting $s{-}x$ by some angle $\kappa$.
+In order to include this effect we need to realize that in the previous case the curvature of the reference frame was only applied in the $s{-}x$ plane, whereas in the case of Figure~\ref{fig:bend-roll}, it will be applied in the plane obtained by tilting $s{-}x$ by some angle $\kappa$.
 
 Therefore, taking $B_{sx}$ as the earlier transformation, i.e.,
 \[
@@ -2811,7 +2810,7 @@ To obtain the tracking procedure in this case it suffices to follow the steps of
 
 \section{Misalignment at arbitrary $s$ with a tilt (straight case)}\label{section:straight-roll}
 
-We can generalise the matrix of the above section to a straight case by recalling that $\rho(\cos(\alpha) - 1) = -L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2)$ and $\rho \sin(\alpha) = L \mathrm{sinc}(\alpha)$.
+We can generalize the matrix of the above section to a straight case by recalling that $\rho(\cos(\alpha) - 1) = -L \mathrm{sinc}(\alpha / 2) \sin(\alpha / 2)$ and $\rho \sin(\alpha) = L \mathrm{sinc}(\alpha)$.
 Then, we can see that when $\alpha = 0$, the matrix $B$ of the preceding section simplifies to
 \[
 	B \rvert_{\alpha=0} = \begin{bmatrix}
@@ -2828,7 +2827,7 @@ This makes intuitive sense, as, in our setup, the tilt indeed only affects the d
 \section{S Shift -- $\zeta$ correction}
 
 In the tracking procedures shown in the preceding sections, we use the tracking map we refer to as an SShift, which we use to transport the particles in a straight line by a displacement in $s$.
-We can presume the SShift to be a variant of DriftExact, however there are special considerations that we need to take here, with respect to the path length $s$ and the delay $\zeta$ of our particles.
+We can presume the SShift to be a variant of DriftExact; however, there are special considerations that we need to take here, with respect to the path length $s$ and the delay $\zeta$ of our particles.
 
 \begin{figure}[H]
 	\centering
@@ -2901,16 +2900,16 @@ We can presume the SShift to be a variant of DriftExact, however there are speci
 		% Text Node
 		\draw (135.61,102.9) node [anchor=north west][inner sep=0.75pt]    {$\Delta s_{1}$};
 	\end{tikzpicture}
-	\caption{Visualisation of the $s$-coordinate transformations without correction.}\label{fig:no-s-no-zeta-correction}
+	\caption{Visualization of the $s$-coordinate transformations without correction.}\label{fig:no-s-no-zeta-correction}
 \end{figure}
 
-In the visualization in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle travelled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
+In the visualization in Fig.~\ref{fig:no-s-no-zeta-correction} we can see the different $s$-coordinate updates taking place when we track through a misalignment: in particular, we can see that the total path of the particle traveled, should SShift be simply a drift, is $\Delta s = \Delta s_0 + L + \Delta s_1$.
 Clearly, $\Delta s_0 \neq -\Delta s_1$, and so the path length changes between the aligned and misaligned element.
 However, what we desire is the opposite, i.e.~that the path length does not change: it is inconvenient to have the length of our accelerator change due to a misalignment.
 Therefore, the simplest correction we can make in this instance is to disregard the update of the $s$ coordinate in our drift/$s$-shift.
 
 A further correction needs to be made with respect to the $\zeta$ coordinate.
-Since $\zeta$ is related to the path length by $\zeta = s - \beta_0 c t$, and since, in our setup, the synchronous particle arrival time is not expected to change between the normal and misaligned entry to the element we expect that $\Delta \zeta = \Delta s$ between those two points.
+Since $\zeta$ is related to the path length by $\zeta = s - \beta_0 c t$, and since, in our setup, the synchronous particle arrival time is not expected to change between the normal and misaligned entry to the element, we expect that $\Delta \zeta = \Delta s$ between those two points.
 However, as we have already established for our correction of $s$, we expect the $s$ coordinate to be unchanged, so we can adjust $\zeta$ in exactly the same fashion as we do $s$:
 
 \[
@@ -2931,7 +2930,7 @@ We define $z$ as the vector of $2 k$ coordinates,
 \begin{align}\label{opt:eqn:1}
 z&=(z_1,\ldots,z_{2k})^T=(x-x_0,p_x-p_{x0},y-y_0,p_y-p_{y0},\zeta-\zeta_0,p_\zeta-p_{\zeta0})^T
 \end{align}
-one can define linear transfer maps (e.g. $R_{1\to 2}$ that propagates coordinates between two points $s_1$, $s_2$) and the one-turn map (e.g. $R_1$ that combines the effects for one turn starting from $s_1$):
+One can define linear transfer maps (e.g. $R_{1\to 2}$ that propagates coordinates between two points $s_1$, $s_2$) and the one-turn map (e.g. $R_1$ that combines the effects for one turn starting from $s_1$):
 \begin{align}\label{opt:eqn:2}
 z(s_2)&= R_{1\to 2} z(s_1) & z(C+s_1) &= R_1 z(s_1).
 \end{align}
@@ -2944,7 +2943,7 @@ Since the matrices derive from symplectic maps, the eigenvalue spectrum of the o
 R v_k^\pm  =  \lambda_k^\pm v_k^\pm, \ k=1,\ldots, 3 \\
 v_k^+=(v_k^-)^*, \quad \lambda_k^+=(\lambda_k^-)^*, \quad |\lambda_k^{\pm}|=1
 \end{align}
-As the eigenvectors are linearly independent $R$ can be diagonalized with
+As the eigenvectors are linearly independent, $R$ can be diagonalized with
 \begin{align}
 R &= V \Lambda V^{-1},
 \end{align}
@@ -3015,7 +3014,7 @@ such that
 \begin{align}\label{opt:eqn:2:2}
 \mathrm{angle}(v_{k,2k-1}^{+})=0 \leftrightarrow \psi_k=-\mathrm{angle}(v_{k,2k-1}^{+})
 \end{align}
-In real space, Eqn.~\ref{opt:eqn:2:1} and \ref{opt:eqn:2:2} then become equivalent to:
+In real space, Eqns.~\ref{opt:eqn:2:1} and \ref{opt:eqn:2:2} then become equivalent to:
 \begin{align}
 |a_{j,2j-1}| &=\max_{k=1,2,3} |a_{k,j}|,& b_{j,2 j-1}&=0, & j=1,\ldots, 3
 \end{align}
@@ -3067,7 +3066,7 @@ For the derivation the following steps are needed:
 \begin{align}\label{opt:eqn:3:1}
 \tilde z(C+s) = W^{-1}z(s+C)\overset{(\rm Eqn.\ref{eq:lin_norm_form})}{=}W^{-1}W R_{\mathrm{rot}} W^{-1}z(s)= R_{\mathrm{rot}}\tilde z(s),
 \end{align}
-As $R$ and $R_{\mathrm{rot}}$ are symplectic also $W$ is symplectic, and its inverse is thus given by $S^{-1}W^{T}S$, explicitly:
+As $R$ and $R_{\mathrm{rot}}$ are symplectic, $W$ is also symplectic, and its inverse is thus given by $S^{-1}W^{T}S$, explicitly:
 \begin{align}
 W^{-1}&=
 \left(
@@ -3164,7 +3163,7 @@ Conversely the lattice functions can also be expressed by $a_k$ and $b_k$ with
 \alpha_{k,j}(s)&=- a_{k,2j-1}(s)a_{k,2j}(s) -b_{k,2j-1}(s)b_{k,2j}(s) \\
 \gamma_{k,j}(s)&=a_{k,2j}(s)^2 +b_{k,2j}(s)^2,
 \end{align}
-The well known relations between the lattice functions
+The well-known relations between the lattice functions
 \begin{align}
 \sum_{j=1}^3\beta_{k,j}\phi_{k,j}'&=1 \\
 \gamma_{k,j}&=\frac{\beta_{k,j}^2\phi_{k,j}'^2+\alpha_{k,j}^2}{\beta_{k,j}}, \text{ with  }\\
@@ -3524,7 +3523,7 @@ Sections~\ref{opt:sec:4} and \ref{opt:sec:dispersion_crab_dispersion}.
 
 \section{Action, amplitude and emittance}
 
-We define the action associated to the three modes:
+We define the action associated with the three modes:
 \begin{align}
 J_x = \frac{\hat{x}^2 + \hat{p}^2_x}{2},
 \quad
@@ -3639,7 +3638,6 @@ D_{x}^{p_\zeta} = \left(W_{16} -\frac{W_{15}W_{56}}{W_{55}}\right)\left( W_{66}\
 \end{equation}
 
 A similar type of calculation can be done for the other planes, and for the transverse momentum dispersion, obtaining $D_{px}^{p_\zeta}$:
-which gives the dispersion:
 \begin{equation}
 D_{px}^{p_\zeta} = \left(W_{26} -\frac{W_{25}W_{56}}{W_{55}}\right)\left( W_{66}\ -  \frac{W_{65}W_{56}}{W_{55}} \right)^{-1}
 \end{equation}
@@ -3688,7 +3686,7 @@ which gives the crab dispersion:
 D_x^\zeta = \left(W_{15} -\frac{W_{16}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
 
-A similar type of calculation can be done for the other planes, and for transverse momentum crab dispersion obtaining:
+A similar type of calculation can be done for the other planes, and for the transverse momentum crab dispersion, obtaining:
 \begin{equation}
 D_{p_x}^\zeta = \left(W_{25} -\frac{W_{26}W_{65}}{W_{66}}\right)\left( W_{55}\ -  \frac{W_{56}W_{65}}{W_{66}} \right)^{-1}
 \end{equation}
@@ -4034,7 +4032,7 @@ and we have defined the smooth-approximation longitudinal focusing factor:
 K_s = -\frac{2\pi q V_{RF} f_{RF}}{\beta_0^3 C E_0 c}\cos{\phi_s}
 \end{align}
 
-We derive the second equation and replace the first:
+We differentiate the second equation and substitute the first:
 \begin{align}
 \frac{d^2\bar{\zeta}}{d s^2}  +  \eta K_s \bar{\zeta} = 0
 \end{align}
@@ -4126,7 +4124,7 @@ and equivalently
 and the longitudinal envelope rotates in phase space with tune $Q_s$.
 
 \section{Kick-drift model}
-For the kick-drift mode we want to rewrite the Eq.~\ref{eq:deltapzeta}:
+For the kick-drift model we want to rewrite Eq.~\ref{eq:deltapzeta}:
 \begin{align}
 \Delta {p}_\zeta = C K_s \bar{\zeta}
 \end{align}
@@ -4218,7 +4216,7 @@ We solve for $\zeta$:
  +2 n \pi
  \right)
 \end{align}
-It is possible to set $\phi_\text{RF}$ to place a fixed point of either family in $\zeta = 0$:
+It is possible to set $\phi_\text{RF}$ to place a fixed point of either family at $\zeta = 0$:
 \begin{align}
 &\phi_\text{RF} =
  \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
@@ -4229,7 +4227,7 @@ It is possible to set $\phi_\text{RF}$ to place a fixed point of either family i
  - \arcsin\left(\frac{\Delta P_0\beta_0 c }{q_0 V_\text{RF}} \right)
   \label{eq:phiabovetr}
 \end{align}
-It can be shown that, to have a stable fixed point in $\zeta=0$, one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (above transition).
+It can be shown that, to have a stable fixed point at $\zeta=0$, one needs to use Eq.\,\ref{eq:phibelowtr} when $\eta<0$ (below transition) and Eq.\,\ref{eq:phiabovetr} when $\eta>0$ (above transition).
 
 
 \section{RF-frequency change modeled as a shift in $\zeta$}
@@ -4351,14 +4349,14 @@ and Eq.~\ref{eq:zeta_shift_from_rf_frequency} can equivalently be written as
 In machines having counter-rotating beams, such as the LHC, it is useful to be able
 to express beam coordinates for one of the beams in the reference frame of the other.
 Furthermore it is also useful to be able to define the two sequences using the same
-orientation. For the LHC, for example, the sequence of the LHC beam 2 is defined
-following the orientation of the LHC beam 1. In this case the properties of the
+orientation. For the LHC, for example, the sequence of the LHC Beam 2 is defined
+following the orientation of the LHC Beam 1. In this case the properties of the
 elements are specified in such a way that the built sequence is able to backtrack
 the physical beam and the sequence required to track the physical beam (usually called
 Beam 4 sequence) can be obtained with suitable transformations.
 
 \section{Reversed reference frame}
-The reference frames for beam 4 and beam 2 are related by the following transformations:
+The reference frames for Beam 4 and Beam 2 are related by the following transformations:
 \begin{align}
 &\tilde{x} = -x \label{eq:rev_x}\\
 &\tilde{y} = y \label{eq:rev_y}\\
@@ -4404,7 +4402,7 @@ Using Eq.\,\ref{eq:rev_t} we can write:
 \begin{equation}
 \tilde{V}_x \sin(\tilde{\phi} + \omega t) = -\,V_x \sin(\phi - \omega t)
 \end{equation}
-We choose to reverse the voltage definition since also the electric field is
+We choose to reverse the voltage definition since the electric field is also
 expressed in the reversed reference frame:
 \begin{equation}
 \boxed{
@@ -4565,7 +4563,7 @@ The algorithm to generate photon energies with the appropriate distribution is d
 \section{Damping from synchrotron radiation}
 \label{section:sr_damping_times}
 
-The damping constants from synchrotron radiation can be easily obtained from magnitude of the eigenvalues of the one-turn matrix:
+The damping constants from synchrotron radiation can be easily obtained from the magnitude of the eigenvalues of the one-turn matrix:
 \begin{align}
 \alpha_x &= -\log( \lvert \lambda_x \rvert)\\
 \alpha_y &= -\log( \lvert \lambda_y \rvert)\\
@@ -4637,7 +4635,7 @@ W^{-1}
 \end{array}\right)
 \end{equation}
 
-Using the Eq.\,\ref{eq:winv} we obtain:
+Using Eq.\,\ref{eq:winv} we obtain:
 \begin{align}
 &\Delta \hat{x} = \mathcal{K}_x \Delta \delta \label{eq:sr_dxhat}\\
 &\Delta \hat{p}_x = \mathcal{K}_{p_x} \Delta \delta \label{eq:sr_dxphat}\\
@@ -4662,7 +4660,7 @@ where:
 \left( \cfrac{b_{31}p_{x} + b_{33}p_{y} }{1 + \delta} + b_{35}\right)
 \end{align}
 
-The change in action (see Eq.\,\ref{eq:action}) associated to the first mode, due to the emission of a photon can be written as:
+The change in action (see Eq.\,\ref{eq:action}) associated with the first mode, due to the emission of a photon, can be written as:
 \begin{align}
 \Delta J_x &= \frac{1}{2}\left[
  \left(\hat{x} +\Delta \hat{x}\right)^2
@@ -4687,13 +4685,13 @@ Using Eqs.\,\ref{eq:sr_dxhat} and \ref{eq:sr_dxphat} we obtain:
 \frac{1}{2}\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\Delta \delta^2\rangle
 \end{align}
 
-Assuming that the kicks are uncorrelated we can obtain the emittance growth rate from quantum excitation integrating over a full turn:
+Assuming that the kicks are uncorrelated we can obtain the emittance growth rate from quantum excitation by integrating over a full turn:
 \begin{align}
 \left(\frac {d\varepsilon_x}{dt} \right)_\text{quant}=
 \frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\dot{N} \Delta \delta^2\rangle \,ds
 \label{eq:grate_quantum}
 \end{align}
-where $\dot{N}$ is the photon emission rate (number of photons per unit time), $T_0$ is the revolution period, C is the circumference.
+where $\dot{N}$ is the photon emission rate (number of photons per unit time), $T_0$ is the revolution period, and C is the circumference.
 
 By summing Eqs.\,\ref{eq:grate_rad_damp} and \ref{eq:grate_quantum} we obtain the total instantaneous growth rate:
 \begin{align}
@@ -4707,7 +4705,7 @@ By summing Eqs.\,\ref{eq:grate_rad_damp} and \ref{eq:grate_quantum} we obtain th
 \frac{1}{2T_0c}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\dot{N} \Delta \delta^2\rangle \,ds
 \end{align}
 
-By imposing the derivative to be zero we obtain the value of the equilibrium emittance:
+By setting the derivative to zero we obtain the value of the equilibrium emittance:
 \begin{align}
 \varepsilon_x=
 \frac{1}{4\alpha_xc}\int_0^C\left(\mathcal{K}^2_x + \mathcal{K}^2_{p_x}\right)\langle\dot{N} \Delta \delta^2\rangle \,ds
@@ -4737,7 +4735,7 @@ Xsuite can compute the following radiation integrals:
 
 The following quantities are used in the calculation.
 \begin{itemize}
-\item Horizontal and curvature of the particle trajectory:
+\item Horizontal and vertical curvature of the particle trajectory:
 \begin{align}
     &h_x = \frac{B_y Q}{m_0 c \gamma}    \label{eq:curvx}\\
     &h_y = -\frac{B_x Q}{m_0 c \gamma}   \label{eq:curvy}
@@ -4904,7 +4902,7 @@ The magnetic field gradients are defined as:
     &\partder{B_x}{x} = -\partder{B_y}{y} = \bar{G} = \frac{\gamma_0 m_0 c}{Q_0} \bar{K}_1
 \end{align}
 
-Here, $k_1$ is the normalised normal quadrupole strength and $\bar{K}_1$ is the normalised skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit we can assume $\gamma\simeq\gamma_0$, obtaining:
+Here, $k_1$ is the normalized normal quadrupole strength and $\bar{K}_1$ is the normalized skew quadrupole strength, both in units of $1/m^2$. In the following we neglect the skew quadrupole component and we assume that for the closed orbit $\gamma\simeq\gamma_0$, obtaining:
 \begin{equation}
     \totder{P_s}{E} = 2 P_s \left[ \frac{1}{E} + \frac{1}{E_0} \frac{\gamma m_0 c}{Q_0} \frac{k_1}{B^2} \left( B_y D_x + B_x D_y \right) \right]
 \end{equation}
@@ -4930,7 +4928,7 @@ Substituting this expression back in Eq.\,\eqref{eq:dUdEoint} gives:
     2\frac{k_1}{E_0} \left( h_x D_x - h_y D_y \right)(1 + h_{0x}x + h_{0y}y) \notag\\ &+ \frac{|h|^2}{E_0} (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s
 \end{align}
 
-The first term can be identified as $I_2$, again we assume that $h_{0x}x + h_{0y}y \ll 1$ and, as stated above on the closed orbit we assume $E/E_0 \approx 1$. Hence, we can write:
+The first term can be identified as $I_2$; again we assume that $h_{0x}x + h_{0y}y \ll 1$ and, as stated above, on the closed orbit we assume $E/E_0 \approx 1$. Hence, we can write:
 \begin{align}
     \totder{U_s}{E} = &\frac{2}{3} r_0 \gamma^3 \bigg[2I_2
     + \oint \bigg[2k_1 \left( h_x D_x - h_y D_y \right) + |h|^2 (h_{0x}D_x + h_{0y} D_y)\bigg] \ \dee s \bigg]
@@ -4961,7 +4959,7 @@ From Hofmann, the variance in the amplitude of a damped oscillator that is excit
     \mean{x^2} = \frac{\dot{n} \mean{a^2}}{4\alpha}
 \end{equation}
 
-Here, $x$ is the deflection of the oscillator, $\dot{n}$ is the average rate at which excitation occurs, $a$ is the amplitude of the excitation and $\alpha$ is the damping rate of the oscillator. For quantum excitation of the longitudinal emittance, we identify $x$ as the RMS energy $\dee E$, $\dot{n}$ as the average rate of photon emission, $a$ as the photon energy and $\alpha$ as $\alpha_\epsilon$, the longitudinal damping rate. The normalised variance is then:
+Here, $x$ is the deflection of the oscillator, $\dot{n}$ is the average rate at which excitation occurs, $a$ is the amplitude of the excitation and $\alpha$ is the damping rate of the oscillator. For quantum excitation of the longitudinal emittance, we identify $x$ as the RMS energy $\dee E$, $\dot{n}$ as the average rate of photon emission, $a$ as the photon energy and $\alpha$ as $\alpha_\epsilon$, the longitudinal damping rate. The normalized variance is then:
 \begin{equation}
     \frac{\mean{\dee E^2}}{E_0^2} = \frac{\dot{n} \mean{E_\gamma^2}}{4 \alpha_\epsilon E_0^2}
     \label{eq:notreallycampbell}
@@ -4976,7 +4974,7 @@ The variance in the photon energy is given by:
 \begin{equation}
     \mean{E_\gamma^2} = \frac{11}{12} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2}
 \end{equation}
-and the longitudinal damping rate is given by Eq.\,\eqref{eq:alphadampfinal}:
+and the longitudinal damping rate is given by Eq.\,\eqref{eq:alphadampfinal}.
 Combining all these terms leads to
 \begin{equation}
     \frac{\mean{\dee E^2}}{E_0^2} = \frac{60 \sqrt{3}}{72} \frac{11}{12} \frac{3}{4} \frac{r_0 c Q B}{\hbar} \frac{Q^2\hbar^2 \gamma^4 B^2}{m_0^2 E_0^2} \frac{C_0}{c r_0 \gamma^3} \frac{1}{2I_2 + I_4}
@@ -5018,7 +5016,7 @@ The derivation in this section is valid for either $x$ or $y$. To this end, $u$ 
     \label{eq:emittanceu}
 \end{equation}
 
-Here, subscript $\beta$ indicates that the betatron component of the coordinate value. The total coordinates, $u$ and $u'$ are a combination of the to betatron and an energy deviation $\delta$ parts, that is
+Here, the subscript $\beta$ indicates the betatron component of the coordinate value. The total coordinates, $u$ and $u'$, are a combination of the betatron and the energy deviation $\delta$ parts, that is
 \begin{align}
     u  &= u_\beta  + u_\delta\\
     u' &= u_\beta' + u_\delta'
@@ -5069,7 +5067,7 @@ We want to express $\dee u'$ in terms of the photon energy. To this end, assume 
 % \end{equation}
 
 % Finally, this can be written as
-Following Hoffman we can write \cite{hofmann_2004}:
+Following Hofmann we can write \cite{hofmann_2004}:
 \begin{equation}
     u_{2\beta}' - u_{1\beta}' = \dee u_\beta = - \left( u_{1\beta}' - D' \right) \frac{\dee E_\gamma}{E_0}
     \label{eq:deeubetaprime}
@@ -5099,7 +5097,7 @@ Using the chain rule for the derivative gives:
     \totder{P_s}{u} = \totder{P_s}{B} \totder{B}{u} = 2\frac{P_s}{B} \left( \totder{B}{B_w} \partder{B_w}{u} + \totder{B}{B_u} \partder{B_u}{u} \right) = 2 \frac{P_s}{B^2} \left( B_w \partder{B_w}{u} + B_u \partder{B_u}{u} \right)
 \end{equation}
 
-Here, $w$ denotes the other component from $u$. That is, if $u$ is chosen to be $x$, then $w = y$ and vice versa. As has been done in Section \ref{sec:longdampandi4}, $\partder{B_u}{u}$ represents the skew quadrupole gradients, whereas $\partder{B_w}{u}$ represents the normal quadrupole gradients. The following step is similar as deriving Eq.\,\ref{eq:dPdE}, which results in
+Here, $w$ denotes the component other than $u$. That is, if $u$ is chosen to be $x$, then $w = y$ and vice versa. As has been done in Section \ref{sec:longdampandi4}, $\partder{B_u}{u}$ represents the skew quadrupole gradients, whereas $\partder{B_w}{u}$ represents the normal quadrupole gradients. The following step is similar to the derivation of Eq.\,\ref{eq:dPdE}, which results in
 \begin{equation}
     \totder{P_s}{u} = 2 \frac{P_s}{B^2} B_w \partder{B_w}{u} = 2 P_s \frac{h_u}{h^2} k_1
 \end{equation}
@@ -5116,7 +5114,7 @@ The energy radiated in a time interval $\dee s' / c$ is then given by
                                              &= \frac{P_s}{c} \left[ 1 + \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) u_\beta \right]\ \dee s
 \end{align}
 
-Here, only the $u$-component of $h_0$ was used, because we study betatron oscillations only in the selected place. Furthermore, terms of second order in $u_\beta$ were neglected. This result can be substituted back in Eq.\,\ref{eq:changeinemittance}, which gives
+Here, only the $u$-component of $h_0$ was used, because we study betatron oscillations only in the selected plane. Furthermore, terms of second order in $u_\beta$ were neglected. This result can be substituted back in Eq.\,\ref{eq:changeinemittance}, which gives
 \begin{align}
     \dee \epsilon_u = - 2 \frac{P_s}{cE_0} &\left[ 1 + \left( h_{0u} + 2 \frac{h_u}{h^2} k_1 \right) u_\beta \right]  \notag \\
                     & \times \left[ \left( \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2 \right)  - \left( \gamma_u D_u u_\beta + \alpha_x (D_u u_\beta' + D_u' u_\beta) + \beta_u D_u' u_\beta' \right)\right] \ \dee s
@@ -5188,7 +5186,7 @@ Since the betatron amplitude is proportional to $\sqrt{\epsilon_u}$, the 2 in th
 \subsubsection{Transverse Equilibrium Emittances and the Fifth Radiation Integral}
 \label{sec:transverseeqemiti5}
 
-The derivation in this section is valid for either $x$ or $y$. To this end, $u$ will be used as a substitute for either $x$ or $y$. The change in betatron position and angle when a photon is emitted, denoted by $u_\beta$ and $u_\beta'$ respectively, are given by
+The derivation in this section is valid for either $x$ or $y$. To this end, $u$ will be used as a substitute for either $x$ or $y$. The changes in betatron position and angle when a photon is emitted, denoted by $u_\beta$ and $u_\beta'$ respectively, are given by
 \begin{align}
     \delta u_\beta  &= D_u  \frac{\delta E\gamma}{E_0}
     \label{eq:deltaubeta}\\
@@ -5201,7 +5199,7 @@ Here, $\delta E$ is the energy carried away by the photon. The emittance before 
     \epsilon_{u1} = \gamma_u u_\beta^2 + 2 \alpha_u u_\beta u_\beta' + \beta_u u_\beta'^2
 \end{equation}
 
-After the emission of the photon, the emittance has increased. The resulting emittance, $\epsilon_{u2}$ is
+After the emission of the photon, the emittance has increased. The resulting emittance, $\epsilon_{u2}$, is
 \begin{align}
     \epsilon_{u2}   &= \gamma_u (u_\beta + \delta u_\beta)^2 + 2 \alpha_u (u_\beta + \delta u_\beta)(u_\beta' + \delta u_\beta') + \beta_u (u_\beta' + \delta u_\beta')^2 \notag\\
                     &= \epsilon_{u1} + 2 \left( \gamma_u u_\beta \delta u_\beta + \alpha_u (u_\beta \delta u_\beta' + u_\beta' \delta u_\beta) + \beta_u u_\beta' \delta u_\beta' \right)\notag \\
@@ -5230,7 +5228,7 @@ To this end, we define $\curlyH_u$ as
     \curlyH_u = \gamma_u D_u^2 + 2 \alpha_u D_u D_u' + \beta_u D_u'^2
 \end{equation}
 
-Thus, the expectation on the change in emittance is
+Thus, the expectation of the change in emittance is
 \begin{equation}
     \mean{\dee \epsilon_u} = \curlyH_u \frac{\mean{\dee E_\gamma^2}}{E_0^2}
 \end{equation}
@@ -5405,7 +5403,7 @@ We know from the structure of the one-turn matrix:
 \label{eq:z2_mat}
 \end{equation}
 
-Combining, Eqs.\,\ref{eq:z2_isf}, \ref{eq:z2_orb} and~\ref{eq:z2_mat}, we obtain:
+Combining Eqs.\,\ref{eq:z2_isf}, \ref{eq:z2_orb} and~\ref{eq:z2_mat}, we obtain:
 % \begin{equation}
 % \mathbf{N} \bm{z}_2^{\text{orb}} = \mathbf{D} \bm{z}_1^{\text{orb}} + \mathbf{A} \mathbf{N} \bm{z}_1^{\text{orb}}
 % \end{equation}
@@ -5482,7 +5480,7 @@ where, truncating to the first order the dependence of the ISF on the phase spac
 \right]_s
 \end{align}
 
-The buildup time can be decomposed in two terms:
+The buildup time can be decomposed into two terms:
 \begin{equation}
 \tau_\text{tot}^{-1} = \tau_\text{pol}^{-1} + \tau_\text{depol}^{-1}
 \end{equation}
@@ -5542,7 +5540,7 @@ In coasting beams, different particles have different revolution frequencies dep
 
 If in the line we have collective elements which need to measure the beam distribution at a certain location $s$ and at a given time $t$, we need to ensure that all particles present at $s$ at the instant $t$ are present at the element.
 
-We define for each particle and for any couple of positions $s_1 < s_2$:
+We define for each particle and for any pair of positions $s_1 < s_2$:
 \begin{equation}
 \hat{\beta}(s_1, s_2) = \frac{1}{c}\frac{s_2-s_1}{t(s_2) - t(s_1)}
 \end{equation}
@@ -5611,7 +5609,7 @@ t_k(s_1) \in F_n(s_1) \Rightarrow t_k(s_2) \in F_n(s_2) \cup  F_{n+1}(s_2) \quad
 t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2
 \end{equation}
 ~\\
-\textbf{Proposition 3:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, than the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval
+\textbf{Proposition 3:} If the time $t_k(L)$ defining the $k$-th arrival of a particle at the end of the line falls in the frame $F_n(L)$, then the time $t_{k+1}(0) = t_k(L)$ of the $(k+1)$-th arrival of the particle at $s=0$ falls in the interval
 $F_{n+1}(0)$. In symbols:
 \begin{equation}
 t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
@@ -5632,7 +5630,7 @@ We can write t in terms of $\zeta$ as:
  \label{eq:tfromzeta}
 \end{equation}
 
-With this definition the $\zeta$ coordinate needs to be updated each time the particle passes at the start of the line since across the $s=0$ we can write:
+With this definition the $\zeta$ coordinate needs to be updated each time the particle passes at the start of the line since across $s=0$ we can write:
 \begin{align}
 \zeta^- &= L - \beta_0 c (t - n\Delta T)\\
 \zeta^+ &= 0 - \beta_0 c (t - (n+1)\Delta T)
@@ -5644,9 +5642,9 @@ Combining the two equations we can write:
 \zeta^+ = \zeta^- - (L - \beta_0 c \Delta T)
 \end{equation}
 
-In standard simulations for bunched beams the simulated frame is $\Delta T = L / (\beta_0 c)$ , hence the $\zeta$ coordinate is continuous.
+In standard simulations for bunched beams the simulated frame is $\Delta T = L / (\beta_0 c)$, hence the $\zeta$ coordinate is continuous.
 
-For coasting beams $\Delta T$ is given by Eq.\,\ref{eq:deltatdef}, hence the $\zeta$ needs to be updated at each turn using:
+For coasting beams $\Delta T$ is given by Eq.\,\ref{eq:deltatdef}, hence $\zeta$ needs to be updated at each turn using:
 \begin{equation}
 \boxed{
 \zeta^+ = \zeta^- - L\left(1 - \frac{\beta_0}{\beta_\text{sim}} \right)
@@ -5773,7 +5771,7 @@ t_k(s_2) > T_n(s_2) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
 \right)
 \end{equation}
 
-Using Eq.\,\ref{eq:betaineq} and the fact that by hypotheses that $s_2 > s_1$, we know that the last term is positive. Therefore we can write:
+Using Eq.\,\ref{eq:betaineq} and the fact that, by hypothesis, $s_2 > s_1$, we know that the last term is positive. Therefore we can write:
 \begin{equation}
 t_k(s_2) > T_n(s_2) - \frac{\Delta T}{2}
 \label{tk_s2_right}
