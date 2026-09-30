@@ -93,6 +93,13 @@ jobs:
         run: |
           command -v git
           git --version
+      - name: Check container build runtime
+        run: |
+          if ! command -v crun; then
+            echo "::error::Install crun on this runner; runc can fail to mount build secrets on nosuid filesystems."
+            exit 1
+          fi
+          crun --version
       - id: build-image
         name: Build the test image
         env:
@@ -103,6 +110,7 @@ jobs:
           echo "image_id=$IMAGE" >> $GITHUB_OUTPUT
           podman build \
             --rm \
+            --runtime "$(command -v crun)" \
             --network=host \
             --no-cache=true \
             --secret id=github_token,env=GH_TOKEN \
