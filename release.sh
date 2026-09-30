@@ -15,7 +15,11 @@ get_latest_version () {
 update_version () {
   local package=$1
   local version=$2
-  sed -i '' -E -e "s/$package==[0-9.]+/$package==$version/g" "pyproject.toml"
+  # `-i` takes the backup suffix as a separate argument on BSD sed but as an
+  # attached one on GNU sed, so `-i ''` makes GNU sed read a file named ''.
+  # `-i.bak` is understood by both; the backup is discarded right after.
+  sed -i.bak -E -e "s/$package==[0-9.]+/$package==$version/g" "pyproject.toml"
+  rm -f "pyproject.toml.bak"
 }
 
 verify_input() {
