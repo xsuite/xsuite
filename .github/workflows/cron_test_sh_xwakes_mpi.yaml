@@ -16,7 +16,7 @@ jobs:
     with:
       test_contexts: 'ContextCpu'
       with_mpi: true
-      platform: 'alma-cpu-small-1'
+      platform: 'alma-cpu-2'
       suites: '["xwakes"]'
       forbid_compile: true
       precompile_kernels: true
