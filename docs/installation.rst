@@ -164,16 +164,6 @@ To import MAD-X lattices you will need the cpymad package, which can be installe
 
     pip install cpymad
 
-Sixtracktools
--------------
-
-To import lattices from a set of sixtrack input files (fort.2, fort.3, etc.) you will need the sixtracktools package, which can be installed as follows:
-
-.. code-block:: bash
-
-    git clone https://github.com/sixtrack/sixtracktools
-    pip install -e sixtracktools
-
 PyHEADTAIL
 ----------
 
