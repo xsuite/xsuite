@@ -275,6 +275,41 @@ coefficient generates a \(w^{-1}\) term, which in turn generates
 \(w^{-3}\), and so on. The curved expansion therefore need not terminate,
 even when its seeds are polynomials.
 
+\subsection{Evaluating the seed rows in the curved frame}
+\label{sec:curved-seed-rows}
+
+The substitution \(x=(w-1)/h\) is exact, but it is ill conditioned in
+floating-point arithmetic. A seed term \(x^n\) becomes
+\begin{equation}
+ x^n=\frac{(w-1)^n}{h^n}
+    =\frac{1}{h^n}\sum_{p=0}^{n}\binom{n}{p}(-1)^{n-p}w^p,
+\end{equation}
+whose coefficients are of order \(h^{-n}\) and cancel to \(x^n\) when the
+sum is evaluated at \(w\approx1\). In double precision the relative
+roundoff of the sum is therefore of order \(\epsilon\,(hx)^{-n}\), with
+\(\epsilon\approx10^{-16}\). For an octupole evaluated at \(x=1\,\mathrm{cm}\)
+in a frame with \(h=10^{-3}\,\mathrm{m}^{-1}\), this exceeds the field itself.
+
+\texttt{BFieldExpansion} therefore keeps the two seed rows \(\phi_0\) and
+\(\phi_1\) as polynomials in \(x\), Eq.~\eqref{bfe:seeds}, and evaluates
+them in that basis. Only the recurrence rows \(\phi_i\) with \(i\geq2\)
+use the \(w\) basis of Eq.~\eqref{bfe:curved-coefficients}, which is
+built from the \(w\)-basis form of the seeds. The physical fields follow
+from Eq.~\eqref{bfe:field}: for the seed rows \(b_x\) uses the derivative
+of the \(x\) polynomial, and \(b_s\) carries the factor \(1/w\). The
+midplane field \(b_y(x,0,s)=-\phi_1\) is thus free of the cancellation at
+every multipole order.
+
+Each application of \(\mathcal D_h\) multiplies the coefficients by
+\(h^2\), so the rows \(\phi_2,\phi_4,\ldots\) generated from a skew seed of
+order \(n\) carry \(h^{-(n-2)},h^{-(n-4)},\ldots\), and the rows generated
+from a normal seed of order \(n\) carry \(h^{-(n-3)},h^{-(n-5)},\ldots\).
+The residual roundoff of the off-midplane field is therefore of order
+\(\epsilon\,(hx)^{-(n-2)}\) for skew and \(\epsilon\,(hx)^{-(n-3)}\) for
+normal multipoles. It is negligible through sextupole order for any
+admissible \(h\), and should be checked with \texttt{get\_field} when a
+small curvature is combined with octupole or higher orders.
+
 \section{Vector potential and gauge}
 \label{sec:magnetic-vector-potential}
 
@@ -337,7 +372,15 @@ or \(\partial_x(wC)=w\phi_1\). Integrating in \(x\) and imposing
  C(x,s)=\frac{1}{w}\int_0^x(1+hu)\phi_1(u,s)\,\dee u.
 \end{equation}
 Substitution gives the expression for \(a_s\) in
-Eq.~\eqref{bfe:vector-potential}.
+Eq.~\eqref{bfe:vector-potential}. With the seed polynomial
+\(\phi_1(x,s)=\sum_m d_{1,m}(s)x^m\) of Sec.~\ref{sec:curved-seed-rows},
+the integral is evaluated in closed form,
+\begin{equation}
+ C(x,s)=\frac{1}{w}\sum_m d_{1,m}(s)\,x^{m+1}
+        \left(\frac{1}{m+1}+\frac{hx}{m+2}\right),
+\end{equation}
+so that the midplane vector potential shares the conditioning of the
+midplane field.
 
 \subsection{Checking the vertical field away from the midplane}
 
