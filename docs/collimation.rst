@@ -470,17 +470,17 @@ of the engine are:
 
 .. code-block:: python
 
-	Engine.start(line=None, elements=None, names=None, input_file=None, cwd=None,
+	engine.start(line=None, elements=None, names=None, input_file=None, cwd=None,
                      clean=True, **kwargs)
 
-	Engine.stop(clean=False)
+	engine.stop(clean=False)
 
 To start the engine, there are multiple options:
 
- - ``Engine.start(line=line)``: the engine will link all relevant elements in the line
- - ``Engine.start(line=line, names=names)``: the engine will only link the elements ``names`` (which should be present in the line)
- - ``Engine.start(elements=elements)``: the engine will link the provided list of elements
- - ``Engine.start(..., input_file=input_file)``: the engine will use the provided input file instead of auto-generating one (its elements need to match those provided)
+ - ``engine.start(line=line)``: the engine will link all relevant elements in the line
+ - ``engine.start(line=line, names=names)``: the engine will only link the elements ``names`` (which should be present in the line)
+ - ``engine.start(elements=elements)``: the engine will link the provided list of elements
+ - ``engine.start(..., input_file=input_file)``: the engine will use the provided input file instead of auto-generating one (its elements need to match those provided)
 
 It is possible to specify the working directory ``cwd`` where the external code will be executed and where input/output files and logs will be stored.
 If ``clean=True``, the working directory will be cleaned up.
@@ -489,7 +489,7 @@ If more control over the input file is desired, it is possible to pre-generate i
 
 .. code-block:: python
 
-    Engine.generate_input_file(line=None, elements=None, names=None, filename=None, clean=True, **kwargs)
+    engine.generate_input_file(line=None, elements=None, names=None, filename=None, clean=True, **kwargs)
 
 such that it can be manually modified before starting the engine with it.
 
@@ -499,33 +499,148 @@ The difference lies in the fact that arguments passed to the ``start()`` or ``ge
 methods will only be used for that specific call, while attributes set on the engine will persist
 for future calls as well.
 
-The following options can be set:
+Physics settings and returned particles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The physics configuration of the external scattering code is exposed directly
+through the engine. Settings can either be assigned persistently as engine
+attributes,
 
 .. code-block:: python
 
-    particle_ref: xpart.Particles  # Required
-    seed: int64                    # optional (default None)
-    verbose: bool                  # optional (default False)
-    input_file: str | Path         # optional (default None)
-    return_all: bool               # optional (default None)
-    return_none: bool              # optional (default None)
-    return_leptons: bool           # optional (default False)
-    return_mesons: bool            # optional (default False)
-    return_exotics: bool           # optional (default False)
-    return_baryons: bool           # optional (default False)
-    return_neutral: bool           # optional (default False)
-    return_photons: bool           # optional (default False)
-    return_electrons: bool         # optional (default True)
-    return_muons: bool             # optional (default True)
-    return_tauons: bool            # optional (default False)
-    return_neutrinos: bool         # optional (default False)
-    return_protons: bool           # optional (default True)
-    return_neutrons: bool          # optional (default False)
-    return_ions: bool              # optional (default True)
+    engine = xc.fluka.engine
+    engine.particle_ref = xt.Particles('proton', p0c=7e12)
 
-The return flags can be combined arbitrarily to select which particle types should be
-returned to Xsuite after the interaction. In particular, ``return_none`` and ``return_all``
-can be used to specify only a few particle types that will or won't be returned, respectively.
+    engine.return_pions = True
+    engine.include_showers = False
+    engine.hadron_lower_momentum_cut = 1e9
+
+or passed temporarily to :meth:`Engine.start` or
+:meth:`Engine.generate_input_file`:
+
+.. code-block:: python
+
+    engine.start(elements=coll, return_all=True, include_showers=False)
+
+Values assigned as attributes remain in effect for subsequent runs. Values passed
+to ``start()`` or ``generate_input_file()`` apply only to that call; the previous
+engine settings are restored afterwards.
+
+The current settings can be inspected with
+
+.. code-block:: python
+
+    engine.physics_settings()
+
+and all physics settings can be restored to their defaults with
+
+.. code-block:: python
+
+    engine.reset_physics_settings()
+
+Most settings accept ``None`` to select their dynamic default. These defaults
+depend on the reference particle. For example, a proton reference beam returns
+(anti)protons by default, a pion beam returns pions, a kaon beam returns pions
+and kaons, while an ion beam returns ions and nucleons. Neutral particles are
+returned by default when the reference particle itself is neutral. Changing the
+reference particle therefore also changes all settings that are still using their
+default value; explicitly assigned settings remain unchanged.
+
+**Particle return settings**
+
+The following global return settings are available:
+
+.. code-block:: text
+
+    return_all
+    return_all_charged
+    return_none
+    return_neutral
+
+Particle families can be selected using
+
+.. code-block:: text
+
+    return_photons
+    return_leptons
+    return_baryons
+    return_mesons
+    return_ions
+
+and individual families using
+
+.. code-block:: text
+
+    return_electrons
+    return_muons
+    return_tauons
+    return_neutrinos
+
+    return_protons
+    return_neutrons
+    return_other_baryons
+
+    return_pions
+    return_kaons
+    return_other_mesons
+
+The family settings such as ``return_leptons`` and ``return_mesons`` act on all
+their corresponding individual settings.
+
+``return_neutral`` is a global modifier. When it is false, neutral members of
+otherwise enabled particle families are not returned.
+
+Individual PDG IDs can additionally be selected or excluded:
+
+.. code-block:: python
+
+    # Always return D+
+    engine.return_pdg_id(411)
+
+    # Several IDs can be supplied at once
+    engine.return_pdg_id([411, -411, 421])
+
+    # Explicitly suppress pi+
+    engine.dont_return_pdg_id(211)
+
+    # Query the effective selection
+    engine.pdg_id_is_returned(411)
+
+These explicit PDG-ID selections have highest priority. This makes it possible,
+for example, to start from ``return_none=True`` and enable a few specific
+particles, or to start from ``return_all=True`` and suppress selected species.
+
+**Physics processes**
+
+The following interaction processes can be enabled or disabled where supported
+by the selected backend:
+
+.. code-block:: text
+
+    include_showers
+    include_single_coulomb
+    include_multiple_coulomb
+    include_ionisation_fluctuations
+    include_pair_production
+    include_bremsstrahlung
+    include_elastic
+    include_inelastic
+
+The available momentum and energy cuts are:
+
+.. code-block:: text
+
+    hadron_lower_momentum_cut
+    photon_lower_momentum_cut
+    electron_lower_momentum_cut
+    relative_energy_cut
+
+Not every backend supports every setting. FLUKA currently does not use
+``relative_energy_cut``; the Geant4 interface currently exposes
+``relative_energy_cut`` but not the individual process switches or the three
+absolute momentum cuts. Accessing a setting not supported by a backend raises
+an ``AttributeError``. Calling ``engine.physics_settings()`` shows the settings
+available for that engine.
 
 Note that it is important that only one instance of the engine is active at any
 given time, as multiple instances could lead to conflicts in the communication with
