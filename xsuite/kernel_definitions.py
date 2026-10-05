@@ -57,6 +57,12 @@ kernel_definitions = [
         'classes': TPSA_SUPPORTED_ELEMENTS,
         'extra_classes': [xt.MultiSetter] + TPSA_MONITOR_CLASSES,
     }),
+    ('tpsa_with_spin', {
+        'config': {**BASE_CONFIG, 'XTRACK_TPSA_TRACK': True,
+                   'XTRACK_MULTIPOLE_NO_SYNRAD': False},
+        'classes': TPSA_SUPPORTED_ELEMENTS,
+        'extra_classes': [xt.MultiSetter] + TPSA_MONITOR_CLASSES,
+    }),
     ('all_with_synrad', {
         'config': {**BASE_CONFIG, 'XTRACK_MULTIPOLE_NO_SYNRAD': False},
         'classes': ONLY_XTRACK_ELEMENTS + DEFAULT_XFIELDS_ELEMENTS + DEFAULT_XCOLL_ELEMENTS,
