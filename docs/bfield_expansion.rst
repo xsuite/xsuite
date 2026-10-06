@@ -94,7 +94,14 @@ The resolved integer is stored in ``element.num_phi`` and is fixed at
 construction. Fields are evaluated through ``y**num_phi``; an additional
 scalar-potential coefficient is stored internally for the derivative giving
 ``By``. Evaluation skips unused orders and degrees; the populated bounds are
-recomputed when coefficients or strengths change.
+recomputed when coefficients or strengths change. Within each vertical
+order, only the populated range of transverse powers is visited and empty
+orders are skipped. The nonzero coefficients form a diagonal band, so the
+cost of a field evaluation scales with the number of populated coefficients
+rather than with the allocated capacity. For a curved dipole, quadrupole,
+or sextupole the automatic order retains rows that contribute at fourth
+and sixth order in ``h``; an explicit smaller ``num_phi`` removes them when
+their contribution is negligible over the aperture of interest.
 
 For example, a straight element with a varying dipole, a quadrupole gradient,
 and a longitudinal field can be constructed and tracked as follows:
@@ -180,6 +187,18 @@ changing between straight and curved geometry requires a new element.
 Within curved geometry, ``h`` can be updated while respecting this bound.
 The read-only attributes ``straight`` and ``angle`` report the mode and
 ``length * h``, respectively. Survey uses this reference bend angle.
+
+In curved geometry the midplane field ``By(x, 0, s)`` is evaluated from
+polynomials in ``x`` and is exact to roundoff at every multipole order. The
+field away from the midplane is reconstructed in powers of ``1 + h*x``,
+whose double-precision roundoff grows like ``(h*x)**-(n-3)`` for a normal
+and ``(h*x)**-(n-2)`` for a skew multipole of order ``n``. This is
+negligible through sextupole order for any admissible ``h``. When a small
+curvature is combined with octupole or higher orders, compare
+:meth:`~xtrack.BFieldExpansion.get_field` with a straight element of the
+same strengths: the physical difference scales with ``h*x``, whereas
+roundoff does not. The lower bound on ``h`` selects the curved code path
+and is not an accuracy guarantee.
 
 Curvature describes the reference frame; the magnetic field must still be
 specified independently. For example, the following element has a constant
@@ -282,6 +301,12 @@ potential make the boundary convention relevant. Refine the field model
 and ``num_phi`` separately from ``num_integration_steps``. Increasing the
 step count cannot recover high-order fringe terms omitted by a low-degree
 polynomial fit.
+
+The element integrates the orbit only. It does not emit synchrotron
+radiation when radiation is enabled for the line, and it does not
+transport spin: the spin vector passes through unchanged and no error is
+raised during line tracking. Only the standalone ``track`` method of the
+element raises ``NotImplementedError`` for particles with nonzero spin.
 
 Updating coefficients and using an Environment
 ----------------------------------------------

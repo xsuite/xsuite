@@ -85,6 +85,42 @@ including capacity for explicitly supplied zero coefficients. Evaluation skips
 unused orders and degrees, with the populated bounds recomputed after input
 updates.
 
+\subsection{Sparsity of the coefficient cache}
+
+Each application of the recurrence \eqref{bfe:recurrence} moves two rows
+down in \(i\) and, in the curved basis of
+Eq.~\eqref{bfe:curved-coefficients}, two powers to the left in \(m\). The
+nonzero coefficients therefore form a diagonal band: a normal seed
+populates the odd rows, a skew or longitudinal seed the even rows, and a
+row of a given parity may be entirely empty. For a curved element with
+only dipole, quadrupole, and sextupole strengths, the automatic order
+allocates nine rows and thirteen powers of \(w\), of which seven cells are
+nonzero.
+
+The evaluator records the populated range of \(m\) for every row after
+each coefficient update, skips empty rows, and visits only that range.
+Each coefficient polynomial in \(s\) is evaluated once per field
+evaluation: row \(i\) supplies \(\phi\), \(b_x\), \(b_s\), and the vector
+potential at vertical order \(i\), and \(b_y\) at order \(i-1\) through
+Eq.~\eqref{bfe:field}. The cost of a field evaluation thus scales with the
+number of populated coefficients rather than with the allocated capacity,
+and a lower explicit \texttt{num\_phi} only pays off through the rows it
+removes from the band.
+
+\subsection{Accuracy in curved geometry}
+
+The seed rows are evaluated as polynomials in \(x\), as described in
+Sec.~\ref{sec:curved-seed-rows}, so the midplane field \(b_y(x,0,s)\) is
+exact to roundoff at every multipole order and for every admissible
+\(h\). The off-midplane rows are evaluated in powers of \(w=1+hx\) and
+retain a relative roundoff of order \(\epsilon\,(hx)^{-(n-3)}\) for a
+normal and \(\epsilon\,(hx)^{-(n-2)}\) for a skew multipole of order
+\(n\). The lower bound \(h>10^{-4}\,\mathrm{m}^{-1}\) selects the curved
+code path; it is not an accuracy guarantee for high orders. Compare
+\texttt{get\_field} with a straight element of the same strengths when
+combining a small curvature with octupole or higher orders: the physical
+difference scales with \(hx\), whereas roundoff does not.
+
 There are three separate approximations to control: the input profile fit,
 the transverse expansion order, and the integration step size. Higher
 longitudinal derivatives enter Eq.~\eqref{bfe:recurrence}, so agreement of
@@ -162,6 +198,12 @@ Here \(p_\tau\) remains constant because its right-hand side is identically
 zero; this fact alone does not imply symplecticity. Backtracking reverses
 \(\Delta s\) and the integration interval, but RK4 is not exactly reversible
 at finite step size.
+
+The element integrates the orbit only. It emits no synchrotron radiation
+when radiation is enabled for the line, and it does not transport spin:
+the spin vector passes through unchanged and no error is raised during
+line tracking. Only the standalone \texttt{track} method of the element
+rejects particles with a nonzero spin.
 
 \subsection{Canonical and kinetic momenta at boundaries}
 
