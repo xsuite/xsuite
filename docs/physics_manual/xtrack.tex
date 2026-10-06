@@ -3898,7 +3898,8 @@ from which:
 For a particle with mass $m$ and charge $q$ different from those of the reference
 particle, the turn slippage depends on both $\delta$ and $\chi$. Recalling
 \begin{equation}
-1+\delta=\frac{P}{P_0}\frac{m_0}{m},
+1+\delta=\frac{P}{P_0}\frac{m_0}{m}
+=\frac{\beta\gamma}{\beta_0\gamma_0},
 \qquad
 \chi=\frac{q}{q_0}\frac{m_0}{m},
 \end{equation}
@@ -3918,6 +3919,23 @@ $P/q$. In Xsuite coordinates, this ratio is
 \begin{equation*}
 \frac{P}{q}=\frac{P_0}{q_0}\frac{1+\delta}{\chi}.
 \end{equation*}
+
+The transverse closed orbit is also determined by the rigidity. Let $x_0(s)$
+be the reference closed orbit and $D_x(s)$ the horizontal dispersion evaluated
+for the reference species on that orbit at $\delta=0$. To first order in the
+rigidity offset,
+\begin{equation}
+x(s)-x_0(s)\simeq D_x(s)\delta_{\mathrm{rig}}
+=D_x(s)\left(\frac{1+\delta}{\chi}-1\right).
+\label{eq:species_closed_orbit_rigidity}
+\end{equation}
+Expanding also in $\delta$ and $\chi-1$, and assuming a centered reference
+orbit, $x_0(s)=0$, gives
+\begin{equation}
+x(s)\simeq D_x(s)\big[\delta-(\chi-1)\big].
+\label{eq:species_closed_orbit_first_order}
+\end{equation}
+Both $|\delta|\ll1$ and $|\chi-1|\ll1$ are required for this expansion.
 
 The speed, on the other hand, follows from $P=mc\beta\gamma$, or
 \begin{equation*}
