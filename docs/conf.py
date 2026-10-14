@@ -14,10 +14,6 @@
 
 import sys
 import os
-from sphinx.ext.autosummary import Autosummary
-from sphinx.ext.autosummary import get_documenter
-from docutils.parsers.rst import directives
-from sphinx.util.inspect import safe_getattr
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -88,12 +84,21 @@ with open(_environment_rst, "w") as _fid:
     _fid.write(xtrack.Environment._generate_doc_rst())
 print("Done.")
 
-# Regenerate aperture API page at every docs build. The generated file should be included in `.gitignore`.
-print("Generating aperture API page...")
-from xtrack.aperture.aperture import Aperture as _Aperture
-_aperture_rst = os.path.join(_docs_dir, "aperture_api.rst")
-with open(_aperture_rst, "w") as _fid:
-    _fid.write(_Aperture._generate_doc_rst())
+# Regenerate both aperture APIs, with distinct labels for their grouped sections.
+print("Generating aperture API pages...")
+for _aperture_class, _filename, _label_prefix in (
+    (xtrack.LineAperture, "aperture_api.rst", "line-aperture-api-"),
+    (xtrack.EnvAperture, "env_aperture_api.rst", "env-aperture-api-"),
+):
+    _aperture_rst = os.path.join(_docs_dir, _filename)
+    _aperture_content = _aperture_class._generate_doc_rst()
+    _aperture_content = _aperture_content.replace("line-api-", _label_prefix)
+    _aperture_content = _aperture_content.replace(
+        "Members - short description\n--------------------------",
+        "Members - short description\n---------------------------",
+    )
+    with open(_aperture_rst, "w") as _fid:
+        _fid.write(_aperture_content)
 print("Done.")
 
 ### GENERATE code snippets
@@ -443,7 +448,7 @@ release = ''
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['_build', 'aperture_api.rst', 'env_aperture_api.rst']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -639,48 +644,3 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 autoclass_content = 'both'
-
-# The below class allows us to display an automatically generated table of
-# methods and attributes for a class.
-# Adapted from https://stackoverflow.com/a/30783465
-class AutoAutoSummary(Autosummary):
-
-    option_spec = {
-        'methods': directives.unchanged,
-        'attributes': directives.unchanged
-    }
-
-    required_arguments = 1
-
-    def get_members(self, obj, typ, include_public=None):
-        if not include_public:
-            include_public = []
-        items = []
-        for name in obj.__dict__.keys():
-            try:
-                documenter = get_documenter(self.env.app, safe_getattr(obj, name), obj)
-            except AttributeError:
-                continue
-            if documenter.objtype == typ:
-                items.append(name)
-        public = [x for x in items if x in include_public or not x.startswith('_')]
-        return public, items
-
-    def run(self):
-        clazz = str(self.arguments[0])
-        try:
-            (module_name, class_name) = clazz.rsplit('.', 1)
-            m = __import__(module_name, globals(), locals(), [class_name])
-            c = getattr(m, class_name)
-            if 'methods' in self.options:
-                _, methods = self.get_members(c, 'method', ['__init__'])
-
-                self.content = ["~%s.%s" % (clazz, method) for method in methods if not method.startswith('_')]
-            if 'attributes' in self.options:
-                _, attribs = self.get_members(c, 'attribute')
-                self.content = ["~%s.%s" % (clazz, attrib) for attrib in attribs if not attrib.startswith('_')]
-        finally:
-            return super(AutoAutoSummary, self).run()
-
-def setup(app):
-    app.add_directive('autoautosummary', AutoAutoSummary)

@@ -1,6 +1,7 @@
 _build
 generated_code_snippets/
 aperture_api.rst
+env_aperture_api.rst
 environment_api.rst
 line_api.rst
 xdeps/
