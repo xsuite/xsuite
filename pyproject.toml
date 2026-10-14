@@ -2,7 +2,7 @@
 requires = [
     'setuptools>=77',
     'setuptools-scm[toml]>=8',
-    "xtrack==0.116.0",
+    "xtrack==0.117.0",
     "xfields==0.27.4",
     "xcoll==0.12.5",
     "xobjects==0.7.1",
@@ -26,7 +26,7 @@ requires-python = ">=3.11"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 dependencies = [
-    "xtrack==0.116.0",
+    "xtrack==0.117.0",
     "xfields==0.27.4",
     "xcoll==0.12.5",
     "xobjects==0.7.1",
