@@ -5552,11 +5552,55 @@ Using $\tau_\text{depol}$ we can get from Eqs.\,\ref{eq:p_eq_sitros} and \ref{eq
 estimates for $P_\text{eq}$ and $\tau_\text{tot}$ that include nonlinear effects.
 
 
-\chapter{Coasting beams}
+\chapter{Coasting beams and acceleration}
 
-In coasting beams, different particles have different revolution frequencies depending on their momentum, so they perform a different number of turns over a given time.
+Tracking with time-dependent fields requires a consistent relation between the
+simulation clock, the longitudinal coordinates, and the particles' arrival
+times. During acceleration, the reference velocity and revolution period
+change, so the time associated with a turn must follow the evolving reference
+motion. This matters for both coasting and bunched beams.
 
-If in the line we have collective elements which need to measure the beam distribution at a certain location $s$ and at a given time $t$, we need to ensure that all particles present at $s$ at the instant $t$ are present at the element.
+Coasting beams also require care when grouping particles for collective
+interactions. Particles with different revolution frequencies can complete
+different numbers of revolutions in the same time interval. At a given
+location, a collective interaction must therefore use particles belonging to
+the same arrival-time window. The \texttt{SyncTime} scheme organizes tracking
+into such windows, pausing particles that arrive beyond the current window
+until a later simulation frame.
+
+This chapter introduces the common clock and arrival-time convention, develops
+the frame construction at constant reference energy, and extends it to
+acceleration. The coordinate updates preserve physical arrival times when the
+clock advances or the reference velocity changes. Acceleration alone does not
+require \texttt{SyncTime}; the same clock convention also applies to ordinary
+turn-by-turn tracking with an active \texttt{EnergyProgram}.
+
+\section{Simulation clock and arrival time}
+
+A simulated ``turn'' is one pass through the ordered list of elements, advancing
+one time frame. It need not correspond to one revolution of every particle.
+We denote the common clock at the start of frame $n$ by $T_n$, and its advance
+by $\Delta T_n = T_{n+1}-T_n$. The longitudinal coordinate is defined by
+\begin{equation}
+\boxed{\zeta = s - \beta_0 c(t-T_n),
+\qquad t = T_n + \frac{s-\zeta}{\beta_0 c}.}
+\label{eq:coasting_arrival_time}
+\end{equation}
+Here $t$ is the particle's arrival time at its current position $s$, and $\beta_0$
+is its current reference velocity divided by $c$. The clock $T_n$ is common
+to the ensemble; the arrival times and completed revolution counts are not.
+
+In Xsuite, $T_n$ is stored in \texttt{Particles.time\_s}, while
+$\Delta T_n$ is stored in \texttt{Particles.t\_sim}. In particular,
+\texttt{t\_sim} is a duration, not the absolute simulation time.
+With \texttt{SyncTime}, the requested \texttt{num\_turns} counts frames, whereas
+each particle's \texttt{at\_turn} counts its completed revolutions.
+
+The following construction first assumes constant reference energy and a
+constant frame duration, with $T_n=n\Delta T$. Section~\ref{sec:coasting_acceleration}
+extends it to an accelerating reference using a common reference-turn/time map.
+
+\section{Constant-energy frame construction}
 
 We define for each particle and for any pair of positions $s_1 < s_2$:
 \begin{equation}
@@ -5582,15 +5626,16 @@ From $\beta_\text{sim}$ we define an auxiliary time interval $\Delta T$ as:
 
 At each ``turn'' $n$ we want to simulate at any  collective element the time frame $F_n(s) $ given by:
 \begin{equation}
-F_n(s) = \left[ T_n(s) - \frac{\Delta T}{2}, T_n(s) + \frac{\Delta T}{2} \right]
+F_n(s) = \left[ T_n(s) - \frac{\Delta T}{2}, T_n(s) + \frac{\Delta T}{2} \right)
 \label{eq:framedef}
 \end{equation}
 where:
 \begin{equation}
-T_n(s) = n \Delta T + \frac{s}{\beta_\text{sim} c}
+T_n(s) = T_n + \frac{s}{\beta_\text{sim} c}
+       = n \Delta T + \frac{s}{\beta_\text{sim} c}
 \label{eq:tndef}
 \end{equation}
-We can see that intervals are contiguous; hence at any location over $N$ turns we are simulating a time interval of length $N \Delta T$.
+The intervals are contiguous; hence at any location over $N$ frames we simulate a time interval of length $N \Delta T$. We include the lower boundary and exclude the upper boundary, so an arrival at a shared edge belongs to the later frame.
 
 From Eq.~\ref{eq:tndef} we can simply derive the following relations, which will be useful in the following:
 \begin{equation}
@@ -5604,7 +5649,7 @@ T_{n}(s_2) - T_{n}(s_1)  = \frac{s_2 - s_1}{\beta_\text{sim} c}
 
 We also note that the condition $t(s) \in F_n(s)$ can be rewritten as:
 \begin{equation}
-- \frac{\Delta T}{2} < t - n \Delta T - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+- \frac{\Delta T}{2} \leq t - n \Delta T - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
 \label{eq:frameineq}
 \end{equation}
 
@@ -5622,7 +5667,7 @@ We can prove the following propositions (see Sec.\,\ref{seq:coasting_proofs}):
 t_k(s_1) \in F_n(s_1) \Rightarrow t_k(s_2) \in F_n(s_2) \cup  F_{n+1}(s_2) \quad \text{for any } s_1 < s_2
 \end{equation}
 ~\\
-\textbf{Proposition 2:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+1}(s_1)$. In symbols:
+\textbf{Proposition 2:} If the time $t_k(s_2)$ defining the $k$-th arrival of a particle at location $s_2$ falls in the frame $F_n(s_2)$, then the time of $(k+1)$-th arrival at any location $s_1 < s_2$ falls in the frame $F_{n+1}(s_1)$ or in the following frame $F_{n+2}(s_1)$. In symbols:
 \begin{equation}
 t_k(s_2) \in F_n(s_2) \Rightarrow t_{k+1}(s_1) \in F_{n+1}(s_1) \cup  F_{n+2}(s_1) \quad \text{for any } s_1 < s_2
 \end{equation}
@@ -5633,9 +5678,9 @@ $F_{n+1}(0)$. In symbols:
 t_k(L) \in F_n(L) \Rightarrow t_{k+1}(0) \in F_{n+1}(0)
 \end{equation}
 
-\section{$\zeta$ definition and update}
+\section{Constant-energy $\zeta$ definition and update}
 
-For the tracking of coasting beams we define the longitudinal coordinate $\zeta$ as:
+For constant reference energy and $T_n=n\Delta T$, Eq.~\ref{eq:coasting_arrival_time} becomes:
 \begin{equation}
 \zeta = s  - \beta_0 c (t - n\Delta T)
 \end{equation}
@@ -5660,7 +5705,7 @@ Combining the two equations we can write:
 \zeta^+ = \zeta^- - (L - \beta_0 c \Delta T)
 \end{equation}
 
-In standard simulations for bunched beams the simulated frame is $\Delta T = L / (\beta_0 c)$, hence the $\zeta$ coordinate is continuous.
+In standard simulations for bunched beams at constant reference energy the simulated frame is $\Delta T = L / (\beta_0 c)$, hence the $\zeta$ coordinate is continuous.
 
 For coasting beams $\Delta T$ is given by Eq.\,\ref{eq:deltatdef}, hence $\zeta$ needs to be updated at each turn using:
 \begin{equation}
@@ -5671,26 +5716,26 @@ For coasting beams $\Delta T$ is given by Eq.\,\ref{eq:deltatdef}, hence $\zeta$
 
 We want to translate the condition Eq.\,\ref{eq:frameineq} into a condition on $\zeta$. Replacing Eq.\,\ref{eq:tfromzeta} into Eq.\,\ref{eq:frameineq} we obtain:
 \begin{equation}
-- \frac{\Delta T}{2} < \left(\frac{s}{\beta_0 c}  - \frac{\zeta}{\beta_0 c} + n \Delta T\right) - n \Delta T - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+- \frac{\Delta T}{2} \leq \left(\frac{s}{\beta_0 c}  - \frac{\zeta}{\beta_0 c} + n \Delta T\right) - n \Delta T - \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
 \end{equation}
 We change signs:
 \begin{equation}
-\frac{\Delta T}{2} > -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} > -\frac{\Delta T}{2}
+\frac{\Delta T}{2} \geq -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} > -\frac{\Delta T}{2}
 \end{equation}
 
 We rearrange:
 \begin{equation}
--\frac{\Delta T}{2} < -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} < \frac{\Delta T}{2}
+-\frac{\Delta T}{2} < -\frac{s}{\beta_0 c}  + \frac{\zeta}{\beta_0 c} + \frac{s}{\beta_\text{sim} c} \leq \frac{\Delta T}{2}
 \end{equation}
 
 \begin{equation}
--\beta_0 c \frac{\Delta T}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} }\right) < \beta_0 c\frac{\Delta T}{2}
+-\beta_0 c \frac{\Delta T}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} }\right) \leq \beta_0 c\frac{\Delta T}{2}
 \end{equation}
 from which we can write:
 \begin{equation}
 \boxed{
 t \in F_n(s) \quad \Leftrightarrow \quad
--\frac{\Delta \zeta}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} }\right) < \frac{\Delta \zeta}{2}
+-\frac{\Delta \zeta}{2} < \zeta - s \left(1 -  \frac{\beta_0}{\beta_\text{sim} }\right) \leq \frac{\Delta \zeta}{2}
 }
 \label{eq:framezeta}
 \end{equation}
@@ -5707,11 +5752,11 @@ From Proposition 1 we know that during tracking particles will either stay in th
 
 From Eqs.\,\ref{eq:framedef} and \ref{eq:framezeta}, we know that the jump occurs when:
 \begin{equation}
-t > T_n(s) + \frac{\Delta T}{2}
+t \geq T_n(s) + \frac{\Delta T}{2}
 ~
 \Leftrightarrow
 ~
-\zeta < -\frac{\Delta \zeta}{2} + s\left(1-\frac{\beta_0}{\beta_{\text {sim }}}\right)
+\zeta \leq -\frac{\Delta \zeta}{2} + s\left(1-\frac{\beta_0}{\beta_{\text {sim }}}\right)
  \end{equation}
 
 When this condition is met, the particle tracking needs to be paused for the remainder of the frame $n$ (based on Proposition~1 it cannot go back to frame $n$) and, based on Proposition~2, its tracking needs to be resumed from the same location where the tracking was paused when tracking the following frame.
@@ -5730,7 +5775,7 @@ from which we obtain:
 
 
 
-\section{Proofs}
+\section{Proofs for constant-energy frames}
 \label{seq:coasting_proofs}
 
 
@@ -5772,20 +5817,20 @@ t_k(s_2) = t_k(s_1) + \frac{s_2 - s_1}{\hat{\beta} c}
 
 By the hypothesis:
 \begin{equation}
-t_k(s_1) > T_n(s_1) - \frac{\Delta T}{2}
+t_k(s_1) \geq T_n(s_1) - \frac{\Delta T}{2}
 \end{equation}
 hence:
 \begin{equation}
-t_k(s_2) > T_n(s_1) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c}
+t_k(s_2) \geq T_n(s_1) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c}
 \end{equation}
 Using Eq.\,\ref{eq:frametransport} we can write:
 \begin{equation}
-t_k(s_2) > T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c}
+t_k(s_2) \geq T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c}
 \end{equation}
 Rearranging:
 \begin{equation}
-t_k(s_2) > T_n(s_2) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
-\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+t_k(s_2) \geq T_n(s_2) - \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
+\frac{1}{\hat{\beta}(s_1,s_2)} - \frac{1}{\beta_\text{sim}}
 \right)
 \end{equation}
 
@@ -5806,12 +5851,12 @@ t_k(s_2) < T_n(s_1) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c}
 \end{equation}
 Again, using Eq.\,\ref{eq:frametransport} we obtain:
 \begin{equation}
-t_k(s_2) < T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  - \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c}
+t_k(s_2) < T_n(s_2) - \frac{s_2 - s_1}{{\beta}_\text{sim} c}  + \frac{\Delta T}{2} + \frac{s_2 - s_1}{\hat{\beta} c}
 \end{equation}
 Rearranging:
 \begin{equation}
 t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{c} \left(
-\frac{1}{\hat{\beta}(s)} - \frac{1}{\beta_\text{sim}}
+\frac{1}{\hat{\beta}(s_1,s_2)} - \frac{1}{\beta_\text{sim}}
 \right)
 \end{equation}
 Using Eq.\,\ref{eq:betaineq} we obtain:
@@ -5819,9 +5864,9 @@ Using Eq.\,\ref{eq:betaineq} we obtain:
 t_k(s_2) < T_n(s_2) + \frac{\Delta T}{2} + \frac{s_2 - s_1}{\beta_\text{sim}c}
 \label{eq:tk2smallerinterm}
 \end{equation}
-Using the fact that $s_2 - s_1 < L$ and Eq.\,\ref{eq:deltatdef} we can write:
+Using the fact that $s_2 - s_1 \leq L$ and Eq.\,\ref{eq:deltatdef} we can write:
 \begin{equation}
-\frac{s_2 - s_1}{\beta_\text{sim}c} < \frac{L}{\beta_\text{sim}c} = \Delta T
+\frac{s_2 - s_1}{\beta_\text{sim}c} \leq \frac{L}{\beta_\text{sim}c} = \Delta T
 \end{equation}
 Replacing in Eq.\,\ref{eq:tk2smallerinterm} we obtain:
 \begin{equation}
@@ -5831,7 +5876,7 @@ Using Eq.\,\ref{eq:tniter} we obtain:
 \begin{equation}
 t_k(s_2) < T_{n+1}(s_2) + \frac{\Delta T}{2}
 \end{equation}
-Combining Eq.\,\ref{tk_s2_right} and~\ref{tk_s2_right} we obtain:
+Combining Eq.\,\ref{tk_s2_right} with this upper bound gives:
 \begin{equation}
 T_{n}(s_2) - \frac{\Delta T}{2} < t_k(s_2) < T_{n+1}(s_2) + \frac{\Delta T}{2}
 \end{equation}
@@ -5839,48 +5884,192 @@ which is what we wanted to prove.
 
 \subsubsection*{Proof of proposition 2}
 
-From the hypothesis:
+For $s_2=L$ and $s_1=0$, the claim follows directly from Proposition~3.
+Otherwise, the path from $s_2$ to the next arrival at $s_1<s_2$ has length
+$D=L-s_2+s_1$, with $0<D<L$. Applying the speed bounds along this path gives
 \begin{equation}
-t_{k}(s_2) > T_{n}(s_2) - \frac{\Delta T}{2}
+\frac{D}{\beta_\text{sim}c}
+< t_{k+1}(s_1)-t_k(s_2)
+< \frac{2D}{\beta_\text{sim}c}.
 \end{equation}
-As $L>s_2$, using Proposition 1 we can write:
+The frame centres satisfy
 \begin{equation}
-t_{k}(L) > T_{n}(L) - \frac{\Delta T}{2}
+T_{n+1}(s_1)-T_n(s_2)=\frac{D}{\beta_\text{sim}c}.
 \end{equation}
-Using Proposition 3 we can write:
+Therefore, if $\epsilon=t_k(s_2)-T_n(s_2)$ is in the current frame,
 \begin{equation}
-t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
+\epsilon < t_{k+1}(s_1)-T_{n+1}(s_1)
+< \epsilon+\frac{D}{\beta_\text{sim}c}<\epsilon+\Delta T.
 \end{equation}
-Using the fact that $s1>0$, we can apply again Proposition 1, obtaining:
-\begin{equation}
-t_{k+1}(s1) > T_{n+1}(1) - \frac{\Delta T}{2}
-\end{equation}
-which is what we wanted to prove.
-
+Using $-\Delta T/2\leq\epsilon<\Delta T/2$, the next arrival is in
+$F_{n+1}(s_1)$ or $F_{n+2}(s_1)$, as claimed.
 
 \subsubsection*{Proof of proposition 3}
 
-By definition:
+The two descriptions of the ring boundary refer to the same arrival:
+$t_{k+1}(0)=t_k(L)$. Moreover,
 \begin{equation}
-t_{k+1}(0) = t_{k}(L)
+T_n(L)=(n+1)\Delta T=T_{n+1}(0),
+\qquad F_n(L)=F_{n+1}(0).
 \end{equation}
+Thus membership in either frame is exactly equivalent to membership in the
+other, including their shared-edge convention.
 
-We know that $t_{k}(L) \in F_n(L)$ hence, from Eq.\,\ref{eq:framedef} we can write:
+\section{Frames during acceleration}
+\label{sec:coasting_acceleration}
+
+\subsection{Reference turns and frame boundaries}
+
+For a fixed circumference $L$, define the accumulated reference revolutions by
 \begin{equation}
-t_{k+1}(0) > T_n(L) - \frac{\Delta T}{2}
+u(t)=u(t_0)+\int_{t_0}^{t}\frac{\beta_0(t')c}{L}\,\dee t'.
+\label{eq:coasting_reference_turns}
 \end{equation}
-From Eq.\,\ref{eq:tndef} we obtain:
+Assuming a moving reference beam over the time interval considered, $u(t)$ is
+strictly increasing, and we denote its inverse by $\mathcal{T}$:
 \begin{equation}
-t_{k+1}(0) > n \Delta T - \frac{\Delta T}{2} + \frac{L}{\beta_\text{sim}c}
+t=\mathcal{T}(u).
 \end{equation}
-from Eq.\,\ref{eq:deltatdef} we get:
+An \texttt{EnergyProgram} supplies this map and its inverse from the programmed
+reference energy. The persistent value $u_n=u(T_n)$ corresponds to
+\texttt{Particles.reference\_turns}; it is not an individual particle's
+revolution count.
+
+Let $f$ be the fraction of a reference revolution per frame, with $0<f\leq1$.
+In Xsuite it is set by \texttt{frame\_relative\_length}, whose default is $0.9$.
+Then
 \begin{equation}
-t_{k+1}(0) > (n+1) \Delta T - \frac{\Delta T}{2}
+u_{n+1}=u_n+f,\qquad
+T_n=\mathcal{T}(u_n),\qquad
+\Delta T_n=\mathcal{T}(u_n+f)-\mathcal{T}(u_n).
+\label{eq:coasting_frame_clock}
 \end{equation}
-and from Eq.\,\ref{eq:tndef} (with $s=0$) we obtain:\begin{equation}
-t_{k+1}(0) > T_{n+1}(0) - \frac{\Delta T}{2}
+At position $s$, define the window by mapping both edges to time:
+\begin{equation}
+\boxed{
+F_n(s)=\left[
+\mathcal{T}\!\left(u_n+f\left(\frac{s}{L}-\frac12\right)\right),
+\mathcal{T}\!\left(u_n+f\left(\frac{s}{L}+\frac12\right)\right)
+\right).
+}
+\label{eq:coasting_accelerating_window}
 \end{equation}
-which is what we wanted to prove.
+The upper edge of $F_n(s)$ equals the lower edge of $F_{n+1}(s)$.
+Also $F_n(L)=F_{n+1}(0)$, so both descriptions of the ring boundary use
+exactly the same window, even while the reference accelerates.
+
+The frame is symmetric in reference-turn coordinates, not generally in time.
+Its time width can depend on both $n$ and $s$ and need not equal
+$\Delta T_n$. Consequently, replacing $\Delta T$ in
+Eq.~\ref{eq:framedef} by a turn-dependent duration would not give the same
+construction.
+
+At constant reference energy, $\mathcal{T}$ is linear and these definitions
+reduce to the previous ones, with
+\begin{equation}
+\Delta T_n=\Delta T=\frac{fL}{\beta_0c},\qquad
+\beta_\text{sim}=\frac{\beta_0}{f}.
+\end{equation}
+The auxiliary $\beta_\text{sim}$ specifies the motion of the window; it is not
+the speed of a physical particle and need not be smaller than one.
+
+\subsection{Conditions on particle motion}
+
+Contiguity of windows follows directly from Eq.~\ref{eq:coasting_accelerating_window}.
+The bounds on which frame a particle can reach additionally require a
+restriction on its flight time. A sufficient generalization of
+Eqs.~\ref{eq:betasim1} and~\ref{eq:betasim2} is
+\begin{equation}
+\boxed{
+\frac{fd}{L}<u(t_2)-u(t_1)<\frac{2fd}{L}
+}
+\label{eq:coasting_accelerating_speed_bound}
+\end{equation}
+for every particle and every forward path segment of length $0<d\leq L$ between
+arrivals at $t_1$ and $t_2$, including segments crossing the ring boundary.
+Here $d$ is the advance along the reference orbit, as in the definition of
+$\hat\beta$. For constant reference energy this is exactly
+$\beta_\text{sim}/2<\hat\beta<\beta_\text{sim}$.
+
+To see why this condition suffices, write
+\begin{equation}
+w=u(t)-\frac{fs}{L},\qquad
+ t\in F_n(s)\ \Longleftrightarrow\
+ u_n-\frac f2\leq w<u_n+\frac f2.
+\end{equation}
+Along a segment without a ring-boundary crossing, Eq.~\ref{eq:coasting_accelerating_speed_bound}
+gives $0<w_2-w_1<fd/L\leq f$. An arrival in frame $n$ can therefore remain in
+frame $n$ or enter frame $n+1$, but cannot return to an earlier frame.
+For a path from $s_2$ to the next arrival at $s_1<s_2$, the reset of $s$ adds
+$f$ to this difference, giving $f<w_2-w_1<2f$. The arrival is consequently
+in frame $n+1$ or $n+2$. Together with $F_n(L)=F_{n+1}(0)$, this establishes
+the accelerating counterparts of the three propositions under the stated bound.
+
+The choice of $f$ must respect this bound throughout the ramp and over the
+particle distribution being simulated. A fraction suitable at injection is
+not automatically suitable for an arbitrary energy program. In particular,
+an arrival before the lower window edge signals that the window is too slow
+for that particle.
+
+\subsection{Coordinate changes and waiting particles}
+
+The updates follow by keeping the physical arrival time in
+Eq.~\ref{eq:coasting_arrival_time} unchanged when the clock or reference
+coordinates change. At fixed $\beta_0$, the arrival times expressed in the
+coordinates before and after the update are
+\begin{align}
+t^- &= T_n + \frac{s^- - \zeta^-}{\beta_0c},\\
+t^+ &= T_{n+1} + \frac{s^+ - \zeta^+}{\beta_0c}
+     = T_n + \Delta T_n
+       + \frac{s^- + \Delta s - \zeta^+}{\beta_0c}.
+\end{align}
+Here $T_{n+1}=T_n+\Delta T_n$ and $s^+=s^-+\Delta s$.
+Imposing $t^+=t^-$ gives
+\begin{equation}
+\frac{s^- - \zeta^-}{\beta_0c}
+= \Delta T_n + \frac{s^- + \Delta s - \zeta^+}{\beta_0c}.
+\end{equation}
+Solving for $\zeta^+$ yields
+\begin{equation}
+\boxed{\zeta^+=\zeta^-+\Delta s+\beta_0c\Delta T_n.}
+\label{eq:coasting_clock_zeta_update}
+\end{equation}
+For a particle completing the line with $s$ reset from $L$ to zero,
+$\Delta s=-L$. For a particle paused at a synchronization location, $s$ stays
+fixed and $\Delta s=0$. The updates are therefore
+\begin{align}
+\zeta^+_{\text{crossing}}&=\zeta^-_{\text{crossing}}-L+\beta_0c\Delta T_n,\\
+\zeta^+_{\text{waiting}}&=\zeta^-_{\text{waiting}}+\beta_0c\Delta T_n.
+\end{align}
+If $s$ is not reset at the end of the line, its update also uses $\Delta s=0$.
+These are changes of coordinates, not additional physical drifts or energy kicks.
+
+A change of reference velocity at fixed $s$, $T_n$, and physical arrival
+time instead requires
+\begin{equation}
+\boxed{
+\zeta^+=s+\frac{\beta_0^+}{\beta_0^-}(\zeta^--s).
+}
+\label{eq:coasting_reference_zeta_update}
+\end{equation}
+The reference change applies to waiting particles as well as active particles;
+being paused does not remove a particle from the beam. In combination with the
+usual momentum-coordinate transformation, it preserves its physical momentum
+and arrival time.
+
+At a synchronization location, particles at or beyond the upper window edge
+are paused. They are reconsidered at that same location in the following
+frame, and remain paused if their arrival is still beyond the window.
+The waiting-particle coordinate shift is applied once per frame, even if the
+particle has not completed a revolution.
+
+In Xsuite, \texttt{SyncTime} elements bracket the complete line and precede
+collective elements, RF cavities, and any additional synchronization locations
+requested by the user. The first boundary establishes the windows for the new
+frame; the last accounts for all waiting particles before the common clock
+advances. This construction uses complete frames. Time-dependent expressions
+and the \texttt{EnergyProgram} follow the common clock when
+\texttt{line.enable\_time\_dependent\_vars} is enabled.
 
 
 \include{aperture.tex}
