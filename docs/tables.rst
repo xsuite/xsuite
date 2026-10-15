@@ -99,3 +99,20 @@ The file can then be used as follows:
    :language: python
    :start-after: # start-tfs-toml
    :end-before: # end-tfs-toml
+
+Built-in format specifications
+------------------------------
+
+``xt.format_spec`` provides ready-to-use specifications: ``optics_orbit_v1``
+for optics and closed orbit, ``optics_orbit_strengths_v1`` to also include
+integrated strengths, and ``madx_twiss_v1`` for a MAD-X-style layout.
+For a periodic Twiss table computed with ``strengths=True``:
+
+.. literalinclude:: generated_code_snippets/tfs_format_spec.py
+   :language: python
+   :start-after: # Stable built-in layouts. The strengths preset requires strengths=True.
+   :end-before: # end-tfs-presets
+
+The MAD-X preset controls the layout without converting physics conventions;
+see the :download:`MAD-X convention example <generated_code_snippets/madx_tfs_format.py>`
+for preparing the values.
