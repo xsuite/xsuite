@@ -869,16 +869,18 @@ of the features offered by Table objects.
     :inherited-members:
     :member-order: alphabetical
 
-.. _aperture-api-reference:
+.. _line-aperture-api-reference:
 
-xt.Aperture class
-=================
+xt.LineAperture class
+=====================
 
-The :class:`xtrack.Aperture` class represents the physical aperture model of a
-beam line: a set of transverse cross-section profiles (pipes) placed along the
-survey of a :class:`xtrack.Line`. It provides methods to build the model from
-different data sources, to query aperture cross-sections, to compute the maximum
-number of beam sigmas that fit inside the aperture, and to visualise the results.
+The :class:`xtrack.LineAperture` object accessed through ``line.aperture`` owns
+the pipe placements and survey snapshot for a line. It provides aperture
+cross-sections, beam envelopes, clearance calculations, and visualisations.
+Profiles and pipes are defined in the environment's :class:`xtrack.EnvAperture`.
+See :doc:`aperture` for a worked example.
+
+.. autoclass:: xtrack.LineAperture
 
 .. contents::
     :depth: 2
@@ -886,21 +888,37 @@ number of beam sigmas that fit inside the aperture, and to visualise the results
 
 .. include:: aperture_api.rst
 
-.. _aperture-builder-api-reference:
+Construction and model lifecycle
+--------------------------------
 
-xt.ApertureBuilder class
-========================
+Profiles and pipes are defined through ``env.aperture``. The following methods
+install those pipes on the line and manage the survey snapshot and derived geometry.
 
-The :class:`xtrack.ApertureBuilder` class provides a programmatic interface to
-construct an :class:`xtrack.Aperture` model by defining named profiles and
-pipes and installing them at positions in the survey. Once all components are
-registered, :meth:`~xtrack.ApertureBuilder.build` materialises the model into
-an :class:`xtrack.aperture.structures.ApertureModel` object that can be passed
-to :class:`xtrack.Aperture`.
+.. automethod:: xtrack.LineAperture.place_pipe
 
-.. autoclass:: xtrack.ApertureBuilder
-    :members:
-    :member-order: bysource
+.. automethod:: xtrack.LineAperture.build_model
+
+.. automethod:: xtrack.LineAperture.discard_model
+
+.. autoproperty:: xtrack.LineAperture.is_built
+
+.. _env-aperture-api-reference:
+
+xt.EnvAperture class
+====================
+
+The :class:`xtrack.EnvAperture` object accessed through ``env.aperture`` owns
+named profiles and pipes, which can be shared by multiple lines in an environment.
+Use ``new_profile`` and ``new_pipe`` to define the geometry, and
+``line.aperture.place_pipe`` to install a pipe along a line's survey.
+
+.. autoclass:: xtrack.EnvAperture
+
+.. contents::
+    :depth: 2
+    :local:
+
+.. include:: env_aperture_api.rst
 
 .. _track_method_label:
 

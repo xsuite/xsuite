@@ -25,7 +25,7 @@
 The aperture module in \lstinline|xtrack/aperture| provides a geometric model of machine acceptance along an accelerator and tools to compare this acceptance with a beam envelope derived from Twiss data and a halo prescription.
 The model is built from:
 \begin{itemize}
-    \item logical \emph{profile} shapes such as ellipses, rectangles, racetracks, etc., with associated tolerances;
+    \item logical \emph{profile} shapes such as ellipses, rectangles, racetracks, etc.;
     \item placements of these profiles inside a model of a \emph{pipe} section, which can be either straight or curved (an arc segment);
     \item placements of pipes, \emph{pipe positions}, along the survey of the machine.
 \end{itemize}
@@ -38,8 +38,9 @@ In particular, the aperture model stores:
 
 \subsection{Aperture bounds}
 
-Once a model is defined, the first step necessary before any aperture-related query is a pre-computation of so-called \emph{aperture bounds}.
+Building the aperture model pre-computes so-called \emph{aperture bounds}.
 This is a database associating every \emph{installed aperture} (a concrete instance of a profile in the model, i.e.~a particular \emph{profile position} within a pipe installed at a particular \emph{pipe position} in the line) with its location along the survey.
+Aperture queries automatically build the model if it has not yet been built.
 For every installed profile the survey $s$ positions spanning it are computed and memorised; this is illustrated in Figure~\ref{fig:aperture-bounds}.
 For the common case of an aperture $i$ orthogonal to the survey, the bound will simply be $\{s_i\}$.
 Aperture bounds are used for checking the validity of the model as well as for aperture interpolation.
@@ -208,13 +209,22 @@ This gives a common polygon representation for all subsequent operations such as
 
 \subsection{Profiles}
 
-A \emph{profile} is a shape together with three tolerances:
+A \emph{profile} comprises of any of the above-mentioned logical shapes.
+Tolerances can be specified on a profile installed in a pipe (a \emph{profile position})
+and on an installed pipe (a \emph{pipe position}).
+At each position, three tolerances can be specified:
 \begin{itemize}
     \item \lstinline|tol_r|: radial tolerance,
     \item \lstinline|tol_x|: horizontal tolerance,
     \item \lstinline|tol_y|: vertical tolerance.
 \end{itemize}
-These effectively form a tolerance racetrack with half-width of $\text{\lstinline|tol_x|} + \text{\lstinline|tol_r|}$, half-height $\text{\lstinline|tol_y|} + \text{\lstinline|tol_r|}$, and a circular radius of $\text{\lstinline|tol_r|}$.
+For each installed aperture, the tolerances of its profile position and pipe position are
+added component by component to give the total \lstinline|tol_r|, \lstinline|tol_x|,
+and \lstinline|tol_y|.
+These totals effectively form a tolerance racetrack with half-width of
+$\text{\lstinline|tol_x|} + \text{\lstinline|tol_r|}$, half-height
+$\text{\lstinline|tol_y|} + \text{\lstinline|tol_r|}$, and a circular radius of
+$\text{\lstinline|tol_r|}$.
 
 %	\begin{tikzpicture}
 %		\draw[white] (-2, 2) grid (2, 2);
@@ -243,11 +253,12 @@ The beam-envelope calculation uses:
 \begin{itemize}
     \item local optics and closed orbit values,
     \item beam and tolerance parameters specified by the user,
-    \item aperture tolerances of the local profile.
+    \item summed aperture tolerances of the local profile position and pipe position.
 \end{itemize}
 In particular, \lstinline{halo_params} define the following beam parameters:
 \begin{itemize}
-	\item \lstinline{emitx_norm} ($\varepsilon_{x,\mathrm{n}}$) and \lstinline{emity_norm} ($\varepsilon_{y,\mathrm{n}}$) -- normalised emittances (unitless),
+    \item \lstinline{nemitt_x} ($\varepsilon_{x,\mathrm{n}}$) and
+    \lstinline{nemitt_y} ($\varepsilon_{y,\mathrm{n}}$) -- normalised emittances (in metres),
     \item \lstinline{delta_rms} ($\delta_\mathrm{rms}$) -- root-mean-square relative momentum spread (unitless),
     \item \lstinline{tol_co} ($r_\mathrm{co}$) -- closed orbit error (in metres),
     \item \lstinline{tol_disp} ($f_D$) -- dispersion tolerance scaling factor (unitless),
@@ -287,7 +298,8 @@ To obtain the modelled $n$-sigma beam envelope in metres, the racetrack defined 
 \]
 Separately, we can build a tolerance racetrack which includes:
 \begin{itemize}
-    \item the individual aperture tolerances \lstinline|tol_x|, \lstinline|tol_y|, \lstinline|tol_r|,
+    \item the summed aperture tolerances \lstinline|tol_x|, \lstinline|tol_y|,
+    \lstinline|tol_r|,
     \item uncorrelated (also referred to as \emph{spurious}) dispersion orbit shift:
     \[
 		\Delta x_{D,\beta} := f_\beta \cdot f_D \cdot D_\mathrm{ref} \cdot \sqrt{\frac{\beta_x}{\beta_{D,\mathrm{ref}}}} \cdot \delta_\mathrm{rms},
@@ -356,8 +368,11 @@ Each segment of the survey is defined as either a line segment or an arc segment
 The bounds $s_\mathrm{start}$ and $s_\mathrm{end}$ are computed by projecting each 3D polygon point of a given installed profile onto the survey curve and taking the minimum and maximum values.
 
 As mentioned in this chapter's introduction, aperture bounds are used for checking the validity of the model as well as for aperture interpolation.
-Since $s_i$ (for some aperture $i$) is calculated as an aperture-plane--survey-curve intersection, and $s_{\textrm{min},i}$ and $s_{\textrm{max},i}$ are aperture extremes projected onto the survey curve, if for any aperture $s_i \not\in [s_{\textrm{min},i}, s_{\textrm{max},i}]$, we know the model is invalid as the aperture sits outside of the machine.
-Additionally, we disallow models with overlapping aperture bounds.
+Validation checks that each installed pipe's survey reference is consistent and that
+the longitudinal intervals covered by different pipes' profile-centre positions do not
+overlap by more than \lstinline{s_tol}.
+These intervals are distinct from the projected profile footprints, which can overlap.
+For rings, the validation accounts for pipes crossing the end of the survey.
 
 \subsection{Cross section interpolation}
 
@@ -366,7 +381,11 @@ Aperture bounds are used to find the correct installed apertures that need to be
 If the $s$ position for interpolation sits outside of any bounds, we interpolate the profiles on either side of $s$.
 However, if the $s$ position sits within a bound of some aperture $i$, we need to partly interpolate $i - 1$ with $i$, and partly interpolate $i$ with $i + 1$.
 This is illustrated in Figures~\ref{fig:aperture-interpolation-simple} and~\ref{fig:aperture-interpolation-both-sides}.
-Aperture tolerances are also interpolated from the neighbouring profiles.
+Profile-position tolerances are interpolated linearly in $s$ between neighbouring
+profile centres within the same installed pipe, and the active pipe-position tolerances
+are added to the result.
+Across a pipe boundary, tolerances retain the active installed profile's summed values;
+they are not interpolated between pipes, although the aperture geometry is.
 
 \begin{figure}
 	\centering
@@ -429,14 +448,22 @@ Aperture tolerances are also interpolated from the neighbouring profiles.
 	\caption{If $s_q$ falls within bounds of an installed aperture, some of the vertices of the new cross section need to be interpolated with the aperture to the left, such as point $P$, while other ones with the aperture to the right, such as point $Q$.}\label{fig:aperture-interpolation-both-sides}
 \end{figure}
 
-For a query at longitudinal position $s$, interpolation is performed in the cross-section plane defined by the resampled survey pose at that $s$; in practice the plane is transformed into the pipe frame (specifically the pipe containing $s$, or if $s$ falls in a gap, the earliest preceding one in $s$) and the neighbouring installed profiles and the target plane are all brought to this frame.
+For a query at longitudinal position $s$, interpolation is performed in the cross-section
+plane defined by the resampled survey pose at that $s$.
+The active profile is selected from the bound containing $s$, or the immediately preceding
+bound when $s$ lies between bounds.
+The target plane and neighbouring installed profiles are brought into the active profile's
+pipe frame.
 This is done to limit numerical noise that might otherwise be present when mixing small local quantities with world coordinates.
 
 The profiles are uniformly discretised into the same number of points and the first step before actual interpolation is determining point correspondence between the profiles.
-This is done after projecting the neighbouring polygons into the target cross-section plane: a cyclic shift is chosen so that the projected point ordering minimises the sum of distances between corresponding vertices.
+This is done after projecting the neighbouring polygons into the target cross-section plane.
+The vertex order is reversed if the projected orientations differ, and a cyclic shift is
+chosen to minimise the sum of squared distances between corresponding vertices.
 Interpolation then proceeds by connecting corresponding 3D vertices from the two neighbouring installed profiles and intersecting those line segments with the target plane.
 
-The procedure is more complex for curved pipes, where the following approximation is employed.
+Between profiles of different installed pipes, interpolation uses straight segments.
+Within a curved pipe, the following approximation is employed.
 Note that, for a curved pipe, $M_P$ already includes the motion along the curved reference axis, i.e. the profile is first advanced by the pipe curvature to its local $s$-location and then given its local offsets/rotations.
 During interpolation, the segment-plane intersection is handled after `straightening' the curvilinear frame.
 Given a Cartesian frame and a curvilinear frame with curvature $h$ (or equivalently radius $R = h^{-1}$) whose origins coincide, a Cartesian point can be transformed into a curvilinear point as follows:
@@ -562,7 +589,10 @@ The \emph{rays} method is much faster than bisection at $O(\text{number of rays}
 The \emph{exact} method is similar to \emph{rays} in that it evaluates $n_1$ using analytically obtained distances.
 Instead of scanning a single set of rays, the search is performed along two sets of rays, as visualised in Fig.~\ref{fig:aperture-exact}.
 First, the beam centroids are computed along one set of rays, using the \verb|halo_racetrack| and including the dispersion-related orbit shift.
-Then, for each centroid position, another set of rays is emitted to calculate $d_\text{aper}$, the distance to the aperture from that point, and $d_\text{envelope}$, the distance to the boundary of $\text{\lstinline{envelope}}(1)$.
+Then, for each centroid position, another set of rays is emitted to calculate
+$d_\text{aper}$, the distance to the aperture from that point, and $d_\text{envelope}$,
+the distance to the boundary of the one-sigma \lstinline{beam_racetrack} centred there.
+The halo tolerances are already included in the centroid position.
 Once the most pessimistic case is found, $n_1 := \frac{d_\text{aper}}{d_\text{envelope}}$.
 This method is slower than \emph{rays}, as the complexity is $O((\text{number of rays})^2)$; it is nevertheless more performant than bisection.
 

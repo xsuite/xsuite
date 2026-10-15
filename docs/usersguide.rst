@@ -12,6 +12,7 @@
    tables
    lattice_model
    survey
+   aperture
    twiss
    match
    track
