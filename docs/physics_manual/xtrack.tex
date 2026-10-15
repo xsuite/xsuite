@@ -556,9 +556,9 @@ the available integration schemes are reported in Table~\ref{tab:integrators}.
 D   &            & Drift exact   &
 $H_D = \frac{p_\tau}{\beta_0} - \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$ \\
 De  &            & Drift expanded &
-$H_{De} = \frac{p_\tau}{\beta_0} - (1 + \delta) - \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}$\\
-% Dc  & l            & Correction drift exact &
-% $H_{Dc} = H_D - H_{De}$\\
+$H_{De} = \frac{p_\tau}{\beta_0} - (1 + \delta) + \frac{1}{2}\frac{p_x^2 + p_y^2}{(1 + \delta)}$\\
+Dc  &            & Exact drift correction &
+$H_{Dc} = H_D - H_{De}$\\
 R   & h         & Curved drift&
 $H_R = \frac{p_\tau}{\beta_0} - (1+h x) \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}$\\
 Br  & $K_0$        & Rectangular bend &
@@ -604,12 +604,15 @@ rot-kick-rot-low-order & [R] & [K0 K0h K1 K1h Kn] \\
 rot-kick-rot & [R, K0] - Yoshida 4 & [K0h K1 K1h Kn] \\
 rot-kick-rot-high-order & [R, K0] - Yoshida 6 & [K0h K1 K1h Kn] \\
 bend-kick-bend & [B] & [K1 K1h Kn] \\
-matrix-kick-matrix & [M] & [K1h Kn] \\
+mat-kick-mat & [M] & [K1h Kn] \\
+mat-kick-mat-exact ($h=0$) & [M] & [Dc/2, Kn, Dc/2] \\
 drift-kick-drift-exact & [D] & [h K0 K0h K1 K1h Kn] \\
 drift-kick-drift-expanded & [De] & [h K0 K0h K1 K1h Kn] \\
 \bottomrule
 \end{tabular}
-\caption{Available magnet models. \label{tab:models}}
+\caption{Available magnet models. For \texttt{mat-kick-mat-exact}, the kick
+is bracketed by two half-length correction maps; see
+Sec.~\ref{sec:mat_kick_mat_exact}. \label{tab:models}}
 \end{table}
 
 
@@ -1092,6 +1095,7 @@ The last gives the usual equation for the sagitta of a bending magnet.
 
 
 \subsection{Expanded Bend-Quadrupole (also used for Quadrupole)}
+\label{sec:expanded_bend_quadrupole}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}},
 \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} and
@@ -1250,6 +1254,57 @@ The longitudinal coordinate update is
 s \rightarrow s+L .
 \end{equation}
 
+
+\subsection{Matrix--kick--matrix with exact path correction}
+\label{sec:mat_kick_mat_exact}
+
+The \texttt{mat-kick-mat-exact} model extends \texttt{mat-kick-mat} for
+straight magnets ($h=0$). Both propagate with the expanded bend--quadrupole
+map $M$ described in Sec.~\ref{sec:expanded_bend_quadrupole}, retaining its
+momentum dependence. The exact variant adds a correction depending only on momenta
+that restores the square-root kinetic Hamiltonian omitted by the expansion
+in transverse momentum. This follows the exact-model correction described by
+Forest, Schmidt and McIntosh in the PTC report~\cite{ptc2002}, p.~69 and
+Secs.~K.4.6--K.4.7, pp.~74--75.
+
+With $p_z=\sqrt{(1+\delta)^2-p_x^2-p_y^2}$, the correction Hamiltonian is
+\begin{equation}
+  H_{Dc}=H_D-H_{De}
+        =1+\delta-p_z-\frac{p_x^2+p_y^2}{2(1+\delta)}.
+  \label{eq:mat_kick_mat_exact_correction}
+\end{equation}
+Thus, for $h=0$, adding $H_{Dc}$ to the expanded magnet Hamiltonian restores
+the exact kinetic term while retaining the same magnetic multipole potential.
+The factor $1/(1+\delta)$ in the expanded map is already retained exactly;
+the correction restores the higher powers of transverse momentum.
+
+Since $H_{Dc}$ has no position dependence, its map $C(\ell)$ over a signed
+integration length $\ell$ leaves $p_x$, $p_y$ and $\delta$ unchanged. Define
+\begin{equation}
+  d=\ell\left(\frac{1}{p_z}-\frac{1}{1+\delta}\right).
+\end{equation}
+In Xtrack's longitudinal coordinate $\zeta$, the coordinate updates are
+\begin{align}
+  x &\leftarrow x+p_x d, \\
+  y &\leftarrow y+p_y d, \\
+  \zeta &\leftarrow \zeta+
+    \frac{\beta_0}{\beta}\left(
+       \frac{\ell(p_x^2+p_y^2)}{2(1+\delta)^2}-(1+\delta)d\right).
+\end{align}
+This correction does not advance $s$; that advance belongs to the propagation
+map $M$.
+
+For each multipole kick with integration length $\ell$, the implementation
+applies $C(\ell/2)$, the multipole kick, and $C(\ell/2)$, in that order.
+For example, one \texttt{uniform} step of length $\ell$ applies
+\begin{equation}
+  M(\ell/2)\;;\ C(\ell/2)\;;\ K(\ell)\;;\ C(\ell/2)\;;\ M(\ell/2).
+\end{equation}
+Here the operations are listed in tracking order; $K$ contains the multipole
+terms not included in $M$. Other integrators use their own propagation and
+kick weights, including signed lengths. An empty magnetic kick still requires
+the correction: the two half-length maps combine into $C(\ell)$. With zero
+field, the resulting map is an exact drift.
 
 \subsection{Thin bend}
 
