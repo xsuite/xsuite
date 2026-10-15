@@ -112,7 +112,3 @@ For a periodic Twiss table computed with ``strengths=True``:
    :language: python
    :start-after: # Stable built-in layouts. The strengths preset requires strengths=True.
    :end-before: # end-tfs-presets
-
-The MAD-X preset controls the layout without converting physics conventions;
-see the :download:`MAD-X convention example <generated_code_snippets/madx_tfs_format.py>`
-for preparing the values.
