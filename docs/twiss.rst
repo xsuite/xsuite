@@ -40,6 +40,9 @@ example.
 .. literalinclude:: generated_code_snippets/table_slicing.py
    :language: python
 
+To export Twiss results with a reusable specification for column selection,
+header fields and numerical formatting, see :ref:`tfs-output-user-guide`.
+
 4d method (RF off)
 ==================
 

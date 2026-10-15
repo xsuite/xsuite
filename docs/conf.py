@@ -25,7 +25,8 @@ from sphinx.util.inspect import safe_getattr
 
 xobjects_branch = 'main'
 xfields_branch = 'main'
-xtrack_branch = 'main'
+# Use the feature branch until versioned TFS output is merged into Xtrack main.
+xtrack_branch = 'feature/tfs-format-spec'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
@@ -90,10 +91,9 @@ print("Done.")
 
 # Regenerate aperture API page at every docs build. The generated file should be included in `.gitignore`.
 print("Generating aperture API page...")
-from xtrack.aperture.aperture import Aperture as _Aperture
 _aperture_rst = os.path.join(_docs_dir, "aperture_api.rst")
 with open(_aperture_rst, "w") as _fid:
-    _fid.write(_Aperture._generate_doc_rst())
+    _fid.write(xtrack.LineAperture._generate_doc_rst())
 print("Done.")
 
 ### GENERATE code snippets
@@ -240,6 +240,12 @@ snippet_files = {
         'generated_code_snippets/slicing.py',
     'xtrack/examples/toy_ring/004b_work_with_table.py':
         'generated_code_snippets/work_with_table.py',
+    'xtrack/examples/twiss_table_file/004_tfs_format_spec.py':
+        'generated_code_snippets/tfs_format_spec.py',
+    'xtrack/examples/twiss_table_file/tfs_format_spec.toml':
+        'generated_code_snippets/tfs_format_spec.toml',
+    'xtrack/examples/twiss_table_file/005_madx_tfs_format.py':
+        'generated_code_snippets/madx_tfs_format.py',
     'xtrack/examples/lattice_design/007b_insert_elements.py':
         'generated_code_snippets/insert_element.py',
     'xtrack/examples/lattice_design/007c_insert_individual.py':
