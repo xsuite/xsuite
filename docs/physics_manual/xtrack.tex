@@ -1381,14 +1381,14 @@ that calculation, not an exact solution for an arbitrary fringe profile.
 We work in a Cartesian frame whose longitudinal coordinate $s$ is normal to the
 pole face. The normalized momenta and slopes are
 \begin{equation}
- P=1+\delta,\qquad p_s=\sqrt{P^2-p_x^2-p_y^2},\qquad
- t=x'=\frac{p_x}{p_s},\qquad v=y'=\frac{p_y}{p_s}.
+ p=1+\delta,\qquad p_s=\sqrt{p^2-p_x^2-p_y^2},\qquad
+ x_p=x'=\frac{p_x}{p_s},\qquad v=y'=\frac{p_y}{p_s}.
 \label{eq:fringe_coordinates}
 \end{equation}
-Here $P$ is the momentum relative to the reference momentum, not the dimensional
+Here $p$ is the momentum relative to the reference momentum, not the dimensional
 momentum. At a tilted pole face, even a particle following the reference orbit
 has nonzero $p_x$ in this frame. In particular, for a mid-plane trajectory
-incident at angle $e$, $p_x=P\sin e$ and $p_s=P\cos e$.
+incident at angle $e$, $p_x=p\sin e$ and $p_s=p\cos e$.
 
 Let $b(s)$ be the mid-plane vertical field divided by the reference magnetic
 rigidity. For an entrance fringe, $b$ rises from zero to $K_0$. Maxwell's
@@ -1415,43 +1415,85 @@ this makes the vertical kick particularly convenient to derive.
 Consider an incident mid-plane trajectory with arbitrary horizontal angle and
 momentum offset. Linearize in a small vertical displacement and vertical
 momentum, while keeping the horizontal angle exact. The Lorentz equations give
-\begin{equation}
- \frac{dp_x}{ds}=-b(s),\qquad
- \frac{dy}{ds}=\frac{p_y}{p_s},\qquad
- \frac{dp_y}{ds}=-\frac{p_x}{p_s}\,b'(s)y,
- \qquad p_s=\sqrt{P^2-p_x^2}
-\label{eq:fringe_linear_ode}
-\end{equation}
+\begin{align}
+ \frac{dp_x}{ds}&=-b(s),
+ \label{eq:fringe_ode_px}\\
+ \frac{dy}{ds}&=\frac{p_y}{p_s},
+ \label{eq:fringe_ode_y}\\
+ \frac{dp_y}{ds}&=-\frac{p_x}{p_s}\,b'(s)y,
+ \label{eq:fringe_ode_py}\\
+ p_s&=\sqrt{p^2-p_x^2}
+ \label{eq:fringe_longitudinal_momentum}
+\end{align}
 to this vertical order. These equations can also be integrated numerically
 without expanding in $K_0$.
 
 To extract the thin-fringe formula analytically, take $y=y_0$ and $p_y=0$
-before the fringe and introduce
+before the fringe and introduce the accumulated normalized field integral
 \begin{equation}
- B(s)=\int_{s_-}^{s}b(\sigma)\,d\sigma,\qquad
- p_x(s)=p_{x0}-B(s),\qquad q=\sqrt{P^2-p_{x0}^2},\qquad t_0=\frac{p_{x0}}q.
+ \mathcal{I}(s)=\int_{s_-}^{s}b(\sigma)\,d\sigma,\qquad
+ p_x(s)=p_{x0}-\mathcal{I}(s).
 \end{equation}
-Expansion in the field strength, at fixed incoming momentum, gives
+The second relation follows by integrating
+Eq.~\eqref{eq:fringe_ode_px}, $dp_x/ds=-b(s)$, from $s_-$ to $s$,
+with the initial condition $p_x(s_-)=p_{x0}$.
+The integral $\mathcal{I}(s)$ is distinct from the quadratic
+fringe integral $I$ in Eq.~\eqref{eq:fringe_integral}.
+Evaluating Eq.~\eqref{eq:fringe_longitudinal_momentum} at the entrance gives
+the incoming longitudinal momentum; the corresponding horizontal slope is
+\begin{equation}
+ p_{s0}=\sqrt{p^2-p_{x0}^2},\qquad x_{p,0}=\frac{p_{x0}}{p_{s0}}.
+\end{equation}
+The magnetic field preserves the total momentum $p$, but both $p_x(s)$ and
+$p_s(s)$ vary along the trajectory. Using
+Eq.~\eqref{eq:fringe_longitudinal_momentum} to express their ratio as a
+function of $p_x(s)$, define, at fixed $p$,
+\begin{equation}
+ f(a)=\frac{a}{\sqrt{p^2-a^2}},\qquad
+ \frac{p_x(s)}{p_s(s)}=f\bigl(p_{x0}-\mathcal{I}(s)\bigr).
+\end{equation}
+Differentiating the numerator and denominator gives
+\begin{align}
+ f'(a)
+ &=\frac{1}{\sqrt{p^2-a^2}}
+   +\frac{a^2}{(p^2-a^2)^{3/2}}\\
+ &=\frac{p^2}{(p^2-a^2)^{3/2}}.
+\end{align}
+The first-order Taylor expansion about the incoming momentum $p_{x0}$ is
+therefore
+\begin{align}
+ f\bigl(p_{x0}-\mathcal{I}(s)\bigr)
+ &=f(p_{x0})-\mathcal{I}(s)f'(p_{x0})
+   +O\bigl(\mathcal{I}(s)^2\bigr)\\
+ &=x_{p,0}-\frac{p^2}{p_{s0}^3}\mathcal{I}(s)
+   +O\bigl(\mathcal{I}(s)^2\bigr).
+\end{align}
+For a fixed fringe shape and length, $b(s)=K_0\widehat b(s)$ with
+$\widehat b(s)$ independent of $K_0$, so $\mathcal{I}(s)$ is proportional to
+$K_0$. Holding $p$ and $p_{x0}$ fixed while expanding in the field strength
+therefore gives
 \begin{equation}
  \frac{p_x(s)}{p_s(s)}
- =t_0-\frac{P^2}{q^3}B(s)+O(K_0^2).
+ =x_{p,0}-\frac{p^2}{p_{s0}^3}\mathcal{I}(s)+O(K_0^2).
 \end{equation}
-At first order, $p_y^{(1)}(s)=-t_0 b(s)y_0$, and hence the first-order change
-of the vertical position is $y^{(1)}(s)=-t_0 B(s)y_0/q$. Substituting both
-corrections back into the last equation in Eq.~\eqref{eq:fringe_linear_ode},
+At first order, Eq.~\eqref{eq:fringe_ode_py} gives
+$p_y^{(1)}(s)=-x_{p,0} b(s)y_0$, and integrating
+Eq.~\eqref{eq:fringe_ode_y} then gives the first-order change
+of the vertical position, $y^{(1)}(s)=-x_{p,0}\mathcal{I}(s)y_0/p_{s0}$.
+Substituting both corrections back into Eq.~\eqref{eq:fringe_ode_py},
 \begin{align}
  \frac{dp_y}{ds}
- &=-t_0 b'(s)y_0
-   +\left(\frac{P^2}{q^3}+\frac{t_0^2}{q}\right)B(s)b'(s)y_0
+ &=-x_{p,0} b'(s)y_0
+   +\left(\frac{p^2}{p_{s0}^3}+\frac{x_{p,0}^2}{p_{s0}}\right)\mathcal{I}(s)b'(s)y_0
    +O(K_0^3 y_0),\\
- \int B(s)b'(s)\,ds
- &=[B(s)b(s)]_{s_-}^{s_+}-\int b(s)^2\,ds
+ \int \mathcal{I}(s)b'(s)\,ds
+ &=[\mathcal{I}(s)b(s)]_{s_-}^{s_+}-\int b(s)^2\,ds
    =\int b(s)\bigl(K_0-b(s)\bigr)\,ds=I.
 \end{align}
 The resulting kick coefficient is therefore
 \begin{equation}
  \frac{\Delta p_y}{y_0}
- =-K_0t_0+I\frac{1+2t_0^2}{q}+O(K_0^3).
+ =-K_0x_{p,0}+I\frac{1+2x_{p,0}^2}{p_{s0}}+O(K_0^3).
 \label{eq:fringe_midplane_kick}
 \end{equation}
 The first term is the hard-edge focusing. The second is the leading correction
@@ -1459,63 +1501,220 @@ due to the finite field transition. At fixed incidence angle,
 \begin{equation}
  \frac{\Delta p_y}{y_0}
  =-K_0\tan e+
- \frac{gK_0^2F}{P}\frac{1+\sin^2 e}{\cos^3 e}+O(K_0^3).
+ \frac{gK_0^2F}{p}\frac{1+\sin^2 e}{\cos^3 e}+O(K_0^3).
 \label{eq:fringe_angle_kick}
 \end{equation}
-In particular, the finite-gap correction scales as $1/P$ and has a nontrivial
+In particular, the finite-gap correction scales as $1/p$ and has a nontrivial
 angular dependence. Correcting the momentum dependence must preserve this
 angular dependence.
 
 \subsubsection{Momentum-dependent coefficient of the generating function}
 
-The map must also describe nonzero incoming vertical momentum. The following
-steps give the coefficient used in the operator model of
-Ref.~\cite{forest-fringe-1}, and specify the approximation being extended.
-A useful vector-potential gauge has transverse component
+Our aim is to determine the momentum-dependent focusing coefficient $\Phi$
+of an equivalent thin fringe kick, written at the retained linear vertical
+order as
+\begin{equation}
+ \Delta p_y=-\Phi(p_x,p_y,\delta)Y.
+\end{equation}
+Here $Y$ is the vertical position extrapolated to the nominal fringe plane
+along an unperturbed drift; its precise definition is given below.
+The preceding section obtained the kick for zero incoming vertical momentum.
+We now seek the coefficient used in the operator model of
+Ref.~\cite{forest-fringe-1}, which also describes nonzero incoming vertical
+momentum. We construct the field Hamiltonian, remove the ordinary drift
+motion, and calculate the first- and second-order contributions in the
+field strength. The second-order calculation retains the terms needed for
+linear mid-plane focusing; their unexpanded momentum dependence defines the
+model's extension away from the mid-plane. The resulting $\Phi$ provides
+the coefficient that the generating-function model must reproduce to this
+order, rather than a description of every nonlinear fringe effect.
+
+We first specify the vector potential and the momentum convention used in
+the Hamiltonian. Normalize the vector potential by the reference magnetic
+rigidity, $\mathbf a=\mathbf A/(B\rho)_0$, and choose its components as
+\begin{align}
+ a_x&=a(s,y),\label{eq:fringe_ax}\\
+ a_y&=0,\label{eq:fringe_ay}\\
+ a_s&=-x b(s).\label{eq:fringe_as}
+\end{align}
+The scalar $a(s,y)$ therefore denotes the horizontal component of the
+normalized vector potential. Taking the curl in the Cartesian frame gives
+\begin{align}
+ \frac{B_x}{(B\rho)_0}
+ &=\partial_y a_s-\partial_s a_y=0,\\
+ \frac{B_y}{(B\rho)_0}
+ &=\partial_s a_x-\partial_x a_s=b(s)+\partial_s a(s,y),
+ \label{eq:fringe_curl_by}\\
+ \frac{B_s}{(B\rho)_0}
+ &=\partial_x a_y-\partial_y a_x=-\partial_y a(s,y).
+ \label{eq:fringe_curl_bs}
+\end{align}
+Thus $a_s$ supplies the mid-plane vertical field, while $a_x$ supplies its
+off-mid-plane corrections and the longitudinal fringe field.
+
+To determine $a(s,y)$, impose Maxwell's equation
+$\partial_s B_y=\partial_y B_s$ in the current-free aperture. Substituting
+Eqs.~\eqref{eq:fringe_curl_by} and \eqref{eq:fringe_curl_bs} gives
+\begin{equation}
+ b'(s)+\partial_s^2 a+\partial_y^2 a=0.
+ \label{eq:fringe_potential_pde}
+\end{equation}
+Mid-plane symmetry allows an even series in $y$; choose $a(s,0)=0$ and write
+\begin{equation}
+ a(s,y)=c_2(s)y^2+c_4(s)y^4+c_6(s)y^6+\cdots.
+\end{equation}
+Matching powers of $y$ in Eq.~\eqref{eq:fringe_potential_pde} yields
+\begin{align}
+ b'+2c_2&=0,\\
+ c_2''+12c_4&=0,\\
+ c_{2n}''+(2n+2)(2n+1)c_{2n+2}&=0\qquad(n\geq1).
+\end{align}
+Consequently $c_2=-b'/2$, $c_4=b'''/24$, and in general
 \begin{equation}
  a(s,y)=\sum_{n=1}^{\infty}
- \frac{(-1)^n b^{(2n-1)}(s)}{(2n)!}\,y^{2n},
- \qquad
- H=-\sqrt{P^2-(p_x-a)^2-p_y^2}+b(s)x.
+ \frac{(-1)^n b^{(2n-1)}(s)}{(2n)!}\,y^{2n}
+ =-\frac{b'(s)}{2}y^2+\frac{b'''(s)}{24}y^4-\cdots.
+ \label{eq:fringe_ax_series}
+\end{equation}
+Here $b^{(n)}$ denotes the $n$-th derivative with respect to $s$.
+As a check, substituting this series into
+Eqs.~\eqref{eq:fringe_curl_by} and \eqref{eq:fringe_curl_bs} gives
+\begin{align}
+ \frac{B_y}{(B\rho)_0}
+ &=b(s)-\frac{b''(s)}2y^2+\frac{b^{(4)}(s)}{24}y^4-\cdots,\\
+ \frac{B_s}{(B\rho)_0}
+ &=b'(s)y-\frac{b'''(s)}6y^3+\frac{b^{(5)}(s)}{120}y^5-\cdots,
+\end{align}
+which reproduce the field expansion in Eq.~\eqref{eq:fringe_fields}.
+
+We now use canonical momenta in the Hamiltonian. Their relation to the
+normalized mechanical momenta is
+\begin{equation}
+ p_x^{\mathrm{mech}}=p_x-a_x,\qquad
+ p_y^{\mathrm{mech}}=p_y-a_y,\qquad
+ p_s^{\mathrm{can}}=p_s^{\mathrm{mech}}+a_s.
+\end{equation}
+The preceding Lorentz-equation derivation used mechanical transverse
+momenta. Since $a_x=O(y^2)$ and $a_y=0$, the transverse canonical and
+mechanical momenta agree to the linear vertical order used there.
+The symbol $p$ continues to denote the conserved total mechanical momentum.
+For forward motion its longitudinal component is
+\begin{equation}
+ p_s^{\mathrm{mech}}
+ =\sqrt{p^2-(p_x-a_x)^2-(p_y-a_y)^2}.
+\end{equation}
+At fixed energy, using $s$ as the independent variable gives the reduced
+Hamiltonian $H=-p_s^{\mathrm{can}}=-p_s^{\mathrm{mech}}-a_s$.
+Inserting the chosen vector potential therefore gives
+\begin{equation}
+ H=-\sqrt{p^2-(p_x-a)^2-p_y^2}+b(s)x.
+ \label{eq:fringe_hamiltonian}
+\end{equation}
+To identify the perturbation to the drift Hamiltonian, define
+\begin{equation}
+ H_0=-\sqrt{p^2-p_x^2-p_y^2},\qquad
+ p_s=\sqrt{p^2-p_x^2-p_y^2}.
+\end{equation}
+For this unperturbed drift, denote the slopes by
+$x_{p,0}=p_x/p_s$ and $y_{p,0}=p_y/p_s$. The subscript $0$ identifies the
+unperturbed motion: these slopes are constant along a free drift, but remain
+functions of the canonical momenta when computing derivatives. Expanding
+Eq.~\eqref{eq:fringe_hamiltonian} to first order in $a$ gives
+\begin{equation}
+ H=H_0+b(s)x-\frac{p_x}{p_s}a(s,y)+O(a^2).
 \end{equation}
 Thus the perturbation to the drift Hamiltonian begins with
-$V=b(s)x-t a(s,y)$. In the drift interaction frame, replace
-$x$ by $x+st$ and $y$ by $y+sv$. For the first-order contribution, integrating
+$V=b(s)x-x_{p,0} a(s,y)$.
+
+The drift interaction frame removes the motion generated by $H_0$ before
+expanding in the fringe perturbation. To define it explicitly, Hamilton's
+equations for the unperturbed drift are
+\begin{align}
+ \frac{dx}{ds}&=\frac{\partial H_0}{\partial p_x}
+              =\frac{p_x}{p_s}=x_{p,0},\label{eq:fringe_drift_x}\\
+ \frac{dy}{ds}&=\frac{\partial H_0}{\partial p_y}
+              =\frac{p_y}{p_s}=y_{p,0},\label{eq:fringe_drift_y}\\
+ \frac{dp_x}{ds}&=-\frac{\partial H_0}{\partial x}=0,\\
+ \frac{dp_y}{ds}&=-\frac{\partial H_0}{\partial y}=0.
+\end{align}
+The slopes are therefore constant under this drift. Choose a reference
+plane $s=s_*$ and introduce coordinates $X,Y$ by
+\begin{align}
+ X&=x-(s-s_*)x_{p,0},\label{eq:fringe_interaction_x}\\
+ Y&=y-(s-s_*)y_{p,0}.\label{eq:fringe_interaction_y}
+\end{align}
+These are the positions obtained by extrapolating the instantaneous
+phase-space point back to $s_*$ along a free drift; the transformation leaves
+the momenta unchanged. In the absence of the field perturbation, $X,Y$ are
+constant. With the fringe present, they evolve because of that perturbation.
+Thus this change of coordinates does not assume that the actual trajectory
+through the fringe is a straight line.
+
+The transformation is the inverse Hamiltonian flow of $H_0$ and is
+canonical. Its explicit dependence on $s$ subtracts $H_0$ from the
+transformed Hamiltonian, leaving
+\begin{equation}
+ H_I(s,X,Y,p_x,p_y)
+ =\left.(H-H_0)\right|_{x=X+(s-s_*)x_{p,0},\;y=Y+(s-s_*)y_{p,0}}.
+\end{equation}
+In particular, the first-order perturbation in this frame is
+\begin{equation}
+ V_I=b(s)\bigl[X+(s-s_*)x_{p,0}\bigr]
+     -x_{p,0} a\bigl(s,Y+(s-s_*)y_{p,0}\bigr).
+ \label{eq:fringe_interaction_perturbation}
+\end{equation}
+This explains the positive shifts in the arguments: the field perturbation
+must be evaluated at the physical position corresponding to $X,Y$ at $s$.
+Choose the nominal fringe plane as the origin, $s_*=0$. The physical
+positions entering $V$ are then $X+s x_{p,0}$ and $Y+s y_{p,0}$.
+We retain $X,Y$ for the interaction-frame positions and $x_{p,0},y_{p,0}$
+for the unperturbed drift slopes throughout the derivation.
+
+For the first-order contribution, integrating
 the series for $a$ by parts and taking the thin-fringe limit yields
 \begin{align}
- \int a(s,y+sv)\,ds
- &=\frac{K_0y^2}{2}\sum_{n=1}^{\infty}(-1)^n v^{2n-2}
-   =-\frac{K_0y^2}{2(1+v^2)},\\
- u&=\frac{t}{1+v^2}.
+ \int a(s,Y+s y_{p,0})\,ds
+ &=\frac{K_0Y^2}{2}\sum_{n=1}^{\infty}(-1)^n y_{p,0}^{2n-2}
+   =-\frac{K_0Y^2}{2(1+y_{p,0}^2)}.
 \end{align}
 The sum is first obtained where the geometric series converges and then used
-as its rational continuation. The corresponding first-order vertical kick is
-$-K_0uy$. In the integration by parts, derivatives of $b$ vanish outside the
+as its rational continuation. Define the dimensionless slope combination
+\begin{equation}
+ u=\frac{x_{p,0}}{1+y_{p,0}^2}.
+\end{equation}
+This is an auxiliary function of the two unperturbed drift slopes, not an
+independent coordinate. It is the factor entering the first-order vertical
+kick, $\Delta p_y^{(1)}=-K_0uY$. On the mid-plane, $y_{p,0}=0$, it reduces to
+$u=x_{p,0}=\tan e$, where $e$ is the incidence angle. For nonzero vertical
+slope, its denominator accounts for the vertical-slope dependence in this
+fringe model. In the integration by parts, derivatives of $b$ vanish outside the
 transition; terms containing moments of its shrinking width are discarded at
 this order.
 
 For the second-order coefficient, retain the leading quadratic term
 \begin{equation}
- W(s)=b(s)(x+st)+\frac{t}{2}b'(s)(y+sv)^2
+ W(s)=b(s)(X+s x_{p,0})+\frac{x_{p,0}}{2}b'(s)(Y+s y_{p,0})^2
 \end{equation}
-in the ordered perturbation expansion. Define the transverse Poisson bracket
-by $\{f,h\}=f_xh_{p_x}-f_{p_x}h_x+f_yh_{p_y}-f_{p_y}h_y$.
+in the ordered perturbation expansion. Define the transverse Poisson bracket by
+\begin{equation}
+ \{f,h\}=f_Xh_{p_x}-f_{p_x}h_X+f_Yh_{p_y}-f_{p_y}h_Y.
+\end{equation}
 In the double integral of $\{W(s_2),\{W(s_1),p_y\}\}$, with $s_2<s_1$,
 the terms retained for linear mid-plane focusing are
 \begin{equation}
- y\left[b(s_2)b'(s_1)\{x,t\}
- +t^2 b'(s_2)b'(s_1)(s_1-s_2)\{y,v\}\right].
+ Y\left[b(s_2)b'(s_1)\{X,x_{p,0}\}
+ +x_{p,0}^2 b'(s_2)b'(s_1)(s_1-s_2)\{Y,y_{p,0}\}\right].
 \end{equation}
-For example, the first term comes from the bracket of $b(s_2)x$ with
-$t b'(s_1)y$. The second comes from the vertical-position and
+For example, the first term comes from the bracket of $b(s_2)X$ with
+$x_{p,0} b'(s_1)Y$. The second comes from the vertical-position and
 vertical-momentum derivatives of the two quadratic terms in $W$.
 Terms containing additional explicit powers of the vertical displacement or
 vertical slope are not retained in this step. Keeping the momentum
-derivatives $\{x,t\}$ and $\{y,v\}$ unexpanded defines the conventional
+derivatives $\{X,x_{p,0}\}$ and $\{Y,y_{p,0}\}$ unexpanded defines the conventional
 extension away from the mid-plane; it does not restore the other discarded
 terms. Integration gives
 \begin{equation}
- C=\{x,t\}J_0+t^2\{y,v\}(J_{10}-J_{01}),
+ C=\{X,x_{p,0}\}J_0+x_{p,0}^2\{Y,y_{p,0}\}(J_{10}-J_{01}),
 \end{equation}
 where
 \begin{align}
@@ -1528,19 +1727,19 @@ For the second identity, the inner integral equals
 $\int_{s_-}^{s_1}b(s_2)\,ds_2$ by integration by parts, since $b(s_-)=0$.
 The remaining momentum derivatives are explicit:
 \begin{align}
- \{x,t\}=\frac{\partial (p_x/p_s)}{\partial p_x}
- &=\frac{P^2-p_y^2}{p_s^3}=\frac{1+t^2}{p_s},\\
- \{y,v\}=\frac{\partial (p_y/p_s)}{\partial p_y}
- &=\frac{P^2-p_x^2}{p_s^3}=\frac{1+v^2}{p_s}.
+ \{X,x_{p,0}\}=\frac{\partial (p_x/p_s)}{\partial p_x}
+ &=\frac{p^2-p_y^2}{p_s^3}=\frac{1+x_{p,0}^2}{p_s},\\
+ \{Y,y_{p,0}\}=\frac{\partial (p_y/p_s)}{\partial p_y}
+ &=\frac{p^2-p_x^2}{p_s^3}=\frac{1+y_{p,0}^2}{p_s}.
 \end{align}
-Consequently, writing $A=1+t^2(2+v^2)$, the coefficient to be matched is
+Consequently, writing $A=1+x_{p,0}^2(2+y_{p,0}^2)$, the coefficient to be matched is
 \begin{equation}
  \Phi=K_0u-C=K_0u-gK_0^2F\frac{A}{p_s}.
 \label{eq:fringe_phi_second_order}
 \end{equation}
 This is Eq.~(34) of Ref.~\cite{forest-fringe-1} in the present notation.
 At $p_y=0$, it reproduces the independent derivation in
-Eq.~\eqref{eq:fringe_midplane_kick}, with $\Delta p_y=-\Phi y$.
+Eq.~\eqref{eq:fringe_midplane_kick}, with $\Delta p_y=-\Phi Y$.
 For general vertical slopes it specifies the chosen operator approximation;
 matching it does not establish an exact finite-width field map to all
 transverse orders.
@@ -1566,8 +1765,8 @@ Thus the corrected expression used in the map is
 \begin{equation}
  \boxed{\displaystyle
  \psi=K_0\tan\left[\arctan u-
-       gK_0F\frac{1+t^2(2+v^2)}{p_s(1+u^2)}\right],
- \qquad u=\frac{t}{1+v^2}.}
+       gK_0F\frac{1+x_{p,0}^2(2+y_{p,0}^2)}{p_s(1+u^2)}\right],
+ \qquad u=\frac{x_{p,0}}{1+y_{p,0}^2}.}
 \label{eq:fringe_psi}
 \end{equation}
 The factor $1+u^2$ in the denominator compensates the derivative of the
@@ -1576,7 +1775,7 @@ at normal incidence, but multiplies the second-order correction by the
 unwanted factor $1+u^2$ at a finite angle. The original factor $p_s$ also
 fails to reproduce the required momentum dependence.
 
-On the mid-plane, $v=0$, so
+On the mid-plane, $y_{p,0}=0$, so
 \begin{equation}
  \frac{1}{p_s(1+u^2)}=\frac{p_s}{p_s^2+p_x^2}
  =\frac{p_s}{(1+\delta)^2}=\frac{\cos e}{1+\delta}.
@@ -1588,6 +1787,13 @@ mid-plane simplification $p_s/(1+\delta)^2$ must not replace the general
 expression in Eq.~\eqref{eq:fringe_psi}.
 
 \subsubsection{Generating function and forward map}
+
+The thin map acts at the nominal plane $s=0$, where
+Eqs.~\eqref{eq:fringe_interaction_x} and \eqref{eq:fringe_interaction_y}
+give $X=x$ and $Y=y$. We write its incoming and outgoing physical positions
+as $(x,y)$ and $(x_f,y_f)$. The coefficient $\psi$ retains the slope
+notation $x_{p,0}=p_x/p_s$ and $y_{p,0}=p_y/p_s$, evaluated at the incoming
+canonical momenta.
 
 Let $c_3=K_0^2/[36Fg(1+\delta)]$ denote the coefficient of the existing
 quartic fringe term. This term is set to zero when $Fg=0$. It is separate
@@ -1622,26 +1828,26 @@ not make the finite-width approximation exact.
 
 \subsubsection{Derivatives used in tracking}
 
-For clarity, first treat $t$, $v$ and $p_s$ as independent variables. Define
+For clarity, first treat $x_{p,0}$, $y_{p,0}$ and $p_s$ as independent variables. Define
 \begin{equation}
  \begin{aligned}
- w&=1+v^2,\qquad u=t/w,\qquad D=1+u^2,\\
- A&=1+t^2(2+v^2),\qquad R=A/D,\qquad c=gK_0F,\\
+ w&=1+y_{p,0}^2,\qquad u=x_{p,0}/w,\qquad D=1+u^2,\\
+ A&=1+x_{p,0}^2(2+y_{p,0}^2),\qquad R=A/D,\qquad c=gK_0F,\\
  \phi&=\arctan u-cR/p_s.
  \end{aligned}
 \end{equation}
 The derivatives entering the quotient rule are
 \begin{align}
- u_t&=1/w,& u_v&=-2tv/w^2,\\
- A_t&=2t(2+v^2),& A_v&=2t^2v,\\
- D_t&=2u u_t,& D_v&=2u u_v,\\
- R_t&=(A_t-RD_t)/D,& R_v&=(A_v-RD_v)/D.
+ u_{x_{p,0}}&=1/w,& u_{y_{p,0}}&=-2x_{p,0} y_{p,0}/w^2,\\
+ A_{x_{p,0}}&=2x_{p,0}(2+y_{p,0}^2),& A_{y_{p,0}}&=2x_{p,0}^2y_{p,0},\\
+ D_{x_{p,0}}&=2u u_{x_{p,0}},& D_{y_{p,0}}&=2u u_{y_{p,0}},\\
+ R_{x_{p,0}}&=(A_{x_{p,0}}-RD_{x_{p,0}})/D,& R_{y_{p,0}}&=(A_{y_{p,0}}-RD_{y_{p,0}})/D.
 \end{align}
-Writing $f_t=\partial\psi/\partial t$, $f_v=\partial\psi/\partial v$
+Writing $f_{x_{p,0}}=\partial\psi/\partial x_{p,0}$, $f_{y_{p,0}}=\partial\psi/\partial y_{p,0}$
 and $f_s=\partial\psi/\partial p_s$ in these intermediate variables,
 \begin{align}
- f_t&=K_0\sec^2\phi\left(\frac{u_t}{D}-\frac{cR_t}{p_s}\right),\\
- f_v&=K_0\sec^2\phi\left(\frac{u_v}{D}-\frac{cR_v}{p_s}\right),\\
+ f_{x_{p,0}}&=K_0\sec^2\phi\left(\frac{u_{x_{p,0}}}{D}-\frac{cR_{x_{p,0}}}{p_s}\right),\\
+ f_{y_{p,0}}&=K_0\sec^2\phi\left(\frac{u_{y_{p,0}}}{D}-\frac{cR_{y_{p,0}}}{p_s}\right),\\
  f_s&=K_0\sec^2\phi\frac{cR}{p_s^2}.
 \end{align}
 Both $R$ and its derivatives must be corrected; changing only the value of
@@ -1649,26 +1855,27 @@ $\psi$ would no longer give the map of a single generating function.
 
 The chain rule then gives the derivatives at fixed other canonical momenta:
 \begin{align}
- \psi_{p_x}&=f_t\frac{1+t^2}{p_s}+f_v\frac{tv}{p_s}-f_s t,\\
- \psi_{p_y}&=f_t\frac{tv}{p_s}+f_v\frac{1+v^2}{p_s}-f_s v,\\
- \psi_\delta&=-f_t\frac{Pt}{p_s^2}-f_v\frac{Pv}{p_s^2}+f_s\frac{P}{p_s}.
+ \psi_{p_x}&=f_{x_{p,0}}\frac{1+x_{p,0}^2}{p_s}+f_{y_{p,0}}\frac{x_{p,0} y_{p,0}}{p_s}-f_s x_{p,0},\\
+ \psi_{p_y}&=f_{x_{p,0}}\frac{x_{p,0} y_{p,0}}{p_s}+f_{y_{p,0}}\frac{1+y_{p,0}^2}{p_s}-f_s y_{p,0},\\
+ \psi_\delta&=-f_{x_{p,0}}\frac{p x_{p,0}}{p_s^2}-f_{y_{p,0}}\frac{p y_{p,0}}{p_s^2}+f_s\frac{p}{p_s}.
 \label{eq:fringe_momentum_derivatives}
 \end{align}
 For tracking with the energy coordinate $p_\tau$, define
-$T=1/\beta_0+p_\tau$. Since $\partial\delta/\partial p_\tau=T/P$,
-$\psi_{p_\tau}=(T/P)\psi_\delta$. At fixed $s$ and energy,
+$T=1/\beta_0+p_\tau$. Since $\partial\delta/\partial p_\tau=T/p$,
+$\psi_{p_\tau}=(T/p)\psi_\delta$. At fixed $s$ and energy,
 $\zeta=s-\beta_0ct$ and $\ell=\beta ct$ imply
 $\Delta\zeta=-(\beta_0/\beta)\Delta\ell$. Consequently the longitudinal
 update used by the code is
 \begin{equation}
  \zeta_f=\zeta+\frac{\beta_0}{2}\psi_{p_\tau}y_f^2
-                  -\beta_0c_3\frac{T}{P^2}y_f^4.
+                  -\beta_0c_3\frac{T}{p^2}y_f^4.
 \end{equation}
 
 \subsubsection{Numerical check of the finite-gap term}
 
-A direct check needs only the linear equations in
-Eq.~\eqref{eq:fringe_linear_ode}. For example, take a cubic field transition
+A direct check needs only the linear equations
+\eqref{eq:fringe_ode_px}--\eqref{eq:fringe_longitudinal_momentum}.
+For example, take a cubic field transition
 of length $L$:
 \begin{equation}
  b(s)=K_0(3r^2-2r^3),\qquad r=s/L,\quad 0\leq s\leq L.
@@ -1677,7 +1884,7 @@ Writing $f(r)=3r^2-2r^3$, its integral is
 \begin{equation}
  gF=L\int_0^1 f(r)(1-f(r))\,dr=\frac{9L}{70}.
 \end{equation}
-Integrate from $p_x=P\sin e$, $y=1$, $p_y=0$. The unit $y$ normalizes a
+Integrate from $p_x=p\sin e$, $y=1$, $p_y=0$. The unit $y$ normalizes a
 linear transfer coefficient; it is not a physical metre-scale displacement.
 Subtract the hard-edge kick $-K_0\tan e$ from the resulting $p_y$. The
 remaining finite-width correction can be compared with
