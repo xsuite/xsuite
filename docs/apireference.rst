@@ -624,11 +624,11 @@ Intra-Beam Scattering Kicks
 Touschek Scattering
 -------------------
 
-.. autoclass:: xfields.TouschekScattering
+.. autoclass:: xfields.TouschekMarker
     :members:
     :member-order: bysource
 
-.. autoclass:: xfields.TouschekStudy
+.. autoclass:: xfields.TouschekGenerator
     :members:
     :member-order: bysource
 
