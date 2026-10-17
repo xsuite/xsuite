@@ -2178,15 +2178,24 @@ the position and longitudinal changes required by the momentum dependence
 of $\psi$. We first construct this map alone; the additional cubic kick
 present in the implementation is described separately in
 Section~\ref{sec:fringe_cubic_extension}.
-The generating function for the derived focusing model is
+We construct a symplectic thin-fringe map using the focusing coefficient
+$\psi$ defined in Eq.~\eqref{eq:fringe_psi}. To generate the vertical kick
+$p_{y,f}=p_y-\psi y_f$, we choose the mixed generating function
 \begin{equation}
  \mathcal G=p_xx_f+p_yy_f-\delta\ell_f
              -\frac12\psi(p_x,p_y,\delta)y_f^2.
  \label{eq:fringe_generating_function}
 \end{equation}
-For example, $y=\partial\mathcal G/\partial p_y
-=y_f-\tfrac12\psi_{p_y}y_f^2$ and
-$p_{y,f}=\partial\mathcal G/\partial y_f=p_y-\psi y_f$.
+The first three terms, $p_xx_f+p_yy_f-\delta\ell_f$, generate the identity
+map: without the last term, all positions and momenta remain unchanged.
+The last term introduces the fringe kick and its associated coordinate changes.
+Differentiating the generating function with respect to $p_y$ and $y_f$ gives
+\begin{align}
+ y&=\frac{\partial\mathcal G}{\partial p_y}
+   =y_f-\frac12\psi_{p_y}y_f^2,\\
+ p_{y,f}&=\frac{\partial\mathcal G}{\partial y_f}
+         =p_y-\psi y_f.
+\end{align}
 Solving the quadratic equation for $y_f$ using the root continuous at $y=0$
 gives the forward map:
 \begin{equation}
