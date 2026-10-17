@@ -2090,6 +2090,20 @@ transverse orders.
 
 \subsubsection{Constructing the corrected tangent form}
 
+Denote by $\psi(p_x,p_y,\delta)$ the momentum-dependent focusing coefficient
+used in the tracking model. At the retained linear vertical order, its
+kick is $\Delta p_y=-\psi Y$. Thus $\psi$ has units of inverse length;
+it is a focusing strength, not an angle. It will also supply the coefficient
+of the quadratic vertical term in the generating function below.
+The coefficient $\Phi$ derived in Eq.~\eqref{eq:fringe_phi_second_order}
+is the perturbative result through second order in field strength. We
+require the model coefficient to reproduce that result:
+\begin{equation}
+ \psi=\Phi+O(K_0^3).
+\end{equation}
+Using distinct symbols distinguishes the derived expansion $\Phi$ from
+the unexpanded tracking-model expression $\psi$.
+
 The hard-edge result in Eq.~\eqref{eq:fringe_hard_edge_kick} has focusing
 coefficient $K_0\tan e$. The existing tracking model expresses the
 finite-fringe correction as a shift of an effective edge angle. On the
@@ -2101,7 +2115,7 @@ a function of both slopes, not simply the geometric incidence angle.
 
 We retain this form of the existing model and determine the angle shift
 by requiring agreement with the derived focusing coefficient through
-second order in field strength. Write
+second order in field strength. For the model coefficient $\psi$, write
 \begin{equation}
  \psi=K_0\tan\bigl(\arctan u-\epsilon\bigr),\qquad
  \epsilon=O(K_0).
@@ -2124,12 +2138,6 @@ Thus the corrected expression used in the map is
  \qquad u=\frac{x_{p,0}}{1+y_{p,0}^2}.}
 \label{eq:fringe_psi}
 \end{equation}
-The factor $1+u^2$ in the denominator compensates the derivative of the
-\emph{outer} tangent. Using $1/p_s$ alone gives the correct momentum scaling
-at normal incidence, but multiplies the second-order correction by the
-unwanted factor $1+u^2$ at a finite angle. The original factor $p_s$ also
-fails to reproduce the required momentum dependence.
-
 The tangent form is a model choice beyond the calculated order. The
 unexpanded tangent includes terms of order $K_0^3$ and higher whose accuracy
 has not been established by this matching. It is not required for
@@ -2141,11 +2149,6 @@ On the mid-plane, $y_{p,0}=0$, so
  \frac{1}{p_s(1+u^2)}=\frac{p_s}{p_s^2+p_x^2}
  =\frac{p_s}{(1+\delta)^2}=\frac{\cos e}{1+\delta}.
 \end{equation}
-This restores the original on-momentum angular dependence and the inverse
-momentum scaling. At $e=42^\circ$, omitting $1+u^2$ increases the leading
-finite-gap correction by $\sec^2e\simeq1.810727$. For $p_y\ne0$, the
-mid-plane simplification $p_s/(1+\delta)^2$ must not replace the general
-expression in Eq.~\eqref{eq:fringe_psi}.
 
 \subsubsection{Generating function and forward map}
 
@@ -2156,16 +2159,34 @@ as $(x,y)$ and $(x_f,y_f)$. The coefficient $\psi$ retains the slope
 notation $x_{p,0}=p_x/p_s$ and $y_{p,0}=p_y/p_s$, evaluated at the incoming
 canonical momenta.
 
-Let $c_3=K_0^2/[36Fg(1+\delta)]$ denote the coefficient of the existing
-quartic fringe term. This term is set to zero when $Fg=0$. It is separate
-from the correction to $\psi$ derived above. A mixed generating function is
+A generating function is a scalar function whose derivatives define a
+canonical, and hence symplectic, transformation. Here we use a mixed
+generating function: its independent arguments are the incoming momenta
+and outgoing positions. With the longitudinal canonical pair
+$(\ell,-\delta)$, the defining relations are
+\begin{align}
+ x&=\frac{\partial\mathcal G}{\partial p_x},&
+ p_{x,f}&=\frac{\partial\mathcal G}{\partial x_f},\\
+ y&=\frac{\partial\mathcal G}{\partial p_y},&
+ p_{y,f}&=\frac{\partial\mathcal G}{\partial y_f},\\
+ \ell&=-\frac{\partial\mathcal G}{\partial\delta},&
+ \delta_f&=-\frac{\partial\mathcal G}{\partial\ell_f}.
+\end{align}
+The function $p_xx_f+p_yy_f-\delta\ell_f$ gives the identity map.
+Adding $-\psi y_f^2/2$ generates the desired vertical kick, together with
+the position and longitudinal changes required by the momentum dependence
+of $\psi$. We first construct this map alone; the additional cubic kick
+present in the implementation is described separately in
+Section~\ref{sec:fringe_cubic_extension}.
+The generating function for the derived focusing model is
 \begin{equation}
  \mathcal G=p_xx_f+p_yy_f-\delta\ell_f
-             -\frac12\psi(p_x,p_y,\delta)y_f^2-c_3y_f^4.
+             -\frac12\psi(p_x,p_y,\delta)y_f^2.
+ \label{eq:fringe_generating_function}
 \end{equation}
 For example, $y=\partial\mathcal G/\partial p_y
 =y_f-\tfrac12\psi_{p_y}y_f^2$ and
-$p_{y,f}=\partial\mathcal G/\partial y_f=p_y-\psi y_f-4c_3y_f^3$.
+$p_{y,f}=\partial\mathcal G/\partial y_f=p_y-\psi y_f$.
 Solving the quadratic equation for $y_f$ using the root continuous at $y=0$
 gives the forward map:
 \begin{equation}
@@ -2174,16 +2195,13 @@ p_s &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
 x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
 p_{x,f} &= p_x \\
 y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
-p_{y,f} &= p_y - \psi y_f - 4c_3 y_f^3 \\
-\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2
-                + \frac{c_3}{1+\delta}y_f^4 \\
+p_{y,f} &= p_y - \psi y_f \\
+\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
 \delta_f &= \delta
 \end{aligned}
 \label{eq:fringe_map}
 \end{equation}
-All derivatives are evaluated at the incoming momenta. The quartic term in
-$\ell_f$ follows from $\partial c_3/\partial\delta=-c_3/(1+\delta)$ and must
-accompany the cubic kick in $p_{y,f}$. The map is symplectic where this branch
+All derivatives are evaluated at the incoming momenta. The map is symplectic where this branch
 of the generating function is real and invertible; that property alone does
 not make the finite-width approximation exact.
 
@@ -2226,11 +2244,166 @@ $T=1/\beta_0+p_\tau$. Since $\partial\delta/\partial p_\tau=T/p$,
 $\psi_{p_\tau}=(T/p)\psi_\delta$. At fixed $s$ and energy,
 $\zeta=s-\beta_0ct$ and $\ell=\beta ct$ imply
 $\Delta\zeta=-(\beta_0/\beta)\Delta\ell$. Consequently the longitudinal
-update used by the code is
+update for the focusing model of Eq.~\eqref{eq:fringe_map} is
+\begin{equation}
+ \zeta_f=\zeta+\frac{\beta_0}{2}\psi_{p_\tau}y_f^2.
+\end{equation}
+
+\subsubsection{Additional cubic kick in the implementation}
+\label{sec:fringe_cubic_extension}
+
+Xtrack also applies a cubic vertical kick. The same term appears in the
+\href{https://github.com/MethodicalAcceleratorDesign/MAD-X/blob/master/libs/ptc/src/Sh_def_kind.f90}{PTC dipole-fringe implementation}.
+This term is separate from the focusing coefficient $\psi$ derived above.
+Its coefficient, in the present notation, is
+\begin{equation}
+ c_3=\frac{K_0^2}{36Fg(1+\delta)}.
+ \label{eq:fringe_cubic_coefficient}
+\end{equation}
+In PTC this follows from the code definitions
+$\texttt{fsad}=1/(36\cdot2\,\texttt{hgap}\cdot\texttt{fint})$ and
+$c_3=K_0^2\texttt{fsad}/(1+\delta)$, with $g=2\,\texttt{hgap}$ and
+$F=\texttt{fint}$. The term is disabled when $Fg=0$; that is an
+implementation convention, not the limit of
+Eq.~\eqref{eq:fringe_cubic_coefficient} as $Fg\to0$.
+
+The same cubic coefficient is documented for the SAD soft-edge model in
+the \href{https://www.classe.cornell.edu/bmad/bmad-manual-2025-08-25.pdf}{Bmad manual},
+Section~19.2. There the coefficient multiplying $-y^3$ is
+$K_0^2/[18F_H(1+\delta)]$, with $F_H=F\,\texttt{hgap}=Fg/2$;
+it is therefore $4c_3$ in our convention. The preceding linear-focusing
+calculation does not determine this nonlinear coefficient. We now derive
+it independently at normal incidence for a specified smooth field profile.
+
+Take incoming mechanical momenta $p_x=p_y=0$ and vertical displacement
+$y_0$. Retain second order in field strength and third order in $y_0$.
+The horizontal momentum starts at first order in $K_0$, whereas the
+vertical force starts at second order because it contains the product
+$p_x B_s$. Consequently the vertical displacement changes only at second
+order in $K_0$. In the force calculation at that order we can use $y=y_0$
+and $p_s=p=1+\delta$.
+
+It is essential to retain the off-mid-plane correction to $B_y$, as well
+as the cubic term of $B_s$:
+\begin{align}
+ \frac{B_y}{(B\rho)_0}&=b(s)-\frac{y_0^2}{2}b''(s)+O(y_0^4),\\
+ \frac{B_s}{(B\rho)_0}&=y_0b'(s)-\frac{y_0^3}{6}b'''(s)+O(y_0^5).
+\end{align}
+Using mechanical momenta explicitly, the horizontal Lorentz equation
+at first order in field strength gives
+\begin{align}
+ \frac{dp_x^{\mathrm{mech}}}{ds}
+ &=-b(s)+\frac{y_0^2}{2}b''(s)+O(y_0^4),\\
+ p_x^{\mathrm{mech}}(s)
+ &=-\mathcal I(s)+\frac{y_0^2}{2}b'(s)+O(y_0^4),
+ \qquad \mathcal I(s)=\int_{s_-}^{s}b(\sigma)\,d\sigma.
+\end{align}
+Here $b'(s_-)=0$; the omitted field-strength orders are not needed below.
+Substituting this momentum into
+$dp_y^{\mathrm{mech}}/ds=-(p_x^{\mathrm{mech}}/p_s)B_s/(B\rho)_0$
+gives, to second order in field strength,
+\begin{equation}
+ \frac{dp_y^{\mathrm{mech}}}{ds}
+ =\frac{\mathcal I(s)b'(s)}{p}y_0
+  -\frac{y_0^3}{p}\left[
+       \frac{\mathcal I(s)b'''(s)}{6}
+       +\frac{[b'(s)]^2}{2}\right]+O(y_0^5).
+\end{equation}
+Define the additional field-profile integral
+\begin{equation}
+ J=\int_{s_-}^{s_+}[b'(s)]^2\,ds.
+ \label{eq:fringe_cubic_profile_integral}
+\end{equation}
+With $b'$ and $b''$ vanishing at the endpoints, integration by parts twice
+gives
+\begin{align}
+ \int_{s_-}^{s_+}\mathcal I(s)b'''(s)\,ds
+ &=[\mathcal I b'']_{s_-}^{s_+}-\int_{s_-}^{s_+}b(s)b''(s)\,ds\\
+ &=-[b b']_{s_-}^{s_+}+\int_{s_-}^{s_+}[b'(s)]^2\,ds=J.
+\end{align}
+Using also $\int\mathcal I b'\,ds=I$, we obtain the kick at the retained
+orders:
+\begin{equation}
+ \Delta p_y=\frac{I}{p}y_0-\frac{2J}{3p}y_0^3.
+ \label{eq:fringe_cubic_lorentz_kick}
+\end{equation}
+The first term is the normal-incidence finite-width focusing term already
+derived. Matching the cubic term to $-4c_3y_0^3$ gives
+\begin{equation}
+ c_3=\frac{J}{6p}.
+ \label{eq:fringe_cubic_general_coefficient}
+\end{equation}
+At this order one can replace $y_0$ by $y_f$ in the cubic term: their
+difference is second order in field strength, while $c_3$ is already
+second order. The uniform-body map factored out of the fringe does not
+change $p_y$, so the derived momentum kick also applies to the equivalent
+thin map.
+
+For a hyperbolic-tangent field profile with length scale $d>0$,
+\begin{equation}
+ b(s)=\frac{K_0}{2}\left[1+\tanh(s/d)\right],\qquad
+ b'(s)=\frac{K_0}{2d}\operatorname{sech}^2(s/d).
+\end{equation}
+Integrating over the full transition, with $r=s/d$, gives
+\begin{align}
+ gF&=\frac{d}{4}\int_{-\infty}^{\infty}\operatorname{sech}^2r\,dr
+       =\frac d2,\\
+ J&=\frac{K_0^2}{4d}\int_{-\infty}^{\infty}\operatorname{sech}^4r\,dr
+       =\frac{K_0^2}{3d}.
+\end{align}
+For the second integral, $t=\tanh r$ gives
+$\int_{-1}^{1}(1-t^2)\,dt=4/3$. Equation~\eqref{eq:fringe_cubic_general_coefficient}
+therefore becomes
+\begin{equation}
+ c_3=\frac{K_0^2}{18dp}
+     =\frac{K_0^2}{36gF(1+\delta)},
+\end{equation}
+which is precisely the implemented coefficient. This establishes a
+physical justification for the factor $1/36$ at normal incidence for this
+profile, to second order in field strength and cubic order in displacement.
+
+For a general profile, $J=\int[b']^2ds$ is not determined by
+$gF=\int b(K_0-b)ds/K_0^2$. The implemented expression effectively sets
+$J=K_0^2/(6gF)$, as for the hyperbolic-tangent profile. It should therefore
+not be interpreted as a universal coefficient for arbitrary fringe shapes.
+Nor does the normal-incidence calculation establish the complete cubic
+map at finite incidence angle or nonzero incoming vertical slope.
+Ref.~\cite{forest-fringe-1}, Eqs.~(21)--(22), likewise identifies additional
+nonlinear profile integrals but leaves their further study aside.
+For the hyperbolic-tangent profile, the cubic coefficient grows as $1/d$
+when the transition narrows. The displacement expansion requires
+$|y_0|\ll d$, so its validity is not uniform in the limit $d\to0$ at fixed
+nonzero $y_0$. This nonlinear limit must be distinguished from the
+linearized hard-edge calculation above.
+
+To include the implemented cubic kick in a symplectic map, augment
+Eq.~\eqref{eq:fringe_generating_function} by a quartic term:
+\begin{equation}
+ \mathcal G_{\mathrm{extended}}=\mathcal G-c_3y_f^4.
+\end{equation}
+Differentiating with respect to $y_f$ produces the extra kick
+$-4c_3y_f^3$. Since $c_3$ depends on $\delta$, its derivative also produces
+a longitudinal-coordinate change. The two modified lines of
+Eq.~\eqref{eq:fringe_map} are
+\begin{align}
+ p_{y,f}&=p_y-\psi y_f-4c_3y_f^3,
+ \label{eq:fringe_extended_py}\\
+ \ell_f&=\ell-\frac12\psi_\delta y_f^2
+                   +\frac{c_3}{1+\delta}y_f^4.
+ \label{eq:fringe_extended_map}
+\end{align}
+Here $\partial c_3/\partial\delta=-c_3/(1+\delta)$; the quartic longitudinal
+term must accompany the cubic vertical kick. All other lines of the map,
+including the expression determining $y_f$, are unchanged because $c_3$
+does not depend on $p_x$ or $p_y$. In the tracking coordinate $\zeta$, the
+extended longitudinal update is
 \begin{equation}
  \zeta_f=\zeta+\frac{\beta_0}{2}\psi_{p_\tau}y_f^2
-                  -\beta_0c_3\frac{T}{p^2}y_f^4.
+              -\beta_0c_3\frac{T}{p^2}y_f^4.
 \end{equation}
+This extension does not change the linear vertical focusing about $y=0$.
+Consequently the linear numerical check below tests $\psi$, not the
+physical accuracy of the additional cubic kick.
 
 \subsubsection{Numerical check of the finite-gap term}
 
@@ -2275,6 +2448,10 @@ check supports the linear thin-fringe limit; nonlinear tracking requires
 additional validation.
 
 \subsubsection{Backtracking}
+For backtracking we include the cubic kick described in
+Section~\ref{sec:fringe_cubic_extension}.
+The same procedure applies to Eq.~\eqref{eq:fringe_map} by setting $c_3=0$.
+
 This map is not analytically invertible, so when we do backtracking, we require
 a numerical iteration to recover the initial coordinates from the final ones to machine precision.
 The main problem is in the calculation of $p_y$. To illustrate the problem, we can describe
@@ -2290,7 +2467,7 @@ Rearranging Eq.~\eqref{eq:fringe_map} to solve for $x_0$, $y_0$ and $p_{x,0}$ is
 \end{aligned}
 \end{equation}
 
-On the other hand, the equation for $p_{y,0}$ is implicit, as we see in Eq.~\eqref{eq:fringe_map} and
+On the other hand, the equation for $p_{y,0}$ is implicit, as we see in Eq.~\eqref{eq:fringe_extended_py} and
 Eq.~\eqref{eq:fringe_psi} that the final momentum $p_{y,1}$ depends on the initial momentum $p_{y,0}$ through $\psi$.
 
 We can rewrite the equation in a more explicit form to describe the issue:
