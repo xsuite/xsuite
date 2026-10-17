@@ -1369,36 +1369,342 @@ The other coordinates ($x$, $y$, $\delta$, $\zeta$) remain unchanged.
 
 The dipole fringe field map used in Xsuite is based on \cite{forest-fringe-1}.
 Additional information can be found in \cite{silke_cap, silke_fringe}.
+The derivation below fixes both the momentum dependence and the angular
+dependence of its finite-gap term. We first obtain the linear vertical focusing
+directly from the equations of motion, then construct the generating function
+and its derivatives. The finite-gap calculation is perturbative to second order
+in the dipole field; the final tangent expression is a symplectic model extending
+that calculation, not an exact solution for an arbitrary fringe profile.
 
-The implemented map is the following:
+\subsubsection{Coordinates, field profile and fringe integral}
+
+We work in a Cartesian frame whose longitudinal coordinate $s$ is normal to the
+pole face. The normalized momenta and slopes are
+\begin{equation}
+ P=1+\delta,\qquad p_s=\sqrt{P^2-p_x^2-p_y^2},\qquad
+ t=x'=\frac{p_x}{p_s},\qquad v=y'=\frac{p_y}{p_s}.
+\label{eq:fringe_coordinates}
+\end{equation}
+Here $P$ is the momentum relative to the reference momentum, not the dimensional
+momentum. At a tilted pole face, even a particle following the reference orbit
+has nonzero $p_x$ in this frame. In particular, for a mid-plane trajectory
+incident at angle $e$, $p_x=P\sin e$ and $p_s=P\cos e$.
+
+Let $b(s)$ be the mid-plane vertical field divided by the reference magnetic
+rigidity. For an entrance fringe, $b$ rises from zero to $K_0$. Maxwell's
+equations give, near the mid-plane,
+\begin{equation}
+ \frac{B_y}{(B\rho)_0}=b(s)-\frac{y^2}{2}b''(s)+\cdots,\qquad
+ \frac{B_s}{(B\rho)_0}=y b'(s)-\frac{y^3}{6}b'''(s)+\cdots.
+\label{eq:fringe_fields}
+\end{equation}
+The full magnet gap is $g=2\,\texttt{hgap}$, and the dimensionless fringe
+integral $F=\texttt{fint}$ is defined by
+\begin{equation}
+ F=\int \frac{b(s)\bigl(K_0-b(s)\bigr)}{gK_0^2}\,ds,
+ \qquad I=\int b(s)\bigl(K_0-b(s)\bigr)\,ds=gK_0^2F.
+\label{eq:fringe_integral}
+\end{equation}
+The integration limits are outside the field transition. The equivalent thin
+fringe is obtained by removing the drift before its nominal plane and the
+uniform-field bend after it. A uniform Cartesian dipole does not change $p_y$;
+this makes the vertical kick particularly convenient to derive.
+
+\subsubsection{Linear vertical focusing from the equations of motion}
+
+Consider an incident mid-plane trajectory with arbitrary horizontal angle and
+momentum offset. Linearize in a small vertical displacement and vertical
+momentum, while keeping the horizontal angle exact. The Lorentz equations give
+\begin{equation}
+ \frac{dp_x}{ds}=-b(s),\qquad
+ \frac{dy}{ds}=\frac{p_y}{p_s},\qquad
+ \frac{dp_y}{ds}=-\frac{p_x}{p_s}\,b'(s)y,
+ \qquad p_s=\sqrt{P^2-p_x^2}
+\label{eq:fringe_linear_ode}
+\end{equation}
+to this vertical order. These equations can also be integrated numerically
+without expanding in $K_0$.
+
+To extract the thin-fringe formula analytically, take $y=y_0$ and $p_y=0$
+before the fringe and introduce
+\begin{equation}
+ B(s)=\int_{s_-}^{s}b(\sigma)\,d\sigma,\qquad
+ p_x(s)=p_{x0}-B(s),\qquad q=\sqrt{P^2-p_{x0}^2},\qquad t_0=\frac{p_{x0}}q.
+\end{equation}
+Expansion in the field strength, at fixed incoming momentum, gives
+\begin{equation}
+ \frac{p_x(s)}{p_s(s)}
+ =t_0-\frac{P^2}{q^3}B(s)+O(K_0^2).
+\end{equation}
+At first order, $p_y^{(1)}(s)=-t_0 b(s)y_0$, and hence the first-order change
+of the vertical position is $y^{(1)}(s)=-t_0 B(s)y_0/q$. Substituting both
+corrections back into the last equation in Eq.~\eqref{eq:fringe_linear_ode},
+\begin{align}
+ \frac{dp_y}{ds}
+ &=-t_0 b'(s)y_0
+   +\left(\frac{P^2}{q^3}+\frac{t_0^2}{q}\right)B(s)b'(s)y_0
+   +O(K_0^3 y_0),\\
+ \int B(s)b'(s)\,ds
+ &=[B(s)b(s)]_{s_-}^{s_+}-\int b(s)^2\,ds
+   =\int b(s)\bigl(K_0-b(s)\bigr)\,ds=I.
+\end{align}
+The resulting kick coefficient is therefore
+\begin{equation}
+ \frac{\Delta p_y}{y_0}
+ =-K_0t_0+I\frac{1+2t_0^2}{q}+O(K_0^3).
+\label{eq:fringe_midplane_kick}
+\end{equation}
+The first term is the hard-edge focusing. The second is the leading correction
+due to the finite field transition. At fixed incidence angle,
+\begin{equation}
+ \frac{\Delta p_y}{y_0}
+ =-K_0\tan e+
+ \frac{gK_0^2F}{P}\frac{1+\sin^2 e}{\cos^3 e}+O(K_0^3).
+\label{eq:fringe_angle_kick}
+\end{equation}
+In particular, the finite-gap correction scales as $1/P$ and has a nontrivial
+angular dependence. Correcting the momentum dependence must preserve this
+angular dependence.
+
+\subsubsection{Momentum-dependent coefficient of the generating function}
+
+The map must also describe nonzero incoming vertical momentum. The following
+steps give the coefficient used in the operator model of
+Ref.~\cite{forest-fringe-1}, and specify the approximation being extended.
+A useful vector-potential gauge has transverse component
+\begin{equation}
+ a(s,y)=\sum_{n=1}^{\infty}
+ \frac{(-1)^n b^{(2n-1)}(s)}{(2n)!}\,y^{2n},
+ \qquad
+ H=-\sqrt{P^2-(p_x-a)^2-p_y^2}+b(s)x.
+\end{equation}
+Thus the perturbation to the drift Hamiltonian begins with
+$V=b(s)x-t a(s,y)$. In the drift interaction frame, replace
+$x$ by $x+st$ and $y$ by $y+sv$. For the first-order contribution, integrating
+the series for $a$ by parts and taking the thin-fringe limit yields
+\begin{align}
+ \int a(s,y+sv)\,ds
+ &=\frac{K_0y^2}{2}\sum_{n=1}^{\infty}(-1)^n v^{2n-2}
+   =-\frac{K_0y^2}{2(1+v^2)},\\
+ u&=\frac{t}{1+v^2}.
+\end{align}
+The sum is first obtained where the geometric series converges and then used
+as its rational continuation. The corresponding first-order vertical kick is
+$-K_0uy$. In the integration by parts, derivatives of $b$ vanish outside the
+transition; terms containing moments of its shrinking width are discarded at
+this order.
+
+For the second-order coefficient, retain the leading quadratic term
+\begin{equation}
+ W(s)=b(s)(x+st)+\frac{t}{2}b'(s)(y+sv)^2
+\end{equation}
+in the ordered perturbation expansion. Define the transverse Poisson bracket
+by $\{f,h\}=f_xh_{p_x}-f_{p_x}h_x+f_yh_{p_y}-f_{p_y}h_y$.
+In the double integral of $\{W(s_2),\{W(s_1),p_y\}\}$, with $s_2<s_1$,
+the terms retained for linear mid-plane focusing are
+\begin{equation}
+ y\left[b(s_2)b'(s_1)\{x,t\}
+ +t^2 b'(s_2)b'(s_1)(s_1-s_2)\{y,v\}\right].
+\end{equation}
+For example, the first term comes from the bracket of $b(s_2)x$ with
+$t b'(s_1)y$. The second comes from the vertical-position and
+vertical-momentum derivatives of the two quadratic terms in $W$.
+Terms containing additional explicit powers of the vertical displacement or
+vertical slope are not retained in this step. Keeping the momentum
+derivatives $\{x,t\}$ and $\{y,v\}$ unexpanded defines the conventional
+extension away from the mid-plane; it does not restore the other discarded
+terms. Integration gives
+\begin{equation}
+ C=\{x,t\}J_0+t^2\{y,v\}(J_{10}-J_{01}),
+\end{equation}
+where
+\begin{align}
+ J_0&=\int b'(s_1)\,ds_1\int_{s_-}^{s_1}b(s_2)\,ds_2=I,\\
+ J_{10}-J_{01}
+ &=\int b'(s_1)\,ds_1\int_{s_-}^{s_1}
+       b'(s_2)(s_1-s_2)\,ds_2=I.
+\end{align}
+For the second identity, the inner integral equals
+$\int_{s_-}^{s_1}b(s_2)\,ds_2$ by integration by parts, since $b(s_-)=0$.
+The remaining momentum derivatives are explicit:
+\begin{align}
+ \{x,t\}=\frac{\partial (p_x/p_s)}{\partial p_x}
+ &=\frac{P^2-p_y^2}{p_s^3}=\frac{1+t^2}{p_s},\\
+ \{y,v\}=\frac{\partial (p_y/p_s)}{\partial p_y}
+ &=\frac{P^2-p_x^2}{p_s^3}=\frac{1+v^2}{p_s}.
+\end{align}
+Consequently, writing $A=1+t^2(2+v^2)$, the coefficient to be matched is
+\begin{equation}
+ \Phi=K_0u-C=K_0u-gK_0^2F\frac{A}{p_s}.
+\label{eq:fringe_phi_second_order}
+\end{equation}
+This is Eq.~(34) of Ref.~\cite{forest-fringe-1} in the present notation.
+At $p_y=0$, it reproduces the independent derivation in
+Eq.~\eqref{eq:fringe_midplane_kick}, with $\Delta p_y=-\Phi y$.
+For general vertical slopes it specifies the chosen operator approximation;
+matching it does not establish an exact finite-width field map to all
+transverse orders.
+
+\subsubsection{Constructing the corrected tangent form}
+
+To retain the usual tangent representation, write the model as
+\begin{equation}
+ \psi=K_0\tan\bigl(\arctan u-\epsilon\bigr),\qquad
+ \epsilon=O(K_0).
+\end{equation}
+Expand the outer tangent, keeping the momenta fixed:
+\begin{align}
+ \tan(\arctan u-\epsilon)
+ &=u-(1+u^2)\epsilon+O(\epsilon^2),\\
+ \psi&=K_0u-K_0(1+u^2)\epsilon+O(K_0^3).
+\end{align}
+Agreement with Eq.~\eqref{eq:fringe_phi_second_order} requires
+\begin{equation}
+ \epsilon=gK_0F\frac{A}{p_s(1+u^2)}.
+\end{equation}
+Thus the corrected expression used in the map is
+\begin{equation}
+ \boxed{\displaystyle
+ \psi=K_0\tan\left[\arctan u-
+       gK_0F\frac{1+t^2(2+v^2)}{p_s(1+u^2)}\right],
+ \qquad u=\frac{t}{1+v^2}.}
+\label{eq:fringe_psi}
+\end{equation}
+The factor $1+u^2$ in the denominator compensates the derivative of the
+\emph{outer} tangent. Using $1/p_s$ alone gives the correct momentum scaling
+at normal incidence, but multiplies the second-order correction by the
+unwanted factor $1+u^2$ at a finite angle. The original factor $p_s$ also
+fails to reproduce the required momentum dependence.
+
+On the mid-plane, $v=0$, so
+\begin{equation}
+ \frac{1}{p_s(1+u^2)}=\frac{p_s}{p_s^2+p_x^2}
+ =\frac{p_s}{(1+\delta)^2}=\frac{\cos e}{1+\delta}.
+\end{equation}
+This restores the original on-momentum angular dependence and the inverse
+momentum scaling. At $e=42^\circ$, omitting $1+u^2$ increases the leading
+finite-gap correction by $\sec^2e\simeq1.810727$. For $p_y\ne0$, the
+mid-plane simplification $p_s/(1+\delta)^2$ must not replace the general
+expression in Eq.~\eqref{eq:fringe_psi}.
+
+\subsubsection{Generating function and forward map}
+
+Let $c_3=K_0^2/[36Fg(1+\delta)]$ denote the coefficient of the existing
+quartic fringe term. This term is set to zero when $Fg=0$. It is separate
+from the correction to $\psi$ derived above. A mixed generating function is
+\begin{equation}
+ \mathcal G=p_xx_f+p_yy_f-\delta\ell_f
+             -\frac12\psi(p_x,p_y,\delta)y_f^2-c_3y_f^4.
+\end{equation}
+For example, $y=\partial\mathcal G/\partial p_y
+=y_f-\tfrac12\psi_{p_y}y_f^2$ and
+$p_{y,f}=\partial\mathcal G/\partial y_f=p_y-\psi y_f-4c_3y_f^3$.
+Solving the quadratic equation for $y_f$ using the root continuous at $y=0$
+gives the forward map:
 \begin{equation}
 \begin{aligned}
 p_s &= \sqrt{(1+\delta)^2 - p_x^2 - p_y^2}\\
 x_f &= x + \frac{1}{2} \frac{\partial \psi}{\partial p_x} y_f^2 \\
 p_{x,f} &= p_x \\
 y_f &= \frac{2y}{1 + \sqrt{1 - 2 \frac{\partial \psi}{\partial p_y} y}} \\
-p_{y,f} &= p_y - \psi y_f - \frac{K_0^2}{9 F g (1 + \delta)} y_f^3 \\
-\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2 \\
+p_{y,f} &= p_y - \psi y_f - 4c_3 y_f^3 \\
+\ell_f &= \ell - \frac{1}{2} \frac{\partial \psi}{\partial \delta} y_f^2
+                + \frac{c_3}{1+\delta}y_f^4 \\
 \delta_f &= \delta
 \end{aligned}
 \label{eq:fringe_map}
 \end{equation}
-%
-with:
+All derivatives are evaluated at the incoming momenta. The quartic term in
+$\ell_f$ follows from $\partial c_3/\partial\delta=-c_3/(1+\delta)$ and must
+accompany the cubic kick in $p_{y,f}$. The map is symplectic where this branch
+of the generating function is real and invertible; that property alone does
+not make the finite-width approximation exact.
+
+\subsubsection{Derivatives used in tracking}
+
+For clarity, first treat $t$, $v$ and $p_s$ as independent variables. Define
 \begin{equation}
-\psi = K_0 \tan \left[
-\arctan \left( \frac{x'}{1 + y'^2} \right)
-- g K_0 F \left( 1 + \frac{p_x^2}{p_s^2} \left( 2 + \frac{p_y^2}{p_s^2} \right) \right) / p_s
-\right]
-\label{eq:fringe_psi}
+ \begin{aligned}
+ w&=1+v^2,\qquad u=t/w,\qquad D=1+u^2,\\
+ A&=1+t^2(2+v^2),\qquad R=A/D,\qquad c=gK_0F,\\
+ \phi&=\arctan u-cR/p_s.
+ \end{aligned}
 \end{equation}
-where $K_0$ is the normalized magnetic field, $g$ is the magnet gap and $F$ is
-the fringe field integral:
+The derivatives entering the quotient rule are
+\begin{align}
+ u_t&=1/w,& u_v&=-2tv/w^2,\\
+ A_t&=2t(2+v^2),& A_v&=2t^2v,\\
+ D_t&=2u u_t,& D_v&=2u u_v,\\
+ R_t&=(A_t-RD_t)/D,& R_v&=(A_v-RD_v)/D.
+\end{align}
+Writing $f_t=\partial\psi/\partial t$, $f_v=\partial\psi/\partial v$
+and $f_s=\partial\psi/\partial p_s$ in these intermediate variables,
+\begin{align}
+ f_t&=K_0\sec^2\phi\left(\frac{u_t}{D}-\frac{cR_t}{p_s}\right),\\
+ f_v&=K_0\sec^2\phi\left(\frac{u_v}{D}-\frac{cR_v}{p_s}\right),\\
+ f_s&=K_0\sec^2\phi\frac{cR}{p_s^2}.
+\end{align}
+Both $R$ and its derivatives must be corrected; changing only the value of
+$\psi$ would no longer give the map of a single generating function.
+
+The chain rule then gives the derivatives at fixed other canonical momenta:
+\begin{align}
+ \psi_{p_x}&=f_t\frac{1+t^2}{p_s}+f_v\frac{tv}{p_s}-f_s t,\\
+ \psi_{p_y}&=f_t\frac{tv}{p_s}+f_v\frac{1+v^2}{p_s}-f_s v,\\
+ \psi_\delta&=-f_t\frac{Pt}{p_s^2}-f_v\frac{Pv}{p_s^2}+f_s\frac{P}{p_s}.
+\label{eq:fringe_momentum_derivatives}
+\end{align}
+For tracking with the energy coordinate $p_\tau$, define
+$T=1/\beta_0+p_\tau$. Since $\partial\delta/\partial p_\tau=T/P$,
+$\psi_{p_\tau}=(T/P)\psi_\delta$. At fixed $s$ and energy,
+$\zeta=s-\beta_0ct$ and $\ell=\beta ct$ imply
+$\Delta\zeta=-(\beta_0/\beta)\Delta\ell$. Consequently the longitudinal
+update used by the code is
 \begin{equation}
-F = \int_{-\infty}^{+\infty} \frac{b(s)\bigl(K_0 - b(s)\bigr)}{g K_0^{2}} \, ds
+ \zeta_f=\zeta+\frac{\beta_0}{2}\psi_{p_\tau}y_f^2
+                  -\beta_0c_3\frac{T}{P^2}y_f^4.
 \end{equation}
 
-A factor $1/p_s^2$ difference can be observed in the generating function with respect to the original PTC implementation, to be consistent with equation (34) in the paper in lowest order and obtain the correct momentum dependence.
+\subsubsection{Numerical check of the finite-gap term}
+
+A direct check needs only the linear equations in
+Eq.~\eqref{eq:fringe_linear_ode}. For example, take a cubic field transition
+of length $L$:
+\begin{equation}
+ b(s)=K_0(3r^2-2r^3),\qquad r=s/L,\quad 0\leq s\leq L.
+\end{equation}
+Writing $f(r)=3r^2-2r^3$, its integral is
+\begin{equation}
+ gF=L\int_0^1 f(r)(1-f(r))\,dr=\frac{9L}{70}.
+\end{equation}
+Integrate from $p_x=P\sin e$, $y=1$, $p_y=0$. The unit $y$ normalizes a
+linear transfer coefficient; it is not a physical metre-scale displacement.
+Subtract the hard-edge kick $-K_0\tan e$ from the resulting $p_y$. The
+remaining finite-width correction can be compared with
+$-\psi+K_0\tan e$. In this comparison the preceding inverse drift leaves
+the initial $y$ unchanged and the following inverse uniform bend leaves
+the final $p_y$ unchanged.
+
+For $K_0=0.1\,\mathrm{m}^{-1}$, $L=0.005\,\mathrm m$, and $e=42^\circ$,
+the relative errors in this correction are approximately
+\begin{center}
+\begin{tabular}{rrrr}
+\toprule
+$\delta$ & angle factor $p_s$ & angle factor $1/p_s$ &
+angle factor $1/[p_s(1+u^2)]$\\
+\midrule
+$-0.05$ & $-9.732\%$ & $+81.090\%$ & $+0.019\%$\\
+$0$     & $+0.018\%$ & $+81.089\%$ & $+0.018\%$\\
+$+0.05$ & $+10.268\%$ & $+81.088\%$ & $+0.017\%$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Here ``angle factor'' means the multiplier of $gK_0FA$ inside the tangent.
+These errors concern the finite-width correction, not the full focusing
+coefficient. Reducing $L$ from $0.05$ to $0.005\,\mathrm m$ reduces the
+corrected model's tilted-incidence error by about a factor of ten. The
+check supports the linear thin-fringe limit; nonlinear tracking requires
+additional validation.
 
 \subsubsection{Backtracking}
 This map is not analytically invertible, so when we do backtracking, we require
@@ -1412,7 +1718,7 @@ Rearranging Eq.~\eqref{eq:fringe_map} to solve for $x_0$, $y_0$ and $p_{x,0}$ is
 \begin{aligned}
     p_{x,0} &= p_{x,1} \\
     x_0 &= x_1 - \frac{1}{2} \frac{\partial\psi}{\partial p_{x,0}} y_1^2 \\
-    y_0 &= y_1 - \frac{1}{2}\frac{\partial\psi}{\partial p_{y,0}}
+    y_0 &= y_1 - \frac{1}{2}\frac{\partial\psi}{\partial p_{y,0}}y_1^2
 \end{aligned}
 \end{equation}
 
@@ -1421,10 +1727,11 @@ Eq.~\eqref{eq:fringe_psi} that the final momentum $p_{y,1}$ depends on the initi
 
 We can rewrite the equation in a more explicit form to describe the issue:
 \begin{equation}
-  p_{y,1} = p_{y,0} - K_0 \tan [\phi (p_{y,0})] y_1 - \frac{K_0^2}{9 F g (1 + \delta)} y_1^3
+  p_{y,1} = p_{y,0} - K_0 \tan [\phi (p_{y,0})] y_1 - 4c_3 y_1^3
 \end{equation}
 
-where $\phi(p_{y,0})$ is defined in the following $\psi = K_0 \tan [\psi(p_{y,0})]$, with the aim of simplifying the notation.
+where $\phi(p_{y,0})$ is the angle in $\psi=K_0\tan[\phi(p_{y,0})]$,
+with the other incoming momenta held fixed.
 
 Even though this cannot be solved explicitly, we can make the assumption that the change in $p_y$ is small,
 and we can use a fixed-point iteration to recover $p_{y,0}$ from $p_{y,1}$:
@@ -1433,7 +1740,7 @@ and we can use a fixed-point iteration to recover $p_{y,0}$ from $p_{y,1}$:
 p_{y,0}^{(n+1)}
 =
 p_{y,1}
-+ \frac{K_0^2}{9 F g (1 + \delta)} y_1^3
++ 4c_3 y_1^3
 + K_0 \tan\left[\phi\left(p_{y,0}^{(n)}\right)\right] y_1,
 \qquad
 p_{y,0}^{(0)} = p_{y,1}
@@ -1441,11 +1748,12 @@ p_{y,0}^{(0)} = p_{y,1}
 
 After each improved estimate of $p_{y,0}$, the function $\phi$ is recomputed.
 
-The code will iterate a maximum of 10 times and will continue iterating until the
-relative tolerance between the new and old $p_{y,0}$ is less than $10^{-13}$. This
-can make the map extremely slow for very strong edges, but we do not currently envision
-significant use of the backtracking version of this map, so we have sacrificed performance
-for precision and accuracy.
+The code makes at most 10 iterations, stopping when the change in $p_{y,0}$ is
+at most $10^{-13}|p_{y,0}|+10^{-20}$. Failure to converge marks the particle
+as lost. The corrected $\psi$ and its derivatives are recomputed at each
+iteration. Once $p_{y,0}$ is recovered, the remaining updates, including the
+longitudinal one, are inverted using the same coefficients and $y_1$.
+The optional PTC implementation does not support backtracking.
 
 
 \subsection{Dipole wedge} \label{sec:DipoleWedge}
