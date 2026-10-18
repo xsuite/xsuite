@@ -1425,19 +1425,16 @@ magnitude $p$. The slopes $x',y'$ are ratios of momentum components; they
 are not angles measured in radians. Canonical momenta will be introduced
 explicitly when we construct the Hamiltonian.
 
-Let $e$ be the particle's signed incoming mid-plane angle relative
-to the $s$ axis, positive toward $+x$. Its momentum components and slope are
-\begin{equation}
- p_{x0}=p\sin e,\qquad p_{s0}=p\cos e,\qquad
- x_{p,\mathrm{in}}=\frac{p_{x0}}{p_{s0}}=\tan e.
- \label{eq:fringe_incidence_angle}
-\end{equation}
-The subscript $\mathrm{in}$ marks the particle's incoming slope; the
-subscript $0$ on $p_{x0}$, $p_{s0}$ and $y_0$ likewise denotes incoming
-values in this Lorentz-equation derivation. These are particle quantities,
-not parameters of a fixed reference trajectory. A trajectory following
-the reference orbit can have $e\ne0$:
-normal incidence on the pole face is not assumed.
+Let $s_-$ and $s_+$ denote positions before and after the field transition.
+In the distributed-field derivation, arguments specify where a quantity is
+evaluated: $p_x(s)$ and $y(s)$ vary along the trajectory, whereas
+$p_x(s_-)$ and $y(s_-)$ denote their incoming values. We write the
+mechanical slopes as $x_p(s)=p_x(s)/p_s(s)$ and
+$y_p(s)=p_y(s)/p_s(s)$. These are particle quantities, not parameters of
+a fixed reference trajectory. Normal incidence is not assumed.
+For a thin map at the nominal plane, we instead use unadorned symbols
+for incoming coordinates and a subscript $f$ for outgoing coordinates;
+this convention will also be used when inverting the map.
 
 Let $b(s)$ be the mid-plane vertical magnetic field divided by the reference
 magnetic rigidity $(B\rho)_0$. It has units of inverse length. For an
@@ -1510,9 +1507,10 @@ Equation~\eqref{eq:fringe_ode_px} gives
  p_x(s_+)-p_x(s_-)=-\int_{s_-}^{s_+}b(s)\,ds=O(K_0L).
 \end{equation}
 Thus the horizontal momentum change across the shrinking transition
-vanishes, and $p_x/p_s\to x_{p,\mathrm{in}}=\tan e$. The vertical position also
-remains continuous: integrating Eq.~\eqref{eq:fringe_ode_y} over a
-vanishing length gives $y(s_+)\to y(s_-)=y_0$ for finite vertical momentum.
+vanishes, so the horizontal slope tends to $x_p(s_-)$.
+The vertical position remains continuous. Integrating
+Eq.~\eqref{eq:fringe_ode_y} over a vanishing length gives
+$y(s_+)\to y(s_-)$ for finite vertical momentum.
 The vertical momentum change, however, need not vanish, because the
 integral of $b'$ is the fixed field jump:
 \begin{equation}
@@ -1521,21 +1519,21 @@ integral of $b'$ is the fixed field jump:
 Integrating Eq.~\eqref{eq:fringe_ode_py} in this limit therefore gives
 \begin{align}
  \Delta p_y
- &=-x_{p,\mathrm{in}}y_0\int_{s_-}^{s_+}b'(s)\,ds\\
- &=-K_0\tan e\,y_0.
+ &=-x_p(s_-)y(s_-)\int_{s_-}^{s_+}b'(s)\,ds\\
+ &=-K_0x_p(s_-)\,y(s_-).
  \label{eq:fringe_hard_edge_kick}
 \end{align}
 This is the hard-edge vertical focusing law in the pole-face frame. Its
 linear map is
 \begin{equation}
- \begin{pmatrix}y_f\\p_{y,f}\end{pmatrix}
- =\begin{pmatrix}1&0\\-K_0\tan e&1\end{pmatrix}
-  \begin{pmatrix}y_0\\p_{y0}\end{pmatrix}.
+ \begin{pmatrix}y(s_+)\\p_y(s_+)\end{pmatrix}
+ =\begin{pmatrix}1&0\\-K_0x_p(s_-)&1\end{pmatrix}
+  \begin{pmatrix}y(s_-)\\p_y(s_-)\end{pmatrix}.
 \end{equation}
-It holds for small incoming vertical momentum as well as for $p_{y0}=0$.
-For $K_0\tan e>0$, a positive displacement receives a negative momentum
+It holds for any small incoming vertical momentum, including zero.
+When $K_0x_p(s_-)$ is positive, a positive displacement receives a negative momentum
 kick, directed toward the mid-plane: the edge focuses. Reversing the sign
-of $K_0\tan e$ makes it defocusing. At normal incidence, $e=0$, this
+of $K_0x_p(s_-)$ makes it defocusing. At normal incidence, $x_p(s_-)=0$, this
 hard-edge vertical kick vanishes.
 
 The horizontal velocity couples to the longitudinal fringe field in the
@@ -1545,12 +1543,12 @@ impulse stays finite. This is why a hard edge can produce a kick.
 The derivation is a limit of the linearized equations; it does not assert
 that the off-mid-plane field of an infinitely sharp edge is regular.
 
-The coefficient $K_0\tan e$ has units of inverse length. At fixed incidence
+The coefficient $K_0x_p(s_-)$ has units of inverse length. At fixed incidence
 angle it has no explicit dependence on $p$ when acting on the normalized
 momentum $p_y$. The slope change does have momentum dependence:
 \begin{equation}
- \Delta y'=\frac{\Delta p_y}{p_{s0}}
-           =-\frac{K_0\tan e}{p_{s0}}y_0.
+ \Delta y'=\frac{\Delta p_y}{p_s(s_-)}
+           =-\frac{K_0x_p(s_-)}{p_s(s_-)}y(s_-).
 \end{equation}
 This distinction matters when comparing formulas written in slopes and in
 normalized momenta. For a falling field transition, the same integration
@@ -1591,21 +1589,22 @@ $L$. The product $gF$ encodes the profile integral; specifying it does not
 specify the complete field profile. For a fixed profile shape and width,
 $I$ is proportional to $K_0^2$.
 
-To extract the finite-width correction analytically, take $y=y_0$ and $p_y=0$
-before the fringe and introduce the accumulated normalized field integral
+To extract the finite-width correction analytically, specify the incoming
+displacement $y(s_-)$ and take $p_y(s_-)=0$. Introduce the accumulated
+normalized field integral
 \begin{equation}
  \mathcal{I}(s)=\int_{s_-}^{s}b(\sigma)\,d\sigma,\qquad
- p_x(s)=p_{x0}-\mathcal{I}(s).
+ p_x(s)=p_x(s_-)-\mathcal{I}(s).
 \end{equation}
 The second relation follows by integrating
 Eq.~\eqref{eq:fringe_ode_px}, $dp_x/ds=-b(s)$, from $s_-$ to $s$,
-with the initial condition $p_x(s_-)=p_{x0}$.
+with the incoming value $p_x(s_-)$.
 The integral $\mathcal{I}(s)$ is distinct from the quadratic
 fringe integral $I$ in Eq.~\eqref{eq:fringe_integral}.
 Evaluating Eq.~\eqref{eq:fringe_longitudinal_momentum} at the entrance gives
 the incoming longitudinal momentum; the corresponding horizontal slope is
 \begin{equation}
- p_{s0}=\sqrt{p^2-p_{x0}^2},\qquad x_{p,\mathrm{in}}=\frac{p_{x0}}{p_{s0}}.
+ p_s(s_-)=\sqrt{p^2-p_x(s_-)^2},\qquad x_p(s_-)=\frac{p_x(s_-)}{p_s(s_-)}.
 \end{equation}
 The magnetic field preserves the total momentum $p$, but both $p_x(s)$ and
 $p_s(s)$ vary along the trajectory. Using
@@ -1613,7 +1612,7 @@ Eq.~\eqref{eq:fringe_longitudinal_momentum} to express their ratio as a
 function of $p_x(s)$, define, at fixed $p$,
 \begin{equation}
  f(a)=\frac{a}{\sqrt{p^2-a^2}},\qquad
- \frac{p_x(s)}{p_s(s)}=f\bigl(p_{x0}-\mathcal{I}(s)\bigr).
+ \frac{p_x(s)}{p_s(s)}=f\bigl(p_x(s_-)-\mathcal{I}(s)\bigr).
 \end{equation}
 Differentiating the numerator and denominator gives
 \begin{align}
@@ -1622,67 +1621,60 @@ Differentiating the numerator and denominator gives
    +\frac{a^2}{(p^2-a^2)^{3/2}}\\
  &=\frac{p^2}{(p^2-a^2)^{3/2}}.
 \end{align}
-The first-order Taylor expansion about the incoming momentum $p_{x0}$ is
+The first-order Taylor expansion about the incoming momentum $p_x(s_-)$ is
 therefore
 \begin{align}
- f\bigl(p_{x0}-\mathcal{I}(s)\bigr)
- &=f(p_{x0})-\mathcal{I}(s)f'(p_{x0})
+ f\bigl(p_x(s_-)-\mathcal{I}(s)\bigr)
+ &=f(p_x(s_-))-\mathcal{I}(s)f'(p_x(s_-))
    +O\bigl(\mathcal{I}(s)^2\bigr)\\
- &=x_{p,\mathrm{in}}-\frac{p^2}{p_{s0}^3}\mathcal{I}(s)
+ &=x_p(s_-)-\frac{p^2}{p_s(s_-)^3}\mathcal{I}(s)
    +O\bigl(\mathcal{I}(s)^2\bigr).
 \end{align}
 For a fixed fringe shape and length, $b(s)=K_0\widehat b(s)$ with
 $\widehat b(s)$ independent of $K_0$, so $\mathcal{I}(s)$ is proportional to
-$K_0$. Holding $p$ and $p_{x0}$ fixed while expanding in the field strength
+$K_0$. Holding $p$ and $p_x(s_-)$ fixed while expanding in the field strength
 therefore gives
 \begin{equation}
  \frac{p_x(s)}{p_s(s)}
- =x_{p,\mathrm{in}}-\frac{p^2}{p_{s0}^3}\mathcal{I}(s)+O(K_0^2).
+ =x_p(s_-)-\frac{p^2}{p_s(s_-)^3}\mathcal{I}(s)+O(K_0^2).
 \end{equation}
 Since $b'(s)$ is already first order in $K_0$, the first-order vertical
-force uses the zero-field values $p_x/p_s=x_{p,\mathrm{in}}$ and $y=y_0$ in
+force uses the zero-field values $p_x/p_s=x_p(s_-)$ and $y=y(s_-)$ in
 Eq.~\eqref{eq:fringe_ode_py}. Integrating from $s_-$, where $p_y=0$ and
 $b=0$, gives
 \begin{equation}
  p_y^{(1)}(s)
- =-x_{p,\mathrm{in}}y_0\int_{s_-}^{s}b'(\sigma)\,d\sigma
- =-x_{p,\mathrm{in}}b(s)y_0.
+ =-x_p(s_-)y(s_-)\int_{s_-}^{s}b'(\sigma)\,d\sigma
+ =-x_p(s_-)b(s)y(s_-).
 \end{equation}
 To obtain the first-order change in position, insert this result into
-Eq.~\eqref{eq:fringe_ode_y} and use the zero-field denominator $p_{s0}$:
+Eq.~\eqref{eq:fringe_ode_y} and use the zero-field denominator $p_s(s_-)$:
 \begin{equation}
- y^{(1)}(s)=\int_{s_-}^{s}\frac{p_y^{(1)}(\sigma)}{p_{s0}}\,d\sigma
- =-\frac{x_{p,\mathrm{in}}y_0}{p_{s0}}\mathcal{I}(s).
+ y^{(1)}(s)=\int_{s_-}^{s}\frac{p_y^{(1)}(\sigma)}{p_s(s_-)}\,d\sigma
+ =-\frac{x_p(s_-)y(s_-)}{p_s(s_-)}\mathcal{I}(s).
 \end{equation}
 The superscript $(1)$ denotes the first-order change; the position itself
-is $y(s)=y_0+y^{(1)}(s)+O(K_0^2)$.
+is $y(s)=y(s_-)+y^{(1)}(s)+O(K_0^2)$.
 Substituting both corrections back into Eq.~\eqref{eq:fringe_ode_py},
 \begin{align}
  \frac{dp_y}{ds}
- &=-x_{p,\mathrm{in}} b'(s)y_0
-   +\left(\frac{p^2}{p_{s0}^3}+\frac{x_{p,\mathrm{in}}^2}{p_{s0}}\right)\mathcal{I}(s)b'(s)y_0
-   +O(K_0^3 y_0),\\
+ &=-x_p(s_-) b'(s)y(s_-)\nonumber\\
+ &\quad+\left(\frac{p^2}{p_s(s_-)^3}+\frac{x_p(s_-)^2}{p_s(s_-)}\right)\mathcal{I}(s)b'(s)y(s_-)
+   +O(K_0^3 y(s_-)),\\
  \int \mathcal{I}(s)b'(s)\,ds
  &=[\mathcal{I}(s)b(s)]_{s_-}^{s_+}-\int b(s)^2\,ds
    =\int b(s)\bigl(K_0-b(s)\bigr)\,ds=I.
 \end{align}
 The resulting kick coefficient is therefore
 \begin{equation}
- \frac{\Delta p_y}{y_0}
- =-K_0x_{p,\mathrm{in}}+I\frac{1+2x_{p,\mathrm{in}}^2}{p_{s0}}+O(K_0^3).
+ \frac{\Delta p_y}{y(s_-)}
+ =-K_0x_p(s_-)+I\frac{1+2x_p(s_-)^2}{p_s(s_-)}+O(K_0^3).
 \label{eq:fringe_midplane_kick}
 \end{equation}
 The first term is the hard-edge focusing. The second is the leading correction
-due to the finite field transition. At fixed incidence angle,
-\begin{equation}
- \frac{\Delta p_y}{y_0}
- =-K_0\tan e+
- \frac{gK_0^2F}{p}\frac{1+\sin^2 e}{\cos^3 e}+O(K_0^3).
-\label{eq:fringe_angle_kick}
-\end{equation}
-In particular, the finite-gap correction scales as $1/p$ and has a nontrivial
-angular dependence. Correcting the momentum dependence must preserve this
-angular dependence.
+due to the finite field transition. At fixed incoming slope, the finite-gap correction scales as $1/p$,
+since $p_s(s_-)=p/\sqrt{1+x_p(s_-)^2}$. Its slope dependence must be
+preserved when correcting the momentum dependence.
 
 \subsection{Momentum-dependent coefficient of the generating function}
 
@@ -1808,7 +1800,7 @@ the actual mechanical slopes. For the chosen gauge, the latter are
  \frac{dy}{ds}=\frac{p_y}{p_s^{\mathrm{mech}}}.
 \end{equation}
 At a field-free entrance, $x_p$ evaluated at the incoming momenta equals
-the incoming mechanical slope $x_{p,\mathrm{in}}$ used above.
+the incoming mechanical slope $x_p(s_-)$ used above.
 Expanding
 Eq.~\eqref{eq:fringe_hamiltonian} to first order in $a$ gives
 \begin{equation}
@@ -1938,7 +1930,7 @@ This is an auxiliary function of the two unperturbed drift slopes, not an
 independent coordinate. It is the factor entering the first-order vertical
 kick, $\Delta p_y^{(1)}=-K_0uY$, and thus gives the first-order focusing
 coefficient $\Phi^{(1)}=K_0u$. On the mid-plane, $y_p=0$, it reduces to
-$u=x_p=\tan e$, where $e$ is the incidence angle. For nonzero vertical
+$u=x_p$. For nonzero vertical
 slope, its denominator accounts for the vertical-slope dependence in this
 fringe model. This first-order result reduces to the hard-edge mid-plane
 kick derived directly from the Lorentz force in
@@ -2129,14 +2121,31 @@ require the model coefficient to reproduce that result:
 Using distinct symbols distinguishes the derived expansion $\Phi$ from
 the unexpanded tracking-model expression $\psi$.
 
-The hard-edge result in Eq.~\eqref{eq:fringe_hard_edge_kick} has focusing
-coefficient $K_0\tan e$. The existing tracking model expresses the
-finite-fringe correction as a shift of an effective edge angle. On the
-mid-plane this means replacing $e$ by $e-\epsilon$, giving a coefficient
-$K_0\tan(e-\epsilon)$. For nonzero vertical slope, the first-order result
-is $K_0u$, so the corresponding effective angle is $\arctan u$:
-it equals $e$ on the mid-plane for forward motion, but in general it is
-a function of both slopes, not simply the geometric incidence angle.
+To connect the slope-based result to the existing effective-angle model,
+introduce the signed incoming mid-plane incidence angle $e$, measured
+from the $s$ axis toward $+x$. For forward motion,
+\begin{equation}
+ p_x=p\sin e,\qquad p_s=p\cos e,\qquad x_p=\tan e,
+ \qquad p_y=0.
+ \label{eq:fringe_incidence_angle}
+\end{equation}
+Here the momenta are incoming values. At the field-free entrance,
+$x_p=x_p(s_-)$, connecting to the mechanical slope used above.
+Equation~\eqref{eq:fringe_hard_edge_kick} therefore has
+focusing coefficient $K_0\tan e$. The finite-width result in
+Eq.~\eqref{eq:fringe_midplane_kick} can likewise be written
+\begin{equation}
+ \frac{\Delta p_y}{y(s_-)}=-K_0\tan e
+ +\frac{gK_0^2F}{p}\frac{1+\sin^2e}{\cos^3e}+O(K_0^3).
+ \label{eq:fringe_angle_kick}
+\end{equation}
+The existing tracking model expresses the finite-fringe correction as a
+shift of an effective edge angle. On the mid-plane this means replacing
+$e$ by $e-\epsilon$, giving a coefficient $K_0\tan(e-\epsilon)$.
+For nonzero vertical slope, the first-order result is $K_0u$, so the
+corresponding effective angle is $\arctan u$: it equals $e$ on the
+mid-plane for forward motion, but in general it is a function of both
+slopes, not simply the geometric incidence angle.
 
 We retain this form of the existing model and determine the angle shift
 by requiring agreement with the derived focusing coefficient through
@@ -2256,31 +2265,31 @@ the Bmad Reference Manual~\cite{Sagan:BmadManual}.
 We now derive it independently at normal incidence for a specified smooth
 field profile.
 
-Take incoming mechanical momenta $p_x=p_y=0$ and vertical displacement
-$y_0$. Retain second order in field strength and third order in $y_0$.
-Starting from $p_x=0$, the horizontal Lorentz equation,
+Take incoming mechanical momenta $p_x(s_-)=p_y(s_-)=0$ and vertical displacement
+$y(s_-)$. Retain second order in field strength and third order in $y(s_-)$.
+Starting from $p_x(s_-)=0$, the horizontal Lorentz equation,
 Eq.~\eqref{eq:fringe_lorentz_px}, generates $p_x=O(K_0)$.
 The vertical Lorentz equation, Eq.~\eqref{eq:fringe_lorentz_py} with $B_x=0$,
 contains the product $p_x B_s$. Since $B_s=O(K_0)$, the vertical force
 starts at $O(K_0^2)$. With incoming $p_y=0$, the vertical momentum is
 therefore $O(K_0^2)$, and Eq.~\eqref{eq:fringe_ode_y}, $dy/ds=p_y/p_s$,
 shows that the vertical displacement change also starts at that order.
-In the force calculation at that order we can use $y=y_0$
+In the force calculation at that order we can use $y(s)=y(s_-)$
 and $p_s=p=1+\delta$.
 
 It is essential to retain the off-mid-plane correction to $B_y$, as well
 as the cubic term of $B_s$:
 \begin{align}
- \frac{B_y}{(B\rho)_0}&=b(s)-\frac{y_0^2}{2}b''(s)+O(y_0^4),\\
- \frac{B_s}{(B\rho)_0}&=y_0b'(s)-\frac{y_0^3}{6}b'''(s)+O(y_0^5).
+ \frac{B_y}{(B\rho)_0}&=b(s)-\frac{y(s_-)^2}{2}b''(s)+O(y(s_-)^4),\\
+ \frac{B_s}{(B\rho)_0}&=y(s_-)b'(s)-\frac{y(s_-)^3}{6}b'''(s)+O(y(s_-)^5).
 \end{align}
 Using mechanical momenta explicitly, the horizontal Lorentz equation
 at first order in field strength gives
 \begin{align}
  \frac{dp_x^{\mathrm{mech}}}{ds}
- &=-b(s)+\frac{y_0^2}{2}b''(s)+O(y_0^4),\\
+ &=-b(s)+\frac{y(s_-)^2}{2}b''(s)+O(y(s_-)^4),\\
  p_x^{\mathrm{mech}}(s)
- &=-\mathcal I(s)+\frac{y_0^2}{2}b'(s)+O(y_0^4),
+ &=-\mathcal I(s)+\frac{y(s_-)^2}{2}b'(s)+O(y(s_-)^4),
  \qquad \mathcal I(s)=\int_{s_-}^{s}b(\sigma)\,d\sigma.
 \end{align}
 Here $b'(s_-)=0$; the omitted field-strength orders are not needed below.
@@ -2289,10 +2298,10 @@ $dp_y^{\mathrm{mech}}/ds=-(p_x^{\mathrm{mech}}/p_s)B_s/(B\rho)_0$
 gives, to second order in field strength,
 \begin{equation}
  \frac{dp_y^{\mathrm{mech}}}{ds}
- =\frac{\mathcal I(s)b'(s)}{p}y_0
-  -\frac{y_0^3}{p}\left[
+ =\frac{\mathcal I(s)b'(s)}{p}y(s_-)
+  -\frac{y(s_-)^3}{p}\left[
        \frac{\mathcal I(s)b'''(s)}{6}
-       +\frac{[b'(s)]^2}{2}\right]+O(y_0^5).
+       +\frac{[b'(s)]^2}{2}\right]+O(y(s_-)^5).
 \end{equation}
 Define the additional field-profile integral
 \begin{equation}
@@ -2309,7 +2318,7 @@ gives
 Using also $\int\mathcal I b'\,ds=I$, we obtain the kick at the retained
 orders:
 \begin{equation}
- \Delta p_y=\frac{I}{p}y_0-\frac{2J}{3p}y_0^3.
+ \Delta p_y=\frac{I}{p}y(s_-)-\frac{2J}{3p}y(s_-)^3.
  \label{eq:fringe_cubic_lorentz_kick}
 \end{equation}
 The first term is the normal-incidence finite-width focusing term already
@@ -2321,7 +2330,7 @@ to the outgoing position $y_f$ gives the additional momentum kick
  =\frac{\partial(-c_3y_f^4)}{\partial y_f}=-4c_3y_f^3.
 \end{equation}
 At the order retained here, $y_f$ can be replaced by the incoming
-displacement $y_0$: their difference is second order in field strength,
+displacement $y(s_-)$: their difference is second order in field strength,
 while $c_3$ is already second order. Matching this kick to the cubic
 term in Eq.~\eqref{eq:fringe_cubic_lorentz_kick} therefore gives
 \begin{equation}
@@ -2362,8 +2371,8 @@ Ref.~\cite{forest-fringe-1}, Eqs.~(21)--(22), likewise identifies additional
 nonlinear profile integrals but leaves their further study aside.
 For the hyperbolic-tangent profile, the cubic coefficient grows as $1/d$
 when the transition narrows. The displacement expansion requires
-$|y_0|\ll d$, so its validity is not uniform in the limit $d\to0$ at fixed
-nonzero $y_0$. This nonlinear limit must be distinguished from the
+$|y(s_-)|\ll d$, so its validity is not uniform in the limit $d\to0$ at fixed
+nonzero $y(s_-)$. This nonlinear limit must be distinguished from the
 linearized hard-edge calculation above.
 
 To include the implemented cubic kick in a symplectic map, augment
@@ -2587,59 +2596,61 @@ Thus the longitudinal update for this focusing model is
 
 \subsection{Backtracking}
 We invert the complete forward map in Eq.~\eqref{eq:fringe_complete_map},
-including the cubic kick. Denote incoming coordinates by a subscript $0$
-and outgoing coordinates by a subscript $1$. The conserved momenta give
+including the cubic kick. As in the forward map, unadorned symbols denote
+incoming coordinates and the subscript $f$ denotes outgoing coordinates.
+The outgoing coordinates are now known, and we recover the incoming ones.
+The conserved momenta give
 \begin{equation}
- p_{x,0}=p_{x,1},\qquad \delta_0=\delta_1.
+ p_x=p_{x,f},\qquad \delta=\delta_f.
 \end{equation}
 The remaining incoming momentum satisfies
 \begin{equation}
- p_{y,0}=p_{y,1}
- +\psi(p_{x,1},p_{y,0},\delta_1)y_1+4c_3(\delta_1)y_1^3.
+ p_y=p_{y,f}
+ +\psi(p_{x,f},p_y,\delta_f)y_f+4c_3(\delta_f)y_f^3.
  \label{eq:fringe_inverse_py}
 \end{equation}
 This equation is implicit because the corrected coefficient $\psi$ in
-Eq.~\eqref{eq:fringe_psi} depends on the unknown $p_{y,0}$.
-The coefficient $c_3$ is already known from $\delta_1$.
+Eq.~\eqref{eq:fringe_psi} depends on the unknown $p_y$.
+The coefficient $c_3$ is already known from $\delta_f$.
 
 The tracking implementation solves Eq.~\eqref{eq:fringe_inverse_py}
 by fixed-point iteration:
 \begin{equation}
- p_{y,0}^{(n+1)}=p_{y,1}
- +\psi(p_{x,1},p_{y,0}^{(n)},\delta_1)y_1
- +4c_3(\delta_1)y_1^3,
- \qquad p_{y,0}^{(0)}=p_{y,1}.
+ p_y^{(n+1)}=p_{y,f}
+ +\psi(p_{x,f},p_y^{(n)},\delta_f)y_f
+ +4c_3(\delta_f)y_f^3,
+ \qquad p_y^{(0)}=p_{y,f}.
 \end{equation}
 At each iteration, $\psi$ is evaluated at the current estimate of the
 incoming momentum. A sufficient condition for local convergence is
 \begin{equation}
- \left|y_1\frac{\partial\psi}{\partial p_y}
-       (p_{x,1},p_{y,0},\delta_1)\right|<1
+ \left|y_f\frac{\partial\psi}{\partial p_y}
+       (p_{x,f},p_y,\delta_f)\right|<1
 \end{equation}
 at the solution, with the initial estimate sufficiently close to it.
 A small momentum kick alone does not guarantee this condition.
 
-Once $p_{y,0}$ is recovered, evaluate $\psi$ and its derivatives at the
+Once $p_y$ is recovered, evaluate $\psi$ and its derivatives at the
 recovered incoming momenta. The remaining inverse updates are explicit:
 \begin{align}
- x_0&=x_1-\frac12\psi_{p_x}y_1^2,\\
- y_0&=y_1-\frac12\psi_{p_y}y_1^2,\\
- \ell_0&=\ell_1+\frac12\psi_\delta y_1^2
-                   -\frac{c_3}{1+\delta_1}y_1^4.
+ x&=x_f-\frac12\psi_{p_x}y_f^2,\\
+ y&=y_f-\frac12\psi_{p_y}y_f^2,\\
+ \ell&=\ell_f+\frac12\psi_\delta y_f^2
+                   -\frac{c_3}{1+\delta_f}y_f^4.
 \end{align}
 Equivalently, in the longitudinal tracking coordinates,
 \begin{equation}
- \zeta_0=\zeta_1-\frac{\beta_0}{2}\psi_{p_\tau}y_1^2
-                 +\beta_0c_3\frac{T}{p^2}y_1^4,
- \qquad p_{\tau,0}=p_{\tau,1},
+ \zeta=\zeta_f-\frac{\beta_0}{2}\psi_{p_\tau}y_f^2
+                 +\beta_0c_3\frac{T}{p^2}y_f^4,
+ \qquad p_\tau=p_{\tau,f},
 \end{equation}
-where $p=1+\delta_1$ and $T=1/\beta_0+p_{\tau,1}$.
+where $p=1+\delta_f$ and $T=1/\beta_0+p_{\tau,f}$.
 Setting $c_3=0$ gives the inverse of the focusing-only map.
 These inverse relations apply on the real, invertible branch selected
 in the forward map.
 
-The code makes at most 10 iterations, stopping when the change in $p_{y,0}$ is
-at most $10^{-13}|p_{y,0}|+10^{-20}$. Failure to converge marks the particle
+The code makes at most 10 iterations, stopping when the change in $p_y$ is
+at most $10^{-13}|p_y|+10^{-20}$. Failure to converge marks the particle
 as lost. The optional PTC implementation does not support backtracking.
 
 
