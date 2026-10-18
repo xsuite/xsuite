@@ -1411,7 +1411,11 @@ at $y=p_y=0$ receives no vertical kick.
 We derive an entrance edge: the field rises from zero before the magnet
 to its body value after the edge. Magnetic-field and incidence-angle signs
 are defined in this fixed frame. The derivation assumes the particle has
-the reference charge, and there is no electric field. Normalize mechanical
+the reference charge and mass, and there is no electric field. In the
+implementation, a particle of different charge or mass sees the body field
+$K_0$ multiplied by the rigidity factor $\chi=(q/q_0)(m_0/m)$ introduced
+with the particle coordinates; all formulas below then apply with
+$K_0\to\chi K_0$. Normalize mechanical
 momenta by the reference momentum, so that
 \begin{align}
  p&=1+\delta,\label{eq:fringe_coordinates}\\
@@ -1530,7 +1534,12 @@ linear map is
  =\begin{pmatrix}1&0\\-K_0x_p(s_-)&1\end{pmatrix}
   \begin{pmatrix}y(s_-)\\p_y(s_-)\end{pmatrix}.
 \end{equation}
-It holds for any small incoming vertical momentum, including zero.
+It holds for any small incoming vertical momentum, including zero: at the
+linear order in the vertical variables used here, an incoming $p_y$ does not
+alter the coefficient. The dependence on the vertical slope found in the
+Hamiltonian treatment below, the factor $1/(1+y_p^2)$ in
+Eq.~\eqref{eq:fringe_u}, is quadratic in $y_p$ and therefore lies beyond this
+linearization.
 When $K_0x_p(s_-)$ is positive, a positive displacement receives a negative momentum
 kick, directed toward the mid-plane: the edge focuses. Reversing the sign
 of $K_0x_p(s_-)$ makes it defocusing. At normal incidence, $x_p(s_-)=0$, this
@@ -1552,8 +1561,10 @@ momentum $p_y$. The slope change does have momentum dependence:
 \end{equation}
 This distinction matters when comparing formulas written in slopes and in
 normalized momenta. For a falling field transition, the same integration
-uses its signed field jump instead of $K_0$; an exit map must also use the
-incidence angle in its corresponding local frame.
+uses its signed field jump $-K_0$ instead of $K_0$, with the slope
+$x_p(s_-)$ measured in the frame whose $s$ axis is normal to the exit face.
+The treatment of the exit face in the implementation is described in
+Section~\ref{sec:fringe_exit_face}.
 
 \subsection{Finite-width correction for zero incoming vertical slope}
 
@@ -1904,19 +1915,29 @@ $2n-2$ times gives
 \end{align}
 All boundary terms contain derivatives of $b$ that vanish outside the
 transition. The remaining polynomial derivative supplies the factor
-$(2n)!/2$ and the power $y_p^{2n-2}$. In the thin-fringe limit, with
-the transition shrinking about $s=0$,
+$(2n)!/2$ and the power $y_p^{2n-2}$. Expanding the square gives
 \begin{equation}
- \int b'(s)(Y+s y_p)^2\,ds\longrightarrow K_0Y^2.
+ \int b'(s)(Y+s y_p)^2\,ds
+ =K_0Y^2+2Yy_p\int b'(s)\,s\,ds+y_p^2\int b'(s)\,s^2\,ds.
 \end{equation}
-Indeed, the constant term integrates to $K_0Y^2$, while the terms
-proportional to $s$ and $s^2$ vanish with the transition width. Summing the
-remaining terms therefore gives
+The last term does not depend on $Y$ and drops out of the derivative in
+Eq.~\eqref{eq:fringe_first_order_a_integral}. The middle term is removed by
+the choice of the nominal plane: we place $s=0$ at the centroid of $b'$,
+\begin{equation}
+ \int_{s_-}^{s_+}b'(s)\,s\,ds=0,
+ \label{eq:fringe_edge_position}
+\end{equation}
+which is the midpoint of a transition that is antisymmetric about its
+centre, such as the hyperbolic-tangent profile used below. This convention
+fixes where the thin map is placed; it does not require the transition
+width to vanish. The part of the integral that contributes to the kick is
+therefore $K_0Y^2$ for any width, and summing over $n$ gives
 \begin{align}
  \int a(s,Y+s y_p)\,ds
- &=\frac{K_0Y^2}{2}\sum_{n=1}^{\infty}(-1)^n y_p^{2n-2}
-   =-\frac{K_0Y^2}{2(1+y_p^2)}.
+ &\doteq\frac{K_0Y^2}{2}\sum_{n=1}^{\infty}(-1)^n y_p^{2n-2}
+   =-\frac{K_0Y^2}{2(1+y_p^2)},
 \end{align}
+where $\doteq$ denotes equality up to terms independent of $Y$.
 The sum is first obtained where the geometric series converges and then used
 as its rational continuation. Substituting this result into
 Eq.~\eqref{eq:fringe_first_order_a_integral} and differentiating at fixed
@@ -1930,6 +1951,7 @@ momenta gives
 where the dimensionless slope combination $u$ is defined as
 \begin{equation}
  u=\frac{x_p}{1+y_p^2}.
+ \label{eq:fringe_u}
 \end{equation}
 This is an auxiliary function of the two unperturbed drift slopes, not an
 independent coordinate. It is the factor entering the first-order vertical
@@ -2188,6 +2210,20 @@ On the mid-plane, $y_p=0$, so
  \frac{1}{p_s(1+u^2)}=\frac{p_s}{p_s^2+p_x^2}
  =\frac{p_s}{(1+\delta)^2}=\frac{\cos e}{1+\delta}.
 \end{equation}
+The mid-plane angle shift is therefore
+$\epsilon=gK_0F(1+\sin^2e)/[(1+\delta)\cos e]$, the expression of SLAC-75
+and MAD-X divided by $1+\delta$.
+
+Equation~(37) of Ref.~\cite{forest-fringe-1}, and the PTC source based on
+it, write the finite-gap term of the effective angle with a factor $p_s$ in
+place of $1/[p_s(1+u^2)]$. The two forms agree only on the mid-plane and on
+momentum, where both reduce to $\cos e$. On the mid-plane they differ by
+the factor $(1+\delta)^2$: the form of Eq.~(37) gives a finite-gap focusing
+correction that grows with momentum, whereas
+Eq.~\eqref{eq:fringe_midplane_kick}, and Eq.~(34) of the same reference,
+require it to decrease as $1/p$. Only Eq.~\eqref{eq:fringe_psi} reproduces
+Eq.~\eqref{eq:fringe_phi_second_order} when the tangent is expanded.
+The implementation uses Eq.~\eqref{eq:fringe_psi}.
 
 \subsection{Generating function and forward map}
 
@@ -2599,6 +2635,57 @@ Thus the longitudinal update for this focusing model is
  \zeta_f=\zeta+\frac{\beta_0}{2}\psi_{p_\tau}y_f^2.
 \end{equation}
 
+\subsection{Exit face}
+\label{sec:fringe_exit_face}
+
+The map above was derived for an entrance face, where the field rises from
+zero to $K_0$. At the exit face the field falls from $K_0$ to zero.
+For the linear hard-edge kick, the Lorentz-force integration therefore
+uses $\int b'\,ds=-K_0$, giving
+\begin{equation}
+ \Delta p_y=+K_0x_p(s_-)y(s_-).
+\end{equation}
+The incoming slope here is measured in the frame whose $s$ axis is normal
+to the exit face. Thus a positive body field and a negative incoming
+horizontal slope give a focusing exit kick. Entrance and exit slopes must
+be evaluated in their respective pole-face frames.
+
+For tracking, the implementation uses the complete generating-function
+map of Eq.~\eqref{eq:fringe_complete_map} with $K_0$ replaced by $-K_0$.
+The gap $g$ and fringe integral $F$ retain their specified values. In
+particular, the cubic coefficient is unchanged because it depends on
+$K_0^2$. This prescription defines a symplectic nonlinear extension of the
+linear exit kick. The hard-edge sign argument alone does not establish
+that it is the exact nonlinear map of a finite-width exit field.
+
+It is also important to distinguish this prescription from reversing an
+entrance map. Let $R$ change the signs of $x$, $p_y$ and $\ell$, leaving
+$y$, $p_x$ and $\delta$ unchanged. Although $\psi$ and $c_3$ are even in
+$p_y$, the mixed generating-function map generally does not satisfy
+\begin{equation}
+ R\,M_{\mathrm{ent}}(-K_0)^{-1}R=M_{\mathrm{ent}}(-K_0).
+\end{equation}
+Inversion interchanges incoming and outgoing variables, whereas the
+forward map evaluates its coefficients at incoming momenta and its kick
+at the outgoing vertical position. The resulting differences can already
+be second order in $K_0$ for nonzero vertical slope, even when the
+finite-gap correction and cubic term are disabled. Thus the linear
+hard-edge agreement must not be interpreted as exact reversibility of the
+complete nonlinear extension under $R$. Backtracking instead uses the
+actual inverse of the chosen map, as described below.
+
+In the implementation, the entrance face is treated by rotating the
+coordinates into the pole-face frame (Section~\ref{sec:Yrotation}),
+applying the dipole fringe map, and then applying the dipole wedge
+(Section~\ref{sec:DipoleWedge}), which moves the observation plane from the
+pole face to the plane normal to the reference trajectory inside the body.
+For the full edge model, the multipole fringe and the quadrupolar wedge
+correction are applied between the dipole fringe and the wedge. The exit
+face applies the same maps in the reverse order, with the exit face angle
+and with $-K_0$ in the dipole fringe map. Backtracking inverts each map in
+turn; the sign of $K_0$ seen by a given face does not depend on the
+direction of travel.
+
 \subsection{Backtracking}
 We invert the complete forward map in Eq.~\eqref{eq:fringe_complete_map},
 including the cubic kick. As in the forward map, unadorned symbols denote
@@ -2656,7 +2743,7 @@ in the forward map.
 
 The code makes at most 10 iterations, stopping when the change in $p_y$ is
 at most $10^{-13}|p_y|+10^{-20}$. Failure to converge marks the particle
-as lost. The optional PTC implementation does not support backtracking.
+as lost.
 
 
 \section{Dipole wedge} \label{sec:DipoleWedge}
