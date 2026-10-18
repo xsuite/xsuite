@@ -532,7 +532,7 @@ Discarding all terms nonlinear in $h$ (i.e., keeping only $\mathcal{O}(h)$) yiel
 \end{align}
 
 
-\section{Symplectic integrators and magnet models}
+\section{Symplectic integrators and magnet models}\label{sec:symplectic_integrators}
 
 In Xsuite, magnets are modeled using symplectic integrators, splitting the Hamiltonian
 into a `propagation' part and a `kick' part, for which closed-form solutions of the equations of motion
@@ -540,7 +540,7 @@ are available.
 
 Hamiltonians for which closed-form solutions of the equations of motion exist and are
 implemented in Xsuite are reported in Table~\ref{tab:maps}. The corresponding
-maps are reported in the following sections.
+maps are reported in Chapter~\ref{chapter:beam_element_maps}.
 
 Different magnet models are available, which correspond to different ways of splitting
 the Hamiltonian. The available models are reported in Table~\ref{tab:models} and
@@ -665,9 +665,17 @@ yoshida-8 & 15 & 16 & 8th &
 
 
 
-\section{Beam element maps}
+\chapter{Beam element maps}
+\label{chapter:beam_element_maps}
 
-\subsection{Drift}
+This chapter presents the maps used to transport particles through beam
+elements. Depending on the element and the chosen model, these maps are
+used individually or combined by the symplectic integrators described in
+Section~\ref{sec:symplectic_integrators}. In the latter case, propagation
+and kick maps are composed to approximate the evolution under the full
+Hamiltonian.
+
+\section{Drift}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#drift}{\underline{Drift element}}.
 ~\\
@@ -728,7 +736,7 @@ and the map relative to the exact Hamiltonian for a drift of length $L$ is:
           \right)
 \end{align}
 
-\subsection{Polar drift (sector curvature $h$)}
+\section{Polar drift (sector curvature $h$)}
 
 Used in the implementation of \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
 and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
@@ -812,7 +820,7 @@ s_{\text{ref},1} = s_{\text{ref}} + L.
 \end{equation}
 
 
-\subsection{Curved exact bend}
+\section{Curved exact bend}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend element}}.
 ~\\
@@ -991,7 +999,7 @@ y(s) &= y + p_y I(s), \\
 \ell(s) &= \ell + (1+\delta) I(s).
 \end{align}
 
-\subsection{Straight exact bend}
+\section{Straight exact bend}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}}
 and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend}} elements
@@ -1016,7 +1024,7 @@ p_y(L) &= p_y \\
 \label{eq:straight_bend_ell}
 \end{align}
 
-\subsection{Rectangular bend - straight body}
+\section{Rectangular bend - straight body}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rbend}{\underline{RBend element}}.
 ~\\
@@ -1094,7 +1102,7 @@ The last gives the usual equation for the sagitta of a bending magnet.
 
 
 
-\subsection{Expanded Bend-Quadrupole (also used for Quadrupole)}
+\section{Expanded Bend-Quadrupole (also used for Quadrupole)}
 \label{sec:expanded_bend_quadrupole}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#bend}{\underline{Bend}},
@@ -1117,7 +1125,7 @@ We consider a particle with initial canonical coordinates
 relative momentum deviation $\delta$, velocity factor $\mathrm{rvv}=v/c$, and charge/sign factor $\chi$.
 The element has length $L$, curvature $h$, and (input) strengths $K_0$ and $K_1$.
 
-\subsubsection*{Definitions}
+\subsection*{Definitions}
 
 Define
 \begin{align}
@@ -1145,7 +1153,7 @@ C &= -K_y y, \\
 D &= y'.
 \end{align}
 
-\subsubsection*{Transport Functions}
+\subsection*{Transport Functions}
 
 For an element of length $L$, define
 \[
@@ -1188,7 +1196,7 @@ p_{x1} &= \delta_+ \left(A S_x + B C_x\right), \\
 p_{y1} &= \delta_+ \left(C S_y + D C_y\right).
 \end{align}
 
-\subsubsection*{Path Length}
+\subsection*{Path Length}
 
 Let $L_{\text{tot}}$ be the total path length traveled by the particle through the element.
 
@@ -1237,14 +1245,14 @@ For $K_y=0$:
 L_{\text{tot}} \mathrel{+}= \frac{1}{2}D^2 L .
 \end{equation}
 
-\subsubsection*{Longitudinal Map}
+\subsection*{Longitudinal Map}
 
 The longitudinal coordinate update is
 \begin{equation}
 \Delta\zeta = L - \frac{L_{\text{tot}}}{\mathrm{rvv}} .
 \end{equation}
 
-\subsubsection*{Final Map}
+\subsection*{Final Map}
 
 \begin{equation}
 (x,p_x,y,p_y,\zeta)
@@ -1255,7 +1263,7 @@ s \rightarrow s+L .
 \end{equation}
 
 
-\subsection{Matrix--kick--matrix with exact path correction}
+\section{Exact path correction for mat-kick-mat}
 \label{sec:mat_kick_mat_exact}
 
 The \texttt{mat-kick-mat-exact} model extends \texttt{mat-kick-mat} for
@@ -1306,7 +1314,7 @@ kick weights, including signed lengths. An empty magnetic kick still requires
 the correction: the two half-length maps combine into $C(\ell)$. With zero
 field, the resulting map is an exact drift.
 
-\subsection{Thin bend}
+\section{Thin bend}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#multipole}{\underline{Multipole element}}.
 ~\\
@@ -1342,7 +1350,7 @@ The map for a thin dipole kick (horizontal or vertical) from the expanded Hamilt
 
 
 
-\subsection{Thin Multipole}
+\section{Thin Multipole}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#multipole}{\underline{Multipole element}}.
 ~\\
@@ -1365,7 +1373,7 @@ where $L$ is the length of the modeled multipole element.
 
 The other coordinates ($x$, $y$, $\delta$, $\zeta$) remain unchanged.
 
-\subsection{Dipole fringe field} \label{sec:DipoleFringeField}
+\section{Dipole fringe field} \label{sec:DipoleFringeField}
 
 A dipole magnet bends a particle through its approximately uniform body
 field. Near an entrance or exit, the field changes between the body value
@@ -1391,7 +1399,7 @@ finite-width calculation is perturbative to second order in field strength.
 The resulting symplectic tracking model extends that calculation; it is not
 an exact solution for every fringe profile or every transverse amplitude.
 
-\subsubsection{Geometry, coordinates and magnetic field}
+\subsection{Geometry, coordinates and magnetic field}
 
 We use a right-handed Cartesian frame $(x,y,s)$, with $s$ normal to the pole
 face, $y$ vertical, and $x$ horizontal. The nominal edge is at $s=0$.
@@ -1453,7 +1461,7 @@ Primes denote derivatives with respect to $s$. Thus a changing vertical
 field necessarily produces a longitudinal field away from the mid-plane.
 This longitudinal component is the origin of the vertical edge kick.
 
-\subsubsection{Lorentz equations near the mid-plane}
+\subsection{Lorentz equations near the mid-plane}
 
 Writing the Lorentz force with $s$ as the independent variable gives
 \begin{equation}
@@ -1491,7 +1499,7 @@ These equations are linear in the vertical variables but need not be
 expanded in field strength; they can also be integrated numerically for a
 specified smooth profile $b(s)$.
 
-\subsubsection{Hard-edge limit and linear vertical focusing}
+\subsection{Hard-edge limit and linear vertical focusing}
 
 A hard edge idealizes the transition as having zero longitudinal width
 while keeping the field jump $K_0$ fixed. To derive its kick without
@@ -1549,7 +1557,7 @@ normalized momenta. For a falling field transition, the same integration
 uses its signed field jump instead of $K_0$; an exit map must also use the
 incidence angle in its corresponding local frame.
 
-\subsubsection{Finite-width correction on the mid-plane}
+\subsection{Finite-width correction on the mid-plane}
 
 For a finite transition width, $p_x/p_s$ and $y$ change while the particle
 crosses the fringe. Their first-order changes modify the vertical force
@@ -1676,7 +1684,7 @@ In particular, the finite-gap correction scales as $1/p$ and has a nontrivial
 angular dependence. Correcting the momentum dependence must preserve this
 angular dependence.
 
-\subsubsection{Momentum-dependent coefficient of the generating function}
+\subsection{Momentum-dependent coefficient of the generating function}
 
 Our aim is to determine the momentum-dependent focusing coefficient $\Phi$
 of an equivalent thin fringe kick, written at the retained linear vertical
@@ -2105,7 +2113,7 @@ For general vertical slopes it specifies the chosen operator approximation;
 matching it does not establish an exact finite-width field map to all
 transverse orders.
 
-\subsubsection{Constructing the corrected tangent form}
+\subsection{Constructing the corrected tangent form}
 
 Denote by $\psi(p_x,p_y,\delta)$ the momentum-dependent focusing coefficient
 used in the tracking model. At the retained linear vertical order, its
@@ -2167,7 +2175,7 @@ On the mid-plane, $y_p=0$, so
  =\frac{p_s}{(1+\delta)^2}=\frac{\cos e}{1+\delta}.
 \end{equation}
 
-\subsubsection{Generating function and forward map}
+\subsection{Generating function and forward map}
 
 The thin map acts at the nominal plane $s=0$, where
 Eqs.~\eqref{eq:fringe_interaction_x} and \eqref{eq:fringe_interaction_y}
@@ -2231,7 +2239,7 @@ All derivatives are evaluated at the incoming momenta. The map is symplectic whe
 of the generating function is real and invertible; that property alone does
 not make the finite-width approximation exact.
 
-\subsubsection{Additional cubic kick in the implementation}
+\subsection{Additional cubic kick in the implementation}
 \label{sec:fringe_cubic_extension}
 
 Xtrack also applies a cubic vertical kick. The same term appears in the
@@ -2385,7 +2393,7 @@ extended longitudinal update is
 \end{equation}
 This extension does not change the linear vertical focusing about $y=0$.
 
-\subsubsection{Complete generating function and forward map}
+\subsection{Complete generating function and forward map}
 Combining the focusing coefficient $\psi$ from Eq.~\eqref{eq:fringe_psi}
 with the cubic coefficient $c_3$ from
 Eq.~\eqref{eq:fringe_cubic_coefficient}, the complete generating function is
@@ -2419,7 +2427,7 @@ where $p=1+\delta$ and $T=1/\beta_0+p_\tau$. The next section details
 the derivatives of $\psi$; the additional coefficient satisfies
 $\partial c_3/\partial\delta=-c_3/p$ and has no dependence on $p_x$ or $p_y$.
 
-\subsubsection{Derivatives used in tracking}
+\subsection{Derivatives used in tracking}
 
 The forward map in Eq.~\eqref{eq:fringe_map} needs three derivatives of
 $\psi$: $\partial\psi/\partial p_x$ determines the horizontal position
@@ -2577,61 +2585,65 @@ Thus the longitudinal update for this focusing model is
  \zeta_f=\zeta+\frac{\beta_0}{2}\psi_{p_\tau}y_f^2.
 \end{equation}
 
-\subsubsection{Backtracking}
-For backtracking we include the cubic kick described in
-Section~\ref{sec:fringe_cubic_extension}.
-The same procedure applies to Eq.~\eqref{eq:fringe_map} by setting $c_3=0$.
-
-This map is not analytically invertible, so when we do backtracking, we require
-a numerical iteration to recover the initial coordinates from the final ones to machine precision.
-The main problem is in the calculation of $p_y$. To illustrate the problem, we can describe
-the coordinates before entering the fringe map as $(x_0, p_{x,0}, y_0, p_{y,0})$ and the
-coordinates after the fringe map as $(x_1, p_{x,1}, y_1, p_{y,1})$.
-
-Rearranging Eq.~\eqref{eq:fringe_map} to solve for $x_0$, $y_0$ and $p_{x,0}$ is straightforward:
+\subsection{Backtracking}
+We invert the complete forward map in Eq.~\eqref{eq:fringe_complete_map},
+including the cubic kick. Denote incoming coordinates by a subscript $0$
+and outgoing coordinates by a subscript $1$. The conserved momenta give
 \begin{equation}
-\begin{aligned}
-    p_{x,0} &= p_{x,1} \\
-    x_0 &= x_1 - \frac{1}{2} \frac{\partial\psi}{\partial p_{x,0}} y_1^2 \\
-    y_0 &= y_1 - \frac{1}{2}\frac{\partial\psi}{\partial p_{y,0}}y_1^2
-\end{aligned}
+ p_{x,0}=p_{x,1},\qquad \delta_0=\delta_1.
 \end{equation}
-
-On the other hand, the equation for $p_{y,0}$ is implicit, as we see in Eq.~\eqref{eq:fringe_extended_py} and
-Eq.~\eqref{eq:fringe_psi} that the final momentum $p_{y,1}$ depends on the initial momentum $p_{y,0}$ through $\psi$.
-
-We can rewrite the equation in a more explicit form to describe the issue:
+The remaining incoming momentum satisfies
 \begin{equation}
-  p_{y,1} = p_{y,0} - K_0 \tan [\phi (p_{y,0})] y_1 - 4c_3 y_1^3
+ p_{y,0}=p_{y,1}
+ +\psi(p_{x,1},p_{y,0},\delta_1)y_1+4c_3(\delta_1)y_1^3.
+ \label{eq:fringe_inverse_py}
 \end{equation}
+This equation is implicit because the corrected coefficient $\psi$ in
+Eq.~\eqref{eq:fringe_psi} depends on the unknown $p_{y,0}$.
+The coefficient $c_3$ is already known from $\delta_1$.
 
-where $\phi(p_{y,0})$ is the angle in $\psi=K_0\tan[\phi(p_{y,0})]$,
-with the other incoming momenta held fixed.
-
-Even though this cannot be solved explicitly, we can make the assumption that the change in $p_y$ is small,
-and we can use a fixed-point iteration to recover $p_{y,0}$ from $p_{y,1}$:
-
+The tracking implementation solves Eq.~\eqref{eq:fringe_inverse_py}
+by fixed-point iteration:
 \begin{equation}
-p_{y,0}^{(n+1)}
-=
-p_{y,1}
-+ 4c_3 y_1^3
-+ K_0 \tan\left[\phi\left(p_{y,0}^{(n)}\right)\right] y_1,
-\qquad
-p_{y,0}^{(0)} = p_{y,1}
+ p_{y,0}^{(n+1)}=p_{y,1}
+ +\psi(p_{x,1},p_{y,0}^{(n)},\delta_1)y_1
+ +4c_3(\delta_1)y_1^3,
+ \qquad p_{y,0}^{(0)}=p_{y,1}.
 \end{equation}
+At each iteration, $\psi$ is evaluated at the current estimate of the
+incoming momentum. A sufficient condition for local convergence is
+\begin{equation}
+ \left|y_1\frac{\partial\psi}{\partial p_y}
+       (p_{x,1},p_{y,0},\delta_1)\right|<1
+\end{equation}
+at the solution, with the initial estimate sufficiently close to it.
+A small momentum kick alone does not guarantee this condition.
 
-After each improved estimate of $p_{y,0}$, the function $\phi$ is recomputed.
+Once $p_{y,0}$ is recovered, evaluate $\psi$ and its derivatives at the
+recovered incoming momenta. The remaining inverse updates are explicit:
+\begin{align}
+ x_0&=x_1-\frac12\psi_{p_x}y_1^2,\\
+ y_0&=y_1-\frac12\psi_{p_y}y_1^2,\\
+ \ell_0&=\ell_1+\frac12\psi_\delta y_1^2
+                   -\frac{c_3}{1+\delta_1}y_1^4.
+\end{align}
+Equivalently, in the longitudinal tracking coordinates,
+\begin{equation}
+ \zeta_0=\zeta_1-\frac{\beta_0}{2}\psi_{p_\tau}y_1^2
+                 +\beta_0c_3\frac{T}{p^2}y_1^4,
+ \qquad p_{\tau,0}=p_{\tau,1},
+\end{equation}
+where $p=1+\delta_1$ and $T=1/\beta_0+p_{\tau,1}$.
+Setting $c_3=0$ gives the inverse of the focusing-only map.
+These inverse relations apply on the real, invertible branch selected
+in the forward map.
 
 The code makes at most 10 iterations, stopping when the change in $p_{y,0}$ is
 at most $10^{-13}|p_{y,0}|+10^{-20}$. Failure to converge marks the particle
-as lost. The corrected $\psi$ and its derivatives are recomputed at each
-iteration. Once $p_{y,0}$ is recovered, the remaining updates, including the
-longitudinal one, are inverted using the same coefficients and $y_1$.
-The optional PTC implementation does not support backtracking.
+as lost. The optional PTC implementation does not support backtracking.
 
 
-\subsection{Dipole wedge} \label{sec:DipoleWedge}
+\section{Dipole wedge} \label{sec:DipoleWedge}
 
 The following map is used to move the observation plane by an angle $\theta$
 around the $y$ axis in a uniform dipole field~\cite{forest99}:
@@ -2661,7 +2673,7 @@ p_y(\theta) &= p_y
 %
 where $K_0$ is the normalized magnetic field.
 
-\subsection{Multipole fringe field}
+\section{Multipole fringe field}
 
 The fringe field effect for multipole magnets is implemented as described in
 \cite{forest99}.
@@ -2699,7 +2711,7 @@ p_y &= p_y^f - \frac{p_x^f (\partial_y f^x) + p_y^f (\partial_y f^y)}{1+\delta} 
 It is solved by inverting Eqs.~\eqref{eq:fringe_px} and \eqref{eq:fringe_py}
 simultaneously to obtain the final transverse momenta.
 
-\subsubsection{Backtracking}
+\subsection{Backtracking}
 As for the dipole fringe field (Sec.~\ref{sec:DipoleFringeField}), the map relates the
 entrance and exit coordinates implicitly, here in $x$ and $y$ rather than in $p_y$, and so
 cannot be inverted analytically. As before, we describe the coordinates before entering the
@@ -2753,7 +2765,7 @@ The iteration is capped at 10 steps and is taken as converged when the change in
 $y_0$ between successive steps falls below a relative tolerance of $10^{-13}$. If the iteration
 does not converge, an error is raised.
 
-\subsection{Quadrupolar correction for wedge and Y rotation}
+\section{Quadrupolar correction for wedge and Y rotation}
 
 If a dipole wedge or rotation around the $y$ axis in a field-free region
 takes place in the presence of a quadrupole field,
@@ -2767,7 +2779,7 @@ p_y^f &= p_y + K_1 x y \theta
 \end{align}
 This correction is a perturbation of the wedge or Y rotation, and can in theory be applied using any integration scheme. It is currently implemented as a kick-drift approximation.
 
-\subsubsection*{Derivation}
+\subsection*{Derivation}
 (derived by S. Van der Schueren based on the MAD-X/PTC \cite{madsite} source code)
 
 In a curved reference frame (dropping terms of order $\mathcal{O}(y^4)$):
@@ -2813,7 +2825,7 @@ Taking the limit $1/h \to 0, \, s \to 0, \, s h \to \theta$ as for the dipole we
 
 
 
-\subsection{Accelerating Cavity}
+\section{Accelerating Cavity}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#cavity}{\underline{Cavity element}}.
 ~\\
@@ -2835,7 +2847,7 @@ p_\tau & \leftarrow p_\tau + \chi V_n \sin(\phi - k \tau).
 
 
 
-\subsection{RF-Multipole}
+\section{RF-Multipole}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#rfmultipole}{\underline{RFMultipole}}
 and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#crabcavity}{\underline{Crab Cavity}} elements.
@@ -2875,7 +2887,7 @@ where
 \end{align}
 
 
-\subsection{Solenoid}
+\section{Solenoid}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#uniformsolenoid}{\underline{UniformSolenoid}}
 and \href{https://xsuite.readthedocs.io/en/latest/apireference.html#variablesolenoid}{\underline{VariableSolenoid}} elements.
@@ -3041,7 +3053,7 @@ We have the following map (note the change in $\zeta$ is analogous to the drift)
 \end{align*}
 where $p_z :=  \sqrt{{\left(\delta + 1\right)}^2 - {\left(\frac{b_z}{2} x - p_{y}\right)}^{2} - {\left(\frac{b_{z}}{2} y + p_{x}\right)}^{2}}$, $\theta := \frac{b_{z} L}{2 p_z} $, and $L$ is the length of the thick solenoid.
 
-\subsubsection{Tilted solenoid}
+\subsection{Tilted solenoid}
 
 From the solenoid frame (x'-z') to the beam frame (x-z) we have the following transformation:
 \begin{align}
@@ -3117,7 +3129,7 @@ and to express the vector potential:
 &\boxed{A_z = B_{x0}(z) y}
 \end{align}
 
-\subsubsection{Generalization to arbitrary tilt and dipolar components}
+\subsection{Generalization to arbitrary tilt and dipolar components}
 
 If the tilt is not in the $x-z$ plane, and if additional dipolar components are present,
 we can generalize the above, obtaining the following vector potential:
@@ -3133,7 +3145,7 @@ The corresponding magnetic field is:
 &\boxed{B_z(x,y,z) = B_{z0}(z)}
 \end{align}
 
-\subsection{Wire}
+\section{Wire}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#wire}{\underline{Wire element}}.
 ~\\
@@ -3213,12 +3225,12 @@ Step 8. Negative drift of length $L=\frac{embl}{2}$.
 \end{align*}
 
 
-\subsection{Electron Lens}
+\section{Electron Lens}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#elens}{\underline{Elens element}}.
 
 \label{elense}
-\subsubsection{Hollow electron lens - uniform annular profile}
+\subsection{Hollow electron lens - uniform annular profile}
 For a uniform distribution of the electron beam between $R_1$ and $R_2$, the radial kick can be described by a shape function $f(r)$ and a maximum kick strength $\theta_{\rm max}$:
 \begin{equation}
 \theta(r)=\frac{f(r)}{(r/R_2)}\cdot \theta_{\rm max}
@@ -3259,7 +3271,7 @@ x'&=x'-\theta_{\rm max}\cdot\frac{r_2}{\tilde r^2}\cdot f(\tilde r)\cdot \tilde 
 y'&=y'-\theta_{\rm max}\cdot\frac{r_2}{\tilde r^2}\cdot f(\tilde r)\cdot \tilde y
 \end{align}
 
-\subsection{Electron Cooler}
+\section{Electron Cooler}
 
 Implemented in the \href{https://xsuite.readthedocs.io/en/latest/apireference.html#electroncooler}{\underline{ElectronCooler element}}.
 ~\\
@@ -3353,7 +3365,7 @@ Finally, the maximum impact parameter in the Xsuite implementation is the minimu
 \label{eq: max_impact_parameter}
 \end{equation}
 %
-\subsubsection{Electron beam space charge}
+\subsection{Electron beam space charge}
 
 An additional effect of electron cooling that needs to be taken into consideration is the space charge of the electron beam. Moreover, the electron beam will assume a parabolic profile with respect to the radius, which is given by \cite{poth1990electron}:
 \begin{equation}
@@ -3377,7 +3389,7 @@ An additional effect due to space charge is the rotation of the electron beam ar
 This effect can also be disabled by setting ``space charge factor'' to zero. A value of 0 indicates that there is no rotation of the electron beam, while a value of 1 indicates that the electron beam will rotate with the angular frequency described in Equation \ref{Eq:rotation_electron_beam}.
 
 
-\subsection{Rotations}
+\section{Rotations}
 
 We assume the conventions for the directions of rotation for compatibility with \mbox{MAD-X}, as visualized in Fig.~\ref{fig:beam-rotations}, and give the maps to convert the particle coordinates to the reference frames rotated by $\phi$, $\theta$, and $\psi$, respectively.
 
@@ -3426,7 +3438,7 @@ The longitudinal momentum is
 	p_z = \sqrt{(1 + \delta)^2 - p_x^2 - p_y^2}.
 \]
 
-\subsubsection{X Rotation}
+\subsection{X Rotation}
 
 We define a scaling factor $\kappa$ arising from the coordinate system being tilted by $\phi$ about the $x$-axis:
 \[
@@ -3441,7 +3453,7 @@ y \leftarrow \frac{y}{\kappa \cos\phi}, \quad p_y \leftarrow p_y \cos\phi + p_z 
 x \leftarrow x + \frac{y p_x \tan\phi}{\kappa p_z}, \quad \zeta \leftarrow \zeta - \frac{y \tan\phi \left(1 + \beta_0 p_\tau \right)}{\kappa p_z}.
 \]
 
-\subsubsection{Y Rotation}\label{sec:Yrotation}
+\subsection{Y Rotation}\label{sec:Yrotation}
 
 We define a scaling factor $\kappa$ arising from the coordinate system being tilted by $\theta$ about the $y$-axis:
 
@@ -3463,7 +3475,7 @@ y \leftarrow y - \frac{x\,p_y\,\tan\theta}{\kappa\,p_z},
 \zeta \leftarrow \zeta + \frac{x\,\tan\theta\,(1 + \beta_0 p_\tau)}{\kappa\,p_z}.
 \]
 
-\subsubsection{S Rotation}
+\subsection{S Rotation}
 
 We perform a rotation in the $x$-$y$ plane by an angle $\psi$:
 
