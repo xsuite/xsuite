@@ -2191,7 +2191,23 @@ Agreement with Eq.~\eqref{eq:fringe_phi_second_order} requires
 \begin{equation}
  \epsilon=gK_0F\frac{A}{p_s(1+u^2)}.
 \end{equation}
-Thus the corrected expression used in the map is
+Thus the corrected expression used in the map is\footnote{%
+In the notation used here, the original PTC expression in Eq.~(37) of
+Forest's fringe note, Ref.~\cite{forest-fringe-1}, is
+\[
+ \psi_{\mathrm{PTC}}=K_0\tan\!\left[\arctan u-gK_0F A p_s\right],
+ \qquad A=1+x_p^2(2+y_p^2).
+\]
+Expanding the outer tangent gives
+$\psi_{\mathrm{PTC}}=K_0u-gK_0^2F A p_s(1+u^2)+O(K_0^3)$,
+whereas Eq.~(34) of that note requires
+$K_0u-gK_0^2F A/p_s$ through second order. Thus Eqs.~(34) and (37)
+do not agree to that order in general, contrary to the statement following
+Eq.~(37). They agree for $\delta=0$ and $p_y=0$, where
+$p_s^2(1+u^2)=1$. On the mid-plane at fixed incidence angle, the original
+PTC second-order correction scales as $p=1+\delta$, instead of the required
+$1/p$. The factor $1/[p_s(1+u^2)]$ in Eq.~\eqref{eq:fringe_psi}
+restores agreement with Eq.~(34).}
 \begin{equation}
  \boxed{\displaystyle
  \psi=K_0\tan\left[\arctan u-
@@ -2213,17 +2229,6 @@ On the mid-plane, $y_p=0$, so
 The mid-plane angle shift is therefore
 $\epsilon=gK_0F(1+\sin^2e)/[(1+\delta)\cos e]$, the expression of SLAC-75
 and MAD-X divided by $1+\delta$.
-
-Equation~(37) of Ref.~\cite{forest-fringe-1}, and the PTC source based on
-it, write the finite-gap term of the effective angle with a factor $p_s$ in
-place of $1/[p_s(1+u^2)]$. The two forms agree only on the mid-plane and on
-momentum, where both reduce to $\cos e$. On the mid-plane they differ by
-the factor $(1+\delta)^2$: the form of Eq.~(37) gives a finite-gap focusing
-correction that grows with momentum, whereas
-Eq.~\eqref{eq:fringe_midplane_kick}, and Eq.~(34) of the same reference,
-require it to decrease as $1/p$. Only Eq.~\eqref{eq:fringe_psi} reproduces
-Eq.~\eqref{eq:fringe_phi_second_order} when the tangent is expanded.
-The implementation uses Eq.~\eqref{eq:fringe_psi}.
 
 \subsection{Generating function and forward map}
 
