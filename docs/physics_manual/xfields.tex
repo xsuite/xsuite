@@ -283,7 +283,12 @@ In this way the force over the single interaction becomes independent of time an
 \end{equation}
 where $L$ is the portion of the machine on which we want to compute the e-cloud interaction.
 
-The kicks on the normalized momenta can be expressed as (recalling that $P_0=m_0\beta_0\gamma_0c$):
+In this straight frame, the Cartesian $z$-direction is the local
+$s$-direction. We therefore denote the normalized longitudinal mechanical
+momentum by $p_s$, as in Sec.~\ref{sec:longitudinal_momentum}, while $P_z$
+is its dimensional Cartesian counterpart.
+Recalling that $P_0=m_0\beta_0\gamma_0c$, the kicks on the normalized
+momenta can be expressed as:
 
 \begin{align}
 &\boxed{
@@ -291,7 +296,7 @@ The kicks on the normalized momenta can be expressed as (recalling that $P_0=m_0
 &\boxed{
 \Delta p_y = \frac{m_0}{m}\frac{\Delta P_y} {P_0}= -\frac{qL (1-\beta_0^2)}{ m\gamma_0\beta_0^2 c^2} \frac{\partial \phi}{\partial y}\left(x, y,\zeta\right)}\label{dpy}\\
 &\boxed{
-\Delta \delta \simeq \Delta p_z = \frac{m_0}{m}\frac{\Delta P_z} {P_0}= -\frac{qL (1-\beta_0^2)}{ m\gamma_0\beta_0^2 c^2} \frac{\partial \phi}{\partial \zeta}\left(x, y,\zeta\right)}
+\Delta \delta \simeq \Delta p_s = \frac{m_0}{m}\frac{\Delta P_z} {P_0}= -\frac{qL (1-\beta_0^2)}{ m\gamma_0\beta_0^2 c^2} \frac{\partial \phi}{\partial \zeta}\left(x, y,\zeta\right)}
 \label{dpz}
 \end{align}
 
@@ -306,7 +311,7 @@ In the modulated 2D case (see Sec.\,\ref{sec:modulated2d} and in particular Eq.\
 &\boxed{
 \Delta p_y = \frac{m_0}{m}\frac{\Delta P_y} {P_0}= -\frac{qq_0L (1-\beta_0^2)}{ m\gamma_0\beta_0^2 c^2} \,\lambda_0(\zeta)\, \frac{\partial{\phi_\perp}}{\partial y}\left(x, y\right)}\label{dpy_mod}\\
 &\boxed{
-\Delta \delta \simeq \Delta p_z = \frac{ m_0} {m}\frac{\Delta P_z} {P_0}= -\frac{qq_0L (1-\beta_0^2)}{ m\gamma_0\beta_0^2 c^2} \,\frac{d\lambda_0}{d\zeta}(\zeta)\,{\phi_\perp}\left(x, y\right)}\label{dpz_mod}
+\Delta \delta \simeq \Delta p_s = \frac{ m_0} {m}\frac{\Delta P_z} {P_0}= -\frac{qq_0L (1-\beta_0^2)}{ m\gamma_0\beta_0^2 c^2} \,\frac{d\lambda_0}{d\zeta}(\zeta)\,{\phi_\perp}\left(x, y\right)}\label{dpz_mod}
 \end{align}
 
 In some cases, for example in the case of transversely Gaussian beams, an analytic closed form exists for the quantities $\frac{\partial \phi_\perp}{\partial x}$ and $\frac{\partial \phi_\perp}{\partial y}$ but not for the potential $\phi_\perp$ itself. In those cases, in order to compute the longitudinal kick, it is possible to obtain a function $\phi_\perp (x,y)$ generating the same transverse kicks by computing numerically the integral:
@@ -395,7 +400,7 @@ From which we can write:
 \frac{(1+\beta_{0W}  \beta_{0s})}{(\beta_{0W}+\beta_{0S})}
 \frac{\partial \phi_\perp}{\partial y}(x, y )}\\
 &\boxed{
-\Delta p_z = \frac{m_0}{m}\frac{\Delta P_z} {P_0}=0}
+\Delta p_s = \frac{m_0}{m}\frac{\Delta P_z} {P_0}=0}
 \end{align}
 
 \section{Longitudinal profiles}
