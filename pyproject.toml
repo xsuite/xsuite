@@ -2,11 +2,11 @@
 requires = [
     'setuptools>=77',
     'setuptools-scm[toml]>=8',
-    "xtrack==0.118.5",
-    "xfields==0.27.6",
+    "xtrack==0.118.4",
+    "xfields==0.27.5",
     "xcoll==0.12.5",
     "xobjects==0.7.2",
-    "xdeps==0.11.1",
+    "xdeps==0.11.0",
     "xpart==0.23.23",
     "numpy",
 ]
@@ -26,11 +26,11 @@ requires-python = ">=3.11,<3.15"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 dependencies = [
-    "xtrack==0.118.5",
-    "xfields==0.27.6",
+    "xtrack==0.118.4",
+    "xfields==0.27.5",
     "xcoll==0.12.5",
     "xobjects==0.7.2",
-    "xdeps==0.11.1",
+    "xdeps==0.11.0",
     "xpart==0.23.23",
 ]
 dynamic = ["version"]
