@@ -14,3 +14,4 @@ lectures and tutorials based on Xsuite:
 - `Basic beam dynamics and lattice design <https://github.com/xsuite/tutorial_introduction_rome2025>`_
 - `CLIC damping ring - survey, twiss, radiation <https://github.com/xsuite/tutorial_clic_damping_ring>`_
 - `Transfer line + ring lattice design <https://github.com/xsuite/tutorial_line_plus_ring>`_
+- `Mixed beams tutorial <https://github.com/xsuite/tutorial_mixed_beams>`_
