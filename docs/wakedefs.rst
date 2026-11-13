@@ -20,7 +20,7 @@ where :math:`\bar{x}(z)` and :math:`\bar{y}(z)` are the transverse centroids,
 and :math:`\lambda(z)` is the line density. The exponents :math:`(i,j)` belong
 to the source moments, while :math:`(k,l)` apply to the test particle offsets.
 
-Longitudinal kicks are defined so that the energy momentum deviation change is:
+Longitudinal kicks are defined so that the change in momentum deviation is:
 
 .. math::
 

@@ -33,7 +33,7 @@ Backtracking
 
 It is possible to track particles backwards through a beam line, provided that
 all elements included in the line support backtracking. The following example
-illustrates how backtrack for a full turn or between specified elements:
+illustrates how to backtrack for a full turn or between specified elements:
 
 .. literalinclude:: generated_code_snippets/backtrack.py
     :language: python
@@ -49,7 +49,7 @@ or :doc:`fast_lattice_changes` (the latter being more performant when a large
 number of elements is affected). For some specific use cases there exist also 
 specialized elements, such as the :class:`xtrack.ACDipole`.
 
-If the time-dependent change is in the order of the revolution period or faster,
+If the time-dependent change is of the order of the revolution period or faster,
 specialized elements such as an :doc:`exciter` (time-dependent thin multipole)
 or :class:`xtrack.RFMultipole` have to be used.
 
@@ -64,7 +64,7 @@ or :class:`xtrack.RFMultipole` have to be used.
 Off-momentum from RF frequency change
 =====================================
 
-The xtrack default RF are synchronized with the reference particle (simply
+By default, the RF cavities in Xtrack are synchronized with the reference particle (simply
 because of the coordinate choice). For this reason a change of the RF frequency
 does not result in a change in the revolution frequency. To obtain a change in
 the revolution frequency (and hence in the momentum) it is necessary to
@@ -78,7 +78,7 @@ This is illustrated in the following example:
     :width: 80%
     :align: center
 
-    Longitudinal phase space from tracking. The backet is centered around the
+    Longitudinal phase space from tracking. The bucket is centered around the
     expected momentum.
 
 .. include:: optimize_for_tracking.rst

@@ -10,17 +10,17 @@ Magnet models and integrators
 Magnetic elements are modeled using symplectic integrators. Users can choose
 among different "models," which correspond to various splitting schemes of
 the underlying Hamiltonian, and different "integrators," which define the
-integration method. It is also possible specify the desired number of kicks (in
+integration method. It is also possible to specify the desired number of kicks (in
 case the desired number of kicks is incompatible with the chosen integration scheme,
 the number of kicks is automatically increased to the next compatible value).
 
 The list of available models and integrators for a given element or element type
-be obtained by calling the methods ``Element.get_available_models()`` and
+can be obtained by calling the methods ``Element.get_available_models()`` and
 ``Element.get_available_integrators()``, respectively. Information about the different
 models and integrators is available in the section "Symplectic integrators" of
 the :doc:`Xsuite Physics Guide<physicsguide>`.
 
-The ``Line.set(...)`` method can be used to set the model, integrator and number of
+The ``Line.set(...)`` method can be used to set the model, integrator and number of kicks
 for several elements in a single call.
 
 These features are illustrated in the following example:
@@ -33,7 +33,7 @@ These features are illustrated in the following example:
 Apply misalignments (tilt, shift) to elements
 ---------------------------------------------
 
-Tilt and shifts misalignments can be applied to beam elements.
+Tilt and shift misalignments can be applied to beam elements.
 
 The definition of the misalignment parameters (``rot_s_rad``,
 ``rot_s_rad_no_frame``, ``rot_x_rad``, ``rot_y_rad``, ``shift_x``, ``shift_y``, ``shift_s``)

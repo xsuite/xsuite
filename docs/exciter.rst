@@ -7,7 +7,7 @@ By providing an array of samples, and the sampling frequency, the element can pr
 
 This can be used for RFKO slow extraction, excitation tune measurement, power supply ripples, etc.
 
-The given multipole components `knl` and `ksl` (normal and skew respectively) are multiplied according to an array of `samples` which allows for arbitrary time dependance:
+The given multipole components `knl` and `ksl` (normal and skew respectively) are multiplied according to an array of `samples` which allows for arbitrary time dependence:
 
 .. math::
     \verb|knl|(t) = \verb|knl| \times \verb|samples|(t)
@@ -20,7 +20,7 @@ To provide for an arbitrary frequency spectrum, the variations are *not* assumed
 
 where :math:`\zeta=(s-\beta_0\cdot c_0\cdot t)` is the longitudinal coordinate of the particle, :math:`\beta_0` is the relativistic beta factor of the particle, :math:`c_0` is the speed of light, :math:`n` is the current turn number, :math:`f_{rev}` is the revolution frequency, and :math:`f_{samp}` is the sample frequency.
 
-The excitation starts with the first sample when the reference particle arrives at the element in :math:`n_0`
+The excitation starts with the first sample when the reference particle arrives at the element at turn :math:`n_0`.
 
 The samples can therefore be considered as a waveform sampled at the sampling frequency. To compute a sample for a sinusoidal excitation at frequency `f_ex` using NumPy:
 
@@ -49,7 +49,7 @@ To generate a chirp array at `sampling_freq`, between frequencies `f_start` and 
     :align: center
 
 
-To then define an Exciter element with the custom waveform (array of `samples` at sampling frequency `sampling freq`) and normal and skew components `KNL` and `KSL`:
+To then define an Exciter element with the custom waveform (array of `samples` at sampling frequency `sampling_freq`) and normal and skew components `KNL` and `KSL`:
 
 .. code-block:: python
 

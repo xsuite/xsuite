@@ -6,7 +6,7 @@ A collective beam element is an element that needs access to the entire particle
 Example
 -------
 
-A typical example of collective element is a space-charge interaction. We can create a space-charge beam element as follows:
+A typical example of a collective element is a space-charge interaction. We can create a space-charge beam element as follows:
 
 .. code-block:: python
 
@@ -72,8 +72,8 @@ tracker inspects its ``iscollective`` attribute. In our example:
     print(spcharge.iscollective)
     # Gives "True"
 
-Based in this information the line is divided in parts that are either collective
-elements or xtrack trackers simulating groups of consecutive non-collective elements.
+Based on this information, the line is divided into parts that are either collective
+elements or Xtrack trackers simulating groups of consecutive non-collective elements.
 
 We can visualize this in our example:
 
@@ -85,12 +85,12 @@ We can visualize this in our example:
     #  <xfields.beam_elements.spacecharge.SpaceChargeBiGaussian object at 0x7f5ba8e1bd30>,
     #  <xtrack.tracker.Tracker object at 0x7f5ba8ce7610>]
 
-where the first part tracks the particles through to the first potion of the
+where the first part tracks the particles through the first portion of the
 machine up to the space-charge element, the second part simulates the space-charge
-interaction, the third part tracks the particles from the space-charge element to the end of the line.
+interaction, and the third part tracks the particles from the space-charge element to the end of the line.
 
-As all xsuite and xsuite-compatible beam elements need to expose a ``.track``
-method the instruction:
+As all Xsuite and Xsuite-compatible beam elements need to expose a ``.track``
+method, the instruction:
 
 .. code-block:: python
 
@@ -103,5 +103,5 @@ is equivalent to the loop:
     for pp in line.tracker._parts:
         pp.track(particles)
 
-Any python object exposing a '.track' method can be used as beam_element. If the
-attribute ``iscollective`` is not present the element is handled as collective.
+Any python object exposing a ``.track`` method can be used as a beam element. If the
+attribute ``iscollective`` is not present, the element is handled as collective.

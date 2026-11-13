@@ -8,10 +8,10 @@ Synchrotron radiation
 Twiss and track with radiation
 ==============================
 
-The following example illustrates the use of the synchrotron radiation in Xsuite.
+The following example illustrates the use of synchrotron radiation in Xsuite.
 Explanations can be found in the comments interleaved in the code. For the
-considered case, the lattice is loaded from a MAD-X thick sequence and transformed
-in thin using the ``MAKETHIN`` command of MAD-X to obtain a thin sequence compatible
+considered case, the lattice is loaded from a MAD-X thick sequence and converted
+using the ``MAKETHIN`` command of MAD-X to obtain a thin sequence compatible
 with Xsuite.
 
 See also: :meth:`xtrack.Line.configure_radiation`

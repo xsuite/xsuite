@@ -1,0 +1,199 @@
+\section{BFieldExpansion: RK4 tracking}
+\label{sec:bfield-expansion}
+\label{chapter:bfield-expansion}
+
+The \texttt{BFieldExpansion} element implements the field and vector-potential
+construction in Secs.~\ref{sec:magnetic-field-reconstruction}
+and \ref{sec:magnetic-vector-potential}, with polynomial longitudinal
+profiles. It advances canonical coordinates using classical RK4, which is
+not an exactly symplectic integrator.
+
+\subsection{Polynomial profiles and additional strengths}
+
+The current implementation selects straight geometry for \(h=0\) and
+supports curved geometry for \(h>10^{-4}\,\mathrm{m}^{-1}\).
+The quantities returned as \texttt{Bx}, \texttt{By}, \texttt{Bs},
+\texttt{Ax}, \texttt{Ay}, \texttt{As}, and \texttt{phi} by
+\texttt{get\_field} use the normalization in Eq.~\eqref{bfe:normalization}.
+
+The polynomial coordinate runs from \texttt{s\_start} to
+\(\texttt{s\_start}+L\), where \(L\) is the element length. It need not
+coincide with the accumulated particle coordinate \texttt{s} in a line.
+The field-evaluation argument \texttt{s\_local} is entrance-relative, so
+that the profiles are evaluated at
+\(s=\texttt{s\_start}+\texttt{s\_local}\).
+
+With only polynomial input coefficients and unit scale,
+\begin{equation}
+ N_n(s)=\sum_{j=0}^{d_n}\texttt{knc}_{nj}s^j,\qquad
+ S_n(s)=\sum_{j=0}^{d_s}\texttt{ksc}_{nj}s^j,\qquad
+ K_s(s)=\sum_{j=0}^{d_\ell}\texttt{ksolc}_{j}s^j.
+ \label{bfe:coefficients}
+\end{equation}
+The transverse factorial is included in Eq.~\eqref{bfe:profiles}; there
+is no longitudinal factorial in Eq.~\eqref{bfe:coefficients}.
+The suffix \texttt{c} denotes coefficients. The three polynomial degrees
+\(d_n\), \(d_s\), and \(d_\ell\) are independent. Transverse rows of
+different lengths are padded within their own matrix at construction;
+omitted profiles remain empty and contribute zero. Every supplied
+\texttt{ksolc} coefficient is used. Its scalar-potential seed is
+\begin{equation}
+ \phi_0^{\mathrm{sol}}(s)
+ =-\int_0^s K_s(u)\,\dee u
+ =-\sum_{j=0}^{d_\ell}\frac{\texttt{ksolc}_{j}}{j+1}s^{j+1}.
+\end{equation}
+The additional degree is reserved internally, so users do not pad the
+longitudinal profile or the transverse matrices for this integral.
+In particular, a constant longitudinal field needs only
+\texttt{ksolc=[ks]}. The read-only array \texttt{ksoll} contains its
+longitudinal integral over the element interval, including \texttt{kscale}.
+
+Uniform scalar strengths and integrated strengths are incorporated before
+constructing the potential. For example,
+\begin{equation}
+ N_n(s)=\texttt{kscale}\left[
+ \sum_j\texttt{knc}_{nj}s^j+k_n+\frac{\texttt{knl}_n}{L}\right],
+ \label{bfe:total-profile}
+\end{equation}
+with the analogous expression for the skew profile. The independent
+\(k_n\) and skew scalar strengths exist through octupole order; missing
+entries contribute zero. The factor \texttt{kscale} also multiplies
+\(K_s\), all reconstructed fields, and both potentials. Nonzero integrated
+strengths require \(L\ne0\).
+
+\subsection{Expansion order and convergence}
+
+The parameter \texttt{num\_phi} specifies the maximum retained power of
+\(y\) in field evaluation. An additional scalar-potential coefficient is
+stored to obtain \(b_y\) by differentiation; vector potentials are evaluated
+through the requested order. For a nonterminating expansion, the
+infinite-series identities above hold only to the orders retained by the
+corresponding series. Finite truncation is an approximation to the
+three-dimensional Maxwell field.
+
+The default \texttt{num\_phi='auto'} retains the complete polynomial
+reconstruction, including the vector potential, in straight geometry. Its
+choice accounts for allocated polynomial degrees and transverse orders,
+as well as the independent scalar strengths, including coefficients that
+are initially zero. In curved geometry it adds two vertical orders, retaining
+the full expansion through first order in \(h\). Higher powers of \(h\)
+are generally incomplete: the curved recurrence need not terminate.
+Increasing an explicit \texttt{num\_phi} and checking convergence over the
+aperture of interest is therefore necessary when higher curvature terms matter.
+The allocated shapes and truncation order remain fixed after construction,
+including capacity for explicitly supplied zero coefficients. Evaluation skips
+unused orders and degrees, with the populated bounds recomputed after input
+updates.
+
+There are three separate approximations to control: the input profile fit,
+the transverse expansion order, and the integration step size. Higher
+longitudinal derivatives enter Eq.~\eqref{bfe:recurrence}, so agreement of
+an on-axis fit alone does not establish off-axis accuracy. Increasing the
+number of tracking steps cannot restore fringe terms absent from the field
+model. For piecewise profiles, derivatives and vector-potential matching at
+the joins also need to be checked.
+
+\subsection{Hamiltonian and equations of motion}
+
+We use the canonical variables \(z=(x,p_x,y,p_y,\tau,p_\tau)\) defined in
+Eqs.~\eqref{eq:coord1}--\eqref{eq:coord2}, with
+\(\tau=\zeta/\beta_0=s/\beta_0-ct\), and the species factor
+\(\chi=(q/q_0)(m_0/m)\). Let
+\begin{equation}
+ \begin{aligned}
+ D&=1+\delta=\sqrt{1+2p_\tau/\beta_0+p_\tau^2}, &
+ \pi_s&=\sqrt{D^2-\pi_x^2-\pi_y^2},\\
+ \pi_x&=p_x-\chi a_x, & \pi_y&=p_y-\chi a_y.
+ \end{aligned}
+ \label{bfe:kinetic-momentum}
+\end{equation}
+Here \(\bm\pi\) is the normalized kinetic momentum. The forward branch
+\(\pi_s>0\) is used, away from longitudinal turning points.
+Specializing the accelerator Hamiltonian
+\eqref{eq:hamiltonian_htau} to a static magnetic field gives
+\begin{equation}
+ H=\frac{p_\tau}{\beta_0}-w(\pi_s+\chi a_s).
+ \label{bfe:hamiltonian}
+\end{equation}
+The Hamiltonian formalism and canonical normalization are discussed in
+Ref.~\cite{wolski2014beam}. No paraxial expansion of the square root is
+made here.
+
+In the implemented gauge \(a_y=0\), Hamilton's equations are
+\begin{align}
+ \frac{\dee x}{\dee s}&=w\frac{\pi_x}{\pi_s}, &
+ \frac{\dee y}{\dee s}&=w\frac{\pi_y}{\pi_s},\\
+ \frac{\dee p_x}{\dee s}&=h(\pi_s+\chi a_s)
+   +w\chi\left(\frac{\pi_x}{\pi_s}\partial_x a_x+\partial_x a_s\right), &
+ \frac{\dee p_y}{\dee s}&=w\chi\left(
+       \frac{\pi_x}{\pi_s}\partial_y a_x+\partial_y a_s\right),\\
+ \frac{\dee\tau}{\dee s}&=\frac{1}{\beta_0}
+                -w\frac{p_\tau+1/\beta_0}{\pi_s}, &
+ \frac{\dee p_\tau}{\dee s}&=0.
+ \label{bfe:equations}
+\end{align}
+Energy, and hence \(D\), is constant because there is no electric field.
+The spatial Hamiltonian itself can depend explicitly on \(s\) and need
+not be constant along the trajectory.
+
+\subsection{Numerical integration}
+
+Both geometries use classical RK4~\cite{HairerNorsettWanner1993}. For
+\(\dee z/\dee s=f(s,z)\), a step of length
+\(\Delta s=L/\texttt{num\_integration\_steps}\) is
+\begin{align}
+ k_1&=f(s_n,z_n),\\
+ k_2&=f(s_n+\Delta s/2,z_n+\Delta s\,k_1/2),\\
+ k_3&=f(s_n+\Delta s/2,z_n+\Delta s\,k_2/2),\\
+ k_4&=f(s_n+\Delta s,z_n+\Delta s\,k_3),\\
+ z_{n+1}&=z_n+\frac{\Delta s}{6}(k_1+2k_2+2k_3+k_4).
+\end{align}
+The potential and its derivatives are reevaluated at every stage. For a
+fixed smooth field and a trajectory bounded away from \(\pi_s=0\), the
+local integration error is \(\mathcal O(\Delta s^5)\), and the global
+error over a fixed length is \(\mathcal O(\Delta s^4)\). This statement
+concerns integration error, separately from field truncation and fitting.
+
+Classical RK4 does not preserve the symplectic form exactly, even when
+applied to Hamilton's equations. Nor does it generally preserve phase-space
+volume exactly. The distinction between Hamiltonian flow and a symplectic
+discrete map is discussed in Ref.~\cite{HairerLubichWanner2006}.
+Here \(p_\tau\) remains constant because its right-hand side is identically
+zero; this fact alone does not imply symplecticity. Backtracking reverses
+\(\Delta s\) and the integration interval, but RK4 is not exactly reversible
+at finite step size.
+
+\subsection{Canonical and kinetic momenta at boundaries}
+
+The flag \texttt{pkin\_const} selects how transverse momenta are transferred
+between vector-potential conventions at the entrance and exit. It does not
+change RK4 or its order of accuracy. Let
+\(\alpha_{x,y}=\chi a_{x,y}\); the particle attributes \texttt{ax} and
+\texttt{ay} store these species-scaled quantities. Then
+\(\pi_{x,y}=p_{x,y}-\alpha_{x,y}\), as exposed by
+\texttt{kin\_px} and \texttt{kin\_py}.
+
+With \texttt{pkin\_const=False}, the default, the entrance canonical
+momenta are used without conversion. At the exit, the element leaves the
+momenta in its gauge and stores the exit \(\alpha_x,\alpha_y\).
+Consequently, keeping \(p_x,p_y\) fixed while changing the transverse
+vector potential at a join changes the kinetic momenta. To initialize a
+particle with prescribed kinetic momenta inside a nonzero field, use
+\begin{equation}
+ p_x=\pi_x+\chi a_x(x,y,s_{\mathrm{in}}),\qquad
+ p_y=\pi_y+\chi a_y(x,y,s_{\mathrm{in}}),
+\end{equation}
+and set the stored \texttt{ax}, \texttt{ay} consistently.
+
+With \texttt{pkin\_const=True}, the entrance conversion is
+\begin{equation}
+ p_{x,y}^{\mathrm{in}}=p_{x,y}^{\mathrm{old}}
+          +\chi a_{x,y}^{\mathrm{in}}-\alpha_{x,y}^{\mathrm{old}}.
+\end{equation}
+At the exit the element subtracts \(\chi a_{x,y}^{\mathrm{out}}\) and
+sets the stored transverse vector potential to zero. These conversions
+preserve kinetic momenta across the changes of potential convention.
+They do not supply missing physical fringe fields or make the finite-step
+map symplectic. For a smooth piecewise magnetic model, the field profiles,
+their derivatives, and the choice of boundary convention must describe a
+consistent physical join.

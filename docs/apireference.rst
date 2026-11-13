@@ -82,7 +82,7 @@ can be found in the :ref:`element misalignment section <misalignment_label>`.
     :align: center
     :width: 80%
 
-    Rectangular with arbitrary face angles and arbitrary placement with respect to
+    Rectangular bend with arbitrary face angles and arbitrary placement with respect to
     the reference trajectory.
 
 
@@ -181,12 +181,139 @@ SplineBoris
     :member-order: bysource
 
 The reconstruction of the three-dimensional field from the on-axis field data
-is described in the ``Field expansion for s-dependent magnetic field`` chapter
+is described in the ``Modeling s-dependent magnetic fields`` chapter
 of the :doc:`Physics Guide <physicsguide>`.
 
 .. autoclass:: xtrack.Spline4
     :members:
     :member-order: bysource
+
+BFieldExpansion
+---------------
+
+.. py:class:: xtrack.BFieldExpansion(length, ksc=None, knc=None, ksolc=None, num_phi='auto', h=0, s_start=0, knl=None, ksl=None, kscale=1.0, k0=0.0, k1=0.0, k2=0.0, k3=0.0, k0s=0.0, k1s=0.0, k2s=0.0, k3s=0.0, integrator='rk4', num_integration_steps=10, pkin_const=False, **kwargs)
+
+    Thick magnetic-field expansion in a straight or curved reference frame,
+    tracked with classical fourth-order Runge--Kutta.
+
+    :param float length: Path length along the reference trajectory, in metres.
+    :param ksc: Skew coefficient matrix or list of rows. Entry ``[i, j]``
+        multiplies ``s**j`` in the on-axis i-th x derivative of ``Bx/(B rho)``.
+        Ragged rows are padded with zeros within this matrix.
+    :param knc: Normal coefficient matrix or list of rows, using the same
+        convention as ``ksc`` for ``By/(B rho)``. ``knc[i, 0]`` has the same
+        normalization and factorial convention as Xtrack's ``k0``, ``k1``,
+        ``k2``, and higher-order strengths; these are not integrated strengths.
+    :param knl: Additional integrated normal hard-edge strengths. The density
+        ``knl[i] / length`` is added to the constant normal profile at order i,
+        without modifying ``knc`` or adding extra boundary fringes. Defaults to zero.
+    :param ksl: Additional integrated skew hard-edge strengths, analogous to
+        ``knl``. Defaults to zero. Nonzero ``knl`` or ``ksl`` requires nonzero
+        length. Changing length preserves these integrated inputs.
+    :param float k0: Additional uniform normal dipole strength, default zero.
+    :param float k1: Additional uniform normal quadrupole strength, default zero.
+    :param float k2: Additional uniform normal sextupole strength, default zero.
+    :param float k3: Additional uniform normal octupole strength, default zero.
+    :param float k0s: Additional uniform skew dipole strength, default zero.
+    :param float k1s: Additional uniform skew quadrupole strength, default zero.
+    :param float k2s: Additional uniform skew sextupole strength, default zero.
+    :param float k3s: Additional uniform skew octupole strength, default zero.
+    :param ksolc: One-dimensional array of on-axis ``Bs/(B rho)`` coefficients
+        in ascending powers of ``s``. Its length is independent of ``knc`` and
+        ``ksc``. Every coefficient is retained; no trailing zero is needed for
+        the scalar-potential integral. The suffix ``c`` denotes coefficients.
+    :param float kscale: Common multiplier for all field components,
+        potentials, derivatives, and integrated strengths. Defaults to 1.
+        Includes scalar, polynomial, and integrated hard-edge inputs while
+        leaving those inputs and the reference geometry unchanged.
+    :param num_phi: Nonnegative integer vertical truncation order, or ``'auto'``
+        (default). The automatic order uses the coefficient shapes and
+        longitudinal degree to retain the complete straight-field polynomial
+        expansion, including the vector potential and later updates to
+        initially zero coefficients. Allocation covers the integrated input
+        arrays and all scalar strengths through octupole. Curved geometry adds
+        two orders to retain all terms through first order in ``h``. Higher-order
+        curvature terms require convergence checks with larger explicit orders.
+    :param float h: Reference curvature in inverse metres. Zero selects
+        straight geometry; curved geometry requires ``h > 1e-4``. The
+        geometry mode is fixed at construction. Default is zero.
+    :param str integrator: Integration scheme. Only ``'rk4'`` is supported
+        (the default).
+    :param int num_integration_steps: Positive number of integration steps.
+        Default is 10.
+    :param float s_start: Polynomial coordinate at the entrance, in metres.
+        Tracking covers ``[s_start, s_start + length]``. Default is zero.
+    :param bool pkin_const: Keyword selecting the boundary-momentum convention.
+        ``False`` preserves canonical momenta at interfaces; ``True``
+        preserves kinetic momenta when changing the vector potential and
+        returns to zero transverse vector potential at exit. Default is
+        ``False``. Neither option makes RK4 exactly symplectic.
+
+    Coefficients are normalized by the signed reference magnetic rigidity.
+    Transverse powers include ``1/i!`` internally; longitudinal powers use
+    ``s`` in metres without factorials. Omitted, ``None``, and empty arrays
+    remain empty and contribute zero. ``knc`` and ``ksc`` can have independent
+    row counts and widths, and ``ksolc``, ``knl``, and ``ksl`` have independent
+    lengths. Ragged transverse rows are zero-padded within their own matrix;
+    rectangular inputs retain their shapes. No manual padding is needed.
+
+    Array shapes remain fixed after construction. Updates to entries or slices
+    rebuild the expansion. ``knl`` and ``ksl`` also accept whole-array assignment
+    with the same shape; ``knc``, ``ksc``, and ``ksolc`` cannot be reassigned.
+    Scalar strength and ``kscale`` updates also rebuild the shared field cache.
+    Supply the desired array shape at construction when coefficients will be
+    set later; explicit zeros retain their storage. Scalar strengths remain
+    writable even when all arrays were omitted. The old coefficient name
+    ``ksol`` must be replaced with ``ksolc`` in code and saved dictionaries.
+
+    ``num_phi`` stores the resolved integer and is fixed at construction;
+    it cannot be a deferred expression. ``integrator`` also requires a literal
+    value. Fields are evaluated through
+    ``y**num_phi``, with one extra scalar-potential coefficient stored for
+    the derivative giving ``By``. Evaluation skips unused orders and degrees,
+    with the populated bounds recomputed on coefficient or strength updates.
+
+    ``get_total_knl_ksl()`` returns the scaled sum of profile integrals, scalar
+    strengths times length, and the ``knl``/``ksl`` inputs. Line and Twiss
+    strength columns use these totals. ``ksoll`` is a read-only one-entry
+    array containing the scaled integrated longitudinal profile. In line and
+    Twiss tables, the ``ksoll`` column also reports ``ks * length`` for
+    ``Solenoid`` and ``UniformSolenoid`` and the endpoint-average strength
+    times length for ``VariableSolenoid``. Thick uniform-solenoid slices
+    report their own share of the integral.
+    ``straight`` and ``angle`` are read-only; the latter is ``length * h``.
+    ``ds`` is the read-only ``length / num_integration_steps``.
+
+    ``order`` is the read-only highest polynomial multipole order,
+    ``max(knc.shape[0], ksc.shape[0]) - 1``. It describes the allocated profile
+    shapes, independent of current nonzero values; scalar and integrated
+    strengths may include higher orders. ``na``, ``nb``, and ``deg`` are
+    read-only profile row counts and largest input longitudinal degree (zero
+    when all profiles are empty).
+
+    ``get_field(x, y, s_local)`` uses the distance from the element entrance
+    and evaluates the polynomial at ``s_start + s_local``. The same local
+    coordinate convention applies to thick slices. Field evaluation includes
+    ``kscale`` and uses the local element frame, independently of misalignments.
+    At the singular curved axis ``1 + h*x = 0``, ``get_field`` raises
+    ``ValueError``. Tracking marks the particle lost with state ``-43`` before
+    committing any coordinate changes for the element or slice.
+
+    Tracking supports the standard Xtrack shifts and rotations, inherited by
+    thick slices. See :ref:`misalignment_label` for their definitions.
+
+    This element and its thick slices do not radiate, even when radiation
+    is enabled for the line. Spin tracking is unsupported.
+
+.. automethod:: xtrack.BFieldExpansion.get_field
+
+.. automethod:: xtrack.BFieldExpansion.get_total_knl_ksl
+
+.. automethod:: xtrack.BFieldExpansion.get_available_integrators
+
+See :doc:`bfield_expansion` for the coefficient and unit conventions,
+straight and curved geometry, integration and boundary-momentum settings,
+and field evaluation.
 
 BorisSpatialIntegrator
 ----------------------
@@ -417,14 +544,14 @@ LastTurnsMonitor
     :member-order: bysource
 
 BeamPositionMonitor
-----------------
+-------------------
 
 .. autoclass:: xtrack.BeamPositionMonitor
     :members:
     :member-order: bysource
 
 BeamProfileMonitor
-----------------
+------------------
 
 .. autoclass:: xtrack.BeamProfileMonitor
     :members:
@@ -452,7 +579,7 @@ User's guide.
 
 
 Beam elements (xfields)
-======================
+=======================
 
 
 Beam-beam Bi-Gaussian 2D
@@ -518,11 +645,11 @@ Intra-Beam Scattering Kicks
 Touschek Scattering
 -------------------
 
-.. autoclass:: xfields.TouschekScattering
+.. autoclass:: xfields.TouschekMarker
     :members:
     :member-order: bysource
 
-.. autoclass:: xfields.TouschekStudy
+.. autoclass:: xfields.TouschekGenerator
     :members:
     :member-order: bysource
 
@@ -608,19 +735,19 @@ See also the :ref:`misalignment section <misalignment_example_label>` in User's 
     :align: center
     :width: 50%
 
-    Misalignment in the the x-y plane.
+    Misalignment in the x-y plane.
 
 .. figure:: ./physics_manual/figures/align_yaw.png
     :align: center
     :width: 70%
 
-    Misalignment in the the s-x plane.
+    Misalignment in the s-x plane.
 
 .. figure:: ./physics_manual/figures/align_pitch.png
     :align: center
     :width: 70%
 
-    Misalignment in the the s-y plane.
+    Misalignment in the s-y plane.
 
 
 .. _environment-api-reference:
@@ -763,16 +890,18 @@ of the features offered by Table objects.
     :inherited-members:
     :member-order: alphabetical
 
-.. _aperture-api-reference:
+.. _line-aperture-api-reference:
 
-xt.Aperture class
-=================
+xt.LineAperture class
+=====================
 
-The :class:`xtrack.Aperture` class represents the physical aperture model of a
-beam line: a set of transverse cross-section profiles (pipes) placed along the
-survey of a :class:`xtrack.Line`. It provides methods to build the model from
-different data sources, to query aperture cross-sections, to compute the maximum
-number of beam sigmas that fit inside the aperture, and to visualise the results.
+The :class:`xtrack.LineAperture` object accessed through ``line.aperture`` owns
+the pipe placements and survey snapshot for a line. It provides aperture
+cross-sections, beam envelopes, clearance calculations, and visualisations.
+Profiles and pipes are defined in the environment's :class:`xtrack.EnvAperture`.
+See :doc:`aperture` for a worked example.
+
+.. autoclass:: xtrack.LineAperture
 
 .. contents::
     :depth: 2
@@ -780,21 +909,37 @@ number of beam sigmas that fit inside the aperture, and to visualise the results
 
 .. include:: aperture_api.rst
 
-.. _aperture-builder-api-reference:
+Construction and model lifecycle
+--------------------------------
 
-xt.ApertureBuilder class
-========================
+Profiles and pipes are defined through ``env.aperture``. The following methods
+install those pipes on the line and manage the survey snapshot and derived geometry.
 
-The :class:`xtrack.ApertureBuilder` class provides a programmatic interface to
-construct an :class:`xtrack.Aperture` model by defining named profiles and
-pipes and installing them at positions in the survey. Once all components are
-registered, :meth:`~xtrack.ApertureBuilder.build` materialises the model into
-an :class:`xtrack.aperture.structures.ApertureModel` object that can be passed
-to :class:`xtrack.Aperture`.
+.. automethod:: xtrack.LineAperture.place_pipe
 
-.. autoclass:: xtrack.ApertureBuilder
-    :members:
-    :member-order: bysource
+.. automethod:: xtrack.LineAperture.build_model
+
+.. automethod:: xtrack.LineAperture.discard_model
+
+.. autoproperty:: xtrack.LineAperture.is_built
+
+.. _env-aperture-api-reference:
+
+xt.EnvAperture class
+====================
+
+The :class:`xtrack.EnvAperture` object accessed through ``env.aperture`` owns
+named profiles and pipes, which can be shared by multiple lines in an environment.
+Use ``new_profile`` and ``new_pipe`` to define the geometry, and
+``line.aperture.place_pipe`` to install a pipe along a line's survey.
+
+.. autoclass:: xtrack.EnvAperture
+
+.. contents::
+    :depth: 2
+    :local:
+
+.. include:: env_aperture_api.rst
 
 .. _track_method_label:
 
@@ -963,6 +1108,43 @@ objects, see the :doc:`Particles section in the user's guide <particlesmanip>`).
     :member-order: bysource
 
 
+ParticlesTpsa class
+===================
+
+.. warning::
+
+    ``xtrack.ParticlesTpsa`` is experimental. Its API may change, and it may
+    still contain bugs.
+
+``ParticlesTpsa`` represents a single 6D truncated-power-series map for TPSA
+tracking. Construct it with the same reference-particle arguments as
+``xtrack.Particles``. Coordinates passed at construction set the constant parts
+around which the initial identity map is expanded:
+
+.. code-block:: pycon
+
+    >>> particles = xt.ParticlesTpsa(
+    ...     order=2,
+    ...     x=1e-4,
+    ...     px=2e-5,
+    ...     p0c=7e12,
+    ...     mass0=xt.PROTON_MASS_EV,
+    ... )
+    >>> type(particles.x)
+    <class 'madng_tpsa.tpsa.Tpsa'>
+    >>> particles.x.format()
+    '0.0001 + x'
+    >>> particles.y.format()
+    'y'
+
+The coordinate series are available as ``particles.x``, ``particles.px``,
+``particles.y``, ``particles.py``, ``particles.zeta``, and ``particles.delta``.
+
+.. autoclass:: xtrack.ParticlesTpsa
+    :members:
+    :member-order: bysource
+
+
 Generation of particles distributions
 =====================================
 
@@ -1050,18 +1232,18 @@ CPU and GPU contexts
 
 See also :doc:`Getting Started Guide <singlepart>`
 
-Xsuite supports different plaforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
-A context is initialized by instanciating objects from one of the context classes available Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
+Xsuite supports different platforms allowing the exploitation of different kinds of hardware (CPUs and GPUs).
+A context is initialized by instantiating objects from one of the context classes available in Xobjects, which is then passed to the other Xsuite components (see example in :doc:`Getting Started Guide <gettingstarted>`).
 Contexts are interchangeable as they expose the same API.
 Custom kernel functions can be added to the contexts. General source code with annotations can be provided to define the kernels, which is then automatically specialized for the chosen platform (see :doc:`dedicated section <autogeneration>`).
 
 Three contexts are presently available:
 
- - The :ref:`Cupy context<cupy_context>`, based on `cupy`_-`cuda`_ to run on NVidia GPUs
- - The :ref:`Pyopencl context<pyopencl_context>`, bases on `PyOpenCL`_, to run on CPUs or GPUs throught PyOPENCL library.
+ - The :ref:`Cupy context<cupy_context>`, based on `cupy`_-`cuda`_ to run on NVIDIA GPUs
+ - The :ref:`Pyopencl context<pyopencl_context>`, based on `PyOpenCL`_, to run on CPUs or GPUs through the PyOpenCL library.
  - The :ref:`CPU context<cpu_context>`, to use conventional CPUs
 
-The corresponfig API is described in the following subsections.
+The corresponding API is described in the following subsections.
 
 .. _cupy: https://cupy.dev
 .. _cuda: https://developer.nvidia.com/cuda-zone
@@ -1152,7 +1334,7 @@ MultiBunchTwiss
     :members:
     :member-order: bysource
 
-xtrack.Multisetter class
+xtrack.MultiSetter class
 ------------------------
 
 See also: :doc:`Fast lattice changes<fast_lattice_changes>`

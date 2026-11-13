@@ -1,8 +1,8 @@
 Code autogeneration
 ===================
 
-The xsuite library uses code autogeneration to specialize kernel code for the different contexts.
-Three contexts are presently available: ``CPU``, ``CUDA``,  and ``OpenCL``.
+The Xsuite library uses code autogeneration to specialize kernel code for the different contexts.
+Three contexts are presently available: ``CPU``, ``CUDA``, and ``OpenCL``.
 
 
 The developer writes a single C source code using the portability macros
@@ -61,7 +61,7 @@ The corresponding OpenCL code will be:
     //end autovectorized
 
 
-Context specific code guards
+Context-specific code guards
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Context-specific code should be guarded with the ``XO_CONTEXT_*`` macros
@@ -100,7 +100,7 @@ and OpenMP-specific code can be written as:
 
 Older sources may still use the legacy ``//only_for_context`` directive. New
 handwritten C code should use the ``XO_CONTEXT_*`` macros instead so that the
-code is more readable and so that the typos are caught by the compiler.
+code is more readable and so that typos are caught by the compiler.
 
 ``GPUFUN`` directive
 ~~~~~~~~~~~~~~~~~~~~

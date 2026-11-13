@@ -29,6 +29,7 @@ exports:
         NO_SYNRAD_ELEMENTS,
         NON_TRACKING_ELEMENTS,
     )
+
 The element-type module contains the classes to make available in prebuilt
 kernels. Tracking elements go in the lists used as ``classes`` in
 ``xsuite/kernel_definitions.py``. Helper structures and elements that are not

@@ -1,9 +1,17 @@
 Interface to PyHEADTAIL
 =======================
 
+.. warning::
+
+    The PyHEADTAIL interface (``enable_pyheadtail_interface()`` /
+    ``disable_pyheadtail_interface()``) is deprecated and will be removed in a
+    future version. Please use the :ref:`xwakes <xwakes_user_guide_section>`
+    package for wakefields, impedances and transverse dampers.
+    This deprecation is part of the interface cleanup in view of the 1.0 release.
+
 PyHEADTAIL elements cannot be natively used by an Xsuite line due to different
 naming conventions for the particles coordinates. A specific interface has been
-introduced in Xsuite which indtroduces additional properties in the Particles
+introduced in Xsuite which introduces additional properties in the Particles
 objects in order to make them compatible with PyHEADTAIL beam elements.
 The interface can be enabled by calling the function
 ``enable_pyheadtail_interface`` right after importing xtrack, as illustrated

@@ -2,12 +2,12 @@
 requires = [
     'setuptools>=77',
     'setuptools-scm[toml]>=8',
-    "xtrack==0.112.0",
-    "xfields==0.27.2",
-    "xcoll==0.12.1",
-    "xobjects==0.6.10",
-    "xdeps==0.10.20",
-    "xpart==0.23.18",
+    "xtrack==0.118.7",
+    "xfields==0.27.8",
+    "xcoll==0.13.0",
+    "xobjects==0.7.3",
+    "xdeps==0.11.1",
+    "xpart==0.23.23",
     "numpy",
 ]
 build-backend = 'setuptools.build_meta'
@@ -22,16 +22,16 @@ authors = [
 ]
 description = "Integrated suite for particle accelerator simulations."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.15"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 dependencies = [
-    "xtrack==0.112.0",
-    "xfields==0.27.2",
-    "xcoll==0.12.1",
-    "xobjects==0.6.10",
-    "xdeps==0.10.20",
-    "xpart==0.23.18",
+    "xtrack==0.118.7",
+    "xfields==0.27.8",
+    "xcoll==0.13.0",
+    "xobjects==0.7.3",
+    "xdeps==0.11.1",
+    "xpart==0.23.23",
 ]
 dynamic = ["version"]
 

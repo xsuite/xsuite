@@ -53,14 +53,14 @@ The example above is changed as follows:
 
 Now, ``line.record_last_track.x[3, 5]`` gives the x coordinates for the
 particle 3 (which has the id 8) and the
-recorded turn 5 (which is turn number 10)
+recorded turn 5 (which is turn number 10).
 The particle ids that are recorded can be inspected in ``line.record_last_track.particle_id``
-and the turn indeces in ``line.record_last_track.at_turn``.
+and the turn indices in ``line.record_last_track.at_turn``.
 
 
 **Multi-frame particles monitor**
 
-The particles monitor can also record periodically spaced intervals of turns (frames)
+The particles monitor can also record periodically spaced intervals of turns (frames).
 This feature can be activated by providing the arguments ``n_repetitions`` and
 ``repetition_period`` when creating the monitor.
 In the following example, we record turns in range 5 to 10 (first frame),
@@ -77,11 +77,11 @@ Note that each frame consists of 5 turns since ``stop_at_turn`` is excluding.
         repetition_period=20, # <--
     )
 
-Now, the measured data are 3D array with the first index being the frame number.
+Now, the measured data are a 3D array with the first index being the frame number.
 For example, ``line.record_last_track.x[0, :, :]`` contains the recorded
 x position for the first frame (turns 5, 6, 7, 8 and 9) and
 ``line.record_last_track.x[-1, :, 0]`` refers to the last frame and the first turn within,
-which is turn number turn 25.
+which is turn number 45.
 As before, the turn numbers recorded can be inspected with ``line.record_last_track.at_turn``.
 
 
@@ -89,7 +89,7 @@ As before, the turn numbers recorded can be inspected with ``line.record_last_tr
 Particles monitor as beam elements
 ----------------------------------
 
-Particles monitors can be used as regular beam element to record the particle
+Particles monitors can be used as regular beam elements to record the particle
 coordinates at specific locations in the beam line. For this purpose they can be
 inserted in the line, as illustrated in the following example.
 
@@ -97,7 +97,7 @@ inserted in the line, as illustrated in the following example.
    :language: python
 
 
-As all Xtrack elements, the Particles Monitor has a track method and can be used
+Like all Xtrack elements, the Particles Monitor has a track method and can be used
 in stand-alone mode as illustrated in the following example.
 
 .. code-block:: python
@@ -428,7 +428,7 @@ For each particle, the recorded data will cover up to ``n_last_turns*every_n_tur
     monitor = LastTurnsMonitor(
         particle_id_range=(0, 5),  
         n_last_turns=5,            # amount of turns to store
-        every_n_turns=3,           # only consider turns which are a multiples of this
+        every_n_turns=3,           # only consider turns which are multiples of this
     )
 
     ... # track
@@ -436,7 +436,7 @@ For each particle, the recorded data will cover up to ``n_last_turns*every_n_tur
     monitor.at_turn[:,-1]  # turn number of each particle before it is lost (last turn alive)
     monitor.x[3,-2]        # x coordinate of particle 3 in one but last turn (-2)
 
-The monitor provides the following data as 2D array of shape ``(num_particles, n_last_turns)``,
+The monitor provides the following data as 2D arrays of shape ``(num_particles, n_last_turns)``,
 where the first index corresponds to the particle in ``particle_id_range``
 and the second index corresponds to the turn (or every_n_turns) before the respective particle is lost:
 ``particle_id``, ``at_turn``, ``x``, ``px``, ``y``, ``py``, ``delta``, ``zeta``
@@ -450,14 +450,14 @@ Beam position monitor
 The :class:`xtrack.BeamPositionMonitor` records transverse beam positions,
 i.e. it stores the x and y centroid positions of particles.
 This can be useful for tune or beam-transfer-function diagnostics
-as well as transverse schottky spectra.
+as well as transverse Schottky spectra.
 
 The monitor allows for arbitrary sampling frequencies and can thus not only be used for
 bunch positions, but also coasting beam positions. Higher sampling frequencies give
 access to transverse beam oscillations at higher harmonics, which is especially useful
-for schottky diagnostics.
+for Schottky diagnostics.
 Internally, the particle arrival time is used when determining the record index.
-For coasting beams this ensures, that the centroid is computed considering all particles
+For coasting beams this ensures that the centroid is computed considering all particles
 which arrive at the monitor at the same time (as in a real-world measurement device), even
 if some particles might have made more or less turns than the synchronous particle due to
 a non-negligible momentum deviation.
@@ -496,7 +496,7 @@ the second item in the range 0.25 .. 0.75 and so on.
     print(monitor.y_mean)  # waveform of vertical centroid positions (alias monitor.y_cen)
 
 The result arrays can be understood as waveforms recorded at the specified sampling frequency.
-In the special case where sampling frequency was set to the same value as the revolution frequency,
+In the special case where the sampling frequency is set to the same value as the revolution frequency,
 the indices are identical to the recorded turn numbers (of the synchronous particle).
 
 
@@ -504,9 +504,9 @@ Beam size monitor
 -----------------
 
 The :class:`xtrack.BeamSizeMonitor` records transverse beam sizes,
-i.e. it stores the standard deviation of the particles x and y positions.
+i.e. it stores the standard deviation of the particles' x and y positions.
 
-Like the :ref:`MonitorBPM` also the beam size monitor is based on particle arrival time and an arbitrary sampling frequency.
+Like the :ref:`MonitorBPM`, the beam size monitor is also based on particle arrival time and an arbitrary sampling frequency.
 
 .. code-block:: python
 
@@ -532,7 +532,7 @@ Beam profile monitor
 The :class:`xtrack.BeamProfileMonitor` records transverse beam profiles,
 i.e. it stores the number of particles on a defined raster (like a histogram).
 
-Like the :ref:`MonitorBPM` also the beam profile monitor is based on particle arrival time and an arbitrary sampling frequency.
+Like the :ref:`MonitorBPM`, the beam profile monitor is also based on particle arrival time and an arbitrary sampling frequency.
 
 .. code-block:: python
 

@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/test_sh.yaml
     with:
       test_contexts: 'ContextCpu;ContextCpu:auto'
-      platform: 'alma-cpu-small-1'
+      platform: 'alma-cpu-1'
       suites: '["xmask"]'
       forbid_compile: true
       precompile_kernels: true

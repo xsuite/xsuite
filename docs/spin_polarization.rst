@@ -26,9 +26,9 @@ Tracking with spin and Monte Carlo simulation of radiative depolarization
 
 The following example shows how, by tracking particles with spin and including
 synchrotron radiation and quantum excitation, one can simulate the radiative
-depolarization in the LEP collider. This method, which accounting for non-linear effects in the estimation of
+depolarization in the LEP collider. This method, which accounts for non-linear effects in the estimation of
 the equilibrium polarization, is described in detail in
-`Z. Duan et al., A Monte-Carlo simulation of the equilibrium beam polarization in ultra-high energy electron (positron) storage rings <https://www.sciencedirect.com/science/article/pii/S0168900215005744>`_ .
+`Z. Duan et al., A Monte-Carlo simulation of the equilibrium beam polarization in ultra-high energy electron (positron) storage rings <https://www.sciencedirect.com/science/article/pii/S0168900215005744>`_.
 
 .. literalinclude:: generated_code_snippets/monte_carlo_polarization.py
    :language: python

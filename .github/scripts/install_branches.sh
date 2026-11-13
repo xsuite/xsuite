@@ -42,7 +42,9 @@ if [ "${install_from_pypi:-false}" == "true" ]; then
 
   echo "::group::Installing xsuite from PyPI"
   pip uninstall -y xsuite "${repos[@]}"
-  pip install --upgrade xsuite xmask xwakes
+  # We pin ruamel-yaml as it's pinned in conda at the time of writing: otherwise
+  # `pip check` fails, as xcoll by itself will pull a version that's too new
+  pip install --upgrade "xsuite" "xmask" "xwakes" "ruamel-yaml<0.19"
   pip check
   echo "::endgroup::"
 

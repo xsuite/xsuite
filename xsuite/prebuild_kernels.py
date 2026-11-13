@@ -86,7 +86,7 @@ def get_suitable_kernel(
     """
     Given a configuration and a list of element classes, return a tuple with
     the name of a suitable prebuilt kernel module together with the list of
-    element classes that were used to build it. Set `verbose` to True, to
+    element classes that were used to build it. Set `verbose` to True to
     obtain a justification of the choice (or lack thereof) on standard output.
     When `verbose` is None, diagnostics are controlled by
     `xobjects.settings.show_kernel_diagnostics`, or equivalently the
@@ -313,11 +313,7 @@ def build_single_kernel(
         kernel_info = xt.Tracker._compile_kernel_from_classes(
             context=build_context,
             config=tracker_config,
-            tracker_element_classes=[
-                *tracker_element_classes,
-                xt.ParticlesMonitor,
-                xt.MultiElementMonitor,
-            ],
+            tracker_element_classes=tracker_element_classes,
             extra_classes=extra_classes,
             module_name=module_name,
             containing_dir=location,

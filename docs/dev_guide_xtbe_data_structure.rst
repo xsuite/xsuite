@@ -18,7 +18,7 @@ Definition and management of the data structure
 New beam elements are defined as python classes inheriting from the class ``BeamElement`` of xtrack.
 In each element class we define a dictionary called ``_xofields``, which specifies names and types of the data to be made accessible to the C tracking code.
 
-Although our beam element is defined by the single parameter (theta), it is convenient to store the quantities sin(theta) and cos(theta) to avoid recalculating them multiple times:
+Although our beam element is defined by a single parameter (theta), it is convenient to store the quantities sin(theta) and cos(theta) to avoid recalculating them multiple times:
 
 .. code-block:: python
 
@@ -41,7 +41,7 @@ Objects of the defined class can be allocated as follows:
 
     srot = SRotation(sin_z=1., cos_z=0)
 
-By default the objects are allocated in the CPU memory. They can be allocated in the memory of a GPU by providing an xobject context or buffer. For example:
+By default the objects are allocated in the CPU memory. They can be allocated in the memory of a GPU by providing an Xobjects context or buffer. For example:
 
 .. code-block:: python
 
@@ -53,7 +53,7 @@ By default the objects are allocated in the CPU memory. They can be allocated in
 Python access to beam-element data
 ----------------------------------
 
-The fields specified in ``_xofields`` are automatically exposed as attributes of the objects that can be read and set with the standard python syntax, also if the object is allocated on the GPU:
+The fields specified in ``_xofields`` are automatically exposed as attributes of the objects that can be read and set with the standard python syntax, even if the object is allocated on the GPU:
 
 .. code-block:: python
 
@@ -86,7 +86,7 @@ same as ``srot.sin_z``.
 
 Arrays are exposed as native Xobjects arrays in the ``_xobject`` attribute, and
 as numpy or numpy-like arrays as attributes of the beam element. For example, in
-the case of a ``xtrack.Multipole`` element we find:
+the case of an ``xtrack.Multipole`` element we find:
 
 .. code-block:: python
 
@@ -98,8 +98,8 @@ the case of a ``xtrack.Multipole`` element we find:
     mp.knl
     # is a numpy array
 
-It should be noted that the the two are different views of the same memory area,
-hence any modification can be made indifferently on any of them.
+It should be noted that the two are different views of the same memory area,
+hence any modification can be made indifferently on either of them.
 
 The numpy view (or np-like on GPU contexts) gives the possibility of using
 numpy features on the array (e.g. ``np.sum``, ``np.mean``, slicing, masking, etc.).
@@ -114,8 +114,8 @@ Additional attributes and methods can be added to the class. If the ``__init__``
 method is defined, the ``__init__`` of the parent class needs to be called to
 initialize the ``xobject``, i.e. the data structure accessible from the C code.
 
-In our example we want to initialize the object providing the rotation angle and
-not its sine and cosine and we introduce a property called ``angle`` that allows
+In our example we want to initialize the object by providing the rotation angle
+rather than its sine and cosine, and we introduce a property called ``angle`` that allows
 setting or getting the angle from the stored sine and cosine. This can be done
 as follows:
 
