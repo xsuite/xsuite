@@ -21,8 +21,7 @@ import os
 
 xobjects_branch = 'main'
 xfields_branch = 'main'
-# Use the feature branch until versioned TFS output is merged into Xtrack main.
-xtrack_branch = 'feature/tfs-format-spec'
+xtrack_branch = 'main'
 xpart_branch = 'main'
 xdeps_branch = 'main'
 xmask_branch = 'main'
