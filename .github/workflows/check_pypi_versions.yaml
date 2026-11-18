@@ -3,7 +3,7 @@ name: Check PyPI versions
 
 on:
   schedule:
-    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+    - cron: '00 13 * * *'  # run at 13:00 UTC daily
   workflow_dispatch:
     inputs:
       locations:
