@@ -4,7 +4,7 @@ name: Daily test (Xwakes, MPI)
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+    - cron: '00 13 * * *'  # run at 13:00 UTC daily
   workflow_dispatch:
 
 # This workflow calls the test_gpu.yaml workflow passing the default
@@ -16,7 +16,7 @@ jobs:
     with:
       test_contexts: 'ContextCpu'
       with_mpi: true
-      platform: 'alma-cpu-2'
+      platform: 'alma-cpu-small-1'
       suites: '["xwakes"]'
       forbid_compile: true
       precompile_kernels: true

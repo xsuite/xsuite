@@ -4,7 +4,7 @@ name: Every other day test (self-hosted, OpenCL)
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '00 19 */2 * *'  # run at 19:00 UTC every other day
+    - cron: '00 13 */2 * *'  # run at 13:00 UTC every other day
   workflow_dispatch:
 
 # This workflow calls the test_gpu.yaml workflow passing the default

@@ -4,7 +4,7 @@ name: Daily test (self-hosted, xmask)
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '00 19 * * *'  # run at 19:00 UTC daily
+    - cron: '00 13 * * *'  # run at 13:00 UTC daily
   workflow_dispatch:
 
 # This workflow calls the test_sh.yaml workflow passing the default
@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/test_sh.yaml
     with:
       test_contexts: 'ContextCpu;ContextCpu:auto'
-      platform: 'alma-cpu-1'
+      platform: 'alma-cpu-small-1'
       suites: '["xmask"]'
       forbid_compile: true
       precompile_kernels: true
