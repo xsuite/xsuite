@@ -2598,13 +2598,27 @@ Using all the above the \(S_p, S_x\) and \(S_{xp}\) terms are computed according
     \label{equation:nagaitsev_spsxsxp}
 \end{equation}
 
-From these, one computes the integrals - called the \textit{Nagaitsev integrals} in the \textit{Xfields} code base - \(I_x, I_y\) and \(I_z\):
+The \textit{Nagaitsev integrals} \(I_x, I_y\) and \(I_z\) use the transverse
+rms beam sizes evaluated at each position \(s\) around the ring:
+\begin{equation}
+    \begin{aligned}
+        \sigma_x(s) &= \sqrt{\beta_x(s)\varepsilon_x + D_x(s)^2\sigma_\delta^2}, \\
+        \sigma_y(s) &= \sqrt{\beta_y(s)\varepsilon_y + D_y(s)^2\sigma_\delta^2}.
+    \end{aligned}
+    \label{equation:ibs_local_beam_sizes}
+\end{equation}
+Here \(\varepsilon_{x,y}\) are the geometric emittances and \(\sigma_\delta\)
+is the rms relative momentum spread. The emittances and momentum spread
+describe the beam, while the beta and dispersion functions determine its
+local transverse sizes. All optics and intermediate terms in each integrand
+are evaluated at the same \(s\); their position dependence is left implicit
+in the numerators below. The integrals are
 
 \begin{equation}
     \begin{aligned}
-        I_x &= \int_0^C \frac{\beta_x ds}{L \sigma_x \sigma_y} \left[S_x + \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi_x^{2} \right) S_p + S_{xp} \right] \text{ ,} \\
-        I_y &= \int_0^C \frac{\beta_y ds}{L \sigma_x \sigma_y} \left(R_2 + R_3 - 2 R_1\right) \text{ ,} \\
-        I_z &= \int_0^C \frac{ds}{L \sigma_x \sigma_y} S_p \text{ .}
+        I_x &= \int_0^C \frac{\beta_x ds}{C \sigma_x(s) \sigma_y(s)} \left[S_x + \left( \frac{D_x^{2}}{\beta_x^{2}} + \Phi_x^{2} \right) S_p + S_{xp} \right] \text{ ,} \\
+        I_y &= \int_0^C \frac{\beta_y ds}{C \sigma_x(s) \sigma_y(s)} \left(R_2 + R_3 - 2 R_1\right) \text{ ,} \\
+        I_z &= \int_0^C \frac{ds}{C \sigma_x(s) \sigma_y(s)} S_p \text{ .}
     \end{aligned}
     \label{equation:nagaitsev_integrals}
 \end{equation}
@@ -2875,6 +2889,8 @@ In this scenario, the emittance evolution follows Eq.~\eqref{eq:emit_evol_coupli
 The approach of using analytical growth rates does not provide a way to study the interplay of IBS with arbitrary effects, such as space charge, electron clouds, beam-beam, etc.
 To do so, it is necessary to include IBS effects in tracking simulations together with other desired effects.
 In \textit{Xfields} two elements are available to model IBS effects in tracking simulations, both providing momentum kicks to tracked particles according to a specific formalism.
+For both elements, the longitudinal kick is accompanied by the transverse
+dispersion shifts described in Sec.~\ref{subsection:ibs_dispersive_kicks}.
 
 \subsection{Analytical Kicks}
 \label{subsection:analytical_kicks}
@@ -2892,7 +2908,7 @@ From these, each particle is given a momentum kick in each dimension according t
     \label{equation:momentum_kick_analytical}
 \end{equation}
 
-Here \(R\) is a random number from the standard normal distribution; \(\sigma_{p_u}\) is the standard deviation of the momentum in plane \(u\); \(T_{IBS,u}\) is the \textit{emittance growth rate} for plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density.
+Here \(R\) is a random number from the standard normal distribution; \(\sigma_{p_u}\) is the standard deviation of the momentum in plane \(u\); \(T_{IBS,u}\) is the \textit{emittance growth rate} for plane \(u\); \(T_{rev}\) is the revolution period and \(\rho(z)\) is the longitudinal line density.
 \newline
 
 Note from the form of Eq~\eqref{equation:momentum_kick_analytical} that only zero or strictly positive growth rates are valid, and as such this formalism is traditionally available above transition energy.
@@ -2947,27 +2963,36 @@ and then:
     \label{equation:kinetic_AM_friction_terms}
 \end{equation}
 
-The following integrals are computed from the above:
+The following integrals are computed from the above, using the local beam
+sizes from Eq.~\eqref{equation:ibs_local_beam_sizes} at each integration point.
+All optics and intermediate diffusion and friction terms in the numerators
+are also evaluated at that point.
 
 \begin{equation}
     \begin{aligned}
-        D_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x \sigma_y} \left[D_{x,x} + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) D_{z,z} + D_{x,z} \right] \text{,  } \\
-        D_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x \sigma_y} D_{y,y} \text{,  }  \\
-        D_{zi} &= \int_0^C \frac{ds}{C \sigma_x \sigma_y} D_{z,z} \text{ .}
+        D_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x(s) \sigma_y(s)} \left[D_{x,x} + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) D_{z,z} + D_{x,z} \right] \text{,  } \\
+        D_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x(s) \sigma_y(s)} D_{y,y} \text{,  }  \\
+        D_{zi} &= \int_0^C \frac{ds}{C \sigma_x(s) \sigma_y(s)} D_{z,z} \text{ .}
     \end{aligned}
     \label{equation:kinetic_diffusion_integrals}
 \end{equation}
 
 \begin{equation}
     \begin{aligned}
-        F_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x \sigma_y} \left[K_x + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) K_z \right] \text{,  } \\
-        F_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x \sigma_y} K_x \text{,  }  \\
-        F_{zi} &= \int_0^C \frac{ds}{C \sigma_x \sigma_y} K_z \text{ .}
+        F_{xi} &= \int_0^C \frac{\beta_x ds}{C \sigma_x(s) \sigma_y(s)} \left[K_x + \left(\frac{D_x^2}{\beta_x^2} + \Phi_x^2\right) K_z \right] \text{,  } \\
+        F_{yi} &= \int_0^C \frac{\beta_y ds}{C \sigma_x(s) \sigma_y(s)} K_y \text{,  }  \\
+        F_{zi} &= \int_0^C \frac{ds}{C \sigma_x(s) \sigma_y(s)} K_z \text{ .}
     \end{aligned}
     \label{equation:kinetic_friction_integrals}
 \end{equation}
 
 with \(C\) the circumference of the machine.
+The factor \(1/[\sigma_x(s)\sigma_y(s)]\) weights each part of the ring by
+its transverse beam density and must remain inside the integral. The beam
+moments inferred from the particles at the kick element are used to
+reconstruct these sizes along the entire ring. Using the sizes at the kick
+element for every integration point would make the coefficients depend on
+where that element is placed, even for the same matched beam and ring.
 Finally, the new diffusion coefficients are computed according to:
 
 \begin{equation}
@@ -3012,7 +3037,66 @@ From these coefficients, each particle is given a momentum kick in each dimensio
     \label{equation:momentum_kick_kinetic}
 \end{equation}
 
-Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution frequency and \(\rho(z)\) is the longitudinal line density as defined previously (see Sec.~\ref{subsection:analytical_kicks}).
+Here \(R\) is a random number from the standard normal distribution; \(p_u\) and \(\sigma_{p_u}\) are the momentum and its standard deviation in plane \(u\); \(T_{rev}\) is the revolution period and \(\rho(z)\) is the longitudinal line density as defined previously (see Sec.~\ref{subsection:analytical_kicks}).
+
+\subsection{Applying kicks at nonzero dispersion}
+\label{subsection:ibs_dispersive_kicks}
+
+The analytical and kinetic kick elements represent scattering integrated
+over the ring. Their transverse coefficients already include the betatron
+heating associated with longitudinal momentum diffusion through dispersion.
+The longitudinal update must therefore preserve the betatron coordinates
+and actions, so that this contribution is not added a second time at the
+kick location.
+
+In linear uncoupled optics about the reference orbit, the transverse
+betatron coordinates are
+\begin{equation}
+    u_\beta = u - D_u\delta, \qquad
+    p_{u,\beta} = p_u - D_{p_u}\delta, \qquad u=x,y.
+    \label{equation:ibs_betatron_coordinates}
+\end{equation}
+Here \(D_u\) and \(D_{p_u}\) are the position and canonical-momentum
+dispersion functions, evaluated at the kick element. Changing only
+\(\delta\) would also change these betatron coordinates by
+\(-D_u\Delta\delta\) and \(-D_{p_u}\Delta\delta\).
+Instead, apply the longitudinal update together with
+\begin{equation}
+    \begin{aligned}
+        \delta &\longmapsto \delta + \Delta\delta, \\
+        x &\longmapsto x + D_x\Delta\delta,
+        &p_x &\longmapsto p_x + D_{p_x}\Delta\delta, \\
+        y &\longmapsto y + D_y\Delta\delta,
+        &p_y &\longmapsto p_y + D_{p_y}\Delta\delta.
+    \end{aligned}
+    \label{equation:ibs_dispersion_update}
+\end{equation}
+This leaves both coordinates in Eq.~\eqref{equation:ibs_betatron_coordinates}
+unchanged. At fixed local optics it therefore also preserves the actions
+\begin{equation}
+    \begin{aligned}
+        J_u &= \frac{1}{2}\left(
+            \gamma_u u_\beta^2 + 2\alpha_u u_\beta p_{u,\beta}
+            + \beta_u p_{u,\beta}^2\right), \\
+        \gamma_u &= \frac{1+\alpha_u^2}{\beta_u}, \qquad u=x,y.
+    \end{aligned}
+\end{equation}
+The separately computed transverse IBS kicks still change these actions
+and supply the intended transverse evolution. The dispersion shifts in
+Eq.~\eqref{equation:ibs_dispersion_update} are added to those transverse
+kicks. For the kinetic element, \(\Delta\delta\) is the total longitudinal
+change from both friction and diffusion.
+
+Kinetic transverse friction acts on each particle's betatron momentum
+relative to the bunch mean. The momentum deviation used in that term is
+\begin{equation}
+    p_u - D_{p_u}\delta - \left\langle p_u-D_{p_u}\delta\right\rangle,
+    \qquad u=x,y,
+\end{equation}
+with the moments evaluated before applying the kicks. The longitudinal
+friction term similarly uses \(\delta-\langle\delta\rangle\).
+Subtracting dispersion only from the transverse mean would leave each
+particle's dispersive momentum in the friction force.
 
 
 \chapter{Touschek scattering}
