@@ -38,6 +38,7 @@ From CERN:
  - Konstantinos Paraschou
  - Marcus Rognlien
  - John Patrick Salvesen
+ - Daniel Schulte
  - Martin Schwinzerl
  - Felix Soubelet
  - Guido Sterbini
